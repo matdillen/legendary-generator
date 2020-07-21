@@ -12,6 +12,7 @@ library(shiny)
 #library(listviewer)
 
 source("helpers.R")
+options(dplyr.summarise.inform=F) 
 
 #data import
 heroes=read_csv('data/heroes.csv')
@@ -36,6 +37,22 @@ heroaslist = as.list(t(herolist$uni))
 names(heroaslist) = herolist$name
 names(heroaslist)[1] = " "
 
+#format a list of henchmen
+henchlist = distinct(src$henchmen,Name)
+henchlist = rbind(henchlist,Name="")
+henchlist %<>% arrange(Name)
+henchaslist = as.list(t(henchlist$Name))
+names(henchaslist) = henchlist$Name
+names(henchaslist)[1] = " "
+
+#format a list of villains
+villist = distinct(src$villains,Group)
+villist = rbind(villist,Group="")
+villist %<>% arrange(Group)
+vilaslist = as.list(t(villist$Group))
+names(vilaslist) = villist$Group
+names(vilaslist)[1] = " "
+
 #format a list of sets
 setlist = read_csv("data/sets.csv")
 setlist[1,] = c(""," ")
@@ -54,10 +71,20 @@ ui <- fluidPage(
             numericInput("playerc","Number of Players",2,2,5,1),
             textInput("fixedSCH","Scheme"),
             textInput("fixedMM","Mastermind"),
-            textInput("fixedHM","Henchmen"),
-            textInput("fixedVIL","Villains"),
-            selectInput("fixedHER","Heroes",
-                        choices = heroaslist),
+            selectizeInput("fixedHM",
+                           "Henchmen",
+                           choices=henchaslist,
+                           selected=NULL),
+            selectizeInput("fixedVIL",
+                           "Villains",
+                           choices=vilaslist,
+                           multiple=T,
+                           options(list(maxItems=2))),
+            selectizeInput("fixedHER",
+                           "Heroes",
+                           choices = heroaslist,
+                           multiple=T,
+                           options(list(maxItems=5))),
             checkboxInput("epic","Epic?"),
             selectizeInput("dropset","Sets excluded",choices=setaslist,multiple=T),
             actionButton("go","Start"),

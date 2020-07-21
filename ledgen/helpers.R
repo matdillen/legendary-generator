@@ -155,272 +155,152 @@ genFun = function(src,
   
   ##############################################################
   ##Generate villain groups
-  villainc2 = villainc #clone to a variable, which can be modified based on required villain group parameters
-  villnames = 0 #store fixed names here
-  villf = 0 #this int will keep count of nr of fixed variables
-  vil = 0 #store random names here
-  
   src$villains %<>% filter(!Set%in%dropset)
   villist=distinct(src$villains,Group) #check on group, not individual card
   
   #Villain group required by scheme?
   if (!is.na(src$schemes$Vill_Inc[schnumber])) {
-    villnames[villf+1] = src$schemes$Vill_Inc[schnumber]
-    villf = villf + 1
+    villnames = src$schemes$Vill_Inc[schnumber]
+  }
+  else {
+    villnames = NULL
   }
   
   #Villain group required by mm?
-  if (!is.na(mmlist$LeadsV[mmnumber])&
-      (villainc-villf)!=0&
-      mmlist$LeadsV[mmnumber]!=villnames[1]) {
-    villnames[villf+1] = mmlist$LeadsV[mmnumber]
-    villf = villf + 1
+  if (!is.na(mmlist$LeadsV[mmnumber])) {
+    villnames = c(villnames,mmlist$LeadsV[mmnumber])
   }
-  
-  villainc2= villainc - villf #remove the fixed groups from the required number
   
   #fixed villain groups given as function argument?
-  if (villainc2!=0&
-      fixedVIL!="") {
-    for (i in 1:length(fixedVIL)) {
-      if (fixedVIL[i]%in%villist$Group) {
-        if (!fixedVIL[i]%in%villnames) {
-          villnames[villf+1] = villist$Group[villist$Group==fixedVIL[i]]
-          villf = villf + 1
-        }
-      }
-      else {
-        warning("Villain - ",fixedVIL[i]," - not found")
-      }
-    }
-    
-    #check if too many fixed arguments and truncate accordingly
-    #e.g. if scheme and mastermind demand too many groups already, function argument value is discarded
-    if (length(villnames)>villainc) {
-      villnames = villnames[1:villainc]
-    }
-  }
-  villainc2= villainc - villf #remove from required number
+  villnames = c(villnames,fixedVIL)
+  villnames = villnames[!duplicated(villnames)]
   
   #random villain groups
-  if (villainc2>0) {
+  if (length(villnames)<villainc) {
+    villainc2 = villainc - length(villnames)
     villist = filter(villist,!Group%in%villnames)
     vil=sample(1:nrow(villist),villainc2,replace=F)
-    vil = villist$Group[vil]
+    villnames = c(villnames,villist$Group[vil])
   }
-  
-  #join both random and fixed names
-  if (villf!=0) {
-    if (vil[1] != 0) {
-      vil = c(villnames,vil)
-    }
-    if (vil[1] == 0) {
-      vil = villnames
-    }
+  if (length(villnames)>villainc) {
+    villnames = villnames[1:villainc]
   }
   #save scores
-  viltraits = filter(src$villains,Group%in%vil)
+  viltraits = filter(src$villains,Group%in%villnames)
   viltraits[is.na(viltraits)]=0
-  
-  
   
   
   ##############################################################
   ##Generate henchmen groups
-  #similar to villains, see above
-  henchc2 = henchc
-  henchnames = 0
-  henchf = 0
-  hench = 0
-  
   #only distinct group names due to the Mandarin and his rings
   src$henchmen %<>% filter(!Set%in%dropset)
   hmlist=distinct(src$henchmen,Name)
   
   if (!is.na(src$schemes$HM_Inc[schnumber])) {
-    henchnames[henchf+1] = src$schemes$HM_Inc[schnumber]
-    henchf = henchf + 1
+    henchnames = src$schemes$HM_Inc[schnumber]
   }
-  if (!is.na(mmlist$LeadsH[mmnumber])&(henchc-henchf)!=0) {
-    henchnames[henchf+1] = mmlist$LeadsH[mmnumber]
-    henchf = henchf + 1
-  }
-  henchc2= henchc - henchf
-  if (henchc2!=0&fixedHM!="") {
-    for (i in 1:length(fixedHM)) {
-      if (fixedHM[i]%in%hmlist$Name) {
-        if (!fixedHM[i]%in%henchnames) {
-          henchnames[henchf+1] = hmlist$Name[hmlist$Name==fixedHM[i]]
-          henchf = henchf + 1
-        }
-      }
-      else {
-        warning("Henchmen - ",fixedHM[i]," - not found")
-      }
-    }
-    if (length(henchnames)>henchc) {
-      henchnames = henchnames[1:henchc]
-    }
-  }
-  henchc2= henchc - henchf
-  if (henchc2>0) {
-    henchmen = filter(hmlist,!Name%in%henchnames)
-    hench=sample(1:nrow(hmlist),henchc,replace=F)
-    hench = hmlist$Name[hench]
+  else {
+    henchnames = NULL
   }
   
-  if (henchf!=0) {
-    if (hench[1] != 0) {
-      hench = c(henchnames,hench)
-    }
-    if (hench[1] == 0) {
-      hench = henchnames
-    }
+  if (!is.na(mmlist$LeadsH[mmnumber])) {
+    henchnames = c(henchnames,mmlist$LeadsH[mmnumber])
   }
-  henchtraits = filter(src$henchmen,Name%in%hench)
+  
+  if (fixedHM=="") {
+    fixedHM = NULL
+  }
+  
+  henchnames = c(henchnames,fixedHM)
+  henchnames = henchnames[!duplicated(henchnames)]
+  
+  if (length(henchnames)<henchc) {
+    henchc2 = henchc - length(henchnames)
+    hmlist = filter(hmlist,!Name%in%henchnames)
+    hench=sample(1:nrow(hmlist),henchc2,replace=F)
+    henchnames = c(henchnames,hmlist$Name[hench])
+  }
+  if (length(henchnames)>henchc) {
+    henchnames = henchnames[1:henchc]
+  }
+
+
+  henchtraits = filter(src$henchmen,Name%in%henchnames)
   henchtraits[is.na(henchtraits)]=0
   
   
   
   ##############################################################
   ##Generate heroes
-  fixed_heroes = 0
   heronames = NULL
   
   src$heroes %<>% filter(!Set%in%dropset)
+  src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
   
   #A few schemes have such specific needs their hero requirements are hardcoded here separately
   if (schemtraits$Hero_Inc[1]=="CUSTOM") {
-    schemtraits$Hero_Inc[1] = NA
+    schemtraits$Hero_Inc[1] = 0
     if (schemtraits$Name[1]=="Avengers vs X-Men") {
+      fixedHER = NULL
       teamlist = count(src$heroes,Team)
       teamlist %<>% filter(n>12)
       teamlist %<>% sample_n(2)
       src$heroes %<>% filter(Team%in%teamlist$Team)
-      fixedHER = ""
-      src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
       herolist1 = distinct(filter(src$heroes,Team==teamlist$Team[1]),uni)
       herolist2 = distinct(filter(src$heroes,Team==teamlist$Team[2]),uni)
       heronumber1 = sample(1:nrow(herolist1),heroesc/2,replace=F)
       heronumber2 = sample(1:nrow(herolist2),heroesc/2,replace=F)
       heroid1 = herolist1$uni[heronumber1]
       heroid2 = herolist2$uni[heronumber2]
-      heronames = tibble(heroid=c(heroid1,heroid2))
-      heronames$name=NA
-      heronames$set=NA
-      for (i in 1:heroesc) {
-        heronames$name[i] = strsplit(as.character(heronames[i,1]),split="_")[[1]][1]
-        heronames$set[i] = strsplit(as.character(heronames[i,1]),split="_")[[1]][2]
-      }
+      heronames = c(heroid1,heroid2)
       heroesc = 0
     }
     if (schemtraits$Name[1]=="House of M") {
-      fixedHER = ""
-      src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
+      fixedHER = NULL
       herolist1 = distinct(filter(src$heroes,Team=="X-Men"),uni)
       herolist2 = distinct(filter(src$heroes,Team!="X-Men"),uni)
       heronumber1 = sample(1:nrow(herolist1),4,replace=F)
       heronumber2 = sample(1:nrow(herolist2),2,replace=F)
       heroid1 = herolist1$uni[heronumber]
       heroid2 = herolist2$uni[heronumber]
-      heronames = tibble(heroid=c(heroid1,heroid2))
-      heronames$name=NA
-      heronames$set=NA
-      for (i in 1:heroesc) {
-        heronames$name[i] = strsplit(as.character(heronames[i,1]),split="_")[[1]][1]
-        heronames$set[i] = strsplit(as.character(heronames[i,1]),split="_")[[1]][2]
-      }
+      heronames = c(heroid1,heroid2)
       heroesc = 0
     }
   }
   
   #hero required by scheme?
-  if (!is.na(src$schemes$Hero_Inc[schnumber])&
-      heroesc!=0) {
-    fixed_heroes[1] = src$schemes$Hero_Inc[schnumber]
+  if (schemtraits$Hero_Inc[1]!=0) {
+    herolist = filter(src$heroes,
+                      Name_S==schemtraits$Hero_Inc[1])
+    herolist = distinct(herolist,uni)
+    heroid = sample(1:length(herolist),1)
+    heronames = herolist[heroid]
+  }
+  
+  #join both the scheme hero and the fixed provided (if any)
+  if (heroesc!=0) {
+    heronames = c(heronames,fixedHER)
   }
   
   #disambiguate names by concatening set id
-  src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
   herolist = distinct(src$heroes,uni)
   
-  #check if the provided fixed names can be found
-  fixedHER2 = fixedHER[fixedHER%in%src$heroes$uni]
-  if (length(fixedHER2)<length(fixedHER)&
-      fixedHER!="") {
-    warning("Hero(es) ",paste(fixedHER[!fixedHER%in%fixedHER2],collapse=",")," not found.")
+  if (length(heronames)<heroesc) {
+    heroesc2 = heroesc - length(heronames)
+    herolist = filter(herolist,!uni%in%heronames)
+    heroid=sample(1:nrow(herolist),heroesc2,replace=F)
+    heronames = c(heronames,herolist$uni[heroid])
+  }
+  if (length(heronames)>heroesc) {
+    heronames = heronames[1:heroesc]
   }
   
-  fixedHER2 = gsub("_.*","",fixedHER2)
-  
-  #join both the scheme hero and the fixed provided (if any)
-  fixed_heroes = c(fixed_heroes,fixedHER2)
-  
-  #set up name, set, and concatenated unique id ('heroid')
-  fixed_heroes = tibble(fixed_heroes)
-  fixed_heroes$name = fixed_heroes$fixed_heroes
-  fixed_heroes$set = NA
-  #remove the dummy row if no hero was part of the sceme requirements
-  if (fixed_heroes$name[1]==0) {
-    fixed_heroes = fixed_heroes[-1,]
-  }
-  
-  #check required hero count
-  heroesc2 = heroesc - dim(fixed_heroes)[1]
-  
-  #if too many heroes now, truncate
-  if (heroesc2<0) {
-    fixed_heroes = fixed_heroes[1:heroesc,]
-  }
-  
-  #if any fixed heroes, add proper set. randomize if hero with given name in multiple sets
-  if (dim(fixed_heroes)[1]>0) {
-    for (i in 1:dim(fixed_heroes)[1]) {
-      sets = filter(src$heroes,Hero==fixed_heroes$name[i],Ct==1)
-      if (dim(sets)[1]>1) {
-        rand = sample(1:dim(sets)[1],1)
-        fixed_heroes$set[i] = sets$Set[rand]
-      }
-      if (dim(sets)[1]==1) {
-        fixed_heroes$set[i] = sets$Set[1]
-      }
-      if (dim(sets)[1]==0) {
-        warning(paste0("Data error (hero not found): ",fixed_heroes$name[i]))
-      }
-    }
-  }
-  #add unique heroid
-  fixed_heroes = select(fixed_heroes,-fixed_heroes)
-  fixed_heroes$heroid = paste(fixed_heroes$name,fixed_heroes$set,sep="_")
-  
-  #fill up with random heroes
-  if (heroesc2>0) {
-    heronumber = sample(1:nrow(herolist),heroesc2,replace=FALSE)
-    heroid = herolist$uni[heronumber]
-    heronames = tibble(heroid)
-    heronames$name=NA
-    heronames$set=NA
-    for (i in 1:heroesc2) {
-      heronames$name[i] = strsplit(as.character(heronames[i,1]),split="_")[[1]][1]
-      heronames$set[i] = strsplit(as.character(heronames[i,1]),split="_")[[1]][2]
-    }
-  }
-  
-  #join
-  #only fixed heroes:
-  if (is.null(heronames)) {
-    heronames = fixed_heroes
-  }
-  #also random ones:
-  if (!is.null(heronames)) {
-    heronames = rbind(fixed_heroes,heronames)
-  }
   #save scores
-  herotraits = filter(src$heroes,uni%in%heronames$heroid)
+  herotraits = filter(src$heroes,uni%in%heronames)
   herotraits[is.na(herotraits)]=0
   
   #list sets
-  sets = c(heronames$set,
+  sets = c(filter(herotraits,!duplicated(uni))$Set,
            schemtraits$Set,
            mmtraits$Set[1],
            filter(viltraits,!duplicated(Group))$Set,
@@ -430,10 +310,9 @@ genFun = function(src,
   resu = list(
     schem,
     mm,
-    vil,
-    hench,
-    heronames$name,
-    heronames$set,
+    villnames,
+    henchnames,
+    heronames,
     list(schemtraits,mmtraits,viltraits,henchtraits,herotraits),
     sets)
   names(resu) = c("Scheme",
@@ -441,7 +320,6 @@ genFun = function(src,
                   "Villains",
                   "Henchmen",
                   "Heroes",
-                  "Heroes_set",
                   "scores",
                   "sets")
   names(resu$scores) = c("scheme",
@@ -453,13 +331,13 @@ genFun = function(src,
 }
 
 setupSumm <- function(game,setupid) {
-  #require(data.table)
-  heroid = paste0(game$Heroes," (",game$Heroes_set,")")
+  game$Heroes = gsub("_"," (",game$Heroes)
+  game$Heroes = paste0(game$Heroes,")")
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
             paste(game$Villains,collapse="<br>"),
             paste(game$Henchmen,collapse="<br>"),
-            paste(heroid,collapse="<br>"))
+            paste(game$Heroes,collapse="<br>"))
   setup = data.frame(data=setup, row.names=c("<b>Scheme</b>",
                                              "<b>Mastermind</b>",
                                              "<b>Villains</b>",
@@ -488,12 +366,13 @@ mmGen <- function(not,n=1,data=src) {
 }
 
 setupPrint <- function(game) {
-  heroid = paste0(game$Heroes," (",game$Heroes_set,")")
+  game$Heroes = gsub("_"," (",game$Heroes)
+  game$Heroes = paste0(game$Heroes,")")
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
             paste(game$Villains,collapse="|"),
             paste(game$Henchmen,collapse="|"),
-            paste(heroid,collapse="|"))
+            paste(game$Heroes,collapse="|"))
   write.table(t(setup),"clipboard",sep="\t",col.names = F,row.names = F)
 }
 
