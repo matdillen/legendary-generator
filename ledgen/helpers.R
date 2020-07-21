@@ -5,7 +5,8 @@ genFun = function(src,
                   fixedSCH="",
                   fixedHM="",
                   fixedHER="",
-                  fixedVIL="") {
+                  fixedVIL="",
+                  dropset="") {
   
   
   #setup numbers depending on number of players
@@ -46,6 +47,7 @@ genFun = function(src,
   ##Generate a scheme
   schnumber = 0
   
+  src$schemes %<>% filter(!Set%in%dropset)
   #Fixed scheme given?
   if (fixedSCH!="") {
     schnumber = match(fixedSCH,src$schemes$Name)
@@ -110,7 +112,8 @@ genFun = function(src,
   mmlist=filter(src$masterminds,
                 is.na(MM),
                 is.na(Epic),
-                is.na(T))
+                is.na(T),
+                !Set%in%dropset)
   mmnumber = 0
   
   #Fixed mm given?
@@ -157,6 +160,7 @@ genFun = function(src,
   villf = 0 #this int will keep count of nr of fixed variables
   vil = 0 #store random names here
   
+  src$villains %<>% filter(!Set%in%dropset)
   villist=distinct(src$villains,Group) #check on group, not individual card
   
   #Villain group required by scheme?
@@ -230,6 +234,7 @@ genFun = function(src,
   hench = 0
   
   #only distinct group names due to the Mandarin and his rings
+  src$henchmen %<>% filter(!Set%in%dropset)
   hmlist=distinct(src$henchmen,Name)
   
   if (!is.na(src$schemes$HM_Inc[schnumber])) {
@@ -281,6 +286,8 @@ genFun = function(src,
   ##Generate heroes
   fixed_heroes = 0
   heronames = NULL
+  
+  src$heroes %<>% filter(!Set%in%dropset)
   
   #A few schemes have such specific needs their hero requirements are hardcoded here separately
   if (schemtraits$Hero_Inc[1]=="CUSTOM") {
@@ -705,6 +712,11 @@ metricsPrint <- function(metrics) {
   colnames(metrics) = paste0("<b>",colnames(metrics),"</b>")
   metrics = t(metrics)
   colnames(metrics) = "Metrics"
+  metrics = ifelse(metrics<0,
+                   str_c("<font color=\"red\"><b>",
+                          metrics,
+                          "</b></font>"),
+                   metrics)
   #metrics$Metrics = format(metrics$Metrics,nsmall=0)
   #rounding more complex because of div irrationals
   return(metrics)

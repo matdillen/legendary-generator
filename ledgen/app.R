@@ -13,14 +13,18 @@ library(shiny)
 
 source("helpers.R")
 
+#data import
 heroes=read_csv('data/heroes.csv')
 schemes=read_csv('data/schemes.csv')
 villains=read_csv('data/villains.csv')
 henchmen=read_csv('data/henchmen.csv')
 masterminds=read_csv('data/masterminds.csv')
+
+#format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
 names(src) = c("heroes","schemes","villains","henchmen","masterminds")
 
+#format a list of heroes with proper ids
 src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
 herolist = distinct(src$heroes,uni)
 herolist = rbind(herolist,uni="")
@@ -31,6 +35,12 @@ herolist$name[1] = ""
 heroaslist = as.list(t(herolist$uni))
 names(heroaslist) = herolist$name
 names(heroaslist)[1] = " "
+
+#format a list of sets
+setlist = read_csv("data/sets.csv")
+setlist[1,] = c(""," ")
+setaslist = as.list(t(setlist$id))
+names(setaslist) = setlist$label
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -49,6 +59,7 @@ ui <- fluidPage(
             selectInput("fixedHER","Heroes",
                         choices = heroaslist),
             checkboxInput("epic","Epic?"),
+            selectizeInput("dropset","Sets excluded",choices=setaslist,multiple=T),
             actionButton("go","Start"),
             #numericInput("runs","Number of runs",value=100,min=1,max=2000,step=10),
             sliderInput("game", 
@@ -80,7 +91,8 @@ server <- function(input, output) {
                             fixedHM = input$fixedHM,
                             fixedVIL = input$fixedVIL,
                             fixedHER = input$fixedHER,
-                            epic = input$epic)
+                            epic = input$epic,
+                            dropset=input$dropset)
         }
         
         return(games)
