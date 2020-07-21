@@ -19,7 +19,18 @@ villains=read_csv('data/villains.csv')
 henchmen=read_csv('data/henchmen.csv')
 masterminds=read_csv('data/masterminds.csv')
 src = list(heroes,schemes,villains,henchmen,masterminds)
-names(src) = c("heroes","schemes","villains","henchmen","masterminds")    
+names(src) = c("heroes","schemes","villains","henchmen","masterminds")
+
+src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
+herolist = distinct(src$heroes,uni)
+herolist = rbind(herolist,uni="")
+herolist %<>% arrange(uni)
+herolist$name = gsub("_"," (",herolist$uni)
+herolist$name = paste0(herolist$name,")")
+herolist$name[1] = ""
+heroaslist = as.list(t(herolist$uni))
+names(heroaslist) = herolist$name
+names(heroaslist)[1] = " "
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -35,15 +46,16 @@ ui <- fluidPage(
             textInput("fixedMM","Mastermind"),
             textInput("fixedHM","Henchmen"),
             textInput("fixedVIL","Villains"),
-            textInput("fixedHER","Heroes"),
+            selectInput("fixedHER","Heroes",
+                        choices = heroaslist),
             checkboxInput("epic","Epic?"),
             actionButton("go","Start"),
             #numericInput("runs","Number of runs",value=100,min=1,max=2000,step=10),
             sliderInput("game", 
                         label = "Selected setup:",
-                        min = 1, max = 100, value = 1),
-            br(),
-            actionButton("teamlookup","Hero's Team?")
+                        min = 1, max = 100, value = 1)#,
+            #br(),
+            #actionButton("teamlookup","Hero's Team?")
         ),
         # Show a plot of the generated distribution
         mainPanel(tableOutput("setups"),
@@ -81,16 +93,19 @@ server <- function(input, output) {
                                      sanitize.text.function=identity)
     })
     observeEvent(input$go,{
-        metrics = metricsGen(gamelist(),input$game)
-        output$metrics = renderTable(metricsPrint(metrics))
+        metrics = metricsLoop(gamelist())
+        output$metrics = renderTable(metricsPrint(metrics[[input$game]]),
+                                     rownames = T,
+                                     colnames = T,
+                                     sanitize.text.function=identity)
     })
-    observeEvent(input$teamlookup,{
-        output$herosteam = renderText({
-            paste0("Hero's team: ",
-                   teamlookup(isolate(input$fixedHER),
-                              src))
-            })
-    })
+    # observeEvent(input$teamlookup,{
+    #     output$herosteam = renderText({
+    #         paste0("Hero's team: ",
+    #                teamlookup(isolate(input$fixedHER),
+    #                           src))
+    #         })
+    # })
     observeEvent(input$print,{
         setupPrint(gamelist()[[input$game]])
         output$printsuccess = renderText({

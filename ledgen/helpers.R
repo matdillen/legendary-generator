@@ -338,11 +338,13 @@ genFun = function(src,
   herolist = distinct(src$heroes,uni)
   
   #check if the provided fixed names can be found
-  fixedHER2 = fixedHER[fixedHER%in%src$heroes$Hero]
+  fixedHER2 = fixedHER[fixedHER%in%src$heroes$uni]
   if (length(fixedHER2)<length(fixedHER)&
       fixedHER!="") {
     warning("Hero(es) ",paste(fixedHER[!fixedHER%in%fixedHER2],collapse=",")," not found.")
   }
+  
+  fixedHER2 = gsub("_.*","",fixedHER2)
   
   #join both the scheme hero and the fixed provided (if any)
   fixed_heroes = c(fixed_heroes,fixedHER2)
@@ -451,11 +453,11 @@ setupSumm <- function(game,setupid) {
             paste(game$Villains,collapse="<br>"),
             paste(game$Henchmen,collapse="<br>"),
             paste(heroid,collapse="<br>"))
-  setup = data.frame(data=setup, row.names=c("Scheme",
-                                             "Mastermind",
-                                             "Villains",
-                                             "Henchmen",
-                                             "Heroes"))
+  setup = data.frame(data=setup, row.names=c("<b>Scheme</b>",
+                                             "<b>Mastermind</b>",
+                                             "<b>Villains</b>",
+                                             "<b>Henchmen</b>",
+                                             "<b>Heroes</b>"))
   colnames(setup) = paste0("Setup ",setupid)
   return(setup)
 }
@@ -560,10 +562,12 @@ metricsGen = function(games,nr) {
   metrics$C2r = sum(games[[nr]]$scores$heroes$C2*
                       games[[nr]]$scores$heroes$Ct)
   metrics$C2 = sum(filter(games[[nr]]$scores$heroes,C==2)$Ct)
+  metrics$C2Def = metrics$C2 - metrics$C2r
   
   metrics$C4r = sum(games[[nr]]$scores$heroes$C4*
                       games[[nr]]$scores$heroes$Ct)
   metrics$C4 = sum(filter(games[[nr]]$scores$heroes,C==4)$Ct)
+  metrics$C4Def = metrics$C4 - metrics$C4r
   
   ##cost diversity
   metrics$Cdivr = sum(games[[nr]]$scores$heroes$CD*
@@ -663,14 +667,18 @@ metricsGen = function(games,nr) {
   #MoFi
   metrics$MoFir = sum(games[[nr]]$scores$heroes$MF)
   metrics$MoFi = sum(filter(games[[nr]]$scores$heroes,MO==1,FI==1)$Ct)
+  metrics$MoFiDef = metrics$MoFi - metrics$MoFir
   
   #NoRu
   metrics$NoRur = sum(filter(games[[nr]]$scores$heroes,NR==-1)$Ct)
   metrics$NoRu = sum(filter(games[[nr]]$scores$heroes,NR==1)$Ct)
+  metrics$NoRuDef = metrics$NoRu - metrics$NoRur
   
   #Lightshow
   metrics$Lightshow = sum(filter(games[[nr]]$scores$heroes,LS!=0)$Ct*filter(games[[nr]]$scores$heroes,LS!=0)$LS)
   metrics$Lightshowr = sum(filter(games[[nr]]$scores$heroes,LS!=0)$Ct)/sum(games[[nr]]$scores$heroes$Ct)
+  metrics$LightshowDef = metrics$Lightshow - metrics$Lightshowr
+  
   metrics$bDef = metrics$bCount - metrics$bReq
   metrics$rDef = metrics$rCount - metrics$rReq
   metrics$gDef = metrics$gCount - metrics$gReq
@@ -680,7 +688,32 @@ metricsGen = function(games,nr) {
 }
 
 metricsPrint <- function(metrics) {
+  metrics = metrics[,-c(1:10)]
+  metrics %<>% select(-Lightshow,
+                      -Lightshowr,
+                      -NoRur,
+                      -NoRu,
+                      -MoFi,
+                      -MoFir,
+                      -C2,
+                      -C2r,
+                      -C4,
+                      -C4r)
   metrics %<>% select(-wincon)
+  metrics %<>% select_if(negate(is.na))
   metrics %<>% select_if(colSums(.)!=0)
+  colnames(metrics) = paste0("<b>",colnames(metrics),"</b>")
+  metrics = t(metrics)
+  colnames(metrics) = "Metrics"
+  #metrics$Metrics = format(metrics$Metrics,nsmall=0)
+  #rounding more complex because of div irrationals
+  return(metrics)
+}
+
+metricsLoop <- function(games) {
+  metrics = list()
+  for (j in 1:length(games)) {
+    metrics[[j]] = metricsGen(games,j)
+  }
   return(metrics)
 }
