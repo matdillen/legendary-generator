@@ -1,62 +1,11 @@
----
-title: "Legendary Setup"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F)
-```
-
-## 0. Read files
-
-```{r input}
-library(tidyverse)
-library(magrittr)
-setwd("D:/Mathias/legendary/new versions")
-heroes=read_csv('heroes.csv')
-schemes=read_csv('schemes.csv')
-villains=read_csv('villains.csv')
-henchmen=read_csv('henchmen.csv')
-masterminds=read_csv('masterminds.csv')
-src = list(heroes,schemes,villains,henchmen,masterminds)
-names(src) = c("heroes","schemes","villains","henchmen","masterminds")
-```
-
-The function `genFun` requires only a `src` list as compiled in the input chunk. It also allows the optional arguments:
-
-* `playerc`: Number of players (2-5). Default is 2. Playing solo is currently not supported.
-* `epic`: Allow randomly picking the epic version of a mastermind (if any). Set to -1 to enable this. This only influences the traits in the returned list. Default is 0.
-* `fixedMM`: Enter the exact name for a mastermind to restrict the random generator. Default is 0.
-* `fixedSCH`: Enter the exact name for a scheme to restrict the random generator. The 'exact' names in the source data do need some clean-up, so this will often break. Default is 0.
-* `fixedHM`: Enter the exact name for one or more henchmen groups (in a vector if more than one) to restrict the random generator. Default is NULL.
-* `fixedHER`: Enter the exact name for one or more heroes (in a vector if more than one) to restrict the random generator. If a hero exists with the same hero name in multiple sets, a random set is selected. Default is NULL.
-* `fixedVIL`: Enter the exact name for one or more villain groups (in a vector if more than one) to restrict the random generator. Default is NULL.
-
-Requirements for the selected mastermind and/or scheme take precedent over optional henchmen, villains or heroes. If too many names are provided for an argument, order of entry takes precedent.
-
-Mismatches with the source data will spawn warnings and lead to the restriction being ignored.
-
-The function returns a list with the following contents:
-
-* `Scheme`: Name of the scheme.
-* `Mastermind`: Name of the mastermind. It will additionally say "epic" if traits for the epic version were returned.
-* `Villains`: Names of the villain groups.
-* `Henchmen`: Names of the henchmen groups.
-* `Heroes`: Names of the heroes.
-* `Heroes_set`: Set IDs for the selected heroes, to disambiguate recurring heroes in multiple sets.
-* `scores`: A list with the scores in separate date frames for each of the above. For metadata of the scores, check
-source documentation.
-* `sets`: The sets of the scheme, mastermind, villains, henchmen and heroes. This can be used to reject generated setups if unowned or undesired sets are part of them. It can also be used to preferentially pick setups with cards from certain (new) sets.
-
-```{r gameGenFun}
 genFun = function(src,
                   playerc=2,
-                  epic=0,
-                  fixedMM=0,
-                  fixedSCH=0,
-                  fixedHM=NULL,
-                  fixedHER=NULL,
-                  fixedVIL=NULL) {
+                  epic=F,
+                  fixedMM="",
+                  fixedSCH="",
+                  fixedHM="",
+                  fixedHER="",
+                  fixedVIL="") {
   
   
   #setup numbers depending on number of players
@@ -85,7 +34,7 @@ genFun = function(src,
     henchc=2
     bystc=12
   }
-  if (epic==-1) {
+  if (epic==T) {
     epic = sample(0:1,1) #0 is still not epic!
   }
   if (heroesc==0) {
@@ -98,7 +47,7 @@ genFun = function(src,
   schnumber = 0
   
   #Fixed scheme given?
-  if (fixedSCH!=0) {
+  if (fixedSCH!="") {
     schnumber = match(fixedSCH,src$schemes$Name)
     if (is.na(schnumber)) {
       warning("Scheme - ",fixedSCH," - not found")
@@ -106,7 +55,7 @@ genFun = function(src,
   }
   
   #Random scheme if not given or not found
-  if (fixedSCH==0|is.na(schnumber)) {
+  if (fixedSCH==""|is.na(schnumber)) {
     schnumber = sample(1:nrow(src$schemes),1)
   }
   
@@ -165,7 +114,7 @@ genFun = function(src,
   mmnumber = 0
   
   #Fixed mm given?
-  if (fixedMM!=0) {
+  if (fixedMM!="") {
     mmnumber = match(fixedMM,mmlist$Name)
     if (is.na(mmnumber)) {
       warning("Mastermind - ",fixedMM," - not found")
@@ -173,7 +122,7 @@ genFun = function(src,
   }
   
   #Random mm
-  if (fixedMM==0|
+  if (fixedMM==""|
       is.na(mmnumber)) {
     mmnumber = sample(1:nrow(mmlist),1)
   }
@@ -188,7 +137,7 @@ genFun = function(src,
   mmtraits[is.na(mmtraits)]=0
   
   #modify the scores for epic or not; add epic label to mm name
-  if (epic==0) {
+  if (epic==""|epic==0) {
     mmtraits = filter(mmtraits,Epic==0)
   }
   if (epic==1&
@@ -228,7 +177,7 @@ genFun = function(src,
   
   #fixed villain groups given as function argument?
   if (villainc2!=0&
-      length(fixedVIL)>0) {
+      fixedVIL!="") {
     for (i in 1:length(fixedVIL)) {
       if (fixedVIL[i]%in%villist$Group) {
         if (!fixedVIL[i]%in%villnames) {
@@ -292,7 +241,7 @@ genFun = function(src,
     henchf = henchf + 1
   }
   henchc2= henchc - henchf
-  if (henchc2!=0&length(fixedHM)>0) {
+  if (henchc2!=0&fixedHM!="") {
     for (i in 1:length(fixedHM)) {
       if (fixedHM[i]%in%hmlist$Name) {
         if (!fixedHM[i]%in%henchnames) {
@@ -341,7 +290,7 @@ genFun = function(src,
       teamlist %<>% filter(n>12)
       teamlist %<>% sample_n(2)
       src$heroes %<>% filter(Team%in%teamlist$Team)
-      fixedHER = NULL
+      fixedHER = ""
       src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
       herolist1 = distinct(filter(src$heroes,Team==teamlist$Team[1]),uni)
       herolist2 = distinct(filter(src$heroes,Team==teamlist$Team[2]),uni)
@@ -359,7 +308,7 @@ genFun = function(src,
       heroesc = 0
     }
     if (schemtraits$Name[1]=="House of M") {
-      fixedHER = NULL
+      fixedHER = ""
       src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
       herolist1 = distinct(filter(src$heroes,Team=="X-Men"),uni)
       herolist2 = distinct(filter(src$heroes,Team!="X-Men"),uni)
@@ -390,7 +339,8 @@ genFun = function(src,
   
   #check if the provided fixed names can be found
   fixedHER2 = fixedHER[fixedHER%in%src$heroes$Hero]
-  if (length(fixedHER2)<length(fixedHER)) {
+  if (length(fixedHER2)<length(fixedHER)&
+      fixedHER!="") {
     warning("Hero(es) ",paste(fixedHER[!fixedHER%in%fixedHER2],collapse=",")," not found.")
   }
   
@@ -493,101 +443,30 @@ genFun = function(src,
   return(resu)
 }
 
-```
-
-This chunk generates a list of potential setups. A few 1000 should take less than a minute.
-
-```{r gameGeneration}
-#test = genFun(src,epic=-1,fixedHER = c("Captain America","Deadpool","derpsmith jr"))
-
-numberofruns = 100
-games=list()
-for (i in 1:numberofruns) {
-  games[[i]] = genFun(src,epic=0)
-}
-```
-
-In this chunk a function is used to preferentially select games from certain sets.
-
-* use `setreq` to list set codes you want preferentially. Default is no preference.
-* use `reject` to list set codes you want to exclude. Default is no hate.
-* use `dropgames` to indicate minimum number of card groups from the preferred sets to be part of the setup. Default is 1.
-
-```{r setGames}
-setGames <- function(games,
-                     setreq = NULL,
-                     reject = NULL,
-                     dropgames = 1) {
-  goodGames = tibble(setcount = seq(1,length(games)),
-                     setdiv = seq(1,length(games)),
-                     badgame = seq(1,length(games)))
-  for (i in 1:length(games)) {
-    setsreqed = match(games[[i]]$sets,setreq)
-    setsreqed = setsreqed[!is.na(setsreqed)]
-    goodGames$setcount[i] = length(setsreqed)
-    goodGames$setdiv[i] = length(setsreqed[!duplicated(setsreqed)])
-    
-    badgame = match(games[[i]]$sets,reject)
-    badgame = badgame[!is.na(badgame)]
-    goodGames$badgame[i] = ifelse(length(badgame)==0,0,1)
-  }
-  
-  if (!is.null(setreq)) {
-    games = games[goodGames$setcount>dropgames]
-    goodGames = filter(goodGames,
-                       setcount>dropgames)
-  }
-  return(games[goodGames$badgame==0])
-}
-
-#setreq = c("R","AOS","HOA","NM","D")
-setreq = NULL
-reject = "GG"
-games2 = setGames(games,
-                  setreq = setreq,
-                  reject = reject,
-                  dropgames = 3)
-
-```
-
-This function allows the printing to clipboard of setup information, so it can be pasted in an Excel sheet for keeping track of game results (win/loss, easy or not...).
-
-```{r setupPrint}
-setupPrint <- function(game) {
+setupSumm <- function(game,setupid) {
+  #require(data.table)
   heroid = paste0(game$Heroes," (",game$Heroes_set,")")
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
-            paste(game$Villains,collapse="|"),
-            paste(game$Henchmen,collapse="|"),
-            paste(heroid,collapse="|"))
-  write.table(t(setup),"clipboard",sep="\t",col.names = F,row.names = F)
+            paste(game$Villains,collapse="<br>"),
+            paste(game$Henchmen,collapse="<br>"),
+            paste(heroid,collapse="<br>"))
+  setup = data.frame(data=setup, row.names=c("Scheme",
+                                             "Mastermind",
+                                             "Villains",
+                                             "Henchmen",
+                                             "Heroes"))
+  colnames(setup) = paste0("Setup ",setupid)
+  return(setup)
 }
 
-setupPrint(games2[[1]])
-```
-
-These lookup functions may be useful in case of uncertainty where to find a hero.
-
-```{r lookups}
-setlookup <- function(name,data=src,type="hero") {
-  result = paste0(type," not found")
-  if (type=="hero") {
-    result = paste(filter(src$heroes,Hero==name,Ct==1)$Set,collapse="|")
-  }
-  if (type=="mastermind") {
-    result = filter(src$masterminds,Name==name)$Set[1]
-  }
-  return(result)
-}
-
-teamlookup <- function(name,data=src) {
-  result = "hero not found"
+teamlookup <- function(name,src) {
   result = paste(filter(src$heroes,Hero==name,Ct==1)$Team,collapse="|")
+  if (result == "") {
+    result = "Team not found"
+  }
   return(result)
 }
-
-teamlookup("Domino")
-
 
 mmGen <- function(not,n=1,data=src) {
   mmlist = src$masterminds %>% 
@@ -599,5 +478,209 @@ mmGen <- function(not,n=1,data=src) {
   return(mmlist$Name[mmnumber])
 }
 
-```
+setupPrint <- function(game) {
+  heroid = paste0(game$Heroes," (",game$Heroes_set,")")
+  setup = c(game$Scheme,
+            paste(game$Mastermind,collapse=" - "),
+            paste(game$Villains,collapse="|"),
+            paste(game$Henchmen,collapse="|"),
+            paste(heroid,collapse="|"))
+  write.table(t(setup),"clipboard",sep="\t",col.names = F,row.names = F)
+}
 
+metricsGen = function(games,nr) {
+  
+  #games is a list of generated setups
+  #nr is the element of that list to calculate metrics for
+  
+  #initialize metrics df
+  bCount = 0
+  metrics = tibble(bCount)
+  
+  ##colorcounts
+  #issue if t or split cards with the same color
+  #does not take into account villains gained as heroes
+  metrics$bCount = 
+    sum(games[[nr]]$scores$heroes$B*
+          games[[nr]]$scores$heroes$Ct)
+  metrics$rCount = 
+    sum(games[[nr]]$scores$heroes$R*
+          games[[nr]]$scores$heroes$Ct)
+  metrics$yCount = 
+    sum(games[[nr]]$scores$heroes$Y*
+          games[[nr]]$scores$heroes$Ct)
+  metrics$gCount = 
+    sum(games[[nr]]$scores$heroes$G*
+          games[[nr]]$scores$heroes$Ct)
+  metrics$sCount = 
+    sum(games[[nr]]$scores$heroes$S*
+          games[[nr]]$scores$heroes$Ct)
+  
+  ##count color requirements of heroes, villains, mm and scheme
+  #does not differentiate right now for epic, so slight inflation possible
+  #might also consider ignoring if both sides of transforming mm care about a certain color
+  metrics$bReq = 
+    sum(games[[nr]]$scores$heroes$Br*
+          games[[nr]]$scores$heroes$Ct) +
+    sum(games[[nr]]$scores$villains$B*
+          games[[nr]]$scores$villains$Ct) +
+    sum(games[[nr]]$scores$mastermind$B) +
+    games[[nr]]$scores$scheme$B
+  metrics$rReq = 
+    sum(games[[nr]]$scores$heroes$Rr*
+          games[[nr]]$scores$heroes$Ct) +
+    sum(games[[nr]]$scores$villains$R*
+          games[[nr]]$scores$villains$Ct) +
+    sum(games[[nr]]$scores$mastermind$R) +
+    games[[nr]]$scores$scheme$R
+  metrics$yReq = 
+    sum(games[[nr]]$scores$heroes$Yr*
+          games[[nr]]$scores$heroes$Ct) +
+    sum(games[[nr]]$scores$villains$Y*
+          games[[nr]]$scores$villains$Ct) +
+    sum(games[[nr]]$scores$mastermind$Y) +
+    games[[nr]]$scores$scheme$Y
+  metrics$gReq = 
+    sum(games[[nr]]$scores$heroes$Gr*
+          games[[nr]]$scores$heroes$Ct) +
+    sum(games[[nr]]$scores$villains$G*
+          games[[nr]]$scores$villains$Ct) +
+    sum(games[[nr]]$scores$mastermind$G) +
+    games[[nr]]$scores$scheme$G
+  metrics$sReq = 
+    sum(games[[nr]]$scores$heroes$Sr*
+          games[[nr]]$scores$heroes$Ct) +
+    sum(games[[nr]]$scores$villains$S*
+          games[[nr]]$scores$villains$Ct) +
+    sum(games[[nr]]$scores$mastermind$S) +
+    games[[nr]]$scores$scheme$S
+  
+  ###cost requirements
+  #C2 and C4
+  metrics$C2r = sum(games[[nr]]$scores$heroes$C2*
+                      games[[nr]]$scores$heroes$Ct)
+  metrics$C2 = sum(filter(games[[nr]]$scores$heroes,C==2)$Ct)
+  
+  metrics$C4r = sum(games[[nr]]$scores$heroes$C4*
+                      games[[nr]]$scores$heroes$Ct)
+  metrics$C4 = sum(filter(games[[nr]]$scores$heroes,C==4)$Ct)
+  
+  ##cost diversity
+  metrics$Cdivr = sum(games[[nr]]$scores$heroes$CD*
+                        games[[nr]]$scores$heroes$Ct)
+  cost_div = games[[nr]]$scores$heroes %>%
+    group_by(C) %>%
+    summarize(sum = sum(Ct))
+  #using fractions for Shannon and evenness calculations
+  cost_div$p = cost_div$sum/sum(cost_div$sum)
+  metrics$Cdiv = -sum(cost_div$p*log(cost_div$p))
+  metrics$CdivEV = metrics$Cdiv/log(dim(cost_div)[1])
+  
+  ##spectrum
+  metrics$colorDIVr = sum(games[[nr]]$scores$heroes$SP*
+                            games[[nr]]$scores$heroes$Ct)
+  colors = c("B","R","Y","G","S")
+  n = unlist(metrics[1:5])
+  color_div = tibble(colors,n)
+  color_div$p = color_div$n/sum(color_div$n)
+  metrics$colorDIV = -sum(color_div$p*log(color_div$p))
+  metrics$colorEV = metrics$colorDIV /log(dim(color_div)[1])
+  
+  ##Wounds
+  metrics$wndsum = sum(games[[nr]]$scores$heroes$Wd*
+                         games[[nr]]$scores$heroes$Ct) + 
+    sum(games[[nr]]$scores$villains$Wnd*
+          games[[nr]]$scores$villains$Ct) +
+    games[[nr]]$scores$scheme$Wnd*games[[nr]]$scores$scheme$CT
+  
+  if (dim(games[[nr]]$scores$mastermind)[1]==5) {
+    metrics$wndsum = metrics$wndsum +
+      games[[nr]]$scores$mastermind$Wnd[1]*5 +
+      sum(games[[nr]]$scores$mastermind$Wnd[2:5])
+  }
+  if (dim(games[[nr]]$scores$mastermind)[1]==6) {
+    metrics$wndsum = metrics$wndsum +
+      games[[nr]]$scores$mastermind$Wnd[1]*2.5 +
+      games[[nr]]$scores$mastermind$Wnd[2]*2.5 +
+      sum(games[[nr]]$scores$mastermind$Wnd[3:6])
+  }
+  
+  ##KO heroes
+  games[[nr]]$scores$heroes$KOng = 0
+  games[[nr]]$scores$heroes$KOng[games[[nr]]$scores$heroes$KO==2] = 1
+  
+  games[[nr]]$scores$villains$KOng = 0
+  games[[nr]]$scores$villains$KOng[games[[nr]]$scores$villains$KOH==2] = 1
+  
+  metrics$kohsum = sum(games[[nr]]$scores$heroes$KOng*
+                         games[[nr]]$scores$heroes$Ct) + 
+    sum(games[[nr]]$scores$villains$KOng*
+          games[[nr]]$scores$villains$Ct) +
+    games[[nr]]$scores$scheme$KOH*games[[nr]]$scores$scheme$CT
+  
+  if (dim(games[[nr]]$scores$mastermind)[1]==5) {
+    metrics$kohsum = metrics$kohsum +
+      games[[nr]]$scores$mastermind$KOH[1]*5 +
+      sum(games[[nr]]$scores$mastermind$KOH[2:5])
+  }
+  if (dim(games[[nr]]$scores$mastermind)[1]==6) {
+    metrics$kohsum = metrics$kohsum +
+      games[[nr]]$scores$mastermind$KOH[1]*2.5 +
+      games[[nr]]$scores$mastermind$KOH[2]*2.5 +
+      sum(games[[nr]]$scores$mastermind$KOH[3:6])
+  }
+  
+  ##crowding
+  metrics$crwdsum = sum(games[[nr]]$scores$villains$CRWD*
+                          games[[nr]]$scores$villains$Ct) +
+    games[[nr]]$scores$scheme$CRWD*games[[nr]]$scores$scheme$CT
+  
+  if (dim(games[[nr]]$scores$mastermind)[1]==5) {
+    metrics$crwdsum = metrics$crwdsum +
+      games[[nr]]$scores$mastermind$CRWD[1]*5 +
+      sum(games[[nr]]$scores$mastermind$CRWD[2:5])
+  }
+  if (dim(games[[nr]]$scores$mastermind)[1]==6) {
+    metrics$crwdsum = metrics$crwdsum +
+      games[[nr]]$scores$mastermind$CRWD[1]*2.5 +
+      games[[nr]]$scores$mastermind$CRWD[2]*2.5 +
+      sum(games[[nr]]$scores$mastermind$CRWD[3:6])
+  }
+  
+  ##hencko
+  #metrics$hencko = sum(games[[nr]]$scores$henchmen$KO_HERO)
+  
+  ##wincon
+  metrics$wincon = games[[nr]]$scores$scheme$EW
+  metrics$wincon = plyr::revalue(metrics$wincon,c(
+    "VE" = "Villains Escaped",
+    "SE" = paste0(games[[nr]]$scores$scheme$EWH," escaped"),
+    "WO" = "Wound stack runs out",
+    "LT" = "Last or second to last twist",
+    "HK" = "Heroes KO'd",
+    "O"= "Other"),warn_missing = F)
+  
+  #MoFi
+  metrics$MoFir = sum(games[[nr]]$scores$heroes$MF)
+  metrics$MoFi = sum(filter(games[[nr]]$scores$heroes,MO==1,FI==1)$Ct)
+  
+  #NoRu
+  metrics$NoRur = sum(filter(games[[nr]]$scores$heroes,NR==-1)$Ct)
+  metrics$NoRu = sum(filter(games[[nr]]$scores$heroes,NR==1)$Ct)
+  
+  #Lightshow
+  metrics$Lightshow = sum(filter(games[[nr]]$scores$heroes,LS!=0)$Ct*filter(games[[nr]]$scores$heroes,LS!=0)$LS)
+  metrics$Lightshowr = sum(filter(games[[nr]]$scores$heroes,LS!=0)$Ct)/sum(games[[nr]]$scores$heroes$Ct)
+  metrics$bDef = metrics$bCount - metrics$bReq
+  metrics$rDef = metrics$rCount - metrics$rReq
+  metrics$gDef = metrics$gCount - metrics$gReq
+  metrics$yDef = metrics$yCount - metrics$yReq
+  metrics$sDef = metrics$sCount - metrics$sReq
+  return(metrics)
+}
+
+metricsPrint <- function(metrics) {
+  metrics %<>% select(-wincon)
+  metrics %<>% select_if(colSums(.)!=0)
+  return(metrics)
+}

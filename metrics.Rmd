@@ -197,6 +197,11 @@ metricsGen = function(games,nr) {
   #Lightshow
   metrics$Lightshow = sum(filter(games[[nr]]$scores$heroes,LS!=0)$Ct*filter(games[[nr]]$scores$heroes,LS!=0)$LS)
   metrics$Lightshowr = sum(filter(games[[nr]]$scores$heroes,LS!=0)$Ct)/sum(games[[nr]]$scores$heroes$Ct)
+  metrics$bDef = metrics$bCount - metrics$bReq
+  metrics$rDef = metrics$rCount - metrics$rReq
+  metrics$gDef = metrics$gCount - metrics$gReq
+  metrics$yDef = metrics$yCount - metrics$yReq
+  metrics$sDef = metrics$sCount - metrics$sReq
   return(metrics)
 }
 ```
@@ -215,11 +220,7 @@ metrics = games[[1]]$metrics
 for (j in 2:numberofruns) {
   metrics = rbind(metrics,games[[j]]$metrics)
 }
-metrics$bDef = metrics$bCount - metrics$bReq
-metrics$rDef = metrics$rCount - metrics$rReq
-metrics$gDef = metrics$gCount - metrics$gReq
-metrics$yDef = metrics$yCount - metrics$yReq
-metrics$sDef = metrics$sCount - metrics$sReq
+
 
 
 ```
