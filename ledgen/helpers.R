@@ -45,34 +45,29 @@ genFun = function(src,
   
   ##############################################################
   ##Generate a scheme
-  schnumber = 0
-  
   src$schemes %<>% filter(!Set%in%dropset)
   #Fixed scheme given?
   if (fixedSCH!="") {
-    schnumber = match(fixedSCH,src$schemes$Name)
-    if (is.na(schnumber)) {
-      warning("Scheme - ",fixedSCH," - not found")
-    }
+    scheme = fixedSCH
   }
   
   #Random scheme if not given or not found
-  if (fixedSCH==""|is.na(schnumber)) {
+  if (fixedSCH=="") {
     schnumber = sample(1:nrow(src$schemes),1)
+    scheme = src$schemes$Name[schnumber]
   }
   
   #save name and scores
-  schem = src$schemes$Name[schnumber]
-  schemtraits = filter(src$schemes,Name==schem)
+  schemtraits = filter(src$schemes,Name==scheme)
   
   #set NA's to 0 (can be important for metrics)
   schemtraits[is.na(schemtraits)]=0
   
   #playerc dependent scheme settings:
   if (grepl(":",
-            src$schemes$HC[schnumber],
+            schemtraits$HC[1],
             fixed=T)) {
-    schemeset = strsplit(src$schemes$HC[schnumber],
+    schemeset = strsplit(schemtraits$HC[1],
                          split=":|;")
     schemeset_nrs = tibble(playerc=seq(1,(length(schemeset[[1]])/2)),
                            n=seq(1,(length(schemeset[[1]])/2)))
@@ -85,23 +80,17 @@ genFun = function(src,
     }
     schemeset_nrs %<>% filter(playerc<=playerc)
     if (dim(schemeset_nrs)[1]==1) {
-      src$schemes$HC[schnumber]=schemeset_nrs$n[1]
+      schemtraits$HC[1]=schemeset_nrs$n[1]
     }
     if (dim(schemeset_nrs)[1]>1) {
-      src$schemes$HC[schnumber]=schemeset_nrs$n[schemeset_nrs$playerc==max(schemeset_nrs$playerc)]
+      schemtraits$HC[1]=schemeset_nrs$n[schemeset_nrs$playerc==max(schemeset_nrs$playerc)]
     }
   }
   
   #modify card numbers according to scheme
-  heroesc = heroesc + ifelse(!is.na(src$schemes$HC[schnumber]),
-                             as.numeric(src$schemes$HC[schnumber]),
-                             0)
-  villainc = villainc + ifelse(!is.na(src$schemes$VC[schnumber]),
-                               src$schemes$VC[schnumber],
-                               0)
-  henchc = henchc + ifelse(!is.na(src$schemes$CH[schnumber]),
-                           src$schemes$CH[schnumber],
-                           0)
+  heroesc = heroesc + as.numeric(schemtraits$HC[1])
+  villainc = villainc + as.numeric(schemtraits$VC[1])
+  henchc = henchc + as.numeric(schemtraits$CH[1])
   
   
   ##############################################################
@@ -114,24 +103,19 @@ genFun = function(src,
                 is.na(Epic),
                 is.na(T),
                 !Set%in%dropset)
-  mmnumber = 0
   
   #Fixed mm given?
   if (fixedMM!="") {
-    mmnumber = match(fixedMM,mmlist$Name)
-    if (is.na(mmnumber)) {
-      warning("Mastermind - ",fixedMM," - not found")
-    }
+    mm = fixedMM
   }
   
   #Random mm
-  if (fixedMM==""|
-      is.na(mmnumber)) {
+  if (fixedMM=="") {
     mmnumber = sample(1:nrow(mmlist),1)
+    mm = mmlist$Name[mmnumber]
   }
   
   #save name and scores
-  mm = mmlist$Name[mmnumber]
   mmtraits = filter(src$masterminds,
                     MM==mm|
                       Name==mm)
@@ -140,7 +124,7 @@ genFun = function(src,
   mmtraits[is.na(mmtraits)]=0
   
   #modify the scores for epic or not; add epic label to mm name
-  if (epic==""|epic==0) {
+  if (epic!=1) {
     mmtraits = filter(mmtraits,Epic==0)
   }
   if (epic==1&
@@ -159,16 +143,16 @@ genFun = function(src,
   villist=distinct(src$villains,Group) #check on group, not individual card
   
   #Villain group required by scheme?
-  if (!is.na(src$schemes$Vill_Inc[schnumber])) {
-    villnames = src$schemes$Vill_Inc[schnumber]
+  if (schemtraits$Vill_Inc[1]!=0) {
+    villnames = schemtraits$Vill_Inc[1]
   }
   else {
     villnames = NULL
   }
   
   #Villain group required by mm?
-  if (!is.na(mmlist$LeadsV[mmnumber])) {
-    villnames = c(villnames,mmlist$LeadsV[mmnumber])
+  if (mmtraits$LeadsV[1]!=0) {
+    villnames = c(villnames,mmtraits$LeadsV[1])
   }
   
   #fixed villain groups given as function argument?
@@ -196,15 +180,15 @@ genFun = function(src,
   src$henchmen %<>% filter(!Set%in%dropset)
   hmlist=distinct(src$henchmen,Name)
   
-  if (!is.na(src$schemes$HM_Inc[schnumber])) {
-    henchnames = src$schemes$HM_Inc[schnumber]
+  if (schemtraits$HM_Inc[1]!=0) {
+    henchnames = schemtraits$HM_Inc[1]
   }
   else {
     henchnames = NULL
   }
   
-  if (!is.na(mmlist$LeadsH[mmnumber])) {
-    henchnames = c(henchnames,mmlist$LeadsH[mmnumber])
+  if (mmtraits$LeadsH[1]!=0) {
+    henchnames = c(henchnames,mmtraits$LeadsH[1])
   }
   
   if (fixedHM=="") {
@@ -273,8 +257,8 @@ genFun = function(src,
     herolist = filter(src$heroes,
                       Name_S==schemtraits$Hero_Inc[1])
     herolist = distinct(herolist,uni)
-    heroid = sample(1:length(herolist),1)
-    heronames = herolist[heroid]
+    heroid = sample(1:nrow(herolist),1)
+    heronames = herolist$uni[heroid]
   }
   
   #join both the scheme hero and the fixed provided (if any)
@@ -308,7 +292,7 @@ genFun = function(src,
   
   ##Print out results
   resu = list(
-    schem,
+    scheme,
     mm,
     villnames,
     henchnames,
@@ -382,8 +366,20 @@ metricsGen = function(games,nr) {
   #nr is the element of that list to calculate metrics for
   
   #initialize metrics df
-  bCount = 0
-  metrics = tibble(bCount)
+  metrics = c("bCount",
+              "bReq",
+              "rCount",
+              "rReq",
+              "yReq",
+              "yCount",
+              "sReq",
+              "sCount",
+              "gReq",
+              "gCount")
+  metrics = t(metrics)
+  colnames(metrics) = metrics[1,]
+  metrics[1,] = 0
+  metrics = as_tibble(metrics)
   
   ##colorcounts
   #issue if t or split cards with the same color
@@ -464,7 +460,7 @@ metricsGen = function(games,nr) {
   #using fractions for Shannon and evenness calculations
   cost_div$p = cost_div$sum/sum(cost_div$sum)
   metrics$Cdiv = -sum(cost_div$p*log(cost_div$p))
-  metrics$CdivEV = metrics$Cdiv/log(dim(cost_div)[1])
+  metrics$CdivEV = round(metrics$Cdiv/log(dim(cost_div)[1]),2)
   
   ##spectrum
   metrics$colorDIVr = sum(games[[nr]]$scores$heroes$SP*
@@ -474,7 +470,7 @@ metricsGen = function(games,nr) {
   color_div = tibble(colors,n)
   color_div$p = color_div$n/sum(color_div$n)
   metrics$colorDIV = -sum(color_div$p*log(color_div$p))
-  metrics$colorEV = metrics$colorDIV /log(dim(color_div)[1])
+  metrics$colorEV = round(metrics$colorDIV/log(dim(color_div)[1]),2)
   
   ##Wounds
   metrics$wndsum = sum(games[[nr]]$scores$heroes$Wd*
@@ -574,7 +570,7 @@ metricsGen = function(games,nr) {
 }
 
 metricsPrint <- function(metrics) {
-  metrics = metrics[,-c(1:10)]
+  wincon = metrics$wincon
   metrics %<>% select(-Lightshow,
                       -Lightshowr,
                       -NoRur,
@@ -584,10 +580,41 @@ metricsPrint <- function(metrics) {
                       -C2,
                       -C2r,
                       -C4,
-                      -C4r)
-  metrics %<>% select(-wincon)
-  metrics %<>% select_if(negate(is.na))
-  metrics %<>% select_if(colSums(.)!=0)
+                      -C4r,
+                      -Cdiv,
+                      -colorDIV,
+                      -bCount,
+                      -bReq,
+                      -rReq,
+                      -rCount,
+                      -gReq,
+                      -gCount,
+                      -sReq,
+                      -sCount,
+                      -yReq,
+                      -yCount,
+                      -wincon)
+  metrics %<>% 
+    rename(`Wound Indicator` = wndsum,
+           `<font color=\"blue\">Blue Deficit</font>` = bDef,
+           `<font color=\"red\">Red Deficit</font>` = rDef,
+           `<font color=\"yellow\">Yellow Deficit</font>` = yDef,
+           `<font color=\"gray\">Silver Deficit</font>` = sDef,
+           `<font color=\"green\">Green Deficit</font>` = gDef,
+           `Lightshow Deficit` = LightshowDef,
+           `2 Cost Deficit` = C2Def,
+           `4 Cost Deficit` = C4Def,
+           `Escape Indicator` = crwdsum,
+           `KO Indicator` = kohsum,
+           `Money + Fight Deficit` = MoFiDef,
+           `No Rules Txt Deficit` = NoRuDef,
+           `Color Diversity Required` = colorDIVr,
+           `Color Evenness` = colorEV,
+           `Cost Div Required` = Cdivr,
+           `Cost Evenness` = CdivEV) %>%
+    select_if(negate(is.na)) %>%
+    select_if(colSums(.)!=0)
+  metrics$`Evil Wins` = wincon
   colnames(metrics) = paste0("<b>",colnames(metrics),"</b>")
   metrics = t(metrics)
   colnames(metrics) = "Metrics"

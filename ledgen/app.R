@@ -1,11 +1,3 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 library(tidyverse)
 library(magrittr)
 library(shiny)
@@ -53,38 +45,55 @@ vilaslist = as.list(t(villist$Group))
 names(vilaslist) = villist$Group
 names(vilaslist)[1] = " "
 
+#format a list of masterminds
+mmlist = distinct(filter(src$masterminds,!is.na(MM)),MM)
+mmlist = rbind(mmlist,MM="")
+mmlist %<>% arrange(MM)
+mmaslist = as.list(t(mmlist$MM))
+names(mmaslist) = mmlist$MM
+names(mmaslist)[1] = " "
+
+#format a list of schemes
+schlist = distinct(src$schemes,Name)
+schlist = rbind(schlist,Name="")
+schlist %<>% arrange(Name)
+schemaslist = as.list(t(schlist$Name))
+names(schemaslist) = schlist$Name
+names(schemaslist)[1] = " "
+
 #format a list of sets
 setlist = read_csv("data/sets.csv")
 setlist[1,] = c(""," ")
 setaslist = as.list(t(setlist$id))
 names(setaslist) = setlist$label
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
 
     # Application title
     titlePanel("Marvel Legendary Setup Generator"),
 
-    # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
             numericInput("playerc","Number of Players",2,2,5,1),
-            textInput("fixedSCH","Scheme"),
-            textInput("fixedMM","Mastermind"),
+            selectizeInput("fixedSCH",
+                           "Scheme",
+                           choices=schemaslist),
+            selectizeInput("fixedMM",
+                           "Mastermind",
+                           choices=mmaslist),
             selectizeInput("fixedHM",
                            "Henchmen",
-                           choices=henchaslist,
-                           selected=NULL),
+                           choices=henchaslist),
             selectizeInput("fixedVIL",
                            "Villains",
                            choices=vilaslist,
                            multiple=T,
-                           options(list(maxItems=2))),
+                           options = list(maxItems=6)),
             selectizeInput("fixedHER",
                            "Heroes",
                            choices = heroaslist,
                            multiple=T,
-                           options(list(maxItems=5))),
+                           options = list(maxItems=8)),
             checkboxInput("epic","Epic?"),
             selectizeInput("dropset","Sets excluded",choices=setaslist,multiple=T),
             actionButton("go","Start"),
@@ -95,17 +104,16 @@ ui <- fluidPage(
             #br(),
             #actionButton("teamlookup","Hero's Team?")
         ),
-        # Show a plot of the generated distribution
         mainPanel(tableOutput("setups"),
                   actionButton("print","Copy setup"),
                   textOutput("printsuccess"),
                   br(),
                   textOutput("herosteam"),
+                  actionButton("metricsgo","Get Metrics"),
                   tableOutput("metrics"))
     )
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
 
     gamelist <- eventReactive(input$go,{
@@ -131,7 +139,7 @@ server <- function(input, output) {
                                      rownames=T,
                                      sanitize.text.function=identity)
     })
-    observeEvent(input$go,{
+    observeEvent(input$metricsgo,{
         metrics = metricsLoop(gamelist())
         output$metrics = renderTable(metricsPrint(metrics[[input$game]]),
                                      rownames = T,
@@ -153,5 +161,4 @@ server <- function(input, output) {
     })
 }
 
-# Run the application 
 shinyApp(ui = ui, server = server)
