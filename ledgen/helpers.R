@@ -331,14 +331,7 @@ setupSumm <- function(game,setupid) {
   return(setup)
 }
 
-teamlookup <- function(name,src) {
-  result = paste(filter(src$heroes,Hero==name,Ct==1)$Team,collapse="|")
-  if (result == "") {
-    result = "Team not found"
-  }
-  return(result)
-}
-
+#notused atm
 mmGen <- function(not,n=1,data=src) {
   mmlist = src$masterminds %>% 
     filter(is.na(MM),
@@ -634,4 +627,21 @@ metricsLoop <- function(games) {
     metrics[[j]] = metricsGen(games,j)
   }
   return(metrics)
+}
+
+setGames <- function(games,
+                     setreq = NULL,
+                     dropgames = 1) {
+  if (!is.null(setreq)) {
+    goodGames = tibble(setcount = seq(1,length(games)),
+                       setdiv = seq(1,length(games)))
+    for (i in 1:length(games)) {
+      setsreqed = match(games[[i]]$sets,setreq)
+      setsreqed = setsreqed[!is.na(setsreqed)]
+      goodGames$setcount[i] = length(setsreqed)
+      goodGames$setdiv[i] = length(setsreqed[!duplicated(setsreqed)])
+    }
+    games = games[goodGames$setcount>dropgames]
+  }
+  return(games)
 }

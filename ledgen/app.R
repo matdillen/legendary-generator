@@ -1,7 +1,7 @@
 library(tidyverse)
 library(magrittr)
 library(shiny)
-#library(listviewer)
+library(shinyjs)
 
 source("helpers.R")
 options(dplyr.summarise.inform=F) 
@@ -68,55 +68,89 @@ setaslist = as.list(t(setlist$id))
 names(setaslist) = setlist$label
 
 ui <- fluidPage(
-
-    # Application title
+    useShinyjs(),
     titlePanel("Marvel Legendary Setup Generator"),
-
     sidebarLayout(
         sidebarPanel(
-            numericInput("playerc","Number of Players",2,2,5,1),
-            selectizeInput("fixedSCH",
+            fluidRow(
+            column(
+                numericInput("playerc",
+                                "Number of Players",
+                                2,2,5,1),
+                width=6
+                ),
+            column(
+                actionButton("presets",
+                             "Presets?"),
+                width=5,
+                offset=1,
+                style = "margin-top: 20px;"
+                )),
+            hidden(selectizeInput("fixedSCH",
                            "Scheme",
-                           choices=schemaslist),
-            selectizeInput("fixedMM",
+                           choices=schemaslist)),
+            hidden(selectizeInput("fixedMM",
                            "Mastermind",
-                           choices=mmaslist),
-            selectizeInput("fixedHM",
+                           choices=mmaslist)),
+            hidden(selectizeInput("fixedHM",
                            "Henchmen",
-                           choices=henchaslist),
-            selectizeInput("fixedVIL",
+                           choices=henchaslist)),
+            hidden(selectizeInput("fixedVIL",
                            "Villains",
                            choices=vilaslist,
                            multiple=T,
-                           options = list(maxItems=6)),
-            selectizeInput("fixedHER",
+                           options = list(maxItems=6))),
+            hidden(selectizeInput("fixedHER",
                            "Heroes",
                            choices = heroaslist,
                            multiple=T,
-                           options = list(maxItems=8)),
-            checkboxInput("epic","Epic?"),
-            selectizeInput("dropset","Sets excluded",choices=setaslist,multiple=T),
-            actionButton("go","Start"),
-            #numericInput("runs","Number of runs",value=100,min=1,max=2000,step=10),
-            sliderInput("game", 
-                        label = "Selected setup:",
-                        min = 1, max = 100, value = 1)#,
-            #br(),
-            #actionButton("teamlookup","Hero's Team?")
+                           options = list(maxItems=8))),
+            fluidRow(
+            column(selectizeInput("dropset",
+                           "Sets excluded",
+                           choices=setaslist,
+                           multiple=T),
+                   width=8),
+            column(checkboxInput("epic","Epic?"),
+                   width=4,
+                   style = "margin-top: 20px;")),
+            fluidRow(
+                column(selectizeInput("incset",
+                               "Sets included",
+                               choices=setaslist,
+                               multiple=T),
+                       width=9),
+                column(numericInput("incsetThreshold",
+                             "Min:",
+                             1,1,5,1),
+                       width=3)),
+            actionButton("go",
+                         "Start"),
+            uiOutput("gameslider"),
+            width=5
         ),
         mainPanel(tableOutput("setups"),
-                  actionButton("print","Copy setup"),
+                  br(),
+                  hidden(actionButton("print","Copy setup")),
                   textOutput("printsuccess"),
                   br(),
-                  textOutput("herosteam"),
-                  actionButton("metricsgo","Get Metrics"),
-                  tableOutput("metrics"))
+                  hidden(actionButton("metricsgo","Get Metrics")),
+                  tableOutput("metrics"),
+                  width=7)
     )
 )
 
 server <- function(input, output) {
-
+    
+    observeEvent(input$presets, {
+        toggle("fixedSCH")
+        toggle("fixedMM")
+        toggle("fixedHM")
+        toggle("fixedVIL")
+        toggle("fixedHER")
+    })
     gamelist <- eventReactive(input$go,{
+        withProgress(message = "Processing",value = 0, {
         games=list()
         for (i in 1:100) {
             games[[i]] = genFun(src,
@@ -128,35 +162,46 @@ server <- function(input, output) {
                             fixedHER = input$fixedHER,
                             epic = input$epic,
                             dropset=input$dropset)
+            incProgress(0.01,detail = paste("Setup",i))
         }
-        
+        games = setGames(games,
+                         setreq = input$incset,
+                         dropgames = input$incsetThreshold)
+        })
+        hide("metrics")
         return(games)
     })
     observeEvent(input$go,{
-        output$setups <- renderTable(setupSumm(gamelist()[[input$game]],
-                                               input$game),
+        output$gameslider <- renderUI({
+            sliderInput("selectgame", 
+                        label = "Selected setup:",
+                        min = 1,
+                        max = length(gamelist()),
+                        value = 1,
+                        step = 1)
+        })
+    })
+    observeEvent(input$selectgame,{
+        output$setups <- renderTable(setupSumm(gamelist()[[input$selectgame]],
+                                               input$selectgame),
                                      hover=T,
                                      rownames=T,
                                      sanitize.text.function=identity)
+        show("print")
+        show("metricsgo")
     })
     observeEvent(input$metricsgo,{
         metrics = metricsLoop(gamelist())
-        output$metrics = renderTable(metricsPrint(metrics[[input$game]]),
+        output$metrics = renderTable(metricsPrint(metrics[[input$selectgame]]),
                                      rownames = T,
                                      colnames = T,
                                      sanitize.text.function=identity)
+        show("metrics")
     })
-    # observeEvent(input$teamlookup,{
-    #     output$herosteam = renderText({
-    #         paste0("Hero's team: ",
-    #                teamlookup(isolate(input$fixedHER),
-    #                           src))
-    #         })
-    # })
     observeEvent(input$print,{
-        setupPrint(gamelist()[[input$game]])
+        setupPrint(gamelist()[[input$selectgame]])
         output$printsuccess = renderText({
-            paste0("Setup ",isolate(input$game)," copied succesfully!")
+            paste0("Setup ",isolate(input$selectgame)," copied succesfully!")
         })
     })
 }
