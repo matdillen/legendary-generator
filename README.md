@@ -1,17 +1,21 @@
 # legendary-generator
  
-An R script in development to generate setups for the Marvel Legendary deck-building game by [Upper Deck](https://upperdeckstore.com/games-collectibles/legendary.html). Can be used from any R IDE and can be ported to e.g. Google Colab for mobile use (updated notebook to be added soon).
+An Shiny R app in development to generate setups for the Marvel Legendary deck-building game by [Upper Deck](https://upperdeckstore.com/games-collectibles/legendary.html). The `app.R` file can be run from an R IDE such as [RStudio](https://rstudio.com/).
 
-`legscript.Rmd` uses digitized card info to generate setups. A few helper functions are available.
+All Marvel Legendary cards released up to this date (2020-17-07) should be present, bar a few promotional cards and cards added in MCU Phase 1 and other game rereleases. Errors in transcription may be present. Unessential information such as individual hero card names or mastermind tactics names may not be fully transcribed.
 
-`metrics.Rmd` offers a starting point for automatically analyzing setups in terms of how easy or hard they will be, based on metrics listed in the source files for each card. Some metrics can be generated and compared.
+The app is designed to generate 100 setups with each run, depending on all the input parameters. Choosing preferential sets may diminish the setup count, possibly to 0. The following options are currently supported:
 
-`box organization.xlsx` contains a list of keywords with brief explanations, printable on a double-sides sheet. It also contains a few card errata instances and a schematic view of my own box setup.
+- Setting preferential cards to be included.
+- Excluding certain expansions.
+- Including a minimum set of cards from certain preferential expansions.
+- Toggling the possibility of epic masterminds.
+- Calculating certain metrics for the setup. This includes indicators for wound frequency, probability of escaping villains, deficits for hero colors and more. However, their reliability and interpretation is still under development.
+- Adjusting player count. Playing solo by the book is not supported and 5 players has been known to throw errors. For solo play, playing two hands is recommended.
 
-`results.xlsx` offers a template for keeping track of games played and their outcome. These can be used for evaluation of the metrics generated.
+A generated setup can be easily copied to clipboard for keeping track of setup outcomes in a spreadsheet. An example sheet with some results can be found in `results.xlsx` under `support`.
 
-`data` contains the csv files used and their source xlsx files, which have been designed for easy data addition and also contain field metadata.
+Also in `support`, `box organization.xlsx` contains a list of keywords with brief explanations, printable on a double-sides sheet. It also contains a few card errata instances and a schematic view of my own box setup.
 
-In `ledgen`, a shiny app can be found with a user interface. Metrics functionality will also be better supported there. The app is still under development and some functions may not be supported yet or be buggy.
+`data` contains the csv files used and their source xlsx files, which have been designed for easy data addition and also contain field metadata used in the metrics.
 
-All Marvel Legendary cards released up to this date (2020-17-07) should be present, bar a few promotional cards and cards added in MCU Phase 1 and other game rereleases. Errors in transcription may be present. 
