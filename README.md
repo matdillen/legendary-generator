@@ -1,6 +1,6 @@
 # legendary-generator
  
-An Shiny R app in development to generate setups for the Marvel Legendary deck-building game by [Upper Deck](https://upperdeckstore.com/games-collectibles/legendary.html). The `app.R` file can be run from an R IDE such as [RStudio](https://rstudio.com/).
+A Shiny R app in development to generate setups for the Marvel Legendary deck-building game by [Upper Deck](https://upperdeckstore.com/games-collectibles/legendary.html). The `app.R` file can be run from an R IDE such as [RStudio](https://rstudio.com/).
 
 All Marvel Legendary cards released up to this date (2020-17-07) should be present, bar a few promotional cards and cards added in MCU Phase 1 and other game rereleases. Errors in transcription may be present. Unessential information such as individual hero card names or mastermind tactics names may not be fully transcribed.
 
