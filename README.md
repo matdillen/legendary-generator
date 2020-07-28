@@ -7,7 +7,7 @@ All Marvel Legendary cards released up to this date (2020-17-07) should be prese
 The app is designed to generate multiple setups with each run, depending on all the input parameters. The default is 100, but 1 up to 1.000 is possible. Choosing preferential sets may diminish the setup count, possibly to 0. The following options are currently supported:
 
 - Setting preferential cards to be included.
-- Visualizing text dumps of card text.
+- Visualizing text dumps of card text. Card texts have been taken from the [wiki](https://www.boardgamegeek.com/wiki/page/Legendary_Marvel_Complete_Card_Text) on Boardgamegeek. Markdown and style of text still needs to be implemented.
 - Adjusting the number of setups generated with each run.
 - Excluding certain expansions.
 - Including a minimum set of cards from certain preferential expansions.
