@@ -1,10 +1,13 @@
 library(tidyverse)
 library(magrittr)
 library(shiny)
-library(shinyjs)
+library(shinyjs) #needed for hiding and showing things
+#library(data.table)
+library(DT)
+#library(shinyalert) #use to make popups, maybe showing card image or info
 
 source("helpers.R")
-options(dplyr.summarise.inform=F) 
+options(dplyr.summarise.inform=F) #block obscure dplyr warning
 
 #data import
 heroes=read_csv('data/heroes.csv')
@@ -13,11 +16,14 @@ villains=read_csv('data/villains.csv')
 henchmen=read_csv('data/henchmen.csv')
 masterminds=read_csv('data/masterminds.csv')
 
+heroestext = read_tsv('data/heroestext.csv')
+
 #format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
 names(src) = c("heroes","schemes","villains","henchmen","masterminds")
 
 #format a list of heroes with proper ids
+#arrange by abc and add an empty initial value
 src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
 herolist = distinct(src$heroes,uni)
 herolist = rbind(herolist,uni="")
@@ -69,6 +75,7 @@ names(setaslist) = setlist$label
 
 ui <- fluidPage(
     useShinyjs(),
+    #useShinyalert(),
     titlePanel("Marvel Legendary Setup Generator"),
     sidebarLayout(
         sidebarPanel(
@@ -129,7 +136,7 @@ ui <- fluidPage(
             uiOutput("gameslider"),
             width=5
         ),
-        mainPanel(tableOutput("setups"),
+        mainPanel(dataTableOutput("setups"),
                   br(),
                   hidden(actionButton("print","Copy setup")),
                   textOutput("printsuccess"),
@@ -181,14 +188,35 @@ server <- function(input, output) {
                         step = 1)
         })
     })
+    livesetup <- eventReactive(input$selectgame,{
+        summ = setupSumm(gamelist()[[input$selectgame]],
+                         input$selectgame)
+        return(summ)
+    })
     observeEvent(input$selectgame,{
-        output$setups <- renderTable(setupSumm(gamelist()[[input$selectgame]],
-                                               input$selectgame),
-                                     hover=T,
-                                     rownames=T,
-                                     sanitize.text.function=identity)
+        output$setups <- DT::renderDataTable(livesetup(),
+                                             escape=F,
+                                             rownames=F,
+                                             selection=list(
+                                                 mode="single"),
+                                             options = list(
+                                                 paging = F,
+                                                 searching = F,
+                                                 ordering = F,
+                                                 info = F))
         show("print")
         show("metricsgo")
+    })
+    observeEvent(input$setups_cell_clicked, {
+        text = filter(heroestext,heroname%in%livesetup()[input$setups_rows_selected,1])
+        if (dim(text)[1]>0) {
+            text %<>% arrange(heroname) %>%
+                mutate(text = gsub("\n","<br>",text))
+        showModal(modalDialog(title = paste0(text$heroname," Card Text"),
+                  HTML(paste(text$text,collapse="<br><br>")),
+                  easyClose = T,
+                  footer=NULL))
+        }
     })
     observeEvent(input$metricsgo,{
         metrics = metricsLoop(gamelist())

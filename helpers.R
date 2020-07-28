@@ -313,21 +313,24 @@ genFun = function(src,
                          "heroes")
   return(resu)
 }
+#avengers vs x-men returned only one hero
 
 setupSumm <- function(game,setupid) {
+  require(data.table)
   game$Heroes = gsub("_"," (",game$Heroes)
   game$Heroes = paste0(game$Heroes,")")
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
-            paste(game$Villains,collapse="<br>"),
-            paste(game$Henchmen,collapse="<br>"),
-            paste(game$Heroes,collapse="<br>"))
-  setup = data.frame(data=setup, row.names=c("<b>Scheme</b>",
-                                             "<b>Mastermind</b>",
-                                             "<b>Villains</b>",
-                                             "<b>Henchmen</b>",
-                                             "<b>Heroes</b>"))
+            "<br>",
+            game$Villains,
+            "<br>",
+            game$Henchmen,
+            "<br",
+            game$Heroes)
+  setup = data.frame(data=setup)
+                     
   colnames(setup) = paste0("Setup ",setupid)
+  #setup = as.data.table(setup,keep.rownames=T)
   return(setup)
 }
 
