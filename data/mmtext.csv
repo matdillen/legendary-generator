@@ -845,6 +845,7 @@ Arcade	"
 Attack: 3*
 VP: 5
 
+[size=14]'''''Epic Arcade'''''[/size]
 '''Start of Game''': Arcade captures 8 '''Human Shields'''. Play a random Horror.
 '''Always Leads''': Murderworld
 '''Master Strike''': Arcade captures two random Bystanders from each player's Victory Pile as a '''Human Shield'''. Each player who didn't have two Bystanders gains a Wound instead.
@@ -871,6 +872,7 @@ Dark Phoenix Wins: When the Hero Deck is empty.
 13 Attack
 VP: 7
 
+[size=14]'''''Epic Dark Phoenix'''''[/size]
 '''Always Leads''': Hellfire Club
 '''Master Strike''': KO the top card of the Hero Deck and each card in the Hero Deck that shares a color with it. Shuffle the Hero Deck. Then, each player plays a Hellfire Club card from their victory Pile. Next, play a random Horror.
 Dark Phoenix Wins: When the Hero Deck is empty.
@@ -897,6 +899,7 @@ Deathbird gets +1 Attack for each Shi'ar Villain in the city and Escape Pile.
 Attack: 8+
 VP: 6
 
+[size=14]'''''Epic Deathbird'''''[/size]
 Deathbird gets +2 Attack for each Shi'ar Villain in the city and Escape Pile.
 '''Always Leads''': Shi'ar Imperial Guard and a Shi'ar Henchmen Group.
 '''Master Strike''': If there are already any Shi'ar Villains in the city, play a random Horror. Then this strike enters the city as a Shi'ar Battle Cruiser Token Villain with 9 Attack worth 6 VP.
@@ -923,6 +926,7 @@ Mojo	"
 Attack: 6*
 VP: 5
 
+[size=14]'''''Epic Mojo'''''[/size]
 '''Start of Game''': Mojo captures 6 '''Human Shields'''. Play a random Horror. All Bystanders in Victory Piles are worth 4 VP.
 '''Always Leads''': Mojoverse
 '''Master Strike''': Mojo and each Mojoverse Villain capture a '''Human Shield'''. Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or discards down to 4 cards each.
@@ -949,6 +953,7 @@ Each player's hand size is 1 less.
 Attack: 10+
 VP: 7
 
+[size=14]'''''Epic Onslaught'''''[/size]
 Each player's hand size is 1 less.
 '''Always Leads''': Dark Descendants
 '''Master Strike''': KO all Heroes Dominated by Onslaught. Then each player reveals their hand and chooses two of their non-grey Heroes. Onslaught Dominates those Heroes. Then play a random Horror.
@@ -974,6 +979,7 @@ Shadow King	"
 Attack: 7+
 VP: 6
 
+[size=14]'''''Epic Shadow King'''''[/size]
 '''Start of Game''': Play two random Horrors.
 '''Always Leads''': Shadow-X
 '''Master Strike''': KO all Heroes Dominated by Shadow King. Then each player chooses a non-grey Hero from their discard pile. Shadow King Dominates those Heroes.
@@ -1002,6 +1008,7 @@ Adrian Toomes	"
 '''Attack''': 5+
 '''VP''': 6
 
+[size=14]'''''Epic Adrian Toomes'''''[/size]
 '''Triple Striker'''
 '''Always Leads''': Salvagers
 '''Master Strike''': Starting from the Sewers, each Villain in the city uses its ""Ambush"" ability, then its ""Escape"" ability.
@@ -1030,6 +1037,7 @@ Vulture	"
 '''Attack''': 8+
 '''VP''': 6
 
+[size=14]'''''Epic Vulture'''''[/size]
 '''Striker'''
 '''Always Leads''': Vulture Tech
 '''Master Strike''': Put a Wound from the Wound Stack or KO pile below each HQ space as a ""Winged Assault."" Whenever a player gains or KOs a Hero from the HQ, the player on their right gains one of the Wounds below that HQ space, putting it on top of their deck.
@@ -1058,6 +1066,7 @@ Fin Fang Foom	"
 '''Attack''': 20*
 '''VP''': 7
 
+[size=14]'''''Epic Fin Fang Foom'''''[/size]
 '''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png
 '''Always Leads''': Monsters Unleashed
 '''Master Strike''': '''Demolish''' each player, then do it again for each Monsters Unleashed Villain in the city and Escape Pile. KO all the Heroes '''Demolished''' this way.
@@ -1084,6 +1093,7 @@ Pagliacci	"
 '''Attack''': 9
 '''VP''': 6
 
+[size=14]'''''Epic Pagliacci'''''[/size]
 '''Always Leads''': Wrecking Crew
 '''Master Strike 1, 3, 5''': This card becomes a Scheme Twist that takes effect immediately.
 '''Master Strike 2, 4''': '''Demolish''' each player.
@@ -1114,6 +1124,7 @@ General Ross	"
 '''Attack''': 6*
 '''VP''': 6
 
+[size=14]'''''Red Hulk (Mastermind, Transformed)'''''[/size]
 
 '''Wounded Fury'''
 You can't fight Helicopters, and they don't stop you from fighting Red Hulk.
@@ -1146,6 +1157,7 @@ This Mastermind gets +4 Attack unless you '''Outwit''' them.
 '''Attack''': 11+
 '''VP''': 7
 
+[size=14]'''''Illuminati, Open Warfare (Mastermind, Transformed)'''''[/size]
 
 Whenever a card effect causes a player to draw any number of cards, that player must then also discard a card.
 '''Master Strike''': Each player reveals their hand and discards two cards that each cost between 5 and 8. The Illuminati '''Transform'''.
@@ -1177,6 +1189,7 @@ King Hulk gets +1 Attack for each Warbound Villain in the city and in the Escape
 '''Attack''': 9+
 '''VP''': 6
 
+[size=14]'''''King Hulk, Worldbreaker (Mastermind, Transformed)'''''[/size]
 
 '''Wounded Fury'''
 '''Master Strike''': Each player reveals their hand, then KO's a card from their hand or discard pile that has the same card name as a card in the HQ. King Hulk '''Transforms'''.
@@ -1207,6 +1220,7 @@ All cards' '''Outwit''' abilities require four different costs instead of three.
 '''Attack''': 9
 '''VP''': 6
 
+[size=14]'''''M.O.D.O.K., Network Nightmare (Mastermind, Transformed)'''''[/size]
 You can only fight M.O.D.O.K with Recruit, not Attack.
 '''Master Strike''': Each player who can't '''Outwit''' M.O.D.O.K. KO's a non-grey Hero from their discard pile. M.O.D.O.K. '''Transforms'''.
 '''Attack''': 8*
@@ -1236,6 +1250,7 @@ You can't fight the Red King while any Villains are in the city.
 '''Attack''': 7*
 '''VP''': 6
 
+[size=14]'''''The Red King, Power Armored (Mastermind, Transformed)'''''[/size]
 '''Master Strike''': The Red King Transforms, then play another card from the Villain Deck.
 '''Attack''': 10
 '''VP''': 6
@@ -1264,6 +1279,7 @@ The Sentry	"
 '''Attack''': 10
 '''VP''': 6
 
+[size=14]'''''The Void (Mastermind, Transformed)'''''[/size]
 '''Wounded Fury'''
 '''Master Strike''': '''Feast''' on each player. If this feasts on a player's grey Hero, that player gains a Wound.
 The Void '''Transforms'''.
@@ -1296,6 +1312,7 @@ Ultron	"
 Attack: 9+
 VP: 6
 
+[size=14]'''''Epic Ultron'''''[/size]
 
 '''Always Leads''': Ultron's Legacy
 '''Master Strike''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or puts a non-grey Hero from their discard pile into a ""Threat Analysis pile"" next to Ultron. Ultron is '''Triple Empowered''' by each color in his Threat Analysis pile.
@@ -1324,6 +1341,7 @@ Attack: 7*
 VP: 6
 
 
+[size=14]'''''Epic Morgan Le Fay'''''[/size]
 
 '''Chivalrous Duel'''
 '''Always Leads''': Queen's Vengeance
@@ -1353,6 +1371,7 @@ If you fight Hybrid while he's bonded to a Villain, defeat that Villain and resc
 '''Attack''': 6
 '''VP''': 6
 
+[size=14]'''''Epic Hybrid'''''[/size]
 If you fight Hybrid while he's bonded to a Villain, defeat that Villain and rescue three Bystanders instead of taking a Tactic.
 '''Always Leads''': Life Foundation
 '''Master Strike''': The highest Attack unbonded Villain from the city and/or Escape Pile '''Symbiote Bonds''' with Hybrid. If no new bond could occur, then each player gains a Wound instead.
@@ -1379,6 +1398,7 @@ Poison Thanos gets +1 Attack for each different cost among cards in his ""Poison
 '''Attack''': 12+
 '''VP''': 7
 
+[size=14]'''''Epic Poison Thanos'''''[/size]
 Poison Thanos gets +2 Attack for each different cost among cards in his ""Poisoned Souls"" pile.
 '''Always Leads''': Poisons
 '''Master Strike''': Each player reveals their hand and puts half (round up) of their non-grey Heroes net to Thanos in a ""Poisoned Souls"" pile. Each player that lost no Heroes this way gains a Wound.
@@ -1409,6 +1429,7 @@ J. Jonah Jameson	"
 Attack: 4*
 VP: 5
 
+[size=14]'''''Epic J. Jonah Jameson'''''[/size]
 
 '''Start of Game''': Put 3 S.H.I.E.L.D. Officers per player into a face down ""Angry Mobs"" stack.
 '''Special Rules''': You can spend 5 Attack to reveal a random Angry Mob and put it into any player's discard pile. You can't fight J. Jonah Jameson while he has Angry Mobs.
@@ -1439,6 +1460,7 @@ Grim Reaper gets +1 Attack for each Location card in the city.
 Attack: 8+
 VP: 6
 
+[size=14]'''''Epic Grim Reaper'''''[/size]
 Grim Reaper gets +2 Attack for each Location card in the city.
 '''Always Leads''': Lethal Legion
 '''Master Strike''': This Strike enters the city as an 8 Attack ""Graveyard"" Location that says ""This gets +3 Attack while there's a Villain here."" It's worth 6VP. Then, if there are at least three Location cards in the city, each player gains a Wound.
@@ -1470,6 +1492,7 @@ Mandarin gets -1 Attack for each Mandarin's Ring among all players' Victory Pile
 Attack: 16*
 VP: 6
 
+[size=14]'''''Epic Mandarin'''''[/size]
 All Mandarin's Rings get +2 Attack. 
 Mandarin gets -2 Attack for each Mandarin's Ring among all players' Victory Piles. (-6 Attack for each in solo.)
 '''Always Leads''': Mandarin's Rings
@@ -1499,6 +1522,7 @@ The Hood	"
 Attack: 9+
 VP: 6
 
+[size=14]'''''Epic Hood'''''[/size]
  '''Double Dark Memories'''
 '''Always Leads''': Hood's Gang
 '''Master Strike''': Each player discards their deck, then shuffles 6 random grey cards from their discard pile to form their new deck.
@@ -1590,6 +1614,7 @@ Malekith the Accursed	"
 Attack: 8
 VP: 6
 
+[size=14]'''''Epic Malekith the Accursed'''''[/size]
 '''Always Leads''': Dark Council
 '''Master Strike''': Malekith captures a '''Villainous Weapon''' from the city, then captures one from any player's control or discard pile. Then this Master Strike enters the city as a '''Villainous Weapon''' called ""Darkspear"" that gives +3 Attack. When you gain a Darkspear, it becomes a '''Thrown Artifact''' that gives +2 Attack when thrown.
 Attack: 10
@@ -1624,6 +1649,7 @@ Hela, Goddess of Death	"
 Attack: 10+
 VP: 6
 
+[size=14]'''''Epic Hela, Goddess of Death'''''[/size]
 '''Bridge Conqueror 6,''' '''Streets Conqueror 6,''' '''Rooftops Conqueror 6'''
 '''Always Leads''': Omens of Ragnarok
 '''Master Strike''': This Strike enters the city as a 6 Attack ""Army of the Dead"" Villain worth 4VP. Then choose a Villain worth 4VP or more from your Victory Pile ''(including an Army of the Dead)'' to enter the city. If you didn't have any, each player gains a Wound.
@@ -1656,6 +1682,7 @@ Belasco gets +Attack equal to the number of non-grey Heroes in the KO pile, divi
 Attack: 9+
 VP: 6
 
+[size=14]'''''Epic Belasco'''''[/size]
 Belasco gets +Attack equal to the number of non-grey Heroes in the KO pile, divided by the number of players ''(round down)''.
 '''Always Leads''': Demons of Limbo
 '''Master Strike''': '''Sunlight''': Each player KOs two non-grey Heroes from their discard pile. '''Moonlight''': Each player has two '''Waking Nightmares'''. KO Heroes discarded this way.
@@ -1682,6 +1709,7 @@ During your turn, Emma Frost gets +1 Attack for each grey Hero you have.
 Attack: 8+
 VP: 6
 
+[size=14]'''''Epic Emma Frost'''''[/size]
 During your turn, Emma Frost gets +2 Attack for each grey Hero you have.
 '''Always Leads''': Hellions
 '''Master Strike''': Stack this Strike next to Emma Frost. Then each player has a '''Waking Nightmare''' for each Strike stacked here, then one more '''Waking Nightmare'''.

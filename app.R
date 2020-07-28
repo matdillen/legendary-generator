@@ -22,8 +22,25 @@ heroestext %<>%
     rename(id = heroname)
 mmtext = read_tsv('data/mmtext.csv')
 mmtext %<>% rename(id = mmtext)
+schemtext = read_tsv('data/schemtext.csv')
+schemtext %<>% rename(id = schemtext)
+viltext = read_tsv('data/viltext.csv')
+viltext %<>% rename(id = viltext)
+henchtext = read_tsv('data/henchtext.csv')
+henchtext %<>% rename(id = henchtext)
+#duplicate ids are possible in theory
+#in practice one occurs: maximum carnage
+#now captured by difference in casing, but needs a more reliable fix
+#probably work with card type namespace somehow, but this requires quite some changes
+tooltext = rbind(select(heroestext,text,id),mmtext,viltext,schemtext,henchtext)
 
-tooltext = rbind(select(heroestext,text,id),mmtext)
+#find a way to render color symbols
+#and later team icons and fight/money icons
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26283_0.png","RED",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26284_0.png","YELLOW",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26285_0.png","BLUE",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26286_0.png","GREEN",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26287_0.png","SILVER",tooltext$text)
 
 #format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
@@ -138,8 +155,18 @@ ui <- fluidPage(
                              "Min:",
                              1,1,5,1),
                        width=3)),
-            actionButton("go",
-                         "Start"),
+            fluidRow(
+                column(actionButton("go",
+                                    "Start"),
+                       width=3,
+                       style = "margin-top: 25px;"),
+                column(numericInput("gamecount",
+                             "# runs",
+                             100,
+                             1,
+                             1000,
+                             1),
+                       width=4)),
             uiOutput("gameslider"),
             width=5
         ),
@@ -166,7 +193,7 @@ server <- function(input, output) {
     gamelist <- eventReactive(input$go,{
         withProgress(message = "Processing",value = 0, {
         games=list()
-        for (i in 1:100) {
+        for (i in 1:input$gamecount) {
             games[[i]] = genFun(src,
                             playerc = input$playerc,
                             fixedSCH = input$fixedSCH,
@@ -176,7 +203,7 @@ server <- function(input, output) {
                             fixedHER = input$fixedHER,
                             epic = input$epic,
                             dropset=input$dropset)
-            incProgress(0.01,detail = paste("Setup",i))
+            incProgress(1/input$gamecount,detail = paste("Setup",i))
         }
         games = setGames(games,
                          setreq = input$incset,
