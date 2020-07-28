@@ -17,6 +17,13 @@ henchmen=read_csv('data/henchmen.csv')
 masterminds=read_csv('data/masterminds.csv')
 
 heroestext = read_tsv('data/heroestext.csv')
+heroestext %<>% 
+    select(-id) %>%
+    rename(id = heroname)
+mmtext = read_tsv('data/mmtext.csv')
+mmtext %<>% rename(id = mmtext)
+
+tooltext = rbind(select(heroestext,text,id),mmtext)
 
 #format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
@@ -208,11 +215,10 @@ server <- function(input, output) {
         show("metricsgo")
     })
     observeEvent(input$setups_cell_clicked, {
-        text = filter(heroestext,heroname%in%livesetup()[input$setups_rows_selected,1])
+        text = filter(tooltext,id%in%livesetup()[input$setups_rows_selected,1])
         if (dim(text)[1]>0) {
-            text %<>% arrange(heroname) %>%
-                mutate(text = gsub("\n","<br>",text))
-        showModal(modalDialog(title = paste0(text$heroname," Card Text"),
+            text %<>% mutate(text = gsub("\n","<br>",text))
+        showModal(modalDialog(title = paste0(text$id," Card Text"),
                   HTML(paste(text$text,collapse="<br><br>")),
                   easyClose = T,
                   footer=NULL))
