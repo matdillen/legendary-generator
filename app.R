@@ -245,7 +245,7 @@ server <- function(input, output) {
         text = filter(tooltext,id%in%livesetup()[input$setups_rows_selected,1])
         if (dim(text)[1]>0) {
             text %<>% mutate(text = gsub("\n","<br>",text))
-        showModal(modalDialog(title = paste0(text$id," Card Text"),
+        showModal(modalDialog(title = "Card Text",
                   HTML(paste(text$text,collapse="<br><br>")),
                   easyClose = T,
                   footer=NULL))

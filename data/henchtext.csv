@@ -1,232 +1,203 @@
 henchtext	text
-Doombot Legion	"
-'''Fight''': Look at the top two cards of your deck. KO one of them and put the other back.
-'''Attack''': 3
-'''VP''': 1
-"
-Hand Ninjas	"
-'''Fight''': You get +1 Recruit.
-'''Attack''': 3
-'''VP''': 1
-"
-Savage Land Mutates	"
-'''Fight''': When you draw a new hand of cards at the end of this turn, draw an extra card.
-'''Attack''': 3
-'''VP''': 1
-"
-Sentinel	"
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3
-'''VP''': 1
+Doombot Legion	"<font size='3'>Doombot Legion</font>
+<b>Fight</b>: Look at the top two cards of your deck. KO one of them and put the other back.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Hand Ninjas	"<font size='3'>Hand Ninjas</font>
+<b>Fight</b>: You get +1 Recruit.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Savage Land Mutates	"<font size='3'>Savage Land Mutates</font>
+<b>Fight</b>: When you draw a new hand of cards at the end of this turn, draw an extra card.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Sentinel	"<font size='3'>Sentinel</font>
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
+"
+Maggia Goons	"<font size='3'>Maggia Goons</font>
+<b>Bribe</b>
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 4*
+<b>VP</b>: 1"
+Phalanx	"<font size='3'>Phalanx</font>
+<b>Fight</b>: Reveal a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or KO one of your Heroes with an Attack icon.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-"
-Maggia Goons	"
-'''Bribe'''
-'''Fight''': KO one of your Heroes.
-'''Attack''': 4*
-'''VP''': 1
-"
-Phalanx	"
-'''Fight''': Reveal a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or KO one of your Heroes with an Attack icon.
-'''Attack''': 3
-'''VP''': 1
+"
+Asgardian Warriors	"<font size='3'>Asgardian Warriors</font>
+<b>Fight</b>: Draw a card.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Cops	"<font size='3'>Cops</font>
+<b>Fight</b>: Gain a New Recruit.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Multiple Man	"<font size='3'>Multiple Man</font>
+<b>Fight</b>: KO one of your Allies for each other Multiple Man in your Victory Pile.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+S.H.I.E.L.D. Assault Squad	"<font size='3'>S.H.I.E.L.D. Assault Squad</font>
+<b>Fight</b>: Discard the top card of your deck. Then KO an Ally from your discard pile.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-
-"
-Asgardian Warriors	"
-'''Fight''': Draw a card.
-'''Attack''': 3
-'''VP''': 1
-"
-Cops	"
-'''Fight''': Gain a New Recruit.
-'''Attack''': 3
-'''VP''': 1
-"
-Multiple Man	"
-'''Fight''': KO one of your Allies for each other Multiple Man in your Victory Pile.
-'''Attack''': 3
-'''VP''': 1
-"
-S.H.I.E.L.D. Assault Squad	"
-'''Fight''': Discard the top card of your deck. Then KO an Ally from your discard pile.
-'''Attack''': 3
-'''VP''': 1
-
-
-"
-Ghost Racers	"
+"
+Ghost Racers	"<font size='3'>Ghost Racers</font>
 Ambush: Rise of the Living Dead
-'''Fight''': Reveal a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or KO one of your Heroes with an Attack icon.
-'''Attack''': 3
-'''VP''': 1
-"
-M.O.D.O.K.s	"
-'''Fight''': KO a Hero from your discard pile or the HQ. If that Hero has a Recruit icon, you get +1 Recruit.
-'''Attack''': 3
-'''VP''': 1
-"
-Thor Corps	"
-'''Fight''': Gain this as a Hero.
-'''Attack''': 3
+<b>Fight</b>: Reveal a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or KO one of your Heroes with an Attack icon.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+M.O.D.O.K.s	"<font size='3'>M.O.D.O.K.s</font>
+<b>Fight</b>: KO a Hero from your discard pile or the HQ. If that Hero has a Recruit icon, you get +1 Recruit.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Thor Corps	"<font size='3'>Thor Corps</font>
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 3
 ---
 Team: Avengers
 Class: https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png
 2+ Recruit
 https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png: You get +1 Recruit.
 
-
-"
-Khonshu Guardians	"
+"
+Khonshu Guardians	"<font size='3'>Khonshu Guardians</font>
 While in the Sewers, Rooftops or Bridge, this is in ""wolf form"" and gets +2 Attack.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3
-'''VP''': 1
-"
-Magma Men	"
-'''Fight''': KO one of your Heroes."
-Fateful Resurrection	"
-'''Attack''': 3
-'''VP''': 1
-"
-Spider-Infected	"
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Magma Men	"<font size='3'>Magma Men</font>
+<b>Fight</b>: KO one of your Heroes."
+Fateful Resurrection	"<font size='3'>Fateful Resurrection</font>
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Spider-Infected	"<font size='3'>Spider-Infected</font>
 Ambush: This captures a Bystander.
-'''Fight''': The next Hero you gain this turn has Wall-Crawl.
-'''Attack''': 3
-'''VP''': 1
+<b>Fight</b>: The next Hero you gain this turn has Wall-Crawl.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-
-"
-Mandroid	"
+"
+Mandroid	"<font size='3'>Mandroid</font>
 This gets +1 Attack for each other Mandroid in your Victory Pile.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 2+
-'''VP''': 1
-"
-Cape-Killers	"
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 2+
+<b>VP</b>: 1"
+Cape-Killers	"<font size='3'>Cape-Killers</font>
 S.H.I.E.L.D. Clearance
-'''Fight''': KO a card from your discard pile.
-'''Attack''': 3*
-'''VP''': 1
+<b>Fight</b>: KO a card from your discard pile.
+<b>Attack</b>: 3*
+<b>VP</b>: 1
 
-
-"
-The Brood	"
+"
+The Brood	"<font size='3'>The Brood</font>
 This Villain gets +1 Attack for each Bystander in the KO pile.
-'''Fight''': KO one of your Heroes. Then KO a Bystander from the Bystander Stack.
-'''Attack''': 1+
-'''VP''': 1
-"
-Hellfire Cult	"
-'''Fight''': Reveal the top card of your deck. If it costs 0, KO it. Otherwise, you get +1 Recruit.
-'''Attack''': 3
-'''VP''': 1
-"
-Sapien League	"
-'''Fight''': KO one of your Heroes. Then, reveal the top card of the Villain Deck. If it's a Henchman Villain, play it.
-'''Attack''': 3
-'''VP''': 1
-"
-Shi'ar Death Commandos	"
-'''Ambush''': The Villain captures a Human Shield.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 2*
-'''VP''': 1
-"
-Shi'ar Patrol Craft	"
-'''Fight''': The next Hero you recruit this turn has '''Soaring Flight'''.
-'''Attack''': 3
-'''VP''': 1
+<b>Fight</b>: KO one of your Heroes. Then KO a Bystander from the Bystander Stack.
+<b>Attack</b>: 1+
+<b>VP</b>: 1"
+Hellfire Cult	"<font size='3'>Hellfire Cult</font>
+<b>Fight</b>: Reveal the top card of your deck. If it costs 0, KO it. Otherwise, you get +1 Recruit.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Sapien League	"<font size='3'>Sapien League</font>
+<b>Fight</b>: KO one of your Heroes. Then, reveal the top card of the Villain Deck. If it's a Henchman Villain, play it.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Shi'ar Death Commandos	"<font size='3'>Shi'ar Death Commandos</font>
+<b>Ambush</b>: The Villain captures a Human Shield.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 2*
+<b>VP</b>: 1"
+Shi'ar Patrol Craft	"<font size='3'>Shi'ar Patrol Craft</font>
+<b>Fight</b>: The next Hero you recruit this turn has <i>'Soaring Flight</i>'.
+<b>Attack</b>: 3
+<b>VP</b>: 1
+
+"
+Cytoplasm Spikes	"<font size='3'>Cytoplasm Spikes</font>
+<b>Fight</b>: <i>'Feast</i>'. If Cytoplasm Spikes feasts on a non-grey Hero, you get +2 Recruit.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Death's Heads	"<font size='3'>Death's Heads</font>
+<b>Fight</b>: If you <i>'Outwit</i>' these Death's Heads, KO one of your cards that costs 0.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Sakaaran Hivelings	"<font size='3'>Sakaaran Hivelings</font>
+<b>Fight</b>: Look at the top card of your deck. Put it back on the top or bottom. Then <i>'Feast</i>'.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
 
-"
-Cytoplasm Spikes	"
-'''Fight''': '''Feast'''. If Cytoplasm Spikes feasts on a non-grey Hero, you get +2 Recruit.
-'''Attack''': 3
-'''VP''': 1
-"
-Death's Heads	"
-'''Fight''': If you '''Outwit''' these Death's Heads, KO one of your cards that costs 0.
-'''Attack''': 3
-'''VP''': 1
-"
-Sakaaran Hivelings	"
-'''Fight''': Look at the top card of your deck. Put it back on the top or bottom. Then '''Feast'''.
-'''Attack''': 3
-'''VP''': 1
+"
+Circus of Crime	"<font size='3'>Circus of Crime</font>
+<b>Fight</b>: Reveal the top card of your deck. If it costs 0 Cost, KO it. Otherwise, draw it.
+<b>Attack</b>: 3
+<b>VP</b>: 1"
+Spider-Slayer	"<font size='3'>Spider-Slayer</font>
+<b>Fight</b>: Reveal the top two cards of your deck. Put any that cost 2 Cost or less into your hand. Put the rest back in any order.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
 
-
-"
-Circus of Crime	"
-'''Fight''': Reveal the top card of your deck. If it costs 0 Cost, KO it. Otherwise, draw it.
-'''Attack''': 3
-'''VP''': 1
-"
-Spider-Slayer	"
-'''Fight''': Reveal the top two cards of your deck. Put any that cost 2 Cost or less into your hand. Put the rest back in any order.
-'''Attack''': 3
-'''VP''': 1
-
-
-
-"
-HYDRA Base	"
-'''Henchman Location'''
+"
+HYDRA Base	"<font size='3'>HYDRA Base</font>
+<b>Henchman Location</b>
 HYDRA Base gets +2 Attack while there's a Villain here.
-'''Fight''': KO one of your Heroes.
-'''VP''': 1
+<b>Fight</b>: KO one of your Heroes.
+<b>VP</b>: 1
+"
+Mandarin's Rings	"<font size='3'>Mandarin's Rings</font>
 
-"
-Mandarin's Rings	"
+<font size='3'>Daimonic, The White Light</font> (1 copy)
+<b>Fight</b>: Draw a card.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Daimonic, The White Light'''''[/size] (1 copy)
-'''Fight''': Draw a card.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Incandescence, The Flame Blast</font> (1 copy)
+<b>Fight</b>: You may KO a card from your discard pile.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Incandescence, The Flame Blast'''''[/size] (1 copy)
-'''Fight''': You may KO a card from your discard pile.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Influence, The Impact Beam</font> (1 copy)
+<b>Fight</b>: You get +1 Recruit.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Influence, The Impact Beam'''''[/size] (1 copy)
-'''Fight''': You get +1 Recruit.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Liar, The Mento-Intensifier</font> (1 copy)
+<b>Fight</b>: Look at the top card of another player's deck. Say it is ""Good"" or ""Bad."" That player chooses to put it in your discard pile or their discard pile.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Liar, The Mento-Intensifier'''''[/size] (1 copy)
-'''Fight''': Look at the top card of another player's deck. Say it is ""Good"" or ""Bad."" That player chooses to put it in your discard pile or their discard pile.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Lightning, The Electro-Blast</font> (1 copy)
+<b>Fight</b>: Reveal the top card of your deck. You may KO it.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Lightning, The Electro-Blast'''''[/size] (1 copy)
-'''Fight''': Reveal the top card of your deck. You may KO it.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Nightbringer, The Black Light</font> (1 copy)
+<b>Fight</b>: Reveal the top three cards of the Villain Deck. You may defeat a Villain you revealed worth 2VP or less. (Do its Fight effect.) Put the rest back in any order.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Nightbringer, The Black Light'''''[/size] (1 copy)
-'''Fight''': Reveal the top three cards of the Villain Deck. You may defeat a Villain you revealed worth 2VP or less. (Do its Fight effect.) Put the rest back in any order.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Remaker, The Matter Rearranger</font> (1 copy)
+<b>Fight</b>: You may choose a card from your hand or discard pile. The player on your right puts it in their hand.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Remaker, The Matter Rearranger'''''[/size] (1 copy)
-'''Fight''': You may choose a card from your hand or discard pile. The player on your right puts it in their hand.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Spectral, The Disintegration Beam</font> (1 copy)
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Spectral, The Disintegration Beam'''''[/size] (1 copy)
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3
-'''VP''': 1
+<font size='3'>Spin, The Vortex Beam</font> (1 copy)
+<b>Fight</b>: Reveal the top six cards of your deck. Discard all of them that cost 0, then put the rest back in any order.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-[size=14]'''''Spin, The Vortex Beam'''''[/size] (1 copy)
-'''Fight''': Reveal the top six cards of your deck. Discard all of them that cost 0, then put the rest back in any order.
-'''Attack''': 3
-'''VP''': 1
-
-[size=14]'''''Zero, The Ice Blast'''''[/size] (1 copy)
-'''Fight''': Choose a card you played this turn that costs 0. When you draw a new hand of cards at the end of this turn, add that card to your hand as an extra card.
-'''Attack''': 3
-'''VP''': 1"
+<font size='3'>Zero, The Ice Blast</font> (1 copy)
+<b>Fight</b>: Choose a card you played this turn that costs 0. When you draw a new hand of cards at the end of this turn, add that card to your hand as an extra card.
+<b>Attack</b>: 3
+<b>VP</b>: 1"

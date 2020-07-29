@@ -1,2814 +1,2730 @@
 viltext	text
-Brotherhood	"
+Brotherhood	"<font size='4'>Brotherhood</font>
 
-''Blob'' (2 copies)
+<i>Blob</i> (2 copies)
 You can't defeat Blob unless you have an X-Men Hero.
-'''Attack''': 4
-'''VP''': 2
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Juggernaut'' (2 copies)
-'''Ambush''': Each player KOs two Heroes from their discard pile.
-'''Escape''': Each player KOs two Heroes from their hand.
-'''Attack''': 6
-'''VP''': 4
+<i>Juggernaut</i> (2 copies)
+<b>Ambush</b>: Each player KOs two Heroes from their discard pile.
+<b>Escape</b>: Each player KOs two Heroes from their hand.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Mystique'' (2 copies)
-'''Escape''': Mystique becomes a Scheme Twist that takes effect immediately.
-'''Attack''': 5
-'''VP''': 3
+<i>Mystique</i> (2 copies)
+<b>Escape</b>: Mystique becomes a Scheme Twist that takes effect immediately.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Sabretooth'' (2 copies)
-'''Fight''': Each player reveals an X-Men Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Sabretooth</i> (2 copies)
+<b>Fight</b>: Each player reveals an X-Men Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Enemies of Asgard	"<font size='4'>Enemies of Asgard</font>
 
-"
-Enemies of Asgard	"
+<i>Destroyer</i> (1 copy)
+<b>Fight</b>: KO all your S.H.I.E.L.D. Heroes.
+<b>Escape</b>: Each player KOs two of their Heroes.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Destroyer'' (1 copy)
-'''Fight''': KO all your S.H.I.E.L.D. Heroes.
-'''Escape''': Each player KOs two of their Heroes.
-'''Attack''': 7
-'''VP''': 5
+<i>Enchantress</i> (2 copies)
+<b>Fight</b>: Draw three cards
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Enchantress'' (2 copies)
-'''Fight''': Draw three cards
-'''Attack''': 6
-'''VP''': 4
+<i>Frost Giant</i> (3 copies)
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Frost Giant'' (3 copies)
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 4
-'''VP''': 2
+<i>Ymir, Frost Giant King</i> (2 copies)
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
+<b>Fight</b>: Choose a player. That player KOs any number of Wounds from their hand and discard pile.
+<b>Attack</b>: 6
+<b>VP</b>: 4
+"
+HYDRA	"<font size='4'>HYDRA</font>
 
-''Ymir, Frost Giant King'' (2 copies)
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
-'''Fight''': Choose a player. That player KOs any number of Wounds from their hand and discard pile.
-'''Attack''': 6
-'''VP''': 4
+<i>Endless Armies of HYDRA</i> (3 copies)
+<b>Fight</b>: Play the top two cards of the Villain Deck.
+<b>Attack</b>: 4
+<b>VP</b>: 3
 
-"
-HYDRA	"
+<i>HYDRA Kidnappers</i> (3 copies)
+<b>Fight</b>: You may gain a S.H.I.E.L.D. Officer.
+<b>Attack</b>: 3
+<b>VP</b>: 1
 
-''Endless Armies of HYDRA'' (3 copies)
-'''Fight''': Play the top two cards of the Villain Deck.
-'''Attack''': 4
-'''VP''': 3
-
-''HYDRA Kidnappers'' (3 copies)
-'''Fight''': You may gain a S.H.I.E.L.D. Officer.
-'''Attack''': 3
-'''VP''': 1
-
-''Supreme HYDRA'' (1 copy)
+<i>Supreme HYDRA</i> (1 copy)
 Supreme HYDRA is worth +3 VP for each other HYDRA Villain in your Victory Pile.
-'''Attack''': 6
-'''VP''': 3+
+<b>Attack</b>: 6
+<b>VP</b>: 3+
 
-''Viper'' (1 copy)
-'''Fight''': Each player without another HYDRA Villain in their Victory Pile gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Viper</i> (1 copy)
+<b>Fight</b>: Each player without another HYDRA Villain in their Victory Pile gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Masters of Evil	"<font size='4'>Masters of Evil</font>
 
-"
-Masters of Evil	"
+<i>Baron Zemo</i> (2 copies)
+<b>Fight</b>: For each of your Avengers Heroes, rescue a Bystander.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Baron Zemo'' (2 copies)
-'''Fight''': For each of your Avengers Heroes, rescue a Bystander.
-'''Attack''': 6
-'''VP''': 4
+<i>Melter</i> (2 copies)
+<b>Fight</b>: Each player reveals the top card of their deck. For each card, you choose to KO it or put it back.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Melter'' (2 copies)
-'''Fight''': Each player reveals the top card of their deck. For each card, you choose to KO it or put it back.
-'''Attack''': 5
-'''VP''': 3
-
-''Ultron'' (2 copies)
+<i>Ultron</i> (2 copies)
 Ultron is worth +1 VP for each https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero you have among all your cards at the end of the game.
-'''Escape''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
-'''Attack''': 6
-'''VP''': 2+
+<b>Escape</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
+<b>Attack</b>: 6
+<b>VP</b>: 2+
 
-''Whirlwind'' (2 copies)
-'''Fight''': If you fight Whirlwind on the Rooftops or Bridge, KO two of your Heroes.
-'''Attack''': 4
-'''VP''': 2
+<i>Whirlwind</i> (2 copies)
+<b>Fight</b>: If you fight Whirlwind on the Rooftops or Bridge, KO two of your Heroes.
+<b>Attack</b>: 4
+<b>VP</b>: 2
+"
+Radiation	"<font size='4'>Radiation</font>
 
-"
-Radiation	"
+<i>Abomination</i> (2 copies)
+<b>Fight</b>: If you fight Abomination on the Streets or Bridge, rescue three Bystanders.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Abomination'' (2 copies)
-'''Fight''': If you fight Abomination on the Streets or Bridge, rescue three Bystanders.
-'''Attack''': 5
-'''VP''': 3
+<i>The Leader</i> (2 copies)
+<b>Ambush</b>: Play the top card of the Villain Deck.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''The Leader'' (2 copies)
-'''Ambush''': Play the top card of the Villain Deck.
-'''Attack''': 4
-'''VP''': 2
+<i>Maestro</i> (2 copies)
+<b>Fight</b>: For each of your https://cf.geekdo-static.com/mbs/mb_26286_0.png Heroes, KO one of your Heroes.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Maestro'' (2 copies)
-'''Fight''': For each of your https://cf.geekdo-static.com/mbs/mb_26286_0.png Heroes, KO one of your Heroes.
-'''Attack''': 6
-'''VP''': 4
+<i>Zzzax</i> (2 copies)
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Skrulls	"<font size='4'>Skrulls</font>
 
-''Zzzax'' (2 copies)
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Paibok the Power Skrull</i> (1 copy)
+<b>Fight</b>: Choose a Hero in the HQ for each player. Each player gains that Hero.
+<b>Attack</b>: 8
+<b>VP</b>: 3
 
-"
-Skrulls	"
+<i>Skrull Queen Veranke</i> (1 copy)
+<b>Ambush</b>: Put the highest-cost Hero from the HQ under this Villain. This Villain's Attack is equal to that Hero's Cost.
+<b>Fight</b>: Gain that Hero.
+<b>Attack</b>: *
+<b>VP</b>: 4
 
-''Paibok the Power Skrull'' (1 copy)
-'''Fight''': Choose a Hero in the HQ for each player. Each player gains that Hero.
-'''Attack''': 8
-'''VP''': 3
+<i>Skrull Shapeshifters</i> (3 copies)
+<b>Ambush</b>: Put the rightmost Hero from the HQ under this Villain. This Villain's Attack is equal to that Hero's Cost.
+<b>Fight</b>: Gain that Hero
+<b>Attack</b>: *
+<b>VP</b>: 2
 
-''Skrull Queen Veranke'' (1 copy)
-'''Ambush''': Put the highest-cost Hero from the HQ under this Villain. This Villain's Attack is equal to that Hero's Cost.
-'''Fight''': Gain that Hero.
-'''Attack''': *
-'''VP''': 4
+<i>Super-Skrull</i> (3 copies)
+<b>Fight</b>: Each player KOs one of their Heroes.
+<b>Attack</b>: 4
+<b>VP</b>: 2
+"
+Spider-Foes	"<font size='4'>Spider-Foes</font>
 
-''Skrull Shapeshifters'' (3 copies)
-'''Ambush''': Put the rightmost Hero from the HQ under this Villain. This Villain's Attack is equal to that Hero's Cost.
-'''Fight''': Gain that Hero
-'''Attack''': *
-'''VP''': 2
+<i>Doctor Octopus</i> (2 copies)
+<b>Fight</b>: When you draw a new hand of cards at the end of this turn, draw eight cards instead of six.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Super-Skrull'' (3 copies)
-'''Fight''': Each player KOs one of their Heroes.
-'''Attack''': 4
-'''VP''': 2
+<i>Green Goblin</i> (2 copies)
+<b>Ambush</b>: Green Goblin captures a Bystander.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-"
-Spider-Foes	"
+<i>The Lizard</i> (2 copies)
+<b>Fight</b>: If you fight the Lizard in the Sewers, each other player gains a Wound.
+<b>Attack</b>: 3
+<b>VP</b>: 2
 
-''Doctor Octopus'' (2 copies)
-'''Fight''': When you draw a new hand of cards at the end of this turn, draw eight cards instead of six.
-'''Attack''': 4
-'''VP''': 2
-
-''Green Goblin'' (2 copies)
-'''Ambush''': Green Goblin captures a Bystander.
-'''Attack''': 6
-'''VP''': 4
-
-''The Lizard'' (2 copies)
-'''Fight''': If you fight the Lizard in the Sewers, each other player gains a Wound.
-'''Attack''': 3
-'''VP''': 2
-
-''Venom'' (2 copies)
+<i>Venom</i> (2 copies)
 You can't defeat Venom unless you have a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5
-'''VP''': 3
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
 
+"
+Emissaries of Evil	"<font size='4'>Emissaries of Evil</font>
 
-"
-Emissaries of Evil	"
+<i>Egghead</i> (2 copies)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a Villain, play it.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Egghead'' (2 copies)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a Villain, play it.
-'''Attack''': 4
-'''VP''': 2
+<i>Electro</i> (2 copies)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a Scheme Twist, play it.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Electro'' (2 copies)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a Scheme Twist, play it.
-'''Attack''': 6
-'''VP''': 4
+<i>Gladiator</i> (2 copies)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a Bystander, Gladiator captures it.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Gladiator'' (2 copies)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a Bystander, Gladiator captures it.
-'''Attack''': 5
-'''VP''': 3
+<i>Rhino</i> (2 copies)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a Master Strike, each player gains a Wound.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Four Horsemen	"<font size='4'>Four Horsemen</font>
 
-''Rhino'' (2 copies)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a Master Strike, each player gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5
-'''VP''': 3
+<i>Death</i> (2 copies)
+<b>Fight</b>: Each other player reveals their hand and KOs one of their Heroes that costs 1 or more.
+<b>Escape</b>: Each player does that same effect.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-"
-Four Horsemen	"
+<i>Famine</i> (2 copies)
+<b>Fight</b>: Each other player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards a card.
+<b>Escape</b>: Each player does that same effect.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Death'' (2 copies)
-'''Fight''': Each other player reveals their hand and KOs one of their Heroes that costs 1 or more.
-'''Escape''': Each player does that same effect.
-'''Attack''': 7
-'''VP''': 5
+<i>Pestilence</i> (2 copies)
+<b>Fight</b>: Each other player reveals the top three cards of their deck, discards each of those cards that costs 1 or more, and puts the rest back in any order.
+<b>Escape</b>: Each player does that same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Famine'' (2 copies)
-'''Fight''': Each other player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards a card.
-'''Escape''': Each player does that same effect.
-'''Attack''': 4
-'''VP''': 2
+<i>War</i> (2 copies)
+<b>Fight</b>: Each other player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
+<b>Escape</b>: Each player does that same effect.
+<b>Attack</b>: 6
+<b>VP</b>: 4
+"
+Marauders	"<font size='4'>Marauders</font>
 
-''Pestilence'' (2 copies)
-'''Fight''': Each other player reveals the top three cards of their deck, discards each of those cards that costs 1 or more, and puts the rest back in any order.
-'''Escape''': Each player does that same effect.
-'''Attack''': 5
-'''VP''': 3
-
-''War'' (2 copies)
-'''Fight''': Each other player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
-'''Escape''': Each player does that same effect.
-'''Attack''': 6
-'''VP''': 4
-
-"
-Marauders	"
-
-''Blockbuster'' (2 copies)
+<i>Blockbuster</i> (2 copies)
 Blockbuster gets +2 Attack for each Bystander he has.
-'''Ambush''': If there is a Villain in the Bank that Villain and Blockbuster each capture a Bystander.
-'''Attack''': 4+
-'''VP''': 2
+<b>Ambush</b>: If there is a Villain in the Bank that Villain and Blockbuster each capture a Bystander.
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 
-''Chimera'' (2 copies)
+<i>Chimera</i> (2 copies)
 Chimera gets +3 Attack for each Bystander she has.
-'''Ambush''': Reveal the top three cards of the Villain Deck. Chimera captures all the Bystander cards you revealed. Put the rest back in random order.
-'''Attack''': 3+
-'''VP''': 3
+<b>Ambush</b>: Reveal the top three cards of the Villain Deck. Chimera captures all the Bystander cards you revealed. Put the rest back in random order.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Scalphunter'' (2 copies)
+<i>Scalphunter</i> (2 copies)
 Scalphunter gets +1 Attack for each Bystander he has.
-'''Ambush''': Each player chooses a Bystander from their Victory Pile. Scalphunter captures those Bystanders.
-'''Attack''': 4+
-'''VP''': 2
+<b>Ambush</b>: Each player chooses a Bystander from their Victory Pile. Scalphunter captures those Bystanders.
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 
-''Vertigo'' (2 copies)
-'''Fight''': Each player discards all the cards in their hand, then draws as many cards as they discarded.
-'''Attack''': 5
-'''VP''': 3
+<i>Vertigo</i> (2 copies)
+<b>Fight</b>: Each player discards all the cards in their hand, then draws as many cards as they discarded.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+MLF	"<font size='4'>MLF</font>
 
-"
-MLF	"
-
-''Forearm'' (2 copies)
+<i>Forearm</i> (2 copies)
 To fight Forearm, you must also reveal four Hero cards with different card names.
-'''Attack''': 4*
-'''VP''': 4
+<b>Attack</b>: 4*
+<b>VP</b>: 4
 
-''Reignfire'' (2 copies)
-'''Escape''': Reignfire becomes a Master Strike that takes effect immediately.
-'''Attack''': 6
-'''VP''': 4
+<i>Reignfire</i> (2 copies)
+<b>Escape</b>: Reignfire becomes a Master Strike that takes effect immediately.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Wildside'' (2 copies)
-'''Fight''': If you fight Wildside in the Sewers or Bank, KO two of your Heroes.
-'''Attack''': 5
-'''VP''': 3
+<i>Wildside</i> (2 copies)
+<b>Fight</b>: If you fight Wildside in the Sewers or Bank, KO two of your Heroes.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Zero'' (2 copies)
+<i>Zero</i> (2 copies)
 To fight Zero, you must also discard three cards that cost 0.
-'''Attack''': 0*
-'''VP''': 2
+<b>Attack</b>: 0*
+<b>VP</b>: 2
+"
+Streets of New York	"<font size='4'>Streets of New York</font>
 
-"
-Streets of New York	"
+<i>Bullseye</i> (2 copies)
+<b>Fight</b>: KO one of your Heroes with a Recruit icon and one of your Heroes with an Attack icon.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Bullseye'' (2 copies)
-'''Fight''': KO one of your Heroes with a Recruit icon and one of your Heroes with an Attack icon.
-'''Attack''': 6
-'''VP''': 4
-
-''Hammerhead'' (2 copies)
+<i>Hammerhead</i> (2 copies)
 Bribe
-'''Fight''': KO one of your Heroes with a Recruit icon.
-'''Attack''': 5*
-'''VP''': 2
+<b>Fight</b>: KO one of your Heroes with a Recruit icon.
+<b>Attack</b>: 5*
+<b>VP</b>: 2
 
-''Jigsaw'' (2 copies)
-'''Ambush''': Each player discards three cards, then draws two cards.
+<i>Jigsaw</i> (2 copies)
+<b>Ambush</b>: Each player discards three cards, then draws two cards.
 Bribe
-'''Attack''': 11*
-'''VP''': 5
+<b>Attack</b>: 11*
+<b>VP</b>: 5
 
-''Tombstone'' (2 copies)
+<i>Tombstone</i> (2 copies)
 Bribe
-'''Escape''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
-'''Attack''': 8*
-'''VP''': 4
+<b>Escape</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
+<b>Attack</b>: 8*
+<b>VP</b>: 4
+"
+Underworld	"<font size='4'>Underworld</font>
 
-"
-Underworld	"
+<i>Azazel</i> (2 copies)
+<b>Fight</b>: A card in your hand gains Teleport this turn.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Azazel'' (2 copies)
-'''Fight''': A card in your hand gains Teleport this turn.
-'''Attack''': 4
-'''VP''': 2
+<i>Blackheart</i> (2 copies)
+<b>Ambush</b>: The player to your right reveals a Marvel Knights Hero or gains a Wound.
+<b>Fight</b>: Same effect.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Blackheart'' (2 copies)
-'''Ambush''': The player to your right reveals a Marvel Knights Hero or gains a Wound.
-'''Fight''': Same effect.
-'''Escape''': Same effect.
-'''Attack''': 6
-'''VP''': 4
+<i>Dracula</i> (2 copies)
+<b>Ambush</b>: Dracula captures the top card of the Hero Deck. Dracula gets + Attack equal to that card's Cost.
+<b>Fight</b>: Gain that card.
+<b>Attack</b>: 3+
+<b>VP</b>: 4
 
-''Dracula'' (2 copies)
-'''Ambush''': Dracula captures the top card of the Hero Deck. Dracula gets + Attack equal to that card's Cost.
-'''Fight''': Gain that card.
-'''Attack''': 3+
-'''VP''': 4
-
-''Lilith, Daughter of Dracula'' (2 copies)
-'''Escape''': Each player without Dracula in their Victory Pile gains a Wound.
-'''Attack''': 5
-'''VP''': 3
-
+<i>Lilith, Daughter of Dracula</i> (2 copies)
+<b>Escape</b>: Each player without Dracula in their Victory Pile gains a Wound.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
 
-"
-Heralds of Galactus	"
+"
+Heralds of Galactus	"<font size='4'>Heralds of Galactus</font>
 
-''Firelord'' (2 copies)
+<i>Firelord</i> (2 copies)
 Cosmic Threat: https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 9*
-'''VP''': 4
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 9*
+<b>VP</b>: 4
 
-''Morg'' (2 copies)
+<i>Morg</i> (2 copies)
 Cosmic Threat: https://cf.geekdo-static.com/mbs/mb_26284_0.png
-'''Ambush''': Put each non-https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero from the HQ on the bottom of the Hero Deck.
-'''Attack''': 12*
-'''VP''': 6
+<b>Ambush</b>: Put each non-https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero from the HQ on the bottom of the Hero Deck.
+<b>Attack</b>: 12*
+<b>VP</b>: 6
 
-''Stardust'' (2 copies)
+<i>Stardust</i> (2 copies)
 Cosmic Threat: https://cf.geekdo-static.com/mbs/mb_26283_0.png
-'''Fight''': Choose one of your https://cf.geekdo-static.com/mbs/mb_26283_0.png Heroes. When you draw a new hand of cards at the end of this turn, add that Hero to your hand as a seventh card.
-'''Attack''': 10*
-'''VP''': 5
+<b>Fight</b>: Choose one of your https://cf.geekdo-static.com/mbs/mb_26283_0.png Heroes. When you draw a new hand of cards at the end of this turn, add that Hero to your hand as a seventh card.
+<b>Attack</b>: 10*
+<b>VP</b>: 5
 
-''Terrax the Tamer'' (2 copies)
+<i>Terrax the Tamer</i> (2 copies)
 Cosmic Threat: https://cf.geekdo-static.com/mbs/mb_26286_0.png
-'''Ambush''': For each https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero in the HQ, Terrax captures a Bystander.
-'''Attack''': 11*
-'''VP''': 5
+<b>Ambush</b>: For each https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero in the HQ, Terrax captures a Bystander.
+<b>Attack</b>: 11*
+<b>VP</b>: 5
+"
+Subterranea	"<font size='4'>Subterranea</font>
 
-"
-Subterranea	"
-
-''Giganto'' (2 copies)
-'''Fight''': When you draw a new hand of cards at the end of this turn, draw two extra cards.
+<i>Giganto</i> (2 copies)
+<b>Fight</b>: When you draw a new hand of cards at the end of this turn, draw two extra cards.
 Burrow
-'''Attack''': 7
-'''VP''': 4
+<b>Attack</b>: 7
+<b>VP</b>: 4
 
-''Megataur'' (2 copies)
-'''Ambush''': Megataur captures two Bystanders.
+<i>Megataur</i> (2 copies)
+<b>Ambush</b>: Megataur captures two Bystanders.
 Burrow
-'''Attack''': 6
-'''VP''': 4
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Moloids'' (2 copies)
-'''Fight''': KO one of your Heroes.
+<i>Moloids</i> (2 copies)
+<b>Fight</b>: KO one of your Heroes.
 Burrow
-'''Attack''': 3
-'''VP''': 2
+<b>Attack</b>: 3
+<b>VP</b>: 2
 
-''Ra'ktar the Molan King'' (2 copies)
-'''Ambush''': Any Villain in the Streets moves to the Bridge, pushing any Villain already there to escape.
+<i>Ra'ktar the Molan King</i> (2 copies)
+<b>Ambush</b>: Any Villain in the Streets moves to the Bridge, pushing any Villain already there to escape.
 Burrow
-'''Attack''': 4
-'''VP''': 2
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
 
+"
+Maximum Carnage	"<font size='4'>Maximum Carnage</font>
 
-"
-Maximum Carnage	"
-
-''Carrion'' (2 copies)
+<i>Carrion</i> (2 copies)
 Feast
 Whenever Carrion feasts on a Hero that costs 1 or more, put Carrion back in the city space where he was.
-'''Attack''': 4
-'''VP''': 3
+<b>Attack</b>: 4
+<b>VP</b>: 3
 
-''Demogoblin'' (2 copies)
-'''Ambush''': Demogoblin captures a Bystander.
+<i>Demogoblin</i> (2 copies)
+<b>Ambush</b>: Demogoblin captures a Bystander.
 Feast
-'''Attack''': 5
-'''VP''': 3
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Doppelganger'' (2 copies)
+<i>Doppelganger</i> (2 copies)
 Doppelganger's Attack is equal to the Cost of the Hero in the HQ space under him.
 Feast
-'''Attack''': *
-'''VP''': 3
+<b>Attack</b>: *
+<b>VP</b>: 3
 
-''Shriek'' (2 copies)
+<i>Shriek</i> (2 copies)
 Feast
 When Shriek feasts on a 0-cost Hero, each other player gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 6
-'''VP''': 4
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 6
+<b>VP</b>: 4
+"
+Sinister Six	"<font size='4'>Sinister Six</font>
 
-"
-Sinister Six	"
+<i>Chameleon</i> (1 copy)
+<b>Fight</b>: Copy the effects of the Hero in the HQ space under Chameleon, including its Recruit and Attack.
+<b>Attack</b>: 6
+<b>VP</b>: 2
 
-''Chameleon'' (1 copy)
-'''Fight''': Copy the effects of the Hero in the HQ space under Chameleon, including its Recruit and Attack.
-'''Attack''': 6
-'''VP''': 2
+<i>Hobgoblin</i> (1 copy)
+<b>Ambush</b>: Each Sinister Six Villain captures a Bystander.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Hobgoblin'' (1 copy)
-'''Ambush''': Each Sinister Six Villain captures a Bystander.
-'''Attack''': 5
-'''VP''': 3
-
-''Kraven the Hunter'' (1 copy)
+<i>Kraven the Hunter</i> (1 copy)
 Kraven's Attack is equal to the Cost of the highest-cost Hero in the HQ.
-'''Escape''': (After you do the normal escape KO) KO a Hero from the HQ with the highest cost.
-'''Attack''': *
-'''VP''': 4
+<b>Escape</b>: (After you do the normal escape KO) KO a Hero from the HQ with the highest cost.
+<b>Attack</b>: *
+<b>VP</b>: 4
 
-''Sandman'' (1 copy)
+<i>Sandman</i> (1 copy)
 Sandman's Attack is twice the number of Villains in the city.
-'''Escape''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
-'''Attack''': *
-'''VP''': 4
+<b>Escape</b>: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
+<b>Attack</b>: *
+<b>VP</b>: 4
 
-''Shocker'' (2 copies)
-'''Ambush''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards a card.
-'''Attack''': 5
-'''VP''': 3
+<i>Shocker</i> (2 copies)
+<b>Ambush</b>: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards a card.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Vulture'' (2 copies)
-'''Ambush''': (After Vulture enters the city) If there is a Villain on the Rooftops or Bridge, swap Vulture with one of those Villains.
-'''Escape''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
-'''Attack''': 4
-'''VP''': 2
+<i>Vulture</i> (2 copies)
+<b>Ambush</b>: (After Vulture enters the city) If there is a Villain on the Rooftops or Bridge, swap Vulture with one of those Villains.
+<b>Escape</b>: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
 
+"
+Avengers	"<font size='4'>Avengers</font>
 
-"
-Avengers	"
-
-''Ant-Man'' (2 copies)
-'''Attack''': 3*
-'''VP''': 2
+<i>Ant-Man</i> (2 copies)
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 Elusive 4
 
-''Captain America'' (1 copy)
-'''Attack''': 4+
-'''VP''': 5
-'''Ambush''': Each player reveals three colors of Allies or gains a Bindings. (Grey is a color.)
-'''Fight''': Same effect. Captain America gets +1 Attack for each color of Ally in the Lair.
+<i>Captain America</i> (1 copy)
+<b>Attack</b>: 4+
+<b>VP</b>: 5
+<b>Ambush</b>: Each player reveals three colors of Allies or gains a Bindings. (Grey is a color.)
+<b>Fight</b>: Same effect. Captain America gets +1 Attack for each color of Ally in the Lair.
 Overrun: Demolish each player.
 
-''Hulk'' (1 copy)
-'''Attack''': 8
-'''VP''': 6
-'''Ambush''': Demolish each player twice.
-'''Fight''': Same effect.
+<i>Hulk</i> (1 copy)
+<b>Attack</b>: 8
+<b>VP</b>: 6
+<b>Ambush</b>: Demolish each player twice.
+<b>Fight</b>: Same effect.
 Overrun: Same effect.
 
-''Iron Man'' (1 copy)
-'''Attack''': 7
-'''VP''': 5
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Ally or gains a Bindings.
-'''Fight''': Same effect.
+<i>Iron Man</i> (1 copy)
+<b>Attack</b>: 7
+<b>VP</b>: 5
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Ally or gains a Bindings.
+<b>Fight</b>: Same effect.
 Overrun: Demolish each player.
 
-''Thor'' (1 copy)
-'''Attack''': 7
-'''VP''': 5
-'''Ambush''': KO each Ally from the Lair that costs 7 Cost or more.
-'''Fight''': Same effect.
+<i>Thor</i> (1 copy)
+<b>Attack</b>: 7
+<b>VP</b>: 5
+<b>Ambush</b>: KO each Ally from the Lair that costs 7 Cost or more.
+<b>Fight</b>: Same effect.
 Overrun: Demolish each player.
 
-''Wasp'' (2 copies)
-'''Attack''': 1*
-'''VP''': 4
+<i>Wasp</i> (2 copies)
+<b>Attack</b>: 1*
+<b>VP</b>: 4
 Elusive 7
+"
+Defenders	"<font size='4'>Defenders</font>
 
-"
-Defenders	"
-
-''Daredevil'' (2 copies)
-'''Attack''': 5
-'''VP''': 3
-'''Fight''': The next Ally you recruit this turn goes on top of your deck.
+<i>Daredevil</i> (2 copies)
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<b>Fight</b>: The next Ally you recruit this turn goes on top of your deck.
 Overrun: Each player reveals the top card of their deck and if it costs 1 Cost or more, discards it.
 
-''Iron Fist'' (2 copies)
-'''Attack''': 3*
-'''VP''': 2
+<i>Iron Fist</i> (2 copies)
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 To fight Iron Fist, you must also reveal three Allies with different costs.
 
-''Namor, The Sub-Mariner'' (2 copies)
-'''Attack''': 6
-'''VP''': 4
-'''Ambush''': If any other Defenders Adversaries are in the city, each player gains a Bindings.
-'''Fight''': Same Effect.
+<i>Namor, The Sub-Mariner</i> (2 copies)
+<b>Attack</b>: 6
+<b>VP</b>: 4
+<b>Ambush</b>: If any other Defenders Adversaries are in the city, each player gains a Bindings.
+<b>Fight</b>: Same Effect.
 Overrun: Same Effects.
 
-''Luke Cage'' (2 copies)
-'''Attack''': 4
-'''VP''': 2
-'''Fight''': Each player reveals the top three cards of their deck. You choose which players discard them and which players put them back on top in the order of their choice.
+<i>Luke Cage</i> (2 copies)
+<b>Attack</b>: 4
+<b>VP</b>: 2
+<b>Fight</b>: Each player reveals the top three cards of their deck. You choose which players discard them and which players put them back on top in the order of their choice.
+"
+Marvel Knights	"<font size='4'>Marvel Knights</font>
 
-"
-Marvel Knights	"
+<i>Black Panther</i> (2 copies)
+<b>Attack</b>: 4
+<b>VP</b>: 2
+<b>Fight</b>: Each player draws a card.
 
-''Black Panther'' (2 copies)
-'''Attack''': 4
-'''VP''': 2
-'''Fight''': Each player draws a card.
+<i>Elektra</i> (2 copies)
+<b>Attack</b>: 4
+<b>VP</b>: 2
+<b>Fight</b>: KO one of your Allies. Then KO a Bindings from your hand or discard pile.
 
-''Elektra'' (2 copies)
-'''Attack''': 4
-'''VP''': 2
-'''Fight''': KO one of your Allies. Then KO a Bindings from your hand or discard pile.
-
-''Punisher'' (2 copies)
-'''Attack''': 6
-'''VP''': 4
-'''Fight''': Reveal the top card of your deck. If it costs 0 Cost, KO it.
+<i>Punisher</i> (2 copies)
+<b>Attack</b>: 6
+<b>VP</b>: 4
+<b>Fight</b>: Reveal the top card of your deck. If it costs 0 Cost, KO it.
 Overrun: Each player reveals the top card of their deck and if it costs 1 Cost or more, KOs it.
 
-''Ghost Rider'' (2 copies)
-'''Attack''': 5
-'''VP''': 3
-'''Fight''': You may KO another Adversary from your Victory Pile. If you do, you get +3 Recruit.
+<i>Ghost Rider</i> (2 copies)
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<b>Fight</b>: You may KO another Adversary from your Victory Pile. If you do, you get +3 Recruit.
 Overrun: Each player may KO an Adversary from their Victory Pile. Any player who does not do so gains a Bindings.
+"
+Spider Friends	"<font size='4'>Spider Friends</font>
 
-"
-Spider Friends	"
-
-''Black Cat'' (2 copies)
-'''Attack''': 2*
-'''VP''': 2
+<i>Black Cat</i> (2 copies)
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 Elusive 6.
-'''Fight''': Each player reveals the top card of their deck. Choose any number of those cards to be discarded.
+<b>Fight</b>: Each player reveals the top card of their deck. Choose any number of those cards to be discarded.
 
-''Firestar'' (2 copies)
-'''Attack''': 5
-'''VP''': 3
-'''Fight''': Reveal the top card of your deck. If it has a Recruit icon, KO it.
+<i>Firestar</i> (2 copies)
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<b>Fight</b>: Reveal the top card of your deck. If it has a Recruit icon, KO it.
 Overrun: Each player reveals the top card of their deck, and if it has an Attack icon, KO it.
 
-''Moon Knight'' (2 copies)
-'''Attack''': 4
-'''VP''': 2
-'''Fight''': KO one of your Allies. Then, if you fought Moon Knight on the Rooftops, KO another of your Allies.
+<i>Moon Knight</i> (2 copies)
+<b>Attack</b>: 4
+<b>VP</b>: 2
+<b>Fight</b>: KO one of your Allies. Then, if you fought Moon Knight on the Rooftops, KO another of your Allies.
 
-''Spider-Man'' (2 copies)
-'''Attack''': 2
-'''VP''': 3
-'''Fight''': Reveal the top card of the Adversary Deck. If that card is worth 2 Victory Points or less, play it. If you play a card from the Adversary Deck this way, put Spider-Man back on top of the Adversary Deck.
+<i>Spider-Man</i> (2 copies)
+<b>Attack</b>: 2
+<b>VP</b>: 3
+<b>Fight</b>: Reveal the top card of the Adversary Deck. If that card is worth 2 Victory Points or less, play it. If you play a card from the Adversary Deck this way, put Spider-Man back on top of the Adversary Deck.
 Overrun: Each player gains a Bindings.
+"
+Uncanny Avengers	"<font size='4'>Uncanny Avengers</font>
 
-"
-Uncanny Avengers	"
-
-''Havok'' (2 copies)
-'''Attack''': 4+
-'''VP''': 2
+<i>Havok</i> (2 copies)
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 X-Treme Attack.
-'''Ambush''': Each player who does not reveal a https://cf.geekdo-static.com/mbs/mb_26285_0.png Ally discards two cards, then draws a card.
+<b>Ambush</b>: Each player who does not reveal a https://cf.geekdo-static.com/mbs/mb_26285_0.png Ally discards two cards, then draws a card.
 
-''Rogue'' (2 copies)
-'''Attack''': 4+
-'''VP''': 2
+<i>Rogue</i> (2 copies)
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 X-Treme Attack.
-'''Fight''': Each other player discards the top card of their deck. Play a copy of one of those Allies.
+<b>Fight</b>: Each other player discards the top card of their deck. Play a copy of one of those Allies.
 
-''Scarlet Witch'' (2 copies)
-'''Attack''': 5
-'''VP''': 3
-'''Fight''': Reveal the top three cards of your deck. Put any that have odd-numbered costs into your hand and discard the rest. (0 is even.)
+<i>Scarlet Witch</i> (2 copies)
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<b>Fight</b>: Reveal the top three cards of your deck. Put any that have odd-numbered costs into your hand and discard the rest. (0 is even.)
 
-''Wolverine'' (2 copies)
-'''Attack''': 7+
-'''VP''': 5
+<i>Wolverine</i> (2 copies)
+<b>Attack</b>: 7+
+<b>VP</b>: 5
 X-Treme Attack.
 Wolverine gets +1 Attack for each card you've drawn this turn.
 Overrun: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Ally or gains a Bindings. Then shuffle Wolverine back into the Adversary deck.
+"
+Uncanny X-Men	"<font size='4'>Uncanny X-Men</font>
 
-"
-Uncanny X-Men	"
-
-''Colossus'' (2 copies)
-'''Attack''': 5+
-'''VP''': 3
+<i>Colossus</i> (2 copies)
+<b>Attack</b>: 5+
+<b>VP</b>: 3
 X-Treme Attack.
-'''Fight''': You may KO a Bindings from your hand or discard pile. If you don't, each other player gains a Bindings.
+<b>Fight</b>: You may KO a Bindings from your hand or discard pile. If you don't, each other player gains a Bindings.
 
-''Nightcrawler'' (2 copies)
-'''Attack''': 4+
-'''VP''': 2
+<i>Nightcrawler</i> (2 copies)
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 X-Treme Attack.
-'''Fight''': Choose an Ally you played this turn. When you draw a new hand of cards at the end of this turn, add that Ally to your new hand as an extra card.
+<b>Fight</b>: Choose an Ally you played this turn. When you draw a new hand of cards at the end of this turn, add that Ally to your new hand as an extra card.
 
-''Shadowcat'' (2 copies)
-'''Attack''': 2*+
-'''VP''': 2
+<i>Shadowcat</i> (2 copies)
+<b>Attack</b>: 2*+
+<b>VP</b>: 2
 X-Treme Attack.
 Elusive 5
 
-''Storm'' (2 copies)
-'''Attack''': 4+
-'''VP''': 2
+<i>Storm</i> (2 copies)
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 X-Treme Attack.
-'''Ambush''': (After Storm enters the city.) Move Storm to the Rooftops. If another Adversary is already there, swap them.
-'''Fight''': If you fight Storm on the Rooftops, each other player gains a Bindings.
+<b>Ambush</b>: (After Storm enters the city.) Move Storm to the Rooftops. If another Adversary is already there, swap them.
+<b>Fight</b>: If you fight Storm on the Rooftops, each other player gains a Bindings.
+"
+X-Men First Class	"<font size='4'>X-Men First Class</font>
 
-"
-X-Men First Class	"
-
-''Angel'' (2 copies)
-'''Attack''': 4+
-'''VP''': 2
+<i>Angel</i> (2 copies)
+<b>Attack</b>: 4+
+<b>VP</b>: 2
 X-Treme Attack.
-'''Fight''': Draws two cards, then discard a card.
+<b>Fight</b>: Draws two cards, then discard a card.
 
-''Iceman'' (2 copies)
-'''Attack''': 5+
-'''VP''': 3
+<i>Iceman</i> (2 copies)
+<b>Attack</b>: 5+
+<b>VP</b>: 3
 X-Treme Attack.
-'''Fight''': Draw a card for each https://cf.geekdo-static.com/mbs/mb_26285_0.png Ally you played this turn.
+<b>Fight</b>: Draw a card for each https://cf.geekdo-static.com/mbs/mb_26285_0.png Ally you played this turn.
 
-''Jean Grey'' (1 copy)
-'''Attack''': 6+
-'''VP''': 4
+<i>Jean Grey</i> (1 copy)
+<b>Attack</b>: 6+
+<b>VP</b>: 4
 X-Treme Attack.
-'''Ambush''': Jean Grey guards a Bystander for each Adversary in the city with X-Treme Attack (including Jean).
-'''Fight''': You get +1 Recruit for each Bystander you kidnapped this turn.
+<b>Ambush</b>: Jean Grey guards a Bystander for each Adversary in the city with X-Treme Attack (including Jean).
+<b>Fight</b>: You get +1 Recruit for each Bystander you kidnapped this turn.
 
-''Beast'' (2 copies)
-'''Attack''': 5+
-'''VP''': 3
+<i>Beast</i> (2 copies)
+<b>Attack</b>: 5+
+<b>VP</b>: 3
 X-Treme Attack.
-'''Fight''': KO one of your Allies. Then KO another of your Allies if there are any other Adversaries in the city with X-Treme Attack.
+<b>Fight</b>: KO one of your Allies. Then KO another of your Allies if there are any other Adversaries in the city with X-Treme Attack.
 
-''Cyclops'' (1 copy)
-'''Attack''': 6+
-'''VP''': 4
+<i>Cyclops</i> (1 copy)
+<b>Attack</b>: 6+
+<b>VP</b>: 4
 X-Treme Attack. To Fight Cyclops, you must also discard a card.
 Overrun: Each player reveals a Brotherhood Ally or discards a card.
 
 
+"
+Kree Starforce	"<font size='4'>Kree Starforce</font>
 
-"
-Kree Starforce	"
-
-''Captain Atlas'' (1 copy)
+<i>Captain Atlas</i> (1 copy)
 Captain Atlas gets +1 Attack for each Shard on the Mastermind.
-'''Escape''': Each player loses a Shard. Each player that cannot do so gains a Wound.
-'''Attack''': 6+
-'''VP''': 4
+<b>Escape</b>: Each player loses a Shard. Each player that cannot do so gains a Wound.
+<b>Attack</b>: 6+
+<b>VP</b>: 4
 
-''Demon Druid'' (1 copy)
-'''Ambush''': Another Villain in the city gains two Shards.
-'''Attack''': 5
-'''VP''': 3
+<i>Demon Druid</i> (1 copy)
+<b>Ambush</b>: Another Villain in the city gains two Shards.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Dr. Minerva'' (1 copy)
-'''Ambush''': Each Kree Villain in the city gains a Shard (including this Villain).
-'''Attack''': 5
-'''VP''': 3
+<i>Dr. Minerva</i> (1 copy)
+<b>Ambush</b>: Each Kree Villain in the city gains a Shard (including this Villain).
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Korath the Pursuer'' (1 copy)
-'''Ambush''': Each player may draw a card. Korath gains a Shard for each card drawn this way.
-'''Escape''': If Korath had any Shards, each player gains a Wound.
-'''Attack''': 5
-'''VP''': 3
+<i>Korath the Pursuer</i> (1 copy)
+<b>Ambush</b>: Each player may draw a card. Korath gains a Shard for each card drawn this way.
+<b>Escape</b>: If Korath had any Shards, each player gains a Wound.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Ronan the Accuser'' (1 copy)
-'''Ambush''': Each player simultaneously points their finger to accuse another player. Each player who was accused the most gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 7
-'''VP''': 5
+<i>Ronan the Accuser</i> (1 copy)
+<b>Ambush</b>: Each player simultaneously points their finger to accuse another player. Each player who was accused the most gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Shatterax'' (1 copy)
-'''Fight''': Put a Shard on each Hero in the HQ. When a player gains that Hero, they gain that Shard. If that Hero leaves the HQ some other way, return that Shard to the supply.
-'''Attack''': 5
-'''VP''': 3
+<i>Shatterax</i> (1 copy)
+<b>Fight</b>: Put a Shard on each Hero in the HQ. When a player gains that Hero, they gain that Shard. If that Hero leaves the HQ some other way, return that Shard to the supply.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Supremor'' (2 copies)
-'''Ambush''': Supremor and the Mastermind each gain a Shard.
-'''Attack''': 3
-'''VP''': 2
+<i>Supremor</i> (2 copies)
+<b>Ambush</b>: Supremor and the Mastermind each gain a Shard.
+<b>Attack</b>: 3
+<b>VP</b>: 2
+"
+Infinity Gems	"<font size='4'>Infinity Gems</font>
 
-"
-Infinity Gems	"
-
-''Mind Gem'' (1 copy)
-'''Ambush''': Mind Gem gains a Shard for each Scheme Twist in the KO pile and/or stacked next to the Scheme.
-'''Fight''': Put this into your discard pile as an Artifact.
+<i>Mind Gem</i> (1 copy)
+<b>Ambush</b>: Mind Gem gains a Shard for each Scheme Twist in the KO pile and/or stacked next to the Scheme.
+<b>Fight</b>: Put this into your discard pile as an Artifact.
 Artifact - Once per turn, you get +2 Recruit.
-'''Attack''': 6
-'''VP''': 0
+<b>Attack</b>: 6
+<b>VP</b>: 0
 
-''Power Gem'' (1 copy)
-'''Ambush''': Power Gem gains a Shard for each Master Strike in the KO pile and/or stacked next to the Mastermind.
-'''Fight''': Put this into your discard pile as an Artifact.
+<i>Power Gem</i> (1 copy)
+<b>Ambush</b>: Power Gem gains a Shard for each Master Strike in the KO pile and/or stacked next to the Mastermind.
+<b>Fight</b>: Put this into your discard pile as an Artifact.
 Artifact - Once per turn, you get +2 Attack.
-'''Attack''': 7
-'''VP''': 0
+<b>Attack</b>: 7
+<b>VP</b>: 0
 
-''Reality Gem'' (2 copies)
-'''Ambush''': Reality Gem gains a Shard for each Infinity Gem Villain card in the city and/or Escape pile.
-'''Fight''': Put this into your discard pile as an Artifact.
+<i>Reality Gem</i> (2 copies)
+<b>Ambush</b>: Reality Gem gains a Shard for each Infinity Gem Villain card in the city and/or Escape pile.
+<b>Fight</b>: Put this into your discard pile as an Artifact.
 Artifact - Before you play a card from the Villain Deck, you may first reveal the top card of the Villain Deck. If it's not a Scheme Twist, you may put it on the bottom of the Villain Deck. If you do, gain a Shard.
-'''Attack''': 5
-'''VP''': 0
+<b>Attack</b>: 5
+<b>VP</b>: 0
 
-''Soul Gem'' (1 copy)
-'''Ambush''': Soul Gem gains a Shard for each Villain in the city.
-'''Fight''': Put this into your discard pile as an Artifact.
+<i>Soul Gem</i> (1 copy)
+<b>Ambush</b>: Soul Gem gains a Shard for each Villain in the city.
+<b>Fight</b>: Put this into your discard pile as an Artifact.
 Artifact - Whenever you defeat a Villain, put a Shard on Soul Gem from the supply. Once per turn, you get + Attack equal to the number of Shards on Soul Gem.
-'''Attack''': 6
-'''VP''': 0
+<b>Attack</b>: 6
+<b>VP</b>: 0
 
-''Space Gem'' (2 copies)
-'''Ambush''': Space Gem gains a Shard for each empty space in the city.
-'''Fight''': Put this into your discard pile as an Artifact.
+<i>Space Gem</i> (2 copies)
+<b>Ambush</b>: Space Gem gains a Shard for each empty space in the city.
+<b>Fight</b>: Put this into your discard pile as an Artifact.
 Artifact - Once per turn, you may move a Villain to another city space. If another Villain is already there, swap them. If you moved any Villains this way, gain a Shard.
-'''Attack''': 5
-'''VP''': 0
+<b>Attack</b>: 5
+<b>VP</b>: 0
 
-''Time Gem'' (1 copy)
-'''Ambush''': Play another card from the Villain Deck. Time Gem gains Shards equal to that card's printed Victory Points.
-'''Fight''': Put this into your discard pile as an Artifact.
+<i>Time Gem</i> (1 copy)
+<b>Ambush</b>: Play another card from the Villain Deck. Time Gem gains Shards equal to that card's printed Victory Points.
+<b>Fight</b>: Put this into your discard pile as an Artifact.
 Artifact - When you play this Artifact, take another turn after this one. Use this ability only if this is the fist time any player has played the Time Gem this game.
-'''Attack''': 6
-'''VP''': 0
+<b>Attack</b>: 6
+<b>VP</b>: 0
 
 
+"
+The Mighty	"<font size='4'>The Mighty</font>
 
-"
-The Mighty	"
-
-''Black Widow'' (1 copy)
+<i>Black Widow</i> (1 copy)
 2 Uru-Enchanted Weapons
 Fight or Fail: If her Uru-Enchanted Weapons revealed any Bystanders, kidnap them.
-'''Attack''': 3*
-'''VP''': 4
+<b>Attack</b>: 3*
+<b>VP</b>: 4
 
-''Dr. Strange'' (1 copy)
+<i>Dr. Strange</i> (1 copy)
 Uru-Enchanted Weapon
-'''Ambush''': Reveal the top three cards of the Adversary Deck. Put the Adversary you revealed with the highest printed VP on top of that deck. Put the rest on the bottom of that deck in random order.
+<b>Ambush</b>: Reveal the top three cards of the Adversary Deck. Put the Adversary you revealed with the highest printed VP on top of that deck. Put the rest on the bottom of that deck in random order.
 Fight or Fail: You get +2 Recruit.
-'''Attack''': 5*
-'''VP''': 4
+<b>Attack</b>: 5*
+<b>VP</b>: 4
 
-''Hawkeye'' (1 copy)
+<i>Hawkeye</i> (1 copy)
 Uru-Enchanted Weapon
 Fight or Fail: Choose one: Each other player draws a card, or each other player discards a card.
-'''Attack''': 3*
-'''VP''': 2
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 
-''Iron Fist'' (1 copy)
+<i>Iron Fist</i> (1 copy)
 Uru-Enchanted Weapon
 If his Uru-Enchanted Weapon revealed an Adversary, KO one of your Allies.
-'''Attack''': 3*
-'''VP''': 2
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 
-''Ms. Marvel'' (1 copy)
+<i>Ms. Marvel</i> (1 copy)
 Uru-Enchanted Weapon
 Fight or Fail: If her Uru-Enchanted Weapon revealed a Command Strike or Plot Twist, play it.
 Overrun: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Ally or gains a Bindings.
-'''Attack''': 4*
-'''VP''': 3
+<b>Attack</b>: 4*
+<b>VP</b>: 3
 
-''Red She-Hulk'' (1 copy)
+<i>Red She-Hulk</i> (1 copy)
 Uru-Enchanted Weapon
 Fight or Fail: If her Uru-Enchanted Weapon revealed an Adversary, put that Adversary into your Victory Pile.
-'''Attack''': 4*
-'''VP''': 2
+<b>Attack</b>: 4*
+<b>VP</b>: 2
 
-''Spider-Man'' (1 copy)
+<i>Spider-Man</i> (1 copy)
 2 Uru-Enchanted Weapons
 Fight or Fail: Play all the cards revealed by his Uru-Enchanted Weapon that are worth 2 VP or less.
 Overrun: Each player gains a Bindings.
-'''Attack''': 2*
-'''VP''': 3
+<b>Attack</b>: 2*
+<b>VP</b>: 3
 
-''Wolverine'' (1 copy)
+<i>Wolverine</i> (1 copy)
 2 Uru-Enchanted Weapons
 Fight or Fail: Draw two cards.
 Overrun: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Ally or gains a Bindings. Then put Wolverine on top of the Adversary Deck.
-'''Attack''': 5*
-'''VP''': 6
+<b>Attack</b>: 5*
+<b>VP</b>: 6
 
 
+"
+The Deadlands	"<font size='4'>The Deadlands</font>
 
-"
-The Deadlands	"
+<i>Zombie Baron Zemo</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Fight</b>: For each of your Avengers Heroes, rescue a Bystander.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Zombie Baron Zemo'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Fight''': For each of your Avengers Heroes, rescue a Bystander.
-'''Attack''': 6
-'''VP''': 4
+<i>Zombie Loki</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Escape</b>: Loki ascends to become a new Mastermind. He gains the ability, <i>'""Master Strike</i>': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png  Hero or gains a Wound.""
+<b>Attack</b>: 8
+<b>VP</b>: 6
 
-''Zombie Loki'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Escape''': Loki ascends to become a new Mastermind. He gains the ability, '''""Master Strike''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png  Hero or gains a Wound.""
-'''Attack''': 8
-'''VP''': 6
+<i>Zombie Madame Hydra</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Fight</b>: KO one of your S.H.I.E.L.D. Heroes or HYDRA Allies.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Zombie Madame Hydra'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Fight''': KO one of your S.H.I.E.L.D. Heroes or HYDRA Allies.
-'''Attack''': 4
-'''VP''': 2
+<i>Zombie Mr. Sinister</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Escape</b>: Sinister ascends to become a new Mastermind. He gains the ability, ""<i>'Master Strike</i>': Sinister captures a Bystander. Then, each player with exactly 6 cards reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or discards cards equal to the number of Bystanders Sinister has.""
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Zombie Mr. Sinister'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Escape''': Sinister ascends to become a new Mastermind. He gains the ability, ""'''Master Strike''': Sinister captures a Bystander. Then, each player with exactly 6 cards reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or discards cards equal to the number of Bystanders Sinister has.""
-'''Attack''': 7
-'''VP''': 5
+<i>Zombie M.O.D.O.K.</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Fight</b>: KO one of your heroes with a Recruit icon.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Zombie M.O.D.O.K.'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Fight''': KO one of your heroes with a Recruit icon.
-'''Attack''': 5
-'''VP''': 3
+<i>Zombie Mysterio</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Escape</b>: Shuffle this card into the Mastermind's face-down Tactics. It becomes a Mastermind Tactic that says ""<i>'Fight</i>': Draw two cards.""
+<b>Attack</b>: 6
+<b>VP</b>: 6
 
-''Zombie Mysterio'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Escape''': Shuffle this card into the Mastermind's face-down Tactics. It becomes a Mastermind Tactic that says ""'''Fight''': Draw two cards.""
-'''Attack''': 6
-'''VP''': 6
+<i>Zombie Thanos</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
+<b>Escape</b>: Thanos ascends to become a new Mastermind. He gains the ability, ""<i>'Master Strike</i>': Each player reveals their hand and KOs one of their non-grey Heroes.""
+<b>Attack</b>: 9
+<b>VP</b>: 6
 
-''Zombie Thanos'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
-'''Escape''': Thanos ascends to become a new Mastermind. He gains the ability, ""'''Master Strike''': Each player reveals their hand and KOs one of their non-grey Heroes.""
-'''Attack''': 9
-'''VP''': 6
-
-''Zombie Venom'' (1 copy)
-'''Ambush''': '''Rise of the Living Dead'''
+<i>Zombie Venom</i> (1 copy)
+<b>Ambush</b>: <i>'Rise of the Living Dead</i>'
 You can't defeat Zombie Venom unless you have a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5*
-'''VP''': 3
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5*
+<b>VP</b>: 3
+"
+Domain of Apocalypse	"<font size='4'>Domain of Apocalypse</font>
 
-"
-Domain of Apocalypse	"
+<i>Apocalyptic Blink</i> (3 copies)
+<b>Fight</b>: Reveal the top card of your deck. Draw it or <i>'Teleport</i>' it.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Apocalyptic Blink'' (3 copies)
-'''Fight''': Reveal the top card of your deck. Draw it or '''Teleport''' it.
-'''Attack''': 5
-'''VP''': 3
+<i>Apocalyptic Magneto</i> (1 copy)
+<b>Fight</b>: Gain an X-Men Hero from the HQ for free.
+<b>Escape</b>: Magneto ascends to become a new Mastermind. He gains the ability, ""<i>'Master Strike</i>': Each player reveals an X-Men Hero or discards down to four cards.""
+<b>Attack</b>: 8
+<b>VP</b>: 6
 
-''Apocalyptic Magneto'' (1 copy)
-'''Fight''': Gain an X-Men Hero from the HQ for free.
-'''Escape''': Magneto ascends to become a new Mastermind. He gains the ability, ""'''Master Strike''': Each player reveals an X-Men Hero or discards down to four cards.""
-'''Attack''': 8
-'''VP''': 6
+<i>Apocalyptic Rogue</i> (2 copies)
+<b>Fight</b>: Reveal the top card of the Hero deck. The player of your choice gains it.
+<b>Escape</b>: Reveal the top card of the Hero deck. Each player reveals their hand and discards a card of that class.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Apocalyptic Rogue'' (2 copies)
-'''Fight''': Reveal the top card of the Hero deck. The player of your choice gains it.
-'''Escape''': Reveal the top card of the Hero deck. Each player reveals their hand and discards a card of that class.
-'''Attack''': 6
-'''VP''': 4
+<i>Apocalyptic Weapon X</i> (2 copies)
+<b>Fight</b>: KO one of your heroes.
+<b>Escape</b>: <i>'Cross-Dimensional Wolverine Rampage</i>'
+<b>Attack</b>: 7
+<b>VP</b>: 5
+"
+Limbo	"<font size='4'>Limbo</font>
 
-''Apocalyptic Weapon X'' (2 copies)
-'''Fight''': KO one of your heroes.
-'''Escape''': '''Cross-Dimensional Wolverine Rampage'''
-'''Attack''': 7
-'''VP''': 5
+<i>Inferno Colossus</i> (2 copies)
+<b>Ambush</b>: The Mastermind captures a Bystander.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-"
-Limbo	"
+<i>Inferno Cyclops</i> (2 copies)
+<b>Ambush</b>: Inferno Cyclops captures a Bystander.
+<b>Escape</b>: The Mastermind captures all the Bystanders this Villain had.
+<i>(Players still discard for the Bystander being carried away.)</i>
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Inferno Colossus'' (2 copies)
-'''Ambush''': The Mastermind captures a Bystander.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 5
-'''VP''': 3
+<i>Inferno Darkchilde</i> (2 copies)
+<b>Fight</b>: Reveal the top card of your deck. KO it or <i>'Teleport</i>' it.
+<b>Escape</b>: Each player <i>'Teleports</i>' a random card from their hand.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Inferno Cyclops'' (2 copies)
-'''Ambush''': Inferno Cyclops captures a Bystander.
-'''Escape''': The Mastermind captures all the Bystanders this Villain had.
-''(Players still discard for the Bystander being carried away.)''
-'''Attack''': 6
-'''VP''': 4
+<i>Inferno Nightcrawler</i> (2 copies)
+<b>Fight</b>: Up to two cards in your hand that have a Recruit icon gain <i>'Teleport</i>' this turn.
+<b>Attack</b>: 4
+<b>VP</b>: 2
+"
+Manhattan (Earth-1610)	"<font size='4'>Manhattan (Earth-1610)</font>
 
-''Inferno Darkchilde'' (2 copies)
-'''Fight''': Reveal the top card of your deck. KO it or '''Teleport''' it.
-'''Escape''': Each player '''Teleports''' a random card from their hand.
-'''Attack''': 5
-'''VP''': 3
-
-''Inferno Nightcrawler'' (2 copies)
-'''Fight''': Up to two cards in your hand that have a Recruit icon gain '''Teleport''' this turn.
-'''Attack''': 4
-'''VP''': 2
-
-"
-Manhattan (Earth-1610)	"
-
-''Ultimate Captain America'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 6
+<i>Ultimate Captain America</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 6
 ---
 https://cf.geekdo-static.com/mbs/mb_26286_0.png
 You get +1 Attack for each color of Hero you have
 0+ Attack
 
-''Ultimate Captain Marvel'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 4
+<i>Ultimate Captain Marvel</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 4
 ---
 https://cf.geekdo-static.com/mbs/mb_26285_0.png
-''Teleport''
+<i>Teleport</i>
 2 Recruit
 
-''Ultimate Thor'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Escape''': '''Cross-Dimensional Thor Rampage'''
-'''Attack''': 7
+<i>Ultimate Thor</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Escape</b>: <i>'Cross-Dimensional Thor Rampage</i>'
+<b>Attack</b>: 7
 ---
 https://cf.geekdo-static.com/mbs/mb_26285_0.png
 https://cf.geekdo-static.com/mbs/mb_26285_0.png: You get +3 Attack.
 3+ Attack
 
-''Ultimate Wasp'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 5
+<i>Ultimate Wasp</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 5
 ---
 https://cf.geekdo-static.com/mbs/mb_26283_0.png
 https://cf.geekdo-static.com/mbs/mb_26283_0.png: You get +2 Attack.
 2+ Attack
+"
+Sentinel Territories	"<font size='4'>Sentinel Territories</font>
 
-"
-Sentinel Territories	"
+<i>Colossus of Future Past</i> (2 copies)
+<b>Fight</b>: <i>Colossus changes the future:</i> Don't play a Villain card at the beginning of next turn.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Colossus of Future Past'' (2 copies)
-'''Fight''': ''Colossus changes the future:'' Don't play a Villain card at the beginning of next turn.
-'''Attack''': 5
-'''VP''': 3
+<i>Kate Pryde of Future Past</i> (2 copies)
+<b>Fight</b>: You get +1 Recruit. Then, <i>Kate Pryde alters the future:</i> At the beginning of the next player's turn, that player gets +1 Recruit.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Kate Pryde of Future Past'' (2 copies)
-'''Fight''': You get +1 Recruit. Then, ''Kate Pryde alters the future:'' At the beginning of the next player's turn, that player gets +1 Recruit.
-'''Attack''': 4
-'''VP''': 2
+<i>Rachel Summers of Future Past</i> (2 copies)
+<b>Fight</b>: <i>Rachel Summers alters the future:</i> During the next player's turn, all Villains and the Mastermind get -1 Attack. '''Escape''': This turn, All Villains and the Mastermind get +1 Attack.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Rachel Summers of Future Past'' (2 copies)
-'''Fight''': ''Rachel Summers alters the future:'' During the next player's turn, all Villains and the Mastermind get -1 Attack. '''Escape''': This turn, All Villains and the Mastermind get +1 Attack.
-'''Attack''': 6
-'''VP''': 4
+<i>Wolverine of Future Past</i> (2 copies)
+<b>Fight</b>: <i>Wolverine alters the future:</i> At the start of the next player's turn, you draw a card, and that player draws a card.
+<b>Escape</b>: <i>'Cross-Dimensional Wolverine Rampage</i>'
+<b>Attack</b>: 7
+<b>VP</b>: 5
+"
+Wasteland	"<font size='4'>Wasteland</font>
 
-''Wolverine of Future Past'' (2 copies)
-'''Fight''': ''Wolverine alters the future:'' At the start of the next player's turn, you draw a card, and that player draws a card.
-'''Escape''': '''Cross-Dimensional Wolverine Rampage'''
-'''Attack''': 7
-'''VP''': 5
+<i>The Hulk Gang</i> (3 copies)
+<b>Fight</b>: <i>'Cross-Dimensional Hulk Rampage</i>' '''Escape''': Same effect.
+<b>Attack</b>: 5 <i>'VP</i>': 3
 
-"
-Wasteland	"
+<i>Wasteland Kingpin</i> (1 copy)
+<i>Bribe</i> (2 copies)
+<b>Escape</b>: Kingpin ascends to become a new Mastermind. He gains the ability, ""<i>'Master Strike</i>': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards their hand and draws 5 cards.""
+<b>Attack</b>: 11*
+<b>VP</b>: 6
 
-''The Hulk Gang'' (3 copies)
-'''Fight''': '''Cross-Dimensional Hulk Rampage''' '''Escape''': Same effect.
-'''Attack''': 5 '''VP''': 3
+<i>Wasteland Hawkeye</i> (2 copies)
+<b>Ambush</b>: Wasteland Hawkeye captures a Bystander. <i>'Fight</i>': Choose one: Each other player draws a card, or each other player discards a card.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Wasteland Kingpin'' (1 copy)
-''Bribe'' (2 copies)
-'''Escape''': Kingpin ascends to become a new Mastermind. He gains the ability, ""'''Master Strike''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards their hand and draws 5 cards.""
-'''Attack''': 11*
-'''VP''': 6
-
-''Wasteland Hawkeye'' (2 copies)
-'''Ambush''': Wasteland Hawkeye captures a Bystander. '''Fight''': Choose one: Each other player draws a card, or each other player discards a card.
-'''Attack''': 6
-'''VP''': 4
-
-''Wasteland Spider-Girl'' (2 copies)
-'''Fight''': Reveal the top card of your deck. If it costs 2 or less, KO it.
-'''Attack''': 4
-'''VP''': 2
+<i>Wasteland Spider-Girl</i> (2 copies)
+<b>Fight</b>: Reveal the top card of your deck. If it costs 2 or less, KO it.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
 
+"
+Deadpool's Secret Secret Wars	"<font size='4'>Deadpool's Secret Secret Wars</font>
 
-"
-Deadpool's Secret Secret Wars	"
+<i>Deadpool</i> (1 copy)
+<i>5th Circle of Kung-Fu</i>
+<b>Fight</b>: <i>'Fateful Resurrection</i>'
+<b>Escape</b>: Deadpool ascends to become a new Mastermind. He gains the ability, ""<i>'Master Strike</i>': Each player reveals a Hero with an odd-numbered cost or gains a Wound."" ''(0 is even).''
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
-''Deadpool'' (1 copy)
-''5th Circle of Kung-Fu''
-'''Fight''': '''Fateful Resurrection'''
-'''Escape''': Deadpool ascends to become a new Mastermind. He gains the ability, ""'''Master Strike''': Each player reveals a Hero with an odd-numbered cost or gains a Wound."" ''(0 is even).''
-'''Attack''': 5+
-'''VP''': 5
-
-''Doop'' (2 copies)
+<i>Doop</i> (2 copies)
 You can't fight Doop if there is a Villain in an adjacent city space.
-'''Attack''': 2*
-'''VP''': 2
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 
-''Howard the Duck'' (2 copies)
-'''Ambush''': Howard the Duck captures ''(the heart of)'' a Bystander.
-''7th Circle of Quack-Fu''
-'''Attack''': 1+
-'''VP''': 4
+<i>Howard the Duck</i> (2 copies)
+<b>Ambush</b>: Howard the Duck captures <i>(the heart of)</i> a Bystander.
+<i>7th Circle of Quack-Fu</i>
+<b>Attack</b>: 1+
+<b>VP</b>: 4
 
-''Pink Sphinx'' (3 copies)
-'''Fight''': '''Spectrum''': KO one of your Heroes.
-'''Attack''': 4
-'''VP''': 2
+<i>Pink Sphinx</i> (3 copies)
+<b>Fight</b>: <i>'Spectrum</i>': KO one of your Heroes.
+<b>Attack</b>: 4
+<b>VP</b>: 2
+"
+Guardians of Knowhere	"<font size='4'>Guardians of Knowhere</font>
 
-"
-Guardians of Knowhere	"
+<i>Angela</i> (1 copy)
+<b>Fight</b>: <i>'Fateful Resurrection</i>'
+<b>Escape</b>: Angela ascends to become a new Mastermind. She gains the ability, ""<i>'Master Strike</i>': Each player KOs a Hero from their discard pile that costs 1 or more.""
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Angela'' (1 copy)
-'''Fight''': '''Fateful Resurrection'''
-'''Escape''': Angela ascends to become a new Mastermind. She gains the ability, ""'''Master Strike''': Each player KOs a Hero from their discard pile that costs 1 or more.""
-'''Attack''': 7
-'''VP''': 5
+<i>Drax the Destroyer</i> (2 copies)
+<b>Fight</b>: Reveal the top card of your deck. KO it or put it back. <i>'Fateful Resurrection.</i>'
+<b>Attack</b>: 5
+<b>VP</b>: 4
 
-''Drax the Destroyer'' (2 copies)
-'''Fight''': Reveal the top card of your deck. KO it or put it back. '''Fateful Resurrection.'''
-'''Attack''': 5
-'''VP''': 4
+<i>Gamora</i> (1 copy)
+<b>Ambush</b>: <i>'Charge</i>' one space.
+<b>Fight</b>: <i>(After this goes to your victory pile.)</i> '''Patrol the Sewers''': If it's empty, each other player gains a Wound.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Gamora'' (1 copy)
-'''Ambush''': '''Charge''' one space.
-'''Fight''': ''(After this goes to your victory pile.)'' '''Patrol the Sewers''': If it's empty, each other player gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 6
-'''VP''': 4
+<i>Groot</i> (2 copies)
+<b>Fight</b>: <i>'Fateful Resurrection.</i>' If Groot resurrects this way, then he becomes Tiny Dancing Groot with Attack 1 and no abilities for the rest of the turn.
+<b>Attack</b>: 5
+<b>VP</b>: 4
 
-''Groot'' (2 copies)
-'''Fight''': '''Fateful Resurrection.''' If Groot resurrects this way, then he becomes Tiny Dancing Groot with Attack 1 and no abilities for the rest of the turn.
-'''Attack''': 5
-'''VP''': 4
+<i>Rocket Raccoon</i> (2 copies)
+<b>Fight</b>: <i>(After this goes to your Victory Pile.)</i> '''Patrol the Bank''': If it's empty, draw a card. If it's not empty, KO one of your Heroes.
+<b>Attack</b>: 4
+<b>VP</b>: 2
+"
+K'un-lun	"<font size='4'>K'un-lun</font>
 
-''Rocket Raccoon'' (2 copies)
-'''Fight''': ''(After this goes to your Victory Pile.)'' '''Patrol the Bank''': If it's empty, draw a card. If it's not empty, KO one of your Heroes.
-'''Attack''': 4
-'''VP''': 2
+<i>Laughing Skull</i> (2 copies)
+<b>5th Circle of Kung-Fu</b>
+<b>Escape</b>: Each player reveals a Hero that costs 5 or more, or they discard a card.
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
-"
-K'un-lun	"
+<i>Rand K'ai</i> (2 copies)
+<b>6th Circle of Kung-Fu</b>
+<b>Escape</b>: Each player reveals a Hero that costs 6 or more, or they gain a wound.
+<b>Attack</b>: 6+
+<b>VP</b>: 6
 
-''Laughing Skull'' (2 copies)
-'''5th Circle of Kung-Fu'''
-'''Escape''': Each player reveals a Hero that costs 5 or more, or they discard a card.
-'''Attack''': 5+
-'''VP''': 5
+<i>Razor Fist</i> (2 copies)
+<b>3rd Circle of Kung-Fu</b>
+<b>Fight</b>: For each of your Heroes that costs 3, KO one of your Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Rand K'ai'' (2 copies)
-'''6th Circle of Kung-Fu'''
-'''Escape''': Each player reveals a Hero that costs 6 or more, or they gain a wound.
-'''Attack''': 6+
-'''VP''': 6
+<i>Red Sai</i> (2 copies)
+<b>4th Circle of Kung-Fu</b>
+<b>Fight</b>: Draw a card for each of your Heroes that costs 4.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
+"
+Monster Metropolis	"<font size='4'>Monster Metropolis</font>
 
-''Razor Fist'' (2 copies)
-'''3rd Circle of Kung-Fu'''
-'''Fight''': For each of your Heroes that costs 3, KO one of your Heroes.
-'''Attack''': 3+
-'''VP''': 3
+<i>Bug, Shiklah's Dragon</i> (2 copies)
+<b>Fight</b>: KO a card from your discard pile. <i>'Fateful Resurrection</i>'
+<b>Attack</b>: 4
+<b>VP</b>: 3
 
-''Red Sai'' (2 copies)
-'''4th Circle of Kung-Fu'''
-'''Fight''': Draw a card for each of your Heroes that costs 4.
-'''Attack''': 4+
-'''VP''': 4
+<i>Ghost Deadpool</i> (2 copies)
+<b>Fight</b>: <i>'Fateful Resurrection</i>'. Then, '''Cross-Dimensional Deadpool Rampage'''
+<b>Escape</b>: <i>'Cross-Dimensional Deadpool Rampage</i>'
+<b>Attack</b>: 5
+<b>VP</b>: 5
 
-"
-Monster Metropolis	"
+<i>Man-Thing</i> (2 copies)
+<b>Ambush</b>: Each Monster Metropolis Villain captures a Bystander.
+<b>Fight</b>: <i>'Fateful Resurrection</i>'
+<b>Attack</b>: 5
+<b>VP</b>: 4
 
-''Bug, Shiklah's Dragon'' (2 copies)
-'''Fight''': KO a card from your discard pile. '''Fateful Resurrection'''
-'''Attack''': 4
-'''VP''': 3
-
-''Ghost Deadpool'' (2 copies)
-'''Fight''': '''Fateful Resurrection'''. Then, '''Cross-Dimensional Deadpool Rampage'''
-'''Escape''': '''Cross-Dimensional Deadpool Rampage'''
-'''Attack''': 5
-'''VP''': 5
-
-''Man-Thing'' (2 copies)
-'''Ambush''': Each Monster Metropolis Villain captures a Bystander.
-'''Fight''': '''Fateful Resurrection'''
-'''Attack''': 5
-'''VP''': 4
-
-''Marcus Symbiote Centaur'' (2 copies)
-'''Ambush''': '''Charge''' two spaces.
+<i>Marcus Symbiote Centaur</i> (2 copies)
+<b>Ambush</b>: <i>'Charge</i>' two spaces.
 When in the Sewers, Rooftops or Bridge, he is in ""wolf form"" and gets +3 Attack.
-'''Attack''': 3+
-'''VP''': 3
+<b>Attack</b>: 3+
+<b>VP</b>: 3
+"
+Utopolis	"<font size='4'>Utopolis</font>
 
-"
-Utopolis	"
+<i>Doctor Spectrum</i> (3 copies)
+<b>Ambush</b>: <i>'Charge</i>' one space.
+<b>Fight</b>: <i>'Spectrum</i>': KO a card from your discard pile.
+<b>Escape</b>: Each player who doesn't have <i>'Spectrum</i>' discards a card.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Doctor Spectrum'' (3 copies)
-'''Ambush''': '''Charge''' one space.
-'''Fight''': '''Spectrum''': KO a card from your discard pile.
-'''Escape''': Each player who doesn't have '''Spectrum''' discards a card.
-'''Attack''': 6
-'''VP''': 4
-
-''Nighthawk'' (2 copies)
+<i>Nighthawk</i> (2 copies)
 While in the Sewers, Rooftops or Bridge, Nighthawk gains +4 Attack.
-'''Escape''': Nighthawk becomes a Scheme Twist that takes effect immediately.
-'''Attack''': 4+
-'''VP''': 4
+<b>Escape</b>: Nighthawk becomes a Scheme Twist that takes effect immediately.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Warrior Woman'' (1 copy)
-'''Ambush''': '''Charge''' one space.
-'''Escape''': Warrior Woman ascends to become a new Mastermind. She gains the ability, ""'''Master Strike''': '''Patrol the Bank''': If there's a Villain there, each player discards a card with a Recruit icon.""
-'''Attack''': 8
-'''VP''': 6
+<i>Warrior Woman</i> (1 copy)
+<b>Ambush</b>: <i>'Charge</i>' one space.
+<b>Escape</b>: Warrior Woman ascends to become a new Mastermind. She gains the ability, ""<i>'Master Strike</i>': '''Patrol the Bank''': If there's a Villain there, each player discards a card with a Recruit icon.""
+<b>Attack</b>: 8
+<b>VP</b>: 6
 
-''Whizzer'' (2 copies)
-'''Ambush''': '''Charge''' three spaces.
-'''Fight''': ''(After he goes to your victory pile.)'' '''Patrol the Bridge''': If there's a Villain there, each other player gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5
-'''VP''': 3
+<i>Whizzer</i> (2 copies)
+<b>Ambush</b>: <i>'Charge</i>' three spaces.
+<b>Fight</b>: <i>(After he goes to your victory pile.)</i> '''Patrol the Bridge''': If there's a Villain there, each other player gains a Wound.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+X-Men '92	"<font size='4'>X-Men '92</font>
 
-"
-X-Men '92	"
-
-'''92 Beast'' (2 copies)
-'''Ambush''': Charge one space.
-'''Fight''': Gain this as a Hero.
-'''Attack''': 5
+<b>92 Beast<i> (2 copies)
+<b>Ambush</b>: Charge one space.
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 5
 ---
 https://cf.geekdo-static.com/mbs/mb_26286_0.png
 https://cf.geekdo-static.com/mbs/mb_26287_0.png: Draw a card.
 2 Attack
 
-'''92 Jubilee'' (3 copies)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 4
+<b>92 Jubilee<i> (3 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 4
 ---
 https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''Spectrum''': You get +2 Attack.
+<b>Spectrum</b>: You get +2 Attack.
 2+ Attack
 
-'''92 Professor X'' (1 copy)
-'''Escape''': '92 Professor X ascends to become a new Mastermind. He gains the ability, ""'''Master Strike''': Stack the two heroes from the HQ with the highest cost next to '92 Professor X. He gets +1 Attack for each Hero stacked there. Players can recruit the top card of the stack.""
-'''Attack''': 8+
-'''VP''': 6
+<b>92 Professor X<i> (1 copy)
+<b>Escape</b>: '92 Professor X ascends to become a new Mastermind. He gains the ability, ""<i>'Master Strike</i>': Stack the two heroes from the HQ with the highest cost next to '92 Professor X. He gets +1 Attack for each Hero stacked there. Players can recruit the top card of the stack.""
+<b>Attack</b>: 8+
+<b>VP</b>: 6
 
-'''92 Wolverine'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Escape''': '''Cross-Dimensional Wolverine Rampage'''
-'''Attack''': 7
+<b>92 Wolverine<i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Escape</b>: <i>'Cross-Dimensional Wolverine Rampage</i>'
+<b>Attack</b>: 7
 ---
 https://cf.geekdo-static.com/mbs/mb_26284_0.png
 https://cf.geekdo-static.com/mbs/mb_26284_0.png: Draw two cards.
 2 Attack
 
 
+"
+Zola's Creations	"<font size='4'>Zola's Creations</font>
 
-"
-Zola's Creations	"
-
-''Captain Zolandia'' (2 copies)
+<i>Captain Zolandia</i> (2 copies)
 Abomination
-'''Fight''': You get +1 Recruit for each Hero Class you have.
-'''Attack''': 6+
-'''VP''': 5
+<b>Fight</b>: You get +1 Recruit for each Hero Class you have.
+<b>Attack</b>: 6+
+<b>VP</b>: 5
 
-''Doughboy'' (2 copies)
+<i>Doughboy</i> (2 copies)
 Abomination
-'''Fight''': KO one of your Heroes.
-'''Attack''': 4+
-'''VP''': 3
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''Man-Fish'' (2 copies)
+<i>Man-Fish</i> (2 copies)
 Abomination
-'''Fight''': If you fought Man-Fish in the Sewers or Bridge, then each other player gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5+
-'''VP''': 4
+<b>Fight</b>: If you fought Man-Fish in the Sewers or Bridge, then each other player gains a Wound.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Primus'' (2 copies)
+<i>Primus</i> (2 copies)
 To fight Primus, you must also discard a card that costs 2, 3, 5, or 7.
-'''Escape''': each player discards a Hero that costs 2, 3, 5, or 7.
-'''Attack''': 3*
-'''VP''': 3
+<b>Escape</b>: each player discards a Hero that costs 2, 3, 5, or 7.
+<b>Attack</b>: 3*
+<b>VP</b>: 3
+"
+Masters of Evil (WWII)	"<font size='4'>Masters of Evil (WWII)</font>
 
-"
-Masters of Evil (WWII)	"
+<i>Black Knight</i> (2 copies)
+<b>Ambush</b>: Black Knight captures a Bystander.
+<b>Fight</b>: Savior: KO one of your Heroes.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Black Knight'' (2 copies)
-'''Ambush''': Black Knight captures a Bystander.
-'''Fight''': Savior: KO one of your Heroes.
-'''Attack''': 4
-'''VP''': 2
+<i>Executioner</i> (2 copies)
+<b>Ambush</b>: Executioner captures a Bystander
+<b>Fight</b>: Savior: Draw a card.
+<b>Escape</b>: KO a Bystander from each player's Victory Pile.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Executioner'' (2 copies)
-'''Ambush''': Executioner captures a Bystander
-'''Fight''': Savior: Draw a card.
-'''Escape''': KO a Bystander from each player's Victory Pile.
-'''Attack''': 6
-'''VP''': 4
+<i>Melter (WWII)</i> (2 copies)
+<b>Ambush</b>: Melter captures a Bystander.
+<b>Fight</b>: Savior: Each player reveals the top card of their deck. For each card, you choose to KO it or put it back.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Melter (WWII)'' (2 copies)
-'''Ambush''': Melter captures a Bystander.
-'''Fight''': Savior: Each player reveals the top card of their deck. For each card, you choose to KO it or put it back.
-'''Attack''': 5
-'''VP''': 3
-
-''Radioactive Man'' (2 copies)
-'''Ambush''': Radioactive Man captures a Bystander.
-'''Fight''': Each player who is not a Savior gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
-
+<i>Radioactive Man</i> (2 copies)
+<b>Ambush</b>: Radioactive Man captures a Bystander.
+<b>Fight</b>: Each player who is not a Savior gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
 
-"
-CSA Special Marshals	"
+"
+CSA Special Marshals	"<font size='4'>CSA Special Marshals</font>
 
-''Bullseye'' (2 copies)
-'''Fight''': KO one of your heroes with a Recruit icon.
-'''Escape''': Each player KOs one of their Heroes that has printed Attack of 2 or more.
-'''Attack''': 6
-'''VP''': 4
+<i>Bullseye</i> (2 copies)
+<b>Fight</b>: KO one of your heroes with a Recruit icon.
+<b>Escape</b>: Each player KOs one of their Heroes that has printed Attack of 2 or more.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Moonstone'' (2 copies)
-'''Fight''': Each other player discards two cards, and then draws a card.
-'''Attack''': 4
-'''VP''': 2
+<i>Moonstone</i> (2 copies)
+<b>Fight</b>: Each other player discards two cards, and then draws a card.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Penance'' (2 copies)
+<i>Penance</i> (2 copies)
 Penance gets +1 Attack for each Villain in your Victory Pile.
-'''Attack''': 2+
-'''VP''': 3
+<b>Attack</b>: 2+
+<b>VP</b>: 3
 
-''Venom'' (2 copies)
+<i>Venom</i> (2 copies)
 Size-Changing: https://cf.geekdo-static.com/mbs/mb_26283_0.png
-'''Escape''': Fortify the Bystander Stack. While it's fortified, if a Bystander would be rescued from there, KO that Bystander instead.
-'''Attack''': 7*
-'''VP''': 4
+<b>Escape</b>: Fortify the Bystander Stack. While it's fortified, if a Bystander would be rescued from there, KO that Bystander instead.
+<b>Attack</b>: 7*
+<b>VP</b>: 4
+"
+Great Lakes Avengers	"<font size='4'>Great Lakes Avengers</font>
 
-"
-Great Lakes Avengers	"
-
-''Big Bertha'' (2 copies)
+<i>Big Bertha</i> (2 copies)
 Size-Changing: https://cf.geekdo-static.com/mbs/mb_26286_0.png
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 7*
-'''VP''': 4
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 7*
+<b>VP</b>: 4
 
-''Flatman'' (2 copies)
+<i>Flatman</i> (2 copies)
 Size-Changing: https://cf.geekdo-static.com/mbs/mb_26283_0.png
-'''Fight''': KO a card from your discard pile.
-'''Attack''': 5*
-'''VP''': 2
+<b>Fight</b>: KO a card from your discard pile.
+<b>Attack</b>: 5*
+<b>VP</b>: 2
 
-''Mr. Immortal'' (2 copies)
-'''Fight''': Reveal the top card of the Villain Deck. If it's a Villain or Bystander, Mr. Immortal reenters the Sewers.
-'''Attack''': 2
-'''VP''': 2
+<i>Mr. Immortal</i> (2 copies)
+<b>Fight</b>: Reveal the top card of the Villain Deck. If it's a Villain or Bystander, Mr. Immortal reenters the Sewers.
+<b>Attack</b>: 2
+<b>VP</b>: 2
 
-''Squirrel Girl'' (2 copies)
+<i>Squirrel Girl</i> (2 copies)
 You can't fight Squirrel Girl if you played more than one card this turn.
-'''Escape''': Fortify the Sidekick Stack. While it's fortified, Sidekicks can't be recruited or gained.
-'''Attack''': 3*
-'''VP''': 2
+<b>Escape</b>: Fortify the Sidekick Stack. While it's fortified, Sidekicks can't be recruited or gained.
+<b>Attack</b>: 3*
+<b>VP</b>: 2
+"
+Heroes for Hire	"<font size='4'>Heroes for Hire</font>
 
-"
-Heroes for Hire	"
-
-''Colleen Wing'' (2 copies)
+<i>Colleen Wing</i> (2 copies)
 Bribe
-'''Escape''': Fortify the Mastermind. While it's fortified, the Mastermind can't be fought.
-'''Attack''': 9*
-'''VP''': 5
+<b>Escape</b>: Fortify the Mastermind. While it's fortified, the Mastermind can't be fought.
+<b>Attack</b>: 9*
+<b>VP</b>: 5
 
-''Humbug'' (2 copies)
+<i>Humbug</i> (2 copies)
 Bribe
-'''Fight''': KO one of your Heroes.
-'''Attack''': 5*
-'''VP''': 3
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 5*
+<b>VP</b>: 3
 
-''Shang-Chi'' (2 copies)
+<i>Shang-Chi</i> (2 copies)
 Bribe
-'''Fight''': If you have any cards in your discard pile, then shuffle them into your deck, and Shang-Chi reenters the Sewers.
-'''Attack''': 3*
-'''VP''': 2
+<b>Fight</b>: If you have any cards in your discard pile, then shuffle them into your deck, and Shang-Chi reenters the Sewers.
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 
-''Tarantula'' (2 copies)
+<i>Tarantula</i> (2 copies)
 Bribe
-'''Fight''': Each player discards two cards or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 7*
-'''VP''': 5
+<b>Fight</b>: Each player discards two cards or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 7*
+<b>VP</b>: 5
+"
+Registration Enforcers	"<font size='4'>Registration Enforcers</font>
 
-"
-Registration Enforcers	"
+<i>Blade</i> (2 copies)
+<b>Fight</b>: If you fight Blade in the Sewers or Rooftops, you get +2 Recruit.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Blade'' (2 copies)
-'''Fight''': If you fight Blade in the Sewers or Rooftops, you get +2 Recruit.
-'''Attack''': 4
-'''VP''': 2
+<i>Captain Marvel</i> (2 copies)
+<b>Fight</b>: Each player swaps a card from their hand with the top card of their deck.
+<b>Escape</b>: Each player swaps their hand with the top four cards of their deck.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Captain Marvel'' (2 copies)
-'''Fight''': Each player swaps a card from their hand with the top card of their deck.
-'''Escape''': Each player swaps their hand with the top four cards of their deck.
-'''Attack''': 6
-'''VP''': 4
+<i>Deadpool</i> (2 copies)
+<b>Ambush</b>: Each player reveals a card that costs 5 or discards down to 5 cards.
+<b>Fight</b>: Same effect.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 5
 
-''Deadpool'' (2 copies)
-'''Ambush''': Each player reveals a card that costs 5 or discards down to 5 cards.
-'''Fight''': Same effect.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 5
-
-''Micromax'' (2 copies)
+<i>Micromax</i> (2 copies)
 Size-Changing: https://cf.geekdo-static.com/mbs/mb_26284_0.png
-'''Fight''': KO one of your Heroes.
-'''Attack''': 6*
-'''VP''': 3
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 6*
+<b>VP</b>: 3
+"
+S.H.I.E.L.D. Elite	"<font size='4'>S.H.I.E.L.D. Elite</font>
 
-"
-S.H.I.E.L.D. Elite	"
-
-''Agent Eric Marshall'' (2 copies)
+<i>Agent Eric Marshall</i> (2 copies)
 S.H.I.E.L.D. Clearance
-'''Ambush''': A S.H.I.E.L.D. Officer enters the city as a 3 Attack Villain. When you fight it, gain it as a Hero.
-'''Attack''': 1*
-'''VP''': 2
+<b>Ambush</b>: A S.H.I.E.L.D. Officer enters the city as a 3 Attack Villain. When you fight it, gain it as a Hero.
+<b>Attack</b>: 1*
+<b>VP</b>: 2
 
-''Agent Gabe Jones'' (2 copies)
+<i>Agent Gabe Jones</i> (2 copies)
 S.H.I.E.L.D. Clearance
-'''Fight''': A S.H.I.E.L.D. Officer enters the city as a 3 Attack Villain. When you fight it, gain it as a Hero.
-'''Attack''': 2*
-'''VP''': 2
+<b>Fight</b>: A S.H.I.E.L.D. Officer enters the city as a 3 Attack Villain. When you fight it, gain it as a Hero.
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 
-''Dum Dum Dugan'' (2 copies)
+<i>Dum Dum Dugan</i> (2 copies)
 S.H.I.E.L.D. Clearance
-'''Fight''': Each player with no S.H.I.E.L.D. Officers in their discard pile gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 4*
-'''VP''': 3
+<b>Fight</b>: Each player with no S.H.I.E.L.D. Officers in their discard pile gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 4*
+<b>VP</b>: 3
 
-''Sharon Carter, Agent 13'' (2 copies)
+<i>Sharon Carter, Agent 13</i> (2 copies)
 S.H.I.E.L.D. Clearance
-'''Escape''': Fortify the S.H.I.E.L.D. Officer stack. While it's fortified, whenever any number of S.H.I.E.L.D. Officers become Villains, an extra one becomes a Villain.
-'''Attack''': 6*
-'''VP''': 5
+<b>Escape</b>: Fortify the S.H.I.E.L.D. Officer stack. While it's fortified, whenever any number of S.H.I.E.L.D. Officers become Villains, an extra one becomes a Villain.
+<b>Attack</b>: 6*
+<b>VP</b>: 5
+"
+Superhuman Registration Act	"<font size='4'>Superhuman Registration Act</font>
 
-"
-Superhuman Registration Act	"
+<i>Iron Spider</i> (2 copies)
+<b>Ambush</b>: Fortify your deck. While Iron Spider fortifies a players deck, that player draws one fewer card at the end of their turn.
+<b>Fight</b>: Reveal the top card of the Villain Deck. If that card is worth 2 VP or less, Iron Spider fortifies the deck of the player on your left.
+<b>Attack</b>: 2
+<b>VP</b>: 3
 
-''Iron Spider'' (2 copies)
-'''Ambush''': Fortify your deck. While Iron Spider fortifies a players deck, that player draws one fewer card at the end of their turn.
-'''Fight''': Reveal the top card of the Villain Deck. If that card is worth 2 VP or less, Iron Spider fortifies the deck of the player on your left.
-'''Attack''': 2
-'''VP''': 3
+<i>Ms. Marvel</i> (2 copies)
+<b>Escape</b>: Fortify an HQ space. While its fortified, Heroes can't be gained from that space.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Ms. Marvel'' (2 copies)
-'''Escape''': Fortify an HQ space. While its fortified, Heroes can't be gained from that space.
-'''Attack''': 5
-'''VP''': 3
-
-''She-Hulk'' (2 copies)
+<i>She-Hulk</i> (2 copies)
 Size-Changing: https://cf.geekdo-static.com/mbs/mb_26286_0.png
-'''Escape''': Fortify the Villain Deck. When a Master Strike is completed from that deck, each player gains a Wound and She-Hulk enters the Sewers.
-'''Attack''': 8*
-'''VP''': 5
+<b>Escape</b>: Fortify the Villain Deck. When a Master Strike is completed from that deck, each player gains a Wound and She-Hulk enters the Sewers.
+<b>Attack</b>: 8*
+<b>VP</b>: 5
 
-''Yellowjacket'' (2 copies)
+<i>Yellowjacket</i> (2 copies)
 Size-Changing: https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''Escape''': Fortify the Hero Deck. While it's fortified, whenever a Hero in the HQ costs 7 or more, KO that Hero.
-'''Attack''': 7*
-'''VP''': 4
+<b>Escape</b>: Fortify the Hero Deck. While it's fortified, whenever a Hero in the HQ costs 7 or more, KO that Hero.
+<b>Attack</b>: 7*
+<b>VP</b>: 4
+"
+Thunderbolts	"<font size='4'>Thunderbolts</font>
 
-"
-Thunderbolts	"
+<i>Fixer</i> (2 copies)
+<b>Fight</b>: Look at the top three cards of your deck. KO one and put the rest back in any order.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Fixer'' (2 copies)
-'''Fight''': Look at the top three cards of your deck. KO one and put the rest back in any order.
-'''Attack''': 4
-'''VP''': 2
+<i>Mach-IV</i> (2 copies)
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Mach-IV'' (2 copies)
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Radioactive Man</i> (2 copies)
+<b>Escape</b>: Fortify the Wound Stack. While it's fortified, whenever a player gains a Wound, that player gains an extra Wound.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Radioactive Man'' (2 copies)
-'''Escape''': Fortify the Wound Stack. While it's fortified, whenever a player gains a Wound, that player gains an extra Wound.
-'''Attack''': 6
-'''VP''': 4
-
-''Songbird'' (2 copies)
-'''Fight''': Each player without another Thunderbolts Villain in their Victory Pile gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
-
+<i>Songbird</i> (2 copies)
+<b>Fight</b>: Each player without another Thunderbolts Villain in their Victory Pile gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
 
-"
-"Deadpool's ""Friends"""	"
+"
+"Deadpool's ""Friends"""	"<font size='4'>Deadpool's ""Friends""</font>
 
-''Blind Al and Deuce'' (2 copies)
-'''Revenge for Deadpool's ""Friends""'''
-To fight Blind Al, you also gotta drop a Deuce ''(discard a card with a ""2"" printed anywhere on it)''. Deuce is her dog, obviously.
-'''Escape''': Everybody drop a Deuce.
-'''Attack''': 2+
-'''VP''': 3
+<i>Blind Al and Deuce</i> (2 copies)
+<b>Revenge for Deadpool's ""Friends""</b>
+To fight Blind Al, you also gotta drop a Deuce <i>(discard a card with a ""2"" printed anywhere on it)</i>. Deuce is her dog, obviously.
+<b>Escape</b>: Everybody drop a Deuce.
+<b>Attack</b>: 2+
+<b>VP</b>: 3
 
-''Sluggo'' (2 copies)
-'''Revenge for Deadpool's ""Friends""'''
-'''Fight''': '''Excessive Violence''': Gain the Hero from the HQ with the lowest cost ''(or tied for lowest)''.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5+
-'''VP''': 4
+<i>Sluggo</i> (2 copies)
+<b>Revenge for Deadpool's ""Friends""</b>
+<b>Fight</b>: <i>'Excessive Violence</i>': Gain the Hero from the HQ with the lowest cost ''(or tied for lowest)''.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Taskmaster'' (2 copies)
-'''Ambush''': Taskmaster captures a Bystander.
+<i>Taskmaster</i> (2 copies)
+<b>Ambush</b>: Taskmaster captures a Bystander.
 During your turn, Taskmaster gets +Attack equal to the cost of the highest-cost Hero you played this turn.
-'''Attack''': 3+ (erratum, see FAQ, 3* as printed)
-'''VP''': 2 (erratum, see FAQ, 4 as printed)
-[size=8]''Flavor: ""They call it Photographic Reflexes: I can copy any fighting move I've ever seen. And I've seen Howard the Duck.""''[/size]
+<b>Attack</b>: 3+ (erratum, see FAQ, 3* as printed)
+<b>VP</b>: 2 (erratum, see FAQ, 4 as printed)
+<font size='1'><i><i>Flavor: ""They call it Photographic Reflexes: I can copy any fighting move I've ever seen. And I've seen Howard the Duck.""</i></i></font>
 
-''Weasel'' (2 copies)
-'''Revenge for Deadpool's ""Friends""'''
-'''Ambush''': Each player simultaneously passes a card from their hand to the player on their left.
-'''Fight''': Same effect.
-'''Attack''': 4+
-'''VP''': 3
+<i>Weasel</i> (2 copies)
+<b>Revenge for Deadpool's ""Friends""</b>
+<b>Ambush</b>: Each player simultaneously passes a card from their hand to the player on their left.
+<b>Fight</b>: Same effect.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
+"
+Evil Deadpool Corpse	"<font size='4'>Evil Deadpool Corpse</font>
 
-"
-Evil Deadpool Corpse	"
+<i>D.E.A.D.P.O.O.L.</i> (2 copies)
+<b>Revenge for Evil Deadpool Corpse</b>
+<b>Fight</b>: Excessive Violence: KO one of your Heroes. Remind them that if they were better at hero-ing, these accidents wouldn't happen.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
+<font size='1'><i><i>Flavor: Destructive Engine of Assassination Despite Panpygoptosis Obsessed with Opponent Liquidation.</i></i></font>
 
-''D.E.A.D.P.O.O.L.'' (2 copies)
-'''Revenge for Evil Deadpool Corpse'''
-'''Fight''': Excessive Violence: KO one of your Heroes. Remind them that if they were better at hero-ing, these accidents wouldn't happen.
-'''Attack''': 4+
-'''VP''': 3
-[size=8]''Flavor: Destructive Engine of Assassination Despite Panpygoptosis Obsessed with Opponent Liquidation.''[/size]
+<i>The Deadpool Kid</i> (2 copies)
+<b>Revenge for Evil Deadpool Corpse</b>
+<b>Escape</b>: Old West Shootout. Each player reveals the top card of their deck. KO the card with the highest cost (or tied for highest.)
+<b>Attack</b>: 5+
+<b>VP</b>: 4
+<font size='1'><i><i>Flavor: If you're going to lose an 8-coster, distract the other players and cheat, varmint!</i></i></font>
 
-''The Deadpool Kid'' (2 copies)
-'''Revenge for Evil Deadpool Corpse'''
-'''Escape''': Old West Shootout. Each player reveals the top card of their deck. KO the card with the highest cost (or tied for highest.)
-'''Attack''': 5+
-'''VP''': 4
-[size=8]''Flavor: If you're going to lose an 8-coster, distract the other players and cheat, varmint!''[/size]
+<i>Ultimate Deadpool</i> (2 copies)
+<b>Revenge for Evil Deadpool Corpse</b>
+<b>Fight</b>: Excessive Violence: Draw a card for each ""Ultimate"" in the HQ. You know, those totally kickass cards that cost 7 or more.
+<b>Escape</b>: KO all Ultimates from the HQ.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Ultimate Deadpool'' (2 copies)
-'''Revenge for Evil Deadpool Corpse'''
-'''Fight''': Excessive Violence: Draw a card for each ""Ultimate"" in the HQ. You know, those totally kickass cards that cost 7 or more.
-'''Escape''': KO all Ultimates from the HQ.
-'''Attack''': 5+
-'''VP''': 4
-
-''Wolverinepool'' (2 copies)
-'''Revenge for Evil Deadpool Corpse'''
-'''Ambush''': Each player reveals a card with an odd-numbered cost or gains a Wound. Ya know, the number 0 is pretty weird, but it's not odd.
-'''Fight''': Same effect.
-'''Escape''': Same effect. Then, shuffle me back into the Villain Deck so I can kick your ass again!
-'''Attack''': 7+
-'''VP''': 6
-
+<i>Wolverinepool</i> (2 copies)
+<b>Revenge for Evil Deadpool Corpse</b>
+<b>Ambush</b>: Each player reveals a card with an odd-numbered cost or gains a Wound. Ya know, the number 0 is pretty weird, but it's not odd.
+<b>Fight</b>: Same effect.
+<b>Escape</b>: Same effect. Then, shuffle me back into the Villain Deck so I can kick your ass again!
+<b>Attack</b>: 7+
+<b>VP</b>: 6
 
 
-"
-Goblin's Freak Show	"
+"
+Goblin's Freak Show	"<font size='4'>Goblin's Freak Show</font>
 
-''Vulture, Carnival Cannibal'' (2 copies)
-'''Ambush''': The Vulture captures 2 '''Hidden Witnesses'''.
-'''Fight''': Each other player KOs a Bystander from their Victory Pile or gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5*
-'''VP''': 3
+<i>Vulture, Carnival Cannibal</i> (2 copies)
+<b>Ambush</b>: The Vulture captures 2 <i>'Hidden Witnesses</i>'.
+<b>Fight</b>: Each other player KOs a Bystander from their Victory Pile or gains a Wound.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5*
+<b>VP</b>: 3
 
-''The Chameleon'' (2 copies)
-'''Ambush''': Chameleon captures a '''Hidden Witness'''.
-'''Fight''': Reveal the top card of the Villain Deck. If it's a Villain, it enters the city space where the Chameleon was.
-'''Attack''': 4*
-'''VP''': 2
+<i>The Chameleon</i> (2 copies)
+<b>Ambush</b>: Chameleon captures a <i>'Hidden Witness</i>'.
+<b>Fight</b>: Reveal the top card of the Villain Deck. If it's a Villain, it enters the city space where the Chameleon was.
+<b>Attack</b>: 4*
+<b>VP</b>: 2
 
-''Kraven, Animal Trainer'' (1 copy)
-'''Ambush''': For each Hero in the HQ that costs 7 or more, Kraven captures a '''Hidden Witness'''. Kraven's Attack is equal to the cost of the highest-cost card in the HQ.
-'''Attack''': *
-'''VP''': 3
+<i>Kraven, Animal Trainer</i> (1 copy)
+<b>Ambush</b>: For each Hero in the HQ that costs 7 or more, Kraven captures a <i>'Hidden Witness</i>'. Kraven's Attack is equal to the cost of the highest-cost card in the HQ.
+<b>Attack</b>: *
+<b>VP</b>: 3
 
-''Ox'' (1 copy)
-'''Ambush''': Each other player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or Ox captures a random Bystander from their Victory Pile as a '''Hidden Witness'''.
-'''Attack''': 5*
-'''VP''': 3
+<i>Ox</i> (1 copy)
+<b>Ambush</b>: Each other player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or Ox captures a random Bystander from their Victory Pile as a <i>'Hidden Witness</i>'.
+<b>Attack</b>: 5*
+<b>VP</b>: 3
 
-''Montana'' (1 copy)
-'''Ambush''': Each Goblin's Freak Show Villain captures a '''Hidden Witness'''.
-'''Attack''': 4*
-'''VP''': 2
+<i>Montana</i> (1 copy)
+<b>Ambush</b>: Each Goblin's Freak Show Villain captures a <i>'Hidden Witness</i>'.
+<b>Attack</b>: 4*
+<b>VP</b>: 2
 
-''Fancy Dan'' (1 copy)
-'''Ambush''': Fancy Dan captures 3 '''Hidden Witnesses'''.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 1*
-'''VP''': 2
+<i>Fancy Dan</i> (1 copy)
+<b>Ambush</b>: Fancy Dan captures 3 <i>'Hidden Witnesses</i>'.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 1*
+<b>VP</b>: 2
+"
+X-Men Noir	"<font size='4'>X-Men Noir</font>
 
-"
-X-Men Noir	"
+<i>Bobby ""Iceman"" Drake</i> (1 copy)
+<b>Fight</b>: <i>'Investigate</i>' for a card with a Recruit icon.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Bobby ""Iceman"" Drake'' (1 copy)
-'''Fight''': '''Investigate''' for a card with a Recruit icon.
-'''Attack''': 4
-'''VP''': 2
+<i>Comrade Rasputin, Steel Wall</i> (2 copies)
+<b>Fight</b>: <i>'Investigate</i>' for a Hero that costs 0 and KO it.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Comrade Rasputin, Steel Wall'' (2 copies)
-'''Fight''': '''Investigate''' for a Hero that costs 0 and KO it.
-'''Attack''': 5
-'''VP''': 3
+<i>Henry ""Beast"" McCoy</i> (1 copy)
+<b>Fight</b>: <i>'Investigate</i>' for any card that's https://cf.geekdo-static.com/mbs/mb_26287_0.png or https://cf.geekdo-static.com/mbs/mb_26286_0.png.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Henry ""Beast"" McCoy'' (1 copy)
-'''Fight''': '''Investigate''' for any card that's https://cf.geekdo-static.com/mbs/mb_26287_0.png or https://cf.geekdo-static.com/mbs/mb_26286_0.png.
-'''Attack''': 5
-'''VP''': 3
+<i>Jean Grey Noir</i> (1 copy)
+<b>Fight</b>: When you draw a new hand of cards at the end of your turn, <i>'Investigate</i>' for an extra card.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Jean Grey Noir'' (1 copy)
-'''Fight''': When you draw a new hand of cards at the end of your turn, '''Investigate''' for an extra card.
-'''Attack''': 5
-'''VP''': 3
+<i>Scott ""Cyclops"" Summers</i> (1 copy)
+<b>Escape</b>: Each player <i>'Investigates</i>' their deck for a card that costs 1 or more and KOs it. Players reveal the cards they investigated.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Scott ""Cyclops"" Summers'' (1 copy)
-'''Escape''': Each player '''Investigates''' their deck for a card that costs 1 or more and KOs it. Players reveal the cards they investigated.
-'''Attack''': 6
-'''VP''': 4
+<i>Warden Emma Frost</i> (1 copy)
+<b>Escape</b>: <i>'Investigate</i>' the Villain Deck for a Scheme Twist and play it. Reveal all the cards you '''Investigated'''.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Warden Emma Frost'' (1 copy)
-'''Escape''': '''Investigate''' the Villain Deck for a Scheme Twist and play it. Reveal all the cards you '''Investigated'''.
-'''Attack''': 6
-'''VP''': 4
-
-''Ororo Munroe, Storm-Tossed'' (1 copy)
-'''Fight''': KO a Hero from the HQ. '''Investigate''' the Hero Deck for a card to put in that emptied HQ space.
-'''Attack''': 4
-'''VP''': 2
-
+<i>Ororo Munroe, Storm-Tossed</i> (1 copy)
+<b>Fight</b>: KO a Hero from the HQ. <i>'Investigate</i>' the Hero Deck for a card to put in that emptied HQ space.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
 
-"
-Dark Descendants	"
+"
+Dark Descendants	"<font size='4'>Dark Descendants</font>
 
-''Fatale'' (2 copies)
-'''Fight''': KO one of your Heroes.
-'''Escape''': The Mastermind Dominates the top card of the Hero Deck.
-'''Attack''': 5
-'''VP''': 3
+<i>Fatale</i> (2 copies)
+<b>Fight</b>: KO one of your Heroes.
+<b>Escape</b>: The Mastermind Dominates the top card of the Hero Deck.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Havok, Brainwashed'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Escape''': Havok becomes a Hero Dominated by the Mastermind.
-'''Attack''': 6
+<i>Havok, Brainwashed</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Escape</b>: Havok becomes a Hero Dominated by the Mastermind.
+<b>Attack</b>: 6
 ---
 X-Men
 https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''X-Gene''' https://cf.geekdo-static.com/mbs/mb_26285_0.png: You get +2 Attack.
+<b>X-Gene</b> https://cf.geekdo-static.com/mbs/mb_26285_0.png: You get +2 Attack.
 2+ Attack
 
-''Nemesis'' (1 copy)
-'''Ambush''': Each player reveals their hand and chooses one of their non-grey Heroes. Nemesis Dominates those Heroes.
-'''Attack''': 5
-'''VP''': 5
+<i>Nemesis</i> (1 copy)
+<b>Ambush</b>: Each player reveals their hand and chooses one of their non-grey Heroes. Nemesis Dominates those Heroes.
+<b>Attack</b>: 5
+<b>VP</b>: 5
 
-''Psychic Subjugation'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Recruit the left-most and right-most Heroes in the HQ.
-'''Or Suffer''': Each of those Heroes you didn't recruit enters the city as a Villain with Attack equal to that Hero's cost. When you fight one, you gain it.
-'''VP''': 3
+<i>Psychic Subjugation</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Recruit the left-most and right-most Heroes in the HQ.
+<b>Or Suffer</b>: Each of those Heroes you didn't recruit enters the city as a Villain with Attack equal to that Hero's cost. When you fight one, you gain it.
+<b>VP</b>: 3
 
-''Random'' (2 copies)
-'''Ambush''': Random Dominates the top card of the Hero Deck. Then, each player reveals their hand and chooses one of their Heroes with that same cost. Random Dominates those Heroes.
-'''Attack''': 4+
-'''VP''': 3
+<i>Random</i> (2 copies)
+<b>Ambush</b>: Random Dominates the top card of the Hero Deck. Then, each player reveals their hand and chooses one of their Heroes with that same cost. Random Dominates those Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
+"
+Hellfire Club	"<font size='4'>Hellfire Club</font>
 
-"
-Hellfire Club	"
+<i>Corrupt the Phoenix Force</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Have no Hellfire Villains in the city.
+<b>Or Suffer</b>: This Trap becomes a 6 Attack ""Phoenix Force"" Token Villain that enters the city and Dominates all the Heroes in the HQ that cost 6 or less.
+<b>VP</b>: 3
 
-''Corrupt the Phoenix Force'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Have no Hellfire Villains in the city.
-'''Or Suffer''': This Trap becomes a 6 Attack ""Phoenix Force"" Token Villain that enters the city and Dominates all the Heroes in the HQ that cost 6 or less.
-'''VP''': 3
+<i>Emma Frost (White Queen)</i> (2 copies)
+<b>Ambush</b>: Each player chooses an X-Men Hero from their discard pile. Emma Frost Dominates those Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Emma Frost (White Queen)'' (2 copies)
-'''Ambush''': Each player chooses an X-Men Hero from their discard pile. Emma Frost Dominates those Heroes.
-'''Attack''': 4+
-'''VP''': 4
+<i>Harry Leland (Black Bishop)</i> (2 copies)
+<b>Ambush</b>: Heroes cost 1 more to recruit this turn.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<font size='1'><i><i>Flavor: Increasing his opponents' mass to 20,000 pounds puts a real weight on their shoulders.</i></i></font>
 
-''Harry Leland (Black Bishop)'' (2 copies)
-'''Ambush''': Heroes cost 1 more to recruit this turn.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
-[size=8]''Flavor: Increasing his opponents' mass to 20,000 pounds puts a real weight on their shoulders.''[/size]
+<i>Mastermind (Jason Wyngarde)</i> (1 copy)
+<b>Ambush</b>: The Villain ascends to become a new Mastermind. He gains the ability ""Master Strike: Each player simultaneously reveals a non-grey Hero. Mastermind dominates the revealed Hero with the highest cost (and tied for highest.)
+<b>Attack</b>: 8+
+<b>VP</b>: 6
 
-''Mastermind (Jason Wyngarde)'' (1 copy)
-'''Ambush''': The Villain ascends to become a new Mastermind. He gains the ability ""Master Strike: Each player simultaneously reveals a non-grey Hero. Mastermind dominates the revealed Hero with the highest cost (and tied for highest.)
-'''Attack''': 8+
-'''VP''': 6
-
-''Sebastian Shaw (Black King)'' (2 copies)
+<i>Sebastian Shaw (Black King)</i> (2 copies)
 Sebastian Shaw has +1 Attack for each card you've played from your hand this turn.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 3+
-'''VP''': 4
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 3+
+<b>VP</b>: 4
+"
+Mojoverse	"<font size='4'>Mojoverse</font>
 
-"
-Mojoverse	"
+<i>Mindwarping TV Broadcast</i> (1 copy)
+<b>Trap!</b>
+<b>Ambush</b>: A Villain captures a Bystander.
+<b>By End of Turn</b>: Have no Bystanders in the city captured by Villains.
+<b>Or Suffer</b>: After you draw your new hand at end of turn, each player discards down to four cards in hand.
+<b>VP</b>: 3
 
-''Mindwarping TV Broadcast'' (1 copy)
-'''Trap!'''
-'''Ambush''': A Villain captures a Bystander.
-'''By End of Turn''': Have no Bystanders in the city captured by Villains.
-'''Or Suffer''': After you draw your new hand at end of turn, each player discards down to four cards in hand.
-'''VP''': 3
+<i>Minor Domo</i> (2 copies)
+<b>Ambush</b>: Minor Domo captures 2 <i>'Human Shields</i>'.
+<b>Escape</b>: Each player simultaneously reveals a card from their hand. Whoever revealed the lowest cost card (or tied for lowest) gains a Wound.
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 
-''Minor Domo'' (2 copies)
-'''Ambush''': Minor Domo captures 2 '''Human Shields'''.
-'''Escape''': Each player simultaneously reveals a card from their hand. Whoever revealed the lowest cost card (or tied for lowest) gains a Wound.
-'''Attack''': 2*
-'''VP''': 2
+<i>Major Domo</i> (2 copies)
+<b>Ambush</b>: Major Domo captures a <i>'Human Shield</i>'.
+<b>Escape</b>: Each player simultaneously reveals a card from their hand. Whoever reveals the highest-costing card (or tied for highest) gains a Wound.
+<b>Attack</b>: 4*
+<b>VP</b>: 3
 
-''Major Domo'' (2 copies)
-'''Ambush''': Major Domo captures a '''Human Shield'''.
-'''Escape''': Each player simultaneously reveals a card from their hand. Whoever reveals the highest-costing card (or tied for highest) gains a Wound.
-'''Attack''': 4*
-'''VP''': 3
+<i>Spiral</i> (1 copy)
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or discards their hand. Each player who discarded their hand this way draws 5 cards.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Spiral'' (1 copy)
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or discards their hand. Each player who discarded their hand this way draws 5 cards.
-'''Escape''': Same effect.
-'''Attack''': 6
-'''VP''': 4
+<i>Warwolves</i> (2 copies)
+<b>Ambush</b>: These Warwolves capture a <i>'Human Shield</i>'.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3*
+<b>VP</b>: 2
+"
+Murderworld	"<font size='4'>Murderworld</font>
 
-''Warwolves'' (2 copies)
-'''Ambush''': These Warwolves capture a '''Human Shield'''.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3*
-'''VP''': 2
+<i>Animatronic Killer Clowns</i> (2 copies)
+<b>Trap!</b>
+<b>By End of Turn</b>: Recruit two Heroes.
+<b>Or Suffer</b>: This Trap enters the city as a 3 Attack ""Animatronic Killer Clown"" Token Villain that captures a <i>'Human Shield</i>'.
+<b>VP</b>: 2
 
-"
-Murderworld	"
+<i>Guillotine Rollercoaster</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Have at least four different costs of Heroes in the HQ.
+<b>Or Suffer</b>: After you draw your new hand at the end of this turn, each palyer reveals their hand and discards each card with the same cost as the cards in the HQ.
+<b>VP</b>: 3
 
-''Animatronic Killer Clowns'' (2 copies)
-'''Trap!'''
-'''By End of Turn''': Recruit two Heroes.
-'''Or Suffer''': This Trap enters the city as a 3 Attack ""Animatronic Killer Clown"" Token Villain that captures a '''Human Shield'''.
-'''VP''': 2
+<i>Miss Locke</i> (2 copies)
+<b>Ambush</b>: Miss Locke captures 2 <i>'Human Shields</i>'. Then reveal the top card of the Villain Deck. If it's a Trap or Master Strike, play it.
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 
-''Guillotine Rollercoaster'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Have at least four different costs of Heroes in the HQ.
-'''Or Suffer''': After you draw your new hand at the end of this turn, each palyer reveals their hand and discards each card with the same cost as the cards in the HQ.
-'''VP''': 3
+<i>Monstrous Pinball Machine</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Pay any amount of Recruit. Then you must reveal the top card of the Hero Deck. If you paid enough, recruit that Hero and put this Trap in your Victory Pile.
+<b>Or Suffer</b>: KO that Hero. Play two extra cards from the Villain Deck next turn.
+<b>VP</b>: 3
 
-''Miss Locke'' (2 copies)
-'''Ambush''': Miss Locke captures 2 '''Human Shields'''. Then reveal the top card of the Villain Deck. If it's a Trap or Master Strike, play it.
-'''Attack''': 2*
-'''VP''': 2
+<i>Sulfuric Acid Water Slide</i> (2 copies)
+<b>Trap!</b>
+<b>Ambush</b>: Play another card from the Villain Deck.
+<b>By End of Turn</b>: Have no Villains in the Sewers.
+<b>Or Suffer</b>: Each player gains a Wound.
+<b>VP</b>: 2
+"
+Shadow-X	"<font size='4'>Shadow-X</font>
 
-''Monstrous Pinball Machine'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Pay any amount of Recruit. Then you must reveal the top card of the Hero Deck. If you paid enough, recruit that Hero and put this Trap in your Victory Pile.
-'''Or Suffer''': KO that Hero. Play two extra cards from the Villain Deck next turn.
-'''VP''': 3
+<i>Betrayal of the Shadow</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: You may pay 6 Recruit.
+<b>Or Suffer</b>: Each player reveals their hand. Then, each player chooses a Shadow-X card from their hand or discard pile to enter the city as a Villain.
+<b>VP</b>: 4
 
-''Sulfuric Acid Water Slide'' (2 copies)
-'''Trap!'''
-'''Ambush''': Play another card from the Villain Deck.
-'''By End of Turn''': Have no Villains in the Sewers.
-'''Or Suffer''': Each player gains a Wound.
-'''VP''': 2
-
-"
-Shadow-X	"
-
-''Betrayal of the Shadow'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': You may pay 6 Recruit.
-'''Or Suffer''': Each player reveals their hand. Then, each player chooses a Shadow-X card from their hand or discard pile to enter the city as a Villain.
-'''VP''': 4
-
-''Dark Angel'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 4
+<i>Dark Angel</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 4
 ---
 https://cf.geekdo-static.com/mbs/mb_26284_0.png
-'''X-Gene''' https://cf.geekdo-static.com/mbs/mb_26284_0.png: The next Hero you recruit from the HQ has Soaring Flight.
+<b>X-Gene</b> https://cf.geekdo-static.com/mbs/mb_26284_0.png: The next Hero you recruit from the HQ has Soaring Flight.
 2 Attack
 
-''Dark Beast'' (1 copy)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 5
+<i>Dark Beast</i> (1 copy)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 5
 ---
 https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''X-Gene''' https://cf.geekdo-static.com/mbs/mb_26287_0.png: You may KO a card from your hand or discard pile.
+<b>X-Gene</b> https://cf.geekdo-static.com/mbs/mb_26287_0.png: You may KO a card from your hand or discard pile.
 2 Attack
 
-''Dark Cyclops'' (1 copy)
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or discards a card.
-'''Fight''': Gain this as a Hero.
-'''Attack''': 7
+<i>Dark Cyclops</i> (1 copy)
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or discards a card.
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 7
 ---
 https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''X-Gene''' https://cf.geekdo-static.com/mbs/mb_26285_0.png: Return a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero from your discard pile to your hand.
+<b>X-Gene</b> https://cf.geekdo-static.com/mbs/mb_26285_0.png: Return a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero from your discard pile to your hand.
 3 Attack
 
-''Dark Iceman'' (2 copies)
-'''Fight''': Gain this as a Hero.
-'''Attack''': 5
+<i>Dark Iceman</i> (2 copies)
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 5
 ---
 https://cf.geekdo-static.com/mbs/mb_26286_0.png
-'''X-Gene''' https://cf.geekdo-static.com/mbs/mb_26286_0.png: Draw a card.
+<b>X-Gene</b> https://cf.geekdo-static.com/mbs/mb_26286_0.png: Draw a card.
 2 Attack
 
-''Dark Marvel Girl'' (1 copy)
-'''Ambush''': Dark Marvel Girl Dominates each X-Men Hero that costs 4 or less from the HQ.
-'''Fight''': Gain this as a Hero.
-'''Attack''': 4+
+<i>Dark Marvel Girl</i> (1 copy)
+<b>Ambush</b>: Dark Marvel Girl Dominates each X-Men Hero that costs 4 or less from the HQ.
+<b>Fight</b>: Gain this as a Hero.
+<b>Attack</b>: 4+
 ---
 https://cf.geekdo-static.com/mbs/mb_26283_0.png
-'''X-Gene''' https://cf.geekdo-static.com/mbs/mb_26283_0.png: Rescue a Bystander.
+<b>X-Gene</b> https://cf.geekdo-static.com/mbs/mb_26283_0.png: Rescue a Bystander.
 2 Attack
+"
+Shi'ar Imperial Guard	"<font size='4'>Shi'ar Imperial Guard</font>
 
-"
-Shi'ar Imperial Guard	"
+<i>Blackthorn</i> (2 copies)
+<b>Fight</b>: If you fought Blackthorn in the Sewers or Streets, each other player gains a Wound.
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Blackthorn'' (2 copies)
-'''Fight''': If you fought Blackthorn in the Sewers or Streets, each other player gains a Wound.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 5
-'''VP''': 3
+<i>Gladiator</i> (1 copy)
+<b>Ambush</b>: Each player discards an X-Men Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Gladiator'' (1 copy)
-'''Ambush''': Each player discards an X-Men Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 7
-'''VP''': 5
+<i>Oracle</i> (2 copies)
+<b>Ambush</b>: Each player discards the top four cards of their deck and chooses one of those cards that costs 1 to 4. Oracle Dominates those Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Oracle'' (2 copies)
-'''Ambush''': Each player discards the top four cards of their deck and chooses one of those cards that costs 1 to 4. Oracle Dominates those Heroes.
-'''Attack''': 4+
-'''VP''': 4
+<i>Shi'ar Trial by Combat</i> (1 copy)
+<b>Trap!</b>
+<b>Ambush</b>: If the Bridge is empty, reveal the top card of the Villain Deck. If it's a Villain, put it on the Bridge.
+<b>By End of Turn</b>: Have no Villains on the Bridge.
+<b>Or Suffer</b>: After you draw a new hand at end of turn, each player KOs a non-grey Hero from their discard pile.
+<b>VP</b>: 2
 
-''Shi'ar Trial by Combat'' (1 copy)
-'''Trap!'''
-'''Ambush''': If the Bridge is empty, reveal the top card of the Villain Deck. If it's a Villain, put it on the Bridge.
-'''By End of Turn''': Have no Villains on the Bridge.
-'''Or Suffer''': After you draw a new hand at end of turn, each player KOs a non-grey Hero from their discard pile.
-'''VP''': 2
+<i>Smasher</i> (2 copies)
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or discards a card.
+<b>Fight</b>: KO a card from your discard pile.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Sisterhood of Mutants	"<font size='4'>Sisterhood of Mutants</font>
 
-''Smasher'' (2 copies)
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or discards a card.
-'''Fight''': KO a card from your discard pile.
-'''Attack''': 5
-'''VP''': 3
+<i>Lady Deathstrike</i> (2 copies)
+<b>Fight</b>: KO one of your Heroes.
+<b>Escape</b>: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-"
-Sisterhood of Mutants	"
+<i>Lady Mastermind</i> (1 copy)
+<b>Ambush</b>: This Villain ascends to become a new Mastermind. She gains the ability ""Master Strike: Each player simultaneously reveals a non-grey Hero. Lady Mastermind Dominates the revealed Hero with the lowest cost (and tied for lowest.)
+<b>Attack</b>: 7+
+<b>VP</b>: 5
 
-''Lady Deathstrike'' (2 copies)
-'''Fight''': KO one of your Heroes.
-'''Escape''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
-'''Attack''': 6
-'''VP''': 4
+<i>Resurrect Madelyne Pryor</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: You may pay 3 Recruit. If you do, shuffle this Trap back into the Villain Deck, then play a card from the Villain Deck.
+<b>Or Suffer</b>: This Trap becomes a Scheme Twist that takes effect immediately.
+<b>VP</b>: 0
 
-''Lady Mastermind'' (1 copy)
-'''Ambush''': This Villain ascends to become a new Mastermind. She gains the ability ""Master Strike: Each player simultaneously reveals a non-grey Hero. Lady Mastermind Dominates the revealed Hero with the lowest cost (and tied for lowest.)
-'''Attack''': 7+
-'''VP''': 5
+<i>Selene</i> (2 copies)
+<b>Ambush</b>: Selene Dominates all of the 0-cost Heroes from the KO pile.
+<b>Fight</b>: KO all the Heroes Dominated by Selene.
+<b>Escape</b>: Put one Hero Dominated by Selene into each player's discard pile.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Resurrect Madelyne Pryor'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': You may pay 3 Recruit. If you do, shuffle this Trap back into the Villain Deck, then play a card from the Villain Deck.
-'''Or Suffer''': This Trap becomes a Scheme Twist that takes effect immediately.
-'''VP''': 0
+<i>Typhoid Mary</i> (2 copies)
+<b>Ambush</b>: Each player reveals their hand and chooses a 3-cost Hero from it. Typhoid Mary Dominates those Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
+"
+Token Villains	"<font size='4'>Token Villains</font>
 
-''Selene'' (2 copies)
-'''Ambush''': Selene Dominates all of the 0-cost Heroes from the KO pile.
-'''Fight''': KO all the Heroes Dominated by Selene.
-'''Escape''': Put one Hero Dominated by Selene into each player's discard pile.
-'''Attack''': 3+
-'''VP''': 3
-
-''Typhoid Mary'' (2 copies)
-'''Ambush''': Each player reveals their hand and chooses a 3-cost Hero from it. Typhoid Mary Dominates those Heroes.
-'''Attack''': 3+
-'''VP''': 3
-
-"
-Token Villains	"
-
-''Animatronic Killer Clown'' (2 copies)
+<i>Animatronic Killer Clown</i> (2 copies)
 Villain --- Murderworld
-'''Ambush''': Animatronic Killer Clown captures a Human Shield.
-'''Attack''': 4
-'''VP''': 2
+<b>Ambush</b>: Animatronic Killer Clown captures a Human Shield.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Master Plan'' (1 copy)
+<i>Master Plan</i> (1 copy)
 Mastermind
-'''Master Strike''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
-'''Attack''': 9
-'''VP''': 5
+<b>Master Strike</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
+<b>Attack</b>: 9
+<b>VP</b>: 5
 
-''Phoenix Force'' (1 copy)
+<i>Phoenix Force</i> (1 copy)
 Villain --- Hellfire Club
-'''Ambush''': Phoenix Force Dominates all of the Heroes in the HQ that cost 6 or less.
-'''Attack''': 6
-'''VP''': 3
+<b>Ambush</b>: Phoenix Force Dominates all of the Heroes in the HQ that cost 6 or less.
+<b>Attack</b>: 6
+<b>VP</b>: 3
 
-''Shi'ar Battlecruiser'' (5 copies)
+<i>Shi'ar Battlecruiser</i> (5 copies)
 Villain --- Shi'ar Imperial Guard
-'''Attack''': 7
-'''VP''': 5
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
 
+"
+Salvagers	"<font size='4'>Salvagers</font>
 
-"
-Salvagers	"
+<i>Hybrid Alien Tech</i> (2 copies)
+<b>Striker</b>
+<b>Fight</b>: KO one of your 0-cost Heroes.
+<b>Escape</b>: The current player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a 0-cost Hero from the KO pile.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Hybrid Alien Tech'' (2 copies)
-'''Striker'''
-'''Fight''': KO one of your 0-cost Heroes.
-'''Escape''': The current player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a 0-cost Hero from the KO pile.
-'''Attack''': 4+
-'''VP''': 4
+<i>Shocker #1</i> (2 copies)
+<b>Striker</b>
+<b>Escape</b>: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards a card.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Shocker #1'' (2 copies)
-'''Striker'''
-'''Escape''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or discards a card.
-'''Attack''': 3+
-'''VP''': 3
+<i>Shocker #2</i> (2 copies)
+<b>Ambush</b>: Each player reveals their hand and discards all cards with the same card name as a card in the HQ.
+<b>Escape</b>: <i>(After the normal HQ KO for this escaping)</i> Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Shocker #2'' (2 copies)
-'''Ambush''': Each player reveals their hand and discards all cards with the same card name as a card in the HQ.
-'''Escape''': ''(After the normal HQ KO for this escaping)'' Same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Tinkerer</i> (2 copies)
+<b>Fight</b>: You get +1 Recruit for each https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero in the HQ.
+<b>Escape</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
+<b>Attack</b>: 4
+<b>VP</b>: 2
+"
+Vulture Tech	"<font size='4'>Vulture Tech</font>
 
-''Tinkerer'' (2 copies)
-'''Fight''': You get +1 Recruit for each https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero in the HQ.
-'''Escape''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
-'''Attack''': 4
-'''VP''': 2
+<i>Chitauri Weapon Assault</i> (2 copies)
+<b>Striker</b>
+<b>Fight</b>: KO one of your Heroes with a Recruit icon.
+<b>Escape</b>: Each player discards a card with a Recruit icon.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-"
-Vulture Tech	"
+<i>High Tech Helmet</i> (2 copies)
+<b>Striker</b>
+<b>Fight</b>: Danger Sense 3
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Chitauri Weapon Assault'' (2 copies)
-'''Striker'''
-'''Fight''': KO one of your Heroes with a Recruit icon.
-'''Escape''': Each player discards a card with a Recruit icon.
-'''Attack''': 4+
-'''VP''': 4
+<i>Razor Talons</i> (2 copies)
+<b>Striker</b>
+<b>Fight</b>: The next Hero you gain this turn has Wall Crawl.
+<b>VP</b>: 2
+<b>Attack</b>: 2+
 
-''High Tech Helmet'' (2 copies)
-'''Striker'''
-'''Fight''': Danger Sense 3
-'''Attack''': 3+
-'''VP''': 3
-
-''Razor Talons'' (2 copies)
-'''Striker'''
-'''Fight''': The next Hero you gain this turn has Wall Crawl.
-'''VP''': 2
-'''Attack''': 2+
-
-''Turbine Powered'' (2 copies)
-'''Striker'''
-'''Ambush''': Turbine Powered captures a Bystander. Then move this Villain to the Rooftops. If there's already a Villain there, swap them.
-'''Attack''': 5+
-'''VP''': 5
+<i>Turbine Powered</i> (2 copies)
+<b>Striker</b>
+<b>Ambush</b>: Turbine Powered captures a Bystander. Then move this Villain to the Rooftops. If there's already a Villain there, swap them.
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
 
+"
+Monsters Unleashed	"<font size='4'>Monsters Unleashed</font>
 
-"
-Monsters Unleashed	"
+<i>Goom</i> (1 copy)
+<b>Ambush</b>: Goom captures a Bystander.
+<b>Fight</b>: KO one of your Heroes.
+<b>VP</b>: 4
+<b>Attack</b>: 6
 
-''Goom'' (1 copy)
-'''Ambush''': Goom captures a Bystander.
-'''Fight''': KO one of your Heroes.
-'''VP''': 4
-'''Attack''': 6
+<i>Groot from Planet X</i> (1 copy)
+<b>Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png
+<b>Fight</b>: Two Bystanders from the Bystander Stack enter the city as 3 Attack ""Splintered Half-Groot"" Villains. When you fight one, rescue it as a Bystander.
+<b>Attack</b>: 6*
+<b>VP</b>: 2
 
-''Groot from Planet X'' (1 copy)
-'''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png
-'''Fight''': Two Bystanders from the Bystander Stack enter the city as 3 Attack ""Splintered Half-Groot"" Villains. When you fight one, rescue it as a Bystander.
-'''Attack''': 6*
-'''VP''': 2
+<i>Monsteroso</i> (1 copy)
+<b>Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png
+<b>Fight</b>: When you draw a new hand of cards at the end of this turn, draw an extra card.
+<b>Attack</b>: 5*
+<b>VP</b>: 2
 
-''Monsteroso'' (1 copy)
-'''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png
-'''Fight''': When you draw a new hand of cards at the end of this turn, draw an extra card.
-'''Attack''': 5*
-'''VP''': 2
-
-''Orrgo'' (1 copy)
+<i>Orrgo</i> (1 copy)
 You can't fight Orrgo unless you have already defeated another Villain this turn.
-'''Attack''': 2*
-'''VP''': 2
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 
-''Sporr'' (1 copy)
-'''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''Fight''': A Hero in the HQ gains '''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png Recruit this turn.
-'''Attack''': 7*
-'''VP''': 3
+<i>Sporr</i> (1 copy)
+<b>Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png
+<b>Fight</b>: A Hero in the HQ gains <i>'Size-Changing</i>' https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png Recruit this turn.
+<b>Attack</b>: 7*
+<b>VP</b>: 3
 
-''Tim Boo Ba'' (1 copy)
-'''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''Fight''': All Heroes currently in the HQ cost 1 less this turn.
-'''Attack''': 12*
-'''VP''': 5
+<i>Tim Boo Ba</i> (1 copy)
+<b>Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png
+<b>Fight</b>: All Heroes currently in the HQ cost 1 less this turn.
+<b>Attack</b>: 12*
+<b>VP</b>: 5
 
-''Trull the Unhuman'' (1 copy)
-'''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''Ambush''': Trull captures a Bystander. Then '''Demolish''' each player.
-'''Attack''': 8*
-'''VP''': 4
-[size=8]''Flavor: Why yes, that is an alien entity possessing the world's most terrifying steam shovel.''[/size]
+<i>Trull the Unhuman</i> (1 copy)
+<b>Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png
+<b>Ambush</b>: Trull captures a Bystander. Then <i>'Demolish</i>' each player.
+<b>Attack</b>: 8*
+<b>VP</b>: 4
+<font size='1'><i><i>Flavor: Why yes, that is an alien entity possessing the world's most terrifying steam shovel.</i></i></font>
 
-''Zzutak'' (1 copy)
-'''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26285_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png
-'''Escape''': '''Demolish''' each player.
-'''Attack''': 9*
-'''VP''': 5
+<i>Zzutak</i> (1 copy)
+<b>Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26285_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png
+<b>Escape</b>: <i>'Demolish</i>' each player.
+<b>Attack</b>: 9*
+<b>VP</b>: 5
+"
+Wrecking Crew	"<font size='4'>Wrecking Crew</font>
 
-"
-Wrecking Crew	"
+<i>Bulldozer</i> (2 copies)
+<b>Ambush</b>: Bulldozer moves an extra space forward. If this pushes any Villains forward, <i>'Demolish</i>' each player.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Bulldozer'' (2 copies)
-'''Ambush''': Bulldozer moves an extra space forward. If this pushes any Villains forward, '''Demolish''' each player.
-'''Attack''': 4
-'''VP''': 2
+<i>Piledriver</i> (2 copies)
+<b>Fight</b>: KO one of your Heroes.
+<b>Escape</b>: <i>'Demolish</i>' each player.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Piledriver'' (2 copies)
-'''Fight''': KO one of your Heroes.
-'''Escape''': '''Demolish''' each player.
-'''Attack''': 6
-'''VP''': 4
+<i>Thunderball</i> (2 copies)
+<b>Fight</b>: If you fight Thunderball in the Sewers or Bank, <i>'Demolish</i>' each other player.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Thunderball'' (2 copies)
-'''Fight''': If you fight Thunderball in the Sewers or Bank, '''Demolish''' each other player.
-'''Attack''': 5
-'''VP''': 3
-
-''The Wrecker'' (2 copies)
-'''Ambush''': For each Wrecking Crew Villain in the city, (including this one), '''Demolish''' each player.
-'''Attack''': 7
-'''VP''': 5
-
+<i>The Wrecker</i> (2 copies)
+<b>Ambush</b>: For each Wrecking Crew Villain in the city, (including this one), <i>'Demolish</i>' each player.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
 
-"
-Aspects of the Void	"
+"
+Aspects of the Void	"<font size='4'>Aspects of the Void</font>
 
-''Black Anti-Hurricane'' (2 copies)
-'''Fight''': Each player simultaneously puts a card from their discard pile into the discard pile of the player to their right.
-'''Escape''': Same effect.
-'''Attack''': 6
-'''VP''': 4
+<i>Black Anti-Hurricane</i> (2 copies)
+<b>Fight</b>: Each player simultaneously puts a card from their discard pile into the discard pile of the player to their right.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Demonform'' (1 copy)
-'''Fight''': '''Feast'''. If Demonform feasts on a non-grey Hero, gain a Hero from the HQ of that cost or less.
-'''Attack''': 7
-'''VP''': 5
+<i>Demonform</i> (1 copy)
+<b>Fight</b>: <i>'Feast</i>'. If Demonform feasts on a non-grey Hero, gain a Hero from the HQ of that cost or less.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Infini-Tendrils'' (2 copy)
-'''Wounded Fury'''
-'''Ambush''': Infini-Tendrils captures a Bystander.
-'''Attack''': 6+
-'''VP''': 3
+<i>Infini-Tendrils</i> (2 copy)
+<b>Wounded Fury</b>
+<b>Ambush</b>: Infini-Tendrils captures a Bystander.
+<b>Attack</b>: 6+
+<b>VP</b>: 3
 
-''Psychotic Break'' (1 copy)
-'''Trap!'''
-'''Ambush''': Play another card from the Villain Deck.
-'''By End of Turn''': Defeat a Villain.
-'''Or Suffer''': ''(After you draw your new hand)'' Psychotic Break becomes a Master Strike that takes effect immediately.
-'''VP''': 2
+<i>Psychotic Break</i> (1 copy)
+<b>Trap!</b>
+<b>Ambush</b>: Play another card from the Villain Deck.
+<b>By End of Turn</b>: Defeat a Villain.
+<b>Or Suffer</b>: <i>(After you draw your new hand)</i> Psychotic Break becomes a Master Strike that takes effect immediately.
+<b>VP</b>: 2
 
-''Shadow Man'' (2 copies)
-'''Fight''': You get +2 Recruit.
-'''Attack''': 5
-'''VP''': 3
-[size=8]''Some briefly think the Shadow Man is the heroic Sentry. The thought doesn't last long.''[/size]
+<i>Shadow Man</i> (2 copies)
+<b>Fight</b>: You get +2 Recruit.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<font size='1'><i><i>Some briefly think the Shadow Man is the heroic Sentry. The thought doesn't last long.</i></i></font>
+"
+Code Red	"<font size='4'>Code Red</font>
 
-"
-Code Red	"
+<i>Caught Red-Handed</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Recruit a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or recruit any two Heroes.
+<b>Or Suffer</b>: <i>(After you draw your new hand)</i> Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or gains a Wound.
+<b>VP</b>: 3
 
-''Caught Red-Handed'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Recruit a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or recruit any two Heroes.
-'''Or Suffer''': ''(After you draw your new hand)'' Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or gains a Wound.
-'''VP''': 3
+<i>Crimson Dynamo</i> (2 copies)
+<b>Fight</b>: Choose a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero in the HQ. It costs 2 less this turn.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Crimson Dynamo'' (2 copies)
-'''Fight''': Choose a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero in the HQ. It costs 2 less this turn.
-'''Attack''': 4
-'''VP''': 2
+<i>Elektra, Red Blades</i> (2 copies)
+<b>Fight</b>: If you played a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero this turn, KO one of your Heroes.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Elektra, Red Blades'' (2 copies)
-'''Fight''': If you played a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero this turn, KO one of your Heroes.
-'''Attack''': 5
-'''VP''': 3
+<i>Punisher, Red Dot Sniper</i> (1 copy)
+<b>Fight</b>: Reveal the top card of your deck. If it costs 0, KO it. If it's https://cf.geekdo-static.com/mbs/mb_26283_0.png, draw it.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Punisher, Red Dot Sniper'' (1 copy)
-'''Fight''': Reveal the top card of your deck. If it costs 0, KO it. If it's https://cf.geekdo-static.com/mbs/mb_26283_0.png, draw it.
-'''Attack''': 6
-'''VP''': 4
+<i>Red She-Hulk</i> (1 copy)
+<b>Wounded Fury</b>
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6+
+<b>VP</b>: 5
 
-''Red She-Hulk'' (1 copy)
-'''Wounded Fury'''
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 6+
-'''VP''': 5
-
-''Thundra'' (1 copy)
+<i>Thundra</i> (1 copy)
 Thundra gets +2 Attack if there are any number of https://cf.geekdo-static.com/mbs/mb_26283_0.png Heroes in the HQ.
-'''Ambush''': Put each non-https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero from the HQ on the bottom of the Hero Deck.
-'''Attack''': 4+
-'''VP''': 3
+<b>Ambush</b>: Put each non-https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero from the HQ on the bottom of the Hero Deck.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
+"
+Illuminati	"<font size='4'>Illuminati</font>
 
-"
-Illuminati	"
-
-''Black Bolt'' (2 copies)
+<i>Black Bolt</i> (2 copies)
 During your turn, any number of times, you may discard a card that has no rules text to give Black Bolt -2 Attack this turn.
-'''Escape''': Each player discards a card with no rules text.
-'''Attack''': 13*
-'''VP''': 5
+<b>Escape</b>: Each player discards a card with no rules text.
+<b>Attack</b>: 13*
+<b>VP</b>: 5
 
-''Dr. Strange'' (2 copies)
-'''Ambush''': Each player who can't '''Outwit''' Dr. Strange discards a card.
-'''Attack''': 5
-'''VP''': 3
+<i>Dr. Strange</i> (2 copies)
+<b>Ambush</b>: Each player who can't <i>'Outwit</i>' Dr. Strange discards a card.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Dr. Strange, Possessed by Zom'' (1 copy)
+<i>Dr. Strange, Possessed by Zom</i> (1 copy)
 This Villain gets +1 Attack for each Bystander in the city.
-'''Ambush''': This Villain captures 3 Bystanders.
-'''Attack''': 5+
-'''VP''': 3
+<b>Ambush</b>: This Villain captures 3 Bystanders.
+<b>Attack</b>: 5+
+<b>VP</b>: 3
 
-''Enchain the Hulk'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Discard two cards of the same Hero Class or recruit two cards of the same Hero Class. (https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png, but not grey)
-'''Or Suffer''': ''(After you draw your new hand)'' '''Cross-Dimensional Hulk Rampage'''
-'''VP''': 4
+<i>Enchain the Hulk</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Discard two cards of the same Hero Class or recruit two cards of the same Hero Class. (https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, https://cf.geekdo-static.com/mbs/mb_26285_0.png, but not grey)
+<b>Or Suffer</b>: <i>(After you draw your new hand)</i> '''Cross-Dimensional Hulk Rampage'''
+<b>VP</b>: 4
 
-''Hulkbuster Iron Man'' (2 copies)
-Hulkbuster Iron Man gets +3 Attack unless you '''Outwit''' him.
-'''Escape''': '''Cross-Dimensional Illuminati Rampage
-'''Attack''': 6+
-'''VP''': 4
+<i>Hulkbuster Iron Man</i> (2 copies)
+Hulkbuster Iron Man gets +3 Attack unless you <b>Outwit</b> him.
+<b>Escape</b>: <i>'Cross-Dimensional Illuminati Rampage
+<b>Attack</b>: 6+
+<b>VP</b>: 4
+"
+Intelligencia	"<font size='4'>Intelligencia</font>
 
-"
-Intelligencia	"
+<i>Battle of Wits</i> (2 copies)
+<b>Trap!</b>
+<b>By the End of the Turn</b>: <i>'Outwit</i>' this trap.
+<b>Or Suffer</b>: <i>(After you draw your new turn)</i> Each player discards down to 4 cards.
+<b>VP</b>: 3
 
-''Battle of Wits'' (2 copies)
-'''Trap!'''
-'''By the End of the Turn''': '''Outwit''' this trap.
-'''Or Suffer''': ''(After you draw your new turn)'' Each player discards down to 4 cards.
-'''VP''': 3
+<i>Cosmic Hulk Robot</i> (2 copies)
+<b>Wounded Fury</b>
+<b>Ambush</b>: Each player who can't <i>'Outwit</i>' Cosmic Hulk Robot gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Cosmic Hulk Robot'' (2 copies)
-'''Wounded Fury'''
-'''Ambush''': Each player who can't '''Outwit''' Cosmic Hulk Robot gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5+
-'''VP''': 4
+<i>Doc Samson</i> (2 copies)
+Doc Samson has +4 Attack unless you <b>Outwit</b> him.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''Doc Samson'' (2 copies)
-Doc Samson has +4 Attack unless you '''Outwit''' him.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 4+
-'''VP''': 3
+<i>The Leader, Gamma Fiend</i> (2 copies)
+<b>Ambush</b>: If you can't <i>'Outwit</i>' the Leader, play the top card of the Villain Deck.
+<b>Fight</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Sakaar Imperial Guard	"<font size='4'>Sakaar Imperial Guard</font>
 
-''The Leader, Gamma Fiend'' (2 copies)
-'''Ambush''': If you can't '''Outwit''' the Leader, play the top card of the Villain Deck.
-'''Fight''': Same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Gladiators' Colosseum</i> (1 copy)
+<b>Trap!</b>
+<b>By the End of the Turn</b>: Only play cards from a single Team of your choice this turn (e.g. S.H.I.E.L.D., AVENGERS, X-MEN, WARBOUND, etc.)
+<b>Or Suffer</b>: <i>(After you draw your new hand)</i> Each player reveals their hand, chooses a Team, and discards all cards that don't belong to that Team.
+<b>VP</b>: 4
 
-"
-Sakaar Imperial Guard	"
+<i>Great Devil Corker</i> (2 copies)
+<b>Fight</b>: Look at the top three cards of your deck. Put them back in any order. Then <i>'Feast</i>'.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Gladiators' Colosseum'' (1 copy)
-'''Trap!'''
-'''By the End of the Turn''': Only play cards from a single Team of your choice this turn (e.g. S.H.I.E.L.D., AVENGERS, X-MEN, WARBOUND, etc.)
-'''Or Suffer''': ''(After you draw your new hand)'' Each player reveals their hand, chooses a Team, and discards all cards that don't belong to that Team.
-'''VP''': 4
-
-''Great Devil Corker'' (2 copies)
-'''Fight''': Look at the top three cards of your deck. Put them back in any order. Then '''Feast'''.
-'''Attack''': 6
-'''VP''': 4
-
-''Headman Charr'' (2 copies)
+<i>Headman Charr</i> (2 copies)
 During your turn, Headman Charr gets +1 Attack for each Villain in your Victory Pile.
-'''Escape''': Each player gains a Wound.
-'''Attack''': 2+
-'''VP''': 2
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 2+
+<b>VP</b>: 2
 
-''Lieutenant Caiera'' (1 copy)
-'''Fight''': If you '''Outwit''' Lieutenant Caiera draw two cards.
-'''Attack''': 7
-'''VP''': 5
+<i>Lieutenant Caiera</i> (1 copy)
+<b>Fight</b>: If you <i>'Outwit</i>' Lieutenant Caiera draw two cards.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Primus Vand'' (2 copies)
+<i>Primus Vand</i> (2 copies)
 Primus Vand gets +1 Attack for each Villain next to him.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3+
-'''VP''': 3
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
+"
+U-Foes	"<font size='4'>U-Foes</font>
 
-"
-U-Foes	"
+<i>Ironclad</i> (1 copy)
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero of KO's a Hero that costs 1 or more from their discard pile.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Ironclad'' (1 copy)
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero of KO's a Hero that costs 1 or more from their discard pile.
-'''Escape''': Same effect.
-'''Attack''': 6
-'''VP''': 4
+<i>Vapor</i> (2 copies)
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Vapor'' (2 copies)
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 4
-'''VP''': 2
+<i>Vector</i> (2 copies)
+<b>Fight</b>: Each player who reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero draws a card.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Vector'' (2 copies)
-'''Fight''': Each player who reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero draws a card.
-'''Attack''': 4
-'''VP''': 2
+<i>Unidentified Flying U-Foes</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Discard a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or discard three cards.
+<b>Or Suffer</b>: Play two extra cards from the Villain Deck next turn.
+<b>VP</b>: 3
 
-''Unidentified Flying U-Foes'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Discard a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or discard three cards.
-'''Or Suffer''': Play two extra cards from the Villain Deck next turn.
-'''VP''': 3
+<i>X-Ray</i> (2 copies)
+<b>Fight</b>: Each player who reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero may KO a card from their discard pile.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+Warbound	"<font size='4'>Warbound</font>
 
-''X-Ray'' (2 copies)
-'''Fight''': Each player who reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero may KO a card from their discard pile.
-'''Attack''': 5
-'''VP''': 3
+<i>Elloe Kaifi</i> (1 copy)
+<b>Fight</b>: Draw a card. Another player of your choice also draws a card.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-"
-Warbound	"
+<i>Hiroim</i> (1 copy)
+<b>Fight</b>: KO a card from the HQ. Each player reveals their hand and KO's a card with that same cost.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Elloe Kaifi'' (1 copy)
-'''Fight''': Draw a card. Another player of your choice also draws a card.
-'''Attack''': 5
-'''VP''': 3
+<i>Korg</i> (1 copy)
+<b>Ambush</b>: KO a Hero from the HQ. Each player reveals their hand and discards a card with that same cost.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Hiroim'' (1 copy)
-'''Fight''': KO a card from the HQ. Each player reveals their hand and KO's a card with that same cost.
-'''Escape''': Same effect.
-'''Attack''': 7
-'''VP''': 5
+<i>Miek The Unhived</i> (2 copies)
+<b>Fight</b>: Look at the top two cards of your deck. Put them back on the top and/or bottom. Then <i>'Feast</i>'.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Korg'' (1 copy)
-'''Ambush''': KO a Hero from the HQ. Each player reveals their hand and discards a card with that same cost.
-'''Escape''': Same effect.
-'''Attack''': 6
-'''VP''': 4
+<i>No-Name, Brood Queen</i> (2 copies)
+<b>Wounded Fury</b>
+<b>Fight</b>: <i>'Feast</i>'. If this feasts on a non-grey Hero, draw two cards.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''Miek The Unhived'' (2 copies)
-'''Fight''': Look at the top two cards of your deck. Put them back on the top and/or bottom. Then '''Feast'''.
-'''Attack''': 5
-'''VP''': 3
-
-''No-Name, Brood Queen'' (2 copies)
-'''Wounded Fury'''
-'''Fight''': '''Feast'''. If this feasts on a non-grey Hero, draw two cards.
-'''Attack''': 4+
-'''VP''': 3
-
-''Warbound Rescue'' (1 copy)
-'''Trap!'''
-'''By End of Turn''': Put a Warbound Villain and Henchman Villain from your Victory Pile back into the city.
-'''Or Suffer''': Each player gains a Wound.
-'''VP''': 7
+<i>Warbound Rescue</i> (1 copy)
+<b>Trap!</b>
+<b>By End of Turn</b>: Put a Warbound Villain and Henchman Villain from your Victory Pile back into the city.
+<b>Or Suffer</b>: Each player gains a Wound.
+<b>VP</b>: 7
 
 
+"
+Ultron's Legacy	"<font size='4'>Ultron's Legacy</font>
 
-"
-Ultron's Legacy	"
+<i>Ultron Roboticks</i> (1 copy)
+<b>Microscopic Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 
-''Ultron Roboticks'' (1 copy)
-'''Microscopic Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3*
-'''VP''': 2
+<i>Original Ultron-1</i> (1 copy)
+<b>Empowered</b> by https://cf.geekdo-static.com/mbs/mb_26285_0.png
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 2
 
-''Original Ultron-1'' (1 copy)
-'''Empowered''' by https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3+
-'''VP''': 2
+<i>Legions of Ultron</i> (1 copy)
+<b>Empowered</b> by https://cf.geekdo-static.com/mbs/mb_26287_0.png
+<b>Fight</b>: Draw a card.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''Legions of Ultron'' (1 copy)
-'''Empowered''' by https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''Fight''': Draw a card.
-'''Attack''': 4+
-'''VP''': 3
+<i>Alkhema</i> (1 copy)
+<b>Empowered</b> by https://cf.geekdo-static.com/mbs/mb_26284_0.png
+<b>Fight</b>: KO a card from your discard pile.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''Alkhema'' (1 copy)
-'''Empowered''' by https://cf.geekdo-static.com/mbs/mb_26284_0.png
-'''Fight''': KO a card from your discard pile.
-'''Attack''': 4+
-'''VP''': 3
+<i>Ultron-Pym</i> (1 copy)
+<b>Microscopic Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png
+<b>Fight</b>: A Hero in the HQ with no <i>'Size-Changing</i>' abilites gains '''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26287_0.png this turn.
+<b>Attack</b>: 6*
+<b>VP</b>: 3
 
-''Ultron-Pym'' (1 copy)
-'''Microscopic Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''Fight''': A Hero in the HQ with no '''Size-Changing''' abilites gains '''Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26287_0.png this turn.
-'''Attack''': 6*
-'''VP''': 3
+<i>Future Ultron Prime</i> (1 copy)
+<b>Double Empowered</b> by https://cf.geekdo-static.com/mbs/mb_26287_0.png
+<b>Ambush</b>: Put all non-https://cf.geekdo-static.com/mbs/mb_26287_0.png Heroes from the HQ on the bottom of the Hero Deck.
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
-''Future Ultron Prime'' (1 copy)
-'''Double Empowered''' by https://cf.geekdo-static.com/mbs/mb_26287_0.png
-'''Ambush''': Put all non-https://cf.geekdo-static.com/mbs/mb_26287_0.png Heroes from the HQ on the bottom of the Hero Deck.
-'''Attack''': 5+
-'''VP''': 5
+<i>Brutish Ultron-14</i> (1 copy)
+<b>Empowered</b> by https://cf.geekdo-static.com/mbs/mb_26286_0.png
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Brutish Ultron-14'' (1 copy)
-'''Empowered''' by https://cf.geekdo-static.com/mbs/mb_26286_0.png
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 5+
-'''VP''': 4
+<i>Crimson Cowl</i> (1 copy)
+<b>Empowered</b> by https://cf.geekdo-static.com/mbs/mb_26283_0.png
+<b>Ambush</b>: Crimson Cowl captures a Bystander.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
+"
+Queen's Vengeance	"<font size='4'>Queen's Vengeance</font>
 
-''Crimson Cowl'' (1 copy)
-'''Empowered''' by https://cf.geekdo-static.com/mbs/mb_26283_0.png
-'''Ambush''': Crimson Cowl captures a Bystander.
-'''Attack''': 5+
-'''VP''': 4
+<i>Daystar</i> (1 copy)
+<b>Microscopic Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png
+<b>Fight</b>: Reveal the top card of your deck. You may KO it.
+<b>Attack</b>: 5*
+<b>VP</b>: 2
 
-"
-Queen's Vengeance	"
+<i>Blackbird</i> (1 copy)
+<b>Chivalrous Duel</b>
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3*
+<b>VP</b>: 3
 
-''Daystar'' (1 copy)
-'''Microscopic Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png https://cf.geekdo-static.com/mbs/mb_26285_0.png
-'''Fight''': Reveal the top card of your deck. You may KO it.
-'''Attack''': 5*
-'''VP''': 2
+<i>Gigantus</i> (1 copy)
+<b>Microscopic Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 7*
+<b>VP</b>: 4
 
-''Blackbird'' (1 copy)
-'''Chivalrous Duel'''
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3*
-'''VP''': 3
+<i>Iron Knight</i> (1 copy)
+<b>Chivalrous Duel</b>
+<b>Escape</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
+<b>Attack</b>: 4*
+<b>VP</b>: 4
 
-''Gigantus'' (1 copy)
-'''Microscopic Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png https://cf.geekdo-static.com/mbs/mb_26286_0.png
-'''Fight''': KO one of your Heroes.
-'''Attack''': 7*
-'''VP''': 4
+<i>Yoeman America</i> (1 copy)
+<b>Chivalrous Duel</b>
+<b>Fight</b>: You get +1 Recruit for each color of Hero you have (including grey).
+<b>Attack</b>: 5*
+<b>VP</b>: 5
 
-''Iron Knight'' (1 copy)
-'''Chivalrous Duel'''
-'''Escape''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero or gains a Wound.
-'''Attack''': 4*
-'''VP''': 4
+<i>Star-Knight</i> (1 copy)
+<b>Chivalrous Duel</b>
+<b>Fight</b>: KO a card from your discard pile.
+<b>Attack</b>: 3*
+<b>VP</b>: 3
 
-''Yoeman America'' (1 copy)
-'''Chivalrous Duel'''
-'''Fight''': You get +1 Recruit for each color of Hero you have (including grey).
-'''Attack''': 5*
-'''VP''': 5
+<i>Pixie</i> (1 copy)
+<b>Microscopic Size-Changing</b> https://cf.geekdo-static.com/mbs/mb_26283_0.png https://cf.geekdo-static.com/mbs/mb_26283_0.png https://cf.geekdo-static.com/mbs/mb_26283_0.png https://cf.geekdo-static.com/mbs/mb_26283_0.png.
+<b>Fight</b>: Reveal a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or play another card from the Villain Deck.
+<b>Attack</b>: 3*
+<b>VP</b>: 2
 
-''Star-Knight'' (1 copy)
-'''Chivalrous Duel'''
-'''Fight''': KO a card from your discard pile.
-'''Attack''': 3*
-'''VP''': 3
-
-''Pixie'' (1 copy)
-'''Microscopic Size-Changing''' https://cf.geekdo-static.com/mbs/mb_26283_0.png https://cf.geekdo-static.com/mbs/mb_26283_0.png https://cf.geekdo-static.com/mbs/mb_26283_0.png https://cf.geekdo-static.com/mbs/mb_26283_0.png.
-'''Fight''': Reveal a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or play another card from the Villain Deck.
-'''Attack''': 3*
-'''VP''': 2
-
-''Mordred the Evil'' (1 copy)
-'''Fight''': Choose a card in your discard pile. The player to your right gains it.
-'''Escape''': Each player simultaneously does that same effect.
-'''Attack''': 5
-'''VP''': 3
+<i>Mordred the Evil</i> (1 copy)
+<b>Fight</b>: Choose a card in your discard pile. The player to your right gains it.
+<b>Escape</b>: Each player simultaneously does that same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
 
+"
+Life Foundation	"<font size='4'>Life Foundation</font>
 
-"
-Life Foundation	"
+<i>Agony</i> (1 copy)
+<b>Ambush</b>: Reveal the top three cards of the Villain Deck. A Villain you revealed <i>'Symbiote Bonds</i>' with Agony. Put the rest back in any order.
+<b>Escape</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png  Hero or gains a Wound.
+<b>Attack</b>: 3
+<b>VP</b>: 3
 
-''Agony'' (1 copy)
-'''Ambush''': Reveal the top three cards of the Villain Deck. A Villain you revealed '''Symbiote Bonds''' with Agony. Put the rest back in any order.
-'''Escape''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png  Hero or gains a Wound.
-'''Attack''': 3
-'''VP''': 3
+<i>Dr. Carlton Drake</i> (1 copy)
+<b>Fight</b>: Each https://cf.geekdo-static.com/mbs/mb_26284_0.png and https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero currently in the HQ costs 1 less this turn.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Dr. Carlton Drake'' (1 copy)
-'''Fight''': Each https://cf.geekdo-static.com/mbs/mb_26284_0.png and https://cf.geekdo-static.com/mbs/mb_26287_0.png Hero currently in the HQ costs 1 less this turn.
-'''Attack''': 5
-'''VP''': 3
+<i>Lasher</i> (2 copies)
+<b>Ambush</b>: A Henchman Villain from your Victory Pile <i>'Symbiote Bonds</i>' with Lasher.
+<b>Attack</b>: 2
+<b>VP</b>: 2
 
-''Lasher'' (2 copies)
-'''Ambush''': A Henchman Villain from your Victory Pile '''Symbiote Bonds''' with Lasher.
-'''Attack''': 2
-'''VP''': 2
+<i>Phage</i> (1 copy)
+<b>Ambush</b>: A Villain from the Escape Pile or your Victory Pile <i>'Symbiote Bonds</i>' with Phage.
+<b>Attack</b>: 3
+<b>VP</b>: 3
 
-''Phage'' (1 copy)
-'''Ambush''': A Villain from the Escape Pile or your Victory Pile '''Symbiote Bonds''' with Phage.
-'''Attack''': 3
-'''VP''': 3
+<i>Riot</i> (2 copies)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a Villain, it <i>'Symbiote Bonds</i>' with Riot.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 2
+<b>VP</b>: 2
 
-''Riot'' (2 copies)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a Villain, it '''Symbiote Bonds''' with Riot.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 2
-'''VP''': 2
+<i>Scream</i> (1 copy)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a Henchman or Life Foundation Villain, it <i>'Symbiote Bonds</i>' with Scream.
+<b>Attack</b>: 4
+<b>VP</b>: 4
+"
+Poisons	"<font size='4'>Poisons</font>
 
-''Scream'' (1 copy)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a Henchman or Life Foundation Villain, it '''Symbiote Bonds''' with Scream.
-'''Attack''': 4
-'''VP''': 4
-
-"
-Poisons	"
-
-''Poison Captain America'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with another Villain in the city. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 4
+<i>Poison Captain America</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with another Villain in the city. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 4
 ---
 https://cf.geekdo-static.com/mbs/mb_26284_0.png
 You get +1 Attack for each color of Hero you have. (including https://cf.geekdo-static.com/mbs/mb_26284_0.png and grey)
-'''Attack''': 0+
+<b>Attack</b>: 0+
 
 
-''Poison Dr. Octopus'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with a Villain in the Bank. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 3
+<i>Poison Dr. Octopus</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with a Villain in the Bank. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 3
 ---
 https://cf.geekdo-static.com/mbs/mb_26287_0.png
 Draw a card.
-'''Attack''': 1
+<b>Attack</b>: 1
 
-''Poison Hulk'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with a Henchman Villain in the city. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 5
+<i>Poison Hulk</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with a Henchman Villain in the city. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 5
 ---
 https://cf.geekdo-static.com/mbs/mb_26286_0.png
 https://cf.geekdo-static.com/mbs/mb_26286_0.png: You get +2 Attack.
-'''Attack''': 2+
+<b>Attack</b>: 2+
 
 
-''Poison Sabretooth'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with a Villain in the Streets. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 4
+<i>Poison Sabretooth</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with a Villain in the Streets. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 4
 ---
 https://cf.geekdo-static.com/mbs/mb_26284_0.png
 https://cf.geekdo-static.com/mbs/mb_26284_0.png: Look at the top card of your deck. You may KO it.
-'''Attack''': 2
+<b>Attack</b>: 2
 
-''Poison Scarlet Witch'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with another Villain in the city with an odd-numbered Attack. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 3
+<i>Poison Scarlet Witch</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with another Villain in the city with an odd-numbered Attack. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 3
 ---
 https://cf.geekdo-static.com/mbs/mb_26283_0.png
 Reveal the top card of your deck. If it has an odd-numbered cost, draw it. (0 is even.)
-'''Attack''': 2
+<b>Attack</b>: 2
 
-''Poison Spider-Man'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with another Villain in the city. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 2
+<i>Poison Spider-Man</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with another Villain in the city. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 2
 ---
 https://cf.geekdo-static.com/mbs/mb_26283_0.png
 Reveal the top card of your deck. If it costs 2 or less, draw it.
-'''Attack''': 2
+<b>Attack</b>: 2
 
-''Poison Storm'' (1 copy)
-'''Fight''': This '''Symbiote Bonds''' with a Villain on the Rooftops or Bridge. If already bonded or unable to bond, gain this as a Hero instead.
-'''Attack''': 3
+<i>Poison Storm</i> (1 copy)
+<b>Fight</b>: This <i>'Symbiote Bonds</i>' with a Villain on the Rooftops or Bridge. If already bonded or unable to bond, gain this as a Hero instead.
+<b>Attack</b>: 3
 ---
 https://cf.geekdo-static.com/mbs/mb_26285_0.png
 https://cf.geekdo-static.com/mbs/mb_26285_0.png: You get +2 Attack usable only against the Mastermind.
-'''Attack''': 2+
+<b>Attack</b>: 2+
 
-''Symbiotic Armor'' (1 copy)
-'''Ambush''': This Symbiote Bonds with the Mastermind. When you fight the Mastermind, defeat Symbiotic Armor and KO one of your Heroes instead of taking a Tactic.
-'''Attack''': 1
-'''VP''': 6
+<i>Symbiotic Armor</i> (1 copy)
+<b>Ambush</b>: This Symbiote Bonds with the Mastermind. When you fight the Mastermind, defeat Symbiotic Armor and KO one of your Heroes instead of taking a Tactic.
+<b>Attack</b>: 1
+<b>VP</b>: 6
 
+"
+Army of Evil	"<font size='4'>Army of Evil</font>
 
-"
-Army of Evil	"
+<i>Blackout</i> (2 copies)
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or discards a card.
+<b>Fight</b>: Draw two cards.
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Blackout'' (2 copies)
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or discards a card.
-'''Fight''': Draw two cards.
-'''Attack''': 4
-'''VP''': 2
+<i>Count Nefaria</i> (1 copy)
+<b>Ambush</b>: All players reveal their hands. Unless all those revealed cards together include https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, and https://cf.geekdo-static.com/mbs/mb_26285_0.png Heroes, each player gains a Wound.
+<b>Escape</b>: Same Effect.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Count Nefaria'' (1 copy)
-'''Ambush''': All players reveal their hands. Unless all those revealed cards together include https://cf.geekdo-static.com/mbs/mb_26286_0.png, https://cf.geekdo-static.com/mbs/mb_26284_0.png, https://cf.geekdo-static.com/mbs/mb_26283_0.png, https://cf.geekdo-static.com/mbs/mb_26287_0.png, and https://cf.geekdo-static.com/mbs/mb_26285_0.png Heroes, each player gains a Wound.
-'''Escape''': Same Effect.
-'''Attack''': 7
-'''VP''': 5
-
-''Dome of Darkforce'' (1 copy)
-'''Location'''
+<i>Dome of Darkforce</i> (1 copy)
+<b>Location</b>
 Whenever you fight a Villain here, each other player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or discards a card.
-'''Fight''': Draw two cards.
-'''Attack''': 7
-'''VP''': 5
+<b>Fight</b>: Draw two cards.
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Klaw'' (2 copies)
-'''Ambush''': Klaw captures a https://cf.geekdo-static.com/mbs/mb_26287_0.png or https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero that costs 5 or less from the HQ.
-'''Fight''': Gain that Hero.
-'''Attack''': 5
-'''VP''': 3
+<i>Klaw</i> (2 copies)
+<b>Ambush</b>: Klaw captures a https://cf.geekdo-static.com/mbs/mb_26287_0.png or https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero that costs 5 or less from the HQ.
+<b>Fight</b>: Gain that Hero.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Mister Hyde'' (2 copies)
+<i>Mister Hyde</i> (2 copies)
 While in the Bank or Streets, this card's name is ""Dr. Calvin Zabo"", and you must spend Recruit to fight him instead of Attack.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 6*
-'''VP''': 4
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 6*
+<b>VP</b>: 4
+"
+Dark Avengers	"<font size='4'>Dark Avengers</font>
 
-"
-Dark Avengers	"
+<i>Ares</i> (1 copy)
+<b>Last Stand</b>
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 6+
+<b>VP</b>: 6
 
-''Ares'' (1 copy)
-'''Last Stand'''
-'''Fight''': KO one of your Heroes.
-'''Attack''': 6+
-'''VP''': 6
+<i>Captain Marvel (Noh-Varr)</i> (1 copy)
+<b>Last Stand</b>
+<b>Ambush</b>: If any other Dark Avengers are in the city, each player gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Captain Marvel (Noh-Varr)'' (1 copy)
-'''Last Stand'''
-'''Ambush''': If any other Dark Avengers are in the city, each player gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 3+
-'''VP''': 3
-
-''Dark Hawkeye (Bullseye)'' (1 copy)
-'''Last Stand'''
-'''Fight''': KO one of your Heroes. Then choose one:
+<i>Dark Hawkeye (Bullseye)</i> (1 copy)
+<b>Last Stand</b>
+<b>Fight</b>: KO one of your Heroes. Then choose one:
 - Each other player Kos one of their Heroes.
 - Each other player gains a 0-cost Hero from the KO pile.
-'''Attack''': 4+
-'''VP''': 4
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Dark Ms. Marvel (Moonstone)'' (1 copy)
-'''Last Stand'''
-'''Fight''': Each other player discards two cards then draws a card.
-'''Attack''': 4+
-'''VP''': 4
+<i>Dark Ms. Marvel (Moonstone)</i> (1 copy)
+<b>Last Stand</b>
+<b>Fight</b>: Each other player discards two cards then draws a card.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Dark Spider-Man (Scorpion)'' (1 copy)
-'''Double Last Stand'''
-'''Fight''': Reveal the top two cards of your deck. KO one of them that costs 2 or less. Put the rest back in any order.
-'''Attack''': 2+
-'''VP''': 2
+<i>Dark Spider-Man (Scorpion)</i> (1 copy)
+<b>Double Last Stand</b>
+<b>Fight</b>: Reveal the top two cards of your deck. KO one of them that costs 2 or less. Put the rest back in any order.
+<b>Attack</b>: 2+
+<b>VP</b>: 2
 
-''Dark Wolverine (Daken)'' (1 copy)
-'''Last Stand'''
-'''Ambush''': Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
-'''Escape''': Same effect, then shuffle Dark Wolverine back into the Villain Deck.
-'''Attack''': 5+
-'''VP''': 5
+<i>Dark Wolverine (Daken)</i> (1 copy)
+<b>Last Stand</b>
+<b>Ambush</b>: Each player reveals an https://cf.geekdo-static.com/mbs/mb_26284_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect, then shuffle Dark Wolverine back into the Villain Deck.
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
-''Sentry'' (1 copy)
+<i>Sentry</i> (1 copy)
 While in the Bank or Streets, this card's name is ""The Void"", it gets +5 Attack, and it gets
-""'''Fight''': KO up to two cards from your discard pile.""
-'''Escape''': Each player gains a Wound.
-'''Attack''': 7+
-'''VP''': 5
+""<b>Fight</b>: KO up to two cards from your discard pile.""
+<b>Escape</b>: Each player gains a Wound.
+<b>Attack</b>: 7+
+<b>VP</b>: 5
 
-''Sentry's Watchtower'' (1 copy)
-'''Location'''
-Villains here get '''Last Stand'''. (Villains who already have it get the bonus again.)
-'''Fight''': You gain the Hero in the HQ space under this.
-'''Attack''': 8
-'''VP''': 5
+<i>Sentry's Watchtower</i> (1 copy)
+<b>Location</b>
+Villains here get <b>Last Stand</b>. (Villains who already have it get the bonus again.)
+<b>Fight</b>: You gain the Hero in the HQ space under this.
+<b>Attack</b>: 8
+<b>VP</b>: 5
+"
+Hood's Gang	"<font size='4'>Hood's Gang</font>
 
-"
-Hood's Gang	"
+<i>Cancer</i> (2 copies)
+<b>Dark Memories</b>
+<b>Ambush</b>: Each player that has any cards in their discard pile gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 3+
+<b>VP</b>: 2
 
-''Cancer'' (2 copies)
-'''Dark Memories'''
-'''Ambush''': Each player that has any cards in their discard pile gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 3+
-'''VP''': 2
+<i>Chemistro</i> (2 copies)
+<b>Dark Memories</b>
+<b>Fight</b>: Exchange a card you played this turn with a card in the HQ that has the same or lower cost. (The card you gained goes to your discard pile.)
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''Chemistro'' (2 copies)
-'''Dark Memories'''
-'''Fight''': Exchange a card you played this turn with a card in the HQ that has the same or lower cost. (The card you gained goes to your discard pile.)
-'''Attack''': 4+
-'''VP''': 3
+<i>Madam Masque</i> (2 copies)
+<b>Dark Memories</b>
+<b>Ambush</b>: Guess Villain, Bystander, Strike, or Twist. Then reveal the top card of the Villain Deck. If you guessed wrong, play that card.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Madam Masque'' (2 copies)
-'''Dark Memories'''
-'''Ambush''': Guess Villain, Bystander, Strike, or Twist. Then reveal the top card of the Villain Deck. If you guessed wrong, play that card.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 5+
-'''VP''': 4
-
-''The Brothers Grimm'' (1 copy)
+<i>The Brothers Grimm</i> (1 copy)
 To fight The Brothers Grimm, you must also discard two identical cards.
-'''Fight''': You may KO a card from your discard pile.
-'''Attack''': 2*
-'''VP''': 2
+<b>Fight</b>: You may KO a card from your discard pile.
+<b>Attack</b>: 2*
+<b>VP</b>: 2
 
-''The Dark Dimension'' (1 copy)
-'''Location'''
-Villains here get '''Dark Memories'''. (Villains who already have it get the bonus again.)
-'''Fight''': Take another turn after this one.
-'''Attack''': 9
-'''VP''': 5
+<i>The Dark Dimension</i> (1 copy)
+<b>Location</b>
+Villains here get <b>Dark Memories</b>. (Villains who already have it get the bonus again.)
+<b>Fight</b>: Take another turn after this one.
+<b>Attack</b>: 9
+<b>VP</b>: 5
+"
+Lethal Legion	"<font size='4'>Lethal Legion</font>
 
-"
-Lethal Legion	"
-
-''Carnival of Wonders'' (1 copy)
-'''Location'''
+<i>Carnival of Wonders</i> (1 copy)
+<b>Location</b>
 Whenever you fight a Villain here, each other player chooses a Bystander from their Victory Pile to be captured by Carnival of Wonders.
-'''Attack''': 5
-'''VP''': 3
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Laser Maze'' (1 copy)
-'''Location'''
+<i>Laser Maze</i> (1 copy)
+<b>Location</b>
 Whenever you fight a Villain here, each other player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
-'''Attack''': 7
-'''VP''': 5
+<b>Attack</b>: 7
+<b>VP</b>: 5
 
-''Living Laser'' (1 copy)
+<i>Living Laser</i> (1 copy)
 Living Laser gets +3 Attack while there's a ""Maze"" Location in the city.
-'''Fight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
-'''Escape''': Same effect.
-'''Attack''': 6+
-'''VP''': 5
+<b>Fight</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26285_0.png Hero or gains a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 6+
+<b>VP</b>: 5
 
-''M'Baku'' (1 copy)
+<i>M'Baku</i> (1 copy)
 M'Baku gets +3 Attack while there's a ""Cult"" Location in the city.
-'''Fight''': Each player reveals their hand and discards a https://cf.geekdo-static.com/mbs/mb_26287_0.png card.
-'''Escape''': Same effect.
-'''Attack''': 5+
-'''VP''': 4
+<b>Fight</b>: Each player reveals their hand and discards a https://cf.geekdo-static.com/mbs/mb_26287_0.png card.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Power Man (Erik Josten)'' (1 copy)
+<i>Power Man (Erik Josten)</i> (1 copy)
 Power Man gets +3 Attack while there's a ""Prison"" Location in the city.
-'''Escape''': Each player puts a Villain from their Victory Pile into the Escape Pile or gains a Wound.
-'''Attack''': 5+
-'''VP''': 4
+<b>Escape</b>: Each player puts a Villain from their Victory Pile into the Escape Pile or gains a Wound.
+<b>Attack</b>: 5+
+<b>VP</b>: 4
 
-''Swordsman'' (1 copy)
+<i>Swordsman</i> (1 copy)
 Swordsman gets +3 Attack while there's a ""Carnival"" Location in the city.
-'''Ambush''': Swordsman and each Location in the city each capture a Bystander.
-'''Attack''': 4+
-'''VP''': 3
+<b>Ambush</b>: Swordsman and each Location in the city each capture a Bystander.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''""The Raft"" Prison'' (1 copy)
-'''Location'''
+<i>""The Raft"" Prison</i> (1 copy)
+<b>Location</b>
 Whenever you fight a Villain here, each other player puts a Villain from their Victory Pile into the Escape Pile or gains a Wound
-'''Attack''': 6
-'''VP''': 4
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''White Gorilla Cult'' (1 copy)
-'''Location'''
+<i>White Gorilla Cult</i> (1 copy)
+<b>Location</b>
 Whenever you fight a Villain here, each other player reveals their hand and discards a https://cf.geekdo-static.com/mbs/mb_26287_0.png card.
-'''Attack''': 6
-'''VP''': 4
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
+"
+Hydra Elite	"<font size='4'>Hydra Elite</font>
 
-"
-Hydra Elite	"
+<i>Crossbones</i> (2 copies)
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then each player gains a Wound unless that player reveals at least as many S.H.I.E.L.D. Heroes as the <i>'Hydra Level.</i>'
+<b>Attack</b>: 4
+<b>VP</b>: 2
 
-''Crossbones'' (2 copies)
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then each player gains a Wound unless that player reveals at least as many S.H.I.E.L.D. Heroes as the '''Hydra Level.'''
-'''Attack''': 4
-'''VP''': 2
+<i>Gorgon</i> (2 copies)
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then check the <i>'Hydra Level.</i>' You can't play Heroes of that cost this turn.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Gorgon'' (2 copies)
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then check the '''Hydra Level.''' You can't play Heroes of that cost this turn.
-'''Attack''': 6
-'''VP''': 4
+<i>Growing Man</i> (2 copies)
+Growing man gets + Attack equal to the Mastermind's <b>Hydra Level.</b>
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile.
+<b>Attack</b>: 0+
+<b>VP</b>: 3
 
-''Growing Man'' (2 copies)
-Growing man gets + Attack equal to the Mastermind's '''Hydra Level.'''
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile.
-'''Attack''': 0+
-'''VP''': 3
+<i>Hive</i> (2 copies)
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then each player reveals their hand and discards a card with cost equal to the <i>'Hydra Level.</i>'
+<b>Attack</b>: 5
+<b>VP</b>: 3
+"
+A.I.M., Hydra Offshoot	"<font size='4'>A.I.M., Hydra Offshoot</font>
 
-''Hive'' (2 copies)
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then each player reveals their hand and discards a card with cost equal to the '''Hydra Level.'''
-'''Attack''': 5
-'''VP''': 3
+<i>Graviton</i> (2 copies)
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then, for each 2 <i>'Hydra Levels</i>', Heroes currently in the HQ cost 1 more recruit this turn.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-"
-A.I.M., Hydra Offshoot	"
-
-''Graviton'' (2 copies)
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then, for each 2 '''Hydra Levels''', Heroes currently in the HQ cost 1 more recruit this turn.
-'''Attack''': 6
-'''VP''': 4
-
-''Mentallo'' (2 copies)
+<i>Mentallo</i> (2 copies)
 Mentallo gets +1 Attack for each Officer he has.
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then Mentallo captures a S.H.I.E.L.D. Officer for each 2 '''Hydra Level.'''
-'''Fight''': Gain an Officer captured by Mentallo or send it '''Undercover.''' KO the rest.
-'''Attack''': 3+
-'''VP''': 3
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then Mentallo captures a S.H.I.E.L.D. Officer for each 2 <i>'Hydra Level.</i>'
+<b>Fight</b>: Gain an Officer captured by Mentallo or send it <i>'Undercover.</i>' KO the rest.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
 
-''Superia'' (2 copies)
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then each player reveals a random card from their hand. If the '''Hydra Level''' is higher than that card's cost, that player discards that card.
-'''Attack''': 5
-'''VP''': 3
+<i>Superia</i> (2 copies)
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile. Then each player reveals a random card from their hand. If the <i>'Hydra Level</i>' is higher than that card's cost, that player discards that card.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Taskmaster'' (2 copies)
-'''Ambush''': Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile.
-'''Fight''': Each player must reveal as many Hero colors (including grey) as the '''Hydra Level''' or gain a Wound.
-'''Escape''': Same effect.
-'''Attack''': 3+
-'''VP''': 4
+<i>Taskmaster</i> (2 copies)
+<b>Ambush</b>: Put a card from the S.H.I.E.L.D. Officer Stack into the Escape Pile.
+<b>Fight</b>: Each player must reveal as many Hero colors (including grey) as the <i>'Hydra Level</i>' or gain a Wound.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 3+
+<b>VP</b>: 4
 
+"
+Dark Council	"<font size='4'>Dark Council</font>
 
-"
-Dark Council	"
+<i>Ulik, the Troll</i> (2 copies)
+Ulik gets +2 if you are not <b>Worthy</b>.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 2
 
-''Ulik, the Troll'' (2 copies)
-Ulik gets +2 if you are not '''Worthy'''.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3+
-'''VP''': 2
+<i>Sindr, Fire Giant Queen</i> (2 copies)
+<b>Fight</b>: If you are <i>'Worthy</i>', you get +2 Recruit.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Sindr, Fire Giant Queen'' (2 copies)
-'''Fight''': If you are '''Worthy''', you get +2 Recruit.
-'''Attack''': 5
-'''VP''': 3
-
-''The Mangog'' (1 copy)
+<i>The Mangog</i> (1 copy)
 The Mangog gets +1 Attack for each Villain in the Victory Pile of the player on your right.
-'''Escape''': Each player who is not '''Worthy''' gains a Wound.
-'''Attack''': 3+
-'''VP''': 4
-[size=8]It is the coalesced hatred of a billion beings slain by Thor's father Odin.[/size]
+<b>Escape</b>: Each player who is not <i>'Worthy</i>' gains a Wound.
+<b>Attack</b>: 3+
+<b>VP</b>: 4
+<font size='1'><i>It is the coalesced hatred of a billion beings slain by Thor's father Odin.</i></font>
 
-''Laufey, Father of Loki'' (1 copy)
-'''Ambush''': Laufey captures The Casket of Eternal Winters from any Villain, Mastermind, player's control, or discard pile.
-'''Escape''': If Laufey holds The Casket of Ancient Winters, say ""Fimbulwinter has come,"" and each player discards down to 3 cards.
-'''Attack''': 6
-'''VP''': 4
+<i>Laufey, Father of Loki</i> (1 copy)
+<b>Ambush</b>: Laufey captures The Casket of Eternal Winters from any Villain, Mastermind, player's control, or discard pile.
+<b>Escape</b>: If Laufey holds The Casket of Ancient Winters, say ""Fimbulwinter has come,"" and each player discards down to 3 cards.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''The Casket of Ancient Winters'' (1 copy)
-'''Villainous Weapon'''
+<i>The Casket of Ancient Winters</i> (1 copy)
+<b>Villainous Weapon</b>
 ---
-'''Artifact''' - Once per turn, if you are '''Worthy''', you get +2 Recruit.
-'''Attack''': +4
+<b>Artifact</b> - Once per turn, if you are <i>'Worthy</i>', you get +2 Recruit.
+<b>Attack</b>: +4
 
-''Jarnbjorn, First Axe of Thor'' (1 copy)
-'''Villainous Weapon'''
+<i>Jarnbjorn, First Axe of Thor</i> (1 copy)
+<b>Villainous Weapon</b>
 ---
-'''Thrown Artifact''' - When you throw this, you get +3 Attack.
-'''Attack''': +3
-[size=8]Malekith eventually seized Jarnbjorn and cut off Thor's left arm.[/size]
+<b>Thrown Artifact</b> - When you throw this, you get +3 Attack.
+<b>Attack</b>: +3
+<font size='1'><i>Malekith eventually seized Jarnbjorn and cut off Thor's left arm.</i></font>
+"
+Omens of Ragnarok	"<font size='4'>Omens of Ragnarok</font>
 
-"
-Omens of Ragnarok	"
+<i>Skurge, the Executioner</i> (2 copies)
+<b>Bridge Conqueror 3</b>
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 2
+<font size='1'><i>After a lifetime of evil, he redeemed himself with a final stand at the Bridge of Gjallerbru.</i></font>
 
-''Skurge, the Executioner'' (2 copies)
-'''Bridge Conqueror 3'''
-'''Fight''': KO one of your Heroes.
-'''Attack''': 4+
-'''VP''': 2
-[size=8]After a lifetime of evil, he redeemed himself with a final stand at the Bridge of Gjallerbru.[/size]
+<i>The Fenris Wolf</i> (2 copies)
+<b>Streets Conqueror 2</b>
+<b>Ambush</b>: The Fenris Wolf moves forward to the Rooftops, pushing other Villains forward as normal.
+<b>Attack</b>: 4+
+<b>VP</b>: 3
 
-''The Fenris Wolf'' (2 copies)
-'''Streets Conqueror 2'''
-'''Ambush''': The Fenris Wolf moves forward to the Rooftops, pushing other Villains forward as normal.
-'''Attack''': 4+
-'''VP''': 3
+<i>Jormungand, the World-Serpent</i> (1 copy)
+<b>Sewers Conqueror 1</b>
+<b>Bank Conqueror 1</b>
+<b>Rooftops Conqueror 1</b>
+<b>Streets Conqueror 1</b>
+<b>Bridge Conqueror 1</b>
+<b>Fight</b>: Each Hero currently in the HQ costs 1 less this turn.
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
-''Jormungand, the World-Serpent'' (1 copy)
-'''Sewers Conqueror 1'''
-'''Bank Conqueror 1'''
-'''Rooftops Conqueror 1'''
-'''Streets Conqueror 1'''
-'''Bridge Conqueror 1'''
-'''Fight''': Each Hero currently in the HQ costs 1 less this turn.
-'''Attack''': 5+
-'''VP''': 5
-
-''Surtur, Fire Giant King'' (1 copy)
-'''Fight''': Put this into your discard pile as a ""Surtur's Crown"" Artifact.
-'''Escape''': If Surtur was holding The Eternal Flame, say ""Ragnarok has come,"" KO each Heroes of Asgard Hero from the HQ, and each player gains two Wounds.
+<i>Surtur, Fire Giant King</i> (1 copy)
+<b>Fight</b>: Put this into your discard pile as a ""Surtur's Crown"" Artifact.
+<b>Escape</b>: If Surtur was holding The Eternal Flame, say ""Ragnarok has come,"" KO each Heroes of Asgard Hero from the HQ, and each player gains two Wounds.
 --
-'''Artifact''' - Once per turn, you get '''Sewers Conqueror 1'''.
-'''Attack''': 6
+<b>Artifact</b> - Once per turn, you get <i>'Sewers Conqueror 1</i>'.
+<b>Attack</b>: 6
 
-''The Eternal Flame'' (1 copy)
-'''Villainous Weapon'''
-'''Ambush''': If Surtur is in the city, he captures The Eternal Flame. If a player controls ""Surtur's Crown,"" that card enters the city as the Villain Surtur and captures The Eternal Flame.
+<i>The Eternal Flame</i> (1 copy)
+<b>Villainous Weapon</b>
+<b>Ambush</b>: If Surtur is in the city, he captures The Eternal Flame. If a player controls ""Surtur's Crown,"" that card enters the city as the Villain Surtur and captures The Eternal Flame.
 ---
-'''Artifact''' - Once per turn, return a 0-cost card from your discard pile to your hand.
-'''Attack''': +4
+<b>Artifact</b> - Once per turn, return a 0-cost card from your discard pile to your hand.
+<b>Attack</b>: +4
 
-''The Hel-Crown'' (1 copy)
-'''Villainous Weapon'''
+<i>The Hel-Crown</i> (1 copy)
+<b>Villainous Weapon</b>
 ---
-'''Artifact''' - Once per turn, you get '''Streets Conqueror 1'''.
-'''Attack''': +3
+<b>Artifact</b> - Once per turn, you get <i>'Streets Conqueror 1</i>'.
+<b>Attack</b>: +3
+"
+Hellions	"<font size='4'>Hellions</font>
 
-"
-Hellions	"
+<i>Catseye</i> (2 copies)
+<b>Moonlight</b>: Catseye gets +2 Attack.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
+<font size='1'><i>Transforming into various feline forms makes Catseye into Wolfsbane's natural enemy.</i></font>
 
-''Catseye'' (2 copies)
-'''Moonlight''': Catseye gets +2 Attack.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3+
-'''VP''': 3
-[size=8]Transforming into various feline forms makes Catseye into Wolfsbane's natural enemy.[/size]
+<i>Thunderbird</i> (2 copies)
+<b>Sunlight</b>: Thunderbird gets +2 Attack
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
+<font size='1'><i>He rises like the morning sun, growing beyond his bitterness to eventually join the X-Men.</i></font>
 
-''Thunderbird'' (2 copies)
-'''Sunlight''': Thunderbird gets +2 Attack
-'''Fight''': KO one of your Heroes.
-'''Attack''': 4+
-'''VP''': 4
-[size=8]He rises like the morning sun, growing beyond his bitterness to eventually join the X-Men.[/size]
+<i>Roulette</i> (1 copy)
+<b>Ambush</b>: Reveal the top card of the Hero Deck. If it's https://cf.geekdo-static.com/mbs/mb_26287_0.png, each player gains a Wound. If it's https://cf.geekdo-static.com/mbs/mb_26283_0.png, you draw a card.
+<b>Fight</b>: Same effect.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 5
+<b>VP</b>: 3
+<font size='1'><i>Her supernatural black tokens curse, while her red tokens bless.</i></font>
 
-''Roulette'' (1 copy)
-'''Ambush''': Reveal the top card of the Hero Deck. If it's https://cf.geekdo-static.com/mbs/mb_26287_0.png, each player gains a Wound. If it's https://cf.geekdo-static.com/mbs/mb_26283_0.png, you draw a card.
-'''Fight''': Same effect.
-'''Escape''': Same effect.
-'''Attack''': 5
-'''VP''': 3
-[size=8]Her supernatural black tokens curse, while her red tokens bless.[/size]
-
-''Tarot'' (1 copy)
-'''Ambush''': Reveal the top card of the Villain Deck. If it's a...
+<i>Tarot</i> (1 copy)
+<b>Ambush</b>: Reveal the top card of the Villain Deck. If it's a...
 Bystander: Rescue it.
 Scheme Twist: Play it.
 Master Strike: Each player gains a Wound.
-Villain: Each player has a '''Waking Nightmare'''.
-'''Attack''': 5
-'''VP''': 3
+Villain: Each player has a <b>Waking Nightmare</b>.
+<b>Attack</b>: 5
+<b>VP</b>: 3
 
-''Jetstream'' (1 copy)
-'''Ambush''': ''(After this enters the Sewers)'' Put Jetstream on the Bridge. If there's another Villain there, swap them.
-'''Escape''': Each player discards an X-Men Hero or gains a Wound.
-'''Attack''': 6
-'''VP''': 4
+<i>Jetstream</i> (1 copy)
+<b>Ambush</b>: <i>(After this enters the Sewers)</i> Put Jetstream on the Bridge. If there's another Villain there, swap them.
+<b>Escape</b>: Each player discards an X-Men Hero or gains a Wound.
+<b>Attack</b>: 6
+<b>VP</b>: 4
 
-''Empath'' (1 copy)
+<i>Empath</i> (1 copy)
 During your turn, Empath gets +1 Attack for each grey Hero you have.
-'''Ambush''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or has a '''Waking Nightmare'''.
-'''Escape''': Same effect.
-'''Attack''': 4+
-'''VP''': 4
+<b>Ambush</b>: Each player reveals a https://cf.geekdo-static.com/mbs/mb_26283_0.png Hero or has a <i>'Waking Nightmare</i>'.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
+"
+Demons of Limbo	"<font size='4'>Demons of Limbo</font>
 
-"
-Demons of Limbo	"
+<i>Crotus</i> (2 copies)
+<b>Ambush</b>: Crotus captures a Bystander. Put an even-numbered Hero on the bottom of the Hero Deck.
+<b>Moonlight</b>: Crotus gets +4 Attack
+<b>Attack</b>: 3+
+<b>VP</b>: 3
+<font size='1'><i>Those who pick on little Crotus change their tune when night falls and his demonic army rises.</i></font>
 
-''Crotus'' (2 copies)
-'''Ambush''': Crotus captures a Bystander. Put an even-numbered Hero on the bottom of the Hero Deck.
-'''Moonlight''': Crotus gets +4 Attack
-'''Attack''': 3+
-'''VP''': 3
-[size=8]Those who pick on little Crotus change their tune when night falls and his demonic army rises.[/size]
+<i>Witchfire</i> (2 copies)
+<b>Ambush</b>: Witchfire captures a Hero from the HQ with the lowest odd-numbered cost.
+<b>Sunlight</b>: Witchfire gets +2 Attack
+<b>Fight</b>: The player of your choice gains that Hero.
+<b>Escape</b>: KO the captured Hero.
+<b>Attack</b>: 4+
+<b>VP</b>: 4
 
-''Witchfire'' (2 copies)
-'''Ambush''': Witchfire captures a Hero from the HQ with the lowest odd-numbered cost.
-'''Sunlight''': Witchfire gets +2 Attack
-'''Fight''': The player of your choice gains that Hero.
-'''Escape''': KO the captured Hero.
-'''Attack''': 4+
-'''VP''': 4
+<i>N'astirh</i> (2 copy)
+<b>Sunlight</b>: To fight N'astirh, you must also spend 3 Recruit.
+<b>Moonlight</b>: N'astirh gets +3 Attack.
+<b>Fight</b>: KO one of your Heroes.
+<b>Attack</b>: 3+
+<b>VP</b>: 3
+<font size='1'><i>Weaving magic and technology makes N'astirh dangerously adaptable.</i></font>
 
-''N'astirh'' (2 copy)
-'''Sunlight''': To fight N'astirh, you must also spend 3 Recruit.
-'''Moonlight''': N'astirh gets +3 Attack.
-'''Fight''': KO one of your Heroes.
-'''Attack''': 3+
-'''VP''': 3
-[size=8]Weaving magic and technology makes N'astirh dangerously adaptable.[/size]
+<i>Demon Bear</i> (1 copy)
+<b>Ambush</b>: Each player has a <i>'Waking Nightmare</i>'. The Demon Bear captures one of the Heroes discarded this way that has the lowest cost. The Demon Bear gets + Attack equal to that Hero's cost.
+<b>Fight</b>: The player of your choice gains that Hero.
+<b>Escape</b>: KO the captured Hero.
+<b>Attack</b>: 5+
+<b>VP</b>: 5
 
-''Demon Bear'' (1 copy)
-'''Ambush''': Each player has a '''Waking Nightmare'''. The Demon Bear captures one of the Heroes discarded this way that has the lowest cost. The Demon Bear gets + Attack equal to that Hero's cost.
-'''Fight''': The player of your choice gains that Hero.
-'''Escape''': KO the captured Hero.
-'''Attack''': 5+
-'''VP''': 5
-
-''S'ym'' (1 copy)
-'''Ambush''': '''Sunlight''': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound. '''Moonlight''': Each player has a '''Waking Nightmare'''.
-'''Escape''': Same effect.
-'''Attack''': 7
-'''VP''': 5"
+<i>S'ym</i> (1 copy)
+<b>Ambush</b>: <i>'Sunlight</i>': Each player reveals a https://cf.geekdo-static.com/mbs/mb_26286_0.png Hero or gains a Wound. '''Moonlight''': Each player has a '''Waking Nightmare'''.
+<b>Escape</b>: Same effect.
+<b>Attack</b>: 7
+<b>VP</b>: 5"
