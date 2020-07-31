@@ -36,11 +36,13 @@ tooltext = rbind(select(heroestext,text,id),mmtext,viltext,schemtext,henchtext)
 
 #find a way to render color symbols
 #and later team icons and fight/money icons
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26283_0.png","RED",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26284_0.png","YELLOW",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26285_0.png","BLUE",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26286_0.png","GREEN",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26287_0.png","SILVER",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26283_0.png","<img src=\"red.png\">",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26284_0.png","<img src=\"yellow.png\">",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26285_0.png","<img src=\"blue.png\">",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26286_0.png","<img src=\"green.png\">",tooltext$text)
+tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26287_0.png","<img src=\"silver.png\">",tooltext$text)
+tooltext$text = gsub(" Attack"," <img src=\"Attack.jpg\" width=\"16\">",tooltext$text)
+tooltext$text = gsub(" Recruit"," <img src=\"Recruit.jpg\" width=\"16\">",tooltext$text)
 
 #format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
