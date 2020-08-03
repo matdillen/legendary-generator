@@ -99,6 +99,21 @@ setlist[1,] = c(""," ")
 setaslist = as.list(t(setlist$id))
 names(setaslist) = setlist$label
 
+keywords = read_tsv("data/keywords.txt")
+keywords = rbind(keywords,tibble(name="",text="",id=""))
+keywords %<>% arrange(id)
+keywords$text = gsub("[Attack]","<img src=\"Attack.jpg\" width=\"16\">",keywords$text,fixed=T)
+keywords$text = gsub("[+Attack]","+<img src=\"Attack.jpg\" width=\"16\">",keywords$text,fixed=T)
+keywords$text = gsub("[Recruit]","<img src=\"Recruit.jpg\" width=\"16\">",keywords$text,fixed=T)
+keywords$text = gsub("[+Recruit]","+<img src=\"Recruit.jpg\" width=\"16\">",keywords$text,fixed=T)
+keywords$text = gsub("Attack ","<img src=\"Attack.jpg\" width=\"16\"> ",keywords$text)
+keywords$text = gsub("Recruit ","<img src=\"Recruit.jpg\" width=\"16\"> ",keywords$text)
+keywords$text = gsub("[Ranged]","<img src=\"blue.png\">",keywords$text,fixed=T)
+keywords$text = gsub("[Strength]","<img src=\"green.png\">",keywords$text,fixed=T)
+keywords$text = gsub("[Tech]","<img src=\"silver.png\">",keywords$text,fixed=T)
+keywords$text = gsub("[Covert]","<img src=\"red.png\">",keywords$text,fixed=T)
+keywords$text = gsub("[Instinct]","<img src=\"yellow.png\">",keywords$text,fixed=T)
+
 ui <- fluidPage(
     useShinyjs(),
     #useShinyalert(),
@@ -170,6 +185,9 @@ ui <- fluidPage(
                              1),
                        width=4)),
             uiOutput("gameslider"),
+            selectizeInput("keywords",
+                           "Keyword Info",
+                           choices = keywords$id),
             width=5
         ),
         mainPanel(dataTableOutput("setups"),
@@ -247,10 +265,21 @@ server <- function(input, output) {
         text = filter(tooltext,id%in%livesetup()[input$setups_rows_selected,1])
         if (dim(text)[1]>0) {
             text %<>% mutate(text = gsub("\n","<br>",text))
-        showModal(modalDialog(title = NULL,
-                  HTML(paste(text$text,collapse="<br><br>")),
-                  easyClose = T,
-                  footer=NULL))
+            showModal(modalDialog(title = NULL,
+                                  HTML(paste(text$text,collapse="<br><br>")),
+                                  easyClose = T,
+                                  footer=HTML("<p align=\"left\"><a href=\"https://www.boardgamegeek.com/wiki/page/Legendary_Marvel_Complete_Card_Text\">Text transcriptions adapted from boardgamegeek wiki</a></p>")))
+        }
+    })
+    observeEvent(input$keywords,{
+        text = filter(keywords,id==input$keywords)
+        if (dim(text)[1]>0&
+            text$id!="") {
+            text %<>% mutate(text = gsub("\n","<br>",text))
+            showModal(modalDialog(title = text$id,
+                                  HTML(paste(text$text,collapse="<br>")),
+                                  easyClose = T,
+                                  footer=HTML("<p align=\"left\"><a href=\"https://marveldbg.wordpress.com/gameplay-mechanics\">Keyword text adapted from marveldbg blog.</a></p>")))
         }
     })
     observeEvent(input$metricsgo,{
