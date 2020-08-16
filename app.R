@@ -1,12 +1,13 @@
 library(tidyverse)
 library(magrittr)
 library(shiny)
-library(shinyjs) #needed for hiding and showing things
+library(shinyjs)
 #library(data.table)
 library(DT)
 #library(shinyalert) #use to make popups, maybe showing card image or info
 
 source("helpers.R")
+
 options(dplyr.summarise.inform=F) #block obscure dplyr warning
 
 #data import
@@ -16,70 +17,18 @@ villains=read_csv('data/villains.csv')
 henchmen=read_csv('data/henchmen.csv')
 masterminds=read_csv('data/masterminds.csv')
 
-heroestext = read_tsv('data/heroestext.csv')
-heroestext %<>% 
-    select(-id) %>%
-    rename(id = heroname)
-mmtext = read_tsv('data/mmtext.csv')
-mmtext %<>% rename(id = mmtext)
-schemtext = read_tsv('data/schemtext.csv')
-schemtext %<>% rename(id = schemtext)
-viltext = read_tsv('data/viltext.csv')
-viltext %<>% rename(id = viltext)
-henchtext = read_tsv('data/henchtext.csv')
-henchtext %<>% rename(id = henchtext)
-#duplicate ids are possible in theory
-#in practice one occurs: maximum carnage
-#now captured by difference in casing, but needs a more reliable fix
-#probably work with card type namespace somehow, but this requires quite some changes
-tooltext = rbind(select(heroestext,text,id),mmtext,viltext,schemtext,henchtext)
-
-#find a way to render color symbols
-#and later team icons and fight/money icons
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26283_0.png","<img src=\"red.png\">",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26284_0.png","<img src=\"yellow.png\">",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26285_0.png","<img src=\"blue.png\">",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26286_0.png","<img src=\"green.png\">",tooltext$text)
-tooltext$text = gsub("https://cf.geekdo-static.com/mbs/mb_26287_0.png","<img src=\"silver.png\">",tooltext$text)
-tooltext$text = gsub(" Attack"," <img src=\"Attack.jpg\" width=\"16\">",tooltext$text)
-tooltext$text = gsub(" Recruit"," <img src=\"Recruit.jpg\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("X-Men","<img src=\"xmen.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Avengers","<img src=\"avengers.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("X-Force","<img src=\"xforce.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Cabal","<img src=\"cabal.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Illuminati","<img src=\"illuminati.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("New Warriors","<img src=\"newwarriors.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Warbound","<img src=\"warbound.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Champions","<img src=\"champions.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Marvel Knights","<img src=\"marvelknights.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Fantastic Four","<img src=\"fantasticfour.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Foes of Asgard","<img src=\"enemiesofasgard.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Spider Friends","<img src=\"spiderman.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("S.H.I.E.L.D.","<img src=\"shield.png\" width=\"16\">",tooltext$text,fixed=T)
-tooltext$text = gsub("Brotherhood","<img src=\"brotherhood.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Mercs for Money","<img src=\"deadpool.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Crime Syndicate","<img src=\"crimesyndicate.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Guardians of the Galaxy","<img src=\"guardians.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Heroes of Asgard","<img src=\"heroesofasgard.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Venomverse","<img src=\"venompool.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("Sinister Six","<img src=\"sinistersix.png\" width=\"16\">",tooltext$text)
-tooltext$text = gsub("HYDRA","<img src=\"hydra.png\" width=\"16\">",tooltext$text)
-
 #format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
 names(src) = c("heroes","schemes","villains","henchmen","masterminds")
 
 #format a list of heroes with proper ids
 #arrange by abc and add an empty initial value
-src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
+src$heroes$uni = paste0(src$heroes$Hero," (",src$heroes$Set,")")
 herolist = distinct(src$heroes,uni)
 herolist = rbind(herolist,uni="")
 herolist %<>% arrange(uni)
-herolist$name = gsub("_"," (",herolist$uni)
-herolist$name = paste0(herolist$name,")")
-herolist$name[1] = ""
 heroaslist = as.list(t(herolist$uni))
-names(heroaslist) = herolist$name
+names(heroaslist) = herolist$uni
 names(heroaslist)[1] = " "
 
 #format a list of henchmen
@@ -120,51 +69,10 @@ setlist[1,] = c(""," ")
 setaslist = as.list(t(setlist$id))
 names(setaslist) = setlist$label
 
-keywords = read_tsv("data/keywords.txt")
-keywords = rbind(keywords,tibble(name="",text="",id=""))
-keywords %<>% arrange(id)
-keywords$text = gsub("[Attack]",
-                     "<img src=\"Attack.jpg\" width=\"16\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[+Attack]",
-                     "+<img src=\"Attack.jpg\" width=\"16\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[Recruit]",
-                     "<img src=\"Recruit.jpg\" width=\"16\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[+Recruit]",
-                     "+<img src=\"Recruit.jpg\" width=\"16\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("Attack ",
-                     "<img src=\"Attack.jpg\" width=\"16\"> ",
-                     keywords$text)
-keywords$text = gsub("Recruit ",
-                     "<img src=\"Recruit.jpg\" width=\"16\"> ",
-                     keywords$text)
-keywords$text = gsub("[Ranged]",
-                     "<img src=\"blue.png\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[Strength]",
-                     "<img src=\"green.png\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[Tech]",
-                     "<img src=\"silver.png\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[Covert]",
-                     "<img src=\"red.png\">",
-                     keywords$text,
-                     fixed=T)
-keywords$text = gsub("[Instinct]",
-                     "<img src=\"yellow.png\">",
-                     keywords$text,
-                     fixed=T)
+keywords = read_tsv("data/keywords2.txt")
+keywords[is.na(keywords)] = ""
+
+tooltext = read_tsv("data/tooltext.txt")
 
 ui <- fluidPage(
     useShinyjs(),
@@ -173,18 +81,18 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             fluidRow(
-            column(
-                numericInput("playerc",
-                                "Number of Players",
-                                2,2,5,1),
-                width=6
+                column(
+                    numericInput("playerc",
+                                 "Number of Players",
+                                 2,2,5,1),
+                    width=6
                 ),
-            column(
-                actionButton("presets",
-                             "Presets?"),
-                width=5,
-                offset=1,
-                style = "margin-top: 20px;"
+                column(
+                    actionButton("presets",
+                                 "Presets?"),
+                    width=5,
+                    offset=1,
+                    style = "margin-top: 20px;"
                 )),
             hidden(selectizeInput("fixedSCH",
                            "Scheme",
@@ -236,7 +144,15 @@ ui <- fluidPage(
                              1000,
                              1),
                        width=4)),
-            uiOutput("gameslider"),
+            fluidRow(
+                column(uiOutput("minbutton"),
+                       width=1),
+                column(uiOutput("gameslider",
+                                style = "margin-left: 10px;"),
+                       width=9),
+                column(uiOutput("plusbutton"),
+                       width=1)
+            ),
             selectizeInput("keywords",
                            "Keyword Info",
                            choices = keywords$id),
@@ -253,7 +169,7 @@ ui <- fluidPage(
     )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
     
     observeEvent(input$presets, {
         toggle("fixedSCH")
@@ -285,6 +201,11 @@ server <- function(input, output) {
         return(games)
     })
     observeEvent(input$go,{
+        output$minbutton <- renderUI({
+            actionButton("gamemin",
+                         "-",
+                         style = "margin-top: 40px;")
+        })
         output$gameslider <- renderUI({
             sliderInput("selectgame", 
                         label = "Selected setup:",
@@ -292,6 +213,11 @@ server <- function(input, output) {
                         max = length(gamelist()),
                         value = 1,
                         step = 1)
+        })
+        output$plusbutton <- renderUI({
+            actionButton("gameplus",
+                         "+",
+                         style = "margin-top: 40px;")
         })
     })
     livesetup <- eventReactive(input$selectgame,{
@@ -312,6 +238,16 @@ server <- function(input, output) {
                                                  info = F))
         show("print")
         show("metricsgo")
+    })
+    observeEvent(input$gamemin,{
+        updateSliderInput(session,
+                          "selectgame",
+                          value = input$selectgame - 1)
+    })
+    observeEvent(input$gameplus,{
+        updateSliderInput(session,
+                          "selectgame",
+                          value = input$selectgame + 1)
     })
     observeEvent(input$setups_cell_clicked, {
         text = filter(tooltext,id%in%livesetup()[input$setups_rows_selected,1])

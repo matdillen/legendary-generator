@@ -219,12 +219,12 @@ genFun = function(src,
   heronames = NULL
   
   src$heroes %<>% filter(!Set%in%dropset)
-  src$heroes$uni = paste(src$heroes$Hero,src$heroes$Set,sep="_")
+  src$heroes$uni = paste0(src$heroes$Hero," (",src$heroes$Set,")")
   
   #A few schemes have such specific needs their hero requirements are hardcoded here separately
   if (schemtraits$Hero_Inc[1]=="CUSTOM") {
     schemtraits$Hero_Inc[1] = 0
-    if (schemtraits$Name[1]=="Avengers vs X-Men") {
+    if (schemtraits$Name[1]=="Avengers vs. X-Men") {
       fixedHER = NULL
       teamlist = count(src$heroes,Team)
       teamlist %<>% filter(n>12)
@@ -232,12 +232,12 @@ genFun = function(src,
       src$heroes %<>% filter(Team%in%teamlist$Team)
       herolist1 = distinct(filter(src$heroes,Team==teamlist$Team[1]),uni)
       herolist2 = distinct(filter(src$heroes,Team==teamlist$Team[2]),uni)
-      heronumber1 = sample(1:nrow(herolist1),heroesc/2,replace=F)
-      heronumber2 = sample(1:nrow(herolist2),heroesc/2,replace=F)
+      heronumber1 = sample(1:nrow(herolist1),3,replace=F)
+      heronumber2 = sample(1:nrow(herolist2),3,replace=F)
       heroid1 = herolist1$uni[heronumber1]
       heroid2 = herolist2$uni[heronumber2]
       heronames = c(heroid1,heroid2)
-      heroesc = 0
+      heroesc = 6
     }
     if (schemtraits$Name[1]=="House of M") {
       fixedHER = NULL
@@ -245,10 +245,10 @@ genFun = function(src,
       herolist2 = distinct(filter(src$heroes,Team!="X-Men"),uni)
       heronumber1 = sample(1:nrow(herolist1),4,replace=F)
       heronumber2 = sample(1:nrow(herolist2),2,replace=F)
-      heroid1 = herolist1$uni[heronumber]
-      heroid2 = herolist2$uni[heronumber]
+      heroid1 = herolist1$uni[heronumber1]
+      heroid2 = herolist2$uni[heronumber2]
       heronames = c(heroid1,heroid2)
-      heroesc = 0
+      heroesc = 6
     }
   }
   
@@ -262,9 +262,7 @@ genFun = function(src,
   }
   
   #join both the scheme hero and the fixed provided (if any)
-  if (heroesc!=0) {
-    heronames = c(heronames,fixedHER)
-  }
+  heronames = c(heronames,fixedHER)
   
   #disambiguate names by concatening set id
   herolist = distinct(src$heroes,uni)
@@ -317,8 +315,6 @@ genFun = function(src,
 
 setupSumm <- function(game,setupid) {
   require(data.table)
-  game$Heroes = gsub("_"," (",game$Heroes)
-  game$Heroes = paste0(game$Heroes,")")
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
             "<br>",
@@ -346,8 +342,6 @@ mmGen <- function(not,n=1,data=src) {
 }
 
 setupPrint <- function(game) {
-  game$Heroes = gsub("_"," (",game$Heroes)
-  game$Heroes = paste0(game$Heroes,")")
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
             paste(game$Villains,collapse="|"),
