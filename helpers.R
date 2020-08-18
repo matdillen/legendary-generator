@@ -341,13 +341,23 @@ mmGen <- function(not,n=1,data=src) {
   return(mmlist$Name[mmnumber])
 }
 
-setupPrint <- function(game) {
-  setup = c(game$Scheme,
-            paste(game$Mastermind,collapse=" - "),
-            paste(game$Villains,collapse="|"),
-            paste(game$Henchmen,collapse="|"),
-            paste(game$Heroes,collapse="|"))
-  write.table(t(setup),"clipboard",sep="\t",col.names = F,row.names = F)
+setupPrint <- function(game,ts=F) {
+  if (!ts) {
+    setup = c(game$Scheme,
+              paste(game$Mastermind,collapse=" - "),
+              paste(game$Villains,collapse="|"),
+              paste(game$Henchmen,collapse="|"),
+              paste(game$Heroes,collapse="|"))
+    write.table(t(setup),"clipboard",sep="\t",col.names = F,row.names = F)
+  }
+  if (ts) {
+    setup = c(game$Scheme,
+              paste(game$Mastermind[1]),
+              paste(game$Villains,collapse="|"),
+              paste(game$Henchmen,collapse="|"),
+              paste(game$Heroes,collapse="|"))
+    writeClipboard(paste(setup,collapse=";"))
+  }
 }
 
 metricsGen = function(games,nr) {

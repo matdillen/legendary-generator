@@ -160,8 +160,17 @@ ui <- fluidPage(
         ),
         mainPanel(dataTableOutput("setups"),
                   br(),
-                  hidden(actionButton("print","Copy setup")),
+                  fluidRow(
+                      column(
+                        hidden(actionButton("print","Copy setup")),
+                        width=3
+                        ),
+                      column(
+                        hidden(actionButton("printTS","Copy to TS")),
+                        width=3
+                      )),
                   textOutput("printsuccess"),
+                  textOutput("printsuccessTS"),
                   br(),
                   hidden(actionButton("metricsgo","Get Metrics")),
                   tableOutput("metrics"),
@@ -237,6 +246,7 @@ server <- function(input, output, session) {
                                                  ordering = F,
                                                  info = F))
         show("print")
+        show("printTS")
         show("metricsgo")
     })
     observeEvent(input$gamemin,{
@@ -290,6 +300,12 @@ server <- function(input, output, session) {
         setupPrint(gamelist()[[input$selectgame]])
         output$printsuccess = renderText({
             paste0("Setup ",isolate(input$selectgame)," copied succesfully!")
+        })
+    })
+    observeEvent(input$printTS,{
+        setupPrint(gamelist()[[input$selectgame]],ts=T)
+        output$printsuccessTS = renderText({
+            paste0("Setup ",isolate(input$selectgame)," copied succesfully in TS format!")
         })
     })
 }
