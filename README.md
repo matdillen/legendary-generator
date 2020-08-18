@@ -19,5 +19,7 @@ A generated setup can be easily copied to clipboard for keeping track of setup o
 
 Also in `support`, `box organization.xlsx` contains a list of keywords with brief explanations, printable on a double-sides sheet. It also contains a few card errata instances and a schematic view of my own box setup.
 
+In the `support` folder, a save file for a [scripted Tabletop Simulator mod](https://steamcommunity.com/sharedfiles/filedetails/?id=1777582863) can be found. This save file includes some modifications to enable import from a setup exported by this app. The implementation is not fully scripted yet, e.g. the scheme twist count is 8 by default.
+
 `data` contains the csv files used and their source xlsx files, which have been designed for easy data addition and also contain field metadata used in the metrics. Also present are the csv files containing the card text.
 
