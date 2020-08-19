@@ -6,7 +6,8 @@ genFun = function(src,
                   fixedHM="",
                   fixedHER="",
                   fixedVIL="",
-                  dropset="") {
+                  dropset="",
+                  solo=T) {
   
   
   #setup numbers depending on number of players
@@ -46,6 +47,11 @@ genFun = function(src,
   ##############################################################
   ##Generate a scheme
   src$schemes %<>% filter(!Set%in%dropset)
+  
+  if (solo) {
+    src$schemes %<>% filter(is.na(solobad))
+  }
+  
   #Fixed scheme given?
   if (fixedSCH!="") {
     scheme = fixedSCH
@@ -63,29 +69,37 @@ genFun = function(src,
   #set NA's to 0 (can be important for metrics)
   schemtraits[is.na(schemtraits)]=0
   
-  #playerc dependent scheme settings:
-  if (grepl(":",
-            schemtraits$HC[1],
-            fixed=T)) {
-    schemeset = strsplit(schemtraits$HC[1],
-                         split=":|;")
-    schemeset_nrs = tibble(playerc=seq(1,(length(schemeset[[1]])/2)),
-                           n=seq(1,(length(schemeset[[1]])/2)))
-    j=0
-    for (i in dim(schemeset_nrs)[1]) {
-      j = j + 1
-      schemeset_nrs$playerc[i] = as.numeric(schemeset[[1]][j])
-      schemeset_nrs$n[i] = schemeset[[1]][j+1]
-      j = j + 1
+  convertVarstats <- function(value,pc) {
+    if (grepl(":",
+              value,
+              fixed=T)) {
+      schemeset = strsplit(value,
+                           split=":|;")
+      schemeset_nrs = tibble(playerc=seq(1,(length(schemeset[[1]])/2)),
+                             n=seq(1,(length(schemeset[[1]])/2)))
+      j=0
+      for (i in 1:dim(schemeset_nrs)[1]) {
+        j = j + 1
+        schemeset_nrs$playerc[i] = as.numeric(schemeset[[1]][j])
+        schemeset_nrs$n[i] = schemeset[[1]][j+1]
+        j = j + 1
+      }
+      schemeset_nrs %<>% filter(playerc<=pc)
+      if (dim(schemeset_nrs)[1]==1) {
+        value=schemeset_nrs$n[1]
+      }
+      if (dim(schemeset_nrs)[1]>1) {
+        value=schemeset_nrs$n[schemeset_nrs$playerc==max(schemeset_nrs$playerc)]
+      }
     }
-    schemeset_nrs %<>% filter(playerc<=playerc)
-    if (dim(schemeset_nrs)[1]==1) {
-      schemtraits$HC[1]=schemeset_nrs$n[1]
-    }
-    if (dim(schemeset_nrs)[1]>1) {
-      schemtraits$HC[1]=schemeset_nrs$n[schemeset_nrs$playerc==max(schemeset_nrs$playerc)]
-    }
+    return(value)
   }
+  
+  #playerc dependent scheme settings:
+  schemtraits$HC[1] %<>% convertVarstats(playerc)
+  schemtraits$VC[1] %<>% convertVarstats(playerc)
+  schemtraits$CH[1] %<>% convertVarstats(playerc)
+  schemtraits$CT[1] %<>% convertVarstats(playerc)
   
   #modify card numbers according to scheme
   heroesc = heroesc + as.numeric(schemtraits$HC[1])
@@ -144,10 +158,16 @@ genFun = function(src,
   
   #Villain group required by scheme?
   if (schemtraits$Vill_Inc[1]!=0) {
-    villnames = schemtraits$Vill_Inc[1]
-  }
-  else {
-    villnames = NULL
+    if (grepl(";",schemtraits$Vill_Inc[1])) {
+      villnames = strsplit(schemtraits$Vill_Inc[1],split=";")[[1]]
+    } else if (grepl("|",schemtraits$Vill_Inc[1])) {
+      pick = sample(0:1,1) + 1
+      villnames = strsplit(schemtraits$Vill_Inc[1],split="|",fixed=T)[[1]][pick]
+    } else {
+      villnames = schemtraits$Vill_Inc[1]
+    }
+  } else {
+      villnames = NULL
   }
   
   #Villain group required by mm?
@@ -254,10 +274,21 @@ genFun = function(src,
   
   #hero required by scheme?
   if (schemtraits$Hero_Inc[1]!=0) {
+    if (grepl(";",schemtraits$Hero_Inc[1])) {
+      heroincs = strsplit(schemtraits$Hero_Inc[1],split=";")[[1]]
+      fixn = 2
+    } else if (grepl("|",schemtraits$Hero_Inc[1])) {
+      pick = sample(0:1,1) + 1
+      heroincs = strsplit(schemtraits$Hero_Inc[1],split="|",fixed=T)[[1]][pick]
+      fixn = 1
+    } else {
+      heroincs = schemtraits$Hero_Inc[1]
+      fixn = 1
+    }
     herolist = filter(src$heroes,
-                      Name_S==schemtraits$Hero_Inc[1])
+                      Name_S%in%heroincs)
     herolist = distinct(herolist,uni)
-    heroid = sample(1:nrow(herolist),1)
+    heroid = sample(1:nrow(herolist),fixn,replace=F)
     heronames = herolist$uni[heroid]
   }
   
@@ -352,6 +383,9 @@ setupPrint <- function(game,ts=F) {
   }
   if (ts) {
     setup = c(game$Scheme,
+              game$scores$scheme$CT[1],
+              game$scores$scheme$BSCt[1],
+              game$scores$scheme$WndCT[1],
               paste(game$Mastermind[1]),
               paste(game$Villains,collapse="|"),
               paste(game$Henchmen,collapse="|"),

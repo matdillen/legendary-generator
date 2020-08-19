@@ -120,8 +120,8 @@ ui <- fluidPage(
                            multiple=T),
                    width=8),
             column(checkboxInput("epic","Epic?"),
-                   width=4,
-                   style = "margin-top: 20px;")),
+                   checkboxInput("solo","Solo?",value=T),
+                   width=4)),
             fluidRow(
                 column(selectizeInput("incset",
                                "Sets included",
@@ -199,7 +199,8 @@ server <- function(input, output, session) {
                             fixedVIL = input$fixedVIL,
                             fixedHER = input$fixedHER,
                             epic = input$epic,
-                            dropset=input$dropset)
+                            dropset=input$dropset,
+                            solo=input$solo)
             incProgress(1/input$gamecount,detail = paste("Setup",i))
         }
         games = setGames(games,
