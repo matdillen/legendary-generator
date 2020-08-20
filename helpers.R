@@ -12,6 +12,7 @@ genFun = function(src,
   
   #setup numbers depending on number of players
   heroesc = 0
+  xtra = NULL
   if (playerc==2) {
     heroesc=5
     villainc=2
@@ -106,6 +107,42 @@ genFun = function(src,
   villainc = villainc + as.numeric(schemtraits$VC[1])
   henchc = henchc + as.numeric(schemtraits$CH[1])
   
+  #calculate woundcount
+  if (grepl("*",
+            schemtraits$WndCT[1],
+            fixed=T)) {
+    schemtraits$WndCT[1] = gsub("*",
+                 "",
+                 schemtraits$WndCT[1],
+                 fixed=T)
+    schemtraits$WndCT[1] = as.numeric(schemtraits$WndCT[1])*playerc
+  }
+  
+  #modify picklists based on scheme
+  if (scheme=="Cage Villains in Power-Suppressing Cells") {
+    src$henchmen %<>% filter(Name!="Cops")
+  }
+  
+  if (scheme=="Clash of the Monsters Unleashed") {
+    src$villains %<>% filter(Group!="Monsters Unleashed")
+  }
+  
+  if (scheme=="Crown Thor King of Asgard") {
+    src$villains %<>% filter(Group!="Avengers")
+  }
+  
+  if (scheme=="Cytoplasm Spike Invasion") {
+    src$henchmen %<>% filter(Name!="Cytoplasm Spikes")
+  }
+  
+  if (scheme=="House of M") {
+    src$heroes %<>% filter(Hero!="Scarlet Witch")
+  }
+  
+  if (scheme=="The Dark Phoenix Saga"|
+      scheme=="Transform Citizens Into Demons") {
+    src$heroes %<>% filter(Hero!="Jean Grey")
+  }
   
   ##############################################################
   ##Generate a mastermind
@@ -149,7 +186,12 @@ genFun = function(src,
     mm = c(mm,"epic")
   }
   
-  
+  if (scheme=="Master of Tyrants"|
+      scheme=="World War Hulk") {
+    mmlist %<>% filter(Name!=mm)
+    mmnumber = sample(1:nrow(mmlist),3,replace=F)
+    xtra = paste(mmlist$Name[mmnumber],collapse="|")
+  }
   
   ##############################################################
   ##Generate villain groups
@@ -168,6 +210,22 @@ genFun = function(src,
     }
   } else {
       villnames = NULL
+  }
+  
+  if (scheme=="S.H.I.E.L.D. vs. HYDRA War") {
+    pick = sample(0:1,1) + 1
+    hydra = c("Hydra Elite","A.I.M. Hydra Offshoot")
+    villnames = hydra[pick]
+    villist %<>% filter(!Group%in%hydra)
+  }
+  if (scheme=="Symbiotic Absorption") {
+    mmlist %<>% filter(Name!=mm[1])
+    mmnumber = sample(1:nrow(mmlist),1)
+    xtra = mmlist$Name[mmnumber]
+    villnames = filter(src$masterminds,Name==xtra)$LeadsV[1]
+    if (is.na(villnames)) {
+      villnames = filter(src$masterminds,Name==xtra)$LeadsH[1]
+    }
   }
   
   #Villain group required by mm?
@@ -215,6 +273,14 @@ genFun = function(src,
     fixedHM = NULL
   }
   
+  if (mm[1]=="Deathbird") {
+    shiar = c("Shi'ar Death Commandos",
+              "Shi'ar Patrol Craft")
+    pick = sample(0:1,1) + 1
+    henchnames = c(henchnames,
+                   shiar[pick])
+  }
+  
   henchnames = c(henchnames,fixedHM)
   henchnames = henchnames[!duplicated(henchnames)]
   
@@ -232,6 +298,16 @@ genFun = function(src,
   henchtraits = filter(src$henchmen,Name%in%henchnames)
   henchtraits[is.na(henchtraits)]=0
   
+  if (scheme=="Build an Army of Annihilation"|
+      scheme=="Invade the Daily Bugle News HQ") {
+    hmlist %<>% filter(!Name%in%henchnames)
+    hench = sample(1:nrow(hmlist),1)
+    xtra = hmlist$Name[hench]
+  }
+  if (scheme=="Scavenge Alien Weaponry") {
+    hench = sample(1:length(henchnames),1)
+    xtra = henchnames[hench]
+  }
   
   
   ##############################################################
@@ -242,34 +318,39 @@ genFun = function(src,
   src$heroes$uni = paste0(src$heroes$Hero," (",src$heroes$Set,")")
   
   #A few schemes have such specific needs their hero requirements are hardcoded here separately
-  if (schemtraits$Hero_Inc[1]=="CUSTOM") {
-    schemtraits$Hero_Inc[1] = 0
-    if (schemtraits$Name[1]=="Avengers vs. X-Men") {
-      fixedHER = NULL
-      teamlist = count(src$heroes,Team)
-      teamlist %<>% filter(n>12)
-      teamlist %<>% sample_n(2)
-      src$heroes %<>% filter(Team%in%teamlist$Team)
-      herolist1 = distinct(filter(src$heroes,Team==teamlist$Team[1]),uni)
-      herolist2 = distinct(filter(src$heroes,Team==teamlist$Team[2]),uni)
-      heronumber1 = sample(1:nrow(herolist1),3,replace=F)
-      heronumber2 = sample(1:nrow(herolist2),3,replace=F)
-      heroid1 = herolist1$uni[heronumber1]
-      heroid2 = herolist2$uni[heronumber2]
-      heronames = c(heroid1,heroid2)
-      heroesc = 6
-    }
-    if (schemtraits$Name[1]=="House of M") {
-      fixedHER = NULL
-      herolist1 = distinct(filter(src$heroes,Team=="X-Men"),uni)
-      herolist2 = distinct(filter(src$heroes,Team!="X-Men"),uni)
-      heronumber1 = sample(1:nrow(herolist1),4,replace=F)
-      heronumber2 = sample(1:nrow(herolist2),2,replace=F)
-      heroid1 = herolist1$uni[heronumber1]
-      heroid2 = herolist2$uni[heronumber2]
-      heronames = c(heroid1,heroid2)
-      heroesc = 6
-    }
+  if (scheme=="Avengers vs. X-Men") {
+    teamlist = count(src$heroes,Team)
+    teamlist %<>% filter(n>12)
+    teamlist %<>% sample_n(2)
+    src$heroes %<>% filter(Team%in%teamlist$Team)
+    herolist1 = distinct(filter(src$heroes,Team==teamlist$Team[1]),uni)
+    herolist2 = distinct(filter(src$heroes,Team==teamlist$Team[2]),uni)
+    heronumber1 = sample(1:nrow(herolist1),3,replace=F)
+    heronumber2 = sample(1:nrow(herolist2),3,replace=F)
+    heroid1 = herolist1$uni[heronumber1]
+    heroid2 = herolist2$uni[heronumber2]
+    heronames = c(heroid1,heroid2)
+    heroesc = 6
+  }
+  if (scheme=="House of M") {
+    herolist1 = distinct(filter(src$heroes,Team=="X-Men"),uni)
+    herolist2 = distinct(filter(src$heroes,Team!="X-Men"),uni)
+    heronumber1 = sample(1:nrow(herolist1),4,replace=F)
+    heronumber2 = sample(1:nrow(herolist2),2,replace=F)
+    heroid1 = herolist1$uni[heronumber1]
+    heroid2 = herolist2$uni[heronumber2]
+    heronames = c(heroid1,heroid2)
+    heroesc = 6
+  }
+  if (scheme=="Distract the Hero") {
+    herolist = distinct(filter(src$heroes,Team=="Spidermen"),uni)
+    heronumber = sample(1:nrow(herolist),1)
+    heronames = herolist$uni[heronumber]
+  }
+  if (scheme=="Everybody Hates Deadpool") {
+    herolist = distinct(filter(src$heroes,Team=="Deadpool"),uni)
+    heronumber = sample(1:nrow(herolist),1)
+    heronames = herolist$uni[heronumber]
   }
   
   #hero required by scheme?
@@ -308,9 +389,30 @@ genFun = function(src,
     heronames = heronames[1:heroesc]
   }
   
+  #extra heroes for scheme purposes (not in hero deck)
+  if (scheme=="Mutating Gamma Rays"|
+      scheme=="Shoot Hulk into Space") {
+    herolist = distinct(filter(src$heroes,
+                               Name_S=="Hulk",
+                               !uni%in%heronames),uni)
+    heronumber = sample(1:nrow(herolist),1)
+    xtra = herolist$uni[heronumber]
+  }
+
+  if (scheme%in%c("Secret Empire of Betrayal",
+                  "The Mark of Khonshu",
+                  "Trap Heroes in the Microverse",
+                  "X-Cutioner's Song")) {
+    herolist = distinct(filter(src$heroes,
+                               !uni%in%heronames),uni)
+    heronumber = sample(1:nrow(herolist),1)
+    xtra = herolist$uni[heronumber]
+  }
+  
   #save scores
   herotraits = filter(src$heroes,uni%in%heronames)
   herotraits[is.na(herotraits)]=0
+  
   
   #list sets
   sets = c(filter(herotraits,!duplicated(uni))$Set,
@@ -326,6 +428,7 @@ genFun = function(src,
     villnames,
     henchnames,
     heronames,
+    xtra,
     list(schemtraits,mmtraits,viltraits,henchtraits,herotraits),
     sets)
   names(resu) = c("Scheme",
@@ -333,6 +436,7 @@ genFun = function(src,
                   "Villains",
                   "Henchmen",
                   "Heroes",
+                  "Extras",
                   "scores",
                   "sets")
   names(resu$scores) = c("scheme",
@@ -342,7 +446,6 @@ genFun = function(src,
                          "heroes")
   return(resu)
 }
-#avengers vs x-men returned only one hero
 
 setupSumm <- function(game,setupid) {
   require(data.table)
@@ -354,22 +457,16 @@ setupSumm <- function(game,setupid) {
             game$Henchmen,
             "<br",
             game$Heroes)
+  if (!is.null(game$Extras)) {
+    setup = c(setup,
+              "<br>",
+              game$Extras)
+  }
   setup = data.frame(data=setup)
                      
   colnames(setup) = paste0("Setup ",setupid)
   #setup = as.data.table(setup,keep.rownames=T)
   return(setup)
-}
-
-#notused atm
-mmGen <- function(not,n=1,data=src) {
-  mmlist = src$masterminds %>% 
-    filter(is.na(MM),
-           is.na(Epic),
-           is.na(T)) %>%
-    filter(Name!=not)
-  mmnumber = sample(1:nrow(mmlist),n,replace=F)
-  return(mmlist$Name[mmnumber])
 }
 
 setupPrint <- function(game,ts=F) {
@@ -379,6 +476,10 @@ setupPrint <- function(game,ts=F) {
               paste(game$Villains,collapse="|"),
               paste(game$Henchmen,collapse="|"),
               paste(game$Heroes,collapse="|"))
+    if (!is.null(game$Extras)) {
+      setup = c(setup,
+                game$Extras)
+    }
     write.table(t(setup),"clipboard",sep="\t",col.names = F,row.names = F)
   }
   if (ts) {
@@ -389,8 +490,12 @@ setupPrint <- function(game,ts=F) {
               paste(game$Mastermind[1]),
               paste(game$Villains,collapse="|"),
               paste(game$Henchmen,collapse="|"),
-              paste(game$Heroes,collapse="|"))
-    writeClipboard(paste(setup,collapse=";"))
+              paste0(paste(game$Heroes,collapse="|"),"|"))
+    if (!is.null(game$Extras)) {
+      setup = c(setup,
+                game$Extras)
+    }
+    writeClipboard(paste(setup,collapse="\n"))
   }
 }
 
