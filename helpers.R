@@ -493,7 +493,8 @@ setupPrint <- function(game,ts=F) {
               paste0(paste(game$Heroes,collapse="|"),"|"))
     if (!is.null(game$Extras)) {
       setup = c(setup,
-                game$Extras)
+                game$Extras,
+                "empty")
     }
     writeClipboard(paste(setup,collapse="\n"))
   }
