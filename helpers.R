@@ -118,6 +118,15 @@ genFun = function(src,
     schemtraits$WndCT[1] = as.numeric(schemtraits$WndCT[1])*playerc
   }
   
+  #calculate bystandercount
+  if (schemtraits$BSCt[1]!=0) {
+    bystc = schemtraits$BSCt[1]
+  }
+  if (schemtraits$BSCt[1]=="x") {
+    bystc = 0
+  }
+  schemtraits$BSCt[1] = bystc
+  
   #modify picklists based on scheme
   if (scheme=="Cage Villains in Power-Suppressing Cells") {
     src$henchmen %<>% filter(Name!="Cops")
@@ -142,6 +151,13 @@ genFun = function(src,
   if (scheme=="The Dark Phoenix Saga"|
       scheme=="Transform Citizens Into Demons") {
     src$heroes %<>% filter(Hero!="Jean Grey")
+  }
+  if (scheme=="Hidden Heart of Darkness") {
+    adapters = c("Hydra Super-Adaptoid",
+                 "Hydra High Council")
+    src$masterminds %<>% 
+      filter(!MM%in%adapters,
+             !Name%in%adapters)
   }
   
   ##############################################################
