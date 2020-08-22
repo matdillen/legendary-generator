@@ -218,7 +218,7 @@ genFun = function(src,
   if (schemtraits$Vill_Inc[1]!=0) {
     if (grepl(";",schemtraits$Vill_Inc[1])) {
       villnames = strsplit(schemtraits$Vill_Inc[1],split=";")[[1]]
-    } else if (grepl("|",schemtraits$Vill_Inc[1])) {
+    } else if (grepl("|",schemtraits$Vill_Inc[1],fixed=T)) {
       pick = sample(0:1,1) + 1
       villnames = strsplit(schemtraits$Vill_Inc[1],split="|",fixed=T)[[1]][pick]
     } else {
@@ -374,7 +374,7 @@ genFun = function(src,
     if (grepl(";",schemtraits$Hero_Inc[1])) {
       heroincs = strsplit(schemtraits$Hero_Inc[1],split=";")[[1]]
       fixn = 2
-    } else if (grepl("|",schemtraits$Hero_Inc[1])) {
+    } else if (grepl("|",schemtraits$Hero_Inc[1],fixed=T)) {
       pick = sample(0:1,1) + 1
       heroincs = strsplit(schemtraits$Hero_Inc[1],split="|",fixed=T)[[1]][pick]
       fixn = 1
