@@ -230,7 +230,7 @@ genFun = function(src,
   
   if (scheme=="S.H.I.E.L.D. vs. HYDRA War") {
     pick = sample(0:1,1) + 1
-    hydra = c("Hydra Elite","A.I.M. Hydra Offshoot")
+    hydra = c("Hydra Elite","A.I.M., Hydra Offshoot")
     villnames = hydra[pick]
     villist %<>% filter(!Group%in%hydra)
   }
