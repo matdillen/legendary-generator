@@ -120,34 +120,77 @@ ui <- fluidPage(
                     offset=1,
                     style = "margin-top: 20px;"
                 )),
-            hidden(selectizeInput("fixedSCH",
-                           "Scheme",
-                           choices=schemaslist)),
-            hidden(selectizeInput("fixedMM",
-                           "Mastermind",
-                           choices=mmaslist)),
-            hidden(selectizeInput("fixedHM",
-                           "Henchmen",
-                           choices=henchaslist)),
-            hidden(selectizeInput("fixedVIL",
-                           "Villains",
-                           choices=vilaslist,
-                           multiple=T,
-                           options = list(maxItems=6))),
-            hidden(selectizeInput("fixedHER",
-                           "Heroes",
-                           choices = heroaslist,
-                           multiple=T,
-                           options = list(maxItems=8))),
             fluidRow(
-            column(selectizeInput("dropset",
-                           "Sets excluded",
-                           choices=setaslist,
-                           multiple=T),
-                   width=8),
-            column(checkboxInput("epic","Epic?"),
-                   checkboxInput("solo","Solo?",value=T),
-                   width=4)),
+                column(
+                    hidden(selectizeInput("fixedSCH",
+                                          "Scheme",
+                                          choices=schemaslist)),
+                    width=9),
+                column(
+                    hidden(actionButton("fixedSCHtxt",
+                                        "Text",
+                                        style = "margin-top: 25px;")),
+                    width=2)),
+            fluidRow(
+                column(
+                    hidden(selectizeInput("fixedMM",
+                                          "Mastermind",
+                                          choices=mmaslist)),
+                    width=9),
+                column(
+                    hidden(actionButton("fixedMMtxt",
+                                        "Text",
+                                        style = "margin-top: 25px;")),
+                    width=2)),
+            fluidRow(
+                column(
+                    hidden(selectizeInput("fixedHM",
+                                          "Henchmen",
+                                          choices=henchaslist)),
+                    width=9),
+                column(
+                    hidden(actionButton("fixedHMtxt",
+                                        "Text",
+                                        style = "margin-top: 25px;")),
+                    width=2)),
+            fluidRow(
+                column(
+                    hidden(selectizeInput("fixedVIL",
+                                          "Villains",
+                                          choices=vilaslist,
+                                          multiple=T,
+                                          options = list(maxItems=6))),
+                    width=9),
+                column(
+                    hidden(actionButton("fixedVILtxt",
+                                        "Text",
+                                        style = "margin-top: 25px;")),
+                    width=2)),
+            fluidRow(
+                column(
+                    hidden(selectizeInput("fixedHER",
+                                          "Heroes",
+                                          choices=heroaslist,
+                                          multiple=T,
+                                          options = list(maxItems=8))),
+                    width=9),
+                column(
+                    hidden(actionButton("fixedHERtxt",
+                                        "Text",
+                                        style = "margin-top: 25px;")),
+                    width=2)),
+            fluidRow(
+                column(selectizeInput("dropset",
+                                      "Sets excluded",
+                                      choices=setaslist,
+                                      multiple=T),
+                       width=8),
+                column(checkboxInput("epic",
+                                     "Epic?"),
+                       checkboxInput("solo",
+                                     "Solo?",
+                                     value=T),
+                       width=4)),
             fluidRow(
                 column(selectizeInput("incset",
                                "Sets included",
@@ -205,14 +248,41 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+    ###functions###
     
+    #render a popup with card text
+    textpopupgen <- function(txt) {
+        text = filter(tooltext,id%in%txt)
+        if (dim(text)[1]>0) {
+            text %<>% mutate(text = gsub("\n","<br>",text))
+            showModal(modalDialog(title = NULL,
+                                  HTML(paste(text$text,collapse="<br><br>")),
+                                  easyClose = T,
+                                  footer=HTML(
+                                      paste0("<p align=\"left\">",
+                                             "<a href=\"",
+                                             "https://www.boardgamegeek.com/wiki/page/Legendary_Marvel_Complete_Card_Text\"",
+                                             ">Text transcriptions adapted from boardgamegeek wiki</a></p>"))))
+        }
+    }
+    
+    ###triggers and reactives###
+    
+    #make preset forms visible or not
     observeEvent(input$presets, {
         toggle("fixedSCH")
         toggle("fixedMM")
         toggle("fixedHM")
         toggle("fixedVIL")
         toggle("fixedHER")
+        toggle("fixedSCHtxt")
+        toggle("fixedMMtxt")
+        toggle("fixedHMtxt")
+        toggle("fixedVILtxt")
+        toggle("fixedHERtxt")
     })
+    
+    #Generate a list of setups based on the set parameters
     gamelist <- eventReactive(input$go,{
         withProgress(message = "Processing",value = 0, {
         games=list()
@@ -236,6 +306,8 @@ server <- function(input, output, session) {
         hide("metrics")
         return(games)
     })
+    
+    #Render the slidebar and buttons to jump between setups
     observeEvent(input$go,{
         output$minbutton <- renderUI({
             actionButton("gamemin",
@@ -256,11 +328,16 @@ server <- function(input, output, session) {
                          style = "margin-top: 40px;")
         })
     })
+    
+    #Export a specific setup requested by the slide bar (or the first by default)
     livesetup <- eventReactive(input$selectgame,{
         summ = setupSumm(gamelist()[[input$selectgame]],
                          input$selectgame)
         return(summ)
     })
+    
+    #Render the specific requested setup in a table
+    #also show the export and print metrics buttons
     observeEvent(input$selectgame,{
         output$setups <- DT::renderDataTable(livesetup(),
                                              escape=F,
@@ -276,30 +353,44 @@ server <- function(input, output, session) {
         show("printTS")
         show("metricsgo")
     })
+    
+    #jump to the previous setup
     observeEvent(input$gamemin,{
         updateSliderInput(session,
                           "selectgame",
                           value = input$selectgame - 1)
     })
+    
+    #jump to the next setup
     observeEvent(input$gameplus,{
         updateSliderInput(session,
                           "selectgame",
                           value = input$selectgame + 1)
     })
+    
+    #render card text popup from the table
     observeEvent(input$setups_cell_clicked, {
-        text = filter(tooltext,id%in%livesetup()[input$setups_rows_selected,1])
-        if (dim(text)[1]>0) {
-            text %<>% mutate(text = gsub("\n","<br>",text))
-            showModal(modalDialog(title = NULL,
-                                  HTML(paste(text$text,collapse="<br><br>")),
-                                  easyClose = T,
-                                  footer=HTML(
-                                      paste0("<p align=\"left\">",
-                                             "<a href=\"",
-                                             "https://www.boardgamegeek.com/wiki/page/Legendary_Marvel_Complete_Card_Text\"",
-                                             ">Text transcriptions adapted from boardgamegeek wiki</a></p>"))))
-        }
+        textpopupgen(livesetup()[input$setups_rows_selected,1])
     })
+    
+    #render card text popup from the presets lists
+    observeEvent(input$fixedSCHtxt, {
+        textpopupgen(input$fixedSCH)
+    })
+    observeEvent(input$fixedMMtxt, {
+        textpopupgen(input$fixedMM)
+    })
+    observeEvent(input$fixedHMtxt, {
+        textpopupgen(input$fixedHM)
+    })
+    observeEvent(input$fixedVILtxt, {
+        textpopupgen(input$fixedVIL[1])
+    })
+    observeEvent(input$fixedHERtxt, {
+        textpopupgen(input$fixedHER[1])
+    })
+    
+    #render keyword text popup
     observeEvent(input$keywords,{
         text = filter(keywords,id==input$keywords)
         if (dim(text)[1]>0&
@@ -315,6 +406,9 @@ server <- function(input, output, session) {
                                              ">Keyword text adapted from marveldbg blog.</a></p>"))))
         }
     })
+    
+    #render the metrics for a setup
+    #changes if setup changes
     observeEvent(input$metricsgo,{
         metrics = metricsLoop(gamelist())
         output$metrics = renderTable(metricsPrint(metrics[[input$selectgame]]),
@@ -323,12 +417,16 @@ server <- function(input, output, session) {
                                      sanitize.text.function=identity)
         show("metrics")
     })
+    
+    #export to log in spreadsheet
     observeEvent(input$print,{
         setupPrint(gamelist()[[input$selectgame]])
         output$printsuccess = renderText({
             paste0("Setup ",isolate(input$selectgame)," copied succesfully!")
         })
     })
+    
+    #export in format fit for tabletop simulator mod
     observeEvent(input$printTS,{
         setupPrint(gamelist()[[input$selectgame]],ts=T)
         output$printsuccessTS = renderText({
