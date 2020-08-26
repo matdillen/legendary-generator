@@ -253,9 +253,10 @@ server <- function(input, output, session) {
     #render a popup with card text
     textpopupgen <- function(txt) {
         text = filter(tooltext,id%in%txt)
+        title = filter(setlist,id==text$set)$label
         if (dim(text)[1]>0) {
             text %<>% mutate(text = gsub("\n","<br>",text))
-            showModal(modalDialog(title = NULL,
+            showModal(modalDialog(title = title,
                                   HTML(paste(text$text,collapse="<br><br>")),
                                   easyClose = T,
                                   footer=HTML(
