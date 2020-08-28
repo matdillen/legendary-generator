@@ -4,7 +4,8 @@ pkgLoad <- function() {
                    "tidyverse",
                    "magrittr",
                    "shiny",
-                   "shinyjs")
+                   "shinyjs",
+                   "shinythemes")
     packagecheck <- match( packages, utils::installed.packages()[,1])
     packagestoinstall <- packages[is.na(packagecheck)]
     
@@ -28,9 +29,8 @@ library(tidyverse)
 library(magrittr)
 library(shiny)
 library(shinyjs)
-#library(data.table)
 library(DT)
-#library(shinyalert) #use to make popups, maybe showing card image or info
+library(shinythemes)
 
 source("helpers.R")
 
@@ -101,6 +101,7 @@ keywords[is.na(keywords)] = ""
 tooltext = read_tsv("data/tooltext.txt")
 
 ui <- fluidPage(
+    #theme = shinytheme("united"),
     useShinyjs(),
     #useShinyalert(),
     titlePanel("Marvel Legendary Setup Generator"),
@@ -116,9 +117,11 @@ ui <- fluidPage(
                 column(
                     actionButton("presets",
                                  "Presets?"),
+                    br(),
+                    actionButton("pastesetup",
+                                 "Paste"),
                     width=5,
-                    offset=1,
-                    style = "margin-top: 20px;"
+                    offset=1
                 )),
             fluidRow(
                 column(
@@ -283,6 +286,34 @@ server <- function(input, output, session) {
         toggle("fixedHERtxt")
     })
     
+    observeEvent(input$pastesetup,{
+        setup = readClipboard()
+        if (!is.null(setup)) {
+            setup = strsplit(setup,split="\\t")[[1]]
+            updateSelectizeInput(session,
+                                 "fixedSCH",
+                                 selected = setup[2])
+            updateSelectizeInput(session,
+                                 "fixedMM",
+                                 selected = setup[3])
+            updateSelectizeInput(session,
+                                 "fixedVIL",
+                                 selected = strsplit(setup[4],
+                                                     split="|",
+                                                     fixed=T)[[1]])
+            updateSelectizeInput(session,
+                                 "fixedHM",
+                                 selected = strsplit(setup[5],
+                                                     split="|",
+                                                     fixed=T)[[1]])
+            updateSelectizeInput(session,
+                                 "fixedHER",
+                                 selected = strsplit(setup[6],
+                                                     split="|",
+                                                     fixed=T)[[1]])
+        }
+    })
+    
     #Generate a list of setups based on the set parameters
     gamelist <- eventReactive(input$go,{
         withProgress(message = "Processing",value = 0, {
@@ -297,7 +328,8 @@ server <- function(input, output, session) {
                             fixedHER = input$fixedHER,
                             epic = input$epic,
                             dropset=input$dropset,
-                            solo=input$solo)
+                            solo=input$solo,
+                            xtra=NULL)
             incProgress(1/input$gamecount,detail = paste("Setup",i))
         }
         games = setGames(games,

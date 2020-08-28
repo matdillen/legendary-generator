@@ -7,12 +7,12 @@ genFun = function(src,
                   fixedHER="",
                   fixedVIL="",
                   dropset="",
-                  solo=T) {
+                  solo=T,
+                  xtra=NULL) {
   
   
   #setup numbers depending on number of players
   heroesc = 0
-  xtra = NULL
   if (playerc==2) {
     heroesc=5
     villainc=2
@@ -44,6 +44,13 @@ genFun = function(src,
     stop("invalid player count")
   }
   
+  xtraFilter <- function(value,orig=xtra) {
+    if (is.null(orig)) {
+      return(value)
+    } else {
+      return(orig)
+    }
+  }
   
   ##############################################################
   ##Generate a scheme
@@ -206,7 +213,7 @@ genFun = function(src,
       scheme=="World War Hulk") {
     mmlist %<>% filter(Name!=mm)
     mmnumber = sample(1:nrow(mmlist),3,replace=F)
-    xtra = paste(mmlist$Name[mmnumber],collapse="|")
+    xtra = xtraFilter(paste(mmlist$Name[mmnumber],collapse="|"))
   }
   
   ##############################################################
@@ -237,7 +244,7 @@ genFun = function(src,
   if (scheme=="Symbiotic Absorption") {
     mmlist %<>% filter(Name!=mm[1])
     mmnumber = sample(1:nrow(mmlist),1)
-    xtra = mmlist$Name[mmnumber]
+    xtra = xtraFilter(mmlist$Name[mmnumber])
     villnames = filter(src$masterminds,Name==xtra)$LeadsV[1]
     if (is.na(villnames)) {
       villnames = filter(src$masterminds,Name==xtra)$LeadsH[1]
@@ -318,11 +325,11 @@ genFun = function(src,
       scheme=="Invade the Daily Bugle News HQ") {
     hmlist %<>% filter(!Name%in%henchnames)
     hench = sample(1:nrow(hmlist),1)
-    xtra = hmlist$Name[hench]
+    xtra = xtrafilter(hmlist$Name[hench])
   }
   if (scheme=="Scavenge Alien Weaponry") {
     hench = sample(1:length(henchnames),1)
-    xtra = henchnames[hench]
+    xtra = xtrafilter(henchnames[hench])
   }
   
   
@@ -412,7 +419,7 @@ genFun = function(src,
                                Name_S=="Hulk",
                                !uni%in%heronames),uni)
     heronumber = sample(1:nrow(herolist),1)
-    xtra = herolist$uni[heronumber]
+    xtra = xtraFilter(herolist$uni[heronumber])
   }
 
   if (scheme%in%c("Secret Empire of Betrayal",
@@ -422,7 +429,7 @@ genFun = function(src,
     herolist = distinct(filter(src$heroes,
                                !uni%in%heronames),uni)
     heronumber = sample(1:nrow(herolist),1)
-    xtra = herolist$uni[heronumber]
+    xtra = xtraFilter(herolist$uni[heronumber])
   }
   
   #save scores
@@ -633,7 +640,7 @@ metricsGen = function(games,nr) {
                          games[[nr]]$scores$heroes$Ct) + 
     sum(games[[nr]]$scores$villains$Wnd*
           games[[nr]]$scores$villains$Ct) +
-    games[[nr]]$scores$scheme$Wnd*games[[nr]]$scores$scheme$CT
+    games[[nr]]$scores$scheme$Wnd*as.numeric(games[[nr]]$scores$scheme$CT)
   
   if (dim(games[[nr]]$scores$mastermind)[1]==5) {
     metrics$wndsum = metrics$wndsum +
@@ -658,7 +665,7 @@ metricsGen = function(games,nr) {
                          games[[nr]]$scores$heroes$Ct) + 
     sum(games[[nr]]$scores$villains$KOng*
           games[[nr]]$scores$villains$Ct) +
-    games[[nr]]$scores$scheme$KOH*games[[nr]]$scores$scheme$CT
+    games[[nr]]$scores$scheme$KOH*as.numeric(games[[nr]]$scores$scheme$CT)
   
   if (dim(games[[nr]]$scores$mastermind)[1]==5) {
     metrics$kohsum = metrics$kohsum +
@@ -675,7 +682,7 @@ metricsGen = function(games,nr) {
   ##crowding
   metrics$crwdsum = sum(games[[nr]]$scores$villains$CRWD*
                           games[[nr]]$scores$villains$Ct) +
-    games[[nr]]$scores$scheme$CRWD*games[[nr]]$scores$scheme$CT
+    games[[nr]]$scores$scheme$CRWD*as.numeric(games[[nr]]$scores$scheme$CT)
   
   if (dim(games[[nr]]$scores$mastermind)[1]==5) {
     metrics$crwdsum = metrics$crwdsum +
