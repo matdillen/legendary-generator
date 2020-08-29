@@ -403,7 +403,12 @@ server <- function(input, output, session) {
     
     #render card text popup from the table
     observeEvent(input$setups_cell_clicked, {
-        textpopupgen(livesetup()[input$setups_rows_selected,1])
+        subj = livesetup()[input$setups_rows_selected,1]
+        subj = gsub(" - epic",
+                    "",
+                    subj,
+                    fixed=T)
+        textpopupgen(subj)
     })
     
     #render card text popup from the presets lists

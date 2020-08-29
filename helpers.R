@@ -211,7 +211,7 @@ genFun = function(src,
   
   if (scheme=="Master of Tyrants"|
       scheme=="World War Hulk") {
-    mmlist %<>% filter(Name!=mm)
+    mmlist %<>% filter(Name!=mm[1])
     mmnumber = sample(1:nrow(mmlist),3,replace=F)
     xtra = xtraFilter(paste(mmlist$Name[mmnumber],collapse="|"))
   }
@@ -325,11 +325,11 @@ genFun = function(src,
       scheme=="Invade the Daily Bugle News HQ") {
     hmlist %<>% filter(!Name%in%henchnames)
     hench = sample(1:nrow(hmlist),1)
-    xtra = xtrafilter(hmlist$Name[hench])
+    xtra = xtraFilter(hmlist$Name[hench])
   }
   if (scheme=="Scavenge Alien Weaponry") {
     hench = sample(1:length(henchnames),1)
-    xtra = xtrafilter(henchnames[hench])
+    xtra = xtraFilter(henchnames[hench])
   }
   
   
@@ -510,7 +510,7 @@ setupPrint <- function(game,ts=F) {
               game$scores$scheme$CT[1],
               game$scores$scheme$BSCt[1],
               game$scores$scheme$WndCT[1],
-              paste(game$Mastermind[1]),
+              paste(game$Mastermind,collapse=" - "),
               paste(game$Villains,collapse="|"),
               paste(game$Henchmen,collapse="|"),
               paste0(paste(game$Heroes,collapse="|"),"|"))
