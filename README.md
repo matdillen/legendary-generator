@@ -19,7 +19,7 @@ Once the app is launched, various parameters can be set.
 - Presets?: Clicking opens up the option to set preferential schemes, masterminds, etc. It also allows the user to view the text of these cards before generating setups by selecting a card and pressing `Text`.
 - Paste: A previous setup can be pasted from the clipboard this way into the preset fields. This can be useful to review the metrics of a previous game. See `results.xlsx` under `support` to see the proper format to copy.
 - Sets exluded: Cards from excluded sets will not be taken into consideration for setup generation.
-- Epic?: Make it possible for the generator to suggest setups with an Epic Mastermind (and his scores, for metrics purposes). **This function still has various problems.**
+- Epic?: Make it possible for the generator to suggest setups with an Epic Mastermind (and his scores, for metrics purposes).
 - Solo?: If set, multiplayer schemes requiring some player interaction such as `The Traitor` will not be suggested. Set by default.
 - Sets included (+ Min. value): After generating setups, only those with at least a number of card groups equal to the Min. value from the desired sets will be presented. **When the Min. value is too high or the setup count too low, this function may generate zero setups.** This function is useful when you want to preferentially include cards from sets recently acquired.
 - Start: The app will generate a number of random setups equal to the value for `# runs`. Default is 100, but 1 up to 1.000 is possible. It will take any of the previous parameters into account.
