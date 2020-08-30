@@ -480,14 +480,30 @@ setupSumm <- function(game,setupid) {
             game$Henchmen,
             "<br",
             game$Heroes)
+  namespace = c("Scheme",
+                "Mastermind",
+                "",
+                rep("Villains",
+                    length(game$Villains)),
+                "",
+                rep("Henchmen",
+                    length(game$Henchmen)),
+                "",
+                rep("Heroes",
+                    length(game$Heroes)))
   if (!is.null(game$Extras)) {
     setup = c(setup,
               "<br>",
               game$Extras)
+    namespace = c(namespace,
+                  "",
+                  "none")
   }
-  setup = data.frame(data=setup)
+  setup = data.frame(namespace=namespace,
+                     data=setup)
                      
-  colnames(setup) = paste0("Setup ",setupid)
+  colnames(setup) = c("Namespace",
+                      paste0("Setup ",setupid))
   #setup = as.data.table(setup,keep.rownames=T)
   return(setup)
 }
@@ -815,3 +831,4 @@ setGames <- function(games,
   }
   return(games)
 }
+

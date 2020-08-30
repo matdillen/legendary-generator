@@ -251,11 +251,21 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-    ###functions###
-    
+
     #render a popup with card text
-    textpopupgen <- function(txt) {
-        text = filter(tooltext,id%in%txt)
+    textpopupgen <- function(txt,type="none") {
+        if (length(type)==0) {
+            type = "none"
+        }
+        if (type=="none") {
+            text = filter(tooltext,
+                          id%in%txt)
+        }
+        if (type!="none") {
+            text = filter(tooltext,
+                          id%in%txt,
+                          type==type)
+        }
         if (dim(text)[1]>0) {
             title = filter(setlist,id==text$set)$label
             text %<>% mutate(text = gsub("\n","<br>",text))
@@ -372,7 +382,9 @@ server <- function(input, output, session) {
     #Render the specific requested setup in a table
     #also show the export and print metrics buttons
     observeEvent(input$selectgame,{
-        output$setups <- DT::renderDataTable(livesetup(),
+        setupToShow = livesetup() %>%
+            select(-Namespace)
+        output$setups <- DT::renderDataTable(setupToShow,
                                              escape=F,
                                              rownames=F,
                                              selection=list(
@@ -403,29 +415,30 @@ server <- function(input, output, session) {
     
     #render card text popup from the table
     observeEvent(input$setups_cell_clicked, {
-        subj = livesetup()[input$setups_rows_selected,1]
+        subj = livesetup()[input$setups_rows_selected,2]
+        type = livesetup()$Namespace[input$setups_rows_selected]
         subj = gsub(" - epic",
                     "",
                     subj,
                     fixed=T)
-        textpopupgen(subj)
+        textpopupgen(subj,type)
     })
     
     #render card text popup from the presets lists
     observeEvent(input$fixedSCHtxt, {
-        textpopupgen(input$fixedSCH)
+        textpopupgen(input$fixedSCH,type="Scheme")
     })
     observeEvent(input$fixedMMtxt, {
-        textpopupgen(input$fixedMM)
+        textpopupgen(input$fixedMM,type="Mastermind")
     })
     observeEvent(input$fixedHMtxt, {
-        textpopupgen(input$fixedHM)
+        textpopupgen(input$fixedHM,type="Henchmen")
     })
     observeEvent(input$fixedVILtxt, {
-        textpopupgen(input$fixedVIL[1])
+        textpopupgen(input$fixedVIL[1],type="Villains")
     })
     observeEvent(input$fixedHERtxt, {
-        textpopupgen(input$fixedHER[1])
+        textpopupgen(input$fixedHER[1],type="Heroes")
     })
     
     #render keyword text popup
