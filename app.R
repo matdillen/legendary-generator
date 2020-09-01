@@ -253,18 +253,15 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
     #render a popup with card text
-    textpopupgen <- function(txt,type="none") {
-        if (length(type)==0) {
-            type = "none"
-        }
-        if (type=="none") {
+    textpopupgen <- function(txt,cardtype="none") {
+        if (cardtype=="none") {
             text = filter(tooltext,
                           id%in%txt)
         }
-        if (type!="none") {
+        if (cardtype!="none") {
             text = filter(tooltext,
                           id%in%txt,
-                          type==type)
+                          type%in%cardtype)
         }
         if (dim(text)[1]>0) {
             title = filter(setlist,id==text$set)$label
@@ -417,6 +414,9 @@ server <- function(input, output, session) {
     observeEvent(input$setups_cell_clicked, {
         subj = livesetup()[input$setups_rows_selected,2]
         type = livesetup()$Namespace[input$setups_rows_selected]
+        if (length(type)==0) {
+            type = "none"
+        }
         subj = gsub(" - epic",
                     "",
                     subj,
@@ -426,19 +426,19 @@ server <- function(input, output, session) {
     
     #render card text popup from the presets lists
     observeEvent(input$fixedSCHtxt, {
-        textpopupgen(input$fixedSCH,type="Scheme")
+        textpopupgen(input$fixedSCH,cardtype="Scheme")
     })
     observeEvent(input$fixedMMtxt, {
-        textpopupgen(input$fixedMM,type="Mastermind")
+        textpopupgen(input$fixedMM,cardtype="Mastermind")
     })
     observeEvent(input$fixedHMtxt, {
-        textpopupgen(input$fixedHM,type="Henchmen")
+        textpopupgen(input$fixedHM,cardtype="Henchmen")
     })
     observeEvent(input$fixedVILtxt, {
-        textpopupgen(input$fixedVIL[1],type="Villains")
+        textpopupgen(input$fixedVIL[1],cardtype="Villains")
     })
     observeEvent(input$fixedHERtxt, {
-        textpopupgen(input$fixedHER[1],type="Heroes")
+        textpopupgen(input$fixedHER[1],cardtype="Heroes")
     })
     
     #render keyword text popup
