@@ -91,7 +91,7 @@ names(schemaslist)[1] = " "
 
 #format a list of sets
 setlist = read_csv("data/sets.csv")
-setlist[1,] = c(""," ")
+setlist[1,] = list(""," ")
 setaslist = as.list(t(setlist$id))
 names(setaslist) = setlist$label
 

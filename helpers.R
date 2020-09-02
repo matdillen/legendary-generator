@@ -75,7 +75,8 @@ genFun = function(src,
   schemtraits = filter(src$schemes,Name==scheme)
   
   #set NA's to 0 (can be important for metrics)
-  schemtraits[is.na(schemtraits)]=0
+  schemtraits %<>%
+    mutate(across(everything(),~replace_na(.,0)))
   
   convertVarstats <- function(value,pc) {
     if (grepl(":",
@@ -159,9 +160,10 @@ genFun = function(src,
       scheme=="Transform Citizens Into Demons") {
     src$heroes %<>% filter(Hero!="Jean Grey")
   }
-  if (scheme=="Hidden Heart of Darkness") {
-    adapters = c("Hydra Super-Adaptoid",
-                 "Hydra High Council")
+  adapters = c("Hydra Super-Adaptoid",
+               "Hydra High Council")
+  if (scheme=="Hidden Heart of Darkness"|
+      scheme=="World War Hulk") {
     src$masterminds %<>% 
       filter(!MM%in%adapters,
              !Name%in%adapters)
@@ -195,7 +197,8 @@ genFun = function(src,
                       Name==mm)
   
   #set NA's to 0 (can be important for metrics)
-  mmtraits[is.na(mmtraits)]=0
+  mmtraits %<>%
+    mutate(across(everything(),~replace_na(.,0)))
   
   #modify the scores for epic or not; add epic label to mm name
   if (epic!=1) {
@@ -211,7 +214,8 @@ genFun = function(src,
   
   if (scheme=="Master of Tyrants"|
       scheme=="World War Hulk") {
-    mmlist %<>% filter(Name!=mm[1])
+    mmlist %<>% filter(Name!=mm[1],
+                       !Name%in%adapters)
     mmnumber = sample(1:nrow(mmlist),3,replace=F)
     xtra = xtraFilter(paste(mmlist$Name[mmnumber],collapse="|"))
   }
@@ -272,7 +276,8 @@ genFun = function(src,
   }
   #save scores
   viltraits = filter(src$villains,Group%in%villnames)
-  viltraits[is.na(viltraits)]=0
+  viltraits %<>%
+    mutate(across(everything(),~replace_na(.,0)))
   
   
   ##############################################################
@@ -319,7 +324,8 @@ genFun = function(src,
 
 
   henchtraits = filter(src$henchmen,Name%in%henchnames)
-  henchtraits[is.na(henchtraits)]=0
+  henchtraits %<>%
+    mutate(across(everything(),~replace_na(.,0)))
   
   if (scheme=="Build an Army of Annihilation"|
       scheme=="Invade the Daily Bugle News HQ") {
@@ -434,7 +440,8 @@ genFun = function(src,
   
   #save scores
   herotraits = filter(src$heroes,uni%in%heronames)
-  herotraits[is.na(herotraits)]=0
+  herotraits %<>%
+    mutate(across(everything(),~replace_na(.,0)))
   
   
   #list sets
