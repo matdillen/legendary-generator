@@ -74,6 +74,7 @@ genFun = function(src,
   #save name and scores
   schemtraits = filter(src$schemes,Name==scheme)
   
+  
   #set NA's to 0 (can be important for metrics)
   schemtraits %<>%
     mutate(across(everything(),~replace_na(.,0)))
@@ -478,7 +479,6 @@ genFun = function(src,
 }
 
 setupSumm <- function(game,setupid) {
-  require(data.table)
   setup = c(game$Scheme,
             paste(game$Mastermind,collapse=" - "),
             "<br>",
@@ -511,7 +511,6 @@ setupSumm <- function(game,setupid) {
                      
   colnames(setup) = c("Namespace",
                       paste0("Setup ",setupid))
-  #setup = as.data.table(setup,keep.rownames=T)
   return(setup)
 }
 

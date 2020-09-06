@@ -1,6 +1,7 @@
 pkgLoad <- function() {
     
     packages <- c("DT",
+                  "plyr",
                    "tidyverse",
                    "magrittr",
                    "shiny",
