@@ -1,872 +1,908 @@
-Team,Hero,Name,Set,Split,Name_S,T0,C,Ct,B,R,G,Y,S,Br,Rr,Gr,Yr,Sr,SP,MO,FI,Drw,Dsc,Top,Bs,Wd,Cty,NR,C2,C4,CD,SK,LS,LT,TE,Pierc,HM,KO,KBS,AF,Vil,MF,VS,DC,SRD,FHQ,SHL,XTR
-X-Men,Phoenix,Obliterating Fire,XM,,,,3,5,1,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,2,,,,,,,,,,Soaring Flight
-X-Men,Phoenix,Life & Death Incarnate,XM,,,,4,5,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,2,,,,,,,,,,
-X-Men,Phoenix,Reincarnating Phoenix,XM,,,,6,3,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,-2,,,,,,,,,,
-X-Men,Phoenix,Driven mad,XM,,,,9,1,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,2,,,,,,,,,,umad?
-X-Men,Phoenix Force Cyclops,Burn out,SW2,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,2,,,,,,,,,,
-X-Men,Phoenix Force Cyclops,Reincarnate,SW2,,,,3,5,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,2,,,,,,,,,,
-X-Men,Phoenix Force Cyclops,Rise from the ashes,SW2,,,,6,3,1,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,-2,,,,,,,,,,
-X-Men,Phoenix Force Cyclops,Destruct is creat,SW2,,,,8,1,1,,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Polaris,EM pulse,XM,,,,4,5,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,
-X-Men,Polaris,Ride the M waves,XM,,,,3,5,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Soaring Flight
-X-Men,Polaris,Subtle attunement,XM,,,,6,3,,1,,,,,1,,,,,,1,,,1,,,,,,,,,,,,,,1,,,,,,,,,,Soaring Flight
-X-Men,Polaris,Reverse polarity,XM,,,,8,1,,1,,,,,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,Mix MO and FI
-X-Men,Professor X,Psionic Astral form,DC,,,,2,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Professor X,Class dismissed,DC,,,,3,5,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,Filter HQ
-X-Men,Professor X,Telepathic probe,DC,,,,5,3,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,Probe villain deck
-X-Men,Professor X,Mind Control,DC,,,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Gain villains as heroes
-X-Men,Psylocke,Psychic Knife,XM,,,,2,5,,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,
-X-Men,Psylocke,Precognition,XM,,,,3,5,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,Probe hero deck
-X-Men,Psylocke,Butterfly effect,XM,,,,5,3,,1,,,,,1,,,,,,,,,,,,,,,,,,,,1,1,,,,,,,,,,,,
-X-Men,Psylocke,Telepathic NJ,XM,,,,7,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,Free heroes!
-X-Men,Rogue,Energy drain,B,,,,3,5,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Rogue,Borrowed brawn,B,,,,4,5,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Rogue,Copy powers,B,,,,5,3,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Clone
-X-Men,Rogue,Steal abilities,B,,,,8,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Clone
-X-Men,Ruby Summers,Guerilla warfare,SW2,,,,3,5,1,,,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Ruby Summers,Heir to legends,SW2,,,,5,5,1,,1,,,,,,,,,1,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Ruby Summers,Form of solid ruby,SW2,,,,6,3,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Ruby Summers,Extinction blast,SW2,,,,8,1,1,,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Soulsword Colossus,Invade the inferno,SW2,,Colossus,,3,5,,1,,,,,1,,,,,1,,,,,1,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Soulsword Colossus,Steel interception,SW2,,Colossus,,4,5,,1,1,,,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Soulsword Colossus,Possessed by the SS,SW2,,Colossus,,6,3,,,1,,,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,Gets other players wounds
-X-Men,Soulsword Colossus,Rescue family from hell,SW2,,Colossus,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,Free heroes!
-X-Men,Storm,Lightning Bolt,B,,,,4,5,1,,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,Rooftops
-X-Men,Storm,Gathering stormclouds,B,,,,3,5,1,,,,,1,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Storm,Spinning cyclone,B,,,,6,3,,1,,,,,,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-X-Men,Storm,Tidal Wave,B,,,,7,1,1,,,,,1,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-X-Men,Terrible Jean Grey,Bridge to nowhere,SW2,,Jean Grey,,4,5,,,,1,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,Might maybe draw you something extra maybe
-X-Men,Terrible Jean Grey,Throw over the rail,SW2,,Jean Grey,,3,5,,1,,,,,1,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-X-Men,Terrible Jean Grey,Telekinesis,SW2,,Jean Grey,,5,3,1,1,,,,,,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-X-Men,Terrible Jean Grey,Change history,SW2,,Jean Grey,,7,1,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Wolverine,Keen sense,B,,,,2,5,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Wolverine,Healing factor,B,,,,3,5,,,,1,,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Wolverine,Frenzied slashing,B,,,,5,3,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Wolverine,Berserker rage,B,,,,8,1,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,X-23,Adm foot claws,XM,,,,3,5,,,,,1,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,X-23,Healing factor genome,XM,,,,4,5,,,,1,,,,,,,,,1,,,-1,,-1,,,,,,,,,,,,,,,,,,,,,,
-X-Men,X-23,Bioeng assassin,XM,,,,6,3,,1,,,,,,,1,,,,1,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,X-23,Heir to wolverine,XM,,,,7,1,,,,1,,,,,2,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Fantastic Four,Thing,Started on Yancy Str,FF,,,,3,5,,,,1,,,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Fantastic Four,Thing,Knuckle sandwich,FF,,,,5,5,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Focus
-Fantastic Four,Thing,Crime Stopper,FF,,,,6,3,,,1,,,,,,,,,,1,,,,1,,1,,,,,,,,,,,,,,,,,,,,,
-Fantastic Four,Thing,Clobberin time,FF,,,,8,1,,,1,,,,,2,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Fantastic Four,Mr. Fantastic,Twisting equations,FF,,,,3,5,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,draw extra for new hand
-Fantastic Four,Mr. Fantastic,Unstable molecules,FF,,,,5,5,,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Fantastic Four,Mr. Fantastic,One gigantic hand,FF,,,,5,3,,,,1,,,,,,,,,1,-1,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Fantastic Four,Mr. Fantastic,Ultimate nullifier,FF,,,,7,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,"Focus, cancel fight effects"
-Fantastic Four,Invisible Woman,Disappearing act,FF,,,,4,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,Focus
-Fantastic Four,Invisible Woman,Four of a kind,FF,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,
-Fantastic Four,Invisible Woman,Unseen rescue,FF,,,,4,3,,1,,,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,Focus
-Fantastic Four,Invisible Woman,Invisible barrier,FF,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Cancel ambush effects
-Fantastic Four,Human Torch,Hothead,FF,,,,4,5,1,,,,,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Fantastic Four,Human Torch,Call for backup,FF,,,,3,5,,,,1,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Fantastic Four,Human Torch,Flame on,FF,,,,6,3,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Focus
-Fantastic Four,Human Torch,Nova Flame,FF,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Angel,High-speed chase,DC,,,,3,5,,1,,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Angel,Diving Catch,DC,,,,4,5,,,1,,,,,,,,,1,,1,-1,,1,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Angel,Drop of a friend,DC,,,,5,3,,,,1,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Angel,Strength of Spirit,DC,,,,7,1,,,1,,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Angel Noir,Impetuous Dive,N,,Angel,,3,5,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Angel Noir,Multitalented,N,,Angel,,4,5,,,1,,,,,,,,,1,1,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Angel Noir,Identical twin brother,N,,Angel,,5,3,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,Filter HQ
-X-Men,Angel Noir,Missing person case,N,,Angel,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Free heroes!
-X-Men,Apocalyptic Kitty Pryde,Phase-out,SW1,,,,4,5,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Apocalyptic Kitty Pryde,Infiltrate HQ,SW1,,,,3,5,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Filter HQ
-X-Men,Apocalyptic Kitty Pryde,Disrupt Circuits,SW1,,,,5,3,,1,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Apocalyptic Kitty Pryde,Untouchable,SW1,,,,7,1,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Cancel fight effects
-X-Men,Aurora & Northstar,Northern lights,XM,,,,3,5,,1,,,,,,,,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Aurora & Northstar,Blazing Flare,XM,1,Aurora,,4,5,1,,,,,,,,,,,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Aurora & Northstar,Blazing Fists,XM,1,Northstar,,4,5,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Aurora & Northstar,Twin Blast,XM,,,,5,3,1,,,,,,,,,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Aurora & Northstar,Mach 10,XM,,,,7,1,,,,1,,,,,,,,1,1,,,,,,,,,,,,2,,,,,,,,,,,,,,,
-X-Men,Banshee,Sonar detection,XM,,,,2,5,,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,
-X-Men,Banshee,Speed of sound,XM,,,,3,5,1,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,Soaring Flight
-X-Men,Banshee,Sonic blast wave,XM,,,,5,3,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,,
-X-Men,Banshee,Bone-shattering howl,XM,,,,8,1,1,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,Use FI as Pierc
-X-Men,Beast,Furry fury,XM,,,,4,5,,,1,,,,,1,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Beast,Captiv Conundrum,XM,,,,2,5,,,,,1,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Beast,Calculcated rage,XM,,,,5,3,,,,,1,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Beast,Recursive pummeling,XM,,,,8,1,,,,,1,,,,,,,,1,,,-1,,,,,-1,,,,,,1,,,,,,,,,,,,,
-X-Men,Bishop,Whatever the cost,DC,,,,2,5,1,,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Bishop,Absorb energies,DC,,,,3,5,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-X-Men,Bishop,Concussive blast,DC,,,,5,3,1,,,,,2,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Bishop,Firepower ft future!,DC,,,,7,1,,,,,1,,,,,,,,1,,-1,-1,,,,,,,,,,,1,,,1,,,,,,,,,,
-X-Men,Cannonball,Kinetic blast field,XM,,,,3,5,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Soaring Flight
-X-Men,Cannonball,Carry to the air,XM,,,,4,5,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Soaring Flight
-X-Men,Cannonball,Natural leader,XM,,,,6,3,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,Soaring Flight
-X-Men,Cannonball,Human cannon,XM,,,,8,1,,,1,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,Soaring Flight
-X-Men,Colossus & Wolverine,Reliable,XM,2,Colossus,,3,5,,,1,,,,,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-X-Men,Colossus & Wolverine,Unpredictable,XM,2,Wolverine,,3,5,,,,1,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Colossus & Wolverine,Fastball special,XM,,,,4,5,,,1,,,,,,1,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,Soaring Flight
-X-Men,Colossus & Wolverine,Insane disregard,XM,,,,6,3,,,,1,,,,,,,,,1,,,-1,,1,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Colossus & Wolverine,Uncanny X-Men,XM,,,,7,1,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,2,,,,,,,,,,,,,
-X-Men,Cyclops,Determination,B,,,,2,5,,,1,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Cyclops,Optic blast,B,,,,3,3,1,,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Cyclops,Unending energy,B,,,,6,3,1,,,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Cyclops,X-Men united,B,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-X-Men,Dazzler,Conv sound to light,XM,,,,3,5,,,,1,,,,,,,,1,,,,,,,,,,,,,2,,,2,,,,,,,,,,,,
-X-Men,Dazzler,Dazzling glamour,XM,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Dazzler,Citywide concert,XM,,,,5,3,,,,,1,,,,,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Dazzler,Inspire the world,XM,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Emma Frost,Shadowed thoughts,B,,,,4,5,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,-1,,,,,,,Play extra villains
-X-Men,Emma Frost,Mental discipline,B,,,,3,5,1,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Emma Frost,Psychic Link,B,,,,5,3,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Emma Frost,Diamond form,B,,,,7,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Gambit,Stack the deck,B,,,,2,5,,1,,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Gambit,Card shark,B,,,,4,5,1,,,,,,,,,,,,1,,,-1,,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Gambit,Hypnotic Charm,B,,,,3,3,,,,1,,,,,1,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Gambit,High stakes jackpot,B,,,,7,1,,,,1,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Havok,Blinding burst,XM,,,,3,5,1,,,,,,,,,,,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Havok,Unleash havok,XM,,,,4,5,1,,,,,,,,,,,,1,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Havok,Concussive plasma,XM,,,,5,3,1,,,,,2,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Havok,Radiation focus array,XM,,,,7,1,,,,,1,2,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Iceman,Deep Freeze,DC,,,,2,5,1,,,,,2,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Iceman,Ice Slide,DC,,,,4,5,1,,,,,2,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Iceman,Frost-Spike armor,DC,,,,5,3,,,1,,,2,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Iceman,Impenetrable ice wall,DC,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Prevents wounds
-X-Men,Jean Grey,Psychich search,DC,,,,3,5,1,,,,,,,,,,,,1,,,,1,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Jean Grey,Read yer thoughts,DC,,,,5,5,,1,,,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Jean Grey,Mind over matter,DC,,,,6,3,,1,,,,,,,,,,,1,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Jean Grey,Telekinetic mastery,DC,,,,7,1,1,,,,,,,,,,,,1,,,,-1,,,,,,,,,,2,,,,,,,,,,,,,
-X-Men,Jubilee,Blasting fireworks,XM,,,,4,5,1,,,,,,,,,,,,1,1,,,,,,,,,,,2,,,,,,,,,,,,,,,
-X-Men,Jubilee,Light a spark,XM,,,,2,5,,1,,,,,,,,,,1,,1,,,,,,,,,,,2,,,,,,,,,,,,,,,
-X-Men,Jubilee,Unexpected explosions,XM,,,,5,3,,,,1,,,,,,,,,1,,,1,,,,,,,,,1,,,,,1,,,,,,,,,,
-X-Men,Jubilee,Prismatic cascade,XM,,,,7,1,,1,,,,,,,,,,1,1,,,,,,,,,,,,2,,,,,,,,,,,,,,,
-X-Men,Kitty Pryde,Intangible qualities,XM,,,,3,5,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,Filter HQ
-X-Men,Kitty Pryde,Going through a phase,XM,,,,4,5,,1,,,,,,,,,,1,1,1,,,,,,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Kitty Pryde,Ghost in the machine,XM,,,,6,3,,,,,1,,,,,,,,1,,,,,,,,,,2,,,,,,,,,,,,,,,,,
-X-Men,Kitty Pryde,Lockheed,XM,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Big hero in HQ
-X-Men,Legion,Split personality,XM,3,,,3,5,,,,,1,,,,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-X-Men,Legion,Split eardrums,XM,3,,,3,5,1,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,
-X-Men,Legion,Bend steel,XM,4,,,2,5,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Legion,Bend light,XM,4,,,2,5,,1,,,,,,,,,,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,,
-X-Men,Legion,Channel time,XM,5,,,5,5,,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Legion,Channel fire,XM,5,,,5,5,,,,,1,,,,,,2,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Legion,Maelstrom of clash,XM,,,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Soaring Flight
-X-Men,Longshot,Fortune favors bold,XM,,,,3,5,,,,1,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Longshot,Flurry of blades,XM,,,,4,5,,,,,1,,,,,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Longshot,Make my own luck,XM,,,,6,3,,1,,,,,1,,,,,,1,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Longshot,Escape from Mojo,XM,,,,7,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,1,,,,,,,Filter villain deck
-X-Men,Magik,Rally the new mutants,SW1,,,,2,5,,1,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-X-Men,Magik,Travel through limbo,SW1,,,,3,5,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Teleport
-X-Men,Magik,Dimensional portal,SW1,,,,5,3,1,1,,,,,,,,,,,1,,,,,,,,,,,-1,,,,,,,,,,,,,,,,Teleport
-X-Men,Magik,Wield the soulsword,SW1,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Teleport
-X-Men,Nightcrawler,Bamf!,DC,,,,3,5,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Teleport
-X-Men,Nightcrawler,Blend into shadows,DC,,,,4,5,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Teleport
-X-Men,Nightcrawler,Swashbuckler,DC,,,,5,3,,,,1,,,1,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Nightcrawler,Along for the ride,DC,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Teleport
-X-Men,Old Man Logan,Last survivor,SW1,,Wolverine,,3,5,,,,1,,,,,1,,,,1,,,,,-1,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Old Man Logan,Loner,SW1,,Wolverine,,5,5,,1,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Hits more if you don't recruit
-X-Men,Old Man Logan,Rage out,SW1,,Wolverine,,6,3,,,,1,,,,,1,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,Gets other players wounds
-X-Men,Old Man Logan,No more heroes,SW1,,Wolverine,,7,1,,,,1,,,,,,,,,1,,-1,,,,,,,,,,,,,,,-1,,,,,,,,,,have no shield at all
-Spidermen,Spider-Man Noir,Webs of darkness,N,,,,2,5,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Man Noir,Gumshoe's Revolver,N,,,,2,5,,,,,1,,,,,,,,1,1,,1,,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Man Noir,Solve the crime,N,,,,2,3,,,,1,,,,,1,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Man Noir,Spidertotem's chosen,N,,,,2,1,,,1,,,,,,,,,,1,,,1,,,,,2,,,,,,1,,,,,,,,,,,,,
-Spidermen,Silk,Cascading maneuver,SW2,,,,2,5,,,1,1,,,,,,,1,,1,1,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Silk,Longrange spidersense,SW2,,,,2,5,1,,,,,,,,,,1,,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Silk,Silk stalking,SW2,,,,2,3,,1,,,,,,,,,,,1,1,,,,,,,1,,,,,,1,,,1,,,,,,,,,,
-Spidermen,Silk,Borrowed cloak device,SW2,,,,2,1,,,,,1,,,,,,1,,1,,,1,,,,,2,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Woman,Radioactive spider,PTT,,,,2,5,,,1,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Woman,Bioelectric shock,PTT,,,,4,5,1,,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Woman,Venom blast,PTT,,,,6,3,1,,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Woman,Arachno pheromones,PTT,,,,7,1,,1,,,,,,,,,,,,,,1,,,,,,,,,,,1,,,,,,,,,,,,,Free hero
-Spidermen,Spider-Gwen,Fateful bridge,SW2,,,,2,5,,,,1,1,,,,,,,,1,1,,,,,-1,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Gwen,Save the day,SW2,,,,2,5,,,,,1,,,,,,,,1,,,,-1,,-1,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Gwen,First adventure,SW2,,,,2,3,,,1,,,,,,,,,,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Gwen,Intertwining webs,SW2,,,,2,1,,1,,,,,,,,,,,1,,,1,,,,,2,,,,,,,,,,,,,,,,,,,
-Spidermen,Symbiote Spider-Man,Spider sense tingling,PTT,,,,2,5,,,,1,,,,,,,,,,1,,,,,,,2,,,,,,,,,,,,,,,,,,,
-Spidermen,Symbiote Spider-Man,Dark strength,PTT,,,,2,5,,,1,,,,,,,,,,1,,,-1,,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Symbiote Spider-Man,Shadowed spider,PTT,,,,2,3,,1,,,,,,,,,,,1,,,1,,,,,2,,,,,,,,,,,,,,,,,,,
-Spidermen,Symbiote Spider-Man,Thwip!,PTT,,,,2,1,1,,,,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Agent Venom,Multi-gun,SW2,,,,2,5,,,,,1,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Agent Venom,Government payroll,SW2,,,,3,5,,,1,1,,,,,,,,1,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Agent Venom,Big slimeportunity,SW2,,,,6,3,,,,1,,,,,,,,1,1,1,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Agent Venom,Shapeshifting symb,SW2,,,,7,1,,,1,,,,,,,,,1,1,,,1,,,,,,,,,,,,,,,,,,1,,,,,,
-Spidermen,Scarlet Spider,Flip out,PTT,,,,2,5,,,1,,,,,,,,,1,,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,
-Spidermen,Scarlet Spider,Perfect Hunter,PTT,,,,4,5,,,,1,,,,,,,,,1,1,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Scarlet Spider,Leap from above,PTT,,,,6,3,,1,,,,,,,1,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Scarlet Spider,Sting of the spider,PTT,,,,7,1,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Black Cat,Pickpocket,PTT,,,,1,5,,1,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Black Cat,Casual bank robbery,PTT,,,,4,5,,1,,,,,,,,,,1,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Black Cat,Jinx,PTT,,,,5,3,,,,1,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Black Cat,Cat burglar,PTT,,,,8,1,,1,,,,,,,,,,,1,,,,-1,,,,,,,,,,1,,,,,,,,,,,,,
-Spidermen,Spider-Man,Great responsibility,B,,,,2,5,,,,1,,,,,,,,,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Man,Astonishing strength,B,,,,2,5,,,1,,,,,,,,,1,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Man,Web-shooters,B,,,,2,3,,,,,1,,,,,,,,,1,,,1,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Spider-Man,Amazing spiderman,B,,,,2,1,,1,,,,,,,,,,,,1,,,,,,,2,,,,,,,,,,,,,,,,,,,
-Spidermen,Ultimate Spider-Man,Leaping spider,SW1,,,,2,5,,,1,,,,,1,,,,,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Ultimate Spider-Man,Marvel teamup,SW1,,,,2,5,,,1,1,,,,,,,,,,1,,,,,,,1,,,1,,,,,,,,,,,,,,,,
-Spidermen,Ultimate Spider-Man,Web-slinger,SW1,,,,2,3,,,,,1,,,,,,,,1,1,,,,,-1,,1,,,,,,,,,,,,,,,,,,,
-Spidermen,Ultimate Spider-Man,Hero fo dimension,SW1,,,,2,1,,1,,,,,,,,,,,1,,,,,,,,2,,,,,,,,,,,,,,,,,,,
-Guardians,Groot,Surviving sprig,GG,,,,3,5,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Draw extra for next turn
-Guardians,Groot,Prune the growths,GG,,,,4,5,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,1,,,
-Guardians,Groot,Groot and branches,GG,,,,4,3,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,
-Guardians,Groot,I am Groot,GG,,,,8,1,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,
-Guardians,Star-Lord,Legendary outlaw,GG,,,,4,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,2,,,,,,,,Copy artifact
-Guardians,Star-Lord,Element guns,GG,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,1,,,,,1,,,
-Guardians,Star-Lord,Implanted memory,GG,,,,6,3,,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Guardians,Star-Lord,Sentient starship,GG,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,2,,,,,1,,,
-Guardians,Drax the Destroyer,Knives ot hunter,GG,,,,3,5,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Guardians,Drax the Destroyer,Interstellar tracker,GG,,,,3,5,,,,1,,,,,1,,,1,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Guardians,Drax the Destroyer,The destroyer,GG,,,,6,3,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,1,,,,,2,,,,,1,,,
-Guardians,Drax the Destroyer,Avatar of destruction,GG,,,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Doubles FI
-Guardians,Rocket Raccoon,Trigger happy,GG,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,1,,,
-Guardians,Rocket Raccoon,Gritty scavenger,GG,,,,3,5,,,,,1,,,,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Guardians,Rocket Raccoon,Incoming detector,GG,,,,4,3,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,1,,,,,1,,,Triggers on MS or ambush
-Guardians,Rocket Raccoon,Vengeance is rocket,GG,,,,7,1,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Bonus for played MS
-Guardians,Gamora,Bounty hunter,GG,,,,2,5,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,
-Guardians,Gamora,Galactic Assassin,GG,,,,5,3,,1,,,,,2,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,-1,,,
-Guardians,Gamora,Deadliest woman,GG,,,,3,5,,,,1,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,
-Guardians,Gamora,Godslayer Blade,GG,,,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,1,,,,,1,,,
-Illuminati,Beast,Balanced attack,SW2,,,,3,5,,,1,,1,,,1,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Beast,Upside-down thinking,SW2,,,,4,5,,,1,,1,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Beast,Dr of beatdown,SW2,,,,6,3,,,1,,1,,,2,,2,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Beast,Multivar smackulus,SW2,,,,8,1,,,1,,1,,,2,,2,,,1,2,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Black Bolt,Speak no words,SW1,,,,4,5,1,1,,,,,,,,,,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-Illuminati,Black Bolt,Destructive whisper,SW1,,,,3,5,1,,,,,,,,,,,,1,,,,,,,-1,,,,,,,,,,,,,,,,,,,,
-Illuminati,Black Bolt,Silence is golden,SW1,,,,6,3,,,1,,,,,,,,,1,1,,,,,,,-1,,,,,,,,,,,,,,,,,,,,
-Illuminati,Black Bolt,Hypersonic scream,SW1,,,,8,1,1,,,,,,,,,,,,1,2,,,,,,-1,,,,,,,,,,,,,,,,,,,,
-Illuminati,Black Panther,Catlike Reflexes,SW1,,,,3,5,,1,,1,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Black Panther,Multifaceted Genius,SW1,,,,4,5,,,1,,1,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Actually needs more multicolored cards
-Illuminati,Black Panther,Stalk the urban jungle,SW1,,,,6,3,,1,1,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,1,,,,,,,,,,
-Illuminati,Black Panther,King of Wakanda,SW1,,,,7,1,,,,1,1,,,,,,,,,,,,,,,,,,,1,,,1,,,,,,,,,,,,,
-Illuminati,Captain Britain,Transatlantic savior,SW2,,,,3,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,,
-Illuminati,Captain Britain,Combined strength,SW2,,,,4,5,,,1,,,,,,,,,,1,,,,,,,,,,,,,2,,,,,,,,,,,,,,
-Illuminati,Captain Britain,Raise the Union Jack,SW2,,,,5,3,,1,1,,,,,,,,,,1,1,,,,,-1,,,,,,,1,,,,,,,,,,,,,,
-Illuminati,Captain Britain,Lead the Cap Brit corps,SW2,,,,7,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"New hand, extra cards"
-Illuminati,Dr. Strange,Trust me ima doctor,SW1,,,,2,5,1,,,1,,,,,,,,1,,,,,,,,,,,,,,,1,,,1,,,,,,,,,,
-Illuminati,Dr. Strange,Cloak of levitation,SW1,,,,4,5,1,,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Dr. Strange,Fight the future,SW1,,,,5,3,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Illuminati,Dr. Strange,Sorcerer supreme,SW1,,,,7,1,,1,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Superior Iron Man,Armor upgrades,SW1,,Iron Man,,2,5,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Superior Iron Man,Optimized tech,SW1,,Iron Man,,5,5,1,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Illuminati,Superior Iron Man,Superior to others,SW1,,Iron Man,,3,3,1,,,,,1,,,,,,1,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Illuminati,Superior Iron Man,#Humblebrag,SW1,,Iron Man,,8,1,,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Widow,Mission accomplished,B,,,,2,5,,,,,1,,,,,1,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Widow,Dangerous rescue,B,,,,3,5,,1,,,,,1,,,,,,1,,,,1,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Black Widow,Covert operation,B,,,,4,3,,1,,,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Widow,Silent sniper,B,,,,7,1,,1,,,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America,Avengers assemble,B,,,,3,5,,,,1,,,,,,,2,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America,Perfect teamwork,B,,,,4,5,,,1,,,,,,,,2,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America,Diving block,B,,,,6,3,,,,,1,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America,Day unlike any other,B,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-Avengers,Captain America 1941,Devoted patriot,C75,,Captain America,,3,5,,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America 1941,Storm the beachhead,C75,,Captain America,,5,5,,,,,1,,,,,,2,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America 1941,Liberate the prisoners,C75,,Captain America,,6,3,,1,,,,,,,,,,,1,1,,,-1,,,,,,,,,,1,,,,,,,,,,,,,
-Avengers,Captain America 1941,Punch evil in the face,C75,,Captain America,,8,1,,,,1,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America (Falcon),Aerial catch,C75,,Captain America,,3,5,,,,1,,,,,1,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America (Falcon),Winged salvation,C75,,Captain America,,4,5,1,,,,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America (Falcon),Flying shield block,C75,,Captain America,,6,3,,,,,1,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain America (Falcon),Star-spangled hero,C75,,Captain America,,7,1,,1,,,,,,,,,2,1,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Captain America, Secret Avenger",Bold leadership,CW,,Captain America,,2,5,,1,,,,,,,,,2,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Captain America, Secret Avenger",Inspire a nation,CW,6,Captain America,,3,5,,,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Avengers,"Captain America, Secret Avenger",Inspire a man,CW,6,Captain America,,3,5,,,,1,,,,,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-Avengers,"Captain America, Secret Avenger",Secret avengers assemle,CW,,Captain America,,5,3,,,,,1,,,,,,,,1,,,,,,,,,,,-1,,,2,,,,,,,,,,,,,
-Avengers,"Captain America, Secret Avenger",Freedom never dies,CW,,Captain America,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,-1,,,1,,,,,,,,,,,,,
-Avengers,Captain Marvel,Marvelous strength,SW1,,,,5,3,,,1,,,,,2,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain Marvel,Cosmic energies,SW1,,,,7,1,1,,,,,2,,2,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain Marvel,Absorb energies,SW1,,,,3,5,1,,,,,2,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Captain Marvel,Supersonic flight,SW1,,,,3,5,1,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Cloak & Dagger,Above,CW,7,Cloak,,3,5,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Avengers,Cloak & Dagger,Below,CW,7,Dagger,,3,5,1,,,,,,,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-Avengers,Cloak & Dagger,Flee,CW,8,Cloak,,4,5,,1,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Cloak & Dagger,Fight,CW,8,Dagger,,4,5,1,,,,,1,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Cloak & Dagger,Darkness,CW,9,Cloak,,6,3,,1,,,,,1,,,,,,1,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Cloak & Dagger,Light,CW,9,Dagger,,6,3,1,,,,,1,,,,,,1,,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Cloak & Dagger,Penumbra,CW,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Best with more split cards
-Avengers,Daredevil,Dual existence,CW,,,,2,5,,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Daredevil,Roundhouse side kick,CW,,,,4,5,,1,,,,,,,,,,,1,,,-1,,,,,,,,1,,,,,,,,,,,,,,,,
-Avengers,Daredevil,Hidden identity,CW,10,,,6,3,,,,1,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil,Revealed identity,CW,10,Iron Fist,,6,3,,,1,,,,,,,,,,1,,,,,,,,,,2,,,,,,,,,,,,,,,,,
-Avengers,Daredevil,Master of Martial Arts,CW,,,,8,1,,1,,,,,,,,,,,1,,,-1,,,,,,,2,,,,1,,,,,,,,,,,,,
-Avengers,Falcon,Rapid reinforcements,CW,,,,3,5,,,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Filter HQ
-Avengers,Falcon,Talk with birds,CW,11,,,4,5,1,,,,,1,,,,,,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Avengers,Falcon,Squawk back,CW,11,Redwing,,4,5,,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Falcon,Scout the Battlefield,CW,,,,6,3,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Falcon,Fly in a friend,CW,,,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Avengers,Goliath,Brilliant biochemist,CW,12,,,4,5,,,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Goliath,Massive warrior,CW,12,,,4,5,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Goliath,Growth industry,CW,,,,5,5,,,,,1,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Goliath,Being big is best,CW,,,,6,3,,,1,,,,,1,,,,,1,,,,,,,,,2,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Goliath,Enormous implications,CW,,,,8,1,,,1,,,,,1,,,,,1,,,,,,,,-1,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Hawkeye,Quick draw,B,,,,3,5,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hawkeye,Team player,B,,,,4,5,,,,,1,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Avengers,Hawkeye,Covering fire,B,,,,5,3,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hawkeye,Impossible trick shot,B,,,,7,1,,,,,1,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hercules,Manly dullard,CW,13,,,3,5,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hercules,Boy genius,CW,13,Amadeus Cho,,3,5,,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hercules,Crowd favorite,CW,,,,4,5,,,,1,,,,,1,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hercules,Prince of power,CW,,,,5,3,,,1,,,,,1,,,,1,,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Hercules,Son of Zeus,CW,,,,7,1,,,1,,,,,,,,,1,1,,,,-1,,,,,,,,,,1,,,,,,,,,,,,,
-Avengers,Hulk,Growing Anger,B,,,,3,5,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulk,Unstoppable Hulk,B,,,,4,5,,,,1,,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulk,Crazed Rampage,B,,,,5,3,,,1,,,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulk,Hulk Smash,B,,,,8,1,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulkling,Half-Kree,CW,14,,,4,5,,,1,,,,,1,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Hulkling,Half-Skrull,CW,14,,,4,5,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Hulkling,Cellular Regeneration,CW,,,,5,5,,,1,,,,,1,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Hulkling,Impersonate,CW,,,,6,3,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Size-changing, clone"
-Avengers,Hulkling,Enormous shapeshift,CW,,,,8,1,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Iron Man,Endless invention,B,,,,3,5,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Iron Man,Repulsor Rays,B,,,,3,5,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Iron Man,Arc reactor,B,,,,5,3,,,,,1,,,,,2,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Iron Man,Quantum breakthrough,B,,,,7,1,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Iron Man Noir,Steampowered Arsenal,N,,Iron Man,,3,5,1,,,,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Iron Man Noir,Mechanized plate mail,N,,Iron Man,,4,5,,,,,1,,,,,1,,1,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Iron Man Noir,Learn from enemies,N,,Iron Man,,6,3,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,
-Avengers,Iron Man Noir,Adventurers assemble!,N,,Iron Man,,7,1,,,,,1,,,,,,,,1,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,Improves investigate
-Avengers,Lady Thor,Mysterious origin,SW1,,,,3,5,1,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Lady Thor,Chosen by Asgard,SW1,,,,4,5,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Lady Thor,Heir to the hammer,SW1,,,,6,3,1,,1,,,1,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Lady Thor,Living thunderstorm,SW1,,,,8,1,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Luke Cage,Cautious,CW,15,,,3,5,,,1,,,,,,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Luke Cage,Reckless,CW,15,Jessica Jones,,3,5,,,,1,,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Luke Cage,Take a bullet ft team,CW,,,,4,5,,,1,,,,,,,,,1,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Luke Cage,Sweet christmas,CW,,,,5,3,,,,1,,,,,1,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Luke Cage,Unbreakable skin,CW,,,,8,1,,,1,,,,,,,,,,1,,,,,-1,,,,,,,,,1,,,,,,,,,,,,,
-Avengers,Patriot,New gen of heroes,CW,,,,2,5,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bonus for more hero names
-Avengers,Patriot,Intuitive tactician,CW,,,,3,5,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Bonus for more hero names
-Avengers,Patriot,Incredible effort,CW,16,,,5,3,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Patriot,Effortless,CW,16,Hawkeye,,5,3,,,,,1,,,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-Avengers,Patriot,Lead the young avengers,CW,,,,8,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Requires hero name variety
-Avengers,Peter Parker,Conflicted loyalties,CW,,,,2,5,,,,,1,,,,,1,,1,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,
-Avengers,Peter Parker,Spiderman unmasked,CW,,,,2,5,,,,1,,,,,1,,,,1,,,1,,,,,,,,1,,,,,,,,,,,,,,,,
-Avengers,Peter Parker,Protect my family,CW,17,,,2,3,,,,,1,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Peter Parker,Hot bowl of soup,CW,17,Aunt May,,2,3,,,,1,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Peter Parker,Reluctant celebrity,CW,,,,2,1,,,,1,,,,,1,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Stature,Shrink to nothing,CW,,,,2,5,,,,,1,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Stature,Crush ants,CW,18,,,5,5,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,Size-changing
-Avengers,Stature,Crush file sizes,CW,18,Iron Lad,,5,5,,,,,1,,,,,1,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Stature,Growing confidence,CW,,,,6,3,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,Size-changing
-Avengers,Stature,Trample the tiny,CW,,,,8,1,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,Size-changing
-X-Men,Storm & Black Panther,Gathering rain clouds,CW,19,Storm,,2,5,1,,,,,1,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Storm & Black Panther,Gathering clues,CW,19,Black Panther,,2,5,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Storm & Black Panther,Lightning strike,CW,20,Storm,,3,5,1,,,,,1,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Avengers,Storm & Black Panther,Pouncing strike,CW,20,Black Panther,,3,5,,,,1,,,,,1,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-X-Men,Storm & Black Panther,Tsunami of water,CW,21,Storm,,5,3,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Storm & Black Panther,Tsunami of justice,CW,21,Black Panther,,5,3,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Storm & Black Panther,King & Queen,CW,,,,7,1,,,,,1,,,,,,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,Requires multiclass cards
-Avengers,The Captain and the Devil,Jurassic America,SW2,,,,2,5,,,1,,1,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,The Captain and the Devil,Patriotic chomp,SW2,,,,4,5,,,,1,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,The Captain and the Devil,Feeding grounds,SW2,,,,6,3,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,1,,,,,,,,,,
-Avengers,The Captain and the Devil,Dino-roar of triumph,SW2,,,,8,1,1,,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Avengers,Thor,Odinson,B,,,,3,5,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Thor,Surge of power,B,,,,4,5,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Thor,Call lightning,B,,,,6,3,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Thor,God of thunder,B,,,,8,1,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Use MO as FI
-Avengers,Tigra,Friendship,CW,22,,,2,5,,1,,,,,1,,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Avengers,Tigra,Ferocity,CW,22,,,2,5,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Tigra,Supernatural senses,CW,,,,3,5,,,,1,,,,,2,,,,1,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Tigra,Can't surprise a cat,CW,,,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Cancel ambush
-Avengers,Tigra,Mystic talisman,CW,,,,7,1,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,Free hero
-Avengers,Vision,Solar energy,CW,,,,3,5,1,,,,,1,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Vision,Through solid objects,CW,,,,4,5,,,,,1,,,,,,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Vision,Lighter than air,CW,23,,,6,3,1,,,,,1,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Vision,Harder than diamond,CW,23,,,6,3,,,,,1,,,,,1,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,Size-changing
-Avengers,Vision,Insubstantial accomplish,CW,,,,7,1,,,,,1,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wiccan,Sorcerous illusions,CW,,,,2,5,,1,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wiccan,Astral projection,CW,,,,4,5,1,,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wiccan,Supersonic spells,CW,24,Wiccan,,4,3,1,,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wiccan,Supersonic speed,CW,24,Speed,,4,3,,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wiccan,Clairvoyance,CW,,,,7,1,1,,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Blade,Stalk the prey,DC,,,,3,5,,1,,,,,,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Blade,Night hunter,DC,,,,4,5,,,1,,,,,,,,,1,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Blade,Nowhere to hide,DC,,,,6,3,,,,,1,,,,,,,,1,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Blade,Vampiric Surge,DC,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,
-Marvel Knights,Daredevil,Backflip,DC,,,,3,5,,,1,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil,Radar sense,DC,,,,4,5,,,,1,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil,Blind justice,DC,,,,6,3,,1,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil,Man without fear,DC,,,,8,1,,,,1,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil Noir,Balancing act,N,,Daredevil,,3,5,,1,,,,,,,,,,1,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil Noir,Listen for heartbeats,N,,Daredevil,,4,5,,,,1,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Daredevil Noir,Discover the bodies,N,,Daredevil,,5,3,,1,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Marvel Knights,Daredevil Noir,Hitting rock bottom,N,,Daredevil,,7,1,,,,1,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,"Dr. Punisher, Soldier Supreme",Sweep the streets,SW2,,,,2,5,1,,,,1,,,,,,,1,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,"Dr. Punisher, Soldier Supreme",You're a slow learner,SW2,,,,4,5,,,,,1,,,,,1,,,1,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Marvel Knights,"Dr. Punisher, Soldier Supreme",Ice Magic,SW2,,,,3,3,1,,,,,2,,,,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Marvel Knights,"Dr. Punisher, Soldier Supreme",Calm before storm,SW2,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Elektra,First strike,DC,,,,1,5,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Elektra,Ninjitsu,DC,,,,2,5,,,,1,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Elektra,Sai blades,DC,,,,6,3,,,,1,,,,,,,,,1,,,,,,,,2,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Elektra,Silent Meditation,DC,,,,7,1,,,,1,,,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Marvel Knights,Ghost Rider,Hell on wheels,DC,,,,3,5,,,,,1,,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Marvel Knights,Ghost Rider,Blazing hellfire,DC,,,,5,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,KO a villain from VP
-Marvel Knights,Ghost Rider,Infernal Chains,DC,,,,2,3,,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,
-Marvel Knights,Ghost Rider,Penance Stare,DC,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,1,,1,,,,,,,,,,,
-Marvel Knights,Iron Fist,Focus Chi,DC,,,,3,5,,,,1,,,,,,,,1,,,,,,,,,,,2,,,,,,,,,,,,,,,,,
-Marvel Knights,Iron Fist,Wield the iron fist,DC,,,,4,5,,,1,,,,,,,,,,1,,,,,,,,,,2,,,,,,,,,,,,,,,,,
-Marvel Knights,Iron Fist,Ancient legacy,DC,,,,1,3,,,1,,,,,2,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,
-Marvel Knights,Iron Fist,Living weapon,DC,,,,9,1,,,1,,,,,,,,,,1,,,,,,,,,,2,,,,,,,,,,,,,,,,,
-Marvel Knights,Luke Cage Noir,Follow big leads,N,,Luke Cage,,4,5,,,1,,,,,,,,,1,,,,,,,,,,2,,,,,,,,,,,,,,,,,,
-Marvel Knights,Luke Cage Noir,Private investigations,N,,Luke Cage,,4,5,,1,,,,,,,,,,,1,,,-1,,,,,,1,,,,,,,,,,,,,,,,,,
-Marvel Knights,Luke Cage Noir,Unbreakable Cage,N,,Luke Cage,,6,3,,,1,,,,,,,,,,1,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Luke Cage Noir,Weight of the world,N,,Luke Cage,,8,1,,,1,,,,,,,,,,1,,,,,,,,,2,,,,,,,,,,,,,,,,,,
-Marvel Knights,Moon Knight,Climbing claws,PTT,,,,3,5,,,,,1,,,,1,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Moon Knight,Lunar communion,PTT,,,,3,5,,,,1,,,,,,,,,1,,,1,,,-1,,,,,,,,,,,1,,,,,,,,,,
-Marvel Knights,Moon Knight,Crescent moon darts,PTT,,,,5,3,,,,,1,,,,1,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Moon Knight,Golden Ankh of Khonshu,PTT,,,,8,1,,,,1,,,,,,1,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Punisher,Boom goes the dynamite,DC,,,,2,5,,,,,1,,,,,1,,,,1,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Marvel Knights,Punisher,Hail of bullets,DC,,,,5,5,,,,,1,,,,,2,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Marvel Knights,Punisher,Hostile interrogation,DC,,,,3,3,,,1,,,,,1,,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,
-Marvel Knights,Punisher,The Punisher,DC,,,,8,1,,,,,1,,,,,,,,1,,,,,,,,,,2,,,,,,,,,,,,,,,,,
-Marvel Knights,Shang-Chi,Shuffling footwork,SW2,,,,3,5,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Empties your discard pile
-Marvel Knights,Shang-Chi,Acrobatic Kung Fu,SW2,,,,4,5,,1,,1,,,,,,,,,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Shang-Chi,Seek the empty mind,SW2,,,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Requires empty discard pile
-Marvel Knights,Shang-Chi,Muscle Memory,SW2,,,,7,1,,,,1,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Cabal,Black Swan,Apocalyptic Vision,SW2,,,,3,5,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Cabal,Black Swan,Witness the end,SW2,,,,5,5,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Cabal,Black Swan,Dark foretelling,SW2,,,,6,3,1,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Cabal,Black Swan,Telepathic control,SW2,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,1,,,,,,,
-Cabal,Corvus Glaive,Let none escape you,SW2,,,,2,5,,,1,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Bystanders escaped or not
-Cabal,Corvus Glaive,Culling Blade,SW2,,,,3,5,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,
-Cabal,Corvus Glaive,Rictus grin,SW2,,,,6,3,,,1,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,2,,,,,,,,,
-Cabal,Corvus Glaive,Atom-splitting Glaive,SW2,,,,8,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,1,,,,1,,,,,,,,,Can KO escaped bystanders
-Cabal,Maximus,Mental domination,SW1,,,,3,5,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,,
-Cabal,Maximus,Enslave the will,SW1,,,,4,5,,,,,1,,,,,1,,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Cabal,Maximus,Pieces on a chessboard,SW1,,,,5,3,,1,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,1,,,,,,,,,,,
-Cabal,Maximus,Inhuman mastery,SW1,,,,7,1,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,1,,1,,,,,,,,,,,
-Cabal,"Namor, the Sub-Mariner",Lead armies of Atlantis,SW1,,,,3,5,,,,1,,,,,1,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Cabal,"Namor, the Sub-Mariner",Ruler of the seas,SW1,,,,4,5,,,1,,,,,1,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Cabal,"Namor, the Sub-Mariner",Feed the sharks,SW1,,,,6,3,,,1,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Cabal,"Namor, the Sub-Mariner",Imperius rex,SW1,,,,7,1,,,1,,,,,2,2,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Defeat villain for free
-Cabal,Proxima Midnight,Inspiration through power,SW1,,,,2,5,,1,,1,,,,,,,,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,
-Cabal,Proxima Midnight,Master combatant,SW1,,,,4,5,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,
-Cabal,Proxima Midnight,General ot black order,SW1,,,,5,3,,1,,,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Cabal,Proxima Midnight,Supernova spear,SW1,,,,8,1,,,,1,,,1,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Cabal,Thanos,Revel in destruction,SW1,,,,3,5,1,,1,,,,,,,,,1,,,,,,,,,,,,,,,1,,,,2,,,,,,,,,
-Cabal,Thanos,Transdimension overlord,SW1,,,,5,5,,,1,,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,1,,,,,,,,,
-Cabal,Thanos,Galactic Domination,SW1,,,,6,3,1,,,,,1,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Cabal,Thanos,Utter Annihilation,SW1,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,2,,,,,,,,,
-X-Force,Cable,Disaster Survivalist,DC,,,,3,5,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Draw extra cards after MS
-X-Force,Cable,Strike at heart of evil,DC,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Cable,Rapid respone force,DC,,,,6,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-X-Force,Cable,Army of one,DC,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Force,Colossus,Draw their fire,DC,,,,1,5,,,1,,,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Colossus,Invulnerability,DC,,,,3,5,,,1,,,,,,,,,1,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Colossus,Silent Statue,DC,,,,6,3,,1,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Colossus,Russian Heavy Tank,DC,,,,8,1,,,1,,,,,,,,,,1,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Domino,Lucky Break,DC,,,,1,5,,,,,1,,,,,,,1,1,1,,,,,,,,,,,,,1,,,,,,,,1,,,,,
-X-Force,Domino,Ready for Anything,DC,,,,3,5,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,1,,,,,
-X-Force,Domino,Specialized Ammunition,DC,,,,5,3,,,,,1,,,,,,,1,1,,1,,,,,,,,,,,,,,,,,,,1,,,,,,
-X-Force,Domino,Against all odds,DC,,,,7,1,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,1,,,,,,,,2,,,,,
-X-Force,Forge,Dirty Work,DC,,,,3,5,,,,,1,,,,,1,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-X-Force,Forge,Reboot,DC,,,,4,5,,,,,1,,,,,1,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Forge,Overdrive,DC,,,,5,3,,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,1,,,,,
-X-Force,Forge,B.F.G.,DC,,,,7,1,,,,,1,,,,,2,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Can defeat the MM for free
-X-Force,Wolverine,Animal instincts,DC,,,,2,5,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Wolverine,Sudden Ambush,DC,,,,4,5,,1,,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Force,Wolverine,No Mercy,DC,,,,4,3,,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Force,Wolverine,Reckless Abandon,DC,,,,7,1,,1,,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,Agent X-13,Sniper Squad,C75,,,,3,5,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-SHIELD,Agent X-13,Paramilitary Ops,C75,,,,4,5,,,,,1,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-SHIELD,Agent X-13,Spy Network,C75,,,,4,3,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,May gain shield officer
-SHIELD,Agent X-13,Mobilize for War,C75,,,,7,1,,,,1,,,,,,,,,1,,,,-1,,,,,,,,,,,,,1,,,,,,,,,,
-SHIELD,Elsa Bloodstone,Monster Hunter,SW2,,,,3,5,,1,,,1,,,,,,,,1,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,
-SHIELD,Elsa Bloodstone,Bloodstone Pendant,SW2,,,,5,5,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-SHIELD,Elsa Bloodstone,Defend the SHIELD wall,SW2,,,,6,3,1,,,,,,,,,,,,1,,,1,,,,,,,,,,,1,,,,,,,,,,,,,
-SHIELD,Elsa Bloodstone,Prodigy of Ulysses,SW2,,,,8,1,,,1,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,Nick Fury,High tech weaponry,B,,,,3,5,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,Nick Fury,Battlefield Promotion,B,,,,4,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,Gain shield officer
-SHIELD,Nick Fury,Legendary Commander,B,,,,6,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-SHIELD,Nick Fury,Pure Fury,B,,,,8,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-SHIELD,"Steve Rogers, Director of S.H.I.E.L.D.",International strike force,C75,,Captain America,,3,5,,,1,,,,,,,,2,1,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,"Steve Rogers, Director of S.H.I.E.L.D.",Reassign to civil duty,C75,,Captain America,,5,5,,,,1,,,,,,,,,1,,,,1,,,,,,,,,,,,,1,,,,,,,,,,
-SHIELD,"Steve Rogers, Director of S.H.I.E.L.D.",Shadow of war past,C75,,Captain America,,4,3,,1,,,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,"Steve Rogers, Director of S.H.I.E.L.D.",Save the world,C75,,Captain America,,8,1,,,,,1,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Arkon the Magnificent,Quiver of thunderbolts,SW2,,,,3,5,1,,,,,,,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Arkon the Magnificent,All-terrain barbarian,SW2,,,,3,5,,1,1,,,,,,,,,1,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-NONE,Arkon the Magnificent,Warlord of open spaces,SW2,,,,5,3,,,,1,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-NONE,Arkon the Magnificent,Lord of Dragons,SW2,,,,7,1,,,,1,,,,,,,,1,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-NONE,Deadpool,Here hold this,B,,Deadpool,,3,5,,,,,1,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Deadpool,Oddball,B,,Deadpool,,5,5,,1,,,,,,,,,,,1,,,,,,,,-1,,1,,,,,,,,,,,,,,,,,Bonus for odd costs.
-NONE,Deadpool,Can i get a do-over?,B,,Deadpool,,3,3,,,,1,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Deadpool,Random unkindness,B,,Deadpool,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,May gain a wound
-NONE,Silver Surfer,Warp Speed,FF,,,,3,5,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,Focus
-NONE,Silver Surfer,Epic Destiny,FF,,,,4,5,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Focus
-NONE,Silver Surfer,The power cosmic,FF,,,,6,3,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Focus
-NONE,Silver Surfer,Energy Surge,FF,,,,7,1,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Doubles MO
-NONE,Winter Soldier,KGB Training,C75,,,,5,3,,1,,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Winter Soldier,Bionic Arm,C75,,,,3,5,,,1,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Winter Soldier,Sniper nest,C75,,,,4,5,,,,,1,,,,,1,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Winter Soldier,2 > 4,C75,,,,7,1,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Replay heroes
-Deadpool,Deadpool,Nighttime is right time,DP,,Deadpool,,3,5,,,,,1,,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Depends on current time
-Deadpool,Deadpool,It'll grow back,DP,,Deadpool,,4,5,,,,1,,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Deadpool,Running commentary,DP,,Deadpool,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,1,,,,Flavor texts
-Deadpool,Deadpool,Deadpool rage me ->,DP,,Deadpool,,7,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,EV: take extra turn
-Deadpool,Slapstick,Sat Morning Harpoons,DP,,Deadpool,,3,5,1,,,,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Slapstick,Napoleon Complex,DP,,Deadpool,,4,5,1,,,,,1,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,Depends on your height
-Deadpool,Slapstick,Surprise chainsaw,DP,,Deadpool,,6,3,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Slapstick,Electroplasmic insanity,DP,,Deadpool,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Deadpool,Solo,Half-cocked,DP,,Deadpool,,2,5,,,,,1,,,,,,,1,1,,,,,,,1,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Solo,Merc's gotta get paid,DP,,Deadpool,,3,5,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Solo,Guns on my guns,DP,,Deadpool,,5,3,,,,,1,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Solo,Cut in half,DP,,Deadpool,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,1,,,,
-Deadpool,Stingray,Superpowered swimsuit,DP,,Deadpool,,2,5,,,,,1,,,,,1,,,1,1,,,,,-1,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Stingray,Deck chairs of the titanic,DP,,Deadpool,,4,5,,,,,1,,,,,,,,1,1,,,,,1,,,,,,,,,,,,,,,,,1,,,,
-Deadpool,Stingray,Sting of stingray's sting,DP,,Deadpool,,5,3,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Deadpool,Stingray,PhD in oceanography,DP,,Deadpool,,8,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,1,,,1,,,,,,1,,,,
-HYDRA,"Bob, Agent of HYDRA",Hydra Half-Wit,DP,,,,2,5,,,,,1,,,,,,,,1,1,,,,,,,,,,,,,1,,,,,,,,,1,,,,
-HYDRA,"Bob, Agent of HYDRA",Bullets flying bob hiding,DP,,,,3,5,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,1,,,,
-HYDRA,"Bob, Agent of HYDRA",How do I get out of here,DP,,,,6,3,,1,,,,,1,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-HYDRA,"Bob, Agent of HYDRA",Epic middle manager,DP,,,,8,1,,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,1,,,,,,,,,,
-New Warriors,Speedball,Reckless rescue attempt,CW,,,,3,5,1,,,,,1,,,,,,1,,,,,1,,,,,,,,,,,,,,1,,1,,,,,,,
-New Warriors,Speedball,Bounce around,CW,,,,4,5,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,-1,,,,,,,,,
-New Warriors,Speedball,Double Down,CW,25,Speedball,,5,3,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-New Warriors,Speedball,Bubble up,CW,25,Namorita,,5,3,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-New Warriors,Speedball,Kinetic Force Field,CW,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Cancel master strike
-Brotherhood,Magneto,Magnetic levitation,V,,,,3,5,1,,,,,,,,,,,,1,1,1,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Magneto,Mutants will rule,V,,,,4,5,,,1,,,,,1,,,,1,,1,1,,,1,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Magneto,Weapons from scrap,V,,,,5,3,1,,,,,,,,,,,,1,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Magneto,Master of Magnetism,V,,,,7,1,1,,,,,,,,,,,,1,,,,,1,,,,,,,,,2,,,,,,,,,,,,,
-Brotherhood,Juggernaut,Crimson Gem Cyttorak,V,,,,4,5,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Juggernaut,Size Matters,V,,,,4,5,,,1,,,,,,,,,,1,,,,,,,,,2,,,,,,,,,,,,,,,,,,
-Brotherhood,Juggernaut,Runaway train,V,,,,5,3,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Juggernaut,Unstoppable force,V,,,,8,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-Brotherhood,Mystique,Show your true colors,V,,,,3,5,,1,,,,,,,,,-1,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,Can be another class
-Brotherhood,Mystique,Hidden weapons,V,,,,4,5,,,,,1,,,,1,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Mystique,Turn the tide,V,,,,4,3,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Probe hero deck, clone it"
-Brotherhood,Mystique,Spy games,V,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Probe hero deck
-Brotherhood,Sabretooth,Leap of the tiger,V,,,,3,5,,,,1,,,,,1,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Sabretooth,Take one for the team,V,,,,4,5,,,,1,,,,,,,,1,,,,-1,,,,,,,,,,,1,,,1,,,,,,,,,,
-Brotherhood,Sabretooth,Stealthy predator,V,,,,2,3,,1,,,,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,
-Brotherhood,Sabretooth,Upper Hand,V,,,,7,1,,,1,,,,,,1,,,,1,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-Sinister Six,Venom,Symbiote takeover,V,,,,3,5,,,1,,,,,1,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Venom,Devour,V,,,,4,5,,,,1,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,1,,,,,,,,,
-Sinister Six,Venom,Horrify the populace,V,,,,6,3,,,1,,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Venom,Ravenous Greed,V,,,,7,1,,,,1,,,,,1,,,1,1,,,,1,,,,,,,,,,,,,,1,,,,,,,,,
-Sinister Six,Green Goblin,Pumpkin Bombs,V,,,,3,5,,,,,1,,,,,,,,1,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Green Goblin,Goblin Glider,V,,,,4,5,,,,,1,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Green Goblin,Unstable kidnapper,V,,,,5,3,,,,1,,,,,,,,1,,,-1,,1,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Green Goblin,Experimental goblin sperm,V,,,,7,1,,,,,1,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Dr. Octopus,Brilliant research,V,,,,3,5,,,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Dr. Octopus,Crazed experiments,V,,,,5,5,,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Dr. Octopus,Eight times a charm,V,,,,6,3,,,1,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Dr. Octopus,Octo-pulverize,V,,,,8,1,,,,,1,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Mysterio,Psychedelic mist,V,,,,2,5,1,,,,,,1,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Mysterio,Shifting decoy,V,,,,3,5,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,Filter HQ
-Sinister Six,Mysterio,Holographic illusion,V,,,,5,1,,,,,1,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Mysterio,False reflection,V,,,,7,1,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,2,,,,,,,1,,,,,,
-Sinister Six,Electro,Electroshock therapy,V,,,,2,5,1,,,,,,,,,,,,,1,1,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Sinister Six,Electro,Shocking robbery,V,,,,3,5,1,,,,,1,,,,,,,1,1,1,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Electro,Supercharge,V,,,,5,3,,,,1,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Electro,Anti-matter,V,,,,7,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-Sinister Six,Kraven,Ceaseless Tracker,V,,,,2,5,,,,1,,,,,,,,1,,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,
-Sinister Six,Kraven,Corner the prey,V,,,,4,5,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Kraven,Hunt down,V,,,,5,3,,,1,,,,,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-Sinister Six,Kraven,He's the best around,V,,,,8,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,Enchantress,Enchant the senses,V,,,,3,5,1,,,,,1,,,,,,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Asgard Foes,Enchantress,Soul Sacrifice,V,,,,4,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Asgard Foes,Enchantress,Irresistible Bribe,V,,,,6,3,,1,,,,,2,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Use MO for FI
-Asgard Foes,Enchantress,Unending Anguish,V,,,,7,1,,1,,,,,,,,,,,,1,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Asgard Foes,"Kuurth, Breaker of Stone",Reach for power,FI,,,,4,5,,,1,,,,,,,,,1,,,,-1,,,,,,1,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Kuurth, Breaker of Stone",Unstoppable Sledge,FI,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Asgard Foes,"Kuurth, Breaker of Stone",Contest of strength,FI,,,,5,3,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,1,,,,,,,,,,,,,
-Asgard Foes,"Kuurth, Breaker of Stone",Break every bone,FI,,,,7,1,,,1,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Greithoth, Breaker of Wills",Mace of chains,FI,,,,3,5,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Asgard Foes,"Greithoth, Breaker of Wills",Absorb metal,FI,,,,3,5,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,-1,,,,,,,,
-Asgard Foes,"Greithoth, Breaker of Wills",Break the will to resist,FI,,,,5,3,,,1,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Greithoth, Breaker of Wills",Body of Uru,FI,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,-1,,,,,,,,
-Asgard Foes,"Nul, Breaker of Worlds",Demolition derby,FI,,Hulk,,3,5,,,1,,,,,1,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Nul, Breaker of Worlds",Otherworldly Maul,FI,,Hulk,,4,5,,,,1,,,,2,,,,,1,,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Asgard Foes,"Nul, Breaker of Worlds",Nul Smash!,FI,,Hulk,,6,3,,,1,,,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Nul, Breaker of Worlds",Break the world,FI,,Hulk,,8,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Asgard Foes,"Nerkkod, Breaker of Oceans",Pull of the tides,FI,,,,3,5,,,1,,,,,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Nerkkod, Breaker of Oceans",Feed my undersea legions,FI,,,,4,5,,1,,,,,,,,,,,1,,,,,,-1,,,,,1,,,,,,1,,,,,,,,,,
-Asgard Foes,"Nerkkod, Breaker of Oceans",Cudgel of the deep,FI,,,,5,3,1,,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,1,,,,,,,,
-Asgard Foes,"Nerkkod, Breaker of Oceans",Break their loyalties,FI,,,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,-1,,,1,,,,,,,,,,,,,
-Asgard Foes,"Skirn, Breaker of Men",Towering leader,FI,,,,3,5,,,,1,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Asgard Foes,"Skirn, Breaker of Men",Underhanded dealings,FI,,,,4,5,,1,,,,,1,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,"Skirn, Breaker of Men",Titanic bludgeon,FI,,,,2,3,1,,,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Asgard Foes,"Skirn, Breaker of Men",Break your hopes,FI,,,,7,1,,,1,,,,1,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,Loki,All humans are expendable,V,,,,3,5,,1,,,,,1,,,,,,1,,,,,,,,,,,1,,,,,,1,,,,,,,,,,
-Asgard Foes,Loki,Illusionary bindings,V,,,,4,5,1,,,,,1,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Asgard Foes,Loki,Father of lies,V,,,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Steal other player's heroes
-Asgard Foes,Loki,God of mischief,V,,,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Crime Syndicate,Bullseye,Fulfill the contract,V,,,,2,5,,,,1,,,,,,,,1,,1,1,,,,,,,,,,,,,,1,,,,,,,,,,,
-Crime Syndicate,Bullseye,Everything's a weapon,V,,,,3,5,1,,,,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Crime Syndicate,Bullseye,Specialist Assassin,V,,,,6,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,
-Crime Syndicate,Bullseye,Perfect aim,V,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Crime Syndicate,Kingpin,Recruitment day,V,,,,3,5,,,1,,,,,1,,,,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
-Crime Syndicate,Kingpin,Pull the strings,V,,,,3,5,,1,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,
-Crime Syndicate,Kingpin,Import illegal weapons,V,,,,5,3,,,,,1,,,,,,,,1,,,,,,,,,,,-1,,,,,,,,,,,,,,,,
-Crime Syndicate,Kingpin,Endless underlings,V,,,,8,1,,,1,,,,,,,,,,,,,,,,,,,,,1,,,2,,,,,,,,,,,,,
-HYDRA,Skadi,Dark prophecy,FI,,,,3,5,,,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Gain Madama Hydra (shield officer)
-HYDRA,Skadi,Ancient oath of hydra,FI,,,,5,5,,,,,1,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-HYDRA,Skadi,Hammer of the serpent,FI,,,,5,3,,,1,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,1,,,,,,,,
-HYDRA,Skadi,War banner of hydra,FI,,,,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,1,,,,,,,,
-NONE,Ultron,Encephalo-ray,V,,,,2,5,,,,,1,,,,,2,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Ultron,Army of ultrons,V,,,,3,5,,,,,1,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,Generates color S
-NONE,Ultron,Genetic experimentation,V,,,,6,3,,,,,1,,,,,2,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Ultron,Molecular rearrangement,V,,,,8,1,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Totally Awesome Hulk,Beloved Behemoth,CH,,Hulk,,4,5,,,1,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Totally Awesome Hulk,"Incredible mind, awesome body",CH,,Hulk,,4,5,,,,,1,,,,,1,,1,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Totally Awesome Hulk,Growing pains,CH,,Hulk,,5,3,,,1,,,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Champions,Totally Awesome Hulk,Smartest man in the world,CH,,Hulk,,9,1,,,,,1,,,1,,1,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Ms. Marvel,Long arm of the law,CH,,,,3,5,,1,,,,,1,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Ms. Marvel,Big Impact,CH,,,,4,5,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,1,,,,,
-Champions,Ms. Marvel,Need to stretch my legs,CH,,,,6,3,,1,,,,,1,,,,,,1,,,,-1,,,,,,,,,,,,,1,,,,,,,,,,
-Champions,Ms. Marvel,Rising Hope,CH,,,,9,1,,,1,,,,1,1,,,,1,1,,,,-1,,,,,,,,,,,,,,,,,,1,,,,,
-Champions,Nova,Space cop,CH,,,,2,5,,,1,,,,,,,,,1,1,,,,1,,,,,,,,,,1,,,,,,,,1,,,,,
-Champions,Nova,Interstellar Hero,CH,,,,4,5,1,,,,,,,,,,,1,1,,,,-1,,,,,,,,,,,,,,,,,,1,,,,,
-Champions,Nova,Holographic Projection,CH,,,,5,3,1,,,,,1,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,1,,,,,
-Champions,Nova,Growing Nova-Force,CH,,,,9,1,1,,,,,1,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,
-Champions,Viv Vision,Walking Wi-fi,CH,,,,3,5,,,,,1,,,,,1,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Viv Vision,Expanding neural network,CH,,,,4,5,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Viv Vision,Crowdsourcing,CH,,,,6,3,1,,,,,,,,,,,1,1,,,,-1,,,,,,,,,,,,,,,,,,1,,,,,
-Champions,Viv Vision,Alter molecular density,CH,,,,9,1,,,,,1,1,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Gwenpool,"Come on, nobody reads these",CH,,,,2,5,,1,,,,,1,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,1,,,,,
-Champions,Gwenpool,I'll rescue you if I feel like it,CH,,,,3,5,,,,1,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Gwenpool,I heard keywords are powerful,CH,,,,6,3,,,,1,,,,,1,,,,1,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Gwenpool,I'm the best at board games,CH,,,,7,1,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,Demolish the others
-Crime Syndicate,"Joe Fixit, Grey Hulk",Carefully considered smashing,WW,,Hulk,,3,5,,,1,,,,,1,,,,1,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Crime Syndicate,"Joe Fixit, Grey Hulk",Threaten and bribe,WW,,Hulk,,4,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Generates bribe
-Crime Syndicate,"Joe Fixit, Grey Hulk",Ambitious enforcer,WW,T1,Hulk,1,3,3,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Crime Syndicate,"Joe Fixit, Grey Hulk",Underworld Boss,WW,T1,Hulk,,6,3,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Crime Syndicate,"Joe Fixit, Grey Hulk",Hulk runs this town,WW,,Hulk,,7,1,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,Generates bribe
-Avengers,Hulkbuster Iron Man,Pound for pound,WW,,Iron Man,,2,5,,,1,,,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulkbuster Iron Man,Attune tectonic transducer,WW,,Iron Man,,4,5,,,,,1,,,,,,,,1,,1,,,,,,,,1,,,,,,,,,,,,,,,,,
-Avengers,Hulkbuster Iron Man,Build the suit,WW,T2,Iron Man,1,5,3,,,,,1,,,1,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulkbuster Iron Man,Ultra-massive armor,WW,T2,Iron Man,,6,3,,,,,1,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hulkbuster Iron Man,Final battle,WW,,Iron Man,,8,1,,,,,1,,,2,,2,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Hiroim,Seek redemption,WW,,,,3,5,,1,,,,,1,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Hiroim,Save from the rubble,WW,T3,,1,4,5,,1,,,,,,,,,,1,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Hiroim,Hiroim redeemed,WW,T3,,,5,5,,,1,,,,,,,,,,1,,,,-2,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Hiroim,Mystic shadow priest,WW,,,,6,3,,1,,,,,,,,,,,1,,,,1,-1,,,,,,,,,1,,,1,,,,,,,,,,
-Planet Hulk,Hiroim,Blade of the people,WW,,,,7,1,,,,1,,,,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Gladiator Hulk,Don't make me angry,WW,,Hulk,,3,5,,,1,,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Gladiator Hulk,Seize the throne,WW,T4,Hulk,1,4,5,,,,1,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Gladiator Hulk,Hulk is King,WW,T4,Hulk,,5,5,,,1,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Gladiator Hulk,The green scar,WW,,Hulk,,5,3,,,1,,,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Gladiator Hulk,Double-fisted smashing,WW,,Hulk,,8,1,,,,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Caiera,Shadow queen,WW,,,,2,5,,1,,,,,,,,,,,1,1,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Planet Hulk,Caiera,Shadowforged blade,WW,,,,4,5,,1,,,,,1,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Caiera,Focus the old power,WW,,,,6,3,,,1,,,,,,,,,,1,,,,,,,,,,1,,,,,,,1,,,,,,,,,,
-Planet Hulk,Caiera,Dutiful protector,WW,,,,7,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-Planet Hulk,Caiera,Vengeful destructor,WW,,,,7,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Sentry,Agoraphobia,WW,T5,,1,2,5,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Sentry,Golden guardian of good,WW,T5,,,6,5,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Sentry,Rival personalities,WW,,,,4,5,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Better if more transform cards
-Avengers,Sentry,Mournful Sentinel,WW,T6,,1,3,3,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Sentry,The void unchained,WW,T6,,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Sentry,Vast unstable power,WW,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,Can turn into a mastermind
-Avengers,She-Hulk,Hurl Legal Objections,WW,T7,,1,3,5,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,She-Hulk,Hurl trucks,WW,T7,,,6,5,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,She-Hulk,Window of opportunity,WW,,,,4,5,,,1,,,,,,,,,1,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Avengers,She-Hulk,Radioactive Riot,WW,,,,6,3,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,She-Hulk,Jade giantess,WW,,,,8,1,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Skaar, Son of Hulk",Anger management,WW,,,,3,5,,,1,,,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Skaar, Son of Hulk",Scarred past,WW,,,,3,5,,,,1,,,,,1,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Skaar, Son of Hulk",Mood Swings,WW,T8,,1,5,3,,,,1,,,,,1,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Skaar, Son of Hulk",Raging Savage,WW,T8,,,6,3,,,1,,,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Avengers,"Skaar, Son of Hulk",Planetary-Level Revenge,WW,,,,8,1,,,1,,,,,,,,,,1,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,"No-Name, Brood Queen",Surprise Attack,WW,,,,2,5,,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,"No-Name, Brood Queen",Appetite for destruction,WW,,,,4,5,,1,,,,,1,,,,,,1,,1,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Planet Hulk,"No-Name, Brood Queen",Bursting with life,WW,T9,,1,3,5,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-Planet Hulk,"No-Name, Brood Queen",Torrent of broodlings,WW,T9,,,5,3,,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,"No-Name, Brood Queen",World-spanning hunger,WW,,,,8,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,-1,,,,,,,,,,
-SHIELD,Rick Jones,Hacktivist,WW,,,,3,5,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-SHIELD,Rick Jones,Seek the nega-bands,WW,T10,,1,4,5,,,,1,,,,,,,,1,,,,-1,,,,,-1,,,,,,,,,,,,,,,,,,,Heroes of 3 or more
-Avengers,Rick Jones,Captain Marvel,WW,T10,Captain Marvel,,5,5,1,,,,,,,,,,,,1,,,-1,,,,,-1,,,,,,,,,,,,,,,,,,,Heroes of 3 or more
-SHIELD,Rick Jones,Irradiated blood,WW,T11,,1,5,3,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,villains in general
-NONE,Rick Jones,A-bomb,WW,T11,,,6,3,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,Rick Jones,Caught in Kree-Skrull war,WW,T12,,1,7,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Rick Jones,The destiny force,WW,T12,Captain Marvel,,9,1,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Namora,Crushing tsunami,WW,,,,3,5,1,,,,,1,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Namora,Heart of the ocean,WW,,,,4,5,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Champions,Namora,Herculean effort,WW,T13,,1,5,3,1,,,,,,,,,,,1,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Champions,Namora,Master of depths,WW,T13,,,6,3,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,1,,,,,,,,,,
-Champions,Namora,Turning the tide,WW,,,,7,1,,1,,,,,1,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,"Miek, The Unhived",This bug smashes you,WW,,,,3,5,,,,1,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,"Miek, The Unhived",Devouring frenzy,WW,,,,4,5,,,,1,,,,,1,,,1,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Planet Hulk,"Miek, The Unhived",Endless appetite,WW,,,,5,3,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,-1,,,,,,,,,,Requires KO from deck
-Planet Hulk,"Miek, The Unhived",Metamorphosis,WW,T14,,1,7,1,,1,,,,,,,,,,1,,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Planet Hulk,"Miek, The Unhived",Hive King Miek,WW,T14,,,8,1,,,1,,,,,,,,,,1,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Planet Hulk,Korg,Nothing beats rock,WW,,,,2,5,,,1,,,,,1,,,,,1,1,1,,,-1,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Korg,Move mountains,WW,,,,4,5,,,1,,,,,,,,,,1,1,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Planet Hulk,Korg,Forged by Fire,WW,T15,,1,3,3,,,1,,,,,2,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Korg,Lord of granite,WW,T15,,,5,3,,1,,,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Planet Hulk,Korg,Kronan tactician,WW,,,,8,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,1,,
-Avengers,Bruce Banner,Solve the impossible,WW,,,,2,5,,,,,1,,,,,,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Avengers,Bruce Banner,Gamma bomb disaster,WW,T16,,1,4,5,,,,,1,,,,,,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Avengers,Bruce Banner,Savage Hulk Unleashed,WW,T16,Hulk,,5,4,,,1,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Bruce Banner,Dangerous testing,WW,,,,6,3,,,,,1,,,,,1,,,1,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Bruce Banner,Gamma ray experiment,WW,,,,7,1,,,,,1,,,,,,,,1,1,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Champions,Amadeus Cho,Extrapolate,WW,,,,2,5,,,,1,,,,,,,,1,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Champions,Amadeus Cho,Gamma-draining nanites,WW,T17,,1,3,5,,,,,1,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Champions,Amadeus Cho,Like totally Smart Hulk,WW,T17,Hulk,,5,5,,,1,,,,,,,,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Champions,Amadeus Cho,Renegade genius,WW,,,,6,3,,,,,1,,,,,,,,1,1,,,,,,,,,1,,,,,,,,,,,,,,,,,
-Champions,Amadeus Cho,Visualize the Variables,WW,,,,8,1,,,,,1,,,,,,,,,,,1,,,,,,,1,,,,,,,1,,,,,,,,,,
-NONE,Happy Hogan,Head of Security,HC,,,,3,5,,,,1,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,
-NONE,Happy Hogan,Watchful Eye,HC,,,,4,5,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-NONE,Happy Hogan,Loyal Friend,HC,,,,5,3,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Happy Hogan,Asset Management,HC,,,,5,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Carnage,Rending Claws,VE,,,,3,5,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Carnage,Carnivore,VE,,,,4,5,,,1,,,,,,,,,1,,2,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Carnage,Gruesome Feast,VE,,,,6,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Venompool,Carnage,Feast or Famine,VE,,,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Venompool,Venompool,Digest that Chimichanga,VE,,Deadpool,,2,5,,,1,,,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venompool,Shenanigans,VE,,Deadpool,,3,5,,,,,1,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venompool,Can I get a little gratitude?,VE,,Deadpool,,5,3,,,,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venompool,Play to the crowd,VE,,Deadpool,,7,1,,,1,,,,,,,,,,1,,,,1,,,,,,,,,,1,,,,,,,,,,,,,
-Venompool,Venomized Dr. Strange,Cauldron of the Cosmos,VE,,,,2,5,1,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venomized Dr. Strange,Secure Timelines,VE,,,,4,5,1,,,,,1,,,,,,,1,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venomized Dr. Strange,Complete the grand ritual,VE,,,,6,3,,,,1,,,,,,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,
-Venompool,Venomized Dr. Strange,Crystal of Kadavus,VE,,,,8,1,1,,,,,,,,,,,,1,1,1,,,,,,,,,,,,1,,,1,,,,,,,,,,
-Venompool,Venom,Devouring Drool,VE,,,,3,5,,,,1,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venom,Razor Teeth,VE,,,,4,5,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venom,Symbiotic Adaptation,VE,,,,6,3,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venom,Insatiable Hunger,VE,,,,8,1,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,1,,,1,,,,,,,,,,
-Venompool,Venom Rocket,Hungry for action,VE,,,,3,5,,,,1,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venom Rocket,Spring the trap,VE,,,,4,5,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Venompool,Venom Rocket,Serious overkill,VE,,,,5,3,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Venompool,Venom Rocket,Ultimate survivor,VE,,,,7,1,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,"Peter Parker, Homecoming",Avenger in Training,HC,,Spiderman,,2,5,,,,1,,,,,1,,,,1,,,1,,,,,,,,,,,,,,,,,1,,,,,,,
-Spidermen,"Peter Parker, Homecoming",Heightened Senses,HC,,Spiderman,,2,5,,1,,,,,,,,,,,1,1,,-1,,,,,,,,,,,,,,,,,1,,,,,,,
-Spidermen,"Peter Parker, Homecoming",Homemade web-shooters,HC,,Spiderman,,2,3,,,,,1,,,,,1,,,1,,,1,,,,,,,,,,,,,,,,,1,,,,,,,
-Spidermen,"Peter Parker, Homecoming",Something is happening,HC,,Spiderman,,2,1,,,1,,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,1,,,,,,,
-Spidermen,Peter's Allies,Ned,HC,,,,2,5,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Peter's Allies,Michelle,HC,,,,3,5,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Peter's Allies,Liz,HC,,,,6,3,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,Peter's Allies,May Parker,HC,,,,7,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Spidermen,High-Tech Spider-Man,Recon Drone Connection,HC,,Spiderman,,2,5,,,,,1,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,1,,,,,,,
-Spidermen,High-Tech Spider-Man,Advanced Targeting System,HC,,Spiderman,,2,5,,1,,,,,1,,,,,,,2,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Spidermen,High-Tech Spider-Man,Spider-Grip,HC,,Spiderman,,2,3,,,,,1,,,,,1,,,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Spidermen,High-Tech Spider-Man,Friendly Neighborhood,HC,,Spiderman,,2,1,,,,,1,,,,,,,,1,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ant-Man,Ride the Ants,AM,,,,4,5,,,,,1,,,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ant-Man,Risky Science,AM,,,,5,5,,,,,1,,,,,2,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ant-Man,Giant Ego,AM,,,,6,3,,,1,,,,,,,1,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ant-Man,Pym Particles,AM,,,,9,1,,,,,1,,,,,2,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Knight,Defend the Weak,AM,,,,3,5,,,1,,,,,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Knight,Amulet of Avalon,AM,,,,3,5,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Knight,Flying Steed,AM,,,,6,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Black Knight,The Ebony Blade,AM,,,,7,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Jocasta,Creation of Ultron,AM,,,,3,5,,,,,1,,,,,2,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Jocasta,Reprocess,AM,,,,4,5,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Jocasta,Holographic Image Inducer,AM,,,,6,3,,,,,1,,,,,1,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Jocasta,Electromagnetic Eyebeams,AM,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Tony Stark,Genius Billionaire,HC,,Iron Man,,2,5,,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Tony Stark,Stay out of trouble,HC,,Iron Man,,4,5,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Avengers,Tony Stark,Little grey area,HC,,Iron Man,,5,3,1,,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,1,,,,,,,
-Avengers,Tony Stark,As usual i did all the work,HC,,Iron Man,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wasp,Bio-electric sting,AM,,,,3,5,,1,,,,,2,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wasp,Tiny winged justice,AM,,,,4,5,,1,,,,,1,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wasp,Swarm tactics,AM,,,,6,3,1,,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wasp,Founding avenger,AM,,,,9,1,,1,,,,,2,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-Avengers,Wonder Man,One-hit wonder,AM,,,,2,5,,,1,,,,,2,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Wonder Man,Ionic energy,AM,,,,4,5,1,,,,,,,2,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,1,,
-Avengers,Wonder Man,Absorb ambient power,AM,,,,5,3,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,
-Avengers,Wonder Man,8th wonder of the world,AM,,,,8,1,,,1,,,2,,2,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,1,,
-NONE,Howard the Duck,Traveling Companion,D,,,,3,5,,,,1,,,,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,
-NONE,Howard the Duck,Rebel without a cause,D,,,,4,5,,1,,,,,,,,,,,1,,,-1,,,,,,,,,,-1,,,,,,,,,,,,,,
-NONE,Howard the Duck,"Right place, wrong time",D,,,,5,3,,,,1,,,,,,,,,1,,,,,,,,,,,,,-1,,,,,,,,,,,,,,
-NONE,Howard the Duck,Interplanetary Visitor,D,,,,7,1,,,,,1,,,,,,,,1,1,1,,,,,,,,,,,,,,,1,,,,,,,,,,
-NONE,Man-Thing,Form from ooze,D,,,,2,5,,,1,,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-NONE,Man-Thing,Burn the fearful,D,,,,4,5,,,,1,,,,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-NONE,Man-Thing,Travel the nexus of realities,D,,,,5,3,,1,,,,,,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,
-NONE,Man-Thing,Eternity of Solitude,D,,,,7,1,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Squirrel Girl,Find tiny friends,D,,,,2,5,,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Squirrel Girl,Nut Punch,D,,,,3,5,,,,1,,,,,1,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,
-Avengers,Squirrel Girl,Squirrelgility,D,,,,4,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Squirrel Girl,Unbeatable Squirrel Girl,D,,,,8,1,,,,1,,,,,2,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Jessica Jones,Alter Ego,D,,,,3,5,,,1,,,,,,,,,,1,,,,,,,,,1,,,,,,,,,,,,,,,,,,
-Marvel Knights,Jessica Jones,Alias Investigations,D,,,,4,5,,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Marvel Knights,Jessica Jones,Crack the case,D,,,,5,3,,,1,,,,,,,,,1,,1,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Marvel Knights,Jessica Jones,Uncover hidden evil,D,,,,7,1,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
-Avengers,Ms. America,Star Power,D,,,,3,5,,,1,,,,,1,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ms. America,Search parallel dimensions,D,,,,4,5,1,,,,,,,,,,,1,,,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Avengers,Ms. America,Kick a hole in reality,D,,,,6,3,,,1,,,,,1,,,,,1,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Ms. America,Hyper-cosmic awareness,D,,,,7,1,,1,,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Scarlet Witch,Hex Bolt,R,,,,2,5,1,,,,,1,,,,,,,1,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Scarlet Witch,Alter Reality,R,,,,3,5,,1,,,,,1,,,,2,1,,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Scarlet Witch,Chaos Magic,R,,,,4,3,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Depends on top hero deck
-Avengers,Scarlet Witch,Warp time and space,R,,,,7,1,,1,,,,,,,,,2,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,Depends on top hero deck
-Avengers,Quicksilver,Too fast to see,R,,,,3,5,,,,1,,,,,1,,,1,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Quicksilver,Perpetual Motion,R,,,,4,5,,,1,,,,,1,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Quicksilver,Jittery Impatience,R,,,,6,3,,,,1,,,,,1,,,1,1,,1,1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,Quicksilver,Around the world punch,R,,,,8,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-Avengers,War Machine,Simulated Target Practice,R,,,,3,5,,,,,1,,,,,1,,,1,,,,1,,,,,,,,,,,,1,,,,,,,,,,,
-Avengers,War Machine,Military-Industrial Complex,R,,,,4,5,,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,War Machine,Hypersonic Cannon,R,,,,5,3,1,,,,,1,,,,,,,,,,-1,,,,,,,,,,,,,,1,,,,,,,,,,
-Avengers,War Machine,Overwhelming Firepower,R,,,,8,1,,,,,1,,,,,,,,1,2,,,1,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Photon,Infrared Conversion,R,,,,3,5,1,,,,,,,,,,,,,2,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Photon,Ultraviolet Radiation,R,,,,4,5,1,,,,,1,,,,,,,1,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Photon,Light the Way,R,,,,6,3,,1,,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Photon,Coruscating Vengeance,R,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-Avengers,Ronin,Mysterious Identity,R,,,,3,5,,1,,,,,,,,,-1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ronin,Storm of Arrows,R,,,,4,5,1,,,,,1,,,,,,,1,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ronin,Haunted by Loss,R,,,,5,3,,,,1,,,,,1,,2,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Ronin,Brooding Fury,R,,,,7,1,,,1,,,,,1,,,2,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Darkhawk,Balance the Darkforce,R,,,,3,5,,,,,1,,,,,1,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Darkhawk,Hawk Dive,R,,,,4,5,,1,,,,,,,,,,1,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Darkhawk,Travel to Nullspace,R,,,,6,3,,,,,1,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,1,,,,,,
-Avengers,Darkhawk,Warflight,R,,,,7,1,,,,,1,,,,,2,,1,1,,,-1,,,,,,,,,,,,,,,,,,1,,,,,,
-Avengers,Hellcat,Catlike Agility,R,,,,2,5,,,,1,,,,,1,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Hellcat,Part-Time PI,R,,,,3,5,,,,1,,,,,1,,,1,,1,,1,,,,,,,,,,,,,,,,,1,,,,,,,
-Avengers,Hellcat,Demon Sight,R,,,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,1,,,,,,,
-Avengers,Hellcat,Second chance at life,R,,,,8,1,,,,1,,,,,,,,,1,2,,,,,,,,,,,,,,,,,,,,,,,,,,Can stop master strikes and twists
-Avengers,Speed,Accelerate,R,,,,2,5,,,,1,,,,,1,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Speed,Speedy Delivery,R,,,,4,5,,,,1,,,,,,,,1,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Speed,Race to the rescue,R,,,,5,3,,1,,,,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,
-Avengers,Speed,Break the sound barrier,R,,,,8,1,1,,,,,,1,,,,,,1,2,,1,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,"Captain Marvel, Agent of S.H.I.E.L.D.",The Sword of SHIELD,R,,,,3,5,,,1,,,,,,,,,1,,1,,,,,,,,,,,,,2,,,,,,,,,,,,,
-SHIELD,"Captain Marvel, Agent of S.H.I.E.L.D.",Radiant Blast,R,,,,4,5,1,,,,,,,,,,,,1,-1,,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,"Captain Marvel, Agent of S.H.I.E.L.D.",Dominate the battlefield,R,,,,3,3,1,,,,,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,"Captain Marvel, Agent of S.H.I.E.L.D.","Higher, Further, Faster",R,,,,7,1,,,1,,,,,2,,,,,1,2,,,,,,,,,,,,,,,,,,,,,,,,,,
-SHIELD,Agent Phil Coulson,Impeccable Planning,AOS,,,,3,5,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,-1,
-SHIELD,Agent Phil Coulson,Build the Strike Team,AOS,,,,4,5,,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Agent Phil Coulson,Approve Orbital Strike,AOS,,,,6,3,,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Agent Phil Coulson,Fake but inspiring death,AOS,,,,8,1,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,-1,,,,,,,,,1,
-SHIELD,Mockingbird,Take Cover,AOS,,,,3,5,,,,1,,,,,1,,,1,,,1,1,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Mockingbird,Battle Staves,AOS,,,,4,5,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,-1,
-SHIELD,Mockingbird,Spymaster,AOS,,,,5,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Mockingbird,Infinity Formula,AOS,,,,7,1,,,,,1,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Quake,Aftershock,AOS,,,,4,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,-1,
-SHIELD,Quake,Going Underground,AOS,,,,3,5,1,,,,,1,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Quake,Tectonic Wave,AOS,,,,6,3,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Quake,Roil the Earth,AOS,,,,7,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,1,1,
-SHIELD,Deathlok,Authorize lethal force,AOS,,,,2,5,,,,,1,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,-1,
-SHIELD,Deathlok,Reanimate into service,AOS,,,,4,5,,,,,1,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Deathlok,Headlok,AOS,,,,5,3,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-SHIELD,Deathlok,Behind enemy lines,AOS,,,,8,1,,1,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,1,
-Heroes of Asgard,Thor,Test of Virtue,HOA,,,,3,5,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,Thor,Divine Lightning,HOA,,,,5,5,1,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,Thor,Mjolnir,HOA,,,,4,3,,,1,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Heroes of Asgard,Thor,Royal Decree,HOA,,,,8,1,1,,,,,,,,,,,,1,1,,,,,,,,,,,,,1,,,,,,,,,,,,,
-Heroes of Asgard,Beta Ray Bill,Hope of the korbinites,HOA,,,,1,5,,,1,,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,Beta Ray Bill,Bio-engineered cyborg,HOA,,,,5,5,,,,,1,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,Beta Ray Bill,Stormbreaker,HOA,,,,4,3,1,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,1,,,,,,,,
-Heroes of Asgard,Beta Ray Bill,The warship skuttlebutt,HOA,,,,8,1,,,,,1,,,,,,,,1,2,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,Valkyrie,Dragonfang,HOA,,,,3,5,,,1,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,1,,,,,,,,
-Heroes of Asgard,Valkyrie,Flying Stallion,HOA,,,,4,5,,,,1,,,,,,,,,1,,1,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,Valkyrie,Usher to Valhalla,HOA,,,,6,3,,1,,,,,,,,,,,1,,,,,,-1,,,,,,,,1,,,1,,,,,,,,,,
-Heroes of Asgard,Valkyrie,Ride of the Valkyries,HOA,,,,7,1,,,,1,,,,,1,,,,1,,,,,,-1,,,,,,,,,,,-1,,,,,,,,,,
-Heroes of Asgard,Lady Sif,Dimensional Blade,HOA,,,,2,5,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,
-Heroes of Asgard,Lady Sif,Weapons Master,HOA,,,,5,5,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,
-Heroes of Asgard,Lady Sif,Winged Helm,HOA,,,,3,3,,,1,,,,,,,,,,,2,,,,-1,,,,,,,,,,,,,,1,,,,,,,,
-Heroes of Asgard,Lady Sif,Golden Apples of Idunn,HOA,,,,7,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,1,,,,,,,,
-Heroes of Asgard,The Warriors Three,Fandral the Dashing,HOA,,,,3,5,,,,1,,,1,,,,,,1,1,,,,,1,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,The Warriors Three,Hogun the Grim,HOA,,,,4,5,,1,,,,,,1,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-Heroes of Asgard,The Warriors Three,Volstagg the Valiant,HOA,,,,6,3,,,1,,,,,,1,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-Heroes of Asgard,The Warriors Three,Three Stand as One,HOA,,,,8,1,,,1,,,,,,,,,,1,,,,,,-1,,,,,,,,1,,,,,,,,,,,,,
-X-Men,Sunspot,Absorb Radiation,NM,,,,2,5,1,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,1,,
-X-Men,Sunspot,Solar-powered,NM,,,,4,5,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Sunspot,Thermokinetic Fury,NM,,,,6,3,1,,,,,,,,,,,,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,
-X-Men,Sunspot,Empyreal Force,NM,,,,8,1,,,1,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,1,,
-X-Men,Wolfsbane,Wolf Out,NM,,,,3,5,,,,1,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,1,,
-X-Men,Wolfsbane,Night Vision,NM,,,,3,5,,,1,,,,,,,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Wolfsbane,Howl at the Moon,NM,,,,5,3,,1,,,,,,,,,,,1,,,1,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Wolfsbane,Nocturnal Savagery,NM,,,,7,1,,,,1,,,,,,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Mirage,Empathic Link,NM,,,,3,5,,,,1,,,,,,,,1,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Mirage,Dreams made real,NM,,,,3,5,1,,,,,,,,,,,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Mirage,Nightmare Wolves,NM,,,,6,3,,1,,,,,,,,,,,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Mirage,Haunted by the Demon-Bear,NM,,,,7,1,,1,,,,,,,,,,,1,,-1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Warlock,Earthling Choices,NM,,,,2,5,,,,,1,,,,,,,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Warlock,Analyze planetary rotation,NM,,,,3,5,,,,,1,,,,,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
-X-Men,Warlock,Techno-organic adaptation,NM,,,,6,3,,1,,,,,,,,1,,,1,,,,,,,,,,,,,,,,,1,,,,,,,,,,
-X-Men,Warlock,Nanite Shapeshifter,NM,,,,7,1,,,,,1,,,,,,,1,1,2,,,,,,,,,,,,,2,,,,,,,,,,,,,
-X-Men,Karma,Sow Rivalry,NM,,,,3,5,,1,,,,,1,,,,,,1,,,,,,-1,,,,,,,,,,,,,,,,,,,,,
-X-Men,Karma,Temporary Possession,NM,,,,4,5,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,2,,
-X-Men,Karma,Karmic Balance,NM,,,,6,3,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,1,,,,,,,,2,,
-X-Men,Karma,Control like a puppet,NM,,,,8,1,1,,,,,,,,,,,,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,
+Team;Hero;Name;Set;Split;Name_S;T0;C;Ct;B;R;G;Y;S;Br;Rr;Gr;Yr;Sr;SP;MO;FI;Drw;Dsc;Top;Bs;Wd;Cty;NR;C2;C4;CD;SK;LS;LT;TE;Pierc;HM;KO;KBS;AF;Vil;MF;VS;DC;SRD;FHQ;SHL;XTR
+X-Men;Phoenix;Obliterating Fire;XM;;;;3;5;1;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;2;;;;;;;;;;Soaring Flight
+X-Men;Phoenix;Life & Death Incarnate;XM;;;;4;5;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;2;;;;;;;;;;
+X-Men;Phoenix;Reincarnating Phoenix;XM;;;;6;3;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;-2;;;;;;;;;;
+X-Men;Phoenix;Driven mad;XM;;;;9;1;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;2;;;;;;;;;;umad?
+X-Men;Phoenix Force Cyclops;Burn out;SW2;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;2;;;;;;;;;;
+X-Men;Phoenix Force Cyclops;Reincarnate;SW2;;;;3;5;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;2;;;;;;;;;;
+X-Men;Phoenix Force Cyclops;Rise from the ashes;SW2;;;;6;3;1;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;-2;;;;;;;;;;
+X-Men;Phoenix Force Cyclops;Destruct is creat;SW2;;;;8;1;1;;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Polaris;EM pulse;XM;;;;4;5;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;
+X-Men;Polaris;Ride the M waves;XM;;;;3;5;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight
+X-Men;Polaris;Subtle attunement;XM;;;;6;3;;1;;;;;1;;;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;Soaring Flight
+X-Men;Polaris;Reverse polarity;XM;;;;8;1;;1;;;;;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;Mix MO and FI
+X-Men;Professor X;Psionic Astral form;DC;;;;2;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Professor X;Class dismissed;DC;;;;3;5;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;Filter HQ
+X-Men;Professor X;Telepathic probe;DC;;;;5;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;Probe villain deck
+X-Men;Professor X;Mind Control;DC;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Gain villains as heroes
+X-Men;Psylocke;Psychic Knife;XM;;;;2;5;;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;
+X-Men;Psylocke;Precognition;XM;;;;3;5;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;Probe hero deck
+X-Men;Psylocke;Butterfly effect;XM;;;;5;3;;1;;;;;1;;;;;;;;;;;;;;;;;;;;1;1;;;;;;;;;;;;
+X-Men;Psylocke;Telepathic NJ;XM;;;;7;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;Free heroes!
+X-Men;Rogue;Energy drain;B;;;;3;5;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Rogue;Borrowed brawn;B;;;;4;5;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Rogue;Copy powers;B;;;;5;3;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Clone
+X-Men;Rogue;Steal abilities;B;;;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Clone
+X-Men;Ruby Summers;Guerilla warfare;SW2;;;;3;5;1;;;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Ruby Summers;Heir to legends;SW2;;;;5;5;1;;1;;;;;;;;;1;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Ruby Summers;Form of solid ruby;SW2;;;;6;3;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Ruby Summers;Extinction blast;SW2;;;;8;1;1;;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Soulsword Colossus;Invade the inferno;SW2;;Colossus;;3;5;;1;;;;;1;;;;;1;;;;;1;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Soulsword Colossus;Steel interception;SW2;;Colossus;;4;5;;1;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Soulsword Colossus;Possessed by the SS;SW2;;Colossus;;6;3;;;1;;;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;Gets other players wounds
+X-Men;Soulsword Colossus;Rescue family from hell;SW2;;Colossus;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;Free heroes!
+X-Men;Storm;Lightning Bolt;B;;;;4;5;1;;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;Rooftops
+X-Men;Storm;Gathering stormclouds;B;;;;3;5;1;;;;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Storm;Spinning cyclone;B;;;;6;3;;1;;;;;;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+X-Men;Storm;Tidal Wave;B;;;;7;1;1;;;;;1;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+X-Men;Terrible Jean Grey;Bridge to nowhere;SW2;;Jean Grey;;4;5;;;;1;;;;;;;;;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;Might maybe draw you something extra maybe
+X-Men;Terrible Jean Grey;Throw over the rail;SW2;;Jean Grey;;3;5;;1;;;;;1;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+X-Men;Terrible Jean Grey;Telekinesis;SW2;;Jean Grey;;5;3;1;1;;;;;;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+X-Men;Terrible Jean Grey;Change history;SW2;;Jean Grey;;7;1;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Wolverine;Keen sense;B;;;;2;5;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Wolverine;Healing factor;B;;;;3;5;;;;1;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Wolverine;Frenzied slashing;B;;;;5;3;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Wolverine;Berserker rage;B;;;;8;1;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;X-23;Adm foot claws;XM;;;;3;5;;;;;1;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;X-23;Healing factor genome;XM;;;;4;5;;;;1;;;;;;;;;1;;;-1;;-1;;;;;;;;;;;;;;;;;;;;;;
+X-Men;X-23;Bioeng assassin;XM;;;;6;3;;1;;;;;;;1;;;;1;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;X-23;Heir to wolverine;XM;;;;7;1;;;;1;;;;;2;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Fantastic Four;Thing;Started on Yancy Str;FF;;;;3;5;;;;1;;;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Fantastic Four;Thing;Knuckle sandwich;FF;;;;5;5;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Focus
+Fantastic Four;Thing;Crime Stopper;FF;;;;6;3;;;1;;;;;;;;;;1;;;;1;;1;;;;;;;;;;;;;;;;;;;;;
+Fantastic Four;Thing;Clobberin time;FF;;;;8;1;;;1;;;;;2;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Fantastic Four;Mr. Fantastic;Twisting equations;FF;;;;3;5;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;draw extra for new hand
+Fantastic Four;Mr. Fantastic;Unstable molecules;FF;;;;5;5;;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Fantastic Four;Mr. Fantastic;One gigantic hand;FF;;;;5;3;;;;1;;;;;;;;;1;-1;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Fantastic Four;Mr. Fantastic;Ultimate nullifier;FF;;;;7;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Focus, cancel fight effects
+Fantastic Four;Invisible Woman;Disappearing act;FF;;;;4;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;Focus
+Fantastic Four;Invisible Woman;Four of a kind;FF;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;
+Fantastic Four;Invisible Woman;Unseen rescue;FF;;;;4;3;;1;;;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;Focus
+Fantastic Four;Invisible Woman;Invisible barrier;FF;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Cancel ambush effects
+Fantastic Four;Human Torch;Hothead;FF;;;;4;5;1;;;;;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Fantastic Four;Human Torch;Call for backup;FF;;;;3;5;;;;1;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Fantastic Four;Human Torch;Flame on;FF;;;;6;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Focus
+Fantastic Four;Human Torch;Nova Flame;FF;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Angel;High-speed chase;DC;;;;3;5;;1;;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Angel;Diving Catch;DC;;;;4;5;;;1;;;;;;;;;1;;1;-1;;1;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Angel;Drop of a friend;DC;;;;5;3;;;;1;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Angel;Strength of Spirit;DC;;;;7;1;;;1;;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Angel Noir;Impetuous Dive;N;;Angel;;3;5;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Angel Noir;Multitalented;N;;Angel;;4;5;;;1;;;;;;;;;1;1;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Angel Noir;Identical twin brother;N;;Angel;;5;3;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;Filter HQ
+X-Men;Angel Noir;Missing person case;N;;Angel;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Free heroes!
+X-Men;Apocalyptic Kitty Pryde;Phase-out;SW1;;;;4;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Apocalyptic Kitty Pryde;Infiltrate HQ;SW1;;;;3;5;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Filter HQ
+X-Men;Apocalyptic Kitty Pryde;Disrupt Circuits;SW1;;;;5;3;;1;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Apocalyptic Kitty Pryde;Untouchable;SW1;;;;7;1;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Cancel fight effects
+X-Men;Aurora & Northstar;Northern lights;XM;;;;3;5;;1;;;;;;;;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Aurora & Northstar;Blazing Flare;XM;1;Aurora;;4;5;1;;;;;;;;;;;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Aurora & Northstar;Blazing Fists;XM;1;Northstar;;4;5;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Aurora & Northstar;Twin Blast;XM;;;;5;3;1;;;;;;;;;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Aurora & Northstar;Mach 10;XM;;;;7;1;;;;1;;;;;;;;1;1;;;;;;;;;;;;2;;;;;;;;;;;;;;;
+X-Men;Banshee;Sonar detection;XM;;;;2;5;;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;
+X-Men;Banshee;Speed of sound;XM;;;;3;5;1;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;Soaring Flight
+X-Men;Banshee;Sonic blast wave;XM;;;;5;3;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;;
+X-Men;Banshee;Bone-shattering howl;XM;;;;8;1;1;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;Use FI as Pierc
+X-Men;Beast;Furry fury;XM;;;;4;5;;;1;;;;;1;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Beast;Captiv Conundrum;XM;;;;2;5;;;;;1;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Beast;Calculcated rage;XM;;;;5;3;;;;;1;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Beast;Recursive pummeling;XM;;;;8;1;;;;;1;;;;;;;;1;;;-1;;;;;-1;;;;;;1;;;;;;;;;;;;;
+X-Men;Bishop;Whatever the cost;DC;;;;2;5;1;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Bishop;Absorb energies;DC;;;;3;5;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+X-Men;Bishop;Concussive blast;DC;;;;5;3;1;;;;;2;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Bishop;Firepower ft future!;DC;;;;7;1;;;;;1;;;;;;;;1;;-1;-1;;;;;;;;;;;1;;;1;;;;;;;;;;
+X-Men;Cannonball;Kinetic blast field;XM;;;;3;5;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight
+X-Men;Cannonball;Carry to the air;XM;;;;4;5;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight
+X-Men;Cannonball;Natural leader;XM;;;;6;3;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;Soaring Flight
+X-Men;Cannonball;Human cannon;XM;;;;8;1;;;1;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight
+X-Men;Colossus & Wolverine;Reliable;XM;2;Colossus;;3;5;;;1;;;;;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+X-Men;Colossus & Wolverine;Unpredictable;XM;2;Wolverine;;3;5;;;;1;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Colossus & Wolverine;Fastball special;XM;;;;4;5;;;1;;;;;;1;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight
+X-Men;Colossus & Wolverine;Insane disregard;XM;;;;6;3;;;;1;;;;;;;;;1;;;-1;;1;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Colossus & Wolverine;Uncanny X-Men;XM;;;;7;1;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;2;;;;;;;;;;;;;
+X-Men;Cyclops;Determination;B;;;;2;5;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Cyclops;Optic blast;B;;;;3;3;1;;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Cyclops;Unending energy;B;;;;6;3;1;;;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Cyclops;X-Men united;B;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+X-Men;Dazzler;Conv sound to light;XM;;;;3;5;;;;1;;;;;;;;1;;;;;;;;;;;;;2;;;2;;;;;;;;;;;;
+X-Men;Dazzler;Dazzling glamour;XM;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Dazzler;Citywide concert;XM;;;;5;3;;;;;1;;;;;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Dazzler;Inspire the world;XM;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Emma Frost;Shadowed thoughts;B;;;;4;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;-1;;;;;;;Play extra villains
+X-Men;Emma Frost;Mental discipline;B;;;;3;5;1;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Emma Frost;Psychic Link;B;;;;5;3;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Emma Frost;Diamond form;B;;;;7;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Gambit;Stack the deck;B;;;;2;5;;1;;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Gambit;Card shark;B;;;;4;5;1;;;;;;;;;;;;1;;;-1;;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Gambit;Hypnotic Charm;B;;;;3;3;;;;1;;;;;1;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Gambit;High stakes jackpot;B;;;;7;1;;;;1;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Havok;Blinding burst;XM;;;;3;5;1;;;;;;;;;;;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Havok;Unleash havok;XM;;;;4;5;1;;;;;;;;;;;;1;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Havok;Concussive plasma;XM;;;;5;3;1;;;;;2;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Havok;Radiation focus array;XM;;;;7;1;;;;;1;2;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Iceman;Deep Freeze;DC;;;;2;5;1;;;;;2;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Iceman;Ice Slide;DC;;;;4;5;1;;;;;2;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Iceman;Frost-Spike armor;DC;;;;5;3;;;1;;;2;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Iceman;Impenetrable ice wall;DC;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Prevents wounds
+X-Men;Jean Grey;Psychich search;DC;;;;3;5;1;;;;;;;;;;;;1;;;;1;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Jean Grey;Read yer thoughts;DC;;;;5;5;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Jean Grey;Mind over matter;DC;;;;6;3;;1;;;;;;;;;;;1;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Jean Grey;Telekinetic mastery;DC;;;;7;1;1;;;;;;;;;;;;1;;;;-1;;;;;;;;;;2;;;;;;;;;;;;;
+X-Men;Jubilee;Blasting fireworks;XM;;;;4;5;1;;;;;;;;;;;;1;1;;;;;;;;;;;2;;;;;;;;;;;;;;;
+X-Men;Jubilee;Light a spark;XM;;;;2;5;;1;;;;;;;;;;1;;1;;;;;;;;;;;2;;;;;;;;;;;;;;;
+X-Men;Jubilee;Unexpected explosions;XM;;;;5;3;;;;1;;;;;;;;;1;;;1;;;;;;;;;1;;;;;1;;;;;;;;;;
+X-Men;Jubilee;Prismatic cascade;XM;;;;7;1;;1;;;;;;;;;;1;1;;;;;;;;;;;;2;;;;;;;;;;;;;;;
+X-Men;Kitty Pryde;Intangible qualities;XM;;;;3;5;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;Filter HQ
+X-Men;Kitty Pryde;Going through a phase;XM;;;;4;5;;1;;;;;;;;;;1;1;1;;;;;;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Kitty Pryde;Ghost in the machine;XM;;;;6;3;;;;;1;;;;;;;;1;;;;;;;;;;2;;;;;;;;;;;;;;;;;
+X-Men;Kitty Pryde;Lockheed;XM;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Big hero in HQ
+X-Men;Legion;Split personality;XM;3;;;3;5;;;;;1;;;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+X-Men;Legion;Split eardrums;XM;3;;;3;5;1;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;
+X-Men;Legion;Bend steel;XM;4;;;2;5;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Legion;Bend light;XM;4;;;2;5;;1;;;;;;;;;;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;;
+X-Men;Legion;Channel time;XM;5;;;5;5;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Legion;Channel fire;XM;5;;;5;5;;;;;1;;;;;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Legion;Maelstrom of clash;XM;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight
+X-Men;Longshot;Fortune favors bold;XM;;;;3;5;;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Longshot;Flurry of blades;XM;;;;4;5;;;;;1;;;;;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Longshot;Make my own luck;XM;;;;6;3;;1;;;;;1;;;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Longshot;Escape from Mojo;XM;;;;7;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;1;;;;;;;Filter villain deck
+X-Men;Magik;Rally the new mutants;SW1;;;;2;5;;1;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+X-Men;Magik;Travel through limbo;SW1;;;;3;5;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Teleport
+X-Men;Magik;Dimensional portal;SW1;;;;5;3;1;1;;;;;;;;;;;1;;;;;;;;;;;-1;;;;;;;;;;;;;;;;Teleport
+X-Men;Magik;Wield the soulsword;SW1;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Teleport
+X-Men;Nightcrawler;Bamf!;DC;;;;3;5;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Teleport
+X-Men;Nightcrawler;Blend into shadows;DC;;;;4;5;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Teleport
+X-Men;Nightcrawler;Swashbuckler;DC;;;;5;3;;;;1;;;1;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Nightcrawler;Along for the ride;DC;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Teleport
+X-Men;Old Man Logan;Last survivor;SW1;;Wolverine;;3;5;;;;1;;;;;1;;;;1;;;;;-1;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Old Man Logan;Loner;SW1;;Wolverine;;5;5;;1;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Hits more if you don't recruit
+X-Men;Old Man Logan;Rage out;SW1;;Wolverine;;6;3;;;;1;;;;;1;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;Gets other players wounds
+X-Men;Old Man Logan;No more heroes;SW1;;Wolverine;;7;1;;;;1;;;;;;;;;1;;-1;;;;;;;;;;;;;;;-1;;;;;;;;;;have no shield at all
+Spidermen;Spider-Man Noir;Webs of darkness;N;;;;2;5;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Man Noir;Gumshoe's Revolver;N;;;;2;5;;;;;1;;;;;;;;1;1;;1;;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Man Noir;Solve the crime;N;;;;2;3;;;;1;;;;;1;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Man Noir;Spidertotem's chosen;N;;;;2;1;;;1;;;;;;;;;;1;;;1;;;;;2;;;;;;1;;;;;;;;;;;;;
+Spidermen;Silk;Cascading maneuver;SW2;;;;2;5;;;1;1;;;;;;;1;;1;1;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Silk;Longrange spidersense;SW2;;;;2;5;1;;;;;;;;;;1;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Silk;Silk stalking;SW2;;;;2;3;;1;;;;;;;;;;;1;1;;;;;;;1;;;;;;1;;;1;;;;;;;;;;
+Spidermen;Silk;Borrowed cloak device;SW2;;;;2;1;;;;;1;;;;;;1;;1;;;1;;;;;2;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Woman;Radioactive spider;PTT;;;;2;5;;;1;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Woman;Bioelectric shock;PTT;;;;4;5;1;;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Woman;Venom blast;PTT;;;;6;3;1;;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Woman;Arachno pheromones;PTT;;;;7;1;;1;;;;;;;;;;;;;;1;;;;;;;;;;;1;;;;;;;;;;;;;Free hero
+Spidermen;Spider-Gwen;Fateful bridge;SW2;;;;2;5;;;;1;1;;;;;;;;1;1;;;;;-1;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Gwen;Save the day;SW2;;;;2;5;;;;;1;;;;;;;;1;;;;-1;;-1;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Gwen;First adventure;SW2;;;;2;3;;;1;;;;;;;;;;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Gwen;Intertwining webs;SW2;;;;2;1;;1;;;;;;;;;;;1;;;1;;;;;2;;;;;;;;;;;;;;;;;;;
+Spidermen;Symbiote Spider-Man;Spider sense tingling;PTT;;;;2;5;;;;1;;;;;;;;;;1;;;;;;;2;;;;;;;;;;;;;;;;;;;
+Spidermen;Symbiote Spider-Man;Dark strength;PTT;;;;2;5;;;1;;;;;;;;;;1;;;-1;;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Symbiote Spider-Man;Shadowed spider;PTT;;;;2;3;;1;;;;;;;;;;;1;;;1;;;;;2;;;;;;;;;;;;;;;;;;;
+Spidermen;Symbiote Spider-Man;Thwip!;PTT;;;;2;1;1;;;;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Agent Venom;Multi-gun;SW2;;;;2;5;;;;;1;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Agent Venom;Government payroll;SW2;;;;3;5;;;1;1;;;;;;;;1;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Agent Venom;Big slimeportunity;SW2;;;;6;3;;;;1;;;;;;;;1;1;1;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Agent Venom;Shapeshifting symb;SW2;;;;7;1;;;1;;;;;;;;;1;1;;;1;;;;;;;;;;;;;;;;;;1;;;;;;
+Spidermen;Scarlet Spider;Flip out;PTT;;;;2;5;;;1;;;;;;;;;1;;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;
+Spidermen;Scarlet Spider;Perfect Hunter;PTT;;;;4;5;;;;1;;;;;;;;;1;1;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Scarlet Spider;Leap from above;PTT;;;;6;3;;1;;;;;;;1;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Scarlet Spider;Sting of the spider;PTT;;;;7;1;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Black Cat;Pickpocket;PTT;;;;1;5;;1;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Black Cat;Casual bank robbery;PTT;;;;4;5;;1;;;;;;;;;;1;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Black Cat;Jinx;PTT;;;;5;3;;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Black Cat;Cat burglar;PTT;;;;8;1;;1;;;;;;;;;;;1;;;;-1;;;;;;;;;;1;;;;;;;;;;;;;
+Spidermen;Spider-Man;Great responsibility;B;;;;2;5;;;;1;;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Man;Astonishing strength;B;;;;2;5;;;1;;;;;;;;;1;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Man;Web-shooters;B;;;;2;3;;;;;1;;;;;;;;;1;;;1;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Spider-Man;Amazing spiderman;B;;;;2;1;;1;;;;;;;;;;;;1;;;;;;;2;;;;;;;;;;;;;;;;;;;
+Spidermen;Ultimate Spider-Man;Leaping spider;SW1;;;;2;5;;;1;;;;;1;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Ultimate Spider-Man;Marvel teamup;SW1;;;;2;5;;;1;1;;;;;;;;;;1;;;;;;;1;;;1;;;;;;;;;;;;;;;;
+Spidermen;Ultimate Spider-Man;Web-slinger;SW1;;;;2;3;;;;;1;;;;;;;;1;1;;;;;-1;;1;;;;;;;;;;;;;;;;;;;
+Spidermen;Ultimate Spider-Man;Hero fo dimension;SW1;;;;2;1;;1;;;;;;;;;;;1;;;;;;;;2;;;;;;;;;;;;;;;;;;;
+Guardians;Groot;Surviving sprig;GG;;;;3;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Draw extra for next turn
+Guardians;Groot;Prune the growths;GG;;;;4;5;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;1;;;
+Guardians;Groot;Groot and branches;GG;;;;4;3;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Groot;I am Groot;GG;;;;8;1;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Star-Lord;Legendary outlaw;GG;;;;4;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;2;;;;;;;;Copy artifact
+Guardians;Star-Lord;Element guns;GG;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;1;;;;;1;;;
+Guardians;Star-Lord;Implanted memory;GG;;;;6;3;;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Guardians;Star-Lord;Sentient starship;GG;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;2;;;;;1;;;
+Guardians;Drax the Destroyer;Knives ot hunter;GG;;;;3;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Guardians;Drax the Destroyer;Interstellar tracker;GG;;;;3;5;;;;1;;;;;1;;;1;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Guardians;Drax the Destroyer;The destroyer;GG;;;;6;3;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;1;;;;;2;;;;;1;;;
+Guardians;Drax the Destroyer;Avatar of destruction;GG;;;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Doubles FI
+Guardians;Rocket Raccoon;Trigger happy;GG;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;1;;;
+Guardians;Rocket Raccoon;Gritty scavenger;GG;;;;3;5;;;;;1;;;;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Guardians;Rocket Raccoon;Incoming detector;GG;;;;4;3;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;1;;;;;1;;;Triggers on MS or ambush
+Guardians;Rocket Raccoon;Vengeance is rocket;GG;;;;7;1;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Bonus for played MS
+Guardians;Gamora;Bounty hunter;GG;;;;2;5;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Gamora;Galactic Assassin;GG;;;;5;3;;1;;;;;2;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;-1;;;
+Guardians;Gamora;Deadliest woman;GG;;;;3;5;;;;1;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Gamora;Godslayer Blade;GG;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;1;;;;;1;;;
+Illuminati;Beast;Balanced attack;SW2;;;;3;5;;;1;;1;;;1;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Beast;Upside-down thinking;SW2;;;;4;5;;;1;;1;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Beast;Dr of beatdown;SW2;;;;6;3;;;1;;1;;;2;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Beast;Multivar smackulus;SW2;;;;8;1;;;1;;1;;;2;;2;;;1;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Black Bolt;Speak no words;SW1;;;;4;5;1;1;;;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+Illuminati;Black Bolt;Destructive whisper;SW1;;;;3;5;1;;;;;;;;;;;;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;
+Illuminati;Black Bolt;Silence is golden;SW1;;;;6;3;;;1;;;;;;;;;1;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;
+Illuminati;Black Bolt;Hypersonic scream;SW1;;;;8;1;1;;;;;;;;;;;;1;2;;;;;;-1;;;;;;;;;;;;;;;;;;;;
+Illuminati;Black Panther;Catlike Reflexes;SW1;;;;3;5;;1;;1;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Black Panther;Multifaceted Genius;SW1;;;;4;5;;;1;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Actually needs more multicolored cards
+Illuminati;Black Panther;Stalk the urban jungle;SW1;;;;6;3;;1;1;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;1;;;;;;;;;;
+Illuminati;Black Panther;King of Wakanda;SW1;;;;7;1;;;;1;1;;;;;;;;;;;;;;;;;;;1;;;1;;;;;;;;;;;;;
+Illuminati;Captain Britain;Transatlantic savior;SW2;;;;3;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;;
+Illuminati;Captain Britain;Combined strength;SW2;;;;4;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;2;;;;;;;;;;;;;;
+Illuminati;Captain Britain;Raise the Union Jack;SW2;;;;5;3;;1;1;;;;;;;;;;1;1;;;;;-1;;;;;;;1;;;;;;;;;;;;;;
+Illuminati;Captain Britain;Lead the Cap Brit corps;SW2;;;;7;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;New hand, extra cards
+Illuminati;Dr. Strange;Trust me ima doctor;SW1;;;;2;5;1;;;1;;;;;;;;1;;;;;;;;;;;;;;;1;;;1;;;;;;;;;;
+Illuminati;Dr. Strange;Cloak of levitation;SW1;;;;4;5;1;;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Dr. Strange;Fight the future;SW1;;;;5;3;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Illuminati;Dr. Strange;Sorcerer supreme;SW1;;;;7;1;;1;;;;;;;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Superior Iron Man;Armor upgrades;SW1;;Iron Man;;2;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Superior Iron Man;Optimized tech;SW1;;Iron Man;;5;5;1;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Illuminati;Superior Iron Man;Superior to others;SW1;;Iron Man;;3;3;1;;;;;1;;;;;;1;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Illuminati;Superior Iron Man;#Humblebrag;SW1;;Iron Man;;8;1;;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Widow;Mission accomplished;B;;;;2;5;;;;;1;;;;;1;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Widow;Dangerous rescue;B;;;;3;5;;1;;;;;1;;;;;;1;;;;1;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Black Widow;Covert operation;B;;;;4;3;;1;;;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Widow;Silent sniper;B;;;;7;1;;1;;;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America;Avengers assemble;B;;;;3;5;;;;1;;;;;;;2;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America;Perfect teamwork;B;;;;4;5;;;1;;;;;;;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America;Diving block;B;;;;6;3;;;;;1;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America;Day unlike any other;B;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+Avengers;Captain America 1941;Devoted patriot;C75;;Captain America;;3;5;;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America 1941;Storm the beachhead;C75;;Captain America;;5;5;;;;;1;;;;;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America 1941;Liberate the prisoners;C75;;Captain America;;6;3;;1;;;;;;;;;;;1;1;;;-1;;;;;;;;;;1;;;;;;;;;;;;;
+Avengers;Captain America 1941;Punch evil in the face;C75;;Captain America;;8;1;;;;1;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America (Falcon);Aerial catch;C75;;Captain America;;3;5;;;;1;;;;;1;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America (Falcon);Winged salvation;C75;;Captain America;;4;5;1;;;;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America (Falcon);Flying shield block;C75;;Captain America;;6;3;;;;;1;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America (Falcon);Star-spangled hero;C75;;Captain America;;7;1;;1;;;;;;;;;2;1;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America, Secret Avenger;Bold leadership;CW;;Captain America;;2;5;;1;;;;;;;;;2;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America, Secret Avenger;Inspire a nation;CW;6;Captain America;;3;5;;;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Avengers;Captain America, Secret Avenger;Inspire a man;CW;6;Captain America;;3;5;;;;1;;;;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain America, Secret Avenger;Secret avengers assemle;CW;;Captain America;;5;3;;;;;1;;;;;;;;1;;;;;;;;;;;-1;;;2;;;;;;;;;;;;;
+Avengers;Captain America, Secret Avenger;Freedom never dies;CW;;Captain America;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;-1;;;1;;;;;;;;;;;;;
+Avengers;Captain Marvel;Marvelous strength;SW1;;;;5;3;;;1;;;;;2;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain Marvel;Cosmic energies;SW1;;;;7;1;1;;;;;2;;2;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain Marvel;Absorb energies;SW1;;;;3;5;1;;;;;2;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Captain Marvel;Supersonic flight;SW1;;;;3;5;1;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Cloak & Dagger;Above;CW;7;Cloak;;3;5;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Avengers;Cloak & Dagger;Below;CW;7;Dagger;;3;5;1;;;;;;;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+Avengers;Cloak & Dagger;Flee;CW;8;Cloak;;4;5;;1;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Cloak & Dagger;Fight;CW;8;Dagger;;4;5;1;;;;;1;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Cloak & Dagger;Darkness;CW;9;Cloak;;6;3;;1;;;;;1;;;;;;1;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Cloak & Dagger;Light;CW;9;Dagger;;6;3;1;;;;;1;;;;;;1;;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Cloak & Dagger;Penumbra;CW;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Best with more split cards
+Avengers;Daredevil;Dual existence;CW;;;;2;5;;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Daredevil;Roundhouse side kick;CW;;;;4;5;;1;;;;;;;;;;;1;;;-1;;;;;;;;1;;;;;;;;;;;;;;;;
+Avengers;Daredevil;Hidden identity;CW;10;;;6;3;;;;1;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil;Revealed identity;CW;10;Iron Fist;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;2;;;;;;;;;;;;;;;;;
+Avengers;Daredevil;Master of Martial Arts;CW;;;;8;1;;1;;;;;;;;;;;1;;;-1;;;;;;;2;;;;1;;;;;;;;;;;;;
+Avengers;Falcon;Rapid reinforcements;CW;;;;3;5;;;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Filter HQ
+Avengers;Falcon;Talk with birds;CW;11;;;4;5;1;;;;;1;;;;;;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Avengers;Falcon;Squawk back;CW;11;Redwing;;4;5;;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Falcon;Scout the Battlefield;CW;;;;6;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Falcon;Fly in a friend;CW;;;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Avengers;Goliath;Brilliant biochemist;CW;12;;;4;5;;;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Goliath;Massive warrior;CW;12;;;4;5;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Goliath;Growth industry;CW;;;;5;5;;;;;1;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Goliath;Being big is best;CW;;;;6;3;;;1;;;;;1;;;;;1;;;;;;;;;2;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Goliath;Enormous implications;CW;;;;8;1;;;1;;;;;1;;;;;1;;;;;;;;-1;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Hawkeye;Quick draw;B;;;;3;5;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hawkeye;Team player;B;;;;4;5;;;;;1;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Avengers;Hawkeye;Covering fire;B;;;;5;3;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hawkeye;Impossible trick shot;B;;;;7;1;;;;;1;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hercules;Manly dullard;CW;13;;;3;5;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hercules;Boy genius;CW;13;Amadeus Cho;;3;5;;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hercules;Crowd favorite;CW;;;;4;5;;;;1;;;;;1;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hercules;Prince of power;CW;;;;5;3;;;1;;;;;1;;;;1;;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Hercules;Son of Zeus;CW;;;;7;1;;;1;;;;;;;;;1;1;;;;-1;;;;;;;;;;1;;;;;;;;;;;;;
+Avengers;Hulk;Growing Anger;B;;;;3;5;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulk;Unstoppable Hulk;B;;;;4;5;;;;1;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulk;Crazed Rampage;B;;;;5;3;;;1;;;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulk;Hulk Smash;B;;;;8;1;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulkling;Half-Kree;CW;14;;;4;5;;;1;;;;;1;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Hulkling;Half-Skrull;CW;14;;;4;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Hulkling;Cellular Regeneration;CW;;;;5;5;;;1;;;;;1;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Hulkling;Impersonate;CW;;;;6;3;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing, clone
+Avengers;Hulkling;Enormous shapeshift;CW;;;;8;1;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Iron Man;Endless invention;B;;;;3;5;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Iron Man;Repulsor Rays;B;;;;3;5;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Iron Man;Arc reactor;B;;;;5;3;;;;;1;;;;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Iron Man;Quantum breakthrough;B;;;;7;1;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Iron Man Noir;Steampowered Arsenal;N;;Iron Man;;3;5;1;;;;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Iron Man Noir;Mechanized plate mail;N;;Iron Man;;4;5;;;;;1;;;;;1;;1;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Iron Man Noir;Learn from enemies;N;;Iron Man;;6;3;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;
+Avengers;Iron Man Noir;Adventurers assemble!;N;;Iron Man;;7;1;;;;;1;;;;;;;;1;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;Improves investigate
+Avengers;Lady Thor;Mysterious origin;SW1;;;;3;5;1;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Lady Thor;Chosen by Asgard;SW1;;;;4;5;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Lady Thor;Heir to the hammer;SW1;;;;6;3;1;;1;;;1;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Lady Thor;Living thunderstorm;SW1;;;;8;1;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Luke Cage;Cautious;CW;15;;;3;5;;;1;;;;;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Luke Cage;Reckless;CW;15;Jessica Jones;;3;5;;;;1;;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Luke Cage;Take a bullet ft team;CW;;;;4;5;;;1;;;;;;;;;1;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Luke Cage;Sweet christmas;CW;;;;5;3;;;;1;;;;;1;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Luke Cage;Unbreakable skin;CW;;;;8;1;;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;1;;;;;;;;;;;;;
+Avengers;Patriot;New gen of heroes;CW;;;;2;5;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Bonus for more hero names
+Avengers;Patriot;Intuitive tactician;CW;;;;3;5;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Bonus for more hero names
+Avengers;Patriot;Incredible effort;CW;16;;;5;3;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Patriot;Effortless;CW;16;Hawkeye;;5;3;;;;;1;;;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+Avengers;Patriot;Lead the young avengers;CW;;;;8;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Requires hero name variety
+Avengers;Peter Parker;Conflicted loyalties;CW;;;;2;5;;;;;1;;;;;1;;1;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;
+Avengers;Peter Parker;Spiderman unmasked;CW;;;;2;5;;;;1;;;;;1;;;;1;;;1;;;;;;;;1;;;;;;;;;;;;;;;;
+Avengers;Peter Parker;Protect my family;CW;17;;;2;3;;;;;1;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Peter Parker;Hot bowl of soup;CW;17;Aunt May;;2;3;;;;1;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Peter Parker;Reluctant celebrity;CW;;;;2;1;;;;1;;;;;1;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Stature;Shrink to nothing;CW;;;;2;5;;;;;1;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Stature;Crush ants;CW;18;;;5;5;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;Size-changing
+Avengers;Stature;Crush file sizes;CW;18;Iron Lad;;5;5;;;;;1;;;;;1;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Stature;Growing confidence;CW;;;;6;3;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;Size-changing
+Avengers;Stature;Trample the tiny;CW;;;;8;1;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;Size-changing
+X-Men;Storm & Black Panther;Gathering rain clouds;CW;19;Storm;;2;5;1;;;;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Storm & Black Panther;Gathering clues;CW;19;Black Panther;;2;5;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Storm & Black Panther;Lightning strike;CW;20;Storm;;3;5;1;;;;;1;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Avengers;Storm & Black Panther;Pouncing strike;CW;20;Black Panther;;3;5;;;;1;;;;;1;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+X-Men;Storm & Black Panther;Tsunami of water;CW;21;Storm;;5;3;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Storm & Black Panther;Tsunami of justice;CW;21;Black Panther;;5;3;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Storm & Black Panther;King & Queen;CW;;;;7;1;;;;;1;;;;;;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;Requires multiclass cards
+Avengers;The Captain and the Devil;Jurassic America;SW2;;;;2;5;;;1;;1;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;The Captain and the Devil;Patriotic chomp;SW2;;;;4;5;;;;1;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;The Captain and the Devil;Feeding grounds;SW2;;;;6;3;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;1;;;;;;;;;;
+Avengers;The Captain and the Devil;Dino-roar of triumph;SW2;;;;8;1;1;;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Avengers;Thor;Odinson;B;;;;3;5;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Thor;Surge of power;B;;;;4;5;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Thor;Call lightning;B;;;;6;3;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Thor;God of thunder;B;;;;8;1;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Use MO as FI
+Avengers;Tigra;Friendship;CW;22;;;2;5;;1;;;;;1;;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Avengers;Tigra;Ferocity;CW;22;;;2;5;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Tigra;Supernatural senses;CW;;;;3;5;;;;1;;;;;2;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Tigra;Can't surprise a cat;CW;;;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Cancel ambush
+Avengers;Tigra;Mystic talisman;CW;;;;7;1;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;Free hero
+Avengers;Vision;Solar energy;CW;;;;3;5;1;;;;;1;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Vision;Through solid objects;CW;;;;4;5;;;;;1;;;;;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Vision;Lighter than air;CW;23;;;6;3;1;;;;;1;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Vision;Harder than diamond;CW;23;;;6;3;;;;;1;;;;;1;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;Size-changing
+Avengers;Vision;Insubstantial accomplish;CW;;;;7;1;;;;;1;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wiccan;Sorcerous illusions;CW;;;;2;5;;1;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wiccan;Astral projection;CW;;;;4;5;1;;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wiccan;Supersonic spells;CW;24;Wiccan;;4;3;1;;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wiccan;Supersonic speed;CW;24;Speed;;4;3;;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wiccan;Clairvoyance;CW;;;;7;1;1;;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Blade;Stalk the prey;DC;;;;3;5;;1;;;;;;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Blade;Night hunter;DC;;;;4;5;;;1;;;;;;;;;1;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Blade;Nowhere to hide;DC;;;;6;3;;;;;1;;;;;;;;1;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Blade;Vampiric Surge;DC;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;
+Marvel Knights;Daredevil;Backflip;DC;;;;3;5;;;1;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil;Radar sense;DC;;;;4;5;;;;1;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil;Blind justice;DC;;;;6;3;;1;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil;Man without fear;DC;;;;8;1;;;;1;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil Noir;Balancing act;N;;Daredevil;;3;5;;1;;;;;;;;;;1;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil Noir;Listen for heartbeats;N;;Daredevil;;4;5;;;;1;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Daredevil Noir;Discover the bodies;N;;Daredevil;;5;3;;1;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Marvel Knights;Daredevil Noir;Hitting rock bottom;N;;Daredevil;;7;1;;;;1;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Dr. Punisher, Soldier Supreme;Sweep the streets;SW2;;;;2;5;1;;;;1;;;;;;;1;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Dr. Punisher, Soldier Supreme;You're a slow learner;SW2;;;;4;5;;;;;1;;;;;1;;;1;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Marvel Knights;Dr. Punisher, Soldier Supreme;Ice Magic;SW2;;;;3;3;1;;;;;2;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Marvel Knights;Dr. Punisher, Soldier Supreme;Calm before storm;SW2;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Elektra;First strike;DC;;;;1;5;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Elektra;Ninjitsu;DC;;;;2;5;;;;1;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Elektra;Sai blades;DC;;;;6;3;;;;1;;;;;;;;;1;;;;;;;;2;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Elektra;Silent Meditation;DC;;;;7;1;;;;1;;;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Marvel Knights;Ghost Rider;Hell on wheels;DC;;;;3;5;;;;;1;;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Marvel Knights;Ghost Rider;Blazing hellfire;DC;;;;5;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;KO a villain from VP
+Marvel Knights;Ghost Rider;Infernal Chains;DC;;;;2;3;;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;
+Marvel Knights;Ghost Rider;Penance Stare;DC;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;1;;1;;;;;;;;;;;
+Marvel Knights;Iron Fist;Focus Chi;DC;;;;3;5;;;;1;;;;;;;;1;;;;;;;;;;;2;;;;;;;;;;;;;;;;;
+Marvel Knights;Iron Fist;Wield the iron fist;DC;;;;4;5;;;1;;;;;;;;;;1;;;;;;;;;;2;;;;;;;;;;;;;;;;;
+Marvel Knights;Iron Fist;Ancient legacy;DC;;;;1;3;;;1;;;;;2;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;
+Marvel Knights;Iron Fist;Living weapon;DC;;;;9;1;;;1;;;;;;;;;;1;;;;;;;;;;2;;;;;;;;;;;;;;;;;
+Marvel Knights;Luke Cage Noir;Follow big leads;N;;Luke Cage;;4;5;;;1;;;;;;;;;1;;;;;;;;;;2;;;;;;;;;;;;;;;;;;
+Marvel Knights;Luke Cage Noir;Private investigations;N;;Luke Cage;;4;5;;1;;;;;;;;;;;1;;;-1;;;;;;1;;;;;;;;;;;;;;;;;;
+Marvel Knights;Luke Cage Noir;Unbreakable Cage;N;;Luke Cage;;6;3;;;1;;;;;;;;;;1;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Luke Cage Noir;Weight of the world;N;;Luke Cage;;8;1;;;1;;;;;;;;;;1;;;;;;;;;2;;;;;;;;;;;;;;;;;;
+Marvel Knights;Moon Knight;Climbing claws;PTT;;;;3;5;;;;;1;;;;1;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Moon Knight;Lunar communion;PTT;;;;3;5;;;;1;;;;;;;;;1;;;1;;;-1;;;;;;;;;;;1;;;;;;;;;;
+Marvel Knights;Moon Knight;Crescent moon darts;PTT;;;;5;3;;;;;1;;;;1;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Moon Knight;Golden Ankh of Khonshu;PTT;;;;8;1;;;;1;;;;;;1;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Punisher;Boom goes the dynamite;DC;;;;2;5;;;;;1;;;;;1;;;;1;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Marvel Knights;Punisher;Hail of bullets;DC;;;;5;5;;;;;1;;;;;2;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Marvel Knights;Punisher;Hostile interrogation;DC;;;;3;3;;;1;;;;;1;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;
+Marvel Knights;Punisher;The Punisher;DC;;;;8;1;;;;;1;;;;;;;;1;;;;;;;;;;2;;;;;;;;;;;;;;;;;
+Marvel Knights;Shang-Chi;Shuffling footwork;SW2;;;;3;5;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Empties your discard pile
+Marvel Knights;Shang-Chi;Acrobatic Kung Fu;SW2;;;;4;5;;1;;1;;;;;;;;;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Shang-Chi;Seek the empty mind;SW2;;;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Requires empty discard pile
+Marvel Knights;Shang-Chi;Muscle Memory;SW2;;;;7;1;;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Cabal;Black Swan;Apocalyptic Vision;SW2;;;;3;5;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Cabal;Black Swan;Witness the end;SW2;;;;5;5;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Cabal;Black Swan;Dark foretelling;SW2;;;;6;3;1;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Cabal;Black Swan;Telepathic control;SW2;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;1;;;;;;;
+Cabal;Corvus Glaive;Let none escape you;SW2;;;;2;5;;;1;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Bystanders escaped or not
+Cabal;Corvus Glaive;Culling Blade;SW2;;;;3;5;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;
+Cabal;Corvus Glaive;Rictus grin;SW2;;;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;2;;;;;;;;;
+Cabal;Corvus Glaive;Atom-splitting Glaive;SW2;;;;8;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;1;;;;1;;;;;;;;;Can KO escaped bystanders
+Cabal;Maximus;Mental domination;SW1;;;;3;5;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;;
+Cabal;Maximus;Enslave the will;SW1;;;;4;5;;;;;1;;;;;1;;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Cabal;Maximus;Pieces on a chessboard;SW1;;;;5;3;;1;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;1;;;;;;;;;;;
+Cabal;Maximus;Inhuman mastery;SW1;;;;7;1;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;1;;1;;;;;;;;;;;
+Cabal;Namor, the Sub-Mariner;Lead armies of Atlantis;SW1;;;;3;5;;;;1;;;;;1;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Cabal;Namor, the Sub-Mariner;Ruler of the seas;SW1;;;;4;5;;;1;;;;;1;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Cabal;Namor, the Sub-Mariner;Feed the sharks;SW1;;;;6;3;;;1;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Cabal;Namor, the Sub-Mariner;Imperius rex;SW1;;;;7;1;;;1;;;;;2;2;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Defeat villain for free
+Cabal;Proxima Midnight;Inspiration through power;SW1;;;;2;5;;1;;1;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;
+Cabal;Proxima Midnight;Master combatant;SW1;;;;4;5;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;
+Cabal;Proxima Midnight;General ot black order;SW1;;;;5;3;;1;;;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Cabal;Proxima Midnight;Supernova spear;SW1;;;;8;1;;;;1;;;1;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Cabal;Thanos;Revel in destruction;SW1;;;;3;5;1;;1;;;;;;;;;1;;;;;;;;;;;;;;;1;;;;2;;;;;;;;;
+Cabal;Thanos;Transdimension overlord;SW1;;;;5;5;;;1;;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;1;;;;;;;;;
+Cabal;Thanos;Galactic Domination;SW1;;;;6;3;1;;;;;1;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Cabal;Thanos;Utter Annihilation;SW1;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;2;;;;;;;;;
+X-Force;Cable;Disaster Survivalist;DC;;;;3;5;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Draw extra cards after MS
+X-Force;Cable;Strike at heart of evil;DC;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Cable;Rapid respone force;DC;;;;6;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+X-Force;Cable;Army of one;DC;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Force;Colossus;Draw their fire;DC;;;;1;5;;;1;;;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Colossus;Invulnerability;DC;;;;3;5;;;1;;;;;;;;;1;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Colossus;Silent Statue;DC;;;;6;3;;1;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Colossus;Russian Heavy Tank;DC;;;;8;1;;;1;;;;;;;;;;1;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Domino;Lucky Break;DC;;;;1;5;;;;;1;;;;;;;1;1;1;;;;;;;;;;;;;1;;;;;;;;1;;;;;
+X-Force;Domino;Ready for Anything;DC;;;;3;5;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;1;;;;;
+X-Force;Domino;Specialized Ammunition;DC;;;;5;3;;;;;1;;;;;;;1;1;;1;;;;;;;;;;;;;;;;;;;1;;;;;;
+X-Force;Domino;Against all odds;DC;;;;7;1;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;1;;;;;;;;2;;;;;
+X-Force;Forge;Dirty Work;DC;;;;3;5;;;;;1;;;;;1;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+X-Force;Forge;Reboot;DC;;;;4;5;;;;;1;;;;;1;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Forge;Overdrive;DC;;;;5;3;;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;1;;;;;
+X-Force;Forge;B.F.G.;DC;;;;7;1;;;;;1;;;;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Can defeat the MM for free
+X-Force;Wolverine;Animal instincts;DC;;;;2;5;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Wolverine;Sudden Ambush;DC;;;;4;5;;1;;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Force;Wolverine;No Mercy;DC;;;;4;3;;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Force;Wolverine;Reckless Abandon;DC;;;;7;1;;1;;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Agent X-13;Sniper Squad;C75;;;;3;5;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+SHIELD;Agent X-13;Paramilitary Ops;C75;;;;4;5;;;;;1;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+SHIELD;Agent X-13;Spy Network;C75;;;;4;3;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;May gain shield officer
+SHIELD;Agent X-13;Mobilize for War;C75;;;;7;1;;;;1;;;;;;;;;1;;;;-1;;;;;;;;;;;;;1;;;;;;;;;;
+SHIELD;Elsa Bloodstone;Monster Hunter;SW2;;;;3;5;;1;;;1;;;;;;;;1;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Elsa Bloodstone;Bloodstone Pendant;SW2;;;;5;5;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+SHIELD;Elsa Bloodstone;Defend the SHIELD wall;SW2;;;;6;3;1;;;;;;;;;;;;1;;;1;;;;;;;;;;;1;;;;;;;;;;;;;
+SHIELD;Elsa Bloodstone;Prodigy of Ulysses;SW2;;;;8;1;;;1;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Nick Fury;High tech weaponry;B;;;;3;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Nick Fury;Battlefield Promotion;B;;;;4;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;Gain shield officer
+SHIELD;Nick Fury;Legendary Commander;B;;;;6;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+SHIELD;Nick Fury;Pure Fury;B;;;;8;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+SHIELD;Steve Rogers, Director of S.H.I.E.L.D.;International strike force;C75;;Captain America;;3;5;;;1;;;;;;;;2;1;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Steve Rogers, Director of S.H.I.E.L.D.;Reassign to civil duty;C75;;Captain America;;5;5;;;;1;;;;;;;;;1;;;;1;;;;;;;;;;;;;1;;;;;;;;;;
+SHIELD;Steve Rogers, Director of S.H.I.E.L.D.;Shadow of war past;C75;;Captain America;;4;3;;1;;;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Steve Rogers, Director of S.H.I.E.L.D.;Save the world;C75;;Captain America;;8;1;;;;;1;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Arkon the Magnificent;Quiver of thunderbolts;SW2;;;;3;5;1;;;;;;;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Arkon the Magnificent;All-terrain barbarian;SW2;;;;3;5;;1;1;;;;;;;;;1;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+NONE;Arkon the Magnificent;Warlord of open spaces;SW2;;;;5;3;;;;1;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+NONE;Arkon the Magnificent;Lord of Dragons;SW2;;;;7;1;;;;1;;;;;;;;1;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+NONE;Deadpool;Here hold this;B;;Deadpool;;3;5;;;;;1;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Deadpool;Oddball;B;;Deadpool;;5;5;;1;;;;;;;;;;;1;;;;;;;;-1;;1;;;;;;;;;;;;;;;;;Bonus for odd costs.
+NONE;Deadpool;Can i get a do-over?;B;;Deadpool;;3;3;;;;1;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Deadpool;Random unkindness;B;;Deadpool;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;May gain a wound
+NONE;Silver Surfer;Warp Speed;FF;;;;3;5;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;Focus
+NONE;Silver Surfer;Epic Destiny;FF;;;;4;5;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Focus
+NONE;Silver Surfer;The power cosmic;FF;;;;6;3;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Focus
+NONE;Silver Surfer;Energy Surge;FF;;;;7;1;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Doubles MO
+NONE;Winter Soldier;KGB Training;C75;;;;5;3;;1;;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Winter Soldier;Bionic Arm;C75;;;;3;5;;;1;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Winter Soldier;Sniper nest;C75;;;;4;5;;;;;1;;;;;1;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Winter Soldier;2 > 4;C75;;;;7;1;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Replay heroes
+Deadpool;Deadpool;Nighttime is right time;DP;;Deadpool;;3;5;;;;;1;;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Depends on current time
+Deadpool;Deadpool;It'll grow back;DP;;Deadpool;;4;5;;;;1;;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Deadpool;Running commentary;DP;;Deadpool;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;1;;;;Flavor texts
+Deadpool;Deadpool;Deadpool rage me ->;DP;;Deadpool;;7;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;EV: take extra turn
+Deadpool;Slapstick;Sat Morning Harpoons;DP;;Deadpool;;3;5;1;;;;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Slapstick;Napoleon Complex;DP;;Deadpool;;4;5;1;;;;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;Depends on your height
+Deadpool;Slapstick;Surprise chainsaw;DP;;Deadpool;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Slapstick;Electroplasmic insanity;DP;;Deadpool;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Deadpool;Solo;Half-cocked;DP;;Deadpool;;2;5;;;;;1;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Solo;Merc's gotta get paid;DP;;Deadpool;;3;5;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Solo;Guns on my guns;DP;;Deadpool;;5;3;;;;;1;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Solo;Cut in half;DP;;Deadpool;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;1;;;;
+Deadpool;Stingray;Superpowered swimsuit;DP;;Deadpool;;2;5;;;;;1;;;;;1;;;1;1;;;;;-1;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Stingray;Deck chairs of the titanic;DP;;Deadpool;;4;5;;;;;1;;;;;;;;1;1;;;;;1;;;;;;;;;;;;;;;;;1;;;;
+Deadpool;Stingray;Sting of stingray's sting;DP;;Deadpool;;5;3;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Deadpool;Stingray;PhD in oceanography;DP;;Deadpool;;8;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;1;;;1;;;;;;1;;;;
+HYDRA;Bob, Agent of HYDRA;Hydra Half-Wit;DP;;;;2;5;;;;;1;;;;;;;;1;1;;;;;;;;;;;;;1;;;;;;;;;1;;;;
+HYDRA;Bob, Agent of HYDRA;Bullets flying bob hiding;DP;;;;3;5;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;1;;;;
+HYDRA;Bob, Agent of HYDRA;How do I get out of here;DP;;;;6;3;;1;;;;;1;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+HYDRA;Bob, Agent of HYDRA;Epic middle manager;DP;;;;8;1;;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;1;;;;;;;;;;
+New Warriors;Speedball;Reckless rescue attempt;CW;;;;3;5;1;;;;;1;;;;;;1;;;;;1;;;;;;;;;;;;;;1;;1;;;;;;;
+New Warriors;Speedball;Bounce around;CW;;;;4;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;-1;;;;;;;;;
+New Warriors;Speedball;Double Down;CW;25;Speedball;;5;3;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+New Warriors;Speedball;Bubble up;CW;25;Namorita;;5;3;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+New Warriors;Speedball;Kinetic Force Field;CW;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Cancel master strike
+Brotherhood;Magneto;Magnetic levitation;V;;;;3;5;1;;;;;;;;;;;;1;1;1;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Magneto;Mutants will rule;V;;;;4;5;;;1;;;;;1;;;;1;;1;1;;;1;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Magneto;Weapons from scrap;V;;;;5;3;1;;;;;;;;;;;;1;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Magneto;Master of Magnetism;V;;;;7;1;1;;;;;;;;;;;;1;;;;;1;;;;;;;;;2;;;;;;;;;;;;;
+Brotherhood;Juggernaut;Crimson Gem Cyttorak;V;;;;4;5;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Juggernaut;Size Matters;V;;;;4;5;;;1;;;;;;;;;;1;;;;;;;;;2;;;;;;;;;;;;;;;;;;
+Brotherhood;Juggernaut;Runaway train;V;;;;5;3;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Juggernaut;Unstoppable force;V;;;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+Brotherhood;Mystique;Show your true colors;V;;;;3;5;;1;;;;;;;;;-1;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;Can be another class
+Brotherhood;Mystique;Hidden weapons;V;;;;4;5;;;;;1;;;;1;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Mystique;Turn the tide;V;;;;4;3;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Probe hero deck, clone it
+Brotherhood;Mystique;Spy games;V;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Probe hero deck
+Brotherhood;Sabretooth;Leap of the tiger;V;;;;3;5;;;;1;;;;;1;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Sabretooth;Take one for the team;V;;;;4;5;;;;1;;;;;;;;1;;;;-1;;;;;;;;;;;1;;;1;;;;;;;;;;
+Brotherhood;Sabretooth;Stealthy predator;V;;;;2;3;;1;;;;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;
+Brotherhood;Sabretooth;Upper Hand;V;;;;7;1;;;1;;;;;;1;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+Sinister Six;Venom;Symbiote takeover;V;;;;3;5;;;1;;;;;1;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Venom;Devour;V;;;;4;5;;;;1;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;1;;;;;;;;;
+Sinister Six;Venom;Horrify the populace;V;;;;6;3;;;1;;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Venom;Ravenous Greed;V;;;;7;1;;;;1;;;;;1;;;1;1;;;;1;;;;;;;;;;;;;;1;;;;;;;;;
+Sinister Six;Green Goblin;Pumpkin Bombs;V;;;;3;5;;;;;1;;;;;;;;1;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Green Goblin;Goblin Glider;V;;;;4;5;;;;;1;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Green Goblin;Unstable kidnapper;V;;;;5;3;;;;1;;;;;;;;1;;;-1;;1;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Green Goblin;Experimental goblin sperm;V;;;;7;1;;;;;1;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Dr. Octopus;Brilliant research;V;;;;3;5;;;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Dr. Octopus;Crazed experiments;V;;;;5;5;;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Dr. Octopus;Eight times a charm;V;;;;6;3;;;1;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Dr. Octopus;Octo-pulverize;V;;;;8;1;;;;;1;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Mysterio;Psychedelic mist;V;;;;2;5;1;;;;;;1;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Mysterio;Shifting decoy;V;;;;3;5;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;Filter HQ
+Sinister Six;Mysterio;Holographic illusion;V;;;;5;1;;;;;1;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Mysterio;False reflection;V;;;;7;1;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;2;;;;;;;1;;;;;;
+Sinister Six;Electro;Electroshock therapy;V;;;;2;5;1;;;;;;;;;;;;;1;1;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Sinister Six;Electro;Shocking robbery;V;;;;3;5;1;;;;;1;;;;;;;1;1;1;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Electro;Supercharge;V;;;;5;3;;;;1;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Electro;Anti-matter;V;;;;7;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+Sinister Six;Kraven;Ceaseless Tracker;V;;;;2;5;;;;1;;;;;;;;1;;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;
+Sinister Six;Kraven;Corner the prey;V;;;;4;5;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Kraven;Hunt down;V;;;;5;3;;;1;;;;;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+Sinister Six;Kraven;He's the best around;V;;;;8;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Enchantress;Enchant the senses;V;;;;3;5;1;;;;;1;;;;;;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Asgard Foes;Enchantress;Soul Sacrifice;V;;;;4;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Asgard Foes;Enchantress;Irresistible Bribe;V;;;;6;3;;1;;;;;2;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Use MO for FI
+Asgard Foes;Enchantress;Unending Anguish;V;;;;7;1;;1;;;;;;;;;;;;1;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Asgard Foes;Kuurth, Breaker of Stone;Reach for power;FI;;;;4;5;;;1;;;;;;;;;1;;;;-1;;;;;;1;;;;;;;;;;;;;;;;;;
+Asgard Foes;Kuurth, Breaker of Stone;Unstoppable Sledge;FI;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Asgard Foes;Kuurth, Breaker of Stone;Contest of strength;FI;;;;5;3;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;1;;;;;;;;;;;;;
+Asgard Foes;Kuurth, Breaker of Stone;Break every bone;FI;;;;7;1;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Greithoth, Breaker of Wills;Mace of chains;FI;;;;3;5;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Asgard Foes;Greithoth, Breaker of Wills;Absorb metal;FI;;;;3;5;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;-1;;;;;;;;
+Asgard Foes;Greithoth, Breaker of Wills;Break the will to resist;FI;;;;5;3;;;1;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Greithoth, Breaker of Wills;Body of Uru;FI;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;-1;;;;;;;;
+Asgard Foes;Nul, Breaker of Worlds;Demolition derby;FI;;Hulk;;3;5;;;1;;;;;1;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Nul, Breaker of Worlds;Otherworldly Maul;FI;;Hulk;;4;5;;;;1;;;;2;;;;;1;;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Asgard Foes;Nul, Breaker of Worlds;Nul Smash!;FI;;Hulk;;6;3;;;1;;;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Nul, Breaker of Worlds;Break the world;FI;;Hulk;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Asgard Foes;Nerkkod, Breaker of Oceans;Pull of the tides;FI;;;;3;5;;;1;;;;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Nerkkod, Breaker of Oceans;Feed my undersea legions;FI;;;;4;5;;1;;;;;;;;;;;1;;;;;;-1;;;;;1;;;;;;1;;;;;;;;;;
+Asgard Foes;Nerkkod, Breaker of Oceans;Cudgel of the deep;FI;;;;5;3;1;;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;1;;;;;;;;
+Asgard Foes;Nerkkod, Breaker of Oceans;Break their loyalties;FI;;;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;-1;;;1;;;;;;;;;;;;;
+Asgard Foes;Skirn, Breaker of Men;Towering leader;FI;;;;3;5;;;;1;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Asgard Foes;Skirn, Breaker of Men;Underhanded dealings;FI;;;;4;5;;1;;;;;1;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Skirn, Breaker of Men;Titanic bludgeon;FI;;;;2;3;1;;;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Asgard Foes;Skirn, Breaker of Men;Break your hopes;FI;;;;7;1;;;1;;;;1;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Loki;All humans are expendable;V;;;;3;5;;1;;;;;1;;;;;;1;;;;;;;;;;;1;;;;;;1;;;;;;;;;;
+Asgard Foes;Loki;Illusionary bindings;V;;;;4;5;1;;;;;1;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Asgard Foes;Loki;Father of lies;V;;;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Steal other player's heroes
+Asgard Foes;Loki;God of mischief;V;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Crime Syndicate;Bullseye;Fulfill the contract;V;;;;2;5;;;;1;;;;;;;;1;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;;
+Crime Syndicate;Bullseye;Everything's a weapon;V;;;;3;5;1;;;;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Crime Syndicate;Bullseye;Specialist Assassin;V;;;;6;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;
+Crime Syndicate;Bullseye;Perfect aim;V;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Crime Syndicate;Kingpin;Recruitment day;V;;;;3;5;;;1;;;;;1;;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;
+Crime Syndicate;Kingpin;Pull the strings;V;;;;3;5;;1;;;;;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;;;;;;
+Crime Syndicate;Kingpin;Import illegal weapons;V;;;;5;3;;;;;1;;;;;;;;1;;;;;;;;;;;-1;;;;;;;;;;;;;;;;
+Crime Syndicate;Kingpin;Endless underlings;V;;;;8;1;;;1;;;;;;;;;;;;;;;;;;;;;1;;;2;;;;;;;;;;;;;
+HYDRA;Skadi;Dark prophecy;FI;;;;3;5;;;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Gain Madama Hydra (shield officer)
+HYDRA;Skadi;Ancient oath of hydra;FI;;;;5;5;;;;;1;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+HYDRA;Skadi;Hammer of the serpent;FI;;;;5;3;;;1;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;1;;;;;;;;
+HYDRA;Skadi;War banner of hydra;FI;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;1;;;;;;;;
+NONE;Ultron;Encephalo-ray;V;;;;2;5;;;;;1;;;;;2;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Ultron;Army of ultrons;V;;;;3;5;;;;;1;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;Generates color S
+NONE;Ultron;Genetic experimentation;V;;;;6;3;;;;;1;;;;;2;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Ultron;Molecular rearrangement;V;;;;8;1;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Totally Awesome Hulk;Beloved Behemoth;CH;;Hulk;;4;5;;;1;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Totally Awesome Hulk;Incredible mind, awesome body;CH;;Hulk;;4;5;;;;;1;;;;;1;;1;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Totally Awesome Hulk;Growing pains;CH;;Hulk;;5;3;;;1;;;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Champions;Totally Awesome Hulk;Smartest man in the world;CH;;Hulk;;9;1;;;;;1;;;1;;1;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Ms. Marvel;Long arm of the law;CH;;;;3;5;;1;;;;;1;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Ms. Marvel;Big Impact;CH;;;;4;5;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;1;;;;;
+Champions;Ms. Marvel;Need to stretch my legs;CH;;;;6;3;;1;;;;;1;;;;;;1;;;;-1;;;;;;;;;;;;;1;;;;;;;;;;
+Champions;Ms. Marvel;Rising Hope;CH;;;;9;1;;;1;;;;1;1;;;;1;1;;;;-1;;;;;;;;;;;;;;;;;;1;;;;;
+Champions;Nova;Space cop;CH;;Nova;;2;5;;;1;;;;;;;;;1;1;;;;1;;;;;;;;;;1;;;;;;;;1;;;;;
+Champions;Nova;Interstellar Hero;CH;;Nova;;4;5;1;;;;;;;;;;;1;1;;;;-1;;;;;;;;;;;;;;;;;;1;;;;;
+Champions;Nova;Holographic Projection;CH;;Nova;;5;3;1;;;;;1;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;1;;;;;
+Champions;Nova;Growing Nova-Force;CH;;Nova;;9;1;1;;;;;1;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;
+Champions;Viv Vision;Walking Wi-fi;CH;;;;3;5;;;;;1;;;;;1;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Viv Vision;Expanding neural network;CH;;;;4;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Viv Vision;Crowdsourcing;CH;;;;6;3;1;;;;;;;;;;;1;1;;;;-1;;;;;;;;;;;;;;;;;;1;;;;;
+Champions;Viv Vision;Alter molecular density;CH;;;;9;1;;;;;1;1;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Gwenpool;Come on, nobody reads these;CH;;;;2;5;;1;;;;;1;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;1;;;;;
+Champions;Gwenpool;I'll rescue you if I feel like it;CH;;;;3;5;;;;1;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Gwenpool;I heard keywords are powerful;CH;;;;6;3;;;;1;;;;;1;;;;1;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Gwenpool;I'm the best at board games;CH;;;;7;1;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;Demolish the others
+Crime Syndicate;Joe Fixit, Grey Hulk;Carefully considered smashing;WW;;Hulk;;3;5;;;1;;;;;1;;;;1;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Crime Syndicate;Joe Fixit, Grey Hulk;Threaten and bribe;WW;;Hulk;;4;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Generates bribe
+Crime Syndicate;Joe Fixit, Grey Hulk;Ambitious enforcer;WW;T1;Hulk;1;3;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Crime Syndicate;Joe Fixit, Grey Hulk;Underworld Boss;WW;T1;Hulk;;6;3;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Crime Syndicate;Joe Fixit, Grey Hulk;Hulk runs this town;WW;;Hulk;;7;1;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;Generates bribe
+Avengers;Hulkbuster Iron Man;Pound for pound;WW;;Iron Man;;2;5;;;1;;;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulkbuster Iron Man;Attune tectonic transducer;WW;;Iron Man;;4;5;;;;;1;;;;;;;;1;;1;;;;;;;;1;;;;;;;;;;;;;;;;;
+Avengers;Hulkbuster Iron Man;Build the suit;WW;T2;Iron Man;1;5;3;;;;;1;;;1;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulkbuster Iron Man;Ultra-massive armor;WW;T2;Iron Man;;6;3;;;;;1;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hulkbuster Iron Man;Final battle;WW;;Iron Man;;8;1;;;;;1;;;2;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Hiroim;Seek redemption;WW;;;;3;5;;1;;;;;1;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Hiroim;Save from the rubble;WW;T3;;1;4;5;;1;;;;;;;;;;1;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Hiroim;Hiroim redeemed;WW;T3;;;5;5;;;1;;;;;;;;;;1;;;;-2;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Hiroim;Mystic shadow priest;WW;;;;6;3;;1;;;;;;;;;;;1;;;;1;-1;;;;;;;;;1;;;1;;;;;;;;;;
+Planet Hulk;Hiroim;Blade of the people;WW;;;;7;1;;;;1;;;;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Gladiator Hulk;Don't make me angry;WW;;Hulk;;3;5;;;1;;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Gladiator Hulk;Seize the throne;WW;T4;Hulk;1;4;5;;;;1;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Gladiator Hulk;Hulk is King;WW;T4;Hulk;;5;5;;;1;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Gladiator Hulk;The green scar;WW;;Hulk;;5;3;;;1;;;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Gladiator Hulk;Double-fisted smashing;WW;;Hulk;;8;1;;;;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Caiera;Shadow queen;WW;;;;2;5;;1;;;;;;;;;;;1;1;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Planet Hulk;Caiera;Shadowforged blade;WW;;;;4;5;;1;;;;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Caiera;Focus the old power;WW;;;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;1;;;;;;;1;;;;;;;;;;
+Planet Hulk;Caiera;Dutiful protector;WW;;;;7;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+Planet Hulk;Caiera;Vengeful destructor;WW;;;;7;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Sentry;Agoraphobia;WW;T5;;1;2;5;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Sentry;Golden guardian of good;WW;T5;;;6;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Sentry;Rival personalities;WW;;;;4;5;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Better if more transform cards
+Avengers;Sentry;Mournful Sentinel;WW;T6;;1;3;3;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Sentry;The void unchained;WW;T6;;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Sentry;Vast unstable power;WW;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Can turn into a mastermind
+Avengers;She-Hulk;Hurl Legal Objections;WW;T7;;1;3;5;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;She-Hulk;Hurl trucks;WW;T7;;;6;5;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;She-Hulk;Window of opportunity;WW;;;;4;5;;;1;;;;;;;;;1;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Avengers;She-Hulk;Radioactive Riot;WW;;;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;She-Hulk;Jade giantess;WW;;;;8;1;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Skaar, Son of Hulk;Anger management;WW;;;;3;5;;;1;;;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Skaar, Son of Hulk;Scarred past;WW;;;;3;5;;;;1;;;;;1;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Skaar, Son of Hulk;Mood Swings;WW;T8;;1;5;3;;;;1;;;;;1;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Skaar, Son of Hulk;Raging Savage;WW;T8;;;6;3;;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Skaar, Son of Hulk;Planetary-Level Revenge;WW;;;;8;1;;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;No-Name, Brood Queen;Surprise Attack;WW;;;;2;5;;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;No-Name, Brood Queen;Appetite for destruction;WW;;;;4;5;;1;;;;;1;;;;;;1;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Planet Hulk;No-Name, Brood Queen;Bursting with life;WW;T9;;1;3;5;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+Planet Hulk;No-Name, Brood Queen;Torrent of broodlings;WW;T9;;;5;3;;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;No-Name, Brood Queen;World-spanning hunger;WW;;;;8;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;
+SHIELD;Rick Jones;Hacktivist;WW;;;;3;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+SHIELD;Rick Jones;Seek the nega-bands;WW;T10;;1;4;5;;;;1;;;;;;;;1;;;;-1;;;;;-1;;;;;;;;;;;;;;;;;;;Heroes of 3 or more
+Avengers;Rick Jones;Captain Marvel;WW;T10;Captain Marvel;;5;5;1;;;;;;;;;;;;1;;;-1;;;;;-1;;;;;;;;;;;;;;;;;;;Heroes of 3 or more
+SHIELD;Rick Jones;Irradiated blood;WW;T11;;1;5;3;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;villains in general
+NONE;Rick Jones;A-bomb;WW;T11;;;6;3;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Rick Jones;Caught in Kree-Skrull war;WW;T12;;1;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Rick Jones;The destiny force;WW;T12;Captain Marvel;;9;1;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Namora;Crushing tsunami;WW;;;;3;5;1;;;;;1;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Namora;Heart of the ocean;WW;;;;4;5;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Champions;Namora;Herculean effort;WW;T13;;1;5;3;1;;;;;;;;;;;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Champions;Namora;Master of depths;WW;T13;;;6;3;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;1;;;;;;;;;;
+Champions;Namora;Turning the tide;WW;;;;7;1;;1;;;;;1;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Miek, The Unhived;This bug smashes you;WW;;;;3;5;;;;1;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Miek, The Unhived;Devouring frenzy;WW;;;;4;5;;;;1;;;;;1;;;1;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Planet Hulk;Miek, The Unhived;Endless appetite;WW;;;;5;3;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;-1;;;;;;;;;;Requires KO from deck
+Planet Hulk;Miek, The Unhived;Metamorphosis;WW;T14;;1;7;1;;1;;;;;;;;;;1;;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Planet Hulk;Miek, The Unhived;Hive King Miek;WW;T14;;;8;1;;;1;;;;;;;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Planet Hulk;Korg;Nothing beats rock;WW;;;;2;5;;;1;;;;;1;;;;;1;1;1;;;-1;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Korg;Move mountains;WW;;;;4;5;;;1;;;;;;;;;;1;1;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Planet Hulk;Korg;Forged by Fire;WW;T15;;1;3;3;;;1;;;;;2;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Korg;Lord of granite;WW;T15;;;5;3;;1;;;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Planet Hulk;Korg;Kronan tactician;WW;;;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;;
+Avengers;Bruce Banner;Solve the impossible;WW;;;;2;5;;;;;1;;;;;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Avengers;Bruce Banner;Gamma bomb disaster;WW;T16;;1;4;5;;;;;1;;;;;;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Avengers;Bruce Banner;Savage Hulk Unleashed;WW;T16;Hulk;;5;4;;;1;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Bruce Banner;Dangerous testing;WW;;;;6;3;;;;;1;;;;;1;;;1;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Bruce Banner;Gamma ray experiment;WW;;;;7;1;;;;;1;;;;;;;;1;1;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Champions;Amadeus Cho;Extrapolate;WW;;;;2;5;;;;1;;;;;;;;1;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Champions;Amadeus Cho;Gamma-draining nanites;WW;T17;;1;3;5;;;;;1;;;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Champions;Amadeus Cho;Like totally Smart Hulk;WW;T17;Hulk;;5;5;;;1;;;;;;;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Champions;Amadeus Cho;Renegade genius;WW;;;;6;3;;;;;1;;;;;;;;1;1;;;;;;;;;1;;;;;;;;;;;;;;;;;
+Champions;Amadeus Cho;Visualize the Variables;WW;;;;8;1;;;;;1;;;;;;;;;;;1;;;;;;;1;;;;;;;1;;;;;;;;;;
+NONE;Happy Hogan;Head of Security;HC;;;;3;5;;;;1;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;;
+NONE;Happy Hogan;Watchful Eye;HC;;;;4;5;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+NONE;Happy Hogan;Loyal Friend;HC;;;;5;3;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Happy Hogan;Asset Management;HC;;;;5;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Carnage;Rending Claws;VE;;;;3;5;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Carnage;Carnivore;VE;;;;4;5;;;1;;;;;;;;;1;;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Carnage;Gruesome Feast;VE;;;;6;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Venompool;Carnage;Feast or Famine;VE;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Venompool;Venompool;Digest that Chimichanga;VE;;Deadpool;;2;5;;;1;;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venompool;Shenanigans;VE;;Deadpool;;3;5;;;;;1;;;;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venompool;Can I get a little gratitude?;VE;;Deadpool;;5;3;;;;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venompool;Play to the crowd;VE;;Deadpool;;7;1;;;1;;;;;;;;;;1;;;;1;;;;;;;;;;1;;;;;;;;;;;;;
+Venompool;Venomized Dr. Strange;Cauldron of the Cosmos;VE;;;;2;5;1;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venomized Dr. Strange;Secure Timelines;VE;;;;4;5;1;;;;;1;;;;;;;1;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venomized Dr. Strange;Complete the grand ritual;VE;;;;6;3;;;;1;;;;;;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;
+Venompool;Venomized Dr. Strange;Crystal of Kadavus;VE;;;;8;1;1;;;;;;;;;;;;1;1;1;;;;;;;;;;;;1;;;1;;;;;;;;;;
+Venompool;Venom;Devouring Drool;VE;;;;3;5;;;;1;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venom;Razor Teeth;VE;;;;4;5;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venom;Symbiotic Adaptation;VE;;;;6;3;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venom;Insatiable Hunger;VE;;;;8;1;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;1;;;1;;;;;;;;;;
+Venompool;Venom Rocket;Hungry for action;VE;;;;3;5;;;;1;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venom Rocket;Spring the trap;VE;;;;4;5;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Venompool;Venom Rocket;Serious overkill;VE;;;;5;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Venompool;Venom Rocket;Ultimate survivor;VE;;;;7;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Peter Parker, Homecoming;Avenger in Training;HC;;Spiderman;;2;5;;;;1;;;;;1;;;;1;;;1;;;;;;;;;;;;;;;;;1;;;;;;;
+Spidermen;Peter Parker, Homecoming;Heightened Senses;HC;;Spiderman;;2;5;;1;;;;;;;;;;;1;1;;-1;;;;;;;;;;;;;;;;;1;;;;;;;
+Spidermen;Peter Parker, Homecoming;Homemade web-shooters;HC;;Spiderman;;2;3;;;;;1;;;;;1;;;1;;;1;;;;;;;;;;;;;;;;;1;;;;;;;
+Spidermen;Peter Parker, Homecoming;Something is happening;HC;;Spiderman;;2;1;;;1;;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;1;;;;;;;
+Spidermen;Peter's Allies;Ned;HC;;;;2;5;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Peter's Allies;Michelle;HC;;;;3;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Peter's Allies;Liz;HC;;;;6;3;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;Peter's Allies;May Parker;HC;;;;7;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Spidermen;High-Tech Spider-Man;Recon Drone Connection;HC;;Spiderman;;2;5;;;;;1;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;1;;;;;;;
+Spidermen;High-Tech Spider-Man;Advanced Targeting System;HC;;Spiderman;;2;5;;1;;;;;1;;;;;;;2;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Spidermen;High-Tech Spider-Man;Spider-Grip;HC;;Spiderman;;2;3;;;;;1;;;;;1;;;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Spidermen;High-Tech Spider-Man;Friendly Neighborhood;HC;;Spiderman;;2;1;;;;;1;;;;;;;;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ant-Man;Ride the Ants;AM;;;;4;5;;;;;1;;;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ant-Man;Risky Science;AM;;;;5;5;;;;;1;;;;;2;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ant-Man;Giant Ego;AM;;;;6;3;;;1;;;;;;;1;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ant-Man;Pym Particles;AM;;;;9;1;;;;;1;;;;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Knight;Defend the Weak;AM;;;;3;5;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Knight;Amulet of Avalon;AM;;;;3;5;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Knight;Flying Steed;AM;;;;6;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Black Knight;The Ebony Blade;AM;;;;7;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Jocasta;Creation of Ultron;AM;;;;3;5;;;;;1;;;;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Jocasta;Reprocess;AM;;;;4;5;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Jocasta;Holographic Image Inducer;AM;;;;6;3;;;;;1;;;;;1;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Jocasta;Electromagnetic Eyebeams;AM;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Tony Stark;Genius Billionaire;HC;;Iron Man;;2;5;;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Tony Stark;Stay out of trouble;HC;;Iron Man;;4;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Avengers;Tony Stark;Little grey area;HC;;Iron Man;;5;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;1;;;;;;;
+Avengers;Tony Stark;As usual i did all the work;HC;;Iron Man;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wasp;Bio-electric sting;AM;;;;3;5;;1;;;;;2;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wasp;Tiny winged justice;AM;;;;4;5;;1;;;;;1;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wasp;Swarm tactics;AM;;;;6;3;1;;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wasp;Founding avenger;AM;;;;9;1;;1;;;;;2;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+Avengers;Wonder Man;One-hit wonder;AM;;;;2;5;;;1;;;;;2;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Wonder Man;Ionic energy;AM;;;;4;5;1;;;;;;;2;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;;
+Avengers;Wonder Man;Absorb ambient power;AM;;;;5;3;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;
+Avengers;Wonder Man;8th wonder of the world;AM;;;;8;1;;;1;;;2;;2;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;;
+NONE;Howard the Duck;Traveling Companion;D;;;;3;5;;;;1;;;;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Howard the Duck;Rebel without a cause;D;;;;4;5;;1;;;;;;;;;;;1;;;-1;;;;;;;;;;-1;;;;;;;;;;;;;;
+NONE;Howard the Duck;Right place, wrong time;D;;;;5;3;;;;1;;;;;;;;;1;;;;;;;;;;;;;-1;;;;;;;;;;;;;;
+NONE;Howard the Duck;Interplanetary Visitor;D;;;;7;1;;;;;1;;;;;;;;1;1;1;;;;;;;;;;;;;;;1;;;;;;;;;;
+NONE;Man-Thing;Form from ooze;D;;;;2;5;;;1;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+NONE;Man-Thing;Burn the fearful;D;;;;4;5;;;;1;;;;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+NONE;Man-Thing;Travel the nexus of realities;D;;;;5;3;;1;;;;;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;
+NONE;Man-Thing;Eternity of Solitude;D;;;;7;1;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Squirrel Girl;Find tiny friends;D;;;;2;5;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Squirrel Girl;Nut Punch;D;;;;3;5;;;;1;;;;;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;
+Avengers;Squirrel Girl;Squirrelgility;D;;;;4;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Squirrel Girl;Unbeatable Squirrel Girl;D;;;;8;1;;;;1;;;;;2;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Jessica Jones;Alter Ego;D;;;;3;5;;;1;;;;;;;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;
+Marvel Knights;Jessica Jones;Alias Investigations;D;;;;4;5;;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Marvel Knights;Jessica Jones;Crack the case;D;;;;5;3;;;1;;;;;;;;;1;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Marvel Knights;Jessica Jones;Uncover hidden evil;D;;;;7;1;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Avengers;Ms. America;Star Power;D;;;;3;5;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ms. America;Search parallel dimensions;D;;;;4;5;1;;;;;;;;;;;1;;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Avengers;Ms. America;Kick a hole in reality;D;;;;6;3;;;1;;;;;1;;;;;1;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Ms. America;Hyper-cosmic awareness;D;;;;7;1;;1;;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Scarlet Witch;Hex Bolt;R;;;;2;5;1;;;;;1;;;;;;;1;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Scarlet Witch;Alter Reality;R;;;;3;5;;1;;;;;1;;;;2;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Scarlet Witch;Chaos Magic;R;;;;4;3;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Depends on top hero deck
+Avengers;Scarlet Witch;Warp time and space;R;;;;7;1;;1;;;;;;;;;2;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;Depends on top hero deck
+Avengers;Quicksilver;Too fast to see;R;;;;3;5;;;;1;;;;;1;;;1;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Quicksilver;Perpetual Motion;R;;;;4;5;;;1;;;;;1;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Quicksilver;Jittery Impatience;R;;;;6;3;;;;1;;;;;1;;;1;1;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;Quicksilver;Around the world punch;R;;;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+Avengers;War Machine;Simulated Target Practice;R;;;;3;5;;;;;1;;;;;1;;;1;;;;1;;;;;;;;;;;;1;;;;;;;;;;;
+Avengers;War Machine;Military-Industrial Complex;R;;;;4;5;;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;War Machine;Hypersonic Cannon;R;;;;5;3;1;;;;;1;;;;;;;;;;-1;;;;;;;;;;;;;;1;;;;;;;;;;
+Avengers;War Machine;Overwhelming Firepower;R;;;;8;1;;;;;1;;;;;;;;1;2;;;1;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Photon;Infrared Conversion;R;;;;3;5;1;;;;;;;;;;;;;2;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Photon;Ultraviolet Radiation;R;;;;4;5;1;;;;;1;;;;;;;1;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Photon;Light the Way;R;;;;6;3;;1;;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Photon;Coruscating Vengeance;R;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+Avengers;Ronin;Mysterious Identity;R;;;;3;5;;1;;;;;;;;;-1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ronin;Storm of Arrows;R;;;;4;5;1;;;;;1;;;;;;;1;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ronin;Haunted by Loss;R;;;;5;3;;;;1;;;;;1;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Ronin;Brooding Fury;R;;;;7;1;;;1;;;;;1;;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Darkhawk;Balance the Darkforce;R;;;;3;5;;;;;1;;;;;1;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Darkhawk;Hawk Dive;R;;;;4;5;;1;;;;;;;;;;1;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Darkhawk;Travel to Nullspace;R;;;;6;3;;;;;1;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;
+Avengers;Darkhawk;Warflight;R;;;;7;1;;;;;1;;;;;2;;1;1;;;-1;;;;;;;;;;;;;;;;;;1;;;;;;
+Avengers;Hellcat;Catlike Agility;R;;;;2;5;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Hellcat;Part-Time PI;R;;;;3;5;;;;1;;;;;1;;;1;;1;;1;;;;;;;;;;;;;;;;;1;;;;;;;
+Avengers;Hellcat;Demon Sight;R;;;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;1;;;;;;;
+Avengers;Hellcat;Second chance at life;R;;;;8;1;;;;1;;;;;;;;;1;2;;;;;;;;;;;;;;;;;;;;;;;;;;Can stop master strikes and twists
+Avengers;Speed;Accelerate;R;;;;2;5;;;;1;;;;;1;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Speed;Speedy Delivery;R;;;;4;5;;;;1;;;;;;;;1;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Speed;Race to the rescue;R;;;;5;3;;1;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Speed;Break the sound barrier;R;;;;8;1;1;;;;;;1;;;;;;1;2;;1;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Captain Marvel, Agent of S.H.I.E.L.D.;The Sword of SHIELD;R;;;;3;5;;;1;;;;;;;;;1;;1;;;;;;;;;;;;;2;;;;;;;;;;;;;
+SHIELD;Captain Marvel, Agent of S.H.I.E.L.D.;Radiant Blast;R;;;;4;5;1;;;;;;;;;;;;1;-1;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Captain Marvel, Agent of S.H.I.E.L.D.;Dominate the battlefield;R;;;;3;3;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Captain Marvel, Agent of S.H.I.E.L.D.;Higher, Further, Faster;R;;;;7;1;;;1;;;;;2;;;;;1;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+SHIELD;Agent Phil Coulson;Impeccable Planning;AOS;;;;3;5;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;-1;
+SHIELD;Agent Phil Coulson;Build the Strike Team;AOS;;;;4;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Agent Phil Coulson;Approve Orbital Strike;AOS;;;;6;3;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Agent Phil Coulson;Fake but inspiring death;AOS;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;1;
+SHIELD;Mockingbird;Take Cover;AOS;;;;3;5;;;;1;;;;;1;;;1;;;1;1;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Mockingbird;Battle Staves;AOS;;;;4;5;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;-1;
+SHIELD;Mockingbird;Spymaster;AOS;;;;5;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Mockingbird;Infinity Formula;AOS;;;;7;1;;;;;1;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Quake;Aftershock;AOS;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;-1;
+SHIELD;Quake;Going Underground;AOS;;;;3;5;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Quake;Tectonic Wave;AOS;;;;6;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Quake;Roil the Earth;AOS;;;;7;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;1;
+SHIELD;Deathlok;Authorize lethal force;AOS;;;;2;5;;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;-1;
+SHIELD;Deathlok;Reanimate into service;AOS;;;;4;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Deathlok;Headlok;AOS;;;;5;3;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+SHIELD;Deathlok;Behind enemy lines;AOS;;;;8;1;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;1;
+Heroes of Asgard;Thor;Test of Virtue;HOA;;;;3;5;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;Thor;Divine Lightning;HOA;;;;5;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;Thor;Mjolnir;HOA;;;;4;3;;;1;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Heroes of Asgard;Thor;Royal Decree;HOA;;;;8;1;1;;;;;;;;;;;;1;1;;;;;;;;;;;;;1;;;;;;;;;;;;;
+Heroes of Asgard;Beta Ray Bill;Hope of the korbinites;HOA;;;;1;5;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;Beta Ray Bill;Bio-engineered cyborg;HOA;;;;5;5;;;;;1;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;Beta Ray Bill;Stormbreaker;HOA;;;;4;3;1;;;;;;;;;;;;;;-1;;;;;;;;;;;;;;;;;1;;;;;;;;
+Heroes of Asgard;Beta Ray Bill;The warship skuttlebutt;HOA;;;;8;1;;;;;1;;;;;;;;1;2;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;Valkyrie;Dragonfang;HOA;;;;3;5;;;1;;;;;;;;;;;;;;;;-1;;;;;;;;;;;;;1;;;;;;;;
+Heroes of Asgard;Valkyrie;Flying Stallion;HOA;;;;4;5;;;;1;;;;;;;;;1;;1;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;Valkyrie;Usher to Valhalla;HOA;;;;6;3;;1;;;;;;;;;;;1;;;;;;-1;;;;;;;;1;;;1;;;;;;;;;;
+Heroes of Asgard;Valkyrie;Ride of the Valkyries;HOA;;;;7;1;;;;1;;;;;1;;;;1;;;;;;-1;;;;;;;;;;;-1;;;;;;;;;;
+Heroes of Asgard;Lady Sif;Dimensional Blade;HOA;;;;2;5;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;
+Heroes of Asgard;Lady Sif;Weapons Master;HOA;;;;5;5;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1;;;;;;;;
+Heroes of Asgard;Lady Sif;Winged Helm;HOA;;;;3;3;;;1;;;;;;;;;;;2;;;;-1;;;;;;;;;;;;;;1;;;;;;;;
+Heroes of Asgard;Lady Sif;Golden Apples of Idunn;HOA;;;;7;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;1;;;;;;;;
+Heroes of Asgard;The Warriors Three;Fandral the Dashing;HOA;;;;3;5;;;;1;;;1;;;;;;1;1;;;;;1;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;The Warriors Three;Hogun the Grim;HOA;;;;4;5;;1;;;;;;1;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+Heroes of Asgard;The Warriors Three;Volstagg the Valiant;HOA;;;;6;3;;;1;;;;;;1;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+Heroes of Asgard;The Warriors Three;Three Stand as One;HOA;;;;8;1;;;1;;;;;;;;;;1;;;;;;-1;;;;;;;;1;;;;;;;;;;;;;
+X-Men;Sunspot;Absorb Radiation;NM;;;;2;5;1;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;
+X-Men;Sunspot;Solar-powered;NM;;;;4;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Sunspot;Thermokinetic Fury;NM;;;;6;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;
+X-Men;Sunspot;Empyreal Force;NM;;;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;;
+X-Men;Wolfsbane;Wolf Out;NM;;;;3;5;;;;1;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;
+X-Men;Wolfsbane;Night Vision;NM;;;;3;5;;;1;;;;;;;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Wolfsbane;Howl at the Moon;NM;;;;5;3;;1;;;;;;;;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Wolfsbane;Nocturnal Savagery;NM;;;;7;1;;;;1;;;;;;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Mirage;Empathic Link;NM;;;;3;5;;;;1;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Mirage;Dreams made real;NM;;;;3;5;1;;;;;;;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Mirage;Nightmare Wolves;NM;;;;6;3;;1;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Mirage;Haunted by the Demon-Bear;NM;;;;7;1;;1;;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Warlock;Earthling Choices;NM;;;;2;5;;;;;1;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Warlock;Analyze planetary rotation;NM;;;;3;5;;;;;1;;;;;1;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;
+X-Men;Warlock;Techno-organic adaptation;NM;;;;6;3;;1;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;
+X-Men;Warlock;Nanite Shapeshifter;NM;;;;7;1;;;;;1;;;;;;;1;1;2;;;;;;;;;;;;;2;;;;;;;;;;;;;
+X-Men;Karma;Sow Rivalry;NM;;;;3;5;;1;;;;;1;;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;
+X-Men;Karma;Temporary Possession;NM;;;;4;5;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;2;;
+X-Men;Karma;Karmic Balance;NM;;;;6;3;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;2;;
+X-Men;Karma;Control like a puppet;NM;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;
+NONE;Ronan the Accuser;Universal Weapon;ITC;;;;3;5;;;;;1;;;;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;1;;;
+NONE;Ronan the Accuser;Rally Kree Warriors;ITC;;;;4;5;;;1;;;;;1;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;
+NONE;Ronan the Accuser;Accuse enemies of the empire;ITC;;;;6;3;;;1;;;;;;;1;;;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;
+NONE;Ronan the Accuser;Seek the infinity gems;ITC;;;;8;1;;;;;1;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Nebula;Ruthless Cyborg;ITC;;;;3;5;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;-1;;;
+Guardians;Nebula;Galactic Rogue;ITC;;;;5;5;;;;1;;;;;1;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Nebula;Illusion Device;ITC;;;;4;3;;;;;1;;1;;;1;;;1;;;;-1;;;;;;;;;;;;;;;;;;;;-1;;;
+Guardians;Nebula;Daring Raid;ITC;;;;7;1;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;-1;;;
+Avengers;Captain Mar-Vell;Cosmic Awareness;ITC;;;;2;5;1;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;1;;;
+Avengers;Captain Mar-Vell;Kree Genetics;ITC;;;;3;5;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;-1;;;
+Avengers;Captain Mar-Vell;Channel the Nega-Bands;ITC;;;;6;3;;;;;1;;;;;;;;1;;;-1;;;;;;;;;;;1;;;1;;;;;;;1;;;
+Avengers;Captain Mar-Vell;Protector of the Universe;ITC;;;;7;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;-1;;;
+Avengers;Quasar;Manipulate Gravitons;ITC;;;;3;5;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Avengers;Quasar;Cosmic Champion;ITC;;;;4;5;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;-1;;;
+Avengers;Quasar;The Quantum Bands;ITC;;;;3;3;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;-1;;;
+Avengers;Quasar;The Star Brand;ITC;;;;1;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Avengers;Adam Warlock;Transmute Matter;ITC;;;;3;5;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Avengers;Adam Warlock;Regenerative Cocoon;ITC;;;;4;5;;;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Adam Warlock;Soulblast;ITC;;;;5;3;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Avengers;Adam Warlock;Manifest the Soul Gem;ITC;;;;8;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;2;;;;;;;;;;1;;;
+Avengers;Moondragon;Peaceful Meditation;ITC;;;;3;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Moondragon;Psionic Warning;ITC;;;;4;5;;;;1;;;;;1;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;1;;;
+Avengers;Moondragon;Psychokinetic Blast;ITC;;;;6;3;1;;;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;1;;;;;;;
+Avengers;Moondragon;Lunar Dragon Form;ITC;;;;8;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Avengers;Nova;Draw from the worldmind;ITC;;Nova;;2;5;;;;;1;;;;;1;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Nova;Electromagnetic Wave;ITC;;Nova;;3;5;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Avengers;Nova;Declare Galatic Threat;ITC;;Nova;;6;3;;;;;1;;;;;2;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Avengers;Nova;Mobilize the Nova Corps;ITC;;Nova;;8;1;1;;;;;2;;;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;
+Guardians;Yondu;Whistling Arrow;ITC;;;;2;5;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1;;;
+Guardians;Yondu;Interstellar Hunter;ITC;;;;3;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;1;;;;;;;
+Guardians;Yondu;Anticipate their movements;ITC;;;;5;3;;;;1;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;1;;;;;;;
+Guardians;Yondu;Space Pirate;ITC;;;;7;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;2;;;;;;;;;;1;;;
+Guardians;Phyla-Vell;Channel cosmic power;ITC;;;;2;5;;;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Phyla-Vell;Quantum Sword;ITC;;;;4;5;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;-1;;;
+Guardians;Phyla-Vell;Martyr;ITC;;;;3;3;;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;1;;;
+Guardians;Phyla-Vell;Avatar of Oblivion;ITC;;;;8;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;1;;;

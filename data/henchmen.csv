@@ -1,40 +1,42 @@
-Name,NameSpecific,Ct,Set,KO_HERO,KO_WND,BS,CRWD,KO_BS,KO_NG,TOP,
-Spider-Infected,,10,SW2,,,1,,,,1,
-Doombot Legion,,10,B,1,1,,,,1,1,
-Phalanx,,10,DC,1,,,,,1,,
-Khonshu Guardians,,10,SW2,1,,,,,,,
-Magma Men,,10,SW2,1,,,1,,,,
-Ghost Racers,,10,SW1,1,,,1,,1,,
-M.O.D.O.K.s,,10,SW1,1,,,,,1,,
-Sentinel,,10,B,1,,,,,,,
-Maggia Goons,,10,DC,1,,,,,,,
-Thor Corps,,10,SW1,,,,1,,,,
-Savage Land Mutates,,10,B,,,,,,,,
-Hand Ninjas,,10,B,,,,,,,,
-Cops,,10,V,,,,,,,,
-Asgardian Warriors,,10,V,,,,,,,,
-Multiple Man,,10,V,1,,,,,1,,
-S.H.I.E.L.D. Assault Squad,,10,V,1,,,,,1,,
-Cape-Killers,,10,CW,1,1,,,,,,
-Mandroid,,10,CW,1,,,,,,,
-Hellfire Cult,,10,XM,1,1,,,,,1,
-Sapien League,,10,XM,1,,,1,,,,
-Shi'ar Death Commandos,,10,XM,1,,1,,,,,
-Shi'ar Patrol Craft,,10,XM,,,,,,,,
-The Brood,,10,XM,1,,,,1,,,
-Sakaaran Hivelings,,10,WW,1,1,,,,1,1,
-Cytoplasm Spikes,,10,WW,1,1,,,,1,1,
-Death's Heads,,10,WW,1,1,,,,,,
-Circus of Crime,,10,D,1,1,,,,,1,
-Spider-Slayer,,10,D,,,,,,,1,
-Mandarin's Rings,"Daimonic, the White Light",1,R,,,,,,,,
-Mandarin's Rings,"Incandescence, the Flame Blast",1,R,1,1,,,,,,
-Mandarin's Rings,"Influence, the Impact Beam",1,R,,,,,,,,
-Mandarin's Rings,"Liar, the Mento-Intensifier",1,R,,,,,,,,
-Mandarin's Rings,"Lightning, the Electro-Blast",1,R,1,1,,,,,1,
-Mandarin's Rings,"Nightbringer, the Black Light",1,R,,,,,,,,
-Mandarin's Rings,"Remaker, the Matter Rearranger",1,R,,,,,,,,
-Mandarin's Rings,"Spectral, the Disintegration Beam",1,R,1,,,,,1,,
-Mandarin's Rings,"Spin, the Vortex Beam",1,R,,,,,,,1,
-Mandarin's Rings,"Zero, the Ice Blast",1,R,,,,,,,,
-HYDRA Base,,10,R,1,,,,,1,,
+Name;NameSpecific;Ct;Set;KO_HERO;KO_WND;BS;CRWD;KO_BS;KO_NG;TOP;Comments
+Spider-Infected;;10;SW2;;;1;;;;1;
+Doombot Legion;;10;B;1;1;;;;1;1;
+Phalanx;;10;DC;1;;;;;1;;
+Khonshu Guardians;;10;SW2;1;;;;;;;
+Magma Men;;10;SW2;1;;;1;;;;
+Ghost Racers;;10;SW1;1;;;1;;1;;
+M.O.D.O.K.s;;10;SW1;1;;;;;1;;
+Sentinel;;10;B;1;;;;;;;
+Maggia Goons;;10;DC;1;;;;;;;
+Thor Corps;;10;SW1;;;;1;;;;
+Savage Land Mutates;;10;B;;;;;;;;
+Hand Ninjas;;10;B;;;;;;;;
+Cops;;10;V;;;;;;;;
+Asgardian Warriors;;10;V;;;;;;;;
+Multiple Man;;10;V;1;;;;;1;;
+S.H.I.E.L.D. Assault Squad;;10;V;1;;;;;1;;
+Cape-Killers;;10;CW;1;1;;;;;;
+Mandroid;;10;CW;1;;;;;;;
+Hellfire Cult;;10;XM;1;1;;;;;1;
+Sapien League;;10;XM;1;;;1;;;;
+Shi'ar Death Commandos;;10;XM;1;;1;;;;;
+Shi'ar Patrol Craft;;10;XM;;;;;;;;
+The Brood;;10;XM;1;;;;1;;;
+Sakaaran Hivelings;;10;WW;1;1;;;;1;1;
+Cytoplasm Spikes;;10;WW;1;1;;;;1;1;
+Death's Heads;;10;WW;1;1;;;;;;
+Circus of Crime;;10;D;1;1;;;;;1;
+Spider-Slayer;;10;D;;;;;;;1;
+Mandarin's Rings;Daimonic, the White Light;1;R;;;;;;;;
+Mandarin's Rings;Incandescence, the Flame Blast;1;R;1;1;;;;;;
+Mandarin's Rings;Influence, the Impact Beam;1;R;;;;;;;;
+Mandarin's Rings;Liar, the Mento-Intensifier;1;R;;;;;;;;
+Mandarin's Rings;Lightning, the Electro-Blast;1;R;1;1;;;;;1;
+Mandarin's Rings;Nightbringer, the Black Light;1;R;;;;;;;;
+Mandarin's Rings;Remaker, the Matter Rearranger;1;R;;;;;;;;
+Mandarin's Rings;Spectral, the Disintegration Beam;1;R;1;;;;;1;;
+Mandarin's Rings;Spin, the Vortex Beam;1;R;;;;;;;1;
+Mandarin's Rings;Zero, the Ice Blast;1;R;;;;;;;;
+HYDRA Base;;10;R;1;;;;;1;;
+Sidera Maris, Bridge Builders;;10;ITC;1;;;;;;;
+Universal Church of Truth;;10;ITC;1;;;;;;;required shards
