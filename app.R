@@ -38,11 +38,11 @@ source("helpers.R")
 options(dplyr.summarise.inform=F) #block obscure dplyr warning
 
 #data import
-heroes=read_csv('data/heroes.csv')
-schemes=read_csv('data/schemes.csv')
-villains=read_csv('data/villains.csv')
-henchmen=read_csv('data/henchmen.csv')
-masterminds=read_csv('data/masterminds.csv')
+heroes=read_csv2('data/heroes.csv')
+schemes=read_csv2('data/schemes.csv')
+villains=read_csv2('data/villains.csv')
+henchmen=read_csv2('data/henchmen.csv')
+masterminds=read_csv2('data/masterminds.csv')
 
 #format data as list
 src = list(heroes,schemes,villains,henchmen,masterminds)
