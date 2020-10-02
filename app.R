@@ -101,7 +101,10 @@ keywords[is.na(keywords)] = ""
 
 tooltext = read_tsv("data/tooltext.txt")
 
+imgsize = read_tsv("data/sizeinfo.txt", col_names = F)
+
 ui <- fluidPage(
+    #tags$head(tags$style(".modal-dialog { width: auto;}")),
     #theme = shinytheme("united"),
     useShinyjs(),
     #useShinyalert(),
@@ -129,34 +132,55 @@ ui <- fluidPage(
                     hidden(selectizeInput("fixedSCH",
                                           "Scheme",
                                           choices=schemaslist)),
-                    width=9),
+                    width=8,
+                    style="padding:4px;"),
                 column(
                     hidden(actionButton("fixedSCHtxt",
-                                        "Text",
-                                        style = "margin-top: 25px;")),
-                    width=2)),
+                                        "txt",
+                                        style = "margin-top: 29px;")),
+                    width=1,
+                    style="padding:0px;"),
+                column(
+                    hidden(actionButton("fixedSCHimg",
+                                        "img",
+                                        style = "margin-top: 29px;")),
+                    width=1)),
             fluidRow(
                 column(
                     hidden(selectizeInput("fixedMM",
                                           "Mastermind",
                                           choices=mmaslist)),
-                    width=9),
+                    width=8,
+                    style="padding:4px;"),
                 column(
                     hidden(actionButton("fixedMMtxt",
-                                        "Text",
-                                        style = "margin-top: 25px;")),
-                    width=2)),
+                                        "txt",
+                                        style = "margin-top: 29px;")),
+                    width=1,
+                    style="padding:0px;"),
+                column(
+                    hidden(actionButton("fixedMMimg",
+                                        "img",
+                                        style = "margin-top: 29px;")),
+                    width=1)),
             fluidRow(
                 column(
                     hidden(selectizeInput("fixedHM",
                                           "Henchmen",
                                           choices=henchaslist)),
-                    width=9),
+                    width=8,
+                    style="padding:4px;"),
                 column(
                     hidden(actionButton("fixedHMtxt",
-                                        "Text",
-                                        style = "margin-top: 25px;")),
-                    width=2)),
+                                        "txt",
+                                        style = "margin-top: 29px;")),
+                    width=1,
+                    style="padding:0px;"),
+                column(
+                    hidden(actionButton("fixedHMimg",
+                                        "img",
+                                        style = "margin-top: 29px;")),
+                    width=1)),
             fluidRow(
                 column(
                     hidden(selectizeInput("fixedVIL",
@@ -164,12 +188,19 @@ ui <- fluidPage(
                                           choices=vilaslist,
                                           multiple=T,
                                           options = list(maxItems=6))),
-                    width=9),
+                    width=8,
+                    style="padding:4px;"),
                 column(
                     hidden(actionButton("fixedVILtxt",
-                                        "Text",
-                                        style = "margin-top: 25px;")),
-                    width=2)),
+                                        "txt",
+                                        style = "margin-top: 29px;")),
+                    width=1,
+                    style="padding:0px;"),
+                column(
+                    hidden(actionButton("fixedVILimg",
+                                        "img",
+                                        style = "margin-top: 29px;")),
+                    width=1)),
             fluidRow(
                 column(
                     hidden(selectizeInput("fixedHER",
@@ -177,12 +208,19 @@ ui <- fluidPage(
                                           choices=heroaslist,
                                           multiple=T,
                                           options = list(maxItems=8))),
-                    width=9),
+                    width=8,
+                    style="padding:4px;"),
                 column(
                     hidden(actionButton("fixedHERtxt",
-                                        "Text",
-                                        style = "margin-top: 25px;")),
-                    width=2)),
+                                        "txt",
+                                        style = "margin-top: 29px;")),
+                    width=1,
+                    style="padding:0px;"),
+                column(
+                    hidden(actionButton("fixedHERimg",
+                                        "img",
+                                        style = "margin-top: 29px;")),
+                    width=1)),
             fluidRow(
                 column(selectizeInput("dropset",
                                       "Sets excluded",
@@ -229,6 +267,8 @@ ui <- fluidPage(
             selectizeInput("keywords",
                            "Keyword Info",
                            choices = keywords$id),
+            actionButton("imgen","Img Test"),
+            htmlOutput("cardimg"),
             width=5
         ),
         mainPanel(dataTableOutput("setups"),
@@ -292,6 +332,128 @@ server <- function(input, output, session) {
         toggle("fixedHMtxt")
         toggle("fixedVILtxt")
         toggle("fixedHERtxt")
+        toggle("fixedSCHimg")
+        toggle("fixedMMimg")
+        toggle("fixedHMimg")
+        toggle("fixedVILimg")
+        toggle("fixedHERimg")
+    })
+    
+    imgPopupGen <- function(id,cardtype) {
+        if (cardtype == "henchmen") {
+            vals = filter(src$henchmen,
+                          Name==id)
+        }
+        if (cardtype == "hero") {
+            vals = filter(src$heroes,
+                          uni==id,
+                          !duplicated(Split)|is.na(Split))
+        }
+        if (cardtype == "mastermind") {
+            vals = filter(src$masterminds,
+                          Name==id|MM==id)
+        }
+        if (cardtype == "villain") {
+            vals = filter(src$villains,
+                          Group==id)
+        }
+        if (cardtype == "scheme") {
+            vals = filter(src$schemes,
+                          Name==id)
+        }
+        n = dim(vals)[1]
+        if (n>0) {
+            vals$file = gsub(",",".",vals$file,fixed=T)
+            imgcode = "<head><style>"
+            vals$sz1 = 0
+            vals$sz2 = 0
+            for (i in 1:n) {
+                loc = strsplit(vals$loc[i],split=" ")[[1]]
+                if (length(loc)==1) {
+                    bg = 100
+                }
+                if (length(loc)==2) {
+                    vals$sz1[i] = (as.numeric(loc[1])-1)*11.15
+                    vals$sz2[i] = (as.numeric(loc[2])-1)*16.75
+                    bg = 1000
+                }
+                if (!is.na(vals$file[i])) {
+                    line = paste0("#home",
+                                  i,
+                                  " {width: 106%; height: 106%; background: url(img/",
+                                  vals$file[i],
+                                  ") ",
+                                  vals$sz1[i],
+                                  "% ",
+                                  vals$sz2[i],
+                                  "%; background-size:",
+                                  bg,
+                                  "%;}")
+                    imgcode = paste0(imgcode,
+                                     line)
+                }
+            }
+            imgcode = paste0(imgcode,
+                             "</style></head><body>")
+            for (i in 1:n) {
+                if (!is.na(vals$file[i])) {
+                    imgcode = paste0(imgcode,
+                                     "<div style=\"width:50%;float:left;\"><img id=\"home",
+                                     i,
+                                     "\" src=\"empty.png\"></div>")
+                }
+            }
+            imgcode = paste0(imgcode,
+                             "</body>")
+            showModal(modalDialog(title=NULL,
+                                  HTML(imgcode),
+                                  easyClose = T,
+                                  footer=NULL))
+        }
+    }
+    
+    observeEvent(input$fixedSCHimg, {
+        imgPopupGen(input$fixedSCH,cardtype="scheme")
+    })
+    
+    observeEvent(input$fixedMMimg, {
+        imgPopupGen(input$fixedMM,cardtype="mastermind")
+    })
+    
+    observeEvent(input$fixedHMimg, {
+        imgPopupGen(input$fixedHM,cardtype="henchmen")
+    })
+    observeEvent(input$fixedVILimg, {
+        imgPopupGen(input$fixedVIL,cardtype="villain")
+    })
+    
+    observeEvent(input$fixedHERimg, {
+        imgPopupGen(input$fixedHER,cardtype="hero")
+    })
+    
+    observeEvent(input$imgen, {
+        showModal(modalDialog(title="test",
+                              HTML(paste0("<head><style>",
+                                          "#home {width: 106%; height: 106%; background: url(img/emma.png) 0 0; background-size:100%;}",
+                                          "#home2 {width: 106%; height: 106%; background: url(img/dp.jpg) 22.30% 16.7%; background-size:1000%;}",
+                                          "#home3 {width: 106%; height: 106%; background: url(img/hulk.jpg) 22.30% 16.7%; background-size:1000%;}",
+                                          "#home4 {width: 106%; height: 106%; background: url(img/champions.jpg) 22.30% 16.7%; background-size:1000%;}",
+                                          "</style></head><body>",
+                                          "<div style=\"width:50%;float:left;\"><img id=\"home\" src=\"empty.png\"></div>",
+                                          "<div style=\"width:50%;float:left;\"><img id=\"home2\" src=\"empty.png\"></div>",
+                                          "<div style=\"width:50%;float:left;\"><img id=\"home3\" src=\"empty.png\"></div>",
+                                          "<div style=\"width:50%;float:left;\"><img id=\"home4\" src=\"empty.png\"></div>",
+                                          "</body>")),
+                              easyClose=T,
+                              size="m",
+                              footer=NULL))
+        # output$cardimg <- renderUI({
+        #     HTML(paste0("<head><style>",
+        #                      "#home {width: 106%; height: 106%; background: url(img/dp.jpg) 11.15% 16.7%;}",
+        #                      "</style></head><body>",
+        #                      "<img id=\"home\" src=\"empty.png\">",
+        #                      "</body>"))
+        #     })
     })
     
     observeEvent(input$pastesetup,{

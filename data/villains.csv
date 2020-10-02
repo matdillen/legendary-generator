@@ -1,430 +1,430 @@
-Group;Name;Ct;Set;VP;BP;B;R;G;Y;S;SP;ESC;AMB;Team;TeamSC;Wnd;KOH;KBS;CRWD;BS;MM;Cty;Protection;NOTE
-Uncanny X-Men;Colossus;2;V;3;5;;;;;;;;;;;1;;;;;;;X-Treme Attack;
-Uncanny X-Men;Shadowcat;2;V;2;2;;;;;;;;;;;;;;;;;;X-treme Attack, Elusive 5;
-Uncanny X-Men;Nightcrawler;2;V;2;4;;;;;;;;;;;;;;;;;;X-Treme Attack;
-Uncanny X-Men;Storm;2;V;2;4;;;;;;;;1;;;1;;;;;;;;
-Spider Friends;Moon Knight;2;V;2;4;;;;;;;;;;;;1;;;;;;;
-Spider Friends;Spiderman;2;V;3;2;;;;;;;1;;;;;;;1;;;;;
-Spider Friends;Firestar;2;V;3;5;;;;;;;1;;;;;2;;;;;;;
-Spider Friends;Black Cat;2;V;2;2;;;;;;;;;;;;;;;;;;Elusive 6;
-The Mighty;Iron Fist;1;FI;2;3;;;;;;;;;;;;1;;;;;;Uru-Enchanted Weapon;
-The Mighty;Wolverine;1;FI;6;5;;;;1;;;1;;;;;;;;;;;2 Uru-Enchanted Weapons;
-The Mighty;Dr. Strange;1;FI;4;5;;;;;;;;1;;;;;;;;;;Uru-Enchanted Weapon;
-The Mighty;Ms. Marvel;1;FI;3;4;1;;;;;;1;;;;;;;;;;;Uru-Enchanted Weapon;
-The Mighty;Red She-Hulk;1;FI;2;4;;;;;;;;;;;;;;;;;;Uru-Enchanted Weapon;
-The Mighty;Hawkeye;1;FI;2;3;;;;;;;;;;;;;;;;;;Uru-Enchanted Weapon;
-The Mighty;Spiderman;1;FI;3;2;;;;;;;1;;;;;;;1;;;;2 Uru-Enchanted Weapons;
-The Mighty;Black Widow;1;FI;4;3;;;;;;;;;;;;;;;;;;2 Uru-Enchanted Weapons;
-Defenders;Namor, the Sub-Mariner;2;V;4;6;;;;;;;;1;;;1;;;;;;;;
-Defenders;Iron Fist;2;V;2;3;;;;;;;;;;;;;;;;;;Reveal 3 heroes with # cost;
-Defenders;Luke Cage;2;V;2;4;;;;;;;;;;;;;;;;;;;
-Defenders;Daredevil;2;V;3;5;;;;;;;1;;;;;;;;;;;;
-Marvel Knights;Ghost Rider;2;V;3;5;;;;;;;1;;;;;;;;;;;;
-Marvel Knights;Elektra;2;V;2;4;;;;;;;;;;;-1;1;;;;;;;
-Marvel Knights;Black Panther;2;V;2;4;;;;;;;;;;;;;;;;;;;
-Marvel Knights;The Punisher;2;V;4;6;;;;;;;1;;;;;1;;;;;;;
-Uncanny Avengers;Havok;2;V;2;4;1;;;;;;;1;;;;;;;;;;X-Treme Attack;
-Uncanny Avengers;Scarlet Witch;2;V;3;5;;;;;;;;;;;;;;;;;;;
-Uncanny Avengers;Rogue;2;V;2;4;;;;;;;;;;;;;;;;;;X-Treme Attack;
-Uncanny Avengers;Wolverine;2;V;5;7;;;;1;;;1;;;;;;;;;;;X-Treme Attack;
-X-Men First Class;Iceman;2;V;3;5;2;;;;;;;;;;;;;;;;;X-Treme Attack;
-X-Men First Class;Angel;2;V;2;4;;;;;;;;;;;;;;;;;;X-Treme Attack;
-X-Men First Class;Beast;2;V;3;5;;;;;;;;;;;;1;;;;;;X-Treme Attack;
-X-Men First Class;Jean Grey;1;V;4;6;;;;;;;;1;;;;;;;1;;;X-Treme Attack;
-X-Men First Class;Cyclops;1;V;4;6;;;;;;;1;;;;;;;;;;;X-Treme Attack;
-Avengers;Wasp;2;V;4;1;;;;;;;;;;;;;;;;;;Elusive 7;
-Avengers;Antman;2;V;2;3;;;;;;;;;;;;;;;;;;Elusive 4;
-Avengers;Iron Man;1;V;5;7;;;;;1;;1;1;;;1;;;;;;;;
-Avengers;Captain America;1;V;5;4;;;;;;;1;1;;;1;;;;;;;Gets plus for classes in HQ;
-Avengers;Hulk;1;V;6;8;;;;;;;;1;;;;;;;;;;;
-Avengers;Thor;1;V;5;7;;;;;;;;1;;;;2;;;;;;;
-Brotherhood;Sabretooth;2;B;3;5;;;;;;;1;;X-Men;1;1;;;;;;;;
-Brotherhood;Juggernaut;2;B;4;6;;;;;;;1;1;;;;1;;;;;;;
-Brotherhood;Mystique;2;B;3;5;;;;;;;1;;;;;;;;;;;;
-Brotherhood;Blob;2;B;2;4;;;;;;;;;X-Men;2;;;;;;;;;
-CSA Special Marshals;Venom;2;CW;4;7;;1;;;;;1;;;;;;1;;;;;Size-changing;
-CSA Special Marshals;Moonstone;2;CW;2;4;;;;;;;;;;;;;;;;;;;
-CSA Special Marshals;Bullseye;2;CW;4;6;;;;;;;1;;;;;2;;;;;;;
-CSA Special Marshals;Penance;2;CW;3;2;;;;;;;;;;;;;;;;;;Gets plus for each villain in VP;
-Dark Descendants;Havok, Brainwashed;2;XM;0;6;1;;;;;;1;;;;;;;;;;;;
-Dark Descendants;Random;2;XM;3;4;;;;;;;;1;;;;;;;;;;Dominates a bunch of heroes;
-Dark Descendants;Fatale;2;XM;3;5;;;;;;;1;;;;;1;;;;;;;
-Dark Descendants;Nemesis;1;XM;5;5;;;;;;;;1;;;;;;;;;;Dominates a bunch of heroes;
-Dark Descendants;Psychic Subjugation;1;XM;3;-1;;;;;;;;;;;;;;1;;;;Recruit some heroes;
-"Deadpool's ""Friends""";Taskmaster;2;DP;4;3;;;;;;;;1;;;;;;;1;;;Gets plus for the most expensive hero played;
-"Deadpool's ""Friends""";Blind Al and Deuce;2;DP;3;2;;;;;;;1;;;;;;;;;;;Revenge, discard a card;
-"Deadpool's ""Friends""";Sluggo;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;
-"Deadpool's ""Friends""";Weasel;2;DP;3;4;;;;;;;;1;;;;;;;;;;Revenge;
-Deadpool's Secret Secret Wars;Pink Sphinx;3;SW2;2;4;;;;;;1;;;;;;1;;;;;;;
-Deadpool's Secret Secret Wars;Doop;2;SW2;2;2;;;;;;;;;;;;;;2;;;;;
-Deadpool's Secret Secret Wars;Howard the Duck;2;SW2;4;1;;;;;;;;1;;;;;;;1;;;7th circle;
-Deadpool's Secret Secret Wars;Deadpool;1;SW2;5;5;;;;;;;1;;;;;;;1;;1;;5th circle, resurrect;
-Domain of Apocalypse;Apocalyptic Blink;3;SW1;3;5;;;;;;;;;;;;;;;;;;;
-Domain of Apocalypse;Apocalyptic Rogue;2;SW1;4;6;;;;;;;1;;;;;;;;;;;;
-Domain of Apocalypse;Apocalyptic Weapon X;2;SW1;5;7;;;;;;;1;;;;;1;;;;;;;
-Domain of Apocalypse;Apocalyptic Magneto;1;SW1;6;8;;;;;;;1;;X-Men;1;;;;;;1;;;
-Emissaries of Evil;Egghead;2;DC;2;4;;;;;;;;1;;;;;;1;;;;;
-Emissaries of Evil;Rhino;2;DC;3;5;;;;;;;;1;;;1;;;;;;;;
-Emissaries of Evil;Gladiator;2;DC;3;5;;;;;;;;1;;;;;;;;;;;
-Emissaries of Evil;Electro;2;DC;4;6;;;;;;;;1;;;;;;;;;;;
-Enemies of Asgard;Frost Giant;3;B;2;4;1;;;;;;1;;;;1;;;;;;;;
-Enemies of Asgard;Enchantress;2;B;4;6;;;;;;;;;;;;;;;;;;;
-Enemies of Asgard;Ymir, Frost Giant King;2;B;4;6;1;;;;;;;1;;;1;;;;;;;;
-Enemies of Asgard;Destroyer;1;B;5;7;;;;;;;1;;;;;1;;;;;;;
-Evil Deadpool Corpse;Wolverinepool;2;DP;6;7;;;;;;;;1;;;1;;;;;;;Revenge;
-Evil Deadpool Corpse;D.E.A.D.P.O.O.L.;2;DP;3;4;;;;;;;;;;;;1;;;;;;Revenge;
-Evil Deadpool Corpse;Ultimate Deadpool;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;
-Evil Deadpool Corpse;The Deadpool Kid;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;
-Four Horsemen;War;2;DC;4;6;;;;1;;;1;;;;1;;;;;;;;
-Four Horsemen;Pestilence;2;DC;3;5;;;;;;;1;;;;;;;;;;;;
-Four Horsemen;Famine;2;DC;2;4;;;;1;;;1;;;;;;;;;;;;
-Four Horsemen;Death;2;DC;5;7;;;;;;;1;;;;;2;;;;;;;
-Goblin's Freak Show;The Chameleon;2;N;2;4;;;;;;;;1;;;;;;1;1;;;;
-Goblin's Freak Show;The Vulture, Cannibal;2;N;3;5;;;;;;;1;1;;;1;;1;;1;;;;
-Goblin's Freak Show;Montana;1;N;2;4;;;;;;;;1;;;;;;;1;;;;
-Goblin's Freak Show;Fancy Dan;1;N;2;1;;;;;;;;1;;;;1;;;1;;;;
-Goblin's Freak Show;Ox;1;N;3;5;;;1;;;;;1;;;;;;;1;;;;
-Goblin's Freak Show;Kraven, Animal Trainer;1;N;4;5;;;;;;;;1;;;;;;;1;;;;
-Great Lakes Avengers;Squirrel Girl;2;CW;2;3;;;;;;;1;;;;;;;1;;;;;
-Great Lakes Avengers;Flatman;2;CW;2;5;;1;;;;;;;;;-1;1;;;;;;Size-changing;
-Great Lakes Avengers;Big Bertha;2;CW;4;7;;;1;;;;1;;;;1;;;;;;;Size-changing;
-Great Lakes Avengers;Mr. Immortal;2;CW;2;2;;;;;;;;;;;;;;1;;;;;
-Guardians of Knowhere;Rocket Raccoon;2;SW2;2;4;;;;;;;;;;;;1;;;;;;;
-Guardians of Knowhere;Groot;2;SW2;4;5;;;;;;;;;;;;;;1;;;;;
-Guardians of Knowhere;Drax the Destroyer;2;SW2;4;5;;;;;;;;;;;;1;;1;;;;;
-Guardians of Knowhere;Angela;1;SW2;5;7;;;;;;;1;;;;;;;1;;1;;;
-Guardians of Knowhere;Gamora;1;SW2;4;6;;;;;;;1;1;;;1;;;1;;;;;
-Hellfire Club;Harry Leland;2;XM;3;5;;;;;;;1;1;;;;;;;;;;;
-Hellfire Club;Sebastian Shaw;2;XM;4;3;;;;;;;1;;;;;;;1;;;;;
-Hellfire Club;Emma Frost;2;XM;4;4;;;;;;;;1;X-Men;2;;;;;;;;;
-Hellfire Club;Mastermind;1;XM;6;8;;;;;;;;1;;;;;;;;1;;;
-Hellfire Club;Corrupt the Phoenix;1;XM;3;-1;;;;;;;;;;;;;;1;;;;;
-Heralds of Galactus;Stardust;2;FF;5;10;;2;;;;;;;;;;;;;;;;Cosmic threat;
-Heralds of Galactus;Terrax the Tamer;2;FF;5;11;;;2;;;;;1;;;;;;;1;;;Cosmic threat;
-Heralds of Galactus;Firelord;2;FF;4;9;2;;;;;;1;;;;1;;;;;;;Cosmic threat;
-Heralds of Galactus;Morg;2;FF;6;12;;;;2;;;;1;;;;;;;;;;Cosmic threat;
-Heroes for Hire;Tarantula;2;CW;5;7;;;;;;;1;;;;1;;;;;;;Bribe;
-Heroes for Hire;Shang-Chi;2;CW;2;3;;;;;;;;;;;;;;1;;;;Bribe;
-Heroes for Hire;Colleen Wing;2;CW;5;9;;;;;;;1;;;;;;;;;;;Bribe;
-Heroes for Hire;Humbug;2;CW;3;5;;;;;;;;;;;;1;;;;;;Bribe;
-HYDRA;Hydra Kidnappers;3;B;1;3;;;;;;;;;;;;;;;;;;;
-HYDRA;Endless armies;3;B;3;4;;;;;;;;;;;;;;2;;;;;
-HYDRA;Viper;1;B;3;5;;;;;;;1;;;;1;;;;;;;;
-HYDRA;Supreme Hydra;1;B;6;6;;;;;;;;;;;;;;;;;;;
-Infinity Gems;Space Gem;2;GG;0;5;;;;;;;;1;;;;;;;;;1;Shards, artifact;
-Infinity Gems;Reality Gem;2;GG;0;5;;;;;;;;1;;;;;;;;;;Shards, artifact, probe villain deck;
-Infinity Gems;Power Gem;1;GG;0;7;;;;;;;;1;;;;;;;;;;Shards, artifact;
-Infinity Gems;Time Gem;1;GG;0;6;;;;;;;;1;;;;;;1;;;;Shards, artifact;
-Infinity Gems;Soul Gem;1;GG;0;6;;;;;;;;1;;;;;;;;;;Shards, artifact;
-Infinity Gems;Mind Gem;1;GG;0;6;;;;;;;;;;;;;;;;;;Shards, artifact;
-Kree Starforce;Supremor;2;GG;2;3;;;;;;;;1;;;;;;;;;;Shards;
-Kree Starforce;Demon Druid;1;GG;3;5;;;;;;;;1;;;;;;;;;;Shards;
-Kree Starforce;Korath the Pursuer;1;GG;3;5;;;;;;;1;1;;;;;;;;;;Shards;
-Kree Starforce;Dr. Minerva;1;GG;3;5;;;;;;;;1;;;;;;;;;;Shards;
-Kree Starforce;Captain Atlas;1;GG;4;6;;;;;;;1;;;;;;;;;;;Shards;
-Kree Starforce;Shatterax;1;GG;3;5;;;;;;;;;;;;;;;;;;Shards;
-Kree Starforce;Ronan the Accuser;1;GG;5;7;;;;;;;1;1;;;1;;;;;;;;
-K'un-lun;Razor Fist;2;SW2;3;3;;;;;;;;;;;;1;;;;;;3rd circle;
-K'un-lun;Laughing Skull;2;SW2;5;5;;;;;;;1;;;;;;;;;;;5th circle;
-K'un-lun;Red Sai;2;SW2;4;4;;;;;;;;;;;;;;;;;;4th circle;
-K'un-lun;Rand K'Ai;2;SW2;6;6;;;;;;;1;;;;;;;;;;;6th circle;
-Limbo;Inferno Colossus;2;SW1;3;5;;;;;;;;1;;;;1;;;1;;;;
-Limbo;Inferno Darkchilde;2;SW1;3;5;;;;;;;1;;;;;1;;;;;;;
-Limbo;Inferno Nightcrawler;2;SW1;2;4;;;;;;;;;;;;;;;;;;;
-Limbo;Inferno Cyclops;2;SW1;4;6;;;;;;;1;1;;;;;;;1;;;;
-Manhattan (Earth-1610);Ultimate Capt Marvel;2;SW1;0;4;;;;;;;;;;;;;;;;;;;
-Manhattan (Earth-1610);Ultimate Thor;2;SW1;0;7;1;;;;;;1;;;;;;;;;;;;
-Manhattan (Earth-1610);Ultimate Wasp;2;SW1;0;5;;1;;;;;;;;;;;;;;;;;
-Manhattan (Earth-1610);Ultimate Capt America;2;SW1;0;6;;;;;;2;;;;;;;;;;;;;
-Marauders;Vertigo;2;DC;3;5;;;;;;;;;;;;;;;;;;;
-Marauders;Scalphunter;2;DC;2;4;;;;;;;;1;;;;;;;1;;;Bonus for bystanders;
-Marauders;Chimera;2;DC;3;3;;;;;;;;1;;;;;;;1;;;Bonus for bystanders;
-Marauders;Blockbuster;2;DC;2;4;;;;;;;;1;;;;;;;;;;Bonus for bystanders;
-Masters of Evil;Melter;2;B;3;5;;;;;;;;;;;;1;;;;;;;
-Masters of Evil;Whirlwind;2;B;2;4;;;;;;;;;;;;1;;;;;-1;;
-Masters of Evil;Ultron;2;B;6;6;;;;;2;;1;;;;;;;;;;;;
-Masters of Evil;Baron Zemo;2;B;4;6;;;;;;;;;Avengers;2;;;;;1;;;;
-Masters of Evil (WWII);Executioner;2;C75;4;6;;;;;;;1;1;;;;;1;;1;;;;
-Masters of Evil (WWII);Radioactive Man;2;C75;3;5;;;;;;;1;1;;;1;;;;-1;;;;
-Masters of Evil (WWII);Black Knight;2;C75;2;4;;;;;;;;1;;;;1;;;-1;;;;
-Masters of Evil (WWII);Melter (WWII);2;C75;3;5;;;;;;;;1;;;;1;;;1;;;;
-Maximum Carnage;Shriek;2;PTT;4;6;;;;;;;1;;;;1;2;;;;;;;
-Maximum Carnage;Demogoblin;2;PTT;3;5;;;;;;;;1;;;;2;;;1;;;;
-Maximum Carnage;Carrion;2;PTT;3;4;;;;;;;;;;;;2;;1;;;;;
-Maximum Carnage;Doppelganger;2;PTT;3;5;;;;;;;;;;;;2;;;;;;;
-MLF;Forearm;2;DC;4;4;;;;;;;;;;;;;;1;;;;Different hero names;
-MLF;Zero;2;DC;2;0;;;;;;;;;;;;;;1;;;;;
-MLF;Wildside;2;DC;3;5;;;;;;;;;;;;1;;;;;-1;;
-MLF;Reignfire;2;DC;4;6;;;;;;;1;;;;;;;;;;;;
-Mojoverse;Minor Domo;2;XM;2;2;;;;;;;1;1;;;;;;;1;;;Human shields;
-Mojoverse;Major Domo;2;XM;3;4;;;;;;;1;1;;;;;;;1;;;Human shields;
-Mojoverse;Warwolves;2;XM;2;3;;;;;;;;1;;;;1;;;1;;;Human shields;
-Mojoverse;Spiral;1;XM;4;6;;1;;;;;1;1;;;;;;;;;;;
-Mojoverse;Mindwarping TV Broadcast;1;XM;3;-1;;;;;;;;1;;;;;;;1;;;;
-Monster Metropolis;Marcus, Symbiote Centaur;2;SW2;3;6;;;;;;;;1;;;;;;2;;;-1;Weaker in bank or streets;
-Monster Metropolis;Ghost Deadpool;2;SW2;5;5;;;;;;;;;;;1;;;1;;;;;
-Monster Metropolis;Man-Thing;2;SW2;4;5;;;;;;;;1;;;;;;1;1;;;;
-Monster Metropolis;Bug, Shiklah's Pet Dragon;2;SW2;3;4;;;;;;;;;;;-1;1;;1;;;;;
-Murderworld;Animatronic Killer Clowns;2;XM;2;-1;;;;;;;;;;;;;;;1;;;;
-Murderworld;Sulfuric Acid Water Slide;2;XM;2;-1;;;;;;;;1;;;1;;;;;;;;
-Murderworld;Guillotine Roller Coaster;1;XM;3;-1;;;;;;;;;;;;;;;;;;;
-Murderworld;Monstrous Pinball Machine;1;XM;3;-1;;;;;;;;;;;;2;;1;;;;;
-Murderworld;Miss Locke;2;XM;2;2;;;;;;;;;;;;;;;1;;;;
-Radiation;The Leader;2;B;2;4;;;;;;;;1;;;;;;1;;;;;
-Radiation;Maestro;2;B;4;6;;;2;;;;;;;;;1;;;;;;;
-Radiation;Abomination;2;B;3;5;;;;;;;;;;;;;;;1;;-1;;
-Radiation;Zzzax;2;B;3;5;;;1;;;;1;;;;1;;;;;;;;
-Registration Enforcers;Blade;2;CW;2;4;;;;;;;;;;;;;;;;;-1;;
-Registration Enforcers;Micromax;2;CW;3;6;;;;1;;;;;;;;1;;;;;;Size-changing;
-Registration Enforcers;Captain Marvel;2;CW;4;6;;;;;;;1;;;;;;;;;;;;
-Registration Enforcers;Deadpool;2;CW;5;5;;;;;;;1;1;;;;;;;;;;;
-Sentinel Territories;Kate Pryde of Future Past;2;SW1;2;4;;;;;;;;;;;;;;;;;;;
-Sentinel Territories;Rachel Summers of FP;2;SW1;4;6;;;;;;;1;;;;;;;;;;;;
-Sentinel Territories;Wolverine of Future Past;2;SW1;5;7;;;;;;;1;;;;;;;;;;;;
-Sentinel Territories;Colossus of Future Past;2;SW1;3;5;;;;;;;;;;;;;;;;;;;
-Shadow-X;Dark Angel;2;XM;0;4;;;;1;;;;;;;;;;;;;;;
-Shadow-X;Dark Iceman;2;XM;0;5;;;1;;;;;;;;;;;;;;;;
-Shadow-X;Dark Marvel Girl;1;XM;0;6;;1;;;;;;1;X-men;2;;;;;1;;;;
-Shadow-X;Dark Cyclops;1;XM;0;7;1;;;;;;;1;;;;;;;;;;;
-Shadow-X;Dark Beast;1;XM;0;5;;;;;1;;;;;;-1;1;;;;;;;
-Shadow-X;Betrayal of the shadow;1;XM;4;-1;;;;;;;;;;;;;;1;;;;;
-Shi'ar Imperial Guard;Smasher;2;XM;3;5;;;1;;;;;1;;;-1;1;;;;;;;
-Shi'ar Imperial Guard;Blackthorn;2;XM;3;5;;;;;;;1;;;;1;;;;;;-1;;
-Shi'ar Imperial Guard;Oracle;2;XM;4;6;;;;;;;;1;;;;;;;;;;;
-Shi'ar Imperial Guard;Shi'Ar trial by combat;1;XM;2;-1;;;;;;;;1;;;;2;;;;;;;
-Shi'ar Imperial Guard;Gladiator;1;XM;5;7;;;;;;;1;1;X-men;1;1;;;;;;;;
-S.H.I.E.L.D. Elite;Dum Dum Dugan;2;CW;3;4;;;;;;;1;;SHIELD;1;1;;;;;;;;
-S.H.I.E.L.D. Elite;Agent Gabe Jones;2;CW;2;2;;;;;;;;;SHIELD;1;;;;1;;;;;
-S.H.I.E.L.D. Elite;Sharon Carter, Agent 13;2;CW;5;6;;;;;;;1;;SHIELD;1;;;;1;;;;;
-S.H.I.E.L.D. Elite;Agent Eric Marshall;2;CW;2;1;;;;;;;;1;SHIELD;1;;;;1;;;;;
-Sinister Six;Shocker;2;PTT;3;5;;;;1;;;;1;;;;;;;;;;;
-Sinister Six;Vulture;2;PTT;2;4;;;;1;;;1;1;;;;;;;;;;;
-Sinister Six;Chameleon;1;PTT;2;6;;;;;;;;;;;;;;;;;-1;;
-Sinister Six;Sandman;1;PTT;4;6;;;;1;;;1;;;;;;;;;;;;
-Sinister Six;Hobgoblin;1;PTT;3;5;;;;;;;;;;;;;;;1;;;;
-Sinister Six;Kraven the hunter;1;PTT;4;5;;;;;;;1;;;;;2;;;;;;;
-Sisterhood of Mutants;Lady Deathstrike;2;XM;4;6;;;;1;;;1;;;;;1;;;;;;;
-Sisterhood of Mutants;Selene;2;XM;3;7;;;;;;;1;1;;;;;;;;;;;
-Sisterhood of Mutants;Typhoid Mary;2;XM;3;5;;;;;;;;1;;;;;;;;;;;
-Sisterhood of Mutants;Resurrect Madelyne Pryor;1;XM;0;-1;;;;;;;;;;;;;;;;;;Extra scheme twist;
-Sisterhood of Mutants;Lady Mastermind;1;XM;5;7;;;;;;;;1;;;;;;;;1;;;
-Skrulls;Skrull Shapeshifters;3;B;2;4;;;;;;;;1;;;;;;;;;;;
-Skrulls;Super Skrull;3;B;2;4;;;;;;;;;;;;1;;;;;;;
-Skrulls;Paibok, the Power Skrull;1;B;3;8;;;;;;;;;;;;;;;;;;;
-Skrulls;Skrull Queen Veranke;1;B;4;6;;;;;;;;1;;;;;;;;;;;
-Spider-Foes;Venom;2;B;3;5;;2;;;;;1;;;;;;;;;;;;
-Spider-Foes;Doctor Octopus;2;B;2;4;;;;;;;;;;;;;;;;;;;
-Spider-Foes;Green Goblin;2;B;4;6;;;;;;;;1;;;;;;;1;;;;
-Spider-Foes;The Lizard;2;B;2;3;;;;;;;;;;;1;;;;;;;;
-Streets of New York;Jigsaw;2;DC;5;11;;;;;;;;1;;;;;;;;;;Bribe;
-Streets of New York;Tombstone;2;DC;4;8;;;1;;;;;;;;;;;;;;;Bribe;
-Streets of New York;Bullseye;2;DC;4;6;;;;;;;;;;;;1;;;;;;;
-Streets of New York;Hammerhead;2;DC;2;5;;;;;;;;;;;;1;;;;;;Bribe;
-Subterranea;Moloids;2;FF;2;3;;;;;;;;;;;;1;;1;;;-1;;
-Subterranea;Giganto;2;FF;4;7;;;;;;;;;;;;;;1;;;-1;;
-Subterranea;Megataur;2;FF;4;6;;;;;;;;;;;;;;1;1;;-1;;
-Subterranea;Ra'Ktar the Molan King;2;FF;2;4;;;;;;;;1;;;;;;1;;;-1;;
-Superhuman Registration Act;Iron Spider;2;CW;3;2;;;;;;;;1;;;;;;;;;;;
-Superhuman Registration Act;Ms. Marvel;2;CW;3;5;;;;;;;1;;;;;;;;;;;;
-Superhuman Registration Act;Yellowjacket;2;CW;4;7;;;;;1;;1;;;;;;;;;;;Size-changing;
-Superhuman Registration Act;She-Hulk;2;CW;5;8;;;1;;;;1;;;;;;;;;;;Size-changing;
-The Deadlands;Zombie Mysterio;1;SW1;6;6;;;;;;;1;1;;;;;;1;;;;Rise of the Living Dead;
-The Deadlands;Zombie MODOKS;1;SW1;3;5;;;;;;;;1;;;;1;;;;;;Rise of the Living Dead;
-The Deadlands;Zombie Baron Zemo;1;SW1;4;6;;;;;;;;1;Avengers;2;;;;;1;;;Rise of the Living Dead;
-The Deadlands;Zombie Madame Hydra;1;SW1;2;4;;;;;;;;1;;;;1;;;;;;Rise of the Living Dead;
-The Deadlands;Zombie Venom;1;SW1;3;5;;2;;;;;1;1;;;;;;;;;;Rise of the Living Dead;
-The Deadlands;Zombie Thanos;1;SW1;6;9;;;;;;;1;1;;;;2;;;;1;;Rise of the Living Dead;
-The Deadlands;Zombie Loki;1;SW1;6;8;;;1;;;;1;1;;;;;;;;1;;Rise of the Living Dead;
-The Deadlands;Zombie Mr. Sinister;1;SW1;5;7;;1;;;;;1;1;;;;;;;1;1;;Rise of the Living Dead;
-Thunderbolts;Fixer;2;CW;2;4;;;;;;;;;;;-1;1;;;;;;;
-Thunderbolts;Songbird;2;CW;3;5;;;;;;;1;;;;1;;;;;;;;
-Thunderbolts;Radioactive Man;2;CW;4;6;;;;;;;1;;;;1;;;;;;;;
-Thunderbolts;Mach-IV;2;CW;3;5;;;;;1;;1;;;;1;;;;;;;;
-Underworld;Azazel;2;DC;2;4;;;;;;;;;;;;;;;;;;;
-Underworld;Lilith, Daughter of Dracula;2;DC;3;5;;;;;;;1;;;;;;;;;;;;
-Underworld;Blackheart;2;DC;4;6;;;;;;;1;1;Marvel Knights;1;1;;;;;;;;
-Underworld;Dracula;2;DC;4;7;;;;;;;;1;;;;;;;;;;;
-Utopolis;Doctor Spectrum;3;SW2;4;6;;;;;;1;1;1;;;;1;;1;;;;;
-Utopolis;Nighthawk;2;SW2;4;8;;;;;;;1;;;;;;;;;;-1;;
-Utopolis;Whizzer;2;SW2;3;5;;;;;;;1;1;;;1;;;2;;;;;
-Utopolis;Warrior Woman;1;SW2;6;8;;;;;;;1;1;;;;;;1;;1;;;
-Wasteland;The Hulk Gang;3;SW1;3;5;;;;;;;1;;;;1;;;;;;;;
-Wasteland;Wasteland Spider-Girl;2;SW1;2;4;;;;;;;;;;;;1;;;;;;;
-Wasteland;Wasteland Hawkeye;2;SW1;4;6;;;;;;;;1;;;;;;;1;;;;
-Wasteland;Wasteland Kingpin;1;SW1;6;11;;;;1;;;1;;;;;;;;;1;;Bribe;
-X-Men '92;92 Wolverine;2;SW2;0;7;;;;1;;;1;;;;1;;;;;;;;
-X-Men '92;92 Beast;2;SW2;0;5;;;;;1;;;;;;;;;1;;;;;
-X-Men '92;92 Jubilee;3;SW2;0;4;;;;;;1;;;;;;;;;;;;;
-X-Men '92;92 Professor X;1;SW2;6;8;;;;;;;1;;;;;;;;;1;;;
-X-Men Noir;Comrade Rasputin;2;N;3;5;;;;;;;;;;;;1;;;;;;;
-X-Men Noir;Jean Grey Noir;1;N;3;5;;;;;;;;;;;;;;;;;;;
-X-Men Noir;"Scott ""Cyclops"" Summer";1;N;4;6;;;;;;;1;;;;;2;;;;;;;
-X-Men Noir;"Henry ""Beast"" McCoy";1;N;3;5;;;1;;1;;;;;;;;;;;;;;
-X-Men Noir;"Bobby ""Iceman"" Drake";1;N;2;4;;;;;;;;;;;;;;;;;;;
-X-Men Noir;Warden Emma Frost;1;N;4;6;;;;;;;1;;;;;;;;;;;;
-X-Men Noir;Ororo Munroe, Storm-tossed;1;N;2;4;;;;;;;;;;;;2;;;;;;;
-Zola's Creations;Man-Fish;2;C75;4;6;;;;;;;1;;;;1;;;;;;-1;;
-Zola's Creations;Captain Zolandia;2;C75;5;7;;;;;;1;;;;;;;;;;;-1;;
-Zola's Creations;Primus;2;C75;3;3;;;;;;;1;;;;;;;;;;;;
-Zola's Creations;Doughboy;2;C75;3;5;;;;;;;;;;;;1;;;;;-1;;
-Warbound;No-Name, Brood Queen;2;WW;3;4;;;;;;;;;;;;1;;;;;;;
-Warbound;Miek the Unhived;2;WW;3;5;;;;;;;;;;;;1;;;;;;;
-Warbound;Elloe Kaifi;1;WW;3;5;;;;;;;;;;;;;;;;;;;
-Warbound;Hiroim;1;WW;5;7;;;;;;;1;;;;;2;;;;;;;
-Warbound;Korg;1;WW;4;6;;;;;;;1;1;;;;2;;;;;;;
-Warbound;Warbound Rescue;1;WW;7;-1;;;;;;;;;;;1;;;1;;;;;
-U-Foes;X-Ray;2;WW;3;5;1;;;;;;;;;;-1;1;;;;;;;
-U-Foes;Vector;2;WW;2;4;;;;1;;;;;;;;;;;;;;;
-U-Foes;Vapor;2;WW;2;4;;1;;;;;1;;;;1;;;;;;;;
-U-Foes;Unidentified Flying U-Foes;1;WW;3;-1;;;;;1;;;;;;;;;2;;;;;
-U-Foes;Ironclad;1;WW;4;6;;;1;;;;1;;;;;2;;;;;;;
-Sakaar Imperial Guard;Great Devil Corker;2;WW;4;6;;;;;;;;;;;-1;1;;;;;;;
-Sakaar Imperial Guard;Primus Vand;2;WW;3;3;;;;;;;;;;;;1;;1;;;;;
-Sakaar Imperial Guard;Headman Charr;2;WW;2;2;;;;;;;1;;;;;;;;;;;;
-Sakaar Imperial Guard;Lieutenant Caiera;1;WW;5;7;;;;;;;;;;;;;;;;;;;
-Sakaar Imperial Guard;Gladiators' Colosseum;1;WW;4;-1;;;;;;;;;;;;;;;;;;;
-Intelligencia;Battle of Wits;2;WW;3;-1;;;;;;;;;;;;;;;;;;outwit;
-Intelligencia;Cosmic Hulk Robot;2;WW;4;5;;;;;;;1;1;;;1;;;;;;;wounded fury;
-Intelligencia;The Leader, Gamma Fiend;2;WW;3;5;;;;;;;;1;;;;;;2;;;;outwit;
-Intelligencia;Doc Samson;2;WW;3;4;;;;;;;;;;;;1;;;;;;outwit;
-Illuminati;Black Bolt;2;WW;5;13;;;;;;;1;;;;;;;;;;;Cards with no rules text;
-Illuminati;Hulkbuster Iron Man;2;WW;4;6;;;;;;;1;;;;;;;;;;;outwit;
-Illuminati;Dr. Strange;2;WW;3;5;;;;;;;;1;;;;;;;;;;;
-Illuminati;Dr. Strange, Possessed by Zom;1;WW;3;5;;;;;;;;1;;;;;;;2;;;;
-Illuminati;Enchain the Hulk;1;WW;4;-1;;;;;;;;;;;1;;;;;;;Same color;
-Code Red;Elektra, Red Blades;2;WW;3;5;;1;;;;;;;;;;1;;;;;;;
-Code Red;Crimson Dynamo;2;WW;2;4;;1;;;;;;;;;;;;;;;;;
-Code Red;Red She-Hulk;1;WW;5;6;;1;;;;;1;;;;1;;;;;;;wounded fury;
-Code Red;Punisher, Red Dot Sniper;1;WW;4;6;;1;;;;;;;;;-1;1;;;;;;;
-Code Red;Thundra;1;WW;3;4;;;;;;;;1;;;;;;;;;;;
-Code Red;Caught Red-Handed;1;WW;3;-1;;1;;;;;;;;;1;;;;;;;;
-Aspects of the Void;Black Anti-Hurricane;2;WW;4;6;;;;;;;1;;;;;;;;;;;;
-Aspects of the Void;Shadow Man;2;WW;3;5;;;;;;;;;;;;;;;;;;;
-Aspects of the Void;Infini-Tendrils;2;WW;3;4;;;;;;;;1;;;;;;;1;;;wounded fury;
-Aspects of the Void;Demonform;1;WW;5;7;;;;;;;;;;;;1;;;;;;;
-Aspects of the Void;Psychotic Break;1;WW;2;-1;;;;;;;;1;;;;;;1;;;;;master strike
-Monsters Unleashed;Tim Boo Ra;1;CH;5;12;;;;;;1;;;;;;;;;;;;;Size-changing
-Monsters Unleashed;Zzutak;1;CH;5;9;1;;;1;;;1;;;;;;;;;;;;Size-changing
-Monsters Unleashed;Trull the Unhuman;1;CH;4;8;;1;;;1;;;1;;;;;;;1;;;;Size-changing
-Monsters Unleashed;Goom;1;CH;4;6;;;;;;;;;;;;1;;;1;;;;
-Monsters Unleashed;Sporr;1;CH;3;7;1;;;;1;;;;;;;;;;;;;;Size-changing
-Monsters Unleashed;Groot from Planet X;1;CH;2;6;;1;1;;;;;;;;;;;1;1;;;;Size-changing
-Monsters Unleashed;Monsteroso;1;CH;2;5;;;1;1;;;;;;;;;;;;;;;Size-changing
-Monsters Unleashed;Orrgo;1;CH;2;2;;;;;;;;;;;;;;;;;;;
-Wrecking Crew;The Wrecker;2;CH;5;7;;;;;;;;;;;;;;;;;;;
-Wrecking Crew;Piledriver;2;CH;4;6;;;;;;;;;;;;1;;;;;;;
-Wrecking Crew;Thunderball;2;CH;3;5;;;;;;;;;;;;;;;;;1;;
-Wrecking Crew;Bulldozer;2;CH;2;4;;;;;;;;1;;;;;;1;;;;;
-Life Foundation;Riot;2;VE;2;2;;;;;;;;1;;;;1;;;;;;Symbiotic;
-Life Foundation;Lasher;2;VE;2;2;;;;;;;;1;;;;;;;;;;Symbiotic;
-Life Foundation;Phage;1;VE;3;3;;;;;;;;1;;;;;;;;;;Symbiotic;
-Life Foundation;Agony;1;VE;3;3;;1;;;;;;1;;;;;;;;;;Symbiotic;
-Life Foundation;Scream;1;VE;4;4;;;;;;;;1;;;;;;;;;;Symbiotic;
-Life Foundation;Dr. Carlton Drake;1;VE;3;5;;;;1;1;;;;;;;;;;;;;;
-Poisons;Poison Dr. Octopus;1;VE;0;3;;;;;;;;;;;;;;1;;;-1;Symbiotic;
-Poisons;Poison Scarlet Witch;1;VE;0;3;;;;;;;;;;;;;;1;;;;Symbiotic;
-Poisons;Poison Hulk;1;VE;0;5;;;1;;;;;;;;;;;1;;;;Symbiotic;
-Poisons;Poison Captain America;1;VE;0;4;;;;;;1;;;;;;;;1;;;;Symbiotic;
-Poisons;Poison Storm;1;VE;0;3;1;;;;;;;;;;;;;1;;;-1;Symbiotic;
-Poisons;Poison Sabertooth;1;VE;0;4;;;;1;;;;;;;;;;1;;;-1;Symbiotic;
-Poisons;Symbiotic Armor;1;VE;6;1;;;;;;;;1;;;;1;;;;;;;Protects the mm
-Poisons;Poison Spiderman;1;VE;0;2;;;;;;;;;;;;;;1;;;;Symbiotic;
-Queen's Vengeance;Star-Knight;1;AM;3;3;;;;;;;;;;;;1;;;;;;Chivalrous Duel;
-Queen's Vengeance;Yeoman America;1;AM;5;5;;;;;;;;;;;;;;;;;;Chivalrous Duel;
-Queen's Vengeance;Pixie;1;AM;2;3;;2;;;;;;;;;;;;;;;;;
-Queen's Vengeance;Mordred the Evil;1;AM;3;5;;;;;;;1;;;;;;;;;;;;
-Queen's Vengeance;Iron Knight;1;AM;4;4;;;;;1;;;;;;1;;;;;;;Chivalrous Duel;
-Queen's Vengeance;Gigantus;1;AM;4;7;;;2;;;;;;;;;1;;;;;;;
-Queen's Vengeance;Daystar;1;AM;2;5;2;;;;;;;;;;;1;;;;;;;
-Queen's Vengeance;Blackbird;1;AM;3;3;;;;;;;;;;;;1;;;;;;Chivalrous Duel;
-Salvagers;Hybrid Alien Tech;2;HC;4;4;1;;;;;;1;;;;;1;;;;;;;
-Salvagers;Shocker #1;2;HC;3;3;;;;1;;;1;;;;;;;;;;;;
-Salvagers;Shocker #2;2;HC;3;5;;;;;;;1;1;;;;;;;;;;;
-Salvagers;Tinkerer;2;HC;2;4;;;;;2;;1;;;;1;;;;;;;;
-Ultron's Legacy;Future Ultron Prime;1;AM;5;5;;;;;1;;;1;;;;;;;;;;;
-Ultron's Legacy;Ultron-Pym;1;AM;3;6;;;;;2;;;;;;;;;;;;;;
-Ultron's Legacy;Brutish Ultron-14;1;AM;4;5;;;1;;;;1;;;;1;;;;;;;;
-Ultron's Legacy;Crimson Cowl;1;AM;4;5;;1;;;;;;1;;;;;;;1;;;;
-Ultron's Legacy;Legions of Ultron;1;AM;3;4;;;;;1;;;;;;;;;;;;;;
-Ultron's Legacy;Alkhema;1;AM;3;4;;;;1;;;;;;;;1;;;;;;;
-Ultron's Legacy;Original Ultron-1;1;AM;2;3;1;;;;;;;;;;;1;;;;;;;
-Ultron's Legacy;Ultron Roboticks;1;AM;2;3;;;;;2;;;;;;;1;;;;;;;
-Vulture Tech;Razor Talons;2;HC;2;2;;;;;;;;;;;;;;;;;;;
-Vulture Tech;High Tech Helmet;2;HC;3;3;;;;;;;;;;;;;;;;;;;
-Vulture Tech;Chitauri Weapon Assault;2;HC;4;4;;;;;;;;;;;;1;;;;;;;
-Vulture Tech;Turbine Powered;2;HC;5;5;;;;;;;;1;;;;;;;1;;;;
-Hood's Gang;The Brothers Grimm;1;R;2;2;;;;;;;;;;;-1;1;;;;;;Requires discard;
-Hood's Gang;Cancer;2;R;2;3;;;;;;;1;1;;;1;;;;;;;Dark Memories;
-Hood's Gang;Chemistro;2;R;3;4;;;;;;;;;;;;;;;;;;Dark Memories;
-Hood's Gang;Madam Masque;2;R;4;5;;;;;;;;1;;;;1;;1;;;;Dark Memories;
-Hood's Gang;The Dark Dimension;1;R;5;9;;;;;;;;;;;;;;1;;;;Dark Memories;Location
-Lethal Legion;Swordsman;1;R;3;4;;;;;;;;;;;;;;;1;;;Locations;
-Lethal Legion;Carnival of Wonders;1;R;3;5;;;;;;;;;;;;;;;1;;;;Location
-Lethal Legion;Power Man (Erik Josten);1;R;4;5;;;;;;;1;;;;;;;1;;;;Locations;
-Lethal Legion;"""The Raft"" Prison";1;R;4;6;;;;;;;;;;;;;;1;;;;;Location
-Lethal Legion;M'Baku;1;R;4;5;;;;;1;;1;;;;;;;;;;;Locations;
-Lethal Legion;White Gorilla Cult;1;R;4;6;;;;;1;;;;;;;;;;;;;;Location
-Lethal Legion;Living Laser;1;R;5;6;1;;;;;;1;;;;1;;;;;;;Locations;
-Lethal Legion;Laser Maze;1;R;5;7;1;;;;;;;;;;1;;;;;;;;Location
-Army of Evil;Blackout;2;R;2;4;1;;;;;;;1;;;;;;;;;;;
-Army of Evil;Klaw;2;R;3;5;1;;;;1;;;1;;;;;;;;;;;
-Army of Evil;Mister Hyde;2;R;4;6;;;;;;;;;;;;1;;;;;1;;
-Army of Evil;Count Nefaria;1;R;5;7;;;;;;1;1;1;;;1;;;;;;;;
-Army of Evil;Dome of Darkforce;1;R;5;7;1;;;;;;;;;;;;;;;;;;Location
-Dark Avengers;Dark Spiderman (Scorpion);1;R;2;2;;;;;;;;;;;;1;;;;;;Last Stand;
-Dark Avengers;Captain Marvel (Noh-Varr);1;R;3;3;;;;;;;1;1;;;1;;;;;;;Last Stand;
-Dark Avengers;Dark Ms. Marvel (Moonstone);1;R;4;4;;;;;;;;;;;;;;;;;;Last Stand;
-Dark Avengers;Dark Hawkeye (Bullseye);1;R;4;4;;;;;;;;;;;;1;;;;;;Last Stand;
-Dark Avengers;Dark Wolverine (Daken);1;R;5;5;;;;1;;;1;1;;;1;;;;;;;Last Stand;
-Dark Avengers;Ares;1;R;6;6;;;;;;;;;;;;1;;;;;;Last Stand;
-Dark Avengers;Sentry;1;R;5;7;;;;;;;1;;;;1;1;;;;;1;;
-Dark Avengers;Sentry's Watchtower;1;R;5;8;;;;;;;;;;;;;;1;;;;;
-Hydra Elite;Growing Man;2;AOS;3;0;;;;;;;;1;;;;;;;;;;Hydra Level;Shield Officer escapes
-Hydra Elite;Crossbones;2;AOS;2;4;;;;;;;;1;;;1;;;;;;;;Shield Officer escapes
-Hydra Elite;Hive;2;AOS;3;5;;;;;;;;1;;;;;;;;;;;Shield Officer escapes
-Hydra Elite;Gorgon;2;AOS;4;6;;;;;;;;1;;;;;;;;;;;Shield Officer escapes
-A.I.M., Hydra Offshoot;Mentallo;2;AOS;3;3;;;;;;;;1;;;;;;;;;;Hydra Level;Shield Officer escapes
-A.I.M., Hydra Offshoot;Graviton;2;AOS;4;6;;;;;;;;1;;;;;;;;;;;Shield Officer escapes
-A.I.M., Hydra Offshoot;Superia;2;AOS;3;5;;;;;;;;1;;;;;;;;;;;Shield Officer escapes
-A.I.M., Hydra Offshoot;Taskmaster;2;AOS;3;4;;;;;;;1;1;;;1;;;;;;;;
-Dark Council;Ulik, the Troll;2;HOA;2;3;;;;;;;;;;;;1;;;;;;;
-Dark Council;Sindr, Fire Giant Queen;2;HOA;3;5;;;;;;;;;;;;;;;;;;;
-Dark Council;Laufey, Father of Loki;1;HOA;4;6;;;;;;;1;1;;;;;;;;;;;
-Dark Council;The Mangog;1;HOA;4;3;;;;;;;1;;;;1;;;;;;;;
-Dark Council;Jarnbjorn, First Axe of Thor;1;HOA;0;3;;;;;;;;;;;;;;;;;;;Artifact
-Dark Council;The Casket of Eternal Winters;1;HOA;0;4;;;;;;;;;;;;;;;;;;;Artifact
-Omens of Ragnarok;Skurge, the Executioner;2;HOA;2;4;;;;;;;;;;;;1;;;;;-1;;
-Omens of Ragnarok;The Fenris Wolf;2;HOA;3;4;;;;;;;;1;;;;;;2;;;-1;;
-Omens of Ragnarok;Surtur, Fire Giant King;1;HOA;0;6;;;;;;;1;;;;;;;;;;;;Artifact
-Omens of Ragnarok;Jormugand, the World-Serpent;1;HOA;5;5;;;;;;;;;;;;;;;;;-1;;
-Omens of Ragnarok;The Hel-Crown;1;HOA;0;3;;;;;;;;;;;;;;;;;;;Artifact
-Omens of Ragnarok;The Eternal Flame;1;HOA;0;4;;;;;;;;1;;;;;;1;;;;;Artifact
-Hellions;Catseye;2;NM;3;3;;;;;;;;;;;;1;;;;;;;
-Hellions;Thunderbird;2;NM;4;4;;;;;;;;;;;;1;;;;;;;
-Hellions;Roulette;1;NM;3;5;;1;;;1;;;1;;;2;;;;;;;;
-Hellions;Tarot;1;NM;3;5;;;;;;;;1;;;1;;;;;;;;
-Hellions;Jetstream;1;NM;4;6;;;;;;;;1;X-Men;1;1;;;;;;;;
-Hellions;Empath;1;NM;4;4;;1;;;;;;1;;;;;;;;;;;
-Demons of Limbo;Crotus;2;NM;3;3;;;;;;;;1;;;;;;;1;;;;
-Demons of Limbo;Witchfire;2;NM;4;4;;;;;;;1;1;;;;;;;;;;;
-Demons of Limbo;N'Astirh;2;NM;3;3;;;;;;;;;;;;1;;;;;;;
-Demons of Limbo;Demon Bear;1;NM;5;5;;;;;;;1;1;;;;;;;;;;;
-Demons of Limbo;S'Ym;1;NM;5;7;;;1;;;;1;1;;;1;;;;;;;;
-From Beyond;The Mapmakers;3;ITC;3;7;;;;;1;;;;;;;1;;;;;;;
-From Beyond;The Shaper of Worlds;2;ITC;5;10;1;;;;;;1;1;;;;2;;;;;;;
-From Beyond;Kubik;2;ITC;5;11;;;;1;;;;1;;;1;1;;;;;;;
-From Beyond;Kosmos;1;ITC;6;13;;1;;;;;;;;;;;;;;;;;
-Elders of the Universe;The Trader;2;ITC;2;4;;;;;1;;;1;;;;;;;;;;;shards
-Elders of the Universe;The Runner;2;ITC;3;5;;;;1;;;;1;;;;;;1;;;;;shards
-Elders of the Universe;The Collector;2;ITC;4;6;;1;;;;;;1;;;;;;;;;;;
-Elders of the Universe;The Champion of the Universe;2;ITC;5;7;;;1;;;;;1;;;1;1;;;;;;;shards
-Celestials;Gammenon, the Gatherer;2;ITC;3;10;;;1;1;;;1;;;;;;1;;;;;;celestial boon
-Celestials;Nezarr, the Calculator;2;ITC;4;11;;1;;;1;;1;;;;;;;;;;;;celestial boon
-Celestials;Exitar, the Exterminator;2;ITC;5;12;1;;;;1;;1;;;;;;;;;;;;celestial boon
-Celestials;Arishem, the Judge;1;ITC;5;13;1;;1;;;;1;;;;;;;;;;;;celestial boon
-Celestials;Tiamut, the Dreaming Celestial;1;ITC;6;14;;1;;1;;;1;;;;;;;;;;;;celestial boon
-Black Order of Thanos;Black Dwarf;2;ITC;3;4;;;;;;;;1;;;;1;;;;;;;
-Black Order of Thanos;Corvus Glaive;2;ITC;4;5;;;;;;;;1;;;;;;;;;;;
-Black Order of Thanos;Supergiant;2;ITC;5;6;;;;;;;;1;;;;1;;;;;;;
-Black Order of Thanos;Ebony Maw;1;ITC;5;6;;;;;;;;1;;;;;;;;;;;
-Black Order of Thanos;Proxima Midnight;1;ITC;5;7;;;;1;;;1;1;;;;;;;;;;;
+Group;Name;Ct;Set;VP;BP;B;R;G;Y;S;SP;ESC;AMB;Team;TeamSC;Wnd;KOH;KBS;CRWD;BS;MM;Cty;Protection;NOTE;file;loc
+Uncanny X-Men;Colossus;2;V;3;5;;;;;;;;;;;1;;;;;;;X-Treme Attack;;villains2,jpg;7 6
+Uncanny X-Men;Shadowcat;2;V;2;2;;;;;;;;;;;;;;;;;;X-treme Attack, Elusive 5;;villains2,jpg;4 6
+Uncanny X-Men;Nightcrawler;2;V;2;4;;;;;;;;;;;;;;;;;;X-Treme Attack;;villains2,jpg;6 6
+Uncanny X-Men;Storm;2;V;2;4;;;;;;;;1;;;1;;;;;;;;;villains2,jpg;5 6
+Spider Friends;Moon Knight;2;V;2;4;;;;;;;;;;;;1;;;;;;;;villains,jpg;10 2
+Spider Friends;Spiderman;2;V;3;2;;;;;;;1;;;;;;;1;;;;;;villains,jpg;7 2
+Spider Friends;Firestar;2;V;3;5;;;;;;;1;;;;;2;;;;;;;;villains,jpg;9 2
+Spider Friends;Black Cat;2;V;2;2;;;;;;;;;;;;;;;;;;Elusive 6;;villains,jpg;8 2
+The Mighty;Iron Fist;1;FI;2;3;;;;;;;;;;;;1;;;;;;Uru-Enchanted Weapon;;fearitself,png;4 4
+The Mighty;Wolverine;1;FI;6;5;;;;1;;;1;;;;;;;;;;;2 Uru-Enchanted Weapons;;fearitself,png;10 4
+The Mighty;Dr. Strange;1;FI;4;5;;;;;;;;1;;;;;;;;;;Uru-Enchanted Weapon;;fearitself,png;8 4
+The Mighty;Ms. Marvel;1;FI;3;4;1;;;;;;1;;;;;;;;;;;Uru-Enchanted Weapon;;fearitself,png;5 4
+The Mighty;Red She-Hulk;1;FI;2;4;;;;;;;;;;;;;;;;;;Uru-Enchanted Weapon;;fearitself,png;7 4
+The Mighty;Hawkeye;1;FI;2;3;;;;;;;;;;;;;;;;;;Uru-Enchanted Weapon;;fearitself,png;6 4
+The Mighty;Spiderman;1;FI;3;2;;;;;;;1;;;;;;;1;;;;2 Uru-Enchanted Weapons;;fearitself,png;9 4
+The Mighty;Black Widow;1;FI;4;3;;;;;;;;;;;;;;;;;;2 Uru-Enchanted Weapons;;fearitself,png;3 4
+Defenders;Namor, the Sub-Mariner;2;V;4;6;;;;;;;;1;;;1;;;;;;;;;villains,jpg;5 2
+Defenders;Iron Fist;2;V;2;3;;;;;;;;;;;;;;;;;;Reveal 3 heroes with # cost;;villains,jpg;4 2
+Defenders;Luke Cage;2;V;2;4;;;;;;;;;;;;;;;;;;;;villains,jpg;3 2
+Defenders;Daredevil;2;V;3;5;;;;;;;1;;;;;;;;;;;;;villains,jpg;6 2
+Marvel Knights;Ghost Rider;2;V;3;5;;;;;;;1;;;;;;;;;;;;;villains2,jpg;9 2
+Marvel Knights;Elektra;2;V;2;4;;;;;;;;;;;-1;1;;;;;;;;villains2,jpg;10 2
+Marvel Knights;Black Panther;2;V;2;4;;;;;;;;;;;;;;;;;;;;villains2,jpg;8 2
+Marvel Knights;The Punisher;2;V;4;6;;;;;;;1;;;;;1;;;;;;;;villains2,jpg;1 3
+Uncanny Avengers;Havok;2;V;2;4;1;;;;;;;1;;;;;;;;;;X-Treme Attack;;villains2,jpg;2 6
+Uncanny Avengers;Scarlet Witch;2;V;3;5;;;;;;;;;;;;;;;;;;;;villains2,jpg;10 5
+Uncanny Avengers;Rogue;2;V;2;4;;;;;;;;;;;;;;;;;;X-Treme Attack;;villains2,jpg;1 6
+Uncanny Avengers;Wolverine;2;V;5;7;;;;1;;;1;;;;;;;;;;;X-Treme Attack;;villains2,jpg;3 6
+X-Men First Class;Iceman;2;V;3;5;2;;;;;;;;;;;;;;;;;X-Treme Attack;;villains2,jpg;6 7
+X-Men First Class;Angel;2;V;2;4;;;;;;;;;;;;;;;;;;X-Treme Attack;;villains2,jpg;2 7
+X-Men First Class;Beast;2;V;3;5;;;;;;;;;;;;1;;;;;;X-Treme Attack;;villains2,jpg;5 7
+X-Men First Class;Jean Grey;1;V;4;6;;;;;;;;1;;;;;;;1;;;X-Treme Attack;;villains2,jpg;3 7
+X-Men First Class;Cyclops;1;V;4;6;;;;;;;1;;;;;;;;;;;X-Treme Attack;;villains2,jpg;4 7
+Avengers;Wasp;2;V;4;1;;;;;;;;;;;;;;;;;;Elusive 7;;villains,jpg;5 3
+Avengers;Antman;2;V;2;3;;;;;;;;;;;;;;;;;;Elusive 4;;villains,jpg;1 3
+Avengers;Iron Man;1;V;5;7;;;;;1;;1;1;;;1;;;;;;;;;villains,jpg;4 3
+Avengers;Captain America;1;V;5;4;;;;;;;1;1;;;1;;;;;;;Gets plus for classes in HQ;;villains,jpg;3 3
+Avengers;Hulk;1;V;6;8;;;;;;;;1;;;;;;;;;;;;villains,jpg;6 3
+Avengers;Thor;1;V;5;7;;;;;;;;1;;;;2;;;;;;;;villains,jpg;2 3
+Brotherhood;Sabretooth;2;B;3;5;;;;;;;1;;X-Men;1;1;;;;;;;;;base,jpg;10 1
+Brotherhood;Juggernaut;2;B;4;6;;;;;;;1;1;;;;1;;;;;;;;base,jpg;2 2
+Brotherhood;Mystique;2;B;3;5;;;;;;;1;;;;;;;;;;;;;base,jpg;1 2
+Brotherhood;Blob;2;B;2;4;;;;;;;;;X-Men;2;;;;;;;;;;base,jpg;9 1
+CSA Special Marshals;Venom;2;CW;4;7;;1;;;;;1;;;;;;1;;;;;Size-changing;;civilwar,jpg;8 5
+CSA Special Marshals;Moonstone;2;CW;2;4;;;;;;;;;;;;;;;;;;;;civilwar,jpg;10 5
+CSA Special Marshals;Bullseye;2;CW;4;6;;;;;;;1;;;;;2;;;;;;;;civilwar,jpg;9 5
+CSA Special Marshals;Penance;2;CW;3;2;;;;;;;;;;;;;;;;;;Gets plus for each villain in VP;;civilwar,jpg;7 5
+Dark Descendants;Havok, Brainwashed;2;XM;0;6;1;;;;;;1;;;;;;;;;;;;;xmen,jpg;8 5
+Dark Descendants;Random;2;XM;3;4;;;;;;;;1;;;;;;;;;;Dominates a bunch of heroes;;xmen,jpg;9 5
+Dark Descendants;Fatale;2;XM;3;5;;;;;;;1;;;;;1;;;;;;;;xmen,jpg;7 5
+Dark Descendants;Nemesis;1;XM;5;5;;;;;;;;1;;;;;;;;;;Dominates a bunch of heroes;;xmen,jpg;6 5
+Dark Descendants;Psychic Subjugation;1;XM;3;-1;;;;;;;;;;;;;;1;;;;Recruit some heroes;;xmen,jpg;5 5
+"Deadpool's ""Friends""";Taskmaster;2;DP;4;3;;;;;;;;1;;;;;;;1;;;Gets plus for the most expensive hero played;;dp,jpg;3 4
+"Deadpool's ""Friends""";Blind Al and Deuce;2;DP;3;2;;;;;;;1;;;;;;;;;;;Revenge, discard a card;;dp,jpg;4 4
+"Deadpool's ""Friends""";Sluggo;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;;dp,jpg;1 4
+"Deadpool's ""Friends""";Weasel;2;DP;3;4;;;;;;;;1;;;;;;;;;;Revenge;;dp,jpg;2 4
+Deadpool's Secret Secret Wars;Pink Sphinx;3;SW2;2;4;;;;;;1;;;;;;1;;;;;;;;sw2,jpg;5 4
+Deadpool's Secret Secret Wars;Doop;2;SW2;2;2;;;;;;;;;;;;;;2;;;;;;sw2,jpg;3 4
+Deadpool's Secret Secret Wars;Howard the Duck;2;SW2;4;1;;;;;;;;1;;;;;;;1;;;7th circle;;sw2,jpg;4 4
+Deadpool's Secret Secret Wars;Deadpool;1;SW2;5;5;;;;;;;1;;;;;;;1;;1;;5th circle, resurrect;;sw2,jpg;2 4
+Domain of Apocalypse;Apocalyptic Blink;3;SW1;3;5;;;;;;;;;;;;;;;;;;;;sw1,jpg;6 3
+Domain of Apocalypse;Apocalyptic Rogue;2;SW1;4;6;;;;;;;1;;;;;;;;;;;;;sw1,jpg;5 3
+Domain of Apocalypse;Apocalyptic Weapon X;2;SW1;5;7;;;;;;;1;;;;;1;;;;;;;;sw1,jpg;4 3
+Domain of Apocalypse;Apocalyptic Magneto;1;SW1;6;8;;;;;;;1;;X-Men;1;;;;;;1;;;;sw1,jpg;3 3
+Emissaries of Evil;Egghead;2;DC;2;4;;;;;;;;1;;;;;;1;;;;;;darkcity,jpg;8 6
+Emissaries of Evil;Rhino;2;DC;3;5;;;;;;;;1;;;1;;;;;;;;;darkcity,jpg;6 6
+Emissaries of Evil;Gladiator;2;DC;3;5;;;;;;;;1;;;;;;;;;;;;darkcity,jpg;7 6
+Emissaries of Evil;Electro;2;DC;4;6;;;;;;;;1;;;;;;;;;;;;darkcity,jpg;5 6
+Enemies of Asgard;Frost Giant;3;B;2;4;1;;;;;;1;;;;1;;;;;;;;;base,jpg;7 4
+Enemies of Asgard;Enchantress;2;B;4;6;;;;;;;;;;;;;;;;;;;;base,jpg;5 4
+Enemies of Asgard;Ymir, Frost Giant King;2;B;4;6;1;;;;;;;1;;;1;;;;;;;;;base,jpg;8 4
+Enemies of Asgard;Destroyer;1;B;5;7;;;;;;;1;;;;;1;;;;;;;;base,jpg;6 4
+Evil Deadpool Corpse;Wolverinepool;2;DP;6;7;;;;;;;;1;;;1;;;;;;;Revenge;;dp,jpg;9 4
+Evil Deadpool Corpse;D.E.A.D.P.O.O.L.;2;DP;3;4;;;;;;;;;;;;1;;;;;;Revenge;;dp,jpg;2 5
+Evil Deadpool Corpse;Ultimate Deadpool;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;;dp,jpg;1 5
+Evil Deadpool Corpse;The Deadpool Kid;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;;dp,jpg;10 4
+Four Horsemen;War;2;DC;4;6;;;;1;;;1;;;;1;;;;;;;;;darkcity,jpg;10 6
+Four Horsemen;Pestilence;2;DC;3;5;;;;;;;1;;;;;;;;;;;;;darkcity,jpg;2 7
+Four Horsemen;Famine;2;DC;2;4;;;;1;;;1;;;;;;;;;;;;;darkcity,jpg;1 7
+Four Horsemen;Death;2;DC;5;7;;;;;;;1;;;;;2;;;;;;;;darkcity,jpg;9 6
+Goblin's Freak Show;The Chameleon;2;N;2;4;;;;;;;;1;;;;;;1;1;;;;;noir,jpg;2 4
+Goblin's Freak Show;The Vulture, Cannibal;2;N;3;5;;;;;;;1;1;;;1;;1;;1;;;;;noir,jpg;1 4
+Goblin's Freak Show;Montana;1;N;2;4;;;;;;;;1;;;;;;;1;;;;;noir,jpg;10 3
+Goblin's Freak Show;Fancy Dan;1;N;2;1;;;;;;;;1;;;;1;;;1;;;;;noir,jpg;9 3
+Goblin's Freak Show;Ox;1;N;3;5;;;1;;;;;1;;;;;;;1;;;;;noir,jpg;8 3
+Goblin's Freak Show;Kraven, Animal Trainer;1;N;4;5;;;;;;;;1;;;;;;;1;;;;;noir,jpg;3 4
+Great Lakes Avengers;Squirrel Girl;2;CW;2;3;;;;;;;1;;;;;;;1;;;;;;civilwar,jpg;7 6
+Great Lakes Avengers;Flatman;2;CW;2;5;;1;;;;;;;;;-1;1;;;;;;Size-changing;;civilwar,jpg;8 6
+Great Lakes Avengers;Big Bertha;2;CW;4;7;;;1;;;;1;;;;1;;;;;;;Size-changing;;civilwar,jpg;6 6
+Great Lakes Avengers;Mr. Immortal;2;CW;2;2;;;;;;;;;;;;;;1;;;;;;civilwar,jpg;5 6
+Guardians of Knowhere;Rocket Raccoon;2;SW2;2;4;;;;;;;;;;;;1;;;;;;;;sw2,jpg;4 5
+Guardians of Knowhere;Groot;2;SW2;4;5;;;;;;;;;;;;;;1;;;;;;sw2,jpg;3 5
+Guardians of Knowhere;Drax the Destroyer;2;SW2;4;5;;;;;;;;;;;;1;;1;;;;;;sw2,jpg;1 5
+Guardians of Knowhere;Angela;1;SW2;5;7;;;;;;;1;;;;;;;1;;1;;;;sw2,jpg;10 4
+Guardians of Knowhere;Gamora;1;SW2;4;6;;;;;;;1;1;;;1;;;1;;;;;;sw2,jpg;2 5
+Hellfire Club;Harry Leland;2;XM;3;5;;;;;;;1;1;;;;;;;;;;;;xmen,jpg;9 6
+Hellfire Club;Sebastian Shaw;2;XM;4;3;;;;;;;1;;;;;;;1;;;;;;xmen,jpg;7 6
+Hellfire Club;Emma Frost;2;XM;4;4;;;;;;;;1;X-Men;2;;;;;;;;;;xmen,jpg;10 6
+Hellfire Club;Mastermind;1;XM;6;8;;;;;;;;1;;;;;;;;1;;;;xmen,jpg;8 6
+Hellfire Club;Corrupt the Phoenix;1;XM;3;-1;;;;;;;;;;;;;;1;;;;;;xmen,jpg;6 6
+Heralds of Galactus;Stardust;2;FF;5;10;;2;;;;;;;;;;;;;;;;Cosmic threat;;ff,jpg;7 2
+Heralds of Galactus;Terrax the Tamer;2;FF;5;11;;;2;;;;;1;;;;;;;1;;;Cosmic threat;;ff,jpg;4 2
+Heralds of Galactus;Firelord;2;FF;4;9;2;;;;;;1;;;;1;;;;;;;Cosmic threat;;ff,jpg;5 2
+Heralds of Galactus;Morg;2;FF;6;12;;;;2;;;;1;;;;;;;;;;Cosmic threat;;ff,jpg;6 2
+Heroes for Hire;Tarantula;2;CW;5;7;;;;;;;1;;;;1;;;;;;;Bribe;;civilwar,jpg;2 6
+Heroes for Hire;Shang-Chi;2;CW;2;3;;;;;;;;;;;;;;1;;;;Bribe;;civilwar,jpg;1 6
+Heroes for Hire;Colleen Wing;2;CW;5;9;;;;;;;1;;;;;;;;;;;Bribe;;civilwar,jpg;3 6
+Heroes for Hire;Humbug;2;CW;3;5;;;;;;;;;;;;1;;;;;;Bribe;;civilwar,jpg;4 6
+HYDRA;Hydra Kidnappers;3;B;1;3;;;;;;;;;;;;;;;;;;;;base,jpg;1 7
+HYDRA;Endless armies;3;B;3;4;;;;;;;;;;;;;;2;;;;;;base,jpg;10 6
+HYDRA;Viper;1;B;3;5;;;;;;;1;;;;1;;;;;;;;;base,jpg;9 6
+HYDRA;Supreme Hydra;1;B;6;6;;;;;;;;;;;;;;;;;;;;base,jpg;2 7
+Infinity Gems;Space Gem;2;GG;0;5;;;;;;;;1;;;;;;;;;1;Shards, artifact;;gotg,jpg;6 6
+Infinity Gems;Reality Gem;2;GG;0;5;;;;;;;;1;;;;;;;;;;Shards, artifact, probe villain deck;;gotg,jpg;1 7
+Infinity Gems;Power Gem;1;GG;0;7;;;;;;;;1;;;;;;;;;;Shards, artifact;;gotg,jpg;8 6
+Infinity Gems;Time Gem;1;GG;0;6;;;;;;;;1;;;;;;1;;;;Shards, artifact;;gotg,jpg;2 2
+Infinity Gems;Soul Gem;1;GG;0;6;;;;;;;;1;;;;;;;;;;Shards, artifact;;gotg,jpg;1 2
+Infinity Gems;Mind Gem;1;GG;0;6;;;;;;;;;;;;;;;;;;Shards, artifact;;gotg,jpg;7 6
+Kree Starforce;Supremor;2;GG;2;3;;;;;;;;1;;;;;;;;;;Shards;;gotg,jpg;8 2
+Kree Starforce;Demon Druid;1;GG;3;5;;;;;;;;1;;;;;;;;;;Shards;;gotg,jpg;4 2
+Kree Starforce;Korath the Pursuer;1;GG;3;5;;;;;;;1;1;;;;;;;;;;Shards;;gotg,jpg;6 2
+Kree Starforce;Dr. Minerva;1;GG;3;5;;;;;;;;1;;;;;;;;;;Shards;;gotg,jpg;5 2
+Kree Starforce;Captain Atlas;1;GG;4;6;;;;;;;1;;;;;;;;;;;Shards;;gotg,jpg;3 2
+Kree Starforce;Shatterax;1;GG;3;5;;;;;;;;;;;;;;;;;;Shards;;gotg,jpg;9 2
+Kree Starforce;Ronan the Accuser;1;GG;5;7;;;;;;;1;1;;;1;;;;;;;;;gotg,jpg;7 2
+K'un-lun;Razor Fist;2;SW2;3;3;;;;;;;;;;;;1;;;;;;3rd circle;;sw2,jpg;7 4
+K'un-lun;Laughing Skull;2;SW2;5;5;;;;;;;1;;;;;;;;;;;5th circle;;sw2,jpg;6 4
+K'un-lun;Red Sai;2;SW2;4;4;;;;;;;;;;;;;;;;;;4th circle;;sw2,jpg;9 4
+K'un-lun;Rand K'Ai;2;SW2;6;6;;;;;;;1;;;;;;;;;;;6th circle;;sw2,jpg;8 4
+Limbo;Inferno Colossus;2;SW1;3;5;;;;;;;;1;;;;1;;;1;;;;;sw1,jpg;10 3
+Limbo;Inferno Darkchilde;2;SW1;3;5;;;;;;;1;;;;;1;;;;;;;;sw1,jpg;7 3
+Limbo;Inferno Nightcrawler;2;SW1;2;4;;;;;;;;;;;;;;;;;;;;sw1,jpg;8 3
+Limbo;Inferno Cyclops;2;SW1;4;6;;;;;;;1;1;;;;;;;1;;;;;sw1,jpg;9 3
+Manhattan (Earth-1610);Ultimate Capt Marvel;2;SW1;0;4;;;;;;;;;;;;;;;;;;;;sw1,jpg;9 2
+Manhattan (Earth-1610);Ultimate Thor;2;SW1;0;7;1;;;;;;1;;;;;;;;;;;;;sw1,jpg;1 3
+Manhattan (Earth-1610);Ultimate Wasp;2;SW1;0;5;;1;;;;;;;;;;;;;;;;;;sw1,jpg;10 2
+Manhattan (Earth-1610);Ultimate Capt America;2;SW1;0;6;;;;;;2;;;;;;;;;;;;;;sw1,jpg;2 3
+Marauders;Vertigo;2;DC;3;5;;;;;;;;;;;;;;;;;;;;darkcity,jpg;3 7
+Marauders;Scalphunter;2;DC;2;4;;;;;;;;1;;;;;;;1;;;Bonus for bystanders;;darkcity,jpg;4 7
+Marauders;Chimera;2;DC;3;3;;;;;;;;1;;;;;;;1;;;Bonus for bystanders;;darkcity,jpg;6 7
+Marauders;Blockbuster;2;DC;2;4;;;;;;;;1;;;;;;;;;;Bonus for bystanders;;darkcity,jpg;5 7
+Masters of Evil;Melter;2;B;3;5;;;;;;;;;;;;1;;;;;;;;base,jpg;6 7
+Masters of Evil;Whirlwind;2;B;2;4;;;;;;;;;;;;1;;;;;-1;;;base,jpg;5 7
+Masters of Evil;Ultron;2;B;6;6;;;;;2;;1;;;;;;;;;;;;;base,jpg;3 7
+Masters of Evil;Baron Zemo;2;B;4;6;;;;;;;;;Avengers;2;;;;;1;;;;;base,jpg;4 7
+Masters of Evil (WWII);Executioner;2;C75;4;6;;;;;;;1;1;;;;;1;;1;;;;;c75,jpg;6 4
+Masters of Evil (WWII);Radioactive Man;2;C75;3;5;;;;;;;1;1;;;1;;;;-1;;;;;c75,jpg;8 4
+Masters of Evil (WWII);Black Knight;2;C75;2;4;;;;;;;;1;;;;1;;;-1;;;;;c75,jpg;5 4
+Masters of Evil (WWII);Melter (WWII);2;C75;3;5;;;;;;;;1;;;;1;;;1;;;;;c75,jpg;7 4
+Maximum Carnage;Shriek;2;PTT;4;6;;;;;;;1;;;;1;2;;;;;;;;pttr,jpg;3 5
+Maximum Carnage;Demogoblin;2;PTT;3;5;;;;;;;;1;;;;2;;;1;;;;;pttr,jpg;2 5
+Maximum Carnage;Carrion;2;PTT;3;4;;;;;;;;;;;;2;;1;;;;;;pttr,jpg;1 5
+Maximum Carnage;Doppelganger;2;PTT;3;5;;;;;;;;;;;;2;;;;;;;;pttr,jpg;4 5
+MLF;Forearm;2;DC;4;4;;;;;;;;;;;;;;1;;;;Different hero names;;darkcity,jpg;2 6
+MLF;Zero;2;DC;2;0;;;;;;;;;;;;;;1;;;;;;darkcity,jpg;1 6
+MLF;Wildside;2;DC;3;5;;;;;;;;;;;;1;;;;;-1;;;darkcity,jpg;3 6
+MLF;Reignfire;2;DC;4;6;;;;;;;1;;;;;;;;;;;;;darkcity,jpg;4 6
+Mojoverse;Minor Domo;2;XM;2;2;;;;;;;1;1;;;;;;;1;;;Human shields;;xmen,jpg;3 5
+Mojoverse;Major Domo;2;XM;3;4;;;;;;;1;1;;;;;;;1;;;Human shields;;xmen,jpg;2 5
+Mojoverse;Warwolves;2;XM;2;3;;;;;;;;1;;;;1;;;1;;;Human shields;;xmen,jpg;4 5
+Mojoverse;Spiral;1;XM;4;6;;1;;;;;1;1;;;;;;;;;;;;xmen,jpg;1 5
+Mojoverse;Mindwarping TV Broadcast;1;XM;3;-1;;;;;;;;1;;;;;;;1;;;;;xmen,jpg;10 4
+Monster Metropolis;Marcus, Symbiote Centaur;2;SW2;3;6;;;;;;;;1;;;;;;2;;;-1;Weaker in bank or streets;;sw2,jpg;10 5
+Monster Metropolis;Ghost Deadpool;2;SW2;5;5;;;;;;;;;;;1;;;1;;;;;;sw2,jpg;1 6
+Monster Metropolis;Man-Thing;2;SW2;4;5;;;;;;;;1;;;;;;1;1;;;;;sw2,jpg;9 5
+Monster Metropolis;Bug, Shiklah's Pet Dragon;2;SW2;3;4;;;;;;;;;;;-1;1;;1;;;;;;sw2,jpg;8 5
+Murderworld;Animatronic Killer Clowns;2;XM;2;-1;;;;;;;;;;;;;;;1;;;;;xmen,jpg;1 6
+Murderworld;Sulfuric Acid Water Slide;2;XM;2;-1;;;;;;;;1;;;1;;;;;;;;;xmen,jpg;10 5
+Murderworld;Guillotine Roller Coaster;1;XM;3;-1;;;;;;;;;;;;;;;;;;;;xmen,jpg;3 6
+Murderworld;Monstrous Pinball Machine;1;XM;3;-1;;;;;;;;;;;;2;;1;;;;;;xmen,jpg;2 6
+Murderworld;Miss Locke;2;XM;2;2;;;;;;;;;;;;;;;1;;;;;xmen,jpg;4 6
+Radiation;The Leader;2;B;2;4;;;;;;;;1;;;;;;1;;;;;;base2,jpg;5 2
+Radiation;Maestro;2;B;4;6;;;2;;;;;;;;;1;;;;;;;;base2,jpg;6 2
+Radiation;Abomination;2;B;3;5;;;;;;;;;;;;;;;1;;-1;;;base2,jpg;3 2
+Radiation;Zzzax;2;B;3;5;;;1;;;;1;;;;1;;;;;;;;;base2,jpg;4 2
+Registration Enforcers;Blade;2;CW;2;4;;;;;;;;;;;;;;;;;-1;;;civilwar,jpg;5 7
+Registration Enforcers;Micromax;2;CW;3;6;;;;1;;;;;;;;1;;;;;;Size-changing;;civilwar,jpg;4 7
+Registration Enforcers;Captain Marvel;2;CW;4;6;;;;;;;1;;;;;;;;;;;;;civilwar,jpg;6 7
+Registration Enforcers;Deadpool;2;CW;5;5;;;;;;;1;1;;;;;;;;;;;;civilwar,jpg;3 7
+Sentinel Territories;Kate Pryde of Future Past;2;SW1;2;4;;;;;;;;;;;;;;;;;;;;sw1,jpg;10 1
+Sentinel Territories;Rachel Summers of FP;2;SW1;4;6;;;;;;;1;;;;;;;;;;;;;sw1,jpg;7 1
+Sentinel Territories;Wolverine of Future Past;2;SW1;5;7;;;;;;;1;;;;;;;;;;;;;sw1,jpg;9 1
+Sentinel Territories;Colossus of Future Past;2;SW1;3;5;;;;;;;;;;;;;;;;;;;;sw1,jpg;8 1
+Shadow-X;Dark Angel;2;XM;0;4;;;;1;;;;;;;;;;;;;;;;xmen,jpg;6 4
+Shadow-X;Dark Iceman;2;XM;0;5;;;1;;;;;;;;;;;;;;;;;xmen,jpg;5 4
+Shadow-X;Dark Marvel Girl;1;XM;0;6;;1;;;;;;1;X-men;2;;;;;1;;;;;xmen,jpg;7 4
+Shadow-X;Dark Cyclops;1;XM;0;7;1;;;;;;;1;;;;;;;;;;;;xmen,jpg;8 4
+Shadow-X;Dark Beast;1;XM;0;5;;;;;1;;;;;;-1;1;;;;;;;;xmen,jpg;9 4
+Shadow-X;Betrayal of the shadow;1;XM;4;-1;;;;;;;;;;;;;;1;;;;;;xmen,jpg;4 4
+Shi'ar Imperial Guard;Smasher;2;XM;3;5;;;1;;;;;1;;;-1;1;;;;;;;;xmen,jpg;1 7
+Shi'ar Imperial Guard;Blackthorn;2;XM;3;5;;;;;;;1;;;;1;;;;;;-1;;;xmen,jpg;3 7
+Shi'ar Imperial Guard;Oracle;2;XM;4;6;;;;;;;;1;;;;;;;;;;;;xmen,jpg;5 7
+Shi'ar Imperial Guard;Shi'Ar trial by combat;1;XM;2;-1;;;;;;;;1;;;;2;;;;;;;;xmen,jpg;4 7
+Shi'ar Imperial Guard;Gladiator;1;XM;5;7;;;;;;;1;1;X-men;1;1;;;;;;;;;xmen,jpg;2 7
+S.H.I.E.L.D. Elite;Dum Dum Dugan;2;CW;3;4;;;;;;;1;;SHIELD;1;1;;;;;;;;;civilwar,jpg;9 6
+S.H.I.E.L.D. Elite;Agent Gabe Jones;2;CW;2;2;;;;;;;;;SHIELD;1;;;;1;;;;;;civilwar,jpg;2 7
+S.H.I.E.L.D. Elite;Sharon Carter, Agent 13;2;CW;5;6;;;;;;;1;;SHIELD;1;;;;1;;;;;;civilwar,jpg;10 6
+S.H.I.E.L.D. Elite;Agent Eric Marshall;2;CW;2;1;;;;;;;;1;SHIELD;1;;;;1;;;;;;civilwar,jpg;1 7
+Sinister Six;Shocker;2;PTT;3;5;;;;1;;;;1;;;;;;;;;;;;pttr,jpg;7 3
+Sinister Six;Vulture;2;PTT;2;4;;;;1;;;1;1;;;;;;;;;;;;pttr,jpg;10 3
+Sinister Six;Chameleon;1;PTT;2;6;;;;;;;;;;;;;;;;;-1;;;pttr,jpg;8 3
+Sinister Six;Sandman;1;PTT;4;6;;;;1;;;1;;;;;;;;;;;;;pttr,jpg;1 4
+Sinister Six;Hobgoblin;1;PTT;3;5;;;;;;;;;;;;;;;1;;;;;pttr,jpg;2 4
+Sinister Six;Kraven the hunter;1;PTT;4;5;;;;;;;1;;;;;2;;;;;;;;pttr,jpg;9 3
+Sisterhood of Mutants;Lady Deathstrike;2;XM;4;6;;;;1;;;1;;;;;1;;;;;;;;xmen,jpg;9 7
+Sisterhood of Mutants;Selene;2;XM;3;7;;;;;;;1;1;;;;;;;;;;;;xmen,jpg;8 7
+Sisterhood of Mutants;Typhoid Mary;2;XM;3;5;;;;;;;;1;;;;;;;;;;;;xmen,jpg;10 7
+Sisterhood of Mutants;Resurrect Madelyne Pryor;1;XM;0;-1;;;;;;;;;;;;;;;;;;Extra scheme twist;;xmen,jpg;6 7
+Sisterhood of Mutants;Lady Mastermind;1;XM;5;7;;;;;;;;1;;;;;;;;1;;;;xmen,jpg;7 7
+Skrulls;Skrull Shapeshifters;3;B;2;4;;;;;;;;1;;;;;;;;;;;;base2,jpg;5 4
+Skrulls;Super Skrull;3;B;2;4;;;;;;;;;;;;1;;;;;;;;base2,jpg;6 4
+Skrulls;Paibok, the Power Skrull;1;B;3;8;;;;;;;;;;;;;;;;;;;;base2,jpg;8 4
+Skrulls;Skrull Queen Veranke;1;B;4;6;;;;;;;;1;;;;;;;;;;;;base2,jpg;7 4
+Spider-Foes;Venom;2;B;3;5;;2;;;;;1;;;;;;;;;;;;;base2,jpg;10 4
+Spider-Foes;Doctor Octopus;2;B;2;4;;;;;;;;;;;;;;;;;;;;base2,jpg;9 4
+Spider-Foes;Green Goblin;2;B;4;6;;;;;;;;1;;;;;;;1;;;;;base2,jpg;1 5
+Spider-Foes;The Lizard;2;B;2;3;;;;;;;;;;;1;;;;;;;;;base2,jpg;2 5
+Streets of New York;Jigsaw;2;DC;5;11;;;;;;;;1;;;;;;;;;;Bribe;;darkcity2,jpg;1 1
+Streets of New York;Tombstone;2;DC;4;8;;;1;;;;;;;;;;;;;;;Bribe;;darkcity,jpg;9 7
+Streets of New York;Bullseye;2;DC;4;6;;;;;;;;;;;;1;;;;;;;;darkcity,jpg;8 7
+Streets of New York;Hammerhead;2;DC;2;5;;;;;;;;;;;;1;;;;;;Bribe;;darkcity,jpg;7 7
+Subterranea;Moloids;2;FF;2;3;;;;;;;;;;;;1;;1;;;-1;;;ff,jpg;1 2
+Subterranea;Giganto;2;FF;4;7;;;;;;;;;;;;;;1;;;-1;;;ff,jpg;2 2
+Subterranea;Megataur;2;FF;4;6;;;;;;;;;;;;;;1;1;;-1;;;ff,jpg;3 2
+Subterranea;Ra'Ktar the Molan King;2;FF;2;4;;;;;;;;1;;;;;;1;;;-1;;;ff,jpg;10 1
+Superhuman Registration Act;Iron Spider;2;CW;3;2;;;;;;;;1;;;;;;;;;;;;am2,jpg;4 1
+Superhuman Registration Act;Ms. Marvel;2;CW;3;5;;;;;;;1;;;;;;;;;;;;;am2,jpg;5 1
+Superhuman Registration Act;Yellowjacket;2;CW;4;7;;;;;1;;1;;;;;;;;;;;Size-changing;;am2,jpg;3 1
+Superhuman Registration Act;She-Hulk;2;CW;5;8;;;1;;;;1;;;;;;;;;;;Size-changing;;am2,jpg;2 1
+The Deadlands;Zombie Mysterio;1;SW1;6;6;;;;;;;1;1;;;;;;1;;;;Rise of the Living Dead;;sw1,jpg;4 2
+The Deadlands;Zombie MODOKS;1;SW1;3;5;;;;;;;;1;;;;1;;;;;;Rise of the Living Dead;;sw1,jpg;8 2
+The Deadlands;Zombie Baron Zemo;1;SW1;4;6;;;;;;;;1;Avengers;2;;;;;1;;;Rise of the Living Dead;;sw1,jpg;7 2
+The Deadlands;Zombie Madame Hydra;1;SW1;2;4;;;;;;;;1;;;;1;;;;;;Rise of the Living Dead;;sw1,jpg;6 2
+The Deadlands;Zombie Venom;1;SW1;3;5;;2;;;;;1;1;;;;;;;;;;Rise of the Living Dead;;sw1,jpg;3 2
+The Deadlands;Zombie Thanos;1;SW1;6;9;;;;;;;1;1;;;;2;;;;1;;Rise of the Living Dead;;sw1,jpg;2 2
+The Deadlands;Zombie Loki;1;SW1;6;8;;;1;;;;1;1;;;;;;;;1;;Rise of the Living Dead;;sw1,jpg;1 2
+The Deadlands;Zombie Mr. Sinister;1;SW1;5;7;;1;;;;;1;1;;;;;;;1;1;;Rise of the Living Dead;;sw1,jpg;5 2
+Thunderbolts;Fixer;2;CW;2;4;;;;;;;;;;;-1;1;;;;;;;;civilwar,jpg;9 7
+Thunderbolts;Songbird;2;CW;3;5;;;;;;;1;;;;1;;;;;;;;;civilwar,jpg;8 7
+Thunderbolts;Radioactive Man;2;CW;4;6;;;;;;;1;;;;1;;;;;;;;;civilwar,jpg;7 7
+Thunderbolts;Mach-IV;2;CW;3;5;;;;;1;;1;;;;1;;;;;;;;;am2,jpg;1 1
+Underworld;Azazel;2;DC;2;4;;;;;;;;;;;;;;;;;;;;darkcity2,jpg;5 1
+Underworld;Lilith, Daughter of Dracula;2;DC;3;5;;;;;;;1;;;;;;;;;;;;;darkcity2,jpg;2 1
+Underworld;Blackheart;2;DC;4;6;;;;;;;1;1;Marvel Knights;1;1;;;;;;;;;darkcity2,jpg;3 1
+Underworld;Dracula;2;DC;4;7;;;;;;;;1;;;;;;;;;;;;darkcity2,jpg;4 1
+Utopolis;Doctor Spectrum;3;SW2;4;6;;;;;;1;1;1;;;;1;;1;;;;;;sw2,jpg;2 6
+Utopolis;Nighthawk;2;SW2;4;8;;;;;;;1;;;;;;;;;;-1;;;sw2,jpg;3 6
+Utopolis;Whizzer;2;SW2;3;5;;;;;;;1;1;;;1;;;2;;;;;;sw2,jpg;5 6
+Utopolis;Warrior Woman;1;SW2;6;8;;;;;;;1;1;;;;;;1;;1;;;;sw2,jpg;4 6
+Wasteland;The Hulk Gang;3;SW1;3;5;;;;;;;1;;;;1;;;;;;;;;sw1,jpg;3 4
+Wasteland;Wasteland Spider-Girl;2;SW1;2;4;;;;;;;;;;;;1;;;;;;;;sw1,jpg;2 4
+Wasteland;Wasteland Hawkeye;2;SW1;4;6;;;;;;;;1;;;;;;;1;;;;;sw1,jpg;4 4
+Wasteland;Wasteland Kingpin;1;SW1;6;11;;;;1;;;1;;;;;;;;;1;;Bribe;;sw1,jpg;1 4
+X-Men '92;92 Wolverine;2;SW2;0;7;;;;1;;;1;;;;1;;;;;;;;;sw2,jpg;9 6
+X-Men '92;92 Beast;2;SW2;0;5;;;;;1;;;;;;;;;1;;;;;;sw2,jpg;6 6
+X-Men '92;92 Jubilee;3;SW2;0;4;;;;;;1;;;;;;;;;;;;;;sw2,jpg;7 6
+X-Men '92;92 Professor X;1;SW2;6;8;;;;;;;1;;;;;;;;;1;;;;sw2,jpg;8 6
+X-Men Noir;Comrade Rasputin;2;N;3;5;;;;;;;;;;;;1;;;;;;;;noir,jpg;5 3
+X-Men Noir;Jean Grey Noir;1;N;3;5;;;;;;;;;;;;;;;;;;;;noir,jpg;3 3
+X-Men Noir;"Scott ""Cyclops"" Summer";1;N;4;6;;;;;;;1;;;;;2;;;;;;;;noir,jpg;7 3
+X-Men Noir;"Henry ""Beast"" McCoy";1;N;3;5;;;1;;1;;;;;;;;;;;;;;;noir,jpg;2 3
+X-Men Noir;"Bobby ""Iceman"" Drake";1;N;2;4;;;;;;;;;;;;;;;;;;;;noir,jpg;6 3
+X-Men Noir;Warden Emma Frost;1;N;4;6;;;;;;;1;;;;;;;;;;;;;noir,jpg;4 3
+X-Men Noir;Ororo Munroe, Storm-tossed;1;N;2;4;;;;;;;;;;;;2;;;;;;;;noir,jpg;1 3
+Zola's Creations;Man-Fish;2;C75;4;6;;;;;;;1;;;;1;;;;;;-1;;;c75,jpg;8 3
+Zola's Creations;Captain Zolandia;2;C75;5;7;;;;;;1;;;;;;;;;;;-1;;;c75,jpg;6 3
+Zola's Creations;Primus;2;C75;3;3;;;;;;;1;;;;;;;;;;;;;c75,jpg;9 3
+Zola's Creations;Doughboy;2;C75;3;5;;;;;;;;;;;;1;;;;;-1;;;c75,jpg;7 3
+Warbound;No-Name, Brood Queen;2;WW;3;4;;;;;;;;;;;;1;;;;;;;;hulk,jpg;1 7
+Warbound;Miek the Unhived;2;WW;3;5;;;;;;;;;;;;1;;;;;;;;hulk,jpg;2 7
+Warbound;Elloe Kaifi;1;WW;3;5;;;;;;;;;;;;;;;;;;;;hulk,jpg;3 7
+Warbound;Hiroim;1;WW;5;7;;;;;;;1;;;;;2;;;;;;;;hulk,jpg;9 6
+Warbound;Korg;1;WW;4;6;;;;;;;1;1;;;;2;;;;;;;;hulk,jpg;10 6
+Warbound;Warbound Rescue;1;WW;7;-1;;;;;;;;;;;1;;;1;;;;;;hulk,jpg;4 7
+U-Foes;X-Ray;2;WW;3;5;1;;;;;;;;;;-1;1;;;;;;;;hulk,jpg;8 5
+U-Foes;Vector;2;WW;2;4;;;;1;;;;;;;;;;;;;;;;hulk,jpg;9 5
+U-Foes;Vapor;2;WW;2;4;;1;;;;;1;;;;1;;;;;;;;;hulk,jpg;10 5
+U-Foes;Unidentified Flying U-Foes;1;WW;3;-1;;;;;1;;;;;;;;;2;;;;;;hulk,jpg;2 6
+U-Foes;Ironclad;1;WW;4;6;;;1;;;;1;;;;;2;;;;;;;;hulk,jpg;1 6
+Sakaar Imperial Guard;Great Devil Corker;2;WW;4;6;;;;;;;;;;;-1;1;;;;;;;;hulk,jpg;1 3
+Sakaar Imperial Guard;Primus Vand;2;WW;3;3;;;;;;;;;;;;1;;1;;;;;;hulk,jpg;10 2
+Sakaar Imperial Guard;Headman Charr;2;WW;2;2;;;;;;;1;;;;;;;;;;;;;hulk,jpg;9 2
+Sakaar Imperial Guard;Lieutenant Caiera;1;WW;5;7;;;;;;;;;;;;;;;;;;;;hulk,jpg;2 3
+Sakaar Imperial Guard;Gladiators' Colosseum;1;WW;4;-1;;;;;;;;;;;;;;;;;;;;hulk,jpg;3 3
+Intelligencia;Battle of Wits;2;WW;3;-1;;;;;;;;;;;;;;;;;;outwit;;hulk2,jpg;6 4
+Intelligencia;Cosmic Hulk Robot;2;WW;4;5;;;;;;;1;1;;;1;;;;;;;wounded fury;;hulk2,jpg;5 4
+Intelligencia;The Leader, Gamma Fiend;2;WW;3;5;;;;;;;;1;;;;;;2;;;;outwit;;hulk2,jpg;4 4
+Intelligencia;Doc Samson;2;WW;3;4;;;;;;;;;;;;1;;;;;;outwit;;hulk2,jpg;3 4
+Illuminati;Black Bolt;2;WW;5;13;;;;;;;1;;;;;;;;;;;Cards with no rules text;;hulk2,jpg;5 3
+Illuminati;Hulkbuster Iron Man;2;WW;4;6;;;;;;;1;;;;;;;;;;;outwit;;hulk2,jpg;4 3
+Illuminati;Dr. Strange;2;WW;3;5;;;;;;;;1;;;;;;;;;;;;hulk2,jpg;2 3
+Illuminati;Dr. Strange, Possessed by Zom;1;WW;3;5;;;;;;;;1;;;;;;;2;;;;;hulk2,jpg;3 3
+Illuminati;Enchain the Hulk;1;WW;4;-1;;;;;;;;;;;1;;;;;;;Same color;;hulk2,jpg;6 3
+Code Red;Elektra, Red Blades;2;WW;3;5;;1;;;;;;;;;;1;;;;;;;;hulk3,jpg;6 3
+Code Red;Crimson Dynamo;2;WW;2;4;;1;;;;;;;;;;;;;;;;;;hulk3,jpg;5 3
+Code Red;Red She-Hulk;1;WW;5;6;;1;;;;;1;;;;1;;;;;;;wounded fury;;hulk2,jpg;2 1
+Code Red;Punisher, Red Dot Sniper;1;WW;4;6;;1;;;;;;;;;-1;1;;;;;;;;hulk2,jpg;1 1
+Code Red;Thundra;1;WW;3;4;;;;;;;;1;;;;;;;;;;;;hulk3,jpg;7 3
+Code Red;Caught Red-Handed;1;WW;3;-1;;1;;;;;;;;;1;;;;;;;;;hulk2,jpg;3 1
+Aspects of the Void;Black Anti-Hurricane;2;WW;4;6;;;;;;;1;;;;;;;;;;;;;hulk,jpg;7 7
+Aspects of the Void;Shadow Man;2;WW;3;5;;;;;;;;;;;;;;;;;;;;hulk,jpg;6 7
+Aspects of the Void;Infini-Tendrils;2;WW;3;4;;;;;;;;1;;;;;;;1;;;wounded fury;;hulk,jpg;5 7
+Aspects of the Void;Demonform;1;WW;5;7;;;;;;;;;;;;1;;;;;;;;hulk,jpg;8 7
+Aspects of the Void;Psychotic Break;1;WW;2;-1;;;;;;;;1;;;;;;1;;;;;master strike;hulk,jpg;9 7
+Monsters Unleashed;Tim Boo Ra;1;CH;5;12;;;;;;1;;;;;;;;;;;;;Size-changing;champions,jpg;3 2
+Monsters Unleashed;Zzutak;1;CH;5;9;1;;;1;;;1;;;;;;;;;;;;Size-changing;champions,jpg;2 2
+Monsters Unleashed;Trull the Unhuman;1;CH;4;8;;1;;;1;;;1;;;;;;;1;;;;Size-changing;champions,jpg;1 2
+Monsters Unleashed;Goom;1;CH;4;6;;;;;;;;;;;;1;;;1;;;;;champions,jpg;10 1
+Monsters Unleashed;Sporr;1;CH;3;7;1;;;;1;;;;;;;;;;;;;;Size-changing;champions,jpg;9 1
+Monsters Unleashed;Groot from Planet X;1;CH;2;6;;1;1;;;;;;;;;;;1;1;;;;Size-changing;champions,jpg;8 1
+Monsters Unleashed;Monsteroso;1;CH;2;5;;;1;1;;;;;;;;;;;;;;;Size-changing;champions,jpg;7 1
+Monsters Unleashed;Orrgo;1;CH;2;2;;;;;;;;;;;;;;;;;;;;champions,jpg;6 1
+Wrecking Crew;The Wrecker;2;CH;5;7;;;;;;;;;;;;;;;;;;;;champions,jpg;8 4
+Wrecking Crew;Piledriver;2;CH;4;6;;;;;;;;;;;;1;;;;;;;;champions,jpg;7 4
+Wrecking Crew;Thunderball;2;CH;3;5;;;;;;;;;;;;;;;;;1;;;champions,jpg;6 4
+Wrecking Crew;Bulldozer;2;CH;2;4;;;;;;;;1;;;;;;1;;;;;;champions,jpg;5 4
+Life Foundation;Riot;2;VE;2;2;;;;;;;;1;;;;1;;;;;;Symbiotic;;venom,png;10 2
+Life Foundation;Lasher;2;VE;2;2;;;;;;;;1;;;;;;;;;;Symbiotic;;venom,png;7 2
+Life Foundation;Phage;1;VE;3;3;;;;;;;;1;;;;;;;;;;Symbiotic;;venom,png;9 2
+Life Foundation;Agony;1;VE;3;3;;1;;;;;;1;;;;;;;;;;Symbiotic;;venom,png;5 2
+Life Foundation;Scream;1;VE;4;4;;;;;;;;1;;;;;;;;;;Symbiotic;;venom,png;2 3
+Life Foundation;Dr. Carlton Drake;1;VE;3;5;;;;1;1;;;;;;;;;;;;;;;venom,png;6 2
+Poisons;Poison Dr. Octopus;1;VE;0;3;;;;;;;;;;;;;;1;;;-1;Symbiotic;;venom,png;6 3
+Poisons;Poison Scarlet Witch;1;VE;0;3;;;;;;;;;;;;;;1;;;;Symbiotic;;venom,png;10 3
+Poisons;Poison Hulk;1;VE;0;5;;;1;;;;;;;;;;;1;;;;Symbiotic;;venom,png;5 3
+Poisons;Poison Captain America;1;VE;0;4;;;;;;1;;;;;;;;1;;;;Symbiotic;;venom,png;4 3
+Poisons;Poison Storm;1;VE;0;3;1;;;;;;;;;;;;;1;;;-1;Symbiotic;;venom,png;9 3
+Poisons;Poison Sabertooth;1;VE;0;4;;;;1;;;;;;;;;;1;;;-1;Symbiotic;;venom,png;7 3
+Poisons;Symbiotic Armor;1;VE;6;1;;;;;;;;1;;;;1;;;;;;;Protects the mm;venom,png;3 3
+Poisons;Poison Spiderman;1;VE;0;2;;;;;;;;;;;;;;1;;;;Symbiotic;;venom,png;8 3
+Queen's Vengeance;Star-Knight;1;AM;3;3;;;;;;;;;;;;1;;;;;;Chivalrous Duel;;antman,jpg;2 6
+Queen's Vengeance;Yeoman America;1;AM;5;5;;;;;;;;;;;;;;;;;;Chivalrous Duel;;antman,jpg;1 6
+Queen's Vengeance;Pixie;1;AM;2;3;;2;;;;;;;;;;;;;;;;;;antman,jpg;1 1
+Queen's Vengeance;Mordred the Evil;1;AM;3;5;;;;;;;1;;;;;;;;;;;;;antman,jpg;2 1
+Queen's Vengeance;Iron Knight;1;AM;4;4;;;;;1;;;;;;1;;;;;;;Chivalrous Duel;;antman,jpg;3 1
+Queen's Vengeance;Gigantus;1;AM;4;7;;;2;;;;;;;;;1;;;;;;;;antman,jpg;4 1
+Queen's Vengeance;Daystar;1;AM;2;5;2;;;;;;;;;;;1;;;;;;;;antman,jpg;5 1
+Queen's Vengeance;Blackbird;1;AM;3;3;;;;;;;;;;;;1;;;;;;Chivalrous Duel;;antman,jpg;6 1
+Salvagers;Hybrid Alien Tech;2;HC;4;4;1;;;;;;1;;;;;1;;;;;;;;homecoming,jpg;4 4
+Salvagers;Shocker #1;2;HC;3;3;;;;1;;;1;;;;;;;;;;;;;homecoming,jpg;2 4
+Salvagers;Shocker #2;2;HC;3;5;;;;;;;1;1;;;;;;;;;;;;homecoming,jpg;3 4
+Salvagers;Tinkerer;2;HC;2;4;;;;;2;;1;;;;1;;;;;;;;;homecoming,jpg;1 4
+Ultron's Legacy;Future Ultron Prime;1;AM;5;5;;;;;1;;;1;;;;;;;;;;;;antman,jpg;4 2
+Ultron's Legacy;Ultron-Pym;1;AM;3;6;;;;;2;;;;;;;;;;;;;;;antman,jpg;3 2
+Ultron's Legacy;Brutish Ultron-14;1;AM;4;5;;;1;;;;1;;;;1;;;;;;;;;antman,jpg;5 2
+Ultron's Legacy;Crimson Cowl;1;AM;4;5;;1;;;;;;1;;;;;;;1;;;;;antman,jpg;6 2
+Ultron's Legacy;Legions of Ultron;1;AM;3;4;;;;;1;;;;;;;;;;;;;;;antman,jpg;7 2
+Ultron's Legacy;Alkhema;1;AM;3;4;;;;1;;;;;;;;1;;;;;;;;antman,jpg;8 2
+Ultron's Legacy;Original Ultron-1;1;AM;2;3;1;;;;;;;;;;;1;;;;;;;;antman,jpg;9 2
+Ultron's Legacy;Ultron Roboticks;1;AM;2;3;;;;;2;;;;;;;1;;;;;;;;antman,jpg;10 2
+Vulture Tech;Razor Talons;2;HC;2;2;;;;;;;;;;;;;;;;;;;;homecoming,jpg;10 4
+Vulture Tech;High Tech Helmet;2;HC;3;3;;;;;;;;;;;;;;;;;;;;homecoming,jpg;1 5
+Vulture Tech;Chitauri Weapon Assault;2;HC;4;4;;;;;;;;;;;;1;;;;;;;;homecoming,jpg;2 5
+Vulture Tech;Turbine Powered;2;HC;5;5;;;;;;;;1;;;;;;;1;;;;;homecoming,jpg;3 5
+Hood's Gang;The Brothers Grimm;1;R;2;2;;;;;;;;;;;-1;1;;;;;;Requires discard;;revelations,png;7 2
+Hood's Gang;Cancer;2;R;2;3;;;;;;;1;1;;;1;;;;;;;Dark Memories;;revelations,png;9 2
+Hood's Gang;Chemistro;2;R;3;4;;;;;;;;;;;;;;;;;;Dark Memories;;revelations,png;1 3
+Hood's Gang;Madam Masque;2;R;4;5;;;;;;;;1;;;;1;;1;;;;Dark Memories;;revelations,png;3 3
+Hood's Gang;The Dark Dimension;1;R;5;9;;;;;;;;;;;;;;1;;;;Dark Memories;Location;revelations,png;8 2
+Lethal Legion;Swordsman;1;R;3;4;;;;;;;;;;;;;;;1;;;Locations;;revelations,png;5 3
+Lethal Legion;Carnival of Wonders;1;R;3;5;;;;;;;;;;;;;;;1;;;;Location;revelations,png;6 3
+Lethal Legion;Power Man (Erik Josten);1;R;4;5;;;;;;;1;;;;;;;1;;;;Locations;;revelations,png;7 3
+Lethal Legion;"""The Raft"" Prison";1;R;4;6;;;;;;;;;;;;;;1;;;;;Location;revelations,png;8 3
+Lethal Legion;M'Baku;1;R;4;5;;;;;1;;1;;;;;;;;;;;Locations;;revelations,png;9 3
+Lethal Legion;White Gorilla Cult;1;R;4;6;;;;;1;;;;;;;;;;;;;;Location;revelations,png;10 3
+Lethal Legion;Living Laser;1;R;5;6;1;;;;;;1;;;;1;;;;;;;Locations;;revelations,png;1 4
+Lethal Legion;Laser Maze;1;R;5;7;1;;;;;;;;;;1;;;;;;;;Location;revelations,png;2 4
+Army of Evil;Blackout;2;R;2;4;1;;;;;;;1;;;;;;;;;;;;revelations,png;3 1
+Army of Evil;Klaw;2;R;3;5;1;;;;1;;;1;;;;;;;;;;;;revelations,png;5 1
+Army of Evil;Mister Hyde;2;R;4;6;;;;;;;;;;;;1;;;;;1;;;revelations,png;7 1
+Army of Evil;Count Nefaria;1;R;5;7;;;;;;1;1;1;;;1;;;;;;;;;revelations,png;1 1
+Army of Evil;Dome of Darkforce;1;R;5;7;1;;;;;;;;;;;;;;;;;;Location;revelations,png;2 1
+Dark Avengers;Dark Spiderman (Scorpion);1;R;2;2;;;;;;;;;;;;1;;;;;;Last Stand;;revelations,png;10 1
+Dark Avengers;Captain Marvel (Noh-Varr);1;R;3;3;;;;;;;1;1;;;1;;;;;;;Last Stand;;revelations,png;1 2
+Dark Avengers;Dark Ms. Marvel (Moonstone);1;R;4;4;;;;;;;;;;;;;;;;;;Last Stand;;revelations,png;2 2
+Dark Avengers;Dark Hawkeye (Bullseye);1;R;4;4;;;;;;;;;;;;1;;;;;;Last Stand;;revelations,png;3 2
+Dark Avengers;Dark Wolverine (Daken);1;R;5;5;;;;1;;;1;1;;;1;;;;;;;Last Stand;;revelations,png;4 2
+Dark Avengers;Ares;1;R;6;6;;;;;;;;;;;;1;;;;;;Last Stand;;revelations,png;5 2
+Dark Avengers;Sentry;1;R;5;7;;;;;;;1;;;;1;1;;;;;1;;;revelations,png;6 2
+Dark Avengers;Sentry's Watchtower;1;R;5;8;;;;;;;;;;;;;;1;;;;;;revelations,png;9 1
+Hydra Elite;Growing Man;2;AOS;3;0;;;;;;;;1;;;;;;;;;;Hydra Level;Shield Officer escapes;officers,png;9 2
+Hydra Elite;Crossbones;2;AOS;2;4;;;;;;;;1;;;1;;;;;;;;Shield Officer escapes;officers,png;7 2
+Hydra Elite;Hive;2;AOS;3;5;;;;;;;;1;;;;;;;;;;;Shield Officer escapes;officers,png;1 3
+Hydra Elite;Gorgon;2;AOS;4;6;;;;;;;;1;;;;;;;;;;;Shield Officer escapes;officers,png;3 3
+A.I.M., Hydra Offshoot;Mentallo;2;AOS;3;3;;;;;;;;1;;;;;;;;;;Hydra Level;Shield Officer escapes;shield,png;1 7
+A.I.M., Hydra Offshoot;Graviton;2;AOS;4;6;;;;;;;;1;;;;;;;;;;;Shield Officer escapes;shield,png;2 7
+A.I.M., Hydra Offshoot;Superia;2;AOS;3;5;;;;;;;;1;;;;;;;;;;;Shield Officer escapes;shield,png;3 7
+A.I.M., Hydra Offshoot;Taskmaster;2;AOS;3;4;;;;;;;1;1;;;1;;;;;;;;;shield,png;4 7
+Dark Council;Ulik, the Troll;2;HOA;2;3;;;;;;;;;;;;1;;;;;;;;hoa,png;9 2
+Dark Council;Sindr, Fire Giant Queen;2;HOA;3;5;;;;;;;;;;;;;;;;;;;;hoa,png;7 2
+Dark Council;Laufey, Father of Loki;1;HOA;4;6;;;;;;;1;1;;;;;;;;;;;;hoa,png;4 2
+Dark Council;The Mangog;1;HOA;4;3;;;;;;;1;;;;1;;;;;;;;;hoa,png;3 2
+Dark Council;Jarnbjorn, First Axe of Thor;1;HOA;0;3;;;;;;;;;;;;;;;;;;;Artifact;hoa,png;5 2
+Dark Council;The Casket of Eternal Winters;1;HOA;0;4;;;;;;;;;;;;;;;;;;;Artifact;hoa,png;6 2
+Omens of Ragnarok;Skurge, the Executioner;2;HOA;2;4;;;;;;;;;;;;1;;;;;-1;;;hoa,png;7 3
+Omens of Ragnarok;The Fenris Wolf;2;HOA;3;4;;;;;;;;1;;;;;;2;;;-1;;;hoa,png;5 3
+Omens of Ragnarok;Surtur, Fire Giant King;1;HOA;0;6;;;;;;;1;;;;;;;;;;;;Artifact;hoa,png;1 3
+Omens of Ragnarok;Jormugand, the World-Serpent;1;HOA;5;5;;;;;;;;;;;;;;;;;-1;;;hoa,png;3 3
+Omens of Ragnarok;The Hel-Crown;1;HOA;0;3;;;;;;;;;;;;;;;;;;;Artifact;hoa,png;2 3
+Omens of Ragnarok;The Eternal Flame;1;HOA;0;4;;;;;;;;1;;;;;;1;;;;;Artifact;hoa,png;4 3
+Hellions;Catseye;2;NM;3;3;;;;;;;;;;;;1;;;;;;;;newmutants,png;6 3
+Hellions;Thunderbird;2;NM;4;4;;;;;;;;;;;;1;;;;;;;;newmutants,png;4 3
+Hellions;Roulette;1;NM;3;5;;1;;;1;;;1;;;2;;;;;;;;;newmutants,png;1 3
+Hellions;Tarot;1;NM;3;5;;;;;;;;1;;;1;;;;;;;;;newmutants,png;2 3
+Hellions;Jetstream;1;NM;4;6;;;;;;;;1;X-Men;1;1;;;;;;;;;newmutants,png;3 3
+Hellions;Empath;1;NM;4;4;;1;;;;;;1;;;;;;;;;;;;newmutants,png;8 3
+Demons of Limbo;Crotus;2;NM;3;3;;;;;;;;1;;;;;;;1;;;;;newmutants,png;9 3
+Demons of Limbo;Witchfire;2;NM;4;4;;;;;;;1;1;;;;;;;;;;;;newmutants,png;1 4
+Demons of Limbo;N'Astirh;2;NM;3;3;;;;;;;;;;;;1;;;;;;;;newmutants,png;3 4
+Demons of Limbo;Demon Bear;1;NM;5;5;;;;;;;1;1;;;;;;;;;;;;newmutants,png;6 4
+Demons of Limbo;S'Ym;1;NM;5;7;;;1;;;;1;1;;;1;;;;;;;;;newmutants,png;5 4
+From Beyond;The Mapmakers;3;ITC;3;7;;;;;1;;;;;;;1;;;;;;;;itcmm,png;6 3
+From Beyond;The Shaper of Worlds;2;ITC;5;10;1;;;;;;1;1;;;;2;;;;;;;;itcmm,png;5 3
+From Beyond;Kubik;2;ITC;5;11;;;;1;;;;1;;;1;1;;;;;;;;itcmm,png;4 3
+From Beyond;Kosmos;1;ITC;6;13;;1;;;;;;;;;;;;;;;;;;itcmm,png;3 3
+Elders of the Universe;The Trader;2;ITC;2;4;;;;;1;;;1;;;;;;;;;;;shards;itcmm,png;1 3
+Elders of the Universe;The Runner;2;ITC;3;5;;;;1;;;;1;;;;;;1;;;;;shards;itcmm,png;10 2
+Elders of the Universe;The Collector;2;ITC;4;6;;1;;;;;;1;;;;;;;;;;;;itcmm,png;9 2
+Elders of the Universe;The Champion of the Universe;2;ITC;5;7;;;1;;;;;1;;;1;1;;;;;;;shards;itcmm,png;2 3
+Celestials;Gammenon, the Gatherer;2;ITC;3;10;;;1;1;;;1;;;;;;1;;;;;;celestial boon;celestials,png;5 1
+Celestials;Nezarr, the Calculator;2;ITC;4;11;;1;;;1;;1;;;;;;;;;;;;celestial boon;celestials,png;4 1
+Celestials;Exitar, the Exterminator;2;ITC;5;12;1;;;;1;;1;;;;;;;;;;;;celestial boon;celestials,png;3 1
+Celestials;Arishem, the Judge;1;ITC;5;13;1;;1;;;;1;;;;;;;;;;;;celestial boon;celestials,png;2 1
+Celestials;Tiamut, the Dreaming Celestial;1;ITC;6;14;;1;;1;;;1;;;;;;;;;;;;celestial boon;celestials,png;1 1
+Black Order of Thanos;Black Dwarf;2;ITC;3;4;;;;;;;;1;;;;1;;;;;;;;itcmm,png;6 2
+Black Order of Thanos;Corvus Glaive;2;ITC;4;5;;;;;;;;1;;;;;;;;;;;;itcmm,png;5 2
+Black Order of Thanos;Supergiant;2;ITC;5;6;;;;;;;;1;;;;1;;;;;;;;itcmm,png;4 2
+Black Order of Thanos;Ebony Maw;1;ITC;5;6;;;;;;;;1;;;;;;;;;;;;itcmm,png;8 2
+Black Order of Thanos;Proxima Midnight;1;ITC;5;7;;;;1;;;1;1;;;;;;;;;;;;itcmm,png;7 2
