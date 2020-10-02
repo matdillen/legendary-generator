@@ -267,8 +267,6 @@ ui <- fluidPage(
             selectizeInput("keywords",
                            "Keyword Info",
                            choices = keywords$id),
-            actionButton("imgen","Img Test"),
-            htmlOutput("cardimg"),
             width=5
         ),
         mainPanel(dataTableOutput("setups"),
@@ -292,33 +290,6 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-
-    #render a popup with card text
-    textpopupgen <- function(txt,cardtype="none") {
-        if (cardtype=="none") {
-            text = filter(tooltext,
-                          id%in%txt)
-        }
-        if (cardtype!="none") {
-            text = filter(tooltext,
-                          id%in%txt,
-                          type%in%cardtype)
-        }
-        if (dim(text)[1]>0) {
-            title = filter(setlist,id==text$set)$label
-            text %<>% mutate(text = gsub("\n","<br>",text))
-            showModal(modalDialog(title = title,
-                                  HTML(paste(text$text,collapse="<br><br>")),
-                                  easyClose = T,
-                                  footer=HTML(
-                                      paste0("<p align=\"left\">",
-                                             "<a href=\"",
-                                             "https://www.boardgamegeek.com/wiki/page/Legendary_Marvel_Complete_Card_Text\"",
-                                             ">Text transcriptions adapted from boardgamegeek wiki</a></p>"))))
-        }
-    }
-    
-    ###triggers and reactives###
     
     #make preset forms visible or not
     observeEvent(input$presets, {
@@ -339,121 +310,23 @@ server <- function(input, output, session) {
         toggle("fixedHERimg")
     })
     
-    imgPopupGen <- function(id,cardtype) {
-        if (cardtype == "henchmen") {
-            vals = filter(src$henchmen,
-                          Name==id)
-        }
-        if (cardtype == "hero") {
-            vals = filter(src$heroes,
-                          uni==id,
-                          !duplicated(Split)|is.na(Split))
-        }
-        if (cardtype == "mastermind") {
-            vals = filter(src$masterminds,
-                          Name==id|MM==id)
-        }
-        if (cardtype == "villain") {
-            vals = filter(src$villains,
-                          Group==id)
-        }
-        if (cardtype == "scheme") {
-            vals = filter(src$schemes,
-                          Name==id)
-        }
-        n = dim(vals)[1]
-        if (n>0) {
-            vals$file = gsub(",",".",vals$file,fixed=T)
-            imgcode = "<head><style>"
-            vals$sz1 = 0
-            vals$sz2 = 0
-            for (i in 1:n) {
-                loc = strsplit(vals$loc[i],split=" ")[[1]]
-                if (length(loc)==1) {
-                    bg = 100
-                }
-                if (length(loc)==2) {
-                    vals$sz1[i] = (as.numeric(loc[1])-1)*11.15
-                    vals$sz2[i] = (as.numeric(loc[2])-1)*16.75
-                    bg = 1000
-                }
-                if (!is.na(vals$file[i])) {
-                    line = paste0("#home",
-                                  i,
-                                  " {width: 106%; height: 106%; background: url(img/",
-                                  vals$file[i],
-                                  ") ",
-                                  vals$sz1[i],
-                                  "% ",
-                                  vals$sz2[i],
-                                  "%; background-size:",
-                                  bg,
-                                  "%;}")
-                    imgcode = paste0(imgcode,
-                                     line)
-                }
-            }
-            imgcode = paste0(imgcode,
-                             "</style></head><body>")
-            for (i in 1:n) {
-                if (!is.na(vals$file[i])) {
-                    imgcode = paste0(imgcode,
-                                     "<div style=\"width:50%;float:left;\"><img id=\"home",
-                                     i,
-                                     "\" src=\"empty.png\"></div>")
-                }
-            }
-            imgcode = paste0(imgcode,
-                             "</body>")
-            showModal(modalDialog(title=NULL,
-                                  HTML(imgcode),
-                                  easyClose = T,
-                                  footer=NULL))
-        }
-    }
-    
     observeEvent(input$fixedSCHimg, {
-        imgPopupGen(input$fixedSCH,cardtype="scheme")
+        imgPopupGen(input$fixedSCH,cardtype="scheme",src=src)
     })
     
     observeEvent(input$fixedMMimg, {
-        imgPopupGen(input$fixedMM,cardtype="mastermind")
+        imgPopupGen(input$fixedMM,cardtype="mastermind",src=src)
     })
     
     observeEvent(input$fixedHMimg, {
-        imgPopupGen(input$fixedHM,cardtype="henchmen")
+        imgPopupGen(input$fixedHM,cardtype="henchmen",src=src)
     })
     observeEvent(input$fixedVILimg, {
-        imgPopupGen(input$fixedVIL,cardtype="villain")
+        imgPopupGen(input$fixedVIL,cardtype="villain",src=src)
     })
     
     observeEvent(input$fixedHERimg, {
-        imgPopupGen(input$fixedHER,cardtype="hero")
-    })
-    
-    observeEvent(input$imgen, {
-        showModal(modalDialog(title="test",
-                              HTML(paste0("<head><style>",
-                                          "#home {width: 106%; height: 106%; background: url(img/emma.png) 0 0; background-size:100%;}",
-                                          "#home2 {width: 106%; height: 106%; background: url(img/dp.jpg) 22.30% 16.7%; background-size:1000%;}",
-                                          "#home3 {width: 106%; height: 106%; background: url(img/hulk.jpg) 22.30% 16.7%; background-size:1000%;}",
-                                          "#home4 {width: 106%; height: 106%; background: url(img/champions.jpg) 22.30% 16.7%; background-size:1000%;}",
-                                          "</style></head><body>",
-                                          "<div style=\"width:50%;float:left;\"><img id=\"home\" src=\"empty.png\"></div>",
-                                          "<div style=\"width:50%;float:left;\"><img id=\"home2\" src=\"empty.png\"></div>",
-                                          "<div style=\"width:50%;float:left;\"><img id=\"home3\" src=\"empty.png\"></div>",
-                                          "<div style=\"width:50%;float:left;\"><img id=\"home4\" src=\"empty.png\"></div>",
-                                          "</body>")),
-                              easyClose=T,
-                              size="m",
-                              footer=NULL))
-        # output$cardimg <- renderUI({
-        #     HTML(paste0("<head><style>",
-        #                      "#home {width: 106%; height: 106%; background: url(img/dp.jpg) 11.15% 16.7%;}",
-        #                      "</style></head><body>",
-        #                      "<img id=\"home\" src=\"empty.png\">",
-        #                      "</body>"))
-        #     })
+        imgPopupGen(input$fixedHER,cardtype="hero",src=src)
     })
     
     observeEvent(input$pastesetup,{
@@ -584,24 +457,42 @@ server <- function(input, output, session) {
                     "",
                     subj,
                     fixed=T)
-        textpopupgen(subj,type)
+        textpopupgen(subj,
+                     type,
+                     tooltext=tooltext,
+                     setlist=setlist)
     })
     
     #render card text popup from the presets lists
     observeEvent(input$fixedSCHtxt, {
-        textpopupgen(input$fixedSCH,cardtype="Scheme")
+        textpopupgen(input$fixedSCH,
+                     cardtype="Scheme",
+                     tooltext=tooltext,
+                     setlist=setlist)
     })
     observeEvent(input$fixedMMtxt, {
-        textpopupgen(input$fixedMM,cardtype="Mastermind")
+        textpopupgen(input$fixedMM,
+                     cardtype="Mastermind",
+                     tooltext=tooltext,
+                     setlist=setlist)
     })
     observeEvent(input$fixedHMtxt, {
-        textpopupgen(input$fixedHM,cardtype="Henchmen")
+        textpopupgen(input$fixedHM,
+                     cardtype="Henchmen",
+                     tooltext=tooltext,
+                     setlist=setlist)
     })
     observeEvent(input$fixedVILtxt, {
-        textpopupgen(input$fixedVIL[1],cardtype="Villains")
+        textpopupgen(input$fixedVIL[1],
+                     cardtype="Villains",
+                     tooltext=tooltext,
+                     setlist=setlist)
     })
     observeEvent(input$fixedHERtxt, {
-        textpopupgen(input$fixedHER[1],cardtype="Heroes")
+        textpopupgen(input$fixedHER[1],
+                     cardtype="Heroes",
+                     tooltext=tooltext,
+                     setlist=setlist)
     })
     
     #render keyword text popup

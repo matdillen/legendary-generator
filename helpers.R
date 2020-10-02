@@ -838,3 +838,100 @@ setGames <- function(games,
   return(games)
 }
 
+#render a popup with card text
+textpopupgen <- function(txt,cardtype="none",tooltext,setlist) {
+  if (cardtype=="none") {
+    text = filter(tooltext,
+                  id%in%txt)
+  }
+  if (cardtype!="none") {
+    text = filter(tooltext,
+                  id%in%txt,
+                  type%in%cardtype)
+  }
+  if (dim(text)[1]>0) {
+    title = filter(setlist,id==text$set)$label
+    text %<>% mutate(text = gsub("\n","<br>",text))
+    showModal(modalDialog(title = title,
+                          HTML(paste(text$text,collapse="<br><br>")),
+                          easyClose = T,
+                          footer=HTML(
+                            paste0("<p align=\"left\">",
+                                   "<a href=\"",
+                                   "https://www.boardgamegeek.com/wiki/page/Legendary_Marvel_Complete_Card_Text\"",
+                                   ">Text transcriptions adapted from boardgamegeek wiki</a></p>"))))
+  }
+}
+
+imgPopupGen <- function(id,cardtype,src) {
+  if (cardtype == "henchmen") {
+    vals = filter(src$henchmen,
+                  Name==id)
+  }
+  if (cardtype == "hero") {
+    vals = filter(src$heroes,
+                  uni==id,
+                  !duplicated(Split)|is.na(Split))
+  }
+  if (cardtype == "mastermind") {
+    vals = filter(src$masterminds,
+                  Name==id|MM==id)
+  }
+  if (cardtype == "villain") {
+    vals = filter(src$villains,
+                  Group==id)
+  }
+  if (cardtype == "scheme") {
+    vals = filter(src$schemes,
+                  Name==id)
+  }
+  n = dim(vals)[1]
+  if (n>0) {
+    vals$file = gsub(",",".",vals$file,fixed=T)
+    imgcode = "<head><style>"
+    vals$sz1 = 0
+    vals$sz2 = 0
+    for (i in 1:n) {
+      loc = strsplit(vals$loc[i],split=" ")[[1]]
+      if (length(loc)==1) {
+        bg = 100
+      }
+      if (length(loc)==2) {
+        vals$sz1[i] = (as.numeric(loc[1])-1)*11.15
+        vals$sz2[i] = (as.numeric(loc[2])-1)*16.75
+        bg = 1000
+      }
+      if (!is.na(vals$file[i])) {
+        line = paste0("#home",
+                      i,
+                      " {width: 106%; height: 106%; background: url(img/",
+                      vals$file[i],
+                      ") ",
+                      vals$sz1[i],
+                      "% ",
+                      vals$sz2[i],
+                      "%; background-size:",
+                      bg,
+                      "%;}")
+        imgcode = paste0(imgcode,
+                         line)
+      }
+    }
+    imgcode = paste0(imgcode,
+                     "</style></head><body>")
+    for (i in 1:n) {
+      if (!is.na(vals$file[i])) {
+        imgcode = paste0(imgcode,
+                         "<div style=\"width:50%;float:left;\"><img id=\"home",
+                         i,
+                         "\" src=\"empty.png\"></div>")
+      }
+    }
+    imgcode = paste0(imgcode,
+                     "</body>")
+    showModal(modalDialog(title=NULL,
+                          HTML(imgcode),
+                          easyClose = T,
+                          footer=NULL))
+  }
+}
