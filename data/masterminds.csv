@@ -185,7 +185,7 @@ Countermeasure protocols;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;
 Combined knowledge of all Kree;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for every Kree in city or escape.;;;gotg,jpg;9 6
 Guide Kree Evolution;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard, also to all Kree;;;gotg,jpg;6 1
 Cosmic Omniscience;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for each strike played;;;gotg,jpg;5 1
-Thanos;;;;GG;Infinity Gems;;7;24;;;;;;;;;;;;;;Put nongrey hero from hand next to Thanos.;Gets minus for infinity gems in play.;;gotg,jpg;5 6
+Thanos;;;;GG;Infinity Gems;;7;24;;;;;;;;;;;;;;Put nongrey hero from hand next to Thanos.;Gets minus for infinity gems in play.;;gotg,jpg;5 5
 The Mad Titan;Thanos;;;GG;;;;;;;;;;;;;;;;;;Other players discard all heroes with same name as hero next to Thanos;;;gotg,jpg;10 1
 God of Death;Thanos;;;GG;;;;;;;;;;;;1;;;;;;Other players gain wound for each hero with same name as bound hero in hand.;;;gotg,jpg;9 1
 Keeper of Souls;Thanos;;;GG;;;;;;;;;;;;;;;;;;Gain a hero from the pile. Other players put nongrey hero from discard in there.;;;gotg,jpg;8 1
@@ -237,25 +237,25 @@ Alien Dragon Technology;Fin Fang Foom;;;CH;;;;;1;1;1;1;1;;;;;;;;;A hero gains si
 Supersonic Dive Attack;Fin Fang Foom;;;CH;;;;;;;;;;;;;1;;;;;KO top card hero deck, then other players discard hero sharing a color.;;;champions,jpg;3 5
 Multipronged Assault;Fin Fang Foom;;;CH;;;;;;;;;;;;1;;;;;;Other players gain wound unless they have spectrum.;;;champions,jpg;2 5
 General Ross;;;;WW;Code Red;;6;6;;;;;;;;1;;;;1;;Transform, then hulk rampage;Starts with 8 bystanders to rescue for 2 FI;Easier if there's a Hulk;hulk,jpg;3 2
-Red Hulk;;;1;WW;;;6;9;;;;;;;;1;;;;1;;Transform, then add bystanders from VP. If no BS, wound.;Wounded fury;;hulk,jpg;8 2
+Red Hulk;General Ross;;1;WW;;;6;9;;;;;;;;1;;;;1;;Transform, then add bystanders from VP. If no BS, wound.;Wounded fury;;hulk,jpg;8 2
 Urban Warfare;General Ross;;;WW;;;;;;;;;;;;;;;;;;Add BS from stack, escape, city space and other player's vp, then transform;;;hulk,jpg;7 2
 Call out the Army;General Ross;;;WW;;;;;;;;;;;;;;;;;;Add 3 BS, then transform;;;hulk,jpg;6 2
 Bust you down to private;General Ross;;;WW;;;;;;;;;;;;;;;;;;Other players put nongrey hero from hand on bottom hero deck, then gain zero cost hero from KO, then transform;;;hulk,jpg;5 2
 Personal Arsenal;General Ross;;;WW;;;;;;;;;;;;;;;;;;Add BS for each master strike, then transform.;;;hulk,jpg;4 2
 Illuminati, Secret Society;;;;WW;Illuminati;;7;11;;;;;;;;;;;;;;Each player discards two cards costing between 1 and 4 then transform.;You need to outwit or gets +4;;hulk2,jpg;7 3
-Illuminati, Open Warfare;;;1;WW;;;7;13;;;;;;;;;;;;;;Each player discards two cards costing between 5 and 8 then transform.;Whenever drawing extra cards, also discard a card;;hulk2,jpg;2 4
+Illuminati, Open Warfare;Illuminati, Secret Society;;1;WW;;;7;13;;;;;;;;;;;;;;Each player discards two cards costing between 5 and 8 then transform.;Whenever drawing extra cards, also discard a card;;hulk2,jpg;2 4
 Hulkbuster's Hammer Fist;Illuminati, Secret Society;;;WW;;;;;;1;;;1;;;;2;;;;;Other players KO a S or G hero from hand or discard, then transform.;;;hulk2,jpg;10 3
 Zom's Manacles of Living Bondage;Illuminati, Secret Society;;;WW;;;;;;1;;;;;;1;;;;;;Other players reveal R hero or gain wound, then transform.;;;hulk2,jpg;1 4
 Dr. Strange's Orb of Agamotto;Illuminati, Secret Society;;;WW;;;;;1;;;1;;;;;;;;;;Other players discard B or Y hero, then transform;;;hulk2,jpg;9 3
 Black Bolt's Omni-Shout;Illuminati, Secret Society;;;WW;;;;;;;;;;;;;;;;;;Other players discard two cards without rules text, then transform.;;;hulk2,jpg;8 3
 King Hulk, Sakaarson;;;;WW;Warbound;;6;9;;;;;;;;1;;;;;;KO warbound villain or wound, transform.;Gets plus for his villain group.;;hulk2,jpg;2 5
-King Hulk, Worldbreaker;;;1;WW;;;6;10;;;;;;;;;2;;;;;KO card from hand or discard with same name as card in hq, transform;Wounded fury;;hulk2,jpg;7 5
+King Hulk, Worldbreaker;King Hulk, Sakaarson;;1;WW;;;6;10;;;;;;;;;2;;;;;KO card from hand or discard with same name as card in hq, transform;Wounded fury;;hulk2,jpg;7 5
 Fury of the Green Scar;King Hulk, Sakaarson;;;WW;;;;;;;1;;;;;;;;;;;Other players discard nongrey non G hero, transform;;;hulk2,jpg;3 5
 Rule by the Strongest;King Hulk, Sakaarson;;;WW;;;;;;;2;;;;;;;;;;;Get MO for your G heroes, transform.;;;hulk2,jpg;6 5
 Revenge from the Stars;King Hulk, Sakaarson;;;WW;;;;;;;;;;;;1;;;;;;Hulk rampage, transform.;;;hulk2,jpg;5 5
 Oath of the Warbound;King Hulk, Sakaarson;;;WW;;;;;;;;;;;;;;;1;;;Toughest escaped villain enters sewers, transform.;;;hulk2,jpg;4 5
 M.O.D.O.K.;;;;WW;Intelligencia;;6;9;;;;;;;;1;;;;;;Outwit him or get wound, transform;Outwit needs 4 different costs.;;hulk2,jpg;8 6
-M.O.D.O.K., Network Nightmare;;;1;WW;;;6;8;;;;;;;;;;;;;;Outwit him or KO nongrey hero, transform;Only be fought with MO.;;hulk2,jpg;3 7
+M.O.D.O.K., Network Nightmare;M.O.D.O.K.;;1;WW;;;6;8;;;;;;;;;;;;;;Outwit him or KO nongrey hero, transform;Only be fought with MO.;;hulk2,jpg;3 7
 Designed only for K.O.ing;M.O.D.O.K.;;;WW;;;;;;;;;;;;;;;;;;Reveal top 3 of your deck, KO one, draw one, discard one, transform;;;hulk2,jpg;1 7
 Brain scramble;M.O.D.O.K.;;;WW;;;;;;;;;;;;;;;;;;Other player's discard hand, then draw anew, transform;;;hulk2,jpg;9 6
 Redundancy Algorithms;M.O.D.O.K.;;;WW;;;;;;;;;;;;;;;;;;Other players discard two cards with same cost, transform;;;hulk2,jpg;2 7
@@ -267,13 +267,13 @@ Creative assassin;Pagliacci;;;CH;;;;;;;;;;;;;;;;;;Versatile 3;;;champions,jpg;1 
 Jester of a twisted opera;Pagliacci;;;CH;;;;;;;;;;;;;1;;;;;Other players may KO hero of cost 1 or more from discard. Demolish if not.;;;champions,jpg;8 2
 Commedia dell' Morte;Pagliacci;;;CH;;;;;;;;;;;;1;;;;;;Other players may gain 2 wounds. Demolish if not.;;;champions,jpg;10 2
 The Red King;;;;WW;Sakaar Imperial Guard;;6;7;;;;;1;;;1;;;;;;Transform, then wound unless S hero.;Can't be fought if there are villains in the citY.;;hulk2,jpg;9 7
-The Red King, Power Armored;;;1;WW;;;;;;;;;;;;;;;1;;;Transform, then play another card from villain deck.;;;hulk,jpg;5 1
+The Red King, Power Armored;The Red King;;1;WW;;;;;;;;;;;;;;;1;;;Transform, then play another card from villain deck.;;;hulk,jpg;5 1
 Vast armies of Sakaar;The Red King;;;WW;;;;;;;;;;;;;;;1;;;If not final tactic, play all villains in top 3 of villain deck, rest back. Transform;;;hulk,jpg;4 1
 Treasury of Sakaar;The Red King;;;WW;;;;;;;;;;;;;;;;;;Get MO for each Sakaar and Red king in your VP, then transform.;;;hulk,jpg;3 1
 Haughty spite;The Red King;;;WW;;;;;;;;;;;;1;;;;;;Players without tactic get wound, transform.;;;hulk,jpg;1 1
 Royal bodyguard;The Red King;;;WW;;;;;;;;;;;;;;;1;;;Play the first Sakaar villain from villain deck, transform.;;;hulk,jpg;2 1
 The Sentry;;;;WW;Aspects of the Void;;6;10;;;;;;;;2;;;;;;Transform, void rampage;;Players start with two wounds;hulk,jpg;3 6
-The Void;;;1;WW;;;6;11;;;;;;;;1;1;;;;;Feast, if grey, wound, transform.;Wounded fury;;hulk,jpg;8 6
+The Void;The Sentry;;1;WW;;;6;11;;;;;;;;1;1;;;;;Feast, if grey, wound, transform.;Wounded fury;;hulk,jpg;8 6
 Repressed darkness;The Sentry;;;WW;;;;;1;;;;;;;;;;1;;;Other players reveal B hero or play Void villain from VP. Transform.;;;hulk,jpg;7 6
 Pacifying light;The Sentry;;;WW;;;;;;;;;;;;;;;;;;Other players discard two MO heroes, transform;;;hulk,jpg;4 6
 Power of a million exploding suns;The Sentry;;;WW;;;;;;;;;;;;;;;;;;Tuck all heroes in HQ. Other players discard heroes with same card names.;;;hulk,jpg;5 6

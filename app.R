@@ -101,7 +101,7 @@ keywords[is.na(keywords)] = ""
 
 tooltext = read_tsv("data/tooltext.txt")
 
-imgsize = read_tsv("data/sizeinfo.txt", col_names = F)
+imgsize = read_tsv("data/sizeinfo.txt")
 
 ui <- fluidPage(
     #tags$head(tags$style(".modal-dialog { width: auto;}")),
@@ -310,25 +310,45 @@ server <- function(input, output, session) {
         toggle("fixedHERimg")
     })
     
+    #show images from the preset fields
     observeEvent(input$fixedSCHimg, {
-        imgPopupGen(input$fixedSCH,cardtype="scheme",src=src)
+        imgPopupGen(input$fixedSCH,
+                    cardtype="Scheme",
+                    src=src,
+                    imgsize=imgsize)
     })
     
     observeEvent(input$fixedMMimg, {
-        imgPopupGen(input$fixedMM,cardtype="mastermind",src=src)
+        imgPopupGen(input$fixedMM,
+                    cardtype="Mastermind",
+                    src=src,
+                    imgsize=imgsize)
     })
     
     observeEvent(input$fixedHMimg, {
-        imgPopupGen(input$fixedHM,cardtype="henchmen",src=src)
+        imgPopupGen(input$fixedHM,
+                    cardtype="Henchmen",
+                    src=src,
+                    imgsize=imgsize)
     })
     observeEvent(input$fixedVILimg, {
-        imgPopupGen(input$fixedVIL,cardtype="villain",src=src)
+        if (length(input$fixedVIL)>0) {
+            imgPopupGen(input$fixedVIL,
+                        cardtype="Villains",
+                        src=src,
+                        imgsize=imgsize)
+        }
     })
-    
     observeEvent(input$fixedHERimg, {
-        imgPopupGen(input$fixedHER,cardtype="hero",src=src)
+        if (length(input$fixedHER)>0) {
+            imgPopupGen(input$fixedHER,
+                        cardtype="Heroes",
+                        src=src,
+                        imgsize=imgsize)
+        }
     })
     
+    #paste a previously generated setup into the preset fields
     observeEvent(input$pastesetup,{
         setup = readClipboard()
         if (!is.null(setup)) {
@@ -421,7 +441,8 @@ server <- function(input, output, session) {
                                              escape=F,
                                              rownames=F,
                                              selection=list(
-                                                 mode="single"),
+                                                 mode="single",
+                                                 target="cell"),
                                              options = list(
                                                  paging = F,
                                                  searching = F,
@@ -448,20 +469,39 @@ server <- function(input, output, session) {
     
     #render card text popup from the table
     observeEvent(input$setups_cell_clicked, {
-        subj = livesetup()[input$setups_rows_selected,2]
-        type = livesetup()$Namespace[input$setups_rows_selected]
-        if (length(type)==0) {
-            type = "none"
+        if (length(input$setups_cells_selected)!=0) {
+            if (input$setups_cells_selected[2]==0) {
+                subj = livesetup()[input$setups_cells_selected[1],2]
+                type = livesetup()$Namespace[input$setups_cells_selected[1]]
+                if (length(type)==0) {
+                    type = "none"
+                }
+                subj = gsub(" - epic",
+                            "",
+                            subj,
+                            fixed=T)
+                textpopupgen(subj,
+                             type,
+                             tooltext=tooltext,
+                             setlist=setlist)
+            }
+            if (input$setups_cells_selected[2]==1) {
+                subj = livesetup()[input$setups_cells_selected[1],2]
+                type = livesetup()$Namespace[input$setups_cells_selected[1]]
+                if (length(type)==0) {
+                    type = "none"
+                }
+                subj = gsub(" - epic",
+                            "",
+                            subj,
+                            fixed=T)
+                imgPopupGen(subj,
+                            cardtype=type,
+                            src=src,
+                            imgsize=imgsize)
+            }
         }
-        subj = gsub(" - epic",
-                    "",
-                    subj,
-                    fixed=T)
-        textpopupgen(subj,
-                     type,
-                     tooltext=tooltext,
-                     setlist=setlist)
-    })
+    },ignoreInit = T)
     
     #render card text popup from the presets lists
     observeEvent(input$fixedSCHtxt, {

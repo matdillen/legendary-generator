@@ -498,6 +498,17 @@ setupSumm <- function(game,setupid) {
                 "",
                 rep("Heroes",
                     length(game$Heroes)))
+  img = c("img",
+          "img",
+          "",
+          rep("img",
+              length(game$Villains)),
+          "",
+          rep("img",
+              length(game$Henchmen)),
+          "",
+          rep("img",
+              length(game$Heroes)))
   if (!is.null(game$Extras)) {
     setup = c(setup,
               "<br>",
@@ -505,12 +516,15 @@ setupSumm <- function(game,setupid) {
     namespace = c(namespace,
                   "",
                   "none")
+    img = c(img,"","")
   }
   setup = data.frame(namespace=namespace,
-                     data=setup)
+                     data=setup,
+                     img=img)
                      
   colnames(setup) = c("Namespace",
-                      paste0("Setup ",setupid))
+                      paste0("Setup ",setupid),
+                      " ")
   return(setup)
 }
 
@@ -863,25 +877,25 @@ textpopupgen <- function(txt,cardtype="none",tooltext,setlist) {
   }
 }
 
-imgPopupGen <- function(id,cardtype,src) {
-  if (cardtype == "henchmen") {
+imgPopupGen <- function(id,cardtype,src,imgsize) {
+  if (cardtype == "Henchmen") {
     vals = filter(src$henchmen,
                   Name==id)
   }
-  if (cardtype == "hero") {
+  if (cardtype == "Heroes") {
     vals = filter(src$heroes,
                   uni==id,
-                  !duplicated(Split)|is.na(Split))
+                  !duplicated(Split)|is.na(Split)|grepl("T",Split))
   }
-  if (cardtype == "mastermind") {
+  if (cardtype == "Mastermind") {
     vals = filter(src$masterminds,
                   Name==id|MM==id)
   }
-  if (cardtype == "villain") {
+  if (cardtype == "Villains") {
     vals = filter(src$villains,
                   Group==id)
   }
-  if (cardtype == "scheme") {
+  if (cardtype == "Scheme") {
     vals = filter(src$schemes,
                   Name==id)
   }
@@ -892,39 +906,63 @@ imgPopupGen <- function(id,cardtype,src) {
     vals$sz1 = 0
     vals$sz2 = 0
     for (i in 1:n) {
-      loc = strsplit(vals$loc[i],split=" ")[[1]]
-      if (length(loc)==1) {
-        bg = 100
-      }
-      if (length(loc)==2) {
-        vals$sz1[i] = (as.numeric(loc[1])-1)*11.15
-        vals$sz2[i] = (as.numeric(loc[2])-1)*16.75
-        bg = 1000
-      }
       if (!is.na(vals$file[i])) {
-        line = paste0("#home",
-                      i,
-                      " {width: 106%; height: 106%; background: url(img/",
-                      vals$file[i],
-                      ") ",
-                      vals$sz1[i],
-                      "% ",
-                      vals$sz2[i],
-                      "%; background-size:",
-                      bg,
-                      "%;}")
-        imgcode = paste0(imgcode,
-                         line)
+        loc = strsplit(vals$loc[i],split=" ")[[1]]
+        if (length(loc)==1) {
+          bg = 100
+          mod2 = 106
+        }
+        if (length(loc)==2) {
+          sze = filter(imgsize,filename==vals$file[i])
+          mod = 16.67 - 16.67*(1-sze$rel[1])/7
+          mod2 = 106 - 106*(1-sze$rel[1])
+          vals$sz1[i] = (as.numeric(loc[1])-1)*11.11
+          vals$sz2[i] = (as.numeric(loc[2])-1)*mod
+          bg = 1000
+        }
+        if (!is.na(vals$file[i])) {
+          line = paste0("#home",
+                        i,
+                        " {width: 104.9%; height: ",
+                        mod2,
+                        "%; position:relative; background: url(img/",
+                        vals$file[i],
+                        ") ",
+                        vals$sz1[i],
+                        "% ",
+                        vals$sz2[i],
+                        "%; background-size:",
+                        bg,
+                        "%;}")
+          imgcode = paste0(imgcode,
+                           line)
+        }
       }
     }
     imgcode = paste0(imgcode,
                      "</style></head><body>")
+    float = "left"
+    ct = ""
     for (i in 1:n) {
       if (!is.na(vals$file[i])) {
+        if (i%%2==0) {
+          float = "right"
+        } else {
+          float = "left"
+        }
+        ct = ""
+        if (cardtype == "Villains"|
+            cardtype == "Heroes") {
+          ct = vals$Ct[i]
+        }
         imgcode = paste0(imgcode,
-                         "<div style=\"width:50%;float:left;\"><img id=\"home",
+                         "<div style=\"width:49%;float:",
+                         float,
+                         ";\"><img id=\"home",
                          i,
-                         "\" src=\"empty.png\"></div>")
+                         "\" src=\"empty.png\" title=\"",
+                         ct,
+                         " copies\"></div><div style=\"width:2%;\"> </div>")
       }
     }
     imgcode = paste0(imgcode,
