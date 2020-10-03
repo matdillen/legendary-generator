@@ -898,6 +898,14 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
   if (cardtype == "Scheme") {
     vals = filter(src$schemes,
                   Name==id)
+    if (vals$Name%in%c("House of M",
+                       "Secret Hydra Corruption",
+                       "The Korvac Saga",
+                       "Earthquake Drains the Ocean")) {
+      vals = rbind(vals,vals[1,])
+      vals$file[2] = vals$file2[1]
+      vals$loc[2] = vals$loc2[1]
+    }
   }
   n = dim(vals)[1]
   if (n>0) {
@@ -910,12 +918,12 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
         loc = strsplit(vals$loc[i],split=" ")[[1]]
         if (length(loc)==1) {
           bg = 100
-          mod2 = 106
+          mod2 = 409
         }
         if (length(loc)==2) {
           sze = filter(imgsize,filename==vals$file[i])
           mod = 16.67 - 16.67*(1-sze$rel[1])/7
-          mod2 = 106 - 106*(1-sze$rel[1])
+          mod2 = 397 + 397*(1-sze$rel[1])
           vals$sz1[i] = (as.numeric(loc[1])-1)*11.11
           vals$sz2[i] = (as.numeric(loc[2])-1)*mod
           bg = 1000
@@ -925,7 +933,7 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
                         i,
                         " {width: 104.9%; height: ",
                         mod2,
-                        "%; position:relative; background: url(img/",
+                        "px; position:relative; background: url(img/",
                         vals$file[i],
                         ") ",
                         vals$sz1[i],
