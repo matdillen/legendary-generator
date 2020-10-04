@@ -352,11 +352,11 @@ heronames %<>%
 mmnames %<>% 
   dplyr::rename(id = mmtext)
 schemnames %<>% 
-  rename(id = schemtext)
+  dplyr::rename(id = schemtext)
 vilnames %<>% 
-  rename(id = viltext)
+  dplyr::rename(id = viltext)
 henchnames %<>% 
-  rename(id = henchtext)
+  dplyr::rename(id = henchtext)
 
 tooltext = rbind(heronames,mmnames,vilnames,schemnames,henchnames)
 
@@ -389,6 +389,8 @@ tooltext$text = gsub("Venomverse","<img src=\"venompool.png\" width=\"16\">",too
 tooltext$text = gsub("Sinister Six","<img src=\"sinistersix.png\" width=\"16\">",tooltext$text)
 tooltext$text = gsub("HYDRA","<img src=\"hydra.png\" width=\"16\">",tooltext$text)
 tooltext$text = gsub("1/2","½",tooltext$text,fixed=T)
+
+tooltext$text = gsub("\n","<br>",tooltext$text)
 
 #manual edits using legendary-textedit to fix remaining markdown problems
 #so best not to overwrite the whole old file, but only add new ones
