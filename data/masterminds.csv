@@ -77,11 +77,11 @@ Monarch of Utopolis;King Hyperion;;;SW2;;;;;;;;;;;;;;;;;1;If in city, remove him
 Rule with an iron fist;King Hyperion;;;SW2;;;;;;;;;;;;;;;;;1;If in city, remove him, shuffle back tactic and defeat villain for free.;;;sw2,jpg;2 3
 Worshipped by millions;King Hyperion;;;SW2;;;;;;;;;;;;;;;;;1;If in city, remove him, shuffle back tactic and rescue six bystanders.;;;sw2,jpg;3 3
 Royal treasury;King Hyperion;;;SW2;;;;;;;;;;;;;;;;;1;If in city, remove him, shuffle back tactic and get 5 MO.;;;sw2,jpg;1 3
-Kingpin;;;;DC;Streets of New York;;6;13;;;;;;Marvel Knights;1;;;;;;;Reveal MK or discard hand, then draw 5.;Bribe;;darkcity,jpg;6 1
-Dirty Cops;Kingpin;;;DC;;;;;;;;;;;;;;;;;;Put zero cost hero from KO on other player's deck.;;;darkcity,jpg;5 1
-Criminal Empire;Kingpin;;;DC;;;;;;;;;;;;;;;2;;;If not final tactic, play all villains in top 3 of villain deck. Put rest back.;;;darkcity,jpg;4 1
-Call a hit;Kingpin;;;DC;;;;;;;;;;;;;1;;;;;KO a hero from each player's discard pile.;;;darkcity,jpg;3 1
-Mob war;Kingpin;;;DC;;;;;;;;;;;;;;;2;;;Other players play a henchmen from VP.;;;darkcity,jpg;2 1
+Kingpin;;;;DC;Streets of New York;;6;13;;;;;;Marvel Knights;1;;;;;;;Reveal MK or discard hand, then draw 5.;Bribe;;darkcity,jpg;5 2
+Dirty Cops;Kingpin;;;DC;;;;;;;;;;;;;;;;;;Put zero cost hero from KO on other player's deck.;;;darkcity,jpg;4 2
+Criminal Empire;Kingpin;;;DC;;;;;;;;;;;;;;;2;;;If not final tactic, play all villains in top 3 of villain deck. Put rest back.;;;darkcity,jpg;3 2
+Call a hit;Kingpin;;;DC;;;;;;;;;;;;;1;;;;;KO a hero from each player's discard pile.;;;darkcity,jpg;2 2
+Mob war;Kingpin;;;DC;;;;;;;;;;;;;;;2;;;Other players play a henchmen from VP.;;;darkcity,jpg;1 2
 Loki;;;;B;Enemies of Asgard;;5;10;;;1;;;;;1;;;;;;Reveal green hero or get wound;;;base2,jpg;4 1
 Vanishing Illusions;Loki;;;B;;;;;;;;;;;;;;;;;;Other players KO villain from VP.;;;base2,jpg;7 1
 Whispers and Lies;Loki;;;B;;;;;;;;;;;;;;1;;;;Other players KO 2 BS from VP.;;;base2,jpg;3 1
@@ -180,9 +180,9 @@ Swift vengeance;Stryfe;;;DC;;;;;;;;;;;;;;;;;;A wound becomes a master strike.;;;
 Tide of retribution;Stryfe;;;DC;;;;;;;;;;X-Force;1;1;;;;;;Other players reveal X-force or gian wound.;;;darkcity,jpg;6 3
 Furious wrath;Stryfe;;;DC;;;;;;;;;;;;;;;;;;Play all master strike from top 6 villain deck, rest back.;;;darkcity,jpg;8 3
 Psychic torment;Stryfe;;;DC;;;;;;;;;;;;;;;;;;Look at top five of your deck. Draw one, rest discard.;;;darkcity,jpg;9 3
-Supreme Intelligence of the Kree;;;;GG;Kree Starforce;;6;9;;;;;;;;;;;;;;Add shard, then discard equal to and cost of plus 1 number of shards.;Shards;;gotg,jpg;10 6
-Countermeasure protocols;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for each tactic in vp's (including this one).;;;gotg,jpg;2 7
-Combined knowledge of all Kree;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for every Kree in city or escape.;;;gotg,jpg;9 6
+Supreme Intelligence of the Kree;;;;GG;Kree Starforce;;6;9;;;;;;;;;;;;;;Add shard, then discard equal to and cost of plus 1 number of shards.;Shards;;gotg,jpg;10 5
+Countermeasure protocols;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for each tactic in vp's (including this one).;;;gotg,jpg;2 6
+Combined knowledge of all Kree;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for every Kree in city or escape.;;;gotg,jpg;9 5
 Guide Kree Evolution;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard, also to all Kree;;;gotg,jpg;6 1
 Cosmic Omniscience;Supreme Intelligence of the Kree;;;GG;;;;;;;;;;;;;;;;;;Add shard for each strike played;;;gotg,jpg;5 1
 Thanos;;;;GG;Infinity Gems;;7;24;;;;;;;;;;;;;;Put nongrey hero from hand next to Thanos.;Gets minus for infinity gems in play.;;gotg,jpg;5 5
@@ -215,11 +215,11 @@ Crimson bands of cyttorak;Dr. Strange;;;V;;;;;;;;;;;;2;;;;;;Other players gain b
 Book of the vishanti;Dr. Strange;;;V;;;;;;1;;;;;;;;;;;;Other players discard and draw anew unless they have red.;;;villains,jpg;6 5
 Eye of Agamotto;Dr. Strange;;;V;;;;;;;;;;;;;;;;;;Take top cards of hero deck and distribute them among players;;;villains,jpg;5 5
 Winds of Watoomb;Dr. Strange;;;V;;;;;;;;;;;;;;;;;;Exchange nongrey heroes;;;villains,jpg;9 5
-Uru-Enchanted Iron Man;;;;FI;The Mighty;;6;7;;;;;;;;;;;;;;Demolish each player;Uru for each MS played;;fearitself,png;8 3
-Quantum inventions;Uru-Enchanted Iron Man;;;FI;;;;;;;;;1;;;;;;;;;Draw two, then draw tw more if you reveal S hero;;;fearitself,png;1 4
-Pepper Potts in Rescue armor;Uru-Enchanted Iron Man;;;FI;;;;;;;;;;;;;;;;;;Bystander becomes master strike;;;fearitself,png;2 4
-Armor of the destroyer;Uru-Enchanted Iron Man;;;FI;;;;;;;;;1;;;;;;;;;Demolish other players for each S hero you have;;;fearitself,png;9 3
-Repulsor coils;Uru-Enchanted Iron Man;;;FI;;;;;;;;;1;;;1;;;;;;Other players reveal S hero or wound.;;;fearitself,png;10 3
+Uru-Enchanted Iron Man;;;;FI;The Mighty;;6;7;;;;;;;;;;;;;;Demolish each player;Uru for each MS played;;fearitself,jpg;8 3
+Quantum inventions;Uru-Enchanted Iron Man;;;FI;;;;;;;;;1;;;;;;;;;Draw two, then draw tw more if you reveal S hero;;;fearitself,jpg;1 4
+Pepper Potts in Rescue armor;Uru-Enchanted Iron Man;;;FI;;;;;;;;;;;;;;;;;;Bystander becomes master strike;;;fearitself,jpg;2 4
+Armor of the destroyer;Uru-Enchanted Iron Man;;;FI;;;;;;;;;1;;;;;;;;;Demolish other players for each S hero you have;;;fearitself,jpg;9 3
+Repulsor coils;Uru-Enchanted Iron Man;;;FI;;;;;;;;;1;;;1;;;;;;Other players reveal S hero or wound.;;;fearitself,jpg;10 3
 Nick Fury;;;;V;Avengers;;6;9;;;;;;;;;;;;;;Demolish for each strike played.;;;villains,jpg;8 4
 Bounty on Fury's head;Nick Fury;;;V;;;;;;;;;;;;;;;;;;KO any of your SHIELD heroes, you may gain that many officers.;;;villains,jpg;7 4
 Total fury;Nick Fury;;;V;;;;;;;;;;;;;;;;;;Defeat villain with power less than number of KO'd SHIELD heroes;;;villains,jpg;9 4
