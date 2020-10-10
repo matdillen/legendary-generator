@@ -153,6 +153,14 @@ genFun = function(src,
     src$henchmen %<>% filter(Name!="Cytoplasm Spikes")
   }
   
+  if (scheme=="Destroy the Nova Corps") {
+    novas = distinct(filter(src$heroes,Name_S=="Nova"),uni)
+    heronumber = sample(1:nrow(novas),1)
+    xtra = novas$uni[heronumber]
+    src$heroes %<>% filter(Name_S!="Nova")
+    heroesc = heroesc - 1
+  }
+  
   if (scheme=="House of M") {
     src$heroes %<>% filter(Hero!="Scarlet Witch")
   }
@@ -160,6 +168,9 @@ genFun = function(src,
   if (scheme=="The Dark Phoenix Saga"|
       scheme=="Transform Citizens Into Demons") {
     src$heroes %<>% filter(Hero!="Jean Grey")
+  }
+  if (scheme=="Turn the Soul of Adam Warlock") {
+    src$heroes %<>% filter(Hero!="Adam Warlock")
   }
   adapters = c("Hydra Super-Adaptoid",
                "Hydra High Council")
