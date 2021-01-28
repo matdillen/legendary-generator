@@ -36,3 +36,5 @@ Once the app is launched, various parameters can be set.
 A generated setup can be easily copied to clipboard for keeping track of setup outcomes in a spreadsheet. An example sheet with some results can be found in `results.xlsx` under `support`.
 
 A mod is available for Tabletop Simulator which supports import from this app: https://steamcommunity.com/sharedfiles/filedetails/?id=2269377314. It is a slightly modified version of [another mod](https://steamcommunity.com/sharedfiles/filedetails/?id=1777582863). A button for export of a setup to Tabletop Simulator is present in the app. The setup can then be pasted in the text input field in Tabletop Simulator (select the text input field and use `CTRL + V`). Almost all schemes should be scripted now, except for a few city-modifying setups.
+
+Older save files can still be founder under `support`.
