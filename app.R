@@ -6,7 +6,8 @@ pkgLoad <- function() {
                    "magrittr",
                    "shiny",
                    "shinyjs",
-                   "shinythemes")
+                   "shinythemes",
+                   "shinyBS")
     packagecheck <- match( packages, utils::installed.packages()[,1])
     packagestoinstall <- packages[is.na(packagecheck)]
     
@@ -32,6 +33,7 @@ library(shiny)
 library(shinyjs)
 library(DT)
 library(shinythemes)
+library(shinyBS)
 
 source("helpers.R")
 
@@ -108,6 +110,82 @@ ui <- fluidPage(
     #theme = shinytheme("united"),
     useShinyjs(),
     #useShinyalert(),
+    bsTooltip("playerc",
+               paste0("Set the number of players here, from 2-5.",
+                      " If playing solo, playing with 2 hands is recommended.",
+                      " Solo play with one hand is not supported.")),
+    bsTooltip("presets",
+               paste0("Press to enable setting specific cards that are",
+                      "required to be part of the setup. It\\'s also easy",
+                      "to visualize card text and images with the",
+                      "preset fields this way.")),
+    bsTooltip("pastesetup",
+              paste0("Press to paste a setup previously exported from this app.",
+                     "This is the simple export, not the Tabletop Simulator one.")),
+    bsTooltip("fixedSCH",
+              "Pick a scheme."),
+    bsTooltip("fixedSCHtxt",
+              "See the selected scheme\\'s text."),
+    bsTooltip("fixedSCHimg",
+              "See the selected scheme as an image."),
+    bsTooltip("fixedMM",
+              "Pick a mastermind."),
+    bsTooltip("fixedMMtxt",
+              "See the selected mastermind\\'s text, including the tactics."),
+    bsTooltip("fixedMMimg",
+              "See the selected mastermind\\'s card images, including tactics and epic or transform backsides."),
+    bsTooltip("fixedHM",
+              "Pick a henchmen group."),
+    bsTooltip("fixedHMtxt",
+              "See the selected henchmen card text."),
+    bsTooltip("fixedHMimg",
+              "See the selected henchmen card image."),
+    bsTooltip("fixedVIL",
+              "Pick the villain groups."),
+    bsTooltip("fixedVILtxt",
+              paste0("See the selected villain group\\'s text.",
+              " If multiple are selected, only text for the first group will be shown.")),
+    bsTooltip("fixedVILimg",
+              paste0("See the images for all villain cards from the selected group.",
+                     " If multiple groups are selected, only images for the first group will be shown.")),
+    bsTooltip("fixedHER",
+              "Pick the heroes."),
+    bsTooltip("fixedHERtxt",
+              paste0("See the text of all cards of the selected hero.",
+                     " If multiple heroes are selected, only text for the first one will be shown.")),
+    bsTooltip("fixedHERimg",
+              paste0("See the images of all cards of the selected hero.",
+                     " If multiple heroes are selected, only images for the first one will be shown.")),
+    bsTooltip("dropset",
+              "Select the sets that are to be fully excluded from the random generator."),
+    bsTooltip("epic",
+              "Tick this box to potentially select epic masterminds. If you do, there\\'s a 50% chance."),
+    bsTooltip("solo",
+              paste0("Tick this box if you are playing solo (with multiple hands).",
+                     " This excludes some schemes that do not work for solo play.")),
+    bsTooltip("incset",
+              paste0("Select the sets from which you want cards to be definitely included.",
+                     " In the next box you can indicate how many cards should be included as a minimum.",
+                     " Do note that this is a filter post generation and too strict criteria will ",
+                     "cause few or even 0 random setups to be returned!")),
+    bsTooltip("incsetThreshold",
+              paste0("How many cards should be present in the random setup from the selected sets.",
+                     " Minimally 1, maximum of 5. Ignored if no sets are selected.")),
+    bsTooltip("go",
+              "Generate a set of random setups according to the specified criteria (if any)."),
+    bsTooltip("gamecount",
+              "How many different setups should be generated?"),
+    bsTooltip("gameslider",
+              "Select your setup here."),
+    bsTooltip("keywords",
+              "Render a popup with rules text for the selected keyword."),
+    bsTooltip("print",
+              "Copy the selected setup to the clipboard. Can be easily pasted into a spreadsheet."),
+    bsTooltip("printTS",
+              paste0("Copy the selected setup to the clipboard, in a format that a compatible mod",
+                     " in Tabletop Simulator may understand. See help for more info.")),
+    bsTooltip("metricsgo",
+              "Render metrics for all generated setups. These metrics may give some indication of setup balance."),
     titlePanel("Marvel Legendary Setup Generator"),
     sidebarLayout(
         sidebarPanel(
@@ -122,8 +200,8 @@ ui <- fluidPage(
                     actionButton("presets",
                                  "Presets?"),
                     br(),
-                    actionButton("pastesetup",
-                                 "Paste"),
+                    hidden(actionButton("pastesetup",
+                                        "Paste")),
                     width=5,
                     offset=1
                 )),
@@ -245,7 +323,8 @@ ui <- fluidPage(
                        width=3)),
             fluidRow(
                 column(actionButton("go",
-                                    "Start"),
+                                    "Start",
+                                    style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
                        width=3,
                        style = "margin-top: 25px;"),
                 column(numericInput("gamecount",
@@ -264,10 +343,19 @@ ui <- fluidPage(
                 column(uiOutput("plusbutton"),
                        width=1)
             ),
-            selectizeInput("keywords",
+            fluidRow(
+                column(
+                    selectizeInput("keywords",
                            "Keyword Info",
                            choices = keywords$id),
-            width=5
+            width=10)),
+            fluidRow(
+                column(
+                    HTML(paste0("<b>For more info, see the <a href=\"https://github.com/matdillen",
+                                "/legendary-generator/blob/master/README.md\">readme</a>.</b>")),
+                    width=12
+                )
+            )
         ),
         mainPanel(dataTableOutput("setups"),
                   br(),
@@ -308,6 +396,7 @@ server <- function(input, output, session) {
         toggle("fixedHMimg")
         toggle("fixedVILimg")
         toggle("fixedHERimg")
+        toggle("pastesetup")
     })
     
     #show images from the preset fields
@@ -333,7 +422,7 @@ server <- function(input, output, session) {
     })
     observeEvent(input$fixedVILimg, {
         if (length(input$fixedVIL)>0) {
-            imgPopupGen(input$fixedVIL,
+            imgPopupGen(input$fixedVIL[1],
                         cardtype="Villains",
                         src=src,
                         imgsize=imgsize)
@@ -341,7 +430,7 @@ server <- function(input, output, session) {
     })
     observeEvent(input$fixedHERimg, {
         if (length(input$fixedHER)>0) {
-            imgPopupGen(input$fixedHER,
+            imgPopupGen(input$fixedHER[1],
                         cardtype="Heroes",
                         src=src,
                         imgsize=imgsize)
