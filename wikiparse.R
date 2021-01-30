@@ -388,6 +388,8 @@ tooltext$text = gsub("Heroes of Asgard","<img src=\"heroesofasgard.png\" width=\
 tooltext$text = gsub("Venomverse","<img src=\"venompool.png\" width=\"16\">",tooltext$text)
 tooltext$text = gsub("Sinister Six","<img src=\"sinistersix.png\" width=\"16\">",tooltext$text)
 tooltext$text = gsub("HYDRA","<img src=\"hydra.png\" width=\"16\">",tooltext$text)
+tooltext$text = gsub("Inhumans","<img src=\"inhumans.png\" width=\"16\">",tooltext$text)
+tooltext$text = gsub("When <img src=\"Recruit.jpg\" width=\"16\">ed","When recruited",tooltext$text)
 tooltext$text = gsub("1/2","½",tooltext$text,fixed=T)
 
 tooltext$text = gsub("\n","\r<br>",tooltext$text)

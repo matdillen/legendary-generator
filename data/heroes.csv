@@ -224,10 +224,10 @@ Illuminati;Beast;Balanced attack;SW2;;;;3;5;;;1;;1;;;1;;1;;;1;1;;;;;;;;;;;;;;;;;
 Illuminati;Beast;Upside-down thinking;SW2;;;;4;5;;;1;;1;;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;sw22,jpg;2 2
 Illuminati;Beast;Dr of beatdown;SW2;;;;6;3;;;1;;1;;;2;;2;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;sw22,jpg;3 2
 Illuminati;Beast;Multivar smackulus;SW2;;;;8;1;;;1;;1;;;2;;2;;;1;2;;;;;;;;;;;;;;;;;;;;;;;;;;;sw22,jpg;4 2
-Illuminati;Black Bolt;Speak no words;SW1;;;;4;5;1;1;;;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;7 1
-Illuminati;Black Bolt;Destructive whisper;SW1;;;;3;5;1;;;;;;;;;;;;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;5 1
-Illuminati;Black Bolt;Silence is golden;SW1;;;;6;3;;;1;;;;;;;;;1;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;6 1
-Illuminati;Black Bolt;Hypersonic scream;SW1;;;;8;1;1;;;;;;;;;;;;1;2;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;8 1
+Illuminati;Black Bolt;Speak no words;SW1;;Black Bolt;;4;5;1;1;;;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;7 1
+Illuminati;Black Bolt;Destructive whisper;SW1;;Black Bolt;;3;5;1;;;;;;;;;;;;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;5 1
+Illuminati;Black Bolt;Silence is golden;SW1;;Black Bolt;;6;3;;;1;;;;;;;;;1;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;6 1
+Illuminati;Black Bolt;Hypersonic scream;SW1;;Black Bolt;;8;1;1;;;;;;;;;;;;1;2;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;8 1
 Illuminati;Black Panther;Catlike Reflexes;SW1;;;;3;5;;1;;1;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;sw12,jpg;2 1
 Illuminati;Black Panther;Multifaceted Genius;SW1;;;;4;5;;;1;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Actually needs more multicolored cards;sw12,jpg;3 1
 Illuminati;Black Panther;Stalk the urban jungle;SW1;;;;6;3;;1;1;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;1;;;;;;;;;;;sw12,jpg;1 1
@@ -906,3 +906,23 @@ Guardians;Phyla-Vell;Channel cosmic power;ITC;;;;2;5;;;;1;;;;;1;;;;;1;;;;;;;;;;;
 Guardians;Phyla-Vell;Quantum Sword;ITC;;;;4;5;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;-1;;;;itc,png;1 3
 Guardians;Phyla-Vell;Martyr;ITC;;;;3;3;;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;1;;;;itc,png;2 3
 Guardians;Phyla-Vell;Avatar of Oblivion;ITC;;;;8;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;1;;;;itc,png;3 3
+Inhumans;Black Bolt;Declaration of War;ROK;;Black Bolt;;4;3;;;;;1;;;;;;;;1;;;;;;;-1;;;;;;;1;;;;;;;;;;;;;Throne's Favor;blackbolt,jpg;NW
+Inhumans;Black Bolt;The King's Speech;ROK;;Black Bolt;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Throne's Favor;blackbolt,jpg;NE
+Inhumans;Black Bolt;Break the Silence;ROK;;Black Bolt;;3;5;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;Throne's Favor;blackbolt,jpg;SW
+Inhumans;Black Bolt;Wordless Murmur;ROK;;Black Bolt;;5;5;1;;;;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;blackbolt,jpg;SE
+Inhumans;Crystal;Elemental princess;ROK;;;;6;3;;1;;;;;;;;;-1;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;Throne's Favor;crystal,jpg;NW
+Inhumans;Crystal;Weave four into one;ROK;;;;8;1;;;1;;;1;1;1;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;crystal,jpg;NE
+Inhumans;Crystal;Earth, air, fire and water;ROK;;;;3;5;1;;;;;1;1;1;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;crystal,jpg;SW
+Inhumans;Crystal;Master the four elements;ROK;;;;4;5;;;;1;;;;;;;-1;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;crystal,jpg;SE
+Inhumans;Gorgon;Trample underhoof;ROK;;;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;;gorgon,jpg;NW
+Inhumans;Gorgon;Lead the inhuman elite;ROK;;;;8;1;;;1;;;;;;;;;;1;;;;;;-1;;;;;;;;1;;;;;;;;;;;;;;gorgon,jpg;NE
+Inhumans;Gorgon;Lockjaw, inhuman's best friend;ROK;;;;3;5;;1;;;;;1;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;gorgon,jpg;SW
+Inhumans;Gorgon;Stomping shockwave;ROK;;;;5;5;;;1;;;;;1;;;;;1;;;;;;-1;;;;;;;;;;;;;;;;;;;;;;gorgon,jpg;SE
+Inhumans;Karnak;Find fatal flaw;ROK;;;;4;5;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;karnak,jpg;NW
+Inhumans;Karnak;Brilliant strategist;ROK;;;;2;5;;1;;;;;1;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;karnak,jpg;NE
+Inhumans;Karnak;Seek the center;ROK;;;;7;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;karnak,jpg;SW
+Inhumans;Karnak;Shatter the weak point;ROK;;;;5;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;1;;;;;;;;;;;;karnak,jpg;SE
+Inhumans;Medusa;Royal command;ROK;;;;5;3;;;;1;;;;;;;;;1;;;;;;;;;;;;;;1;;1;;;;;;;;;;;Throne's Favor;medusa,jpg;NW
+Inhumans;Medusa;Headstrong;ROK;;;;7;1;;;;1;;;;;;;;;1;2;;;;;;;;;;;;;;;;;;;;;;;;;;Throne's Favor;medusa,jpg;NE
+Inhumans;Medusa;Queen of the inhumans;ROK;;;;2;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Throne's Favor;medusa,jpg;SW
+Inhumans;Medusa;Splitting hairs;ROK;;;;3;5;;;;1;;;;;1;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;Throne's Favor;medusa,jpg;SE

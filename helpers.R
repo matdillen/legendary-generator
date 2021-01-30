@@ -345,7 +345,8 @@ genFun = function(src,
     hench = sample(1:nrow(hmlist),1)
     xtra = xtraFilter(hmlist$Name[hench])
   }
-  if (scheme=="Scavenge Alien Weaponry") {
+  if (scheme=="Scavenge Alien Weaponry"|
+      scheme=="Devolve with Xerogen Crystals") {
     hench = sample(1:length(henchnames),1)
     xtra = xtraFilter(henchnames[hench])
   }
@@ -448,6 +449,13 @@ genFun = function(src,
                                !uni%in%heronames),uni)
     heronumber = sample(1:nrow(herolist),1)
     xtra = xtraFilter(herolist$uni[heronumber])
+  }
+  
+  if (scheme=="Ruin the Perfect Wedding") {
+    herolist = distinct(filter(src$heroes,
+                               !uni%in%heronames),uni)
+    heronumber = sample(1:nrow(herolist),2)
+    xtra = xtraFilter(paste(herolist$uni[heronumber],collapse="|"))
   }
   
   #save scores
@@ -928,8 +936,30 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
       if (!is.na(vals$file[i])) {
         loc = strsplit(vals$loc[i],split=" ")[[1]]
         if (length(loc)==1) {
-          bg = 100
-          mod2 = 409
+          if (loc[1]=="1") {
+            bg = 100
+            mod2 = 409
+          }
+          if (loc[1]=="NW") {
+            bg = 200
+            mod2 = 409
+          }
+          if (loc[1]=="NE") {
+            bg = 200
+            mod2 = 409
+            vals$sz1[i] = 100
+          }
+          if (loc[1]=="SW") {
+            bg = 200
+            mod2 = 409
+            vals$sz2[i] = 100.8
+          }
+          if (loc[1]=="SE") {
+            bg = 200
+            mod2 = 409
+            vals$sz1[i] = 100
+            vals$sz2[i] = 100.8
+          }
         }
         if (length(loc)==2) {
           sze = filter(imgsize,filename==vals$file[i])
