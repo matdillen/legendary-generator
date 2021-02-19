@@ -174,7 +174,7 @@ ui <- fluidPage(
                      " In the next box you can indicate how many cards should be included as a minimum.",
                      " Do note that this is a filter post generation and too strict criteria will ",
                      "cause few or even 0 random setups to be returned!"),
-              placement="right"),
+              placement="top"),
     bsTooltip("incsetThreshold",
               paste0("How many cards should be present in the random setup from the selected sets.",
                      " Minimally 1, maximum of 5. Ignored if no sets are selected.")),

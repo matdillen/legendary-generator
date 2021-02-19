@@ -884,7 +884,7 @@ textpopupgen <- function(txt,cardtype="none",tooltext,setlist) {
   }
   if (dim(text)[1]>0) {
     title = filter(setlist,id==text$set)$label
-    text %<>% mutate(text = gsub("\n","<br>",text))
+    #text %<>% mutate(text = gsub("\n","<br>",text))
     showModal(modalDialog(title = title,
                           HTML(paste(text$text,collapse="<br><br>")),
                           easyClose = T,
