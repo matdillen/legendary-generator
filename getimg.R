@@ -24,6 +24,10 @@ urlGen <- function(str) {
 
 a$loc = urlGen(a$url)
 
+if (!dir.exists("www/img")) {
+  dir.create("www/img")
+}
+
 for (i in 1:dim(a)[1]) {
   download.file(a$loc[i],paste0("www/img/",a$file[i]),mode="wb")
 }
