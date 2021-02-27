@@ -341,7 +341,7 @@ ui <- fluidPage(
                              1,
                              1000,
                              1),
-                       width=4)),
+                       width=5)),
             fluidRow(
                 column(uiOutput("minbutton"),
                        width=1),
