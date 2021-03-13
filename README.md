@@ -38,3 +38,7 @@ A generated setup can be easily copied to clipboard for keeping track of setup o
 A mod is available for Tabletop Simulator which supports import from this app: https://steamcommunity.com/sharedfiles/filedetails/?id=2269377314. It is a slightly modified version of [another mod](https://steamcommunity.com/sharedfiles/filedetails/?id=1777582863). A button for export of a setup to Tabletop Simulator is present in the app. The setup can then be pasted in the text input field in Tabletop Simulator (select the text input field and use `CTRL + V`). Almost all schemes should be scripted now, except for a few city-modifying setups.
 
 Older save files can still be founder under `support`.
+
+## Images
+
+Images of cards or card groups can be viewed from the presets or from a generated setup. The images themselves are not present here, but they can be downloaded using the script `getimg.R`. Just run it from the main working directory of the app and the images should all be downloaded to the `www/img` folder.
