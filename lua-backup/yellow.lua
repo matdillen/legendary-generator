@@ -1,4 +1,5 @@
 handsize = 6
+boardcolor = self.getName()
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
     global_refill_done=false
@@ -99,12 +100,12 @@ end
 
 function handsizeplus()
     handsize = handsize + 1
-    print("Hand size set to " .. handsize .. " (+1)")
+    print("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)")
 end
 
 function handsizemin()
     handsize = handsize - 1
-    print("Hand size set to " .. handsize .. " (-1)")
+    print("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)")
 end
 
 function click_refillDeck()

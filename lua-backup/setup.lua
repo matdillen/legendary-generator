@@ -13,6 +13,14 @@ playercolors = {
 	"White",
 	"Blue"}
 	
+playerBoards = {
+	["Red"]="8a35bd",
+	["Green"]="d7ee3e",
+	["Yellow"]="ed0d43",
+	["Blue"]="9d82f3",
+	["White"]="206c9c"
+}
+	
 function onLoad()
     --create buttons for importing and autoshuffle
 
@@ -99,10 +107,17 @@ function click_shuffle()
 		print("No Villain deck to shuffle")
     end
     
-    for i=1,#Player.getPlayers() do
-        playerdeck = getObjectFromGUID(playerdeckIDs[i])
-        if playerdeck then playerdeck.randomize() end
-		log("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
+    for i=1,5 do
+		if Player[playercolors[i]].seated == true then
+			playerdeck = getObjectFromGUID(playerdeckIDs[i])
+			if playerdeck then 
+				playerdeck.randomize()
+				log("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
+				print("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
+			else
+				log("No player deck found for player " .. playercolors[i])
+			end
+		end
     end
 
 end
@@ -416,17 +431,24 @@ function import_setup()
 	if mmname == "The Sentry" then
 		woundstack = getObjectFromGUID("653663")
 		for i=1,5 do
-			playerdeck = getObjectFromGUID(playerdeckIDs[i])
-			woundstack.takeObject({position = playerdeck.getPosition()})
-			woundstack.takeObject({position = playerdeck.getPosition()})
+			if Player[playercolors[i]].seated == true then
+				playerdeck = getObjectFromGUID(playerdeckIDs[i])
+				woundstack.takeObject({position = playerdeck.getPosition()})
+				woundstack.takeObject({position = playerdeck.getPosition()})
+			end
 		end
 		log("Wounds added to player starter decks. Still shuffle!")
 		broadcastToAll("2 wounds in starter deck because of The Sentry. Bastard.")
 	end
 	
 	if mmname == "Onslaught" then
-		broadcastToAll("Please use the button to set your hand size -1!")
-		--broadcastToAll("Also good luck!")
+		for i=1,5 do
+			if Player[playercolors[i]].seated == true then
+				board = getObjectFromGUID(playerBoards[playercolors[i]])
+				board.Call('handsizemin')
+			end
+		end
+		broadcastToAll("Good luck! You're going to need it.")
 	end
 	
 	if mmname == "Shadow King" then
