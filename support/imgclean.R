@@ -81,13 +81,13 @@ locConv <- function(locids,givedim=F) {
   }
 }
 
-##use this to find the location in the json of certain decks
-# bags = tibble(id=seq(1,length(a$ObjectStates)),name=NA)
-# bags$content = NA
-# for (i in 1:length(a$ObjectStates)) {
-#   bags$name[i] = a$ObjectState[[i]]$Nickname
-#   try(bags$content[i] <- length(a$ObjectState[[i]]$ContainedObjects),silent=T)
-# }
+#use this to find the location in the json of certain decks
+bags = tibble(id=seq(1,length(a$ObjectStates)),name=NA)
+bags$content = NA
+for (i in 1:length(a$ObjectStates)) {
+  bags$name[i] = a$ObjectState[[i]]$Nickname
+  try(bags$content[i] <- length(a$ObjectState[[i]]$ContainedObjects),silent=T)
+}
 
 mmid = 14
 henchid = 13
@@ -576,6 +576,13 @@ for (i in 1:length(a$ObjectStates[[heroid]]$ContainedObjects)) {
   
   #readd the modified record to the save file
   a$ObjectStates[[heroid]]$ContainedObjects[[i]] = src
+}
+
+#bystander vp
+bsid = 113
+
+for (i in 1:length(a$ObjectStates[[bsid]]$ContainedObjects)) {
+  a$ObjectStates[[bsid]]$ContainedObjects[[i]]$Tags = list("VP1")
 }
 
 #export
