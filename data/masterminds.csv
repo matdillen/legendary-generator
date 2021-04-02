@@ -145,7 +145,7 @@ Detect mutation;Nimrod, Super Sentinel;;;SW1;;;;;;;;;;;;;;;;;;Choose MO or FI. I
 Teleport and incarcerate;Nimrod, Super Sentinel;;;SW1;;;;;;;;;;;;;;;;;;Choose MO or FI. If top card of hero deck has that, teleport it.;;;sw1,jpg;3 1
 Onslaught;;;;XM;Dark Descendants;;7;10;;;;;;;;;2;;;;;KO all his heroes, then dominate a nongrey from each player's hand.;;Hand size is -1!;mm,jpg;2 1
 Onslaught;;1;;XM;Dark Descendants;;7;12;;;;;;;;;2;;;;;KO all his heroes, then dominate two nongrey from each player's hand. Play horror.;;Hand size is -1!;eons,png;1
-Xavier and Magneto combined;Onslaught;1;;XM;;;;;;;;;;X-men|Brotherhood;1|1;;1;;;;;Dominate all X-men and Brotherhood heroes from top 3 of hero deck. Put others back.;;;xmen2,jpg;8 2
+Xavier and Magneto combined;Onslaught;;;XM;;;;;;;;;;X-men|Brotherhood;1|1;;1;;;;;Dominate all X-men and Brotherhood heroes from top 3 of hero deck. Put others back.;;;xmen2,jpg;8 2
 Worldwide mental control;Onslaught;;;XM;;;;;;;;;;;;;;;;;;Dominate 4 zero cost heroes from KO pile. KO them when fought.;;;xmen2,jpg;9 2
 Godlike psionic entity;Onslaught;;;XM;;;;;;;;;;;;;2;;;;;Dominate all heroes from the HQ.;;;xmen2,jpg;1 3
 Sins of X-men past;Onslaught;;;XM;;;;;;;;;;X-men;1;;1;;;;;Dominate an X-men from top 6 of other players deck.;;;xmen2,jpg;10 2

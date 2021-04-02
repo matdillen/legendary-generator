@@ -1,0 +1,267 @@
+setwd("D:/Mathias/legendary")
+library(tidyverse)
+library(jsonlite)
+
+#read the json file for the mod/save you want to edit
+a = fromJSON("lua/TS_Save_64.json",
+             simplifyVector = F)
+
+#fix nickname that doesn't match
+a$ObjectStates[[mmid]]$ContainedObjects[[74]]$Nickname = "Emperor Vulcan of the Shi'ar"
+
+#map filenames from data to urls
+imgconv = read_csv2("legendary-generator/support/imgmap.csv")
+
+#function to construct url from tts saved filename
+urlGen <- function(str) {
+  str2 = str
+  for (i in 1:length(str)) {
+    if (grepl("iimgur",str[i])) {
+      str2[i] = paste0("http://i.imgur.com/",
+                       gsub("httpiimgurcom","",str[i]))
+      str2[i] = gsub("jpg.jpg",".jpg",str2[i],fixed=T)
+    }
+    if (grepl("steamuser",str[i])) {
+      check = nchar(str[i])
+      str2[i] = paste0("http://cloud-3.steamusercontent.com/ugc/",
+                       substr(str[i],33,check-44),
+                       "/",
+                       substr(str[i],check-43,check-4),
+                       "/")
+    }
+  }
+  return(str2)
+}
+
+#add urls and sync dumb comma filenames that originated due to initial entry in excel
+imgconv$fullurl = urlGen(imgconv$url)
+imgconv$file = gsub(".",",",imgconv$file,fixed=T)
+
+#raw card data
+heroes=read_csv2('legendary-generator/data/heroes.csv')
+schemes=read_csv2('legendary-generator/data/schemes.csv')
+villains=read_csv2('legendary-generator/data/villains.csv')
+henchmen=read_csv2('legendary-generator/data/henchmen.csv')
+masterminds=read_csv2('legendary-generator/data/masterminds.csv')
+
+src = list(heroes,schemes,villains,henchmen,masterminds)
+names(src) = c("heroes","schemes","villains","henchmen","masterminds")
+
+#lists of card groups
+src$heroes$uni = paste0(src$heroes$Hero," (",src$heroes$Set,")")
+herolist = distinct(src$heroes,uni)
+henchlist = distinct(src$henchmen,Name)
+villist = distinct(src$villains,Group)
+mmlist = distinct(filter(src$masterminds,!is.na(MM)),MM)
+schlist = distinct(src$schemes,Name)
+
+#convert location within img to format used by tts
+#if givedim is set true, it will return the dimensions
+#of the source image rather than the converted coordinates
+locConv <- function(locids,givedim=F) {
+  for (i in 1:length(locids)) {
+    if (is.na(locids[i])) {
+      #missing info
+      next
+    }
+    else if (locids[i]==1) {
+      #single img for single card
+      locids[i] = "00"
+      dims = "1 1"
+    } else if (!grepl(" ",locids[i],fixed=T)) {
+      #combination of four cards
+      locids[i] = recode(locids[i],
+                         "NW"="00",
+                         "NE"="01",
+                         "SW"="02",
+                         "SE"="03")
+      dims = "2 2"
+    } else {
+      #10*7 type of image
+      parts = as.numeric(strsplit(locids[i],split=" ")[[1]])
+      locids[i] = sprintf("%02d",parts[1] + 10*(parts[2]-1) - 1)
+      dims = "10 7"
+    }
+  }
+  if (!givedim) {
+    return(locids)
+  }
+  if (givedim) {
+    return(dims)
+  }
+}
+
+##use this to find the location in the json of certain decks
+# bags = tibble(id=seq(1,length(a$ObjectStates)),name=NA)
+# bags$content = NA
+# for (i in 1:length(a$ObjectStates)) {
+#   bags$name[i] = a$ObjectState[[i]]$Nickname
+#   try(bags$content[i] <- length(a$ObjectState[[i]]$ContainedObjects),silent=T)
+# }
+
+mmid = 14
+henchid = 13
+heroid = 11
+vilid = 17
+schid = 97
+
+#convert data coordinates to tts format and convert filenames to urls
+masterminds$locid = locConv(masterminds$loc)
+masterminds = left_join(masterminds,imgconv,by=c("file"="file"))
+
+#script to harmonize mastermind src images and add card names, vp tags:
+for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[mmid]]$ContainedObjects[[i]]
+  
+  #the name of the mm
+  mmname = a$ObjectStates[[mmid]]$ContainedObjects[[i]]$Nickname
+  
+  #data associated with the mm
+  data = filter(masterminds,Name==mmname|MM==mmname)
+  #extra filter to exclude tactic names that correspond to mm names (e.g. adapters)
+  data = filter(data,is.na(MM)|MM==data$Name[1])
+  
+  #list of all filenames for this mastermind
+  #filters: transforming or epic backsides are added differently
+  #filters: placeholder names for adapters are excluded (no file value)
+  filenames = data %>%
+    filter(is.na(`T`),is.na(Epic)) %>%
+    count(file,fullurl) %>%
+    filter(!is.na(file))
+  
+  #deckids are only locally relevant, so keep the ones already there
+  #store in filenames to connect them to the cards inside the mastermind's deck
+  filenames$deckid = NA
+  
+  #construct CustomDeck
+  ##this contains info for all images used by this mastermind
+  for (j in 1:dim(filenames)[1]) {
+    #there may be more filenames after the harmonization than before
+    #if so, add a random extra entry with a random identifier
+    #identifiers are not properly checked, so it's possible this could create a duplicate!
+    if (length(src$CustomDeck)<j) {
+      cid = as.numeric(names(src$CustomDeck)[j-1])+23
+      src$CustomDeck$cid = src$CustomDeck[[j-1]]
+      names(src$CustomDeck)[j] = cid
+    }
+    
+    #set the front url
+    src$CustomDeck[[j]]$FaceURL = filenames$fullurl[j]
+    
+    #set the default legendary card back
+    src$CustomDeck[[j]]$BackURL = "http://cloud-3.steamusercontent.com/ugc/1693876947372983484/86017C1961652127E362E1DD3D6B78B3B383104B/"
+    
+    #retrieve the dimensions for the src image and set them
+    dims = strsplit(locConv(filter(data,
+                                   file==filenames$file[j])$loc,
+                            givedim=T)[1],
+                    split=" ")[[1]]
+    src$CustomDeck[[j]]$NumWidth = dims[1]
+    src$CustomDeck[[j]]$NumHeight = dims[2]
+    
+    #store the id for this image
+    filenames$deckid[j] = names(src$CustomDeck)[j]
+  }
+  
+  #remove unnecessary additional entries after harmonization in CustomDeck
+  if (dim(filenames)[1]>length(src$CustomDeck)) {
+    src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  cardids = ""
+  
+  #set vp, which is always the same for a mastermind's tactics
+  vp = data$VP[1]
+  
+  #nr of cards, which may not match dimensions of data due to epic/transfo
+  cardnr = 1
+  
+  
+  for (j in 1:dim(data)[1]) {
+    #if placeholder for adapter, vp will be NA, so fix that and skip
+    if (is.na(data$url[j])) {
+      vp = data$VP[2]
+      next
+    }
+    
+    #if not a backside, add card name, vp tag, CardId and store CardID
+    if (is.na(data$T[j])&is.na(data$Epic[j])) {
+      #set card's name
+      src$ContainedObjects[[cardnr]]$Nickname = data$Name[j]
+      
+      #get the deckid for the filename and build the CardID
+      #which is DeckID + coordinates, with padded zeros if < 10
+      init = filter(filenames,file==data$file[j])$deckid
+      src$ContainedObjects[[cardnr]]$CardID = paste0(init,
+                                                data$locid[j])
+      
+      #Store cardid
+      cardids = paste(cardids,src$ContainedObjects[[cardnr]]$CardID,sep="|")
+      
+      #set a tag for VP
+      src$ContainedObjects[[cardnr]]$Tags = list(paste0("VP",vp))
+      
+      #step var for next card (as j may not correspond if t/epic)
+      cardnr = cardnr + 1
+    } else {
+      #if a t or epic record, here adjust the backURL accordingly
+      #use a loop to find the correct DeckID in CustomDeck to edit
+      for (k in 1:length(src$CustomDeck)) {
+        if (names(src$CustomDeck)[k]==init) {
+          src$CustomDeck[[k]]$BackURL = data$fullurl[j]
+          #attempt to make the card name show up when the backside is up
+          #doesn't work: unsure how this is modeled in the json
+          #src$ContainedObjects[[1]]$IgnoreFoW = "TRUE"
+        }
+      }
+    }
+  }
+  
+  #reorder the cards and card ids so the front card is on top
+  temp = src$ContainedObjects[[1]]
+  src$ContainedObjects[[1]] = src$ContainedObjects[[cardnr-1]]
+  src$ContainedObjects[[cardnr-1]] = temp
+  cardids = strsplit(cardids,split="\\|")[[1]][-1]
+  temp = cardids[1]
+  cardids[1] = cardids[cardnr-1]
+  cardids[cardnr-1] = temp
+  
+  #add the cardids
+  src$DeckIDs = as.list(cardids)
+  
+  #readd the modified record to the save file
+  a2$ObjectStates[[mmid]]$ContainedObjects[[i]] = src
+}
+
+#analytics to look through the save file's values
+# 
+# mminfo = tibble(id=seq(1,74))
+# mminfo$deckids = NA
+# mminfo$fname = ""
+# mminfo$bname = ""
+# for (i in 1:74) {
+#   mminfo$deckids[i] = paste(names(a$ObjectStates[[mmid]]$ContainedObjects[[i]]$CustomDeck),collapse="|")
+#   for (j in 1:length(a$ObjectStates[[mmid]]$ContainedObjects[[i]]$CustomDeck)) {
+#     mminfo$fname[i] = paste(mminfo$fname[i],
+#                             a$ObjectStates[[mmid]]$ContainedObjects[[i]]$CustomDeck[[j]]$FaceURL,sep="|")
+#     mminfo$bname[i] = paste(mminfo$bname[i],
+#                             a$ObjectStates[[mmid]]$ContainedObjects[[i]]$CustomDeck[[j]]$BackURL,sep="|")
+#   }
+# }
+# mminfo2 = mminfo %>%
+#   mutate(fname = sub("|","",fname,fixed=T),
+#          bname = sub("|","",bname,fixed=T)) %>%
+#   separate_rows(deckids,fname,bname,sep="\\|")
+
+#export
+write(toJSON(a2,
+             digits=NA,
+             pretty=T,
+             flatten=T,
+             auto_unbox=T),
+      "cleanimg.json")
+
+#after export, add to saves and then edit the SaveFileInfos.json correctly
