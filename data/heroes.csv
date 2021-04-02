@@ -141,8 +141,8 @@ X-Men;Legion;Split personality;XM;3;;;3;5;;;;;1;;;;;;;;1;;;;;;;1;;;;;;;;;;;;;;;;
 X-Men;Legion;Split eardrums;XM;3;;;3;5;1;;;;;;;;;;;;;;;;;;;;;;;;;;;1;;;;;;;;;;;;;xmen3,jpg;8 7
 X-Men;Legion;Bend steel;XM;4;;;2;5;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;9 7
 X-Men;Legion;Bend light;XM;4;;;2;5;;1;;;;;;;;;;1;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;xmen3,jpg;9 7
-X-Men;Legion;Channel time;XM;5;;;5;5;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;6 7
-X-Men;Legion;Channel fire;XM;5;;;5;5;;;;;1;;;;;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;6 7
+X-Men;Legion;Channel time;XM;5;;;5;3;;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;6 7
+X-Men;Legion;Channel fire;XM;5;;;5;3;;;;;1;;;;;;2;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;6 7
 X-Men;Legion;Maelstrom of clash;XM;;;;8;1;;1;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Soaring Flight;xmen3,jpg;7 7
 X-Men;Longshot;Fortune favors bold;XM;;;;3;5;;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;7 5
 X-Men;Longshot;Flurry of blades;XM;;;;4;5;;;;;1;;;;;1;;;1;;;-1;;;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;2 5
@@ -643,8 +643,8 @@ Planet Hulk;Gladiator Hulk;Double-fisted smashing;WW;;Hulk;;8;1;;;;;;;;;;;;;1;;-
 Planet Hulk;Caiera;Shadow queen;WW;;;;2;5;;1;;;;;;;;;;;1;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;hulk3,jpg;7 2
 Planet Hulk;Caiera;Shadowforged blade;WW;;;;4;5;;1;;;;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;hulk3,jpg;8 2
 Planet Hulk;Caiera;Focus the old power;WW;;;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;1;;;;;;;1;;;;;;;;;;;hulk3,jpg;6 2
-Planet Hulk;Caiera;Dutiful protector;WW;;;;7;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;hulk3,jpg;5 2
-Planet Hulk;Caiera;Vengeful destructor;WW;;;;7;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;hulk3,jpg;9 2
+Planet Hulk;Caiera;Dutiful protector;WW;T4.5;;;7;1;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;hulk3,jpg;5 2
+Planet Hulk;Caiera;Vengeful destructor;WW;T4.5;;;7;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;hulk3,jpg;9 2
 Avengers;Sentry;Agoraphobia;WW;T5;;1;2;5;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;hulk,jpg;4 4
 Avengers;Sentry;Golden guardian of good;WW;T5;;;6;5;;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;hulk,jpg;6 4
 Avengers;Sentry;Rival personalities;WW;;;;4;5;;;;;;;;;;;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Better if more transform cards;hulk,jpg;5 4

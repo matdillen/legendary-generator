@@ -8,6 +8,7 @@ a = fromJSON("lua/TS_Save_64.json",
 
 #fix nickname that doesn't match
 a$ObjectStates[[mmid]]$ContainedObjects[[74]]$Nickname = "Emperor Vulcan of the Shi'ar"
+a$ObjectStates[[vilid]]$ContainedObjects[[90]]$Nickname = "Shi'ar Imperial Elite"
 
 #map filenames from data to urls
 imgconv = read_csv2("legendary-generator/support/imgmap.csv")
@@ -43,17 +44,6 @@ schemes=read_csv2('legendary-generator/data/schemes.csv')
 villains=read_csv2('legendary-generator/data/villains.csv')
 henchmen=read_csv2('legendary-generator/data/henchmen.csv')
 masterminds=read_csv2('legendary-generator/data/masterminds.csv')
-
-src = list(heroes,schemes,villains,henchmen,masterminds)
-names(src) = c("heroes","schemes","villains","henchmen","masterminds")
-
-#lists of card groups
-src$heroes$uni = paste0(src$heroes$Hero," (",src$heroes$Set,")")
-herolist = distinct(src$heroes,uni)
-henchlist = distinct(src$henchmen,Name)
-villist = distinct(src$villains,Group)
-mmlist = distinct(filter(src$masterminds,!is.na(MM)),MM)
-schlist = distinct(src$schemes,Name)
 
 #convert location within img to format used by tts
 #if givedim is set true, it will return the dimensions
@@ -233,7 +223,7 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
   src$DeckIDs = as.list(cardids)
   
   #readd the modified record to the save file
-  a2$ObjectStates[[mmid]]$ContainedObjects[[i]] = src
+  a$ObjectStates[[mmid]]$ContainedObjects[[i]] = src
 }
 
 #analytics to look through the save file's values
@@ -256,12 +246,344 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
 #          bname = sub("|","",bname,fixed=T)) %>%
 #   separate_rows(deckids,fname,bname,sep="\\|")
 
+#fix villains
+
+villains$locid = locConv(villains$loc)
+villains = left_join(villains,imgconv,by=c("file"="file"))
+
+#script to harmonize villains src images and add card names, vp tags:
+for (i in 1:length(a$ObjectStates[[vilid]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[vilid]]$ContainedObjects[[i]]
+  
+  #the name of the villain group
+  vilname = a$ObjectStates[[vilid]]$ContainedObjects[[i]]$Nickname
+  
+  #data associated with the villain group
+  data = filter(villains,Group==vilname)
+  
+  #list of all filenames for this villain group
+  filenames = data %>%
+    count(file,fullurl)
+  
+  #deckids are only locally relevant, so keep the ones already there
+  #store in filenames to connect them to the cards inside the villain group deck
+  filenames$deckid = NA
+  
+  #construct CustomDeck
+  ##this contains info for all images used by this villain group
+  for (j in 1:dim(filenames)[1]) {
+    #there may be more filenames after the harmonization than before
+    #if so, add a random extra entry with a random identifier
+    #identifiers are not properly checked, so it's possible this could create a duplicate!
+    if (length(src$CustomDeck)<j) {
+      cid = as.numeric(names(src$CustomDeck)[j-1])+23
+      src$CustomDeck$cid = src$CustomDeck[[j-1]]
+      names(src$CustomDeck)[j] = cid
+    }
+    
+    #set the front url
+    src$CustomDeck[[j]]$FaceURL = filenames$fullurl[j]
+    
+    #set the default legendary card back
+    src$CustomDeck[[j]]$BackURL = "http://cloud-3.steamusercontent.com/ugc/1693876947372983484/86017C1961652127E362E1DD3D6B78B3B383104B/"
+    
+    #retrieve the dimensions for the src image and set them
+    dims = strsplit(locConv(filter(data,
+                                   file==filenames$file[j])$loc,
+                            givedim=T)[1],
+                    split=" ")[[1]]
+    src$CustomDeck[[j]]$NumWidth = dims[1]
+    src$CustomDeck[[j]]$NumHeight = dims[2]
+    
+    #store the id for this image
+    filenames$deckid[j] = names(src$CustomDeck)[j]
+  }
+  
+  #remove unnecessary additional entries after harmonization in CustomDeck
+  if (dim(filenames)[1]>length(src$CustomDeck)) {
+    src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  cardids = ""
+  cardnr = 1
+  
+  for (j in 1:dim(data)[1]) {
+    #add card name, vp tag, CardId and store CardID
+    for (k in 1:data$Ct[j]) {
+      #set card's name
+      src$ContainedObjects[[cardnr]]$Nickname = data$Name[j]
+      
+      #get the deckid for the filename and build the CardID
+      #which is DeckID + coordinates, with padded zeros if < 10
+      init = filter(filenames,file==data$file[j])$deckid
+      src$ContainedObjects[[cardnr]]$CardID = paste0(init,
+                                                     data$locid[j])
+      
+      #Store cardid
+      cardids = paste(cardids,src$ContainedObjects[[cardnr]]$CardID,sep="|")
+      
+      #set a tag for VP
+      src$ContainedObjects[[cardnr]]$Tags = list(paste0("VP",data$VP[j]))
+      
+      #step var for next card (as j may not correspond if t/epic)
+      cardnr = cardnr + 1
+    }
+  }
+  
+  #add the cardids
+  cardids = strsplit(cardids,split="\\|")[[1]][-1]
+  src$DeckIDs = as.list(cardids)
+  
+  #readd the modified record to the save file
+  a$ObjectStates[[vilid]]$ContainedObjects[[i]] = src
+}
+
+#fix henchmen
+
+henchmen$locid = locConv(henchmen$loc)
+henchmen = left_join(henchmen,imgconv,by=c("file"="file"))
+
+#script to harmonize villains src images and add card names, vp tags:
+for (i in 1:length(a$ObjectStates[[henchid]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[henchid]]$ContainedObjects[[i]]
+  
+  #the name of the villain group
+  henchname = a$ObjectStates[[henchid]]$ContainedObjects[[i]]$Nickname
+  
+  #data associated with the villain group
+  data = filter(henchmen,Name==henchname)
+  
+  if (dim(data)[1]==0) {
+    next
+  }
+  
+  #list of all filenames for this villain group
+  filenames = data %>%
+    count(file,fullurl)
+  
+  #deckids are only locally relevant, so keep the ones already there
+  #store in filenames to connect them to the cards inside the villain group deck
+  filenames$deckid = NA
+  
+  #construct CustomDeck
+  ##this contains info for all images used by this villain group
+  for (j in 1:dim(filenames)[1]) {
+    #there may be more filenames after the harmonization than before
+    #if so, add a random extra entry with a random identifier
+    #identifiers are not properly checked, so it's possible this could create a duplicate!
+    if (length(src$CustomDeck)<j) {
+      cid = as.numeric(names(src$CustomDeck)[j-1])+23
+      src$CustomDeck$cid = src$CustomDeck[[j-1]]
+      names(src$CustomDeck)[j] = cid
+    }
+    
+    #set the front url
+    src$CustomDeck[[j]]$FaceURL = filenames$fullurl[j]
+    
+    #set the default legendary card back
+    src$CustomDeck[[j]]$BackURL = "http://cloud-3.steamusercontent.com/ugc/1693876947372983484/86017C1961652127E362E1DD3D6B78B3B383104B/"
+    
+    #retrieve the dimensions for the src image and set them
+    dims = strsplit(locConv(filter(data,
+                                   file==filenames$file[j])$loc,
+                            givedim=T)[1],
+                    split=" ")[[1]]
+    src$CustomDeck[[j]]$NumWidth = dims[1]
+    src$CustomDeck[[j]]$NumHeight = dims[2]
+    
+    #store the id for this image
+    filenames$deckid[j] = names(src$CustomDeck)[j]
+  }
+  
+  #remove unnecessary additional entries after harmonization in CustomDeck
+  if (dim(filenames)[1]>length(src$CustomDeck)) {
+    src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  cardids = ""
+  cardnr = 1
+  
+  for (j in 1:dim(data)[1]) {
+    #add card name, vp tag, CardId and store CardID
+    for (k in 1:data$Ct[j]) {
+      #set card's name
+      if (is.na(data$NameSpecific[j])) {
+        src$ContainedObjects[[cardnr]]$Nickname = data$Name[j]
+      } else{
+        src$ContainedObjects[[cardnr]]$Nickname = data$NameSpecific[j]
+      }
+      
+      #get the deckid for the filename and build the CardID
+      #which is DeckID + coordinates, with padded zeros if < 10
+      init = filter(filenames,file==data$file[j])$deckid
+      src$ContainedObjects[[cardnr]]$CardID = paste0(init,
+                                                     data$locid[j])
+      
+      #Store cardid
+      cardids = paste(cardids,src$ContainedObjects[[cardnr]]$CardID,sep="|")
+      
+      #set a tag for VP
+      src$ContainedObjects[[cardnr]]$Tags = list(paste0("VP","1"))
+      
+      #step var for next card (as j may not correspond if t/epic)
+      cardnr = cardnr + 1
+    }
+  }
+  
+  #add the cardids
+  cardids = strsplit(cardids,split="\\|")[[1]][-1]
+  src$DeckIDs = as.list(cardids)
+  
+  #readd the modified record to the save file
+  a$ObjectStates[[henchid]]$ContainedObjects[[i]] = src
+}
+
+#fix heroes
+
+heroes$locid = locConv(heroes$loc)
+heroes = left_join(heroes,imgconv,by=c("file"="file"))
+
+heroes$uni = paste0(heroes$Hero," (",heroes$Set,")")
+
+heroClassTag <- function(card) {
+  classes = ""
+  for (i in 1:dim(card)[1]) {
+    if (!is.na(card$B[i])) {
+      classes = c(classes,"HC:Blue")
+    }
+    if (!is.na(card$R[i])) {
+      classes = c(classes,"HC:Red")
+    }
+    if (!is.na(card$G[i])) {
+      classes = c(classes,"HC:Green")
+    }
+    if (!is.na(card$Y[i])) {
+      classes = c(classes,"HC:Yellow")
+    }
+    if (!is.na(card$S[i])) {
+      classes = c(classes,"HC:Silver")
+    }
+  }
+  classes = classes[-1]
+  classes = classes[!duplicated(classes)]
+  return(classes)
+}
+
+#script to harmonize heroes src images and add card names, card properties:
+for (i in 1:length(a$ObjectStates[[heroid]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[heroid]]$ContainedObjects[[i]]
+  
+  #the name of the villain group
+  heroname = a$ObjectStates[[heroid]]$ContainedObjects[[i]]$Nickname
+  
+  #data associated with the villain group
+  data = filter(heroes,uni==heroname,!grepl("T",Split))
+  
+  if (dim(data)[1]==0) {
+    next
+  }
+  
+  #list of all filenames for this villain group
+  filenames = data %>%
+    count(file,fullurl)
+  
+  #deckids are only locally relevant, so keep the ones already there
+  #store in filenames to connect them to the cards inside the villain group deck
+  filenames$deckid = NA
+  
+  #construct CustomDeck
+  ##this contains info for all images used by this villain group
+  for (j in 1:dim(filenames)[1]) {
+    #there may be more filenames after the harmonization than before
+    #if so, add a random extra entry with a random identifier
+    #identifiers are not properly checked, so it's possible this could create a duplicate!
+    if (length(src$CustomDeck)<j) {
+      cid = as.numeric(names(src$CustomDeck)[j-1])+23
+      src$CustomDeck$cid = src$CustomDeck[[j-1]]
+      names(src$CustomDeck)[j] = cid
+    }
+    
+    #set the front url
+    src$CustomDeck[[j]]$FaceURL = filenames$fullurl[j]
+    
+    #set the default legendary card back
+    src$CustomDeck[[j]]$BackURL = "http://cloud-3.steamusercontent.com/ugc/1693876947372983484/86017C1961652127E362E1DD3D6B78B3B383104B/"
+    
+    #retrieve the dimensions for the src image and set them
+    dims = strsplit(locConv(filter(data,
+                                   file==filenames$file[j])$loc,
+                            givedim=T)[1],
+                    split=" ")[[1]]
+    src$CustomDeck[[j]]$NumWidth = dims[1]
+    src$CustomDeck[[j]]$NumHeight = dims[2]
+    
+    #store the id for this image
+    filenames$deckid[j] = names(src$CustomDeck)[j]
+  }
+  
+  #remove unnecessary additional entries after harmonization in CustomDeck
+  if (dim(filenames)[1]>length(src$CustomDeck)) {
+    src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  cardids = ""
+  cardnr = 1
+  data2 = filter(data,is.na(Split)|!duplicated(Split))
+  for (j in 1:dim(data2)[1]) {
+    #add card name, vp tag, CardId and store CardID
+    dataCard = data2[j,]
+    if (!is.na(data2$Split[j])&!grepl("T",data2$Split[j])) {
+      dataCard = filter(data,Split==data2$Split[j])
+    }
+    for (k in 1:data2$Ct[j]) {
+      #set card's name
+      src$ContainedObjects[[cardnr]]$Nickname = heroname
+      
+      #get the deckid for the filename and build the CardID
+      #which is DeckID + coordinates, with padded zeros if < 10
+      init = filter(filenames,file==data2$file[j])$deckid
+      src$ContainedObjects[[cardnr]]$CardID = paste0(init,
+                                                     data2$locid[j])
+      
+      #Store cardid
+      cardids = paste(cardids,src$ContainedObjects[[cardnr]]$CardID,sep="|")
+      
+      #set a tag for VP
+      class = heroClassTag(dataCard)
+      team = c(dataCard$Team)
+      team = paste0("Team:",team)
+      cost = paste0("Cost:",dataCard$C[1])
+      tags = c(class,team,cost)
+      src$ContainedObjects[[cardnr]]$Tags = as.list(tags)
+      
+      #step var for next card (as j may not correspond if t/epic)
+      cardnr = cardnr + 1
+    }
+  }
+  
+  #add the cardids
+  cardids = strsplit(cardids,split="\\|")[[1]][-1]
+  src$DeckIDs = as.list(cardids)
+  
+  #readd the modified record to the save file
+  a$ObjectStates[[heroid]]$ContainedObjects[[i]] = src
+}
+
 #export
-write(toJSON(a2,
+write(toJSON(a,
              digits=NA,
              pretty=T,
              flatten=T,
              auto_unbox=T),
-      "cleanimg.json")
+      "cleanimg2.json")
 
 #after export, add to saves and then edit the SaveFileInfos.json correctly
