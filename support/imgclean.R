@@ -3,7 +3,7 @@ library(tidyverse)
 library(jsonlite)
 
 #read the json file for the mod/save you want to edit
-a = fromJSON("lua/TS_Save_64.json",
+a = fromJSON("cleanimg2.json",
              simplifyVector = F)
 
 #fix nickname that doesn't match
@@ -582,7 +582,7 @@ for (i in 1:length(a$ObjectStates[[heroid]]$ContainedObjects)) {
 bsid = 113
 
 for (i in 1:length(a$ObjectStates[[bsid]]$ContainedObjects)) {
-  a$ObjectStates[[bsid]]$ContainedObjects[[i]]$Tags = list("VP1")
+  a$ObjectStates[[bsid]]$ContainedObjects[[i]]$Tags = list("VP1","Bystander")
 }
 
 #export

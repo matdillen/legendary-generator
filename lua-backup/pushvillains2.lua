@@ -1,5 +1,20 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 twistsresolved = 0
+playerBoards = {
+	["Red"]="8a35bd",
+	["Green"]="d7ee3e",
+	["Yellow"]="ed0d43",
+	["Blue"]="9d82f3",
+	["White"]="206c9c"
+}
+
+vpileguids = {
+	["Red"]="fac743",
+	["Green"]="a42b83",
+	["Yellow"]="7f3bcd",
+	["Blue"]="f6396a",
+	["White"]="7732c7"
+}
 function onLoad()
     --city_zones_guids = {"5ed32f","2a6ac6","b2f04b","acdea9", "91e12a"}
     escape_zone_guid  =  "de2016"
@@ -85,18 +100,9 @@ function push_all (city,init)
 						twistsresolved = twistsresolved + 1	
 					end
 					--if schemename == "Annihilation: Conquest" then
-						--push highest cost hero from hq into city
-						--requires hero cost tags
-						--player chooses if a tie, so not really to be automatized
+						--not automatable: players choose if tie
 					--end
 					if schemename == "Anti-Mutant Hatred" then
-						local playerBoards = {
-							["Red"]="8a35bd",
-							["Green"]="d7ee3e",
-							["Yellow"]="ed0d43",
-							["Blue"]="9d82f3",
-							["White"]="206c9c"
-						}
 						pcolor = Turns.turn_color
 						if pcolor == "White" then
 							angle = 90
@@ -127,21 +133,52 @@ function push_all (city,init)
 						-- twistsresolved = twistsresolved + 1	
 					-- end
 					if schemename == "Build an Army of Annihilation" then
-						-- local playerBoards = {
-							-- ["Red"]="8a35bd",
-							-- ["Green"]="d7ee3e",
-							-- ["Yellow"]="ed0d43",
-							-- ["Blue"]="9d82f3",
-							-- ["White"]="206c9c"
-						-- }
-						-- for i,o in pairs(playerBoards) do
-							-- local playerBoard = getObjectFromGUID(playerBoards[i])
-							-- local vpile = playerBoard.positionToWorld({3.828, 0.178, 0.222})
-							-- if vpile.getObjects()[1] then
-								-- for j,p in pairs(vpile.getObjects()) do
-								-- end
-							-- end
-						-- end
+						local twistpile = getObjectFromGUID("4f53f9")
+						cards[1].setPositionSmooth(twistpile.getPosition())
+						for i,o in pairs(vpileguids) do
+							if Player[i].seated == true then
+								vpilecontent = getObjectFromGUID(o).getObjects()[1]
+								annipile = getObjectFromGUID("8656c3")
+								if vpilecontent then
+									if vpilecontent.getQuantity() > 1  then
+										local vpileCards = vpilecontent.getObjects()
+										for j = 1,vpilecontent.getQuantity() do
+											if vpileCards[j].name == "Annihilation Wave Henchmen" then
+												vpilecontent.takeObject({position=annipile.getPosition(), guid=vpileCards[j].guid})
+											end
+											if getObjectFromGUID(o).getObjects()[1].getQuantity == -1 then
+												break
+											end
+										end
+									end
+									vpilecontent = getObjectFromGUID(o).getObjects()[1]
+									if vpilecontent.getQuantity() == -1 then
+										if vpilecontent.getName() == "Annihilation Wave Henchmen" then
+											vpilecontent.setPositionSmooth(annipile.getPosition())
+										end
+									end
+								end
+							end
+						end
+						annimmpile = getObjectFromGUID("bf7e87")
+						local refeedMM = function()
+							twistsstacked = twistpile.getObjects()[2].getQuantity()
+							if twistsstacked == -1 then twistsstacked = 1 end
+							for i=1,twistsstacked do
+								annipile.getObjects()[2].takeObject({position=annimmpile.getPosition()})
+							end
+							printToAll(twistsstacked .. " annihilation henchmen moved to the mastermind!")
+						end
+						Wait.time(refeedMM,1)
+						return nil
+					end
+					if schemename == "Build an Underground MegaVault Prison" then
+						--check sewers for villain, if so, deal wounds
+						--can do, but potentially complicated with locations or mm specials
+						
+						--check top card and play if villain
+						--requires villain tag, or could check for VP and exclude bystanders
+						--still tricky with locations and weapons
 					end
 					
 				end
@@ -165,8 +202,6 @@ function push_all (city,init)
         end
     end
 end
-
-
 
 function recursion_test(city)
     if city and city[1] then

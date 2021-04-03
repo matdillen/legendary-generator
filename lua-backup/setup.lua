@@ -769,9 +769,31 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Build an Army of Annihilation" then
         log("Add extra annihilation group.")
-		local target = twistpile.getObjects()[2]
-        findInPile(setupParts[9],"de8160","4f53f9")
-        print("Annihilation group " .. setupParts[9] .. " moved to twists pile.")
+        findInPile(setupParts[9],"de8160","bf7e87")
+		local henchmmzone = getObjectFromGUID("bf7e87")
+		local henchsczone = getObjectFromGUID("8656c3")
+		local renameHenchmen = function()
+			local henchcards = henchmmzone.getObjects()[2]
+			for i=1,10 do
+				cardTaken = henchcards.takeObject({position=henchsczone.getPosition()})
+				cardTaken.setName("Annihilation Wave Henchmen")
+				--log("henchmen renamed")
+			end
+		end
+		local henchmenMoved = function()
+			if henchmmzone.getObjects()[2] ~= nil then
+				if henchmmzone.getObjects()[2].getQuantity() == 10 then
+					--log("hm moved!")
+					return true
+				else	
+					return false
+				end
+			else
+				return false
+			end
+		end
+		Wait.condition(renameHenchmen,henchmenMoved)
+        print("Annihilation group " .. setupParts[9] .. " moved next to the scheme.")
     end
     if setupParts[1] == "Cage Villains in Power-Suppressing Cells" then
         log("Add extra cops henchmen.")

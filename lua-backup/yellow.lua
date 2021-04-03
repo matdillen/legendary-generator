@@ -25,25 +25,25 @@ function createButtons()
 
     self.createButton({
         click_function="click_draw_card", function_owner=self,
-        position={5, 0.178, 2.3}, height=500,
-        width=500, label="Draw", color={0,0,1,1},
+        position={5, 0.178, 2.1}, height=500,
+        width=500, label="Draw", color={0,0.5,1,1},
     })
 
     self.createButton({
         click_function="click_end_turn", function_owner=self,
-        position={3.5 , 0.178, 2.3}, height=500,
-        width=800, label="New Hand", tooltip="discard hand, and played cards,and draw 6 cards to current player", color={0,1,0,1}
+        position={0 , 0.178, 2.1}, height=500,
+        width=800, label="New Hand", tooltip="discard hand, and played cards,and draw 6 cards to current player", color={1,1,1,1}
     })
 
     self.createButton({
         click_function="handsizeplus", function_owner=self,
-        position={-1 , 0.178, 2.3}, height=250,
+        position={3 , 0.178, 1.9}, height=250,
         width=660, label="Hand Size +1", tooltip="Set hand size to 1 extra card.", 
-        color={1,0,0}
+        color={0,1,0}
     })
     self.createButton({
         click_function="handsizemin", function_owner=self,
-        position={1 , 0.178, 2.3}, height=250,
+        position={3 , 0.178, 2.5}, height=250,
         width=660, label="Hand Size -1", tooltip="Set hand size to 1 card less.", 
         color={1,0,0}
     })
@@ -52,12 +52,6 @@ function createButtons()
         position={6.5 , 0.178, 0.4}, height=500,
         width=500, label="VP", tooltip="Calculate victory points in victory pile", color={1,1,0,1}
     })
-	-- self.createButton({
-        -- click_function="donutting", function_owner=self,
-        -- position=pos_add, height=1250,
-        -- width=660, label="add", tooltip="add", 
-        -- color={1,0,0}
-    -- })
 
 end
 
@@ -69,43 +63,81 @@ function calculate_vp()
 	local vpcards = nil
 	--log(pos_add)
 	--log(adds.tag)
-	if vpraw.tag=="Deck" or vpraw.tag=="Card" then
+	if vpraw.type=="Deck" or vpraw.type=="Card" then
 		vpcards = vpraw
-	elseif vpraw[1] and (vpraw[1].tag=="Deck" or vpraw[1].tag=="Card") then
+	elseif vpraw[1] and (vpraw[1].type=="Deck" or vpraw[1].type=="Card") then
 			vpcards = vpraw[1]
 	end
 	if vpcards then
 	totalvp = 0
+	totalbs = 0
+	totalother = 0
 		if vpcards.getQuantity() > 1 then
 			for i = 1,vpcards.getQuantity() do
 				tags = vpcards.getObjects()[i].tags
+				vpfound = false
 				for j,o in pairs(tags) do
 					if o:match("VP%d+") then
 						totalvp = totalvp + o:match("%d+")
+						vpfound = true
+					end
+					if o == "Bystander" then
+					-- requires adding 'bystander' tag to bystander cards!
+						totalbs = totalbs + 1
 					end
 				end
+				if vpfound == false then
+					totalother = totalother + 1
+				end
 			end
-			print(self.getName() .. " player's current victory points: " .. totalvp)
+			printToAll("##Victory Points##")
+			printToAll(self.getName() .. " player's current victory points: " .. totalvp)
+			if totalbs > 0 then
+				printToAll("##")
+				printToAll(self.getName() .. " player's current bystander count: " .. totalbs)
+			end
+			if totalother > 0 then
+				printToAll("##")
+				printToAll(self.getName() .. " player's other cards in VP: " .. totalother)
+			end
 		elseif vpcards.getQuantity() == -1 then
 			tags = vpcards.getTags()
+			vpfound = false
 			for j,o in pairs(tags) do
 				if o:match("VP%d+") then
 					totalvp = totalvp + o:match("%d+")
+					vpfound = true
+				end
+				if o == "Bystander" then
+					-- requires adding 'bystander' tag to bystander cards!
+						totalbs = totalbs + 1
 				end
 			end
-			print(self.getName() .. " player's current victory points: " .. totalvp)
+			if vpfound == false then
+				totalother = totalother + 1
+			end
+			printToAll("##Victory Points##")
+			printToAll(self.getName() .. " player's current victory points: " .. totalvp)
+			if totalbs > 0 then
+				printToAll("##")
+				printToAll(self.getName() .. " player's current bystander count: " .. totalbs)
+			end
+			if totalother > 0 then
+				printToAll("##")
+				printToAll(self.getName() .. " player's other cards in VP: " .. totalother)
+			end
 		end
 	end
 end
 
 function handsizeplus()
     handsize = handsize + 1
-    print("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)")
+    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)")
 end
 
 function handsizemin()
     handsize = handsize - 1
-    print("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)")
+    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)")
 end
 
 function click_refillDeck()
@@ -185,7 +217,7 @@ function timer_shuffle()
     local decks = {}
     for _, obj in ipairs(discardItemList) do
         --Final check to make sure its a deck we're trying to shuffle
-        if obj.tag == "Deck" or obj.tag == "Card" then
+        if obj.type == "Deck" or obj.type == "Card" then
             obj.shuffle()
             table.insert(decks,obj)
         end
@@ -202,12 +234,12 @@ function timer_shuffle()
             ---- log(decks[1].tag)
         end
         local deck = nil
-        if decks.tag=="Deck" or decks.tag=="Card" then
+        if decks.type=="Deck" or decks.type=="Card" then
             deck=decks
             deck.shuffle()
-        elseif decks[1] and (decks[1].tag=="Deck" or decks[1].tag=="Card") then
+        elseif decks[1] and (decks[1].type=="Deck" or decks[1].type=="Card") then
            deck = decks[1]
-           if deck.tag=="Deck" then deck.shuffle() end
+           if deck.type=="Deck" then deck.shuffle() end
         else
             ---- log("timer_shuffle else grouping decks")
             deck=group(decks)
@@ -266,7 +298,7 @@ function get_decks_and_cards_from_zone(zoneGUID)
             ---- log("checking deck")
             ---- log(deck)
             ---- log(deck.tag)
-            if deck.tag == "Deck" or deck.tag == "Card" then
+            if deck.type == "Deck" or deck.type == "Card" then
                 ---- log("deck or card found")
                 ---- log(deck)
                 table.insert(result, deck)
@@ -335,9 +367,9 @@ function click_deal_cards()
         ---- log("deal_cards:  decks are")
         ---- log(decks)
         ---- log(decks.tag)
-        if decks.tag=="Deck" or decks.tag=="Card" then
+        if decks.type=="Deck" or decks.type=="Card" then
             deck=decks
-        elseif decks[1] and (decks[1].tag=="Deck" or decks[1].tag=="Card") then
+        elseif decks[1] and (decks[1].type=="Deck" or decks[1].type=="Card") then
            deck = decks[1]
         else
             deck=group(decks)
@@ -376,11 +408,9 @@ function click_deal_cards()
     end
 	local adds = findObjectsAtPosition(pos_add2)
 	local toadd = nil
-	--log(pos_add)
-	--log(adds.tag)
-	if adds.tag=="Deck" or adds.tag=="Card" then
+	if adds.type=="Deck" or adds.type=="Card" then
             toadd=adds
-        elseif adds[1] and (adds[1].tag=="Deck" or adds[1].tag=="Card") then
+        elseif adds[1] and (adds[1].type=="Deck" or adds[1].type=="Card") then
            toadd = adds[1]
         -- else
             -- toadd=group(adds)
@@ -461,9 +491,9 @@ function click_draw_card()
         ---- log("deal_cards:  decks are")
         ---- log(decks)
         ---- log(decks.tag)
-        if decks.tag=="Deck" or decks.tag=="Card" then
+        if decks.type=="Deck" or decks.type=="Card" then
             deck=decks
-        elseif decks[1] and (decks[1].tag=="Deck" or decks[1].tag=="Card") then
+        elseif decks[1] and (decks[1].type=="Deck" or decks[1].type=="Card") then
            deck = decks[1]
         else
             deck=group(decks)
