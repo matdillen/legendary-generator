@@ -142,21 +142,30 @@ function push_all (city,init)
 								if vpilecontent then
 									if vpilecontent.getQuantity() > 1  then
 										local vpileCards = vpilecontent.getObjects()
-										for j = 1,vpilecontent.getQuantity() do
+										k = 1
+										vpilesize = vpilecontent.getQuantity()
+										for j = 1,vpilesize do
+											if k == vpilesize  then
+												--break loop if only one card would remain in the vp
+												--if so, it will cease to be a deck and the function will break
+												break
+											end
 											if vpileCards[j].name == "Annihilation Wave Henchmen" then
 												vpilecontent.takeObject({position=annipile.getPosition(), guid=vpileCards[j].guid})
 											end
-											if getObjectFromGUID(o).getObjects()[1].getQuantity == -1 then
-												break
+										end
+									end
+									local singleVP = function()
+										vpilecontent = getObjectFromGUID(o).getObjects()[1]
+										if vpilecontent.getQuantity() == -1 then
+											if vpilecontent.getName() == "Annihilation Wave Henchmen" then
+												vpilecontent.setPositionSmooth(annipile.getPosition())
 											end
 										end
 									end
-									vpilecontent = getObjectFromGUID(o).getObjects()[1]
-									if vpilecontent.getQuantity() == -1 then
-										if vpilecontent.getName() == "Annihilation Wave Henchmen" then
-											vpilecontent.setPositionSmooth(annipile.getPosition())
-										end
-									end
+									--set a wait so that the vp takeObject calls have been performed
+									--otherwise it may not be down to 1 yet when the function singleVP would check for that
+									Wait.time(singleVP,1)
 								end
 							end
 						end
@@ -180,7 +189,43 @@ function push_all (city,init)
 						--requires villain tag, or could check for VP and exclude bystanders
 						--still tricky with locations and weapons
 					end
-					
+					if schemename == "Cage Villains in Power-Suppressing Cells" then
+						local twistpile = getObjectFromGUID("4f53f9")
+						cards[1].setPositionSmooth(twistpile.getPosition())
+						for i,o in pairs(vpileguids) do
+							if Player[i].seated == true then
+								vpilecontent = getObjectFromGUID(o).getObjects()[1]
+								annipile = getObjectFromGUID("8656c3")
+								if vpilecontent then
+									if vpilecontent.getQuantity() > 1  then
+										local vpileCards = vpilecontent.getObjects()
+										k = 1
+										vpilesize = vpilecontent.getQuantity()
+										for j = 1,vpilesize do
+											if k == vpilesize  then
+												break
+											end
+											if vpileCards[j].name == "Cops" then
+												vpilecontent.takeObject({position=annipile.getPosition(), guid=vpileCards[j].guid})
+												k = k + 1
+											end
+										end
+									end
+									local singleVP = function()
+										vpilecontent = getObjectFromGUID(o).getObjects()[1]
+										if vpilecontent.getQuantity() == -1 then
+											if vpilecontent.getName() == "Cops" then
+												vpilecontent.setPositionSmooth(annipile.getPosition())
+											end
+										end
+									end
+									Wait.time(singleVP,1)
+								end
+							end
+						end
+						printToAll("TWIST: Put a non-grey hero from your hand in front of you and put a cop on top of it.")
+						return nil
+					end
 				end
 				if cards[1].getName() == "Masterstrike" then
 					return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())

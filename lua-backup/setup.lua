@@ -756,9 +756,7 @@ function schemeSpecials (setupParts,mmGUID)
     mmZone=getObjectFromGUID("a91fe7")
     local stPile = getObjectFromGUID("c82082")
     heroZone=getObjectFromGUID("0cd6a9")
-    local outOfGameZoneGUID = "9afacf"
-    local outOfGameZone = getObjectFromGUID(outOfGameZoneGUID)
-	
+
 	
     if setupParts[1] == "Brainwash the Military" then
         log("12 officers in villain deck.")
@@ -797,8 +795,30 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Cage Villains in Power-Suppressing Cells" then
         log("Add extra cops henchmen.")
-        findInPile("Cops","de8160","4f53f9")
-        print("Cops moved to twists pile. Remove some to keep only 2 per player.")
+        findInPile("Cops","de8160","8656c3")
+		local ditchCops = function()
+			cops = getObjectFromGUID("8656c3").getObjects()[2]
+			copstoditch = 10-playercount*2
+			henchpos = getObjectFromGUID("de8160").getPosition()
+			henchpos.y = henchpos.y + 5
+			for i = 1,copstoditch do
+				cops.takeObject({position=henchpos,smooth=false})
+			end
+		end
+		local copsMoved = function()
+			local cops = getObjectFromGUID("8656c3").getObjects()[2]
+			if cops ~= nil then
+				if cops.getQuantity() == 10 then
+					return true
+				else	
+					return false
+				end
+			else
+				return false
+			end
+		end
+        print("Cops moved next to scheme.")
+		Wait.condition(ditchCops,copsMoved)
     end
     if setupParts[1] == "Capture Baby Hope" then
         log("Baby hope token moved to scheme.")
