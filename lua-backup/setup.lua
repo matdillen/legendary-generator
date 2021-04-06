@@ -319,7 +319,7 @@ function import_setup()
 	
 	Wait.condition(mmshuffle,mmGenerated)
 	
-	
+	strikepile = getObjectFromGUID("be6070")
     if epicness then
         local mmFlip = function()
 			mm = mmZone.getObjects()[2]
@@ -332,7 +332,6 @@ function import_setup()
 	if mmname == "J. Jonah Jameson" then
 		sopile = getObjectFromGUID("9c9649")
 		sopile.randomize()
-		strikepile = getObjectFromGUID("be6070")
 		if epicness then
 			for i=1,3*playercount do
 				sopile.takeObject({position = strikepile.getPosition(),
@@ -445,7 +444,7 @@ function import_setup()
 		for i=1,5 do
 			if Player[playercolors[i]].seated == true then
 				board = getObjectFromGUID(playerBoards[playercolors[i]])
-				board.Call('handsizemin')
+				board.Call('onslaughtpain')
 			end
 		end
 		broadcastToAll("Good luck! You're going to need it.")
@@ -1106,10 +1105,10 @@ function schemeSpecials (setupParts,mmGUID)
             tyrantgen1 = mm1.getObjects()[1]
             tyrantgen2 = mm2.getObjects()[2]
             tyrantgen3 = mm3.getObjects()[3]
-			tyrantsize1 = tyrantgen1.getQuantity()
-			tyrantsize2 = tyrantgen2.getQuantity()
-			tyrantsize3 = tyrantgen3.getQuantity()
             if tyrantgen1 ~= nil and tyrantgen2 ~= nil and tyrantgen3 ~= nil then
+				tyrantsize1 = tyrantgen1.getQuantity()
+				tyrantsize2 = tyrantgen2.getQuantity()
+				tyrantsize3 = tyrantgen3.getQuantity()
                 if tyrantsize1 == tyrantsnumber[1] and tyrantsize2 == tyrantsnumber[2] and tyrantsize3 == tyrantsnumber[3] then
                     return true
                 else

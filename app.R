@@ -210,6 +210,9 @@ ui <- fluidPage(
                     br(),
                     hidden(actionButton("pastesetup",
                                         "Paste")),
+                    br(),
+                    hidden(actionButton("clearpresets",
+                                        "Clear")),
                     width=5,
                     offset=1
                 )),
@@ -405,6 +408,7 @@ server <- function(input, output, session) {
         toggle("fixedVILimg")
         toggle("fixedHERimg")
         toggle("pastesetup")
+        toggle("clearpresets")
     })
     
     #show images from the preset fields
@@ -472,6 +476,24 @@ server <- function(input, output, session) {
                                                      split="|",
                                                      fixed=T)[[1]])
         }
+    })
+    
+    observeEvent(input$clearpresets,{
+        updateSelectizeInput(session,
+                             "fixedSCH",
+                             selected = "")
+        updateSelectizeInput(session,
+                             "fixedMM",
+                             selected = "")
+        updateSelectizeInput(session,
+                             "fixedVIL",
+                             selected = "")
+        updateSelectizeInput(session,
+                             "fixedHM",
+                             selected = "")
+        updateSelectizeInput(session,
+                             "fixedHER",
+                             selected = "")
     })
     
     #Generate a list of setups based on the set parameters

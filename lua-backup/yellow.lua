@@ -1,4 +1,6 @@
-handsize = 6
+handsize_init = 6
+handsize = handsize_init
+handsizef = false
 boardcolor = self.getName()
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
@@ -39,14 +41,22 @@ function createButtons()
         click_function="handsizeplus", function_owner=self,
         position={3 , 0.178, 1.9}, height=250,
         width=660, label="Hand Size +1", tooltip="Set hand size to 1 extra card.", 
-        color={0,1,0}
+        color={1,1,1}
     })
+	self.createButton({
+        click_function="handsizefixed", function_owner=self,
+        position={6.5 , 0.178, -0.5}, height=125,
+        width=125, label="V", tooltip="Set hand size changes fixed!", 
+        color={1,0,0}
+    })
+	
     self.createButton({
         click_function="handsizemin", function_owner=self,
         position={3 , 0.178, 2.5}, height=250,
         width=660, label="Hand Size -1", tooltip="Set hand size to 1 card less.", 
-        color={1,0,0}
+        color={1,1,1}
     })
+	
 	self.createButton({
         click_function="calculate_vp", function_owner=self,
         position={6.5 , 0.178, 0.4}, height=500,
@@ -56,6 +66,12 @@ function createButtons()
 end
 
 function donutting()
+end
+
+function onslaughtpain()
+	handsize_init = handsize_init -1
+	handsize = handsize_init
+	printToAll("Handsize permanently reduced by 1!")
 end
 
 function calculate_vp()
@@ -133,6 +149,24 @@ end
 function handsizeplus()
     handsize = handsize + 1
     printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)")
+end
+
+function handsizefixed(obj,player_clicker_color)
+	butt = self.getButtons()
+	for i,o in pairs(butt) do
+		if o.click_function == "handsizefixed" then
+			buttonindex = o.index
+		end
+	end
+	if handsizef == false then
+		handsizef = true
+		self.editButton({index=buttonindex,color = {0,1,0}})
+		printToAll(player_clicker_color .. "'s hand size change set to fixed (" .. handsize .. ")!")
+	else
+		handsizef = false
+		self.editButton({index=buttonindex,color = {1,0,0}})
+		printToAll(player_clicker_color .. "'s hand size change no longer set to fixed (" .. handsize .. ")!")
+	end
 end
 
 function handsizemin()
@@ -420,6 +454,12 @@ function click_deal_cards()
 			toadd.deal(toadd.getQuantity(),color)
 		elseif toadd.getQuantity() == -1 then
 			toadd.deal(1,color)
+		end
+	end
+	if handsizef == false then
+		if handsize ~= handsize_init then
+			printToAll(color .. "'s hand size set back to " .. handsize_init .. " after extra draws!")
+			handsize = handsize_init
 		end
 	end
     ---- log("-- ---- log deal cards start --")

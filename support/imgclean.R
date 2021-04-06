@@ -3,15 +3,16 @@ library(tidyverse)
 library(jsonlite)
 
 #read the json file for the mod/save you want to edit
-a = fromJSON("cleanimg2.json",
+a = fromJSON("lua/2269377314.json",
              simplifyVector = F)
 
 #fix nickname that doesn't match
-a$ObjectStates[[mmid]]$ContainedObjects[[74]]$Nickname = "Emperor Vulcan of the Shi'ar"
-a$ObjectStates[[vilid]]$ContainedObjects[[90]]$Nickname = "Shi'ar Imperial Elite"
+#a$ObjectStates[[mmid]]$ContainedObjects[[74]]$Nickname = "Emperor Vulcan of the Shi'ar"
+#a$ObjectStates[[vilid]]$ContainedObjects[[90]]$Nickname = "Shi'ar Imperial Elite"
 
 #map filenames from data to urls
 imgconv = read_csv2("legendary-generator/support/imgmap.csv")
+fixdfc = read_tsv("fixdfc.txt",col_names = F)
 
 #function to construct url from tts saved filename
 urlGen <- function(str) {
@@ -33,6 +34,7 @@ urlGen <- function(str) {
   }
   return(str2)
 }
+fixdfc$url = urlGen(fixdfc$X2)
 
 #add urls and sync dumb comma filenames that originated due to initial entry in excel
 imgconv$fullurl = urlGen(imgconv$url)
@@ -120,22 +122,44 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
     count(file,fullurl) %>%
     filter(!is.na(file))
   
+  backsidename = data %>%
+    filter(!is.na(T)|!is.na(Epic)) %>%
+    pull(fullurl)
+  
+  if (mmname%in%fixdfc$X1) {
+    backsidename = filter(fixdfc,X1==mmname)$url
+  }
+  
   #deckids are only locally relevant, so keep the ones already there
   #store in filenames to connect them to the cards inside the mastermind's deck
   filenames$deckid = NA
   
+  cdsize = dim(filenames)[1] + length(backsidename)
   #construct CustomDeck
   ##this contains info for all images used by this mastermind
-  for (j in 1:dim(filenames)[1]) {
+  if (length(src$CustomDeck)<cdsize) {
+    over = cdsize-length(src$CustomDeck)
+    for (k in 1:over) {
+      cid = as.numeric(names(src$CustomDeck)[k])+23
+      src$CustomDeck$cid = src$CustomDeck[[k]]
+      names(src$CustomDeck) = gsub("cid",cid,names(src$CustomDeck))
+    }
+  }
+  for (j in 1:cdsize) {
     #there may be more filenames after the harmonization than before
     #if so, add a random extra entry with a random identifier
     #identifiers are not properly checked, so it's possible this could create a duplicate!
-    if (length(src$CustomDeck)<j) {
-      cid = as.numeric(names(src$CustomDeck)[j-1])+23
-      src$CustomDeck$cid = src$CustomDeck[[j-1]]
-      names(src$CustomDeck)[j] = cid
-    }
     
+    if (length(backsidename)!=0&j==cdsize) {
+      src$CustomDeck[[j]]$FaceURL = data$fullurl[1]
+      src$CustomDeck[[j]]$BackURL = backsidename
+      dims = strsplit(locConv(data$loc[1],
+                              givedim=T),
+                      split=" ")[[1]]
+      src$CustomDeck[[j]]$NumWidth = dims[1]
+      src$CustomDeck[[j]]$NumHeight = dims[2]
+      next
+    }
     #set the front url
     src$CustomDeck[[j]]$FaceURL = filenames$fullurl[j]
     
@@ -153,11 +177,10 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
     #store the id for this image
     filenames$deckid[j] = names(src$CustomDeck)[j]
   }
-  
   #remove unnecessary additional entries after harmonization in CustomDeck
-  if (dim(filenames)[1]>length(src$CustomDeck)) {
-    src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
-  }
+  #if (dim(filenames)[1]<length(src$CustomDeck)) {
+  #  src$CustomDeck = src$CustomDeck[-c(dim(filenames2)[1]+1:length(src$CustomDeck))]
+  #}
   
   #list of cardids to be used
   #the order of this list also indicates the order of appearance in the deck in tts
@@ -170,23 +193,25 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
   cardnr = 1
   
   
-  for (j in 1:dim(data)[1]) {
+  for (l in 1:dim(data)[1]) {
     #if placeholder for adapter, vp will be NA, so fix that and skip
-    if (is.na(data$url[j])) {
+    if (is.na(data$url[l])) {
       vp = data$VP[2]
       next
     }
     
     #if not a backside, add card name, vp tag, CardId and store CardID
-    if (is.na(data$T[j])&is.na(data$Epic[j])) {
+    if (is.na(data$T[l])&is.na(data$Epic[l])) {
+      src$ContainedObjects[[cardnr]]$CustomDeck = NULL
+      
       #set card's name
-      src$ContainedObjects[[cardnr]]$Nickname = data$Name[j]
+      src$ContainedObjects[[cardnr]]$Nickname = data$Name[l]
       
       #get the deckid for the filename and build the CardID
       #which is DeckID + coordinates, with padded zeros if < 10
-      init = filter(filenames,file==data$file[j])$deckid
+      init = filter(filenames,file==data$file[l])$deckid
       src$ContainedObjects[[cardnr]]$CardID = paste0(init,
-                                                data$locid[j])
+                                                data$locid[l])
       
       #Store cardid
       cardids = paste(cardids,src$ContainedObjects[[cardnr]]$CardID,sep="|")
@@ -197,16 +222,9 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
       #step var for next card (as j may not correspond if t/epic)
       cardnr = cardnr + 1
     } else {
-      #if a t or epic record, here adjust the backURL accordingly
-      #use a loop to find the correct DeckID in CustomDeck to edit
-      for (k in 1:length(src$CustomDeck)) {
-        if (names(src$CustomDeck)[k]==init) {
-          src$CustomDeck[[k]]$BackURL = data$fullurl[j]
-          #attempt to make the card name show up when the backside is up
-          #doesn't work: unsure how this is modeled in the json
-          #src$ContainedObjects[[1]]$IgnoreFoW = "TRUE"
-        }
-      }
+      src$ContainedObjects[[1]]$CardID = paste0(names(src$CustomDeck)[cdsize],
+                                                data$locid[1])
+      cardids = sub("\\|.*",paste0("|",src$ContainedObjects[[1]]$CardID),cardids)
     }
   }
   
@@ -483,8 +501,14 @@ for (i in 1:length(a$ObjectStates[[heroid]]$ContainedObjects)) {
   #the name of the villain group
   heroname = a$ObjectStates[[heroid]]$ContainedObjects[[i]]$Nickname
   
+  # if (heroname=="No-Name, Brood Queen (WW)") {
+  #   print(i)
+  # }
+  
   #data associated with the villain group
-  data = filter(heroes,uni==heroname,!grepl("T",Split))
+  data = heroes %>%
+    filter(uni==heroname) %>%
+    filter(is.na(Split)|!grepl("T",Split)|!duplicated(Split))
   
   if (dim(data)[1]==0) {
     next
@@ -529,9 +553,9 @@ for (i in 1:length(a$ObjectStates[[heroid]]$ContainedObjects)) {
   }
   
   #remove unnecessary additional entries after harmonization in CustomDeck
-  if (dim(filenames)[1]>length(src$CustomDeck)) {
-    src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
-  }
+  #if (dim(filenames)[1]>length(src$CustomDeck)) {
+  #  src$CustomDeck = src$CustomDeck[-c(dim(filenames)[1]+1:length(src$CustomDeck))]
+  #}
   
   #list of cardids to be used
   #the order of this list also indicates the order of appearance in the deck in tts
@@ -591,6 +615,6 @@ write(toJSON(a,
              pretty=T,
              flatten=T,
              auto_unbox=T),
-      "cleanimg2.json")
+      "fixmm.json")
 
 #after export, add to saves and then edit the SaveFileInfos.json correctly

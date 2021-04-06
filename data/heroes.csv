@@ -102,7 +102,7 @@ X-Men;Colossus & Wolverine;Fastball special;XM;;;;4;5;;;1;;;;;;1;;;;1;;;-1;;;;;;
 X-Men;Colossus & Wolverine;Insane disregard;XM;;;;6;3;;;;1;;;;;;;;;1;;;-1;;1;;;;;;;;;;;;;;;;;;;;;;;xmen3,jpg;4 4
 X-Men;Colossus & Wolverine;Uncanny X-Men;XM;;;;7;1;;;1;;;;;;;;;;1;;;-1;;;;;;;;;;;2;;;;;;;;;;;;;;xmen3,jpg;6 4
 X-Men;Cyclops;Determination;B;;;;2;5;;;1;;;;;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;base,jpg;8 3
-X-Men;Cyclops;Optic blast;B;;;;3;3;1;;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;base,jpg;9 3
+X-Men;Cyclops;Optic blast;B;;;;3;5;1;;;;;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;base,jpg;9 3
 X-Men;Cyclops;Unending energy;B;;;;6;3;1;;;;;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;;base,jpg;10 3
 X-Men;Cyclops;X-Men united;B;;;;8;1;1;;;;;;;;;;;;1;;;;;;;;;;;;;;2;;;;;;;;;;;;;;base,jpg;7 3
 X-Men;Dazzler;Conv sound to light;XM;;;;3;5;;;;1;;;;;;;;1;;;;;;;;;;;;;2;;;2;;;;;;;;;;;;;base,jpg;1 5
@@ -226,8 +226,8 @@ Illuminati;Beast;Dr of beatdown;SW2;;;;6;3;;;1;;1;;;2;;2;;;1;;;;;;;;;;;;;;;;;;;;
 Illuminati;Beast;Multivar smackulus;SW2;;;;8;1;;;1;;1;;;2;;2;;;1;2;;;;;;;;;;;;;;;;;;;;;;;;;;;sw22,jpg;4 2
 Illuminati;Black Bolt;Speak no words;SW1;;Black Bolt;;4;5;1;1;;;;;;;;;;1;1;;;;;;;1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;7 1
 Illuminati;Black Bolt;Destructive whisper;SW1;;Black Bolt;;3;5;1;;;;;;;;;;;;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;5 1
-Illuminati;Black Bolt;Silence is golden;SW1;;Black Bolt;;6;3;;;1;;;;;;;;;1;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;6 1
-Illuminati;Black Bolt;Hypersonic scream;SW1;;Black Bolt;;8;1;1;;;;;;;;;;;;1;2;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;8 1
+Illuminati;Black Bolt;Silence is golden;SW1;;Black Bolt;;6;3;;;1;;;;;;;;;1;1;;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;8 1
+Illuminati;Black Bolt;Hypersonic scream;SW1;;Black Bolt;;8;1;1;;;;;;;;;;;;1;2;;;;;;-1;;;;;;;;;;;;;;;;;;;;;sw12,jpg;6 1
 Illuminati;Black Panther;Catlike Reflexes;SW1;;;;3;5;;1;;1;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;sw12,jpg;2 1
 Illuminati;Black Panther;Multifaceted Genius;SW1;;;;4;5;;;1;;1;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;Actually needs more multicolored cards;sw12,jpg;3 1
 Illuminati;Black Panther;Stalk the urban jungle;SW1;;;;6;3;;1;1;;;;;;;;;;1;;;;;;-1;;;;;;;;;;;1;;;;;;;;;;;sw12,jpg;1 1
@@ -469,7 +469,7 @@ SHIELD;Elsa Bloodstone;Defend the SHIELD wall;SW2;;;;6;3;1;;;;;;;;;;;;1;;;1;;;;;
 SHIELD;Elsa Bloodstone;Prodigy of Ulysses;SW2;;;;8;1;;;1;;;;;;;;1;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;sw22,jpg;2 5
 SHIELD;Nick Fury;High tech weaponry;B;;;;3;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;base,jpg;1 6
 SHIELD;Nick Fury;Battlefield Promotion;B;;;;4;5;;1;;;;;;;;;;1;;;;;;;;;;;;;;;;;;1;;;;;;;;;;Gain shield officer;base,jpg;4 6
-SHIELD;Nick Fury;Legendary Commander;B;;;;6;1;;;1;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;;base,jpg;3 6
+SHIELD;Nick Fury;Legendary Commander;B;;;;6;3;;;1;;;;;;;;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;;base,jpg;3 6
 SHIELD;Nick Fury;Pure Fury;B;;;;8;1;;;;;1;;;;;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;base,jpg;2 6
 SHIELD;Steve Rogers, Director of S.H.I.E.L.D.;International strike force;C75;;Captain America;;3;5;;;1;;;;;;;;2;1;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;;;c75,jpg;5 2
 SHIELD;Steve Rogers, Director of S.H.I.E.L.D.;Reassign to civil duty;C75;;Captain America;;5;5;;;;1;;;;;;;;;1;;;;1;;;;;;;;;;;;;1;;;;;;;;;;;c75,jpg;6 2
@@ -546,7 +546,7 @@ Sinister Six;Dr. Octopus;Eight times a charm;V;;;;6;3;;;1;;;;;;;;;;1;-1;;;;;;;;;
 Sinister Six;Dr. Octopus;Octo-pulverize;V;;;;8;1;;;;;1;;;;;;;;1;;-1;;;;;;;;;;;;;;;;;;;;;;;;;;villains2,jpg;2 4
 Sinister Six;Mysterio;Psychedelic mist;V;;;;2;5;1;;;;;;1;;;;;;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;villains2,jpg;6 3
 Sinister Six;Mysterio;Shifting decoy;V;;;;3;5;;1;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;1;;;;;;Filter HQ;villains2,jpg;8 3
-Sinister Six;Mysterio;Holographic illusion;V;;;;5;1;;;;;1;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;villains2,jpg;7 3
+Sinister Six;Mysterio;Holographic illusion;V;;;;3;3;;;;;1;;;;;;2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;villains2,jpg;7 3
 Sinister Six;Mysterio;False reflection;V;;;;7;1;;;;1;;;;;;;;1;1;;;;;;;;;;;;;;2;;;;;;;1;;;;;;;villains2,jpg;9 3
 Sinister Six;Electro;Electroshock therapy;V;;;;2;5;1;;;;;;;;;;;;;1;1;-1;;;;;;;;;;;;;;1;;;;;;;;;;;villains,jpg;5 6
 Sinister Six;Electro;Shocking robbery;V;;;;3;5;1;;;;;1;;;;;;;1;1;1;;;;-1;;;;;;;;;;;;;;;;;;;;;;villains,jpg;8 6
@@ -663,7 +663,7 @@ Avengers;Skaar, Son of Hulk;Raging Savage;WW;T8;;;6;3;;;1;;;;;;;;;;1;;;;;-1;;;;;
 Avengers;Skaar, Son of Hulk;Planetary-Level Revenge;WW;;;;8;1;;;1;;;;;;;;;;1;;;;;-1;;;;;;;;;;;;;;;;;;;;;;;hulk,jpg;3 5
 Planet Hulk;No-Name, Brood Queen;Surprise Attack;WW;;;;2;5;;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;hulk3,jpg;9 1
 Planet Hulk;No-Name, Brood Queen;Appetite for destruction;WW;;;;4;5;;1;;;;;1;;;;;;1;;1;1;;;;;;;;;;;;;;1;;;;;;;;;;;hulk3,jpg;8 1
-Planet Hulk;No-Name, Brood Queen;Bursting with life;WW;T9;;1;3;5;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;hulk3,jpg;7 1
+Planet Hulk;No-Name, Brood Queen;Bursting with life;WW;T9;;1;3;3;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;hulk3,jpg;7 1
 Planet Hulk;No-Name, Brood Queen;Torrent of broodlings;WW;T9;;;5;3;;1;;;;;;;;;;;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;hulk3,jpg;10 1
 Planet Hulk;No-Name, Brood Queen;World-spanning hunger;WW;;;;8;1;;;;1;;;;;;;;;1;;;;;;;;;;;;;;;;;-1;;;;;;;;;;;hulk3,jpg;6 1
 SHIELD;Rick Jones;Hacktivist;WW;;;;3;5;;;;;1;;;;;1;;;1;;;;;;;;;;;;;;1;;;;;;;;;;;;;;hulk,jpg;8 1
