@@ -931,6 +931,9 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
       vals$loc[2] = vals$loc2[1]
     }
   }
+  if (cardtype == "none") {
+    return(F)
+  }
   n = dim(vals)[1]
   if (n>0) {
     vals$file = gsub(",",".",vals$file,fixed=T)
