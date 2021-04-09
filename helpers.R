@@ -6,6 +6,7 @@ genFun = function(src,
                   fixedHM="",
                   fixedHER="",
                   fixedVIL="",
+                  fixedXtra="",
                   dropset="",
                   solo=T,
                   xtra=NULL) {
@@ -470,6 +471,10 @@ genFun = function(src,
            mmtraits$Set[1],
            filter(viltraits,!duplicated(Group))$Set,
            filter(henchtraits,!duplicated(Name))$Set)
+  
+  if (fixedXtra!="") {
+    xtra = fixedXtra
+  }
   
   ##Print out results
   resu = list(

@@ -161,6 +161,9 @@ ui <- fluidPage(
     bsTooltip("fixedHERimg",
               paste0("See the images of all cards of the selected hero.",
                      " If multiple heroes are selected, only images for the first one will be shown.")),
+    bsTooltip("fixedXtra",
+              paste0("Place the extra required cards here. Only use when pasting a previous setup",
+                     " or if you understand the syntax!")),
     bsTooltip("dropset",
               "Select the sets that are to be fully excluded from the random generator.",
               placement="right"),
@@ -311,6 +314,12 @@ ui <- fluidPage(
                                         style = "margin-top: 29px;")),
                     width=1)),
             fluidRow(
+                column(
+                    hidden(textInput("fixedXtra",
+                                          "Extra")),
+                    width=8,
+                    style="padding:4px;")),
+            fluidRow(
                 column(selectizeInput("dropset",
                                       "Sets excluded",
                                       choices=setaslist,
@@ -340,7 +349,7 @@ ui <- fluidPage(
                        style = "margin-top: 25px;"),
                 column(numericInput("gamecount",
                              "# runs",
-                             100,
+                             10,
                              1,
                              1000,
                              1),
@@ -409,6 +418,7 @@ server <- function(input, output, session) {
         toggle("fixedHERimg")
         toggle("pastesetup")
         toggle("clearpresets")
+        toggle("fixedXtra")
     })
     
     #show images from the preset fields
@@ -454,27 +464,33 @@ server <- function(input, output, session) {
         setup = readClipboard()
         if (!is.null(setup)) {
             setup = strsplit(setup,split="\\t")[[1]]
+            setup = gsub("\"","",setup,fixed=T)
             updateSelectizeInput(session,
                                  "fixedSCH",
-                                 selected = setup[2])
+                                 selected = setup[1])
             updateSelectizeInput(session,
                                  "fixedMM",
-                                 selected = setup[3])
+                                 selected = setup[2])
             updateSelectizeInput(session,
                                  "fixedVIL",
-                                 selected = strsplit(setup[4],
+                                 selected = strsplit(setup[3],
                                                      split="|",
                                                      fixed=T)[[1]])
             updateSelectizeInput(session,
                                  "fixedHM",
-                                 selected = strsplit(setup[5],
+                                 selected = strsplit(setup[4],
                                                      split="|",
                                                      fixed=T)[[1]])
             updateSelectizeInput(session,
                                  "fixedHER",
-                                 selected = strsplit(setup[6],
+                                 selected = strsplit(setup[5],
                                                      split="|",
                                                      fixed=T)[[1]])
+            if (length(setup) == 6) {
+                updateTextInput(session,
+                                "fixedXtra",
+                                value=setup[6])
+            }
         }
     })
     
@@ -494,6 +510,9 @@ server <- function(input, output, session) {
         updateSelectizeInput(session,
                              "fixedHER",
                              selected = "")
+        updateTextInput(session,
+                        "fixedXtra",
+                        value="")
     })
     
     #Generate a list of setups based on the set parameters
@@ -508,6 +527,7 @@ server <- function(input, output, session) {
                             fixedHM = input$fixedHM,
                             fixedVIL = input$fixedVIL,
                             fixedHER = input$fixedHER,
+                            fixedXtra = input$fixedXtra,
                             epic = input$epic,
                             dropset=input$dropset,
                             solo=input$solo,
