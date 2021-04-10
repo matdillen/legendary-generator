@@ -134,51 +134,76 @@ function push_all (city,init)
 					-- end
 					if schemename == "Build an Army of Annihilation" then
 						local twistpile = getObjectFromGUID("4f53f9")
+						annipile = getObjectFromGUID("8656c3")
 						cards[1].setPositionSmooth(twistpile.getPosition())
+						twistsresolved = twistsresolved + 1
+						if annipile.getObjects()[2] then
+							henchpresent = annipile.getObjects()[2].getQuantity()
+						else
+							henchpresent = 0
+						end
+						henchcaught = 0
 						for i,o in pairs(vpileguids) do
 							if Player[i].seated == true then
 								vpilecontent = getObjectFromGUID(o).getObjects()[1]
-								annipile = getObjectFromGUID("8656c3")
+								copguids = {}
 								if vpilecontent then
 									if vpilecontent.getQuantity() > 1  then
 										local vpileCards = vpilecontent.getObjects()
-										k = 1
-										vpilesize = vpilecontent.getQuantity()
-										for j = 1,vpilesize do
-											if k == vpilesize  then
-												--break loop if only one card would remain in the vp
-												--if so, it will cease to be a deck and the function will break
-												break
-											end
+										for j = 1, vpilecontent.getQuantity() do
 											if vpileCards[j].name == "Annihilation Wave Henchmen" then
-												vpilecontent.takeObject({position=annipile.getPosition(), guid=vpileCards[j].guid})
+												table.insert(copguids,vpileCards[j].guid)
 											end
 										end
-									end
-									local singleVP = function()
-										vpilecontent = getObjectFromGUID(o).getObjects()[1]
-										if vpilecontent.getQuantity() == -1 then
-											if vpilecontent.getName() == "Annihilation Wave Henchmen" then
-												vpilecontent.setPositionSmooth(annipile.getPosition())
+										henchcaught = henchcaught + #copguids
+										if vpilecontent.getQuantity() ~= #copguids then
+											for j = 1,#copguids do
+												vpilecontent.takeObject({position=annipile.getPosition(),
+													guid=copguids[j]})
 											end
+										else
+											vpilecontent.setPositionSmooth(annipile.getPosition())
+										end
+									elseif vpilecontent.getQuantity() == -1 then
+										if vpilecontent.getName() == "Annihilation Wave Henchmen" then
+											awh = vpilecontent.setPositionSmooth(annipile.getPosition())
+											henchcaught = henchcaught + 1
 										end
 									end
-									--set a wait so that the vp takeObject calls have been performed
-									--otherwise it may not be down to 1 yet when the function singleVP would check for that
-									Wait.time(singleVP,1)
 								end
 							end
 						end
 						annimmpile = getObjectFromGUID("bf7e87")
 						local refeedMM = function()
-							twistsstacked = twistpile.getObjects()[2].getQuantity()
-							if twistsstacked == -1 then twistsstacked = 1 end
-							for i=1,twistsstacked do
-								annipile.getObjects()[2].takeObject({position=annimmpile.getPosition()})
+							--twist card's setPosition may be too slow, so use a variable
+							--twistsstacked = twistpile.getObjects()[2].getQuantity()
+							--if twistsstacked == -1 then twistsstacked = 1 end
+							annicount = annipile.getObjects()[2].getQuantity()
+							for i=1,twistsresolved do
+								if i < annicount then
+									annipile.getObjects()[2].takeObject({position=annimmpile.getPosition()})
+								elseif i == annicount then
+									annipile.setPositionSmooth(annimmpile.getPosition())
+								else
+									printToAll("Not enough annihilation wave henchmen left! Evil wins?")
+									return nil
+								end
 							end
-							printToAll(twistsstacked .. " annihilation henchmen moved to the mastermind!")
+							printToAll(twistsresolved .. " annihilation henchmen moved to the mastermind!")
 						end
-						Wait.time(refeedMM,1)
+						local anniGathered = function()
+							annicards = annipile.getObjects()[2]
+							if annicards then
+								if annicards.getQuantity() == henchpresent + henchcaught then
+									return true
+								else
+									return false
+								end
+							else
+								return false
+							end
+						end
+						Wait.condition(refeedMM,anniGathered)
 						return nil
 					end
 					if schemename == "Build an Underground MegaVault Prison" then
@@ -196,42 +221,98 @@ function push_all (city,init)
 							if Player[i].seated == true then
 								vpilecontent = getObjectFromGUID(o).getObjects()[1]
 								annipile = getObjectFromGUID("8656c3")
+								copguids = {}
 								if vpilecontent then
 									if vpilecontent.getQuantity() > 1  then
 										local vpileCards = vpilecontent.getObjects()
-										k = 1
-										vpilesize = vpilecontent.getQuantity()
-										for j = 1,vpilesize do
-											if k == vpilesize  then
-												break
-											end
+										for j = 1, vpilecontent.getQuantity() do
 											if vpileCards[j].name == "Cops" then
-												vpilecontent.takeObject({position=annipile.getPosition(), guid=vpileCards[j].guid})
-												k = k + 1
+												table.insert(copguids,vpileCards[j].guid)
 											end
 										end
-									end
-									local singleVP = function()
-										vpilecontent = getObjectFromGUID(o).getObjects()[1]
-										if vpilecontent.getQuantity() == -1 then
-											if vpilecontent.getName() == "Cops" then
-												vpilecontent.setPositionSmooth(annipile.getPosition())
+										if vpilecontent.getQuantity() ~= #copguids then
+											for j = 1,#copguids do
+												vpilecontent.takeObject({position=annipile.getPosition(),
+													guid=copguids[j]})
 											end
+										else
+											vpilecontent.setPositionSmooth(annipile.getPosition())
 										end
 									end
-									Wait.time(singleVP,1)
+									if vpilecontent.getQuantity() == -1 then
+										if vpilecontent.getName() == "Cops" then
+											vpilecontent.setPositionSmooth(annipile.getPosition())
+										end
+									end
 								end
 							end
 						end
 						printToAll("TWIST: Put a non-grey hero from your hand in front of you and put a cop on top of it.")
 						return nil
 					end
+					if schemename == "Dark Alliance" then
+						if twistsresolved == 0 then
+							mmPile=getObjectFromGUID("c7e1d5")
+							annipile = getObjectFromGUID("8656c3")
+							mmPile.randomize()
+							local stripTactics = function(obj)
+								keep = math.random(4)
+								tacguids = {}
+								for i = 1,4 do
+									table.insert(tacguids,obj.getObjects()[i].guid)
+								end
+								annimmpile = getObjectFromGUID("bf7e87")
+								for i = 1,4 do
+									if i ~= keep then
+										obj.takeObject({position = annimmpile.getPosition(),
+											guid = tacguids[i],
+											flip = true})
+									end
+								end
+							end
+							mmPile.takeObject({position = annipile.getPosition(),callback_function = stripTactics})
+						elseif twistsresolved < 4 then
+							annipile = getObjectFromGUID("8656c3")
+							if annipile.getObjects()[2] then
+								postop = annipile.getPosition()
+								postop.y = postop.y + 4
+								tacticShuffle = function(obj)
+									annipile.getObjects()[2].randomize()
+								end
+								addTactic = function(obj)
+									if annimmpile.getObjects()[2].getQuantity() > 1 then
+										annimmpile.getObjects()[2].takeObject({position = annipile.getPosition(),
+											flip=true,
+											smooth=false,
+											callback_function = tacticShuffle})
+									elseif annimmpile.getObjects()[2].getQuantity() == -1 then
+										annimmpile.getObjects()[2].flip()
+										ann = annimmpile.getObjects()[2].setPosition(annipile.getPosition())
+										tacticShuffle(ann)
+									end
+								end
+								if annipile.getObjects()[2].getQuantity() > 1 then
+									annipile.getObjects()[2].takeObject({position =postop,
+										callback_function = addTactic})
+								elseif annipile.getObjects()[2].getQuantity() == -1 then
+									ann = annipile.getObjects()[2].setPosition(postop)
+									addTactic(ann)
+								end
+							end
+						end
+						twistsresolved = twistsresolved + 1
+						--log(twistsresolved)
+					end
 				end
+				
 				if cards[1].getName() == "Masterstrike" then
 					return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
 				end
 
 				if cards[1].getName() == "Scheme Twist" then
+					if schemename == "Crush Them With My Bare Hands" then
+						return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
+					end
 					if schemename ~= "Age of Ultron" then
 						return cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
 					end
