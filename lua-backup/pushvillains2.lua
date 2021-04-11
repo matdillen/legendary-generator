@@ -47,20 +47,26 @@ end
 
 
 function shift_to_next(objects,targetZone)
-    for k, obj in pairs(objects) do
-       local zPos = obj.getPosition().z
-       if targetZone.guid == escape_zone_guid or targetZone.guid == city_start_zone_guid then
-         zPos = targetZone.getPosition().z
-       end
-       if targetZone.guid == escape_zone_guid then
-           broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
-       end
-       if targetZone.guid == city_start_zone_guid and obj.getDescription() == "bystander" then
-           zPos = zPos - 1
-       end
-       obj.setPositionSmooth({targetZone.getPosition().x, targetZone.getPosition().y+3,
-                            zPos},false,false)
-    end
+	for k, obj in pairs(objects) do
+		local zPos = obj.getPosition().z
+		local bs = false
+		if targetZone.guid == escape_zone_guid or targetZone.guid == city_start_zone_guid then
+			zPos = targetZone.getPosition().z
+		end
+		if targetZone.guid == escape_zone_guid then
+			broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
+		end
+		for i,o in pairs(obj.getTags()) do
+		if o == "Bystander" then
+			bs = true
+		end
+		end
+		if targetZone.guid == city_start_zone_guid and bs == true then
+			zPos = zPos - 1
+		end
+		obj.setPositionSmooth({targetZone.getPosition().x, targetZone.getPosition().y+3,
+			zPos},false,false)
+	end
 end
 
 
@@ -317,7 +323,13 @@ function push_all (city,init)
 						return cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
 					end
 				end
-				if cards[1].getDescription() == "bystander"  then
+				bs = false
+				for i,o in pairs(cards[1].getTags()) do
+					if o == "Bystander" then
+						bs = true
+					end
+				end
+				if bs == true  then
 					return shift_to_next(cards,targetZone)
 				end
 				if city then

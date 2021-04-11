@@ -667,7 +667,7 @@ function import_setup()
             heroDeck = heroZone.getObjects()[2]
             heroDeck.randomize()
             for i=1,12 do
-                heroDeck.takeObject({position=vilDeck.getPosition(),
+                heroDeck.takeObject({position=vilDeckZone.getPosition(),
                     flip=false,smooth=false})
             end
         end
