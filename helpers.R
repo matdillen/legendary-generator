@@ -417,7 +417,7 @@ genFun = function(src,
   }
   
   #join both the scheme hero and the fixed provided (if any)
-  heronames = c(heronames,fixedHER)
+  heronames = c(fixedHER,heronames)
   
   #disambiguate names by concatening set id
   herolist = distinct(src$heroes,uni)
