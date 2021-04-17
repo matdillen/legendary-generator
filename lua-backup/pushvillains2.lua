@@ -37,7 +37,7 @@ function get_decks_and_cards_from_zone(zoneGUID)
     local result = {}
     if decks then
         for k, deck in pairs(decks) do
-            if deck.tag == "Deck" or deck.tag == "Card" then
+            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == "Shard" then
                 table.insert(result, deck)
             end
         end
@@ -57,9 +57,9 @@ function shift_to_next(objects,targetZone)
 			broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
 		end
 		for i,o in pairs(obj.getTags()) do
-		if o == "Bystander" then
-			bs = true
-		end
+			if o == "Bystander" then
+				bs = true
+			end
 		end
 		if targetZone.guid == city_start_zone_guid and bs == true then
 			zPos = zPos - 1
