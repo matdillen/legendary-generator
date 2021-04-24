@@ -573,13 +573,12 @@ setupPrint <- function(game,ts=F) {
               paste(game$Mastermind,collapse=" - "),
               paste(game$Villains,collapse="|"),
               paste(game$Henchmen,collapse="|"),
-              paste0(paste(game$Heroes,collapse="|"),"|"))
+              paste(game$Heroes,collapse="|"))
     if (!is.null(game$Extras)) {
       setup = c(setup,
-                game$Extras,
-                "empty")
+                game$Extras)
     }
-    writeClipboard(paste(setup,collapse="\n"))
+    writeClipboard(setup)
   }
 }
 

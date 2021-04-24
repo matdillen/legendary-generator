@@ -125,8 +125,8 @@ end
 function reduceStack(count,stackGUID)
 
     local stack = getObjectFromGUID(stackGUID)
-    local outOfGameZoneGUID = "9afacf"
-    local outOfGameZone = getObjectFromGUID(outOfGameZoneGUID)
+    local destzone = "4e3b7e"
+    local outOfGameZone = getObjectFromGUID(destzone)
     if randomize then stack.randomize() end
     local stackObjects = stack.getObjects()
     local stackCount = #stackObjects
@@ -177,7 +177,7 @@ function import_setup()
 	playercount = #Player.getPlayers()
     local vildeck_done = {}
     setupParts = {}
-    for s in string.gmatch(setupText,"[^\n]+") do
+    for s in string.gmatch(setupText,"[^\r\n]+") do
         table.insert(setupParts, s)
     end
 
