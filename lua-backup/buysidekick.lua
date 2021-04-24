@@ -1,14 +1,16 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
-
+    --[[
    self.createButton({
         click_function="click_draw_hero", function_owner=self,
         position={0,0,0}, label="draw hero", color={1,1,1,0}, width=2000, height=3000
     })
+    ]]
 
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="buy hero", color={1,1,1,1}, width=2000, height=1000
+         position={0,0.01,4}, label="buy sidekick", color={1,1,1,1}, width=2000, height=1000,
+         tooltip="buy sidekick"
      })
 
     --This is how I found the positions to check for cards
@@ -21,13 +23,11 @@ function onLoad()
     --Local positions for each pile of cards
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}
-	pos_add2 = {-3.15, 0.178, 0.222}
 
     --This is which way is face down for a card or deck relative to the tool
     rot_offset = {x=0, y=0, z=180}
 	
 	schemeZone=getObjectFromGUID("c39f60")
-	
 end
 
 function click_buy_hero(obj, player_clicker_color, alt_click)
@@ -35,13 +35,19 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
     log(objects)
     if not objects then return nil end
     local card = nil
+    local deck = nil
     for _,item in pairs(objects) do
         if item.tag == "Card" then
             card = item
         end
+        if item.tag == "Deck" then
+            deck = item
+        end
     end
     log (card)
-    if not card then return nil end
+    log (deck)
+    if not card and not deck then return nil end
+
     log("Turns.turn_color")
     log(Turns.turn_color )
     local playerBoards = {
@@ -52,40 +58,40 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
         ["White"]="206c9c"
 
     }
-	local desc = card.getDescription()
+    log(card)
+    log("boardGUID")
+    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+    log("playerBoard")
+    log(playerBoard)
 	if schemeZone.getObjects()[2] then
 		schemename = schemeZone.getObjects()[2].getName()
 	else
 		schemename = ""
 	end
-	if desc:find("WALL%-CRAWL") or schemename == "Splice Humans With Spider DNA" then
+	toflip = deck.is_face_down
+	if schemename == "Splice Humans With Spider DNA" then
 		pos = pos_draw
-		card.flip()
-	elseif desc:find("SOARING FLIGHT") then
-		pos = pos_add2
+		if card then
+			card.flip()
+		end
+		if deck then
+			toflip = false
+		end
 	else 
 		pos = pos_discard
 	end
-    --log(card)
-    --log("boardGUID")
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    --log("playerBoard")
-    --log(playerBoard)
     local dest = playerBoard.positionToWorld(pos)
-	log(player_clicker_color)
-	if player_clicker_color == "White" then
-		angle = 90
-	elseif player_clicker_color == "Blue" then
-		angle = -90
-	else
-		angle = 180
-	end
-	brot = {x=0, y=angle, z=0}
-	--log(brot)
-	--log("this is the" .. player_clicker_color)
-	card.setRotationSmooth(brot)
+    if card then
     card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
-    click_draw_hero(obj, player_clicker_color, alt_click)
+    elseif deck then
+        deck.takeObject({
+            position          = {x=dest.x,y=dest.y+3,z=dest.z},
+            smooth            = true,
+            flip              = toflip
+        })
+    end
+    --click_draw_hero(obj, player_clicker_color, alt_click)
+
 end
 
 function click_draw_hero(obj, player_clicker_color, alt_click)

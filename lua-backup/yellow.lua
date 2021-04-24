@@ -335,7 +335,10 @@ function get_decks_and_cards_from_zone(zoneGUID)
             if deck.type == "Deck" or deck.type == "Card" then
                 ---- log("deck or card found")
                 ---- log(deck)
-                table.insert(result, deck)
+				local desc = deck.getDescription()
+				if not desc:find("ARTIFACT") then
+					table.insert(result, deck)
+				end
                 ---- log("result so far")
                 ---- log(result)
             end
