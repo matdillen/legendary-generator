@@ -1,0 +1,71 @@
+Abomination	Villain gets extra printed Power from hero below it in the HQ.
+Adapt	Shuffle all of this Mastermind's tactics, so a random one ends up on top.
+Artifact	This card remains in play and typically has an effect that can be used once per turn.
+Berserk	Discard the top card of your deck and get its printed Power.
+Bribe	Both Power and Recruit can be used to fight this.
+Burrow	If the Streets were empty, put this villain there after fighting.
+Charge	After entering the city, move this the listed number of spaces to the left.
+Cheering Crowds	When playing this card, you may return a Bystander from your Victory Pile to the bottom of the Bystander Deck. If you do, play this card twice.
+Chivalrous Duel	This card can only be fought with Power gained from cards with a common Hero name.
+Circle of Kung Fu	This card gets the listed extra Power unless you reveal a Hero that costs at least the listed number.
+Celestial Boon	You gain this permament bonus as long as the card granting it is in your Victory Pile.
+Conqueror	This gets the listed extra Power if there's a Villain in the named city space.
+Contest of Champions	Each player reveals a Hero card from their hand or the top card of their deck. The Mastermind reveals the top 2 cards of the Hero Deck. Whoever revealed a Hero with the highest cost, wins. Costs of heroes with the listed Class count double.
+Coordinate	During another player's turn, you may discard this and draw a card. If you do, that player may use this card's effects. A player may only Coordinate once each turn.
+Cosmic Threat	Once per turn, this loses 3 Power for each Hero you reveal with one of the Hero Classes listed. If multiple classes are listed, choose one.
+Cross-Dimensional Rampage	Each player reveals a Hero or a card in their Victory Pile with the same identity listed. This includes known aliases. Players who don't gain a wound.
+Danger Sense	Reveal the listed number of cards from the Villain Deck. Get 1 Power for each Villain revealed and put cards back in any order.
+Dark Memories	Get +1 Power for each Hero Class in your discard pile.
+Demolish	Reveal the top card of the Hero deck and put it on bottom. Demolished players reveal their hand and discard a card with the same cost.
+Digest	Digest triggers if there are at least the listed number of cards in your Victory Pile. Indigestion triggers if not.
+Dodge	Instead of playing, you may discard this card to draw a card.
+Dominate	Put dominated heroes under this card. This card gets +1 Power for each dominated Hero. When fought, put 1 dominated hero in each player's discard pile and KO the rest.
+Elusive	This card can only be fought if you made the listed amount of Recruit this turn.
+Empowered	This card gets extra Power for each Hero with the listed Hero Class in the HQ.
+Excessive Violence	Once per turn, you may attack for 1 more Power more to trigger all cards played with Excessive Violence.
+Fateful Resurrection	Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.
+Feast	Fight: KO the top card of your deck.
+Focus	As often as you like during this turn, you may pay the listed amount of Recruit to get the Focus effect.
+Fortify	Put the fortifying card on the listed space. It may be fought while there. It doesn't occupy the space, only fortifies it.
+Hidden Witness	Put a Bystander face-down below this card. While it has a Hidden Witness, this card can't be fought. A Hidden Witness can be rescued as a Bystander by paying 2 Recruit for it.
+Human Shield	Put a Bystander face-down below this card. When this card is fought, a Human Shield is rescued instead of this card being defeated.
+HYDRA Level	The number of SHIELD and HYDRA cards in the escape pile.
+Hyperspeed	Discard top cards from your deck equal to the listed number. You get 1 Power for each card with a printed Power symbol discarded this way. Some cards may allow you to Hyperspeed for Recruit as well.
+Investigate	Look at the top 2 cards of your deck. Draw one that fits the listed condition. Put the remaining cards back on top and/or bottom in any order.
+Last Stand	Gets +1 Power for each empty City Space.
+Lightshow	Once per turn, if you played at least two cards with Lightshow, you may activate a Lightshow effect from one card.
+Location	Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.
+Man out of Time	When you play this card from your hand, set it aside after using its effects. When set aside, play it again at the beginning of your next turn. At the end of that turn, it will be discarded.
+Moonlight	Majority of heroes in the HQ have odd-numbered costs.
+Outwit	Reveal heroes with 3 different costs.
+Patrol	Check whether the listed zone is empty or not.
+Phasing	Instead of playing, you may swap this with the top card of your deck.
+Piercing Energy	You may use this special resource to fight Villains or Masterminds, ignoring their Power and comparing with their Victory Points instead. Also ignore any special conditions that may restrict fighting them. Can't be used on Villains without Victory Points.
+Revenge	This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.
+Rise of the Living Dead	The top card of each player's Victory Pile enters the city if it has this ability and is not a Mastermind Tactic.
+Savior	Have at least three Bystanders in your Victory Pile.
+SHIELD Clearance	To fight this, you must discard a SHIELD Hero.
+SHIELD Level	The number of HYDRA and SHIELD cards in your Victory Pile.
+Shard	Take a Shard disk and place it in front of you. Shards stay with you between turns. During your turn, you may spend shards to get 1 Power for each Shard. You may also spend Shards to burn them for some effects.
+Size-Changing	This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack. Multiple cards of the same color only stack if Microscopic Size-Changing is indicated.
+Smash	Discard a card to get the listed amount of extra Power.
+Soaring Flight	When you buy this, set it aside and add it to your next hand.
+Spectrum	Have at least three different Hero Classes among your heroes.
+Sunlight	Majority of heroes in the HQ have even-numbered costs.
+Switcheroo	Instead of playing, you may put this on the bottom of the Hero deck and put a Hero card in the HQ that has the listed cost into your hand.
+Symbiote Bond	Two villains bond into one with all text and stats of both combined. When fought, defeat only one of the two and only do that one's fight effect.
+Striker	Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.
+Teleport	Instead of playing, you may set this card aside and add it to your next hand.
+Throne's Favor	There is one Throne's Favor token in the game. If you gain it, take it from whoever has it. If you spend it, put it somewhere neutral.
+Thrown Artifact	This card remains in play. During your turn, you may put it on the bottom of your deck to use its Throw effect.
+Trap	This is not a Villain and it does not enter the City. Gain it in your Victory Pile if you fulfill the condition. KO it otherwise.
+Undercover	Put the listed card into your Victory Pile. It's worth 1 Victory Point.
+Uru-Enchanted Weapon	Fight: Reveal 1 card or the listed number of cards from the villain deck, then put them on the bottom. This card gets extra Power equal to the total Victory Points from the revealed cards. You lose all your Power if you can't beat a strengthened villain this way.
+Versatile	When you play this card, choose whether it provides the listed number of Power or Recruit.
+Villainous Weapon	These are not Villains. Instead, they are captured by the Villain closest to the Villain deck or KO'd if the city is empty. The Villain gets the extra Power from the Weapon. When a Villain escapes with a Weapon, the Mastermind captures that Weapon. When fighting a card with a Weapon, gain the Weapon as an artifact.
+Waking Nightmare	Discard a non-grey Hero Card. If you do, draw a card.
+Wall-Crawl	When buying this card, put it on top of your deck instead of your discard pile.
+Worthy	Reveal a Hero that costs 5 or more.
+Wounded Fury	Gets +1 Power for each wound in your discard pile.
+X-Gene	Reveal a card with the listed trait in your discard pile.
+X-Treme Attack	Gets +1 Power for each other Villain with this ability.

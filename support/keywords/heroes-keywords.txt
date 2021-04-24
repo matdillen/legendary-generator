@@ -1,0 +1,928 @@
+Team	Hero	Name	Set	Split	Name_S	T0	C	Ct	B	R	G	Y	S	Br	Rr	Gr	Yr	Sr	SP	MO	FI	Drw	Dsc	Top	Bs	Wd	Cty	NR	C2	C4	CD	SK	LS	LT	TE	Pierc	HM	KO	KBS	AF	Vil	MF	VS	DC	SRD	FHQ	SHL	XTR	file	loc	id	uni	keywords	seq
+X-Men	Phoenix	Obliterating Fire	XM				3	5	1																											1		2										Soaring Flight	xmen3,jpg	5 2	Phoenix (XM)	Phoenix (XM)	Soaring Flight|Piercing Energy	1
+X-Men	Phoenix	Life & Death Incarnate	XM				4	5			1									1																		2											xmen3,jpg	7 2	Phoenix (XM)	Phoenix (XM)	""	2
+X-Men	Phoenix	Reincarnating Phoenix	XM				6	3		1												1																-2											xmen3,jpg	2 2	Phoenix (XM)	Phoenix (XM)	""	3
+X-Men	Phoenix	Driven mad	XM				9	1			1										1			-1														2										umad?	xmen3,jpg	4 2	Phoenix (XM)	Phoenix (XM)	Berserk	4
+X-Men	Phoenix Force Cyclops	Burn out	SW2				4	5	1												1																	2											sw22,jpg	4 5	Phoenix Force Cyclops (SW2)	Phoenix Force Cyclops (SW2)	""	5
+X-Men	Phoenix Force Cyclops	Reincarnate	SW2				3	5		1																												2											sw22,jpg	3 5	Phoenix Force Cyclops (SW2)	Phoenix Force Cyclops (SW2)	""	6
+X-Men	Phoenix Force Cyclops	Rise from the ashes	SW2				6	3	1			1									1																	-2											sw22,jpg	5 5	Phoenix Force Cyclops (SW2)	Phoenix Force Cyclops (SW2)	""	7
+X-Men	Phoenix Force Cyclops	Destruct is creat	SW2				8	1	1												1	1																1											sw22,jpg	6 5	Phoenix Force Cyclops (SW2)	Phoenix Force Cyclops (SW2)	""	8
+X-Men	Polaris	EM pulse	XM				4	5	1					1								1														1													xmen3,jpg	3 2	Polaris (XM)	Polaris (XM)	Piercing Energy	9
+X-Men	Polaris	Ride the M waves	XM				3	5		1					1					1																												Soaring Flight	xmen3,jpg	6 2	Polaris (XM)	Polaris (XM)	Soaring Flight	10
+X-Men	Polaris	Subtle attunement	XM				6	3		1					1						1			1														1										Soaring Flight	xmen3,jpg	1 2	Polaris (XM)	Polaris (XM)	Soaring Flight	11
+X-Men	Polaris	Reverse polarity	XM				8	1		1										1															1													Mix MO and FI	xmen3,jpg	10 1	Polaris (XM)	Polaris (XM)	Soaring Flight|X-Gene	12
+X-Men	Professor X	Psionic Astral form	DC				2	5	1												1														1														darkcity,jpg	6 4	Professor X (DC)	Professor X (DC)	""	13
+X-Men	Professor X	Class dismissed	DC				3	5				1					1			1																		1										Filter HQ	darkcity,jpg	7 4	Professor X (DC)	Professor X (DC)	""	14
+X-Men	Professor X	Telepathic probe	DC				5	3	1												1																				1							Probe villain deck	darkcity,jpg	5 4	Professor X (DC)	Professor X (DC)	""	15
+X-Men	Professor X	Mind Control	DC				8	1		1											1																											Gain villains as heroes	darkcity,jpg	8 4	Professor X (DC)	Professor X (DC)	""	16
+X-Men	Psylocke	Psychic Knife	XM				2	5				1					1					1														1													xmen3,jpg	10 3	Psylocke (XM)	Psylocke (XM)	Piercing Energy	17
+X-Men	Psylocke	Precognition	XM				3	5		1										1		1																										Probe hero deck	xmen3,jpg	5 3	Psylocke (XM)	Psylocke (XM)	""	18
+X-Men	Psylocke	Butterfly effect	XM				5	3		1					1																				1	1													xmen3,jpg	8 3	Psylocke (XM)	Psylocke (XM)	Piercing Energy|X-Gene	19
+X-Men	Psylocke	Telepathic NJ	XM				7	1				1																								1												Free heroes!	xmen3,jpg	7 3	Psylocke (XM)	Psylocke (XM)	Piercing Energy	20
+X-Men	Rogue	Energy drain	B				3	5		1					1					1																		1											base2,jpg	4 3	Rogue (B)	Rogue (B)	""	21
+X-Men	Rogue	Borrowed brawn	B				4	5			1					1					1																												base2,jpg	5 3	Rogue (B)	Rogue (B)	""	22
+X-Men	Rogue	Copy powers	B				5	3		1																																						Clone	base2,jpg	2 3	Rogue (B)	Rogue (B)	""	23
+X-Men	Rogue	Steal abilities	B				8	1			1										1																											Clone	base2,jpg	3 3	Rogue (B)	Rogue (B)	""	24
+X-Men	Ruby Summers	Guerilla warfare	SW2				3	5	1												1		-1																										sw22,jpg	7 5	Ruby Summers (SW2)	Ruby Summers (SW2)	Teleport	25
+X-Men	Ruby Summers	Heir to legends	SW2				5	5	1		1									1	1		1																										sw22,jpg	8 5	Ruby Summers (SW2)	Ruby Summers (SW2)	""	26
+X-Men	Ruby Summers	Form of solid ruby	SW2				6	3			1									1	1														1														sw22,jpg	9 5	Ruby Summers (SW2)	Ruby Summers (SW2)	""	27
+X-Men	Ruby Summers	Extinction blast	SW2				8	1	1												1		1																										sw22,jpg	10 5	Ruby Summers (SW2)	Ruby Summers (SW2)	""	28
+X-Men	Soulsword Colossus	Invade the inferno	SW2		Colossus		3	5		1					1					1					1													1											sw22,jpg	1 4	Soulsword Colossus (SW2)	Soulsword Colossus (SW2)	""	29
+X-Men	Soulsword Colossus	Steel interception	SW2		Colossus		4	5		1	1										1					-1																							sw22,jpg	2 4	Soulsword Colossus (SW2)	Soulsword Colossus (SW2)	""	30
+X-Men	Soulsword Colossus	Possessed by the SS	SW2		Colossus		6	3			1					1					1					1																						Gets other players wounds	sw22,jpg	3 4	Soulsword Colossus (SW2)	Soulsword Colossus (SW2)	Cross-Dimensional Rampage	31
+X-Men	Soulsword Colossus	Rescue family from hell	SW2		Colossus		7	1				1									1														1													Free heroes!	sw22,jpg	4 4	Soulsword Colossus (SW2)	Soulsword Colossus (SW2)	""	32
+X-Men	Storm	Lightning Bolt	B				4	5	1												1						-1																					Rooftops	base2,jpg	6 5	Storm (B)	Storm (B)	""	33
+X-Men	Storm	Gathering stormclouds	B				3	5	1					1						1		1																											base2,jpg	4 5	Storm (B)	Storm (B)	""	34
+X-Men	Storm	Spinning cyclone	B				6	3		1											1						1																						base2,jpg	5 5	Storm (B)	Storm (B)	""	35
+X-Men	Storm	Tidal Wave	B				7	1	1					1							1						-1																						base2,jpg	3 5	Storm (B)	Storm (B)	""	36
+X-Men	Terrible Jean Grey	Bridge to nowhere	SW2		Jean Grey		4	5				1															-1																					Might maybe draw you something extra maybe	sw22,jpg	4 7	Terrible Jean Grey (SW2)	Terrible Jean Grey (SW2)	Patrol	37
+X-Men	Terrible Jean Grey	Throw over the rail	SW2		Jean Grey		3	5		1					1						1						-1																						sw22,jpg	3 7	Terrible Jean Grey (SW2)	Terrible Jean Grey (SW2)	""	38
+X-Men	Terrible Jean Grey	Telekinesis	SW2		Jean Grey		5	3	1	1											1						1																						sw22,jpg	5 7	Terrible Jean Grey (SW2)	Terrible Jean Grey (SW2)	""	39
+X-Men	Terrible Jean Grey	Change history	SW2		Jean Grey		7	1		1											1						-1								1														sw22,jpg	6 7	Terrible Jean Grey (SW2)	Terrible Jean Grey (SW2)	Patrol	40
+X-Men	Wolverine	Keen sense	B				2	5				1					1				1	1																											base2,jpg	4 6	Wolverine (B)	Wolverine (B)	""	41
+X-Men	Wolverine	Healing factor	B				3	5				1									1					-1																							base2,jpg	3 6	Wolverine (B)	Wolverine (B)	""	42
+X-Men	Wolverine	Frenzied slashing	B				5	3				1					1				1	1																											base2,jpg	1 6	Wolverine (B)	Wolverine (B)	""	43
+X-Men	Wolverine	Berserker rage	B				8	1				1					1				1	1																											base2,jpg	2 6	Wolverine (B)	Wolverine (B)	""	44
+X-Men	X-23	Adm foot claws	XM				3	5					1				1				1	1																											xmen3,jpg	1 6	X-23 (XM)	X-23 (XM)	X-Gene	45
+X-Men	X-23	Healing factor genome	XM				4	5				1									1			-1		-1																							xmen3,jpg	4 6	X-23 (XM)	X-23 (XM)	Berserk	46
+X-Men	X-23	Bioeng assassin	XM				6	3		1							1				1			-1														1											xmen3,jpg	9 5	X-23 (XM)	X-23 (XM)	Berserk|X-Gene	47
+X-Men	X-23	Heir to wolverine	XM				7	1				1					2				1			-1																									xmen3,jpg	8 5	X-23 (XM)	X-23 (XM)	Berserk|X-Gene	48
+Fantastic Four	Thing	Started on Yancy Str	FF				3	5				1								1															1														ff,jpg	4 1	Thing (FF)	Thing (FF)	""	49
+Fantastic Four	Thing	Knuckle sandwich	FF				5	5			1									1	1																											Focus	ff,jpg	5 1	Thing (FF)	Thing (FF)	Focus	50
+Fantastic Four	Thing	Crime Stopper	FF				6	3			1										1				1		1																						ff,jpg	3 1	Thing (FF)	Thing (FF)	Focus	51
+Fantastic Four	Thing	Clobberin time	FF				8	1			1					2					1																												ff,jpg	2 1	Thing (FF)	Thing (FF)	""	52
+Fantastic Four	Mr. Fantastic	Twisting equations	FF				3	5					1							1																												draw extra for new hand	pttr,jpg	7 5	Mr. Fantastic (FF)	Mr. Fantastic (FF)	Focus	53
+Fantastic Four	Mr. Fantastic	Unstable molecules	FF				5	5					1									1																											pttr,jpg	6 5	Mr. Fantastic (FF)	Mr. Fantastic (FF)	""	54
+Fantastic Four	Mr. Fantastic	One gigantic hand	FF				5	3				1									1	-1													1														pttr,jpg	8 5	Mr. Fantastic (FF)	Mr. Fantastic (FF)	""	55
+Fantastic Four	Mr. Fantastic	Ultimate nullifier	FF				7	1					1								1																											Focus, cancel fight effects	pttr,jpg	5 5	Mr. Fantastic (FF)	Mr. Fantastic (FF)	Focus	56
+Fantastic Four	Invisible Woman	Disappearing act	FF				4	5		1										1																		1										Focus	pttr,jpg	1 6	Invisible Woman (FF)	Invisible Woman (FF)	Focus	57
+Fantastic Four	Invisible Woman	Four of a kind	FF				4	5	1												1									1																			pttr,jpg	10 5	Invisible Woman (FF)	Invisible Woman (FF)	""	58
+Fantastic Four	Invisible Woman	Unseen rescue	FF				4	3		1											1				1																							Focus	pttr,jpg	2 6	Invisible Woman (FF)	Invisible Woman (FF)	Focus	59
+Fantastic Four	Invisible Woman	Invisible barrier	FF				7	1		1											1																											Cancel ambush effects	pttr,jpg	9 5	Invisible Woman (FF)	Invisible Woman (FF)	""	60
+Fantastic Four	Human Torch	Hothead	FF				4	5	1												1					1																							ff,jpg	7 1	Human Torch (FF)	Human Torch (FF)	""	61
+Fantastic Four	Human Torch	Call for backup	FF				3	5				1								1						-1																							ff,jpg	9 1	Human Torch (FF)	Human Torch (FF)	""	62
+Fantastic Four	Human Torch	Flame on	FF				6	3	1												1																											Focus	ff,jpg	6 1	Human Torch (FF)	Human Torch (FF)	Focus	63
+Fantastic Four	Human Torch	Nova Flame	FF				8	1	1												1														1														ff,jpg	8 1	Human Torch (FF)	Human Torch (FF)	""	64
+X-Men	Angel	High-speed chase	DC				3	5		1												1	1																										ff,jpg	9 2	Angel (DC)	Angel (DC)	""	65
+X-Men	Angel	Diving Catch	DC				4	5			1									1		1	-1		1																								ff,jpg	10 2	Angel (DC)	Angel (DC)	""	66
+X-Men	Angel	Drop of a friend	DC				5	3				1									1		1																										ff,jpg	8 2	Angel (DC)	Angel (DC)	""	67
+X-Men	Angel	Strength of Spirit	DC				7	1			1										1	1	1																										ff,jpg	1 3	Angel (DC)	Angel (DC)	""	68
+X-Men	Angel Noir	Impetuous Dive	N		Angel		3	5				1					1				1																												noir,jpg	7 2	Angel Noir (N)	Angel Noir (N)	""	69
+X-Men	Angel Noir	Multitalented	N		Angel		4	5			1									1	1	1		-1																									noir,jpg	9 2	Angel Noir (N)	Angel Noir (N)	Investigate	70
+X-Men	Angel Noir	Identical twin brother	N		Angel		5	3				1								1	1																					1						Filter HQ	noir,jpg	10 2	Angel Noir (N)	Angel Noir (N)	""	71
+X-Men	Angel Noir	Missing person case	N		Angel		8	1		1											1																											Free heroes!	noir,jpg	8 2	Angel Noir (N)	Angel Noir (N)	Investigate	72
+X-Men	Apocalyptic Kitty Pryde	Phase-out	SW1				4	5		1					1						1																	1											sw12,jpg	4 5	Apocalyptic Kitty Pryde (SW1)	Apocalyptic Kitty Pryde (SW1)	""	73
+X-Men	Apocalyptic Kitty Pryde	Infiltrate HQ	SW1				3	5					1							1																												Filter HQ	sw12,jpg	3 5	Apocalyptic Kitty Pryde (SW1)	Apocalyptic Kitty Pryde (SW1)	""	74
+X-Men	Apocalyptic Kitty Pryde	Disrupt Circuits	SW1				5	3		1			1					1			1																												sw12,jpg	2 5	Apocalyptic Kitty Pryde (SW1)	Apocalyptic Kitty Pryde (SW1)	""	75
+X-Men	Apocalyptic Kitty Pryde	Untouchable	SW1				7	1		1										1																												Cancel fight effects	sw12,jpg	1 5	Apocalyptic Kitty Pryde (SW1)	Apocalyptic Kitty Pryde (SW1)	""	76
+X-Men	Aurora & Northstar	Northern lights	XM				3	5		1											1												1																xmen,jpg	6 1	Aurora & Northstar (XM)	Aurora & Northstar (XM)	Soaring Flight|Lightshow	77
+X-Men	Aurora & Northstar	Blazing Flare	XM	1	Aurora		4	5	1											1													1																xmen,jpg	4 1	Aurora & Northstar (XM)	Aurora & Northstar (XM)	Lightshow|Berserk	78
+X-Men	Aurora & Northstar	Blazing Fists	XM	1	Northstar		4	5			1										1			-1																									xmen,jpg	4 1	Aurora & Northstar (XM)	Aurora & Northstar (XM)	Soaring Flight|Lightshow	79
+X-Men	Aurora & Northstar	Twin Blast	XM				5	3	1												1												1																xmen,jpg	5 1	Aurora & Northstar (XM)	Aurora & Northstar (XM)	""	80
+X-Men	Aurora & Northstar	Mach 10	XM				7	1				1								1	1												2																xmen,jpg	3 1	Aurora & Northstar (XM)	Aurora & Northstar (XM)	Soaring Flight|Lightshow	81
+X-Men	Banshee	Sonar detection	XM				2	5		1					1							1														1													xmen3,jpg	5 4	Banshee (XM)	Banshee (XM)	Piercing Energy|X-Gene	82
+X-Men	Banshee	Speed of sound	XM				3	5	1																											1												Soaring Flight	xmen3,jpg	2 4	Banshee (XM)	Banshee (XM)	Soaring Flight|Piercing Energy	83
+X-Men	Banshee	Sonic blast wave	XM				5	3	1					1						1																1													xmen3,jpg	3 4	Banshee (XM)	Banshee (XM)	Piercing Energy	84
+X-Men	Banshee	Bone-shattering howl	XM				8	1	1					1	1																					1												Use FI as Pierc	xmen3,jpg	8 4	Banshee (XM)	Banshee (XM)	Piercing Energy	85
+X-Men	Beast	Furry fury	XM				4	5			1					1					1			-1																									xmen3,jpg	3 7	Beast (XM)	Beast (XM)	Berserk|X-Gene	86
+X-Men	Beast	Captiv Conundrum	XM				2	5					1					1			1	1																											xmen3,jpg	10 6	Beast (XM)	Beast (XM)	X-Gene	87
+X-Men	Beast	Calculcated rage	XM				5	3					1								1			1																									xmen3,jpg	8 6	Beast (XM)	Beast (XM)	Berserk	88
+X-Men	Beast	Recursive pummeling	XM				8	1					1								1			-1					-1						1														xmen3,jpg	7 6	Beast (XM)	Beast (XM)	Berserk|X-Gene	89
+X-Men	Bishop	Whatever the cost	DC				2	5	1						1							1																1											ff,jpg	3 3	Bishop (DC)	Bishop (DC)	""	90
+X-Men	Bishop	Absorb energies	DC				3	5		1										1	1																	-1											ff,jpg	4 3	Bishop (DC)	Bishop (DC)	""	91
+X-Men	Bishop	Concussive blast	DC				5	3	1					2							1																												ff,jpg	5 3	Bishop (DC)	Bishop (DC)	""	92
+X-Men	Bishop	Firepower ft future!	DC				7	1					1								1		-1	-1											1			1											ff,jpg	2 3	Bishop (DC)	Bishop (DC)	""	93
+X-Men	Cannonball	Kinetic blast field	XM				3	5				1					1				1																											Soaring Flight	xmen,jpg	10 1	Cannonball (XM)	Cannonball (XM)	Soaring Flight	94
+X-Men	Cannonball	Carry to the air	XM				4	5			1					1				1																												Soaring Flight	xmen,jpg	8 1	Cannonball (XM)	Cannonball (XM)	Soaring Flight	95
+X-Men	Cannonball	Natural leader	XM				6	3			1					1					1														1													Soaring Flight	xmen,jpg	9 1	Cannonball (XM)	Cannonball (XM)	Soaring Flight	96
+X-Men	Cannonball	Human cannon	XM				8	1			1										1	-1																										Soaring Flight	xmen,jpg	7 1	Cannonball (XM)	Cannonball (XM)	Soaring Flight	97
+X-Men	Colossus & Wolverine	Reliable	XM	2	Colossus		3	5			1									1								1																					xmen3,jpg	7 4	Colossus & Wolverine (XM)	Colossus & Wolverine (XM)	Berserk	98
+X-Men	Colossus & Wolverine	Unpredictable	XM	2	Wolverine		3	5				1									1			-1																									xmen3,jpg	7 4	Colossus & Wolverine (XM)	Colossus & Wolverine (XM)	""	99
+X-Men	Colossus & Wolverine	Fastball special	XM				4	5			1						1				1			-1																								Soaring Flight	xmen3,jpg	9 4	Colossus & Wolverine (XM)	Colossus & Wolverine (XM)	Berserk|X-Gene|Soaring Flight	100
+X-Men	Colossus & Wolverine	Insane disregard	XM				6	3				1									1			-1		1																							xmen3,jpg	4 4	Colossus & Wolverine (XM)	Colossus & Wolverine (XM)	Berserk	101
+X-Men	Colossus & Wolverine	Uncanny X-Men	XM				7	1			1										1			-1											2														xmen3,jpg	6 4	Colossus & Wolverine (XM)	Colossus & Wolverine (XM)	Berserk	102
+X-Men	Cyclops	Determination	B				2	5			1									1			1																										base,jpg	8 3	Cyclops (B)	Cyclops (B)	""	103
+X-Men	Cyclops	Optic blast	B				3	5	1												1		1																										base,jpg	9 3	Cyclops (B)	Cyclops (B)	""	104
+X-Men	Cyclops	Unending energy	B				6	3	1												1		-1																										base,jpg	10 3	Cyclops (B)	Cyclops (B)	""	105
+X-Men	Cyclops	X-Men united	B				8	1	1												1														2														base,jpg	7 3	Cyclops (B)	Cyclops (B)	""	106
+X-Men	Dazzler	Conv sound to light	XM				3	5				1								1													2			2													xmen3,jpg	1 5	Dazzler (XM)	Dazzler (XM)	Piercing Energy|Lightshow	107
+X-Men	Dazzler	Dazzling glamour	XM				4	5	1												1												1																xmen3,jpg	3 5	Dazzler (XM)	Dazzler (XM)	Lightshow	108
+X-Men	Dazzler	Citywide concert	XM				5	3					1								1												1																xmen3,jpg	6 5	Dazzler (XM)	Dazzler (XM)	Lightshow	109
+X-Men	Dazzler	Inspire the world	XM				7	1	1												1												1																xmen3,jpg	10 4	Dazzler (XM)	Dazzler (XM)	Lightshow	110
+X-Men	Emma Frost	Shadowed thoughts	B				4	5		1					1						1																				-1							Play extra villains	base,jpg	2 4	Emma Frost (B)	Emma Frost (B)	""	111
+X-Men	Emma Frost	Mental discipline	B				3	5	1											1		1																											base,jpg	3 4	Emma Frost (B)	Emma Frost (B)	""	112
+X-Men	Emma Frost	Psychic Link	B				5	3				1									1	1													1														base,jpg	1 4	Emma Frost (B)	Emma Frost (B)	""	113
+X-Men	Emma Frost	Diamond form	B				7	1			1										1																												base,jpg	4 4	Emma Frost (B)	Emma Frost (B)	""	114
+X-Men	Gambit	Stack the deck	B				2	5		1												1		1																									base,jpg	1 5	Gambit (B)	Gambit (B)	""	115
+X-Men	Gambit	Card shark	B				4	5	1												1			-1											1														base,jpg	10 4	Gambit (B)	Gambit (B)	""	116
+X-Men	Gambit	Hypnotic Charm	B				3	3				1					1			1				1																									base,jpg	2 5	Gambit (B)	Gambit (B)	""	117
+X-Men	Gambit	High stakes jackpot	B				7	1				1									1			-1																									base,jpg	9 4	Gambit (B)	Gambit (B)	""	118
+X-Men	Havok	Blinding burst	XM				3	5	1											1	1												1																xmen3,jpg	6 3	Havok (XM)	Havok (XM)	Lightshow	119
+X-Men	Havok	Unleash havok	XM				4	5	1												1		1	-1																									xmen3,jpg	9 3	Havok (XM)	Havok (XM)	Berserk	120
+X-Men	Havok	Concussive plasma	XM				5	3	1					2							1																												xmen3,jpg	4 3	Havok (XM)	Havok (XM)	X-Gene	121
+X-Men	Havok	Radiation focus array	XM				7	1					1	2							1			-1																									xmen3,jpg	3 3	Havok (XM)	Havok (XM)	Berserk|X-Gene	122
+X-Men	Iceman	Deep Freeze	DC				2	5	1					2						1		1																											ff,jpg	9 7	Iceman (DC)	Iceman (DC)	""	123
+X-Men	Iceman	Ice Slide	DC				4	5	1					2							1																												ff,jpg	8 7	Iceman (DC)	Iceman (DC)	""	124
+X-Men	Iceman	Frost-Spike armor	DC				5	3			1			2							1	1																											darkcity,jpg	1 1	Iceman (DC)	Iceman (DC)	""	125
+X-Men	Iceman	Impenetrable ice wall	DC				8	1	1												1																											Prevents wounds	ff,jpg	7 7	Iceman (DC)	Iceman (DC)	""	126
+X-Men	Jean Grey	Psychich search	DC				3	5	1												1				1										1														darkcity,jpg	2 1	Jean Grey (DC)	Jean Grey (DC)	""	127
+X-Men	Jean Grey	Read yer thoughts	DC				5	5		1										1					-1																								darkcity,jpg	3 1	Jean Grey (DC)	Jean Grey (DC)	""	128
+X-Men	Jean Grey	Mind over matter	DC				6	3		1											1	1			-1																								darkcity,jpg	4 1	Jean Grey (DC)	Jean Grey (DC)	""	129
+X-Men	Jean Grey	Telekinetic mastery	DC				7	1	1												1				-1										2														darkcity,jpg	5 1	Jean Grey (DC)	Jean Grey (DC)	""	130
+X-Men	Jubilee	Blasting fireworks	XM				4	5	1												1	1											2																xmen3,jpg	9 6	Jubilee (XM)	Jubilee (XM)	Lightshow	131
+X-Men	Jubilee	Light a spark	XM				2	5		1										1		1											2																xmen3,jpg	4 7	Jubilee (XM)	Jubilee (XM)	Lightshow	132
+X-Men	Jubilee	Unexpected explosions	XM				5	3				1									1			1									1					1											xmen3,jpg	1 7	Jubilee (XM)	Jubilee (XM)	Lightshow	133
+X-Men	Jubilee	Prismatic cascade	XM				7	1		1										1	1												2																xmen3,jpg	2 7	Jubilee (XM)	Jubilee (XM)	Lightshow	134
+X-Men	Kitty Pryde	Intangible qualities	XM				3	5				1								1	1																					1						Filter HQ	xmen3,jpg	10 5	Kitty Pryde (XM)	Kitty Pryde (XM)	""	135
+X-Men	Kitty Pryde	Going through a phase	XM				4	5		1										1	1	1													1														xmen3,jpg	5 6	Kitty Pryde (XM)	Kitty Pryde (XM)	X-Gene	136
+X-Men	Kitty Pryde	Ghost in the machine	XM				6	3					1								1										2																		xmen3,jpg	3 6	Kitty Pryde (XM)	Kitty Pryde (XM)	""	137
+X-Men	Kitty Pryde	Lockheed	XM				8	1	1												1																											Big hero in HQ	xmen3,jpg	2 6	Kitty Pryde (XM)	Kitty Pryde (XM)	Soaring Flight	138
+X-Men	Legion	Split personality	XM	3			3	5					1								1							1																					xmen3,jpg	8 7	Legion (XM)	Legion (XM)	Piercing Energy	139
+X-Men	Legion	Split eardrums	XM	3			3	5	1																											1													xmen3,jpg	8 7	Legion (XM)	Legion (XM)	""	140
+X-Men	Legion	Bend steel	XM	4			2	5			1										1			-1																									xmen3,jpg	9 7	Legion (XM)	Legion (XM)	Berserk|Lightshow	141
+X-Men	Legion	Bend light	XM	4			2	5		1										1													1																xmen3,jpg	9 7	Legion (XM)	Legion (XM)	""	142
+X-Men	Legion	Channel time	XM	5			5	3				1										1																											xmen3,jpg	6 7	Legion (XM)	Legion (XM)	""	143
+X-Men	Legion	Channel fire	XM	5			5	3					1						2		1																												xmen3,jpg	6 7	Legion (XM)	Legion (XM)	""	144
+X-Men	Legion	Maelstrom of clash	XM				8	1		1											1																											Soaring Flight	xmen3,jpg	7 7	Legion (XM)	Legion (XM)	Soaring Flight	145
+X-Men	Longshot	Fortune favors bold	XM				3	5				1									1			1																									xmen3,jpg	7 5	Longshot (XM)	Longshot (XM)	""	146
+X-Men	Longshot	Flurry of blades	XM				4	5					1					1			1			-1																									xmen3,jpg	2 5	Longshot (XM)	Longshot (XM)	Berserk	147
+X-Men	Longshot	Make my own luck	XM				6	3		1					1						1			1														1											xmen3,jpg	4 5	Longshot (XM)	Longshot (XM)	""	148
+X-Men	Longshot	Escape from Mojo	XM				7	1					1								1														1						1							Filter villain deck	xmen3,jpg	5 5	Longshot (XM)	Longshot (XM)	""	149
+X-Men	Magik	Rally the new mutants	SW1				2	5		1					1																	1																	sw12,jpg	3 4	Magik (SW1)	Magik (SW1)	""	150
+X-Men	Magik	Travel through limbo	SW1				3	5	1					1							1																											Teleport	sw12,jpg	5 4	Magik (SW1)	Magik (SW1)	Teleport	151
+X-Men	Magik	Dimensional portal	SW1				5	3	1	1											1											-1																Teleport	sw12,jpg	4 4	Magik (SW1)	Magik (SW1)	Teleport	152
+X-Men	Magik	Wield the soulsword	SW1				7	1		1											1																											Teleport	sw12,jpg	6 4	Magik (SW1)	Magik (SW1)	Teleport	153
+X-Men	Nightcrawler	Bamf!	DC				3	5				1								1																												Teleport	darkcity,jpg	3 4	Nightcrawler (DC)	Nightcrawler (DC)	Teleport	154
+X-Men	Nightcrawler	Blend into shadows	DC				4	5		1											1																											Teleport	darkcity,jpg	2 4	Nightcrawler (DC)	Nightcrawler (DC)	Teleport	155
+X-Men	Nightcrawler	Swashbuckler	DC				5	3				1			1		1				1																												darkcity,jpg	4 4	Nightcrawler (DC)	Nightcrawler (DC)	""	156
+X-Men	Nightcrawler	Along for the ride	DC				7	1		1											1																											Teleport	darkcity,jpg	1 4	Nightcrawler (DC)	Nightcrawler (DC)	Teleport	157
+X-Men	Old Man Logan	Last survivor	SW1		Wolverine		3	5				1					1				1					-1												1											sw12,jpg	7 4	Old Man Logan (SW1)	Old Man Logan (SW1)	""	158
+X-Men	Old Man Logan	Loner	SW1		Wolverine		5	5		1		1									1																											Hits more if you don't recruit	sw12,jpg	8 4	Old Man Logan (SW1)	Old Man Logan (SW1)	""	159
+X-Men	Old Man Logan	Rage out	SW1		Wolverine		6	3				1					1				1					1																						Gets other players wounds	sw12,jpg	9 4	Old Man Logan (SW1)	Old Man Logan (SW1)	Cross-Dimensional Rampage	160
+X-Men	Old Man Logan	No more heroes	SW1		Wolverine		7	1				1									1		-1															-1										have no shield at all	sw12,jpg	10 4	Old Man Logan (SW1)	Old Man Logan (SW1)	""	161
+Spidermen	Spider-Man Noir	Webs of darkness	N				2	5	1					1							1																												noir,jpg	2 1	Spider-Man Noir (N)	Spider-Man Noir (N)	""	162
+Spidermen	Spider-Man Noir	Gumshoe's Revolver	N				2	5					1								1	1		1					1																				noir,jpg	4 1	Spider-Man Noir (N)	Spider-Man Noir (N)	Investigate	163
+Spidermen	Spider-Man Noir	Solve the crime	N				2	3				1					1				1				1																								noir,jpg	3 1	Spider-Man Noir (N)	Spider-Man Noir (N)	Investigate	164
+Spidermen	Spider-Man Noir	Spidertotem's chosen	N				2	1			1										1			1					2						1														noir,jpg	1 1	Spider-Man Noir (N)	Spider-Man Noir (N)	Investigate	165
+Spidermen	Silk	Cascading maneuver	SW2				2	5			1	1							1		1	1		1																									sw22,jpg	6 6	Silk (SW2)	Silk (SW2)	Wall-Crawl|Spectrum	166
+Spidermen	Silk	Longrange spidersense	SW2				2	5	1										1		1	1							1																				sw22,jpg	5 6	Silk (SW2)	Silk (SW2)	Spectrum	167
+Spidermen	Silk	Silk stalking	SW2				2	3		1											1	1							1						1			1											sw22,jpg	7 6	Silk (SW2)	Silk (SW2)	""	168
+Spidermen	Silk	Borrowed cloak device	SW2				2	1					1						1		1			1					2																				sw22,jpg	8 6	Silk (SW2)	Silk (SW2)	Wall-Crawl|Spectrum	169
+Spidermen	Spider-Woman	Radioactive spider	PTT				2	5			1									1				1																									pttr,jpg	10 4	Spider-Woman (PTT)	Spider-Woman (PTT)	""	170
+Spidermen	Spider-Woman	Bioelectric shock	PTT				4	5	1												1			-1																									pttr,jpg	7 4	Spider-Woman (PTT)	Spider-Woman (PTT)	Wall-Crawl	171
+Spidermen	Spider-Woman	Venom blast	PTT				6	3	1												1			-1																									pttr,jpg	9 4	Spider-Woman (PTT)	Spider-Woman (PTT)	Wall-Crawl	172
+Spidermen	Spider-Woman	Arachno pheromones	PTT				7	1		1														1											1													Free hero	pttr,jpg	8 4	Spider-Woman (PTT)	Spider-Woman (PTT)	""	173
+Spidermen	Spider-Gwen	Fateful bridge	SW2				2	5				1	1								1	1					-1		1																				sw22,jpg	9 6	Spider-Gwen (SW2)	Spider-Gwen (SW2)	Patrol	174
+Spidermen	Spider-Gwen	Save the day	SW2				2	5					1								1				-1		-1																						sw22,jpg	10 6	Spider-Gwen (SW2)	Spider-Gwen (SW2)	Patrol	175
+Spidermen	Spider-Gwen	First adventure	SW2				2	3			1										1			1			-1																						sw22,jpg	1 7	Spider-Gwen (SW2)	Spider-Gwen (SW2)	Wall-Crawl|Patrol	176
+Spidermen	Spider-Gwen	Intertwining webs	SW2				2	1		1											1			1					2																				sw22,jpg	2 7	Spider-Gwen (SW2)	Spider-Gwen (SW2)	Wall-Crawl	177
+Spidermen	Symbiote Spider-Man	Spider sense tingling	PTT				2	5				1										1							2																				pttr,jpg	6 4	Symbiote Spider-Man (PTT)	Symbiote Spider-Man (PTT)	""	178
+Spidermen	Symbiote Spider-Man	Dark strength	PTT				2	5			1										1			-1					1																				pttr,jpg	3 4	Symbiote Spider-Man (PTT)	Symbiote Spider-Man (PTT)	Wall-Crawl	179
+Spidermen	Symbiote Spider-Man	Shadowed spider	PTT				2	3		1											1			1					2																				pttr,jpg	4 4	Symbiote Spider-Man (PTT)	Symbiote Spider-Man (PTT)	Wall-Crawl	180
+Spidermen	Symbiote Spider-Man	Thwip!	PTT				2	1	1												1			1																									pttr,jpg	5 4	Symbiote Spider-Man (PTT)	Symbiote Spider-Man (PTT)	""	181
+Spidermen	Agent Venom	Multi-gun	SW2				2	5					1						1	1	1																												sw22,jpg	3 1	Agent Venom (SW2)	Agent Venom (SW2)	Spectrum	182
+Spidermen	Agent Venom	Government payroll	SW2				3	5			1	1								1	1			1			-1																						sw22,jpg	4 1	Agent Venom (SW2)	Agent Venom (SW2)	Wall-Crawl|Patrol	183
+Spidermen	Agent Venom	Big slimeportunity	SW2				6	3				1								1	1	1		1			-1																						sw22,jpg	5 1	Agent Venom (SW2)	Agent Venom (SW2)	Wall-Crawl|Patrol	184
+Spidermen	Agent Venom	Shapeshifting symb	SW2				7	1			1									1	1			1																		1							sw22,jpg	6 1	Agent Venom (SW2)	Agent Venom (SW2)	Wall-Crawl	185
+Spidermen	Scarlet Spider	Flip out	PTT				2	5			1									1		1		1											1														pttr,jpg	8 1	Scarlet Spider (PTT)	Scarlet Spider (PTT)	Wall-Crawl	186
+Spidermen	Scarlet Spider	Perfect Hunter	PTT				4	5				1									1	1		1																									pttr,jpg	6 1	Scarlet Spider (PTT)	Scarlet Spider (PTT)	Wall-Crawl	187
+Spidermen	Scarlet Spider	Leap from above	PTT				6	3		1							1				1			1																									pttr,jpg	5 1	Scarlet Spider (PTT)	Scarlet Spider (PTT)	Wall-Crawl	188
+Spidermen	Scarlet Spider	Sting of the spider	PTT				7	1			1										1			-1																									pttr,jpg	7 1	Scarlet Spider (PTT)	Scarlet Spider (PTT)	""	189
+Spidermen	Black Cat	Pickpocket	PTT				1	5		1											1			-1																									pttr,jpg	1 1	Black Cat (PTT)	Black Cat (PTT)	Wall-Crawl	190
+Spidermen	Black Cat	Casual bank robbery	PTT				4	5		1										1				1			-1																						pttr,jpg	4 1	Black Cat (PTT)	Black Cat (PTT)	Wall-Crawl	191
+Spidermen	Black Cat	Jinx	PTT				5	3				1									1			1																									pttr,jpg	2 1	Black Cat (PTT)	Black Cat (PTT)	""	192
+Spidermen	Black Cat	Cat burglar	PTT				8	1		1											1				-1										1														pttr,jpg	3 1	Black Cat (PTT)	Black Cat (PTT)	""	193
+Spidermen	Spider-Man	Great responsibility	B				2	5				1									1	1							1																				gotg,jpg	4 1	Spider-Man (B)	Spider-Man (B)	""	194
+Spidermen	Spider-Man	Astonishing strength	B				2	5			1									1		1							1																				gotg,jpg	1 1	Spider-Man (B)	Spider-Man (B)	""	195
+Spidermen	Spider-Man	Web-shooters	B				2	3					1									1			1				1																				gotg,jpg	2 1	Spider-Man (B)	Spider-Man (B)	""	196
+Spidermen	Spider-Man	Amazing spiderman	B				2	1		1												1							2																				gotg,jpg	3 1	Spider-Man (B)	Spider-Man (B)	""	197
+Spidermen	Ultimate Spider-Man	Leaping spider	SW1				2	5			1					1					1	1							1																				sw12,jpg	3 6	Ultimate Spider-Man (SW1)	Ultimate Spider-Man (SW1)	""	198
+Spidermen	Ultimate Spider-Man	Marvel teamup	SW1				2	5			1	1										1							1			1																	sw12,jpg	6 6	Ultimate Spider-Man (SW1)	Ultimate Spider-Man (SW1)	""	199
+Spidermen	Ultimate Spider-Man	Web-slinger	SW1				2	3					1								1	1					-1		1																				sw12,jpg	4 6	Ultimate Spider-Man (SW1)	Ultimate Spider-Man (SW1)	""	200
+Spidermen	Ultimate Spider-Man	Hero fo dimension	SW1				2	1		1											1								2																				sw12,jpg	5 6	Ultimate Spider-Man (SW1)	Ultimate Spider-Man (SW1)	""	201
+Guardians	Groot	Surviving sprig	GG				3	5			1										1																											Draw extra for next turn	gotg,jpg	2 4	Groot (GG)	Groot (GG)	""	202
+Guardians	Groot	Prune the growths	GG				4	5			1					1					1																	1							1				gotg,jpg	3 4	Groot (GG)	Groot (GG)	Shard	203
+Guardians	Groot	Groot and branches	GG				4	3		1					1						1																								1				gotg,jpg	5 4	Groot (GG)	Groot (GG)	Shard	204
+Guardians	Groot	I am Groot	GG				8	1			1									1	1																								1				gotg,jpg	6 4	Groot (GG)	Groot (GG)	Shard	205
+Guardians	Star-Lord	Legendary outlaw	GG				4	5		1										1																				2								Copy artifact	gotg,jpg	4 5	Star-Lord (GG)	Star-Lord (GG)	""	206
+Guardians	Star-Lord	Element guns	GG				4	5	1												1																			1					1				gotg,jpg	3 5	Star-Lord (GG)	Star-Lord (GG)	Artifact|Shard	207
+Guardians	Star-Lord	Implanted memory	GG				6	3					1									1																		1									gotg,jpg	10 4	Star-Lord (GG)	Star-Lord (GG)	Artifact	208
+Guardians	Star-Lord	Sentient starship	GG				8	1	1												1																			2					1				gotg,jpg	1 5	Star-Lord (GG)	Star-Lord (GG)	Artifact|Shard	209
+Guardians	Drax the Destroyer	Knives ot hunter	GG				3	5			1										1																			1									gotg,jpg	6 3	Drax the Destroyer (GG)	Drax the Destroyer (GG)	Artifact	210
+Guardians	Drax the Destroyer	Interstellar tracker	GG				3	5				1					1			1				1														1											gotg,jpg	1 4	Drax the Destroyer (GG)	Drax the Destroyer (GG)	""	211
+Guardians	Drax the Destroyer	The destroyer	GG				6	3				1					1				1														1					2					1				gotg,jpg	10 3	Drax the Destroyer (GG)	Drax the Destroyer (GG)	""	212
+Guardians	Drax the Destroyer	Avatar of destruction	GG				7	1				1									1																											Doubles FI	gotg,jpg	9 3	Drax the Destroyer (GG)	Drax the Destroyer (GG)	""	213
+Guardians	Rocket Raccoon	Trigger happy	GG				4	5	1												1														2										1				gotg,jpg	2 5	Rocket Raccoon (GG)	Rocket Raccoon (GG)	Shard	214
+Guardians	Rocket Raccoon	Gritty scavenger	GG				3	5					1							1		1	1																										gotg,jpg	8 4	Rocket Raccoon (GG)	Rocket Raccoon (GG)	""	215
+Guardians	Rocket Raccoon	Incoming detector	GG				4	3				1									1																			1					1			Triggers on MS or ambush	gotg,jpg	9 4	Rocket Raccoon (GG)	Rocket Raccoon (GG)	Shard|Artifact	216
+Guardians	Rocket Raccoon	Vengeance is rocket	GG				7	1					1					1			1																											Bonus for played MS	gotg,jpg	7 4	Rocket Raccoon (GG)	Rocket Raccoon (GG)	""	217
+Guardians	Gamora	Bounty hunter	GG				2	5		1										1	1																								1				gotg,jpg	8 3	Gamora (GG)	Gamora (GG)	Shard	218
+Guardians	Gamora	Galactic Assassin	GG				5	3		1					2						1																								-1				gotg,jpg	3 3	Gamora (GG)	Gamora (GG)	Shard	219
+Guardians	Gamora	Deadliest woman	GG				3	5				1			1						1																								1				gotg,jpg	7 3	Gamora (GG)	Gamora (GG)	Shard	220
+Guardians	Gamora	Godslayer Blade	GG				8	1		1											1																			1					1				gotg,jpg	4 3	Gamora (GG)	Gamora (GG)	Artifact|Shard	221
+Illuminati	Beast	Balanced attack	SW2				3	5			1		1			1		1			1	1																											sw22,jpg	1 2	Beast (SW2)	Beast (SW2)	""	222
+Illuminati	Beast	Upside-down thinking	SW2				4	5			1		1											1			-1																						sw22,jpg	2 2	Beast (SW2)	Beast (SW2)	Wall-Crawl|Patrol	223
+Illuminati	Beast	Dr of beatdown	SW2				6	3			1		1			2		2			1																												sw22,jpg	3 2	Beast (SW2)	Beast (SW2)	""	224
+Illuminati	Beast	Multivar smackulus	SW2				8	1			1		1			2		2			1	2																											sw22,jpg	4 2	Beast (SW2)	Beast (SW2)	""	225
+Illuminati	Black Bolt	Speak no words	SW1		Black Bolt		4	5	1	1										1	1							1																					sw12,jpg	7 1	Black Bolt (SW1)	Black Bolt (SW1)	""	226
+Illuminati	Black Bolt	Destructive whisper	SW1		Black Bolt		3	5	1												1							-1																					sw12,jpg	5 1	Black Bolt (SW1)	Black Bolt (SW1)	""	227
+Illuminati	Black Bolt	Silence is golden	SW1		Black Bolt		6	3			1									1	1							-1																					sw12,jpg	8 1	Black Bolt (SW1)	Black Bolt (SW1)	""	228
+Illuminati	Black Bolt	Hypersonic scream	SW1		Black Bolt		8	1	1												1	2						-1																					sw12,jpg	6 1	Black Bolt (SW1)	Black Bolt (SW1)	""	229
+Illuminati	Black Panther	Catlike Reflexes	SW1				3	5		1		1								1		1																											sw12,jpg	2 1	Black Panther (SW1)	Black Panther (SW1)	""	230
+Illuminati	Black Panther	Multifaceted Genius	SW1				4	5			1		1						1		1																											Actually needs more multicolored cards	sw12,jpg	3 1	Black Panther (SW1)	Black Panther (SW1)	""	231
+Illuminati	Black Panther	Stalk the urban jungle	SW1				6	3		1	1										1						-1											1											sw12,jpg	1 1	Black Panther (SW1)	Black Panther (SW1)	""	232
+Illuminati	Black Panther	King of Wakanda	SW1				7	1				1	1																			1			1														sw12,jpg	4 1	Black Panther (SW1)	Black Panther (SW1)	""	233
+Illuminati	Captain Britain	Transatlantic savior	SW2				3	5		1										1														2															sw22,jpg	3 3	Captain Britain (SW2)	Captain Britain (SW2)	""	234
+Illuminati	Captain Britain	Combined strength	SW2				4	5			1										1													2															sw22,jpg	4 3	Captain Britain (SW2)	Captain Britain (SW2)	""	235
+Illuminati	Captain Britain	Raise the Union Jack	SW2				5	3		1	1										1	1					-1							1															sw22,jpg	5 3	Captain Britain (SW2)	Captain Britain (SW2)	Patrol	236
+Illuminati	Captain Britain	Lead the Cap Brit corps	SW2				7	1			1																																					New hand, extra cards	sw22,jpg	6 3	Captain Britain (SW2)	Captain Britain (SW2)	""	237
+Illuminati	Dr. Strange	Trust me ima doctor	SW1				2	5	1			1								1															1			1											sw12,jpg	1 2	Dr. Strange (SW1)	Dr. Strange (SW1)	""	238
+Illuminati	Dr. Strange	Cloak of levitation	SW1				4	5	1					1							1	1																											sw12,jpg	9 1	Dr. Strange (SW1)	Dr. Strange (SW1)	Teleport	239
+Illuminati	Dr. Strange	Fight the future	SW1				5	3				1					1				1																				1								sw12,jpg	10 1	Dr. Strange (SW1)	Dr. Strange (SW1)	""	240
+Illuminati	Dr. Strange	Sorcerer supreme	SW1				7	1		1												2																											sw12,jpg	2 2	Dr. Strange (SW1)	Dr. Strange (SW1)	Teleport	241
+Illuminati	Superior Iron Man	Armor upgrades	SW1		Iron Man		2	5					1					1			1																												sw12,jpg	5 2	Superior Iron Man (SW1)	Superior Iron Man (SW1)	""	242
+Illuminati	Superior Iron Man	Optimized tech	SW1		Iron Man		5	5	1				1								1	1																											sw12,jpg	4 2	Superior Iron Man (SW1)	Superior Iron Man (SW1)	""	243
+Illuminati	Superior Iron Man	Superior to others	SW1		Iron Man		3	3	1					1						1		1									1																		sw12,jpg	3 2	Superior Iron Man (SW1)	Superior Iron Man (SW1)	""	244
+Illuminati	Superior Iron Man	#Humblebrag	SW1		Iron Man		8	1					1								1	1																											sw12,jpg	6 2	Superior Iron Man (SW1)	Superior Iron Man (SW1)	""	245
+Avengers	Black Widow	Mission accomplished	B				2	5					1					1				1			1																								base,jpg	6 1	Black Widow (B)	Black Widow (B)	""	246
+Avengers	Black Widow	Dangerous rescue	B				3	5		1					1						1				1													1											base,jpg	7 1	Black Widow (B)	Black Widow (B)	""	247
+Avengers	Black Widow	Covert operation	B				4	3		1											1				-1																								base,jpg	8 1	Black Widow (B)	Black Widow (B)	""	248
+Avengers	Black Widow	Silent sniper	B				7	1		1											1				-1																								base,jpg	5 1	Black Widow (B)	Black Widow (B)	""	249
+Avengers	Captain America	Avengers assemble	B				3	5				1							2	1																													base,jpg	4 3	Captain America (B)	Captain America (B)	""	250
+Avengers	Captain America	Perfect teamwork	B				4	5			1								2		1																												base,jpg	6 3	Captain America (B)	Captain America (B)	""	251
+Avengers	Captain America	Diving block	B				6	3					1								1					-1																							base,jpg	3 3	Captain America (B)	Captain America (B)	""	252
+Avengers	Captain America	Day unlike any other	B				7	1		1											1														2														base,jpg	5 3	Captain America (B)	Captain America (B)	""	253
+Avengers	Captain America 1941	Devoted patriot	C75		Captain America		3	5			1					1						1																											c75,jpg	1 2	Captain America 1941 (C75)	Captain America 1941 (C75)	Man out of Time	254
+Avengers	Captain America 1941	Storm the beachhead	C75		Captain America		5	5					1						2		1																												c75,jpg	2 2	Captain America 1941 (C75)	Captain America 1941 (C75)	Man out of Time	255
+Avengers	Captain America 1941	Liberate the prisoners	C75		Captain America		6	3		1											1	1			-1										1														c75,jpg	10 1	Captain America 1941 (C75)	Captain America 1941 (C75)	Savior	256
+Avengers	Captain America 1941	Punch evil in the face	C75		Captain America		8	1				1									1				-1																								c75,jpg	9 1	Captain America 1941 (C75)	Captain America 1941 (C75)	Savior|Man out of Time	257
+Avengers	Captain America (Falcon)	Aerial catch	C75		Captain America		3	5				1					1			1					1																								c75,jpg	7 1	Captain America (Falcon) (C75)	Captain America (Falcon) (C75)	""	258
+Avengers	Captain America (Falcon)	Winged salvation	C75		Captain America		4	5	1												1				-1																								c75,jpg	8 1	Captain America (Falcon) (C75)	Captain America (Falcon) (C75)	Savior	259
+Avengers	Captain America (Falcon)	Flying shield block	C75		Captain America		6	3					1								1					-1																							c75,jpg	6 1	Captain America (Falcon) (C75)	Captain America (Falcon) (C75)	""	260
+Avengers	Captain America (Falcon)	Star-spangled hero	C75		Captain America		7	1		1									2	1	1				-1																								c75,jpg	5 1	Captain America (Falcon) (C75)	Captain America (Falcon) (C75)	Savior	261
+Avengers	Captain America, Secret Avenger	Bold leadership	CW		Captain America		2	5		1									2	1																													cw2,jpg	6 1	Captain America, Secret Avenger (CW)	Captain America, Secret Avenger (CW)	""	262
+Avengers	Captain America, Secret Avenger	Inspire a nation	CW	6	Captain America		3	5			1																					1																	cw2,jpg	5 1	Captain America, Secret Avenger (CW)	Captain America, Secret Avenger (CW)	""	263
+Avengers	Captain America, Secret Avenger	Inspire a man	CW	6	Captain America		3	5				1									1							1																					cw2,jpg	5 1	Captain America, Secret Avenger (CW)	Captain America, Secret Avenger (CW)	""	264
+Avengers	Captain America, Secret Avenger	Secret avengers assemle	CW		Captain America		5	3					1								1											-1			2														cw2,jpg	7 1	Captain America, Secret Avenger (CW)	Captain America, Secret Avenger (CW)	""	265
+Avengers	Captain America, Secret Avenger	Freedom never dies	CW		Captain America		7	1	1												1											-1			1														cw2,jpg	8 1	Captain America, Secret Avenger (CW)	Captain America, Secret Avenger (CW)	""	266
+Avengers	Captain Marvel	Marvelous strength	SW1				5	3			1					2					1																												sw12,jpg	6 5	Captain Marvel (SW1)	Captain Marvel (SW1)	""	267
+Avengers	Captain Marvel	Cosmic energies	SW1				7	1	1					2		2					1																												sw12,jpg	5 5	Captain Marvel (SW1)	Captain Marvel (SW1)	""	268
+Avengers	Captain Marvel	Absorb energies	SW1				3	5	1					2						1																													sw12,jpg	8 5	Captain Marvel (SW1)	Captain Marvel (SW1)	""	269
+Avengers	Captain Marvel	Supersonic flight	SW1				3	5	1		1										1	1																											sw12,jpg	7 5	Captain Marvel (SW1)	Captain Marvel (SW1)	""	270
+Avengers	Cloak & Dagger	Above	CW	7	Cloak		3	5		1											1						-1																						cw2,jpg	1 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	""	271
+Avengers	Cloak & Dagger	Below	CW	7	Dagger		3	5	1											1								1																					cw2,jpg	1 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	""	272
+Avengers	Cloak & Dagger	Flee	CW	8	Cloak		4	5		1					1					1				1																									cw2,jpg	3 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	Phasing	273
+Avengers	Cloak & Dagger	Fight	CW	8	Dagger		4	5	1					1							1			1																									cw2,jpg	3 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	""	274
+Avengers	Cloak & Dagger	Darkness	CW	9	Cloak		6	3		1					1						1	1		-1																									cw2,jpg	2 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	""	275
+Avengers	Cloak & Dagger	Light	CW	9	Dagger		6	3	1					1						1				-1														1											cw2,jpg	2 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	""	276
+Avengers	Cloak & Dagger	Penumbra	CW				7	1	1												1																											Best with more split cards	cw2,jpg	4 1	Cloak & Dagger (CW)	Cloak & Dagger (CW)	""	277
+Avengers	Daredevil	Dual existence	CW				2	5				1										1		1																									cw2,jpg	4 2	Daredevil (CW)	Daredevil (CW)	""	278
+Avengers	Daredevil	Roundhouse side kick	CW				4	5		1											1			-1								1																	cw2,jpg	5 2	Daredevil (CW)	Daredevil (CW)	""	279
+Avengers	Daredevil	Hidden identity	CW	10			6	3				1								1				1																									cw2,jpg	3 2	Daredevil (CW)	Daredevil (CW)	""	280
+Marvel Knights	Daredevil	Revealed identity	CW	10	Iron Fist		6	3			1										1										2																		cw2,jpg	3 2	Daredevil (CW)	Daredevil (CW)	""	281
+Avengers	Daredevil	Master of Martial Arts	CW				8	1		1											1			-1							2				1														cw2,jpg	6 2	Daredevil (CW)	Daredevil (CW)	""	282
+Avengers	Falcon	Rapid reinforcements	CW				3	5					1					1		1																												Filter HQ	cw2,jpg	10 1	Falcon (CW)	Falcon (CW)	""	283
+Avengers	Falcon	Talk with birds	CW	11			4	5	1					1							1											1																	cw2,jpg	1 2	Falcon (CW)	Falcon (CW)	""	284
+Avengers	Falcon	Squawk back	CW	11	Redwing		4	5				1										1		1																									cw2,jpg	1 2	Falcon (CW)	Falcon (CW)	""	285
+Avengers	Falcon	Scout the Battlefield	CW				6	3	1												1																												cw2,jpg	9 1	Falcon (CW)	Falcon (CW)	""	286
+Avengers	Falcon	Fly in a friend	CW				7	1				1									1														1														cw2,jpg	2 2	Falcon (CW)	Falcon (CW)	""	287
+Avengers	Goliath	Brilliant biochemist	CW	12			4	5					1					1		1																												Size-changing	cw2,jpg	3 3	Goliath (CW)	Goliath (CW)	Size-Changing	288
+Avengers	Goliath	Massive warrior	CW	12			4	5			1					1					1																											Size-changing	cw2,jpg	3 3	Goliath (CW)	Goliath (CW)	""	289
+Avengers	Goliath	Growth industry	CW				5	5					1					1			1	1																										Size-changing	cw2,jpg	2 3	Goliath (CW)	Goliath (CW)	Size-Changing	290
+Avengers	Goliath	Being big is best	CW				6	3			1					1					1									2																		Size-changing	cw2,jpg	1 3	Goliath (CW)	Goliath (CW)	Size-Changing	291
+Avengers	Goliath	Enormous implications	CW				8	1			1					1					1								-1																			Size-changing	cw2,jpg	4 3	Goliath (CW)	Goliath (CW)	Size-Changing	292
+Avengers	Hawkeye	Quick draw	B				3	5				1									1	1																											base,jpg	4 5	Hawkeye (B)	Hawkeye (B)	""	293
+Avengers	Hawkeye	Team player	B				4	5					1								1														1														base,jpg	6 5	Hawkeye (B)	Hawkeye (B)	""	294
+Avengers	Hawkeye	Covering fire	B				5	3					1					1			1																												base,jpg	5 5	Hawkeye (B)	Hawkeye (B)	""	295
+Avengers	Hawkeye	Impossible trick shot	B				7	1					1								1				1																								base,jpg	3 5	Hawkeye (B)	Hawkeye (B)	""	296
+Avengers	Hercules	Manly dullard	CW	13			3	5			1										1		1																										cw2,jpg	9 2	Hercules (CW)	Hercules (CW)	""	297
+Avengers	Hercules	Boy genius	CW	13	Amadeus Cho		3	5					1									1																											cw2,jpg	9 2	Hercules (CW)	Hercules (CW)	""	298
+Avengers	Hercules	Crowd favorite	CW				4	5				1					1				1				1																								cw2,jpg	8 2	Hercules (CW)	Hercules (CW)	""	299
+Avengers	Hercules	Prince of power	CW				5	3			1					1				1				-1														1											cw2,jpg	7 2	Hercules (CW)	Hercules (CW)	""	300
+Avengers	Hercules	Son of Zeus	CW				7	1			1									1	1				-1										1														cw2,jpg	10 2	Hercules (CW)	Hercules (CW)	""	301
+Avengers	Hulk	Growing Anger	B				3	5			1					1					1																												base,jpg	7 6	Hulk (B)	Hulk (B)	""	302
+Avengers	Hulk	Unstoppable Hulk	B				4	5				1									1					-1																							base,jpg	6 6	Hulk (B)	Hulk (B)	""	303
+Avengers	Hulk	Crazed Rampage	B				5	3			1										1					1																							base,jpg	5 6	Hulk (B)	Hulk (B)	""	304
+Avengers	Hulk	Hulk Smash	B				8	1			1					1					1																												base,jpg	8 6	Hulk (B)	Hulk (B)	""	305
+Avengers	Hulkling	Half-Kree	CW	14			4	5			1					1				1						1																						Size-changing	cw2,jpg	1 4	Hulkling (CW)	Hulkling (CW)	Size-Changing	306
+Avengers	Hulkling	Half-Skrull	CW	14			4	5		1					1						1																											Size-changing	cw2,jpg	1 4	Hulkling (CW)	Hulkling (CW)	""	307
+Avengers	Hulkling	Cellular Regeneration	CW				5	5			1					1					1					-1																						Size-changing	cw2,jpg	10 3	Hulkling (CW)	Hulkling (CW)	Size-Changing	308
+Avengers	Hulkling	Impersonate	CW				6	3		1					1																																	Size-changing, clone	cw2,jpg	9 3	Hulkling (CW)	Hulkling (CW)	Size-Changing	309
+Avengers	Hulkling	Enormous shapeshift	CW				8	1		1					1						1																											Size-changing	cw2,jpg	2 4	Hulkling (CW)	Hulkling (CW)	Size-Changing	310
+Avengers	Iron Man	Endless invention	B				3	5					1					1				1																											base,jpg	9 5	Iron Man (B)	Iron Man (B)	""	311
+Avengers	Iron Man	Repulsor Rays	B				3	5	1					1							1																												base,jpg	8 5	Iron Man (B)	Iron Man (B)	""	312
+Avengers	Iron Man	Arc reactor	B				5	3					1					2			1																												base,jpg	10 5	Iron Man (B)	Iron Man (B)	""	313
+Avengers	Iron Man	Quantum breakthrough	B				7	1					1					1				1																											base,jpg	7 5	Iron Man (B)	Iron Man (B)	""	314
+Avengers	Iron Man Noir	Steampowered Arsenal	N		Iron Man		3	5	1												1			1																									noir,jpg	3 2	Iron Man Noir (N)	Iron Man Noir (N)	""	315
+Avengers	Iron Man Noir	Mechanized plate mail	N		Iron Man		4	5					1					1		1		1		1																									noir,jpg	5 2	Iron Man Noir (N)	Iron Man Noir (N)	Investigate	316
+Avengers	Iron Man Noir	Learn from enemies	N		Iron Man		6	3					1					1			1																1												noir,jpg	4 2	Iron Man Noir (N)	Iron Man Noir (N)	""	317
+Avengers	Iron Man Noir	Adventurers assemble!	N		Iron Man		7	1					1								1	1		-1																								Improves investigate	noir,jpg	6 2	Iron Man Noir (N)	Iron Man Noir (N)	Investigate	318
+Avengers	Lady Thor	Mysterious origin	SW1				3	5	1											1		1																											sw12,jpg	10 5	Lady Thor (SW1)	Lady Thor (SW1)	""	319
+Avengers	Lady Thor	Chosen by Asgard	SW1				4	5			1									1	1																												sw12,jpg	1 6	Lady Thor (SW1)	Lady Thor (SW1)	""	320
+Avengers	Lady Thor	Heir to the hammer	SW1				6	3	1		1			1		1					1																												sw12,jpg	9 5	Lady Thor (SW1)	Lady Thor (SW1)	""	321
+Avengers	Lady Thor	Living thunderstorm	SW1				8	1			1									1	1																												sw12,jpg	2 6	Lady Thor (SW1)	Lady Thor (SW1)	""	322
+Avengers	Luke Cage	Cautious	CW	15			3	5			1										1							1																					cw2,jpg	7 3	Luke Cage (CW)	Luke Cage (CW)	""	323
+Marvel Knights	Luke Cage	Reckless	CW	15	Jessica Jones		3	5				1									1					1																							cw2,jpg	7 3	Luke Cage (CW)	Luke Cage (CW)	""	324
+Avengers	Luke Cage	Take a bullet ft team	CW				4	5			1									1	1					-1																							cw2,jpg	6 3	Luke Cage (CW)	Luke Cage (CW)	""	325
+Avengers	Luke Cage	Sweet christmas	CW				5	3				1					1				1			1																									cw2,jpg	5 3	Luke Cage (CW)	Luke Cage (CW)	""	326
+Avengers	Luke Cage	Unbreakable skin	CW				8	1			1										1					-1									1														cw2,jpg	8 3	Luke Cage (CW)	Luke Cage (CW)	""	327
+Avengers	Patriot	New gen of heroes	CW				2	5			1									1																												Bonus for more hero names	cw2,jpg	9 4	Patriot (CW)	Patriot (CW)	""	328
+Avengers	Patriot	Intuitive tactician	CW				3	5				1									1																											Bonus for more hero names	cw2,jpg	8 4	Patriot (CW)	Patriot (CW)	""	329
+Avengers	Patriot	Incredible effort	CW	16			5	3		1					1						1																												cw2,jpg	7 4	Patriot (CW)	Patriot (CW)	""	330
+Avengers	Patriot	Effortless	CW	16	Hawkeye		5	3					1							1								1																					cw2,jpg	7 4	Patriot (CW)	Patriot (CW)	""	331
+Avengers	Patriot	Lead the young avengers	CW				8	1					1								1																											Requires hero name variety	cw2,jpg	10 4	Patriot (CW)	Patriot (CW)	""	332
+Avengers	Peter Parker	Conflicted loyalties	CW				2	5					1					1		1	1	1							1																				cw2,jpg	4 4	Peter Parker (CW)	Peter Parker (CW)	""	333
+Avengers	Peter Parker	Spiderman unmasked	CW				2	5				1					1				1			1								1																	cw2,jpg	5 4	Peter Parker (CW)	Peter Parker (CW)	""	334
+Avengers	Peter Parker	Protect my family	CW	17			2	3					1								1				1																								cw2,jpg	3 4	Peter Parker (CW)	Peter Parker (CW)	""	335
+Spidermen	Peter Parker	Hot bowl of soup	CW	17	Aunt May		2	3				1								1						-1																							cw2,jpg	3 4	Peter Parker (CW)	Peter Parker (CW)	""	336
+Avengers	Peter Parker	Reluctant celebrity	CW				2	1				1					1				1	-1																											cw2,jpg	6 4	Peter Parker (CW)	Peter Parker (CW)	""	337
+Avengers	Stature	Shrink to nothing	CW				2	5					1					1			1	1																										Size-changing	cw2,jpg	2 5	Stature (CW)	Stature (CW)	Size-Changing	338
+Avengers	Stature	Crush ants	CW	18			5	5			1					1					1																1											Size-changing	cw2,jpg	3 5	Stature (CW)	Stature (CW)	Size-Changing	339
+Avengers	Stature	Crush file sizes	CW	18	Iron Lad		5	5					1					1		1		1																										Size-changing	cw2,jpg	3 5	Stature (CW)	Stature (CW)	""	340
+Avengers	Stature	Growing confidence	CW				6	3			1					1					1																1											Size-changing	cw2,jpg	1 5	Stature (CW)	Stature (CW)	Size-Changing	341
+Avengers	Stature	Trample the tiny	CW				8	1			1					1					1																1											Size-changing	cw2,jpg	4 5	Stature (CW)	Stature (CW)	Size-Changing	342
+X-Men	Storm & Black Panther	Gathering rain clouds	CW	19	Storm		2	5	1					1						1		1																											cw2,jpg	4 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	343
+Avengers	Storm & Black Panther	Gathering clues	CW	19	Black Panther		2	5				1					1				1	1																											cw2,jpg	4 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	344
+X-Men	Storm & Black Panther	Lightning strike	CW	20	Storm		3	5	1					1							1						-1																						cw2,jpg	5 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	345
+Avengers	Storm & Black Panther	Pouncing strike	CW	20	Black Panther		3	5				1					1			1							1																						cw2,jpg	5 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	346
+X-Men	Storm & Black Panther	Tsunami of water	CW	21	Storm		5	3	1					1							1																												cw2,jpg	3 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	347
+Avengers	Storm & Black Panther	Tsunami of justice	CW	21	Black Panther		5	3		1					1						1																	1											cw2,jpg	3 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	348
+Avengers	Storm & Black Panther	King & Queen	CW				7	1					1						1		1											1																Requires multiclass cards	cw2,jpg	6 6	Storm & Black Panther (CW)	Storm & Black Panther (CW)	""	349
+Avengers	The Captain and the Devil	Jurassic America	SW2				2	5			1		1						1	1																													sw22,jpg	9 2	The Captain and the Devil (SW2)	The Captain and the Devil (SW2)	Spectrum	350
+Avengers	The Captain and the Devil	Patriotic chomp	SW2				4	5				1							1		1																												sw22,jpg	10 2	The Captain and the Devil (SW2)	The Captain and the Devil (SW2)	Spectrum	351
+Avengers	The Captain and the Devil	Feeding grounds	SW2				6	3		1											1						-1											1											sw22,jpg	1 3	The Captain and the Devil (SW2)	The Captain and the Devil (SW2)	Patrol	352
+Avengers	The Captain and the Devil	Dino-roar of triumph	SW2				8	1	1												1						-1																						sw22,jpg	2 3	The Captain and the Devil (SW2)	The Captain and the Devil (SW2)	""	353
+Avengers	Thor	Odinson	B				3	5			1					1				1																													base2,jpg	8 5	Thor (B)	Thor (B)	""	354
+Avengers	Thor	Surge of power	B				4	5	1											1	1																												base2,jpg	9 5	Thor (B)	Thor (B)	""	355
+Avengers	Thor	Call lightning	B				6	3	1					1							1																												base2,jpg	7 5	Thor (B)	Thor (B)	""	356
+Avengers	Thor	God of thunder	B				8	1	1											1	1																											Use MO as FI	base2,jpg	10 5	Thor (B)	Thor (B)	""	357
+Avengers	Tigra	Friendship	CW	22			2	5		1					1					1												1																	cw2,jpg	1 6	Tigra (CW)	Tigra (CW)	""	358
+Avengers	Tigra	Ferocity	CW	22			2	5				1					1				1	1																											cw2,jpg	1 6	Tigra (CW)	Tigra (CW)	""	359
+Avengers	Tigra	Supernatural senses	CW				3	5				1					2				1			1														1											cw2,jpg	10 5	Tigra (CW)	Tigra (CW)	""	360
+Avengers	Tigra	Can't surprise a cat	CW				5	3		1											1																											Cancel ambush	cw2,jpg	9 5	Tigra (CW)	Tigra (CW)	""	361
+Avengers	Tigra	Mystic talisman	CW				7	1		1										1	1														1													Free hero	cw2,jpg	2 6	Tigra (CW)	Tigra (CW)	""	362
+Avengers	Vision	Solar energy	CW				3	5	1					1							1			1																									cw2,jpg	2 7	Vision (CW)	Vision (CW)	Phasing	363
+Avengers	Vision	Through solid objects	CW				4	5					1							1				-1																									cw2,jpg	3 7	Vision (CW)	Vision (CW)	Phasing	364
+Avengers	Vision	Lighter than air	CW	23			6	3	1					1						1				1																								Size-changing	cw2,jpg	1 7	Vision (CW)	Vision (CW)	Size-Changing|Phasing	365
+Avengers	Vision	Harder than diamond	CW	23			6	3					1					1			1			1																								Size-changing	cw2,jpg	1 7	Vision (CW)	Vision (CW)	""	366
+Avengers	Vision	Insubstantial accomplish	CW				7	1					1								1			1																									cw2,jpg	4 7	Vision (CW)	Vision (CW)	Phasing	367
+Avengers	Wiccan	Sorcerous illusions	CW				2	5		1					1					1				1																									cw2,jpg	9 6	Wiccan (CW)	Wiccan (CW)	Phasing	368
+Avengers	Wiccan	Astral projection	CW				4	5	1												1			-1																									cw2,jpg	8 6	Wiccan (CW)	Wiccan (CW)	Phasing	369
+Avengers	Wiccan	Supersonic spells	CW	24	Wiccan		4	3	1					1							1	1																											cw2,jpg	7 6	Wiccan (CW)	Wiccan (CW)	""	370
+Avengers	Wiccan	Supersonic speed	CW	24	Speed		4	3		1					1							1																											cw2,jpg	7 6	Wiccan (CW)	Wiccan (CW)	""	371
+Avengers	Wiccan	Clairvoyance	CW				7	1	1												1			-1																									cw2,jpg	10 6	Wiccan (CW)	Wiccan (CW)	""	372
+Marvel Knights	Blade	Stalk the prey	DC				3	5		1											1						1																						ff,jpg	8 3	Blade (DC)	Blade (DC)	""	373
+Marvel Knights	Blade	Night hunter	DC				4	5			1									1	1						-1																						ff,jpg	7 3	Blade (DC)	Blade (DC)	""	374
+Marvel Knights	Blade	Nowhere to hide	DC				6	3					1								1	1					-1																						ff,jpg	6 3	Blade (DC)	Blade (DC)	""	375
+Marvel Knights	Blade	Vampiric Surge	DC				7	1		1											1																1												ff,jpg	9 3	Blade (DC)	Blade (DC)	""	376
+Marvel Knights	Daredevil	Backflip	DC				3	5			1									1				1																									ff,jpg	3 5	Daredevil (DC)	Daredevil (DC)	""	377
+Marvel Knights	Daredevil	Radar sense	DC				4	5				1									1			-1																									ff,jpg	2 5	Daredevil (DC)	Daredevil (DC)	""	378
+Marvel Knights	Daredevil	Blind justice	DC				6	3		1											1			-1																									ff,jpg	4 5	Daredevil (DC)	Daredevil (DC)	""	379
+Marvel Knights	Daredevil	Man without fear	DC				8	1				1									1			-1																									ff,jpg	1 5	Daredevil (DC)	Daredevil (DC)	""	380
+Marvel Knights	Daredevil Noir	Balancing act	N		Daredevil		3	5		1										1	1			1																									noir,jpg	8 1	Daredevil Noir (N)	Daredevil Noir (N)	""	381
+Marvel Knights	Daredevil Noir	Listen for heartbeats	N		Daredevil		4	5				1									1			-1																									noir,jpg	7 1	Daredevil Noir (N)	Daredevil Noir (N)	Investigate	382
+Marvel Knights	Daredevil Noir	Discover the bodies	N		Daredevil		5	3		1					1					1				1														1											noir,jpg	5 1	Daredevil Noir (N)	Daredevil Noir (N)	Investigate	383
+Marvel Knights	Daredevil Noir	Hitting rock bottom	N		Daredevil		7	1				1									1			-1																									noir,jpg	6 1	Daredevil Noir (N)	Daredevil Noir (N)	""	384
+Marvel Knights	Dr. Punisher, Soldier Supreme	Sweep the streets	SW2				2	5	1				1							1		1					-1																						sw22,jpg	5 4	Dr. Punisher, Soldier Supreme (SW2)	Dr. Punisher, Soldier Supreme (SW2)	Patrol	385
+Marvel Knights	Dr. Punisher, Soldier Supreme	You're a slow learner	SW2				4	5					1					1			1			-1														1											sw22,jpg	6 4	Dr. Punisher, Soldier Supreme (SW2)	Dr. Punisher, Soldier Supreme (SW2)	""	386
+Marvel Knights	Dr. Punisher, Soldier Supreme	Ice Magic	SW2				3	3	1					2							1																				1								sw22,jpg	7 4	Dr. Punisher, Soldier Supreme (SW2)	Dr. Punisher, Soldier Supreme (SW2)	""	387
+Marvel Knights	Dr. Punisher, Soldier Supreme	Calm before storm	SW2				7	1	1												1																												sw22,jpg	8 4	Dr. Punisher, Soldier Supreme (SW2)	Dr. Punisher, Soldier Supreme (SW2)	Patrol	388
+Marvel Knights	Elektra	First strike	DC				1	5		1											1																												ff,jpg	1 6	Elektra (DC)	Elektra (DC)	""	389
+Marvel Knights	Elektra	Ninjitsu	DC				2	5				1			1					1		1																											ff,jpg	10 5	Elektra (DC)	Elektra (DC)	""	390
+Marvel Knights	Elektra	Sai blades	DC				6	3				1									1								2																				ff,jpg	2 6	Elektra (DC)	Elektra (DC)	""	391
+Marvel Knights	Elektra	Silent Meditation	DC				7	1				1								1															1														ff,jpg	9 5	Elektra (DC)	Elektra (DC)	""	392
+Marvel Knights	Ghost Rider	Hell on wheels	DC				3	5					1							1															1														ff,jpg	3 7	Ghost Rider (DC)	Ghost Rider (DC)	""	393
+Marvel Knights	Ghost Rider	Blazing hellfire	DC				5	5	1												1																											KO a villain from VP	ff,jpg	2 7	Ghost Rider (DC)	Ghost Rider (DC)	""	394
+Marvel Knights	Ghost Rider	Infernal Chains	DC				2	3			1					1						1															1												ff,jpg	4 7	Ghost Rider (DC)	Ghost Rider (DC)	""	395
+Marvel Knights	Ghost Rider	Penance Stare	DC				8	1	1												1														1		1												ff,jpg	1 7	Ghost Rider (DC)	Ghost Rider (DC)	""	396
+Marvel Knights	Iron Fist	Focus Chi	DC				3	5				1								1											2																		ff,jpg	6 6	Iron Fist (DC)	Iron Fist (DC)	""	397
+Marvel Knights	Iron Fist	Wield the iron fist	DC				4	5			1										1										2																		ff,jpg	5 6	Iron Fist (DC)	Iron Fist (DC)	""	398
+Marvel Knights	Iron Fist	Ancient legacy	DC				1	3			1					2				1	1	1																					1						ff,jpg	4 6	Iron Fist (DC)	Iron Fist (DC)	Versatile	399
+Marvel Knights	Iron Fist	Living weapon	DC				9	1			1										1										2																		ff,jpg	3 6	Iron Fist (DC)	Iron Fist (DC)	""	400
+Marvel Knights	Luke Cage Noir	Follow big leads	N		Luke Cage		4	5			1									1										2																			noir,jpg	1 2	Luke Cage Noir (N)	Luke Cage Noir (N)	""	401
+Marvel Knights	Luke Cage Noir	Private investigations	N		Luke Cage		4	5		1											1			-1						1																			noir,jpg	10 1	Luke Cage Noir (N)	Luke Cage Noir (N)	Investigate	402
+Marvel Knights	Luke Cage Noir	Unbreakable Cage	N		Luke Cage		6	3			1										1			1		-1																							noir,jpg	9 1	Luke Cage Noir (N)	Luke Cage Noir (N)	Investigate	403
+Marvel Knights	Luke Cage Noir	Weight of the world	N		Luke Cage		8	1			1										1									2																			noir,jpg	2 2	Luke Cage Noir (N)	Luke Cage Noir (N)	""	404
+Marvel Knights	Moon Knight	Climbing claws	PTT				3	5					1				1			1				1																									pttr,jpg	10 2	Moon Knight (PTT)	Moon Knight (PTT)	Wall-Crawl	405
+Marvel Knights	Moon Knight	Lunar communion	PTT				3	5				1									1			1			-1											1											pttr,jpg	1 3	Moon Knight (PTT)	Moon Knight (PTT)	Wall-Crawl	406
+Marvel Knights	Moon Knight	Crescent moon darts	PTT				5	3					1				1	1			1			-1																									pttr,jpg	2 3	Moon Knight (PTT)	Moon Knight (PTT)	""	407
+Marvel Knights	Moon Knight	Golden Ankh of Khonshu	PTT				8	1				1						1			1				1																								pttr,jpg	9 2	Moon Knight (PTT)	Moon Knight (PTT)	""	408
+Marvel Knights	Punisher	Boom goes the dynamite	DC				2	5					1					1				1		-1														1											darkcity,jpg	10 4	Punisher (DC)	Punisher (DC)	""	409
+Marvel Knights	Punisher	Hail of bullets	DC				5	5					1					2			1																				1								darkcity,jpg	1 5	Punisher (DC)	Punisher (DC)	""	410
+Marvel Knights	Punisher	Hostile interrogation	DC				3	3			1					1				1										1																			darkcity,jpg	9 4	Punisher (DC)	Punisher (DC)	""	411
+Marvel Knights	Punisher	The Punisher	DC				8	1					1								1										2																		darkcity,jpg	2 5	Punisher (DC)	Punisher (DC)	""	412
+Marvel Knights	Shang-Chi	Shuffling footwork	SW2				3	5				1					1			1																												Empties your discard pile	sw22,jpg	1 6	Shang-Chi (SW2)	Shang-Chi (SW2)	""	413
+Marvel Knights	Shang-Chi	Acrobatic Kung Fu	SW2				4	5		1		1									1			1			-1																						sw22,jpg	2 6	Shang-Chi (SW2)	Shang-Chi (SW2)	Wall-Crawl|Patrol	414
+Marvel Knights	Shang-Chi	Seek the empty mind	SW2				5	3		1											1																											Requires empty discard pile	sw22,jpg	3 6	Shang-Chi (SW2)	Shang-Chi (SW2)	Patrol	415
+Marvel Knights	Shang-Chi	Muscle Memory	SW2				7	1				1									1			1																									sw22,jpg	4 6	Shang-Chi (SW2)	Shang-Chi (SW2)	Wall-Crawl	416
+Cabal	Black Swan	Apocalyptic Vision	SW2				3	5	1					1							1																				1								sw22,jpg	5 2	Black Swan (SW2)	Black Swan (SW2)	""	417
+Cabal	Black Swan	Witness the end	SW2				5	5				1					1			1																		1											sw22,jpg	6 2	Black Swan (SW2)	Black Swan (SW2)	""	418
+Cabal	Black Swan	Dark foretelling	SW2				6	3	1			1									1																				1								sw22,jpg	7 2	Black Swan (SW2)	Black Swan (SW2)	""	419
+Cabal	Black Swan	Telepathic control	SW2				7	1		1											1														1						1								sw22,jpg	8 2	Black Swan (SW2)	Black Swan (SW2)	""	420
+Cabal	Corvus Glaive	Let none escape you	SW2				2	5			1	1								1	1																											Bystanders escaped or not	sw22,jpg	8 3	Corvus Glaive (SW2)	Corvus Glaive (SW2)	Patrol	421
+Cabal	Corvus Glaive	Culling Blade	SW2				3	5				1									1																		1										sw22,jpg	7 3	Corvus Glaive (SW2)	Corvus Glaive (SW2)	""	422
+Cabal	Corvus Glaive	Rictus grin	SW2				6	3			1										1														1				2										sw22,jpg	9 3	Corvus Glaive (SW2)	Corvus Glaive (SW2)	""	423
+Cabal	Corvus Glaive	Atom-splitting Glaive	SW2				8	1					1								1														1				1									Can KO escaped bystanders	sw22,jpg	10 3	Corvus Glaive (SW2)	Corvus Glaive (SW2)	""	424
+Cabal	Maximus	Mental domination	SW1				3	5		1					1					1																	1												sw12,jpg	6 3	Maximus (SW1)	Maximus (SW1)	""	425
+Cabal	Maximus	Enslave the will	SW1				4	5					1					1			1											1																	sw12,jpg	5 3	Maximus (SW1)	Maximus (SW1)	""	426
+Cabal	Maximus	Pieces on a chessboard	SW1				5	3		1			1								1	1															1												sw12,jpg	8 3	Maximus (SW1)	Maximus (SW1)	""	427
+Cabal	Maximus	Inhuman mastery	SW1				7	1					1					1			1														1		1												sw12,jpg	7 3	Maximus (SW1)	Maximus (SW1)	""	428
+Cabal	Namor, the Sub-Mariner	Lead armies of Atlantis	SW1				3	5				1					1			1												1																	sw12,jpg	3 3	Namor, the Sub-Mariner (SW1)	Namor, the Sub-Mariner (SW1)	""	429
+Cabal	Namor, the Sub-Mariner	Ruler of the seas	SW1				4	5			1					1					1						-1																						sw12,jpg	4 3	Namor, the Sub-Mariner (SW1)	Namor, the Sub-Mariner (SW1)	""	430
+Cabal	Namor, the Sub-Mariner	Feed the sharks	SW1				6	3			1	1									1	1																1											sw12,jpg	1 3	Namor, the Sub-Mariner (SW1)	Namor, the Sub-Mariner (SW1)	""	431
+Cabal	Namor, the Sub-Mariner	Imperius rex	SW1				7	1			1					2	2				1																											Defeat villain for free	sw12,jpg	2 3	Namor, the Sub-Mariner (SW1)	Namor, the Sub-Mariner (SW1)	""	432
+Cabal	Proxima Midnight	Inspiration through power	SW1				2	5		1		1								1	1							1																					sw12,jpg	2 4	Proxima Midnight (SW1)	Proxima Midnight (SW1)	""	433
+Cabal	Proxima Midnight	Master combatant	SW1				4	5				1								1	1																					1							sw12,jpg	1 4	Proxima Midnight (SW1)	Proxima Midnight (SW1)	""	434
+Cabal	Proxima Midnight	General ot black order	SW1				5	3		1							1			1	1																												sw12,jpg	10 3	Proxima Midnight (SW1)	Proxima Midnight (SW1)	""	435
+Cabal	Proxima Midnight	Supernova spear	SW1				8	1				1			1					1	1																												sw12,jpg	9 3	Proxima Midnight (SW1)	Proxima Midnight (SW1)	""	436
+Cabal	Thanos	Revel in destruction	SW1				3	5	1		1									1															1				2										sw12,jpg	9 2	Thanos (SW1)	Thanos (SW1)	""	437
+Cabal	Thanos	Transdimension overlord	SW1				5	5			1										1				-1														1										sw12,jpg	8 2	Thanos (SW1)	Thanos (SW1)	Teleport	438
+Cabal	Thanos	Galactic Domination	SW1				6	3	1					1							1				1																								sw12,jpg	7 2	Thanos (SW1)	Thanos (SW1)	""	439
+Cabal	Thanos	Utter Annihilation	SW1				8	1	1												1																		2										sw12,jpg	10 2	Thanos (SW1)	Thanos (SW1)	""	440
+X-Force	Cable	Disaster Survivalist	DC				3	5					1							1																												Draw extra cards after MS	ff,jpg	6 4	Cable (DC)	Cable (DC)	""	441
+X-Force	Cable	Strike at heart of evil	DC				4	5	1												1																												ff,jpg	4 4	Cable (DC)	Cable (DC)	""	442
+X-Force	Cable	Rapid respone force	DC				6	3		1											1														2														ff,jpg	5 4	Cable (DC)	Cable (DC)	Teleport	443
+X-Force	Cable	Army of one	DC				8	1	1												1																	1											ff,jpg	3 4	Cable (DC)	Cable (DC)	""	444
+X-Force	Colossus	Draw their fire	DC				1	5			1										1					1																							ff,jpg	9 4	Colossus (DC)	Colossus (DC)	""	445
+X-Force	Colossus	Invulnerability	DC				3	5			1									1		1				-1																							ff,jpg	8 4	Colossus (DC)	Colossus (DC)	""	446
+X-Force	Colossus	Silent Statue	DC				6	3		1						1					1																												ff,jpg	7 4	Colossus (DC)	Colossus (DC)	""	447
+X-Force	Colossus	Russian Heavy Tank	DC				8	1			1										1	1				-1																							ff,jpg	10 4	Colossus (DC)	Colossus (DC)	""	448
+X-Force	Domino	Lucky Break	DC				1	5					1							1	1	1													1								1						ff,jpg	8 5	Domino (DC)	Domino (DC)	Versatile	449
+X-Force	Domino	Ready for Anything	DC				3	5				1								1	1																						1						ff,jpg	7 5	Domino (DC)	Domino (DC)	Versatile	450
+X-Force	Domino	Specialized Ammunition	DC				5	3					1							1	1		1																			1							ff,jpg	5 5	Domino (DC)	Domino (DC)	""	451
+X-Force	Domino	Against all odds	DC				7	1		1										1	1														1								2						ff,jpg	6 5	Domino (DC)	Domino (DC)	Versatile	452
+X-Force	Forge	Dirty Work	DC				3	5					1					1			1						-1																						ff,jpg	8 6	Forge (DC)	Forge (DC)	""	453
+X-Force	Forge	Reboot	DC				4	5					1					1		1		1	1																										ff,jpg	9 6	Forge (DC)	Forge (DC)	""	454
+X-Force	Forge	Overdrive	DC				5	3					1							1	1																						1						ff,jpg	10 6	Forge (DC)	Forge (DC)	Versatile	455
+X-Force	Forge	B.F.G.	DC				7	1					1					2			1																											Can defeat the MM for free	ff,jpg	7 6	Forge (DC)	Forge (DC)	""	456
+X-Force	Wolverine	Animal instincts	DC				2	5				1					1				1	1																											darkcity2,jpg	7 1	Wolverine (DC)	Wolverine (DC)	""	457
+X-Force	Wolverine	Sudden Ambush	DC				4	5		1											1	-1																											darkcity2,jpg	9 1	Wolverine (DC)	Wolverine (DC)	""	458
+X-Force	Wolverine	No Mercy	DC				4	3			1											1																1											darkcity2,jpg	8 1	Wolverine (DC)	Wolverine (DC)	""	459
+X-Force	Wolverine	Reckless Abandon	DC				7	1		1											1	-1																											darkcity2,jpg	6 1	Wolverine (DC)	Wolverine (DC)	""	460
+SHIELD	Agent X-13	Sniper Squad	C75				3	5	1											1	1														1														c75,jpg	4 1	Agent X-13 (C75)	Agent X-13 (C75)	Man out of Time	461
+SHIELD	Agent X-13	Paramilitary Ops	C75				4	5					1								1														2														c75,jpg	3 1	Agent X-13 (C75)	Agent X-13 (C75)	""	462
+SHIELD	Agent X-13	Spy Network	C75				4	3		1					1						1																											May gain shield officer	c75,jpg	2 1	Agent X-13 (C75)	Agent X-13 (C75)	Man out of Time	463
+SHIELD	Agent X-13	Mobilize for War	C75				7	1				1									1				-1													1											c75,jpg	1 1	Agent X-13 (C75)	Agent X-13 (C75)	Savior	464
+SHIELD	Elsa Bloodstone	Monster Hunter	SW2				3	5		1			1								1				1		-1																						sw22,jpg	9 4	Elsa Bloodstone (SW2)	Elsa Bloodstone (SW2)	Patrol	465
+SHIELD	Elsa Bloodstone	Bloodstone Pendant	SW2				5	5				1							1	1																		1											sw22,jpg	10 4	Elsa Bloodstone (SW2)	Elsa Bloodstone (SW2)	Spectrum	466
+SHIELD	Elsa Bloodstone	Defend the SHIELD wall	SW2				6	3	1												1			1											1														sw22,jpg	1 5	Elsa Bloodstone (SW2)	Elsa Bloodstone (SW2)	Wall-Crawl	467
+SHIELD	Elsa Bloodstone	Prodigy of Ulysses	SW2				8	1			1								1		1																												sw22,jpg	2 5	Elsa Bloodstone (SW2)	Elsa Bloodstone (SW2)	Spectrum	468
+SHIELD	Nick Fury	High tech weaponry	B				3	5					1					1			1																												base,jpg	1 6	Nick Fury (B)	Nick Fury (B)	""	469
+SHIELD	Nick Fury	Battlefield Promotion	B				4	5		1										1																		1										Gain shield officer	base,jpg	4 6	Nick Fury (B)	Nick Fury (B)	""	470
+SHIELD	Nick Fury	Legendary Commander	B				6	3			1										1														1														base,jpg	3 6	Nick Fury (B)	Nick Fury (B)	""	471
+SHIELD	Nick Fury	Pure Fury	B				8	1					1								1																	-1											base,jpg	2 6	Nick Fury (B)	Nick Fury (B)	""	472
+SHIELD	Steve Rogers, Director of S.H.I.E.L.D.	International strike force	C75		Captain America		3	5			1								2	1	1				-1																								c75,jpg	5 2	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Savior	473
+SHIELD	Steve Rogers, Director of S.H.I.E.L.D.	Reassign to civil duty	C75		Captain America		5	5				1									1				1													1											c75,jpg	6 2	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Steve Rogers, Director of S.H.I.E.L.D. (C75)	""	474
+SHIELD	Steve Rogers, Director of S.H.I.E.L.D.	Shadow of war past	C75		Captain America		4	3		1											1				-1																								c75,jpg	4 2	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Savior|Man out of Time	475
+SHIELD	Steve Rogers, Director of S.H.I.E.L.D.	Save the world	C75		Captain America		8	1					1								1				1																								c75,jpg	3 2	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Steve Rogers, Director of S.H.I.E.L.D. (C75)	Savior	476
+NONE	Arkon the Magnificent	Quiver of thunderbolts	SW2				3	5	1										1		1	1																											sw22,jpg	7 1	Arkon the Magnificent (SW2)	Arkon the Magnificent (SW2)	Spectrum	477
+NONE	Arkon the Magnificent	All-terrain barbarian	SW2				3	5		1	1									1				1			-1																						sw22,jpg	8 1	Arkon the Magnificent (SW2)	Arkon the Magnificent (SW2)	Wall-Crawl|Patrol	478
+NONE	Arkon the Magnificent	Warlord of open spaces	SW2				5	3				1									1						-1																						sw22,jpg	9 1	Arkon the Magnificent (SW2)	Arkon the Magnificent (SW2)	Patrol	479
+NONE	Arkon the Magnificent	Lord of Dragons	SW2				7	1				1								1	1						-1																						sw22,jpg	10 1	Arkon the Magnificent (SW2)	Arkon the Magnificent (SW2)	Patrol	480
+NONE	Deadpool	Here hold this	B		Deadpool		3	5					1							1					1																								base,jpg	3 1	Deadpool (B)	Deadpool (B)	""	481
+NONE	Deadpool	Oddball	B		Deadpool		5	5		1											1								-1		1																	Bonus for odd costs.	base,jpg	2 1	Deadpool (B)	Deadpool (B)	""	482
+NONE	Deadpool	Can i get a do-over?	B		Deadpool		3	3				1									1	1	1																										base,jpg	4 1	Deadpool (B)	Deadpool (B)	""	483
+NONE	Deadpool	Random unkindness	B		Deadpool		7	1				1									1																											May gain a wound	base,jpg	1 1	Deadpool (B)	Deadpool (B)	""	484
+NONE	Silver Surfer	Warp Speed	FF				3	5		1										1		1																										Focus	pttr,jpg	9 7	Silver Surfer (FF)	Silver Surfer (FF)	Focus	485
+NONE	Silver Surfer	Epic Destiny	FF				4	5			1									1																												Focus	pttr,jpg	7 7	Silver Surfer (FF)	Silver Surfer (FF)	Focus	486
+NONE	Silver Surfer	The power cosmic	FF				6	3	1											1	1																											Focus	pttr,jpg	8 7	Silver Surfer (FF)	Silver Surfer (FF)	Focus	487
+NONE	Silver Surfer	Energy Surge	FF				7	1	1											1																												Doubles MO	ff,jpg	1 1	Silver Surfer (FF)	Silver Surfer (FF)	""	488
+NONE	Winter Soldier	KGB Training	C75				5	3		1											1	-1																											c75,jpg	8 2	Winter Soldier (C75)	Winter Soldier (C75)	""	489
+NONE	Winter Soldier	Bionic Arm	C75				3	5			1							1			1																												c75,jpg	9 2	Winter Soldier (C75)	Winter Soldier (C75)	Man out of Time	490
+NONE	Winter Soldier	Sniper nest	C75				4	5					1					1		1		1																											c75,jpg	10 2	Winter Soldier (C75)	Winter Soldier (C75)	Man out of Time	491
+NONE	Winter Soldier	2 > 4	C75				7	1					1					1			1																											Replay heroes	c75,jpg	7 2	Winter Soldier (C75)	Winter Soldier (C75)	Man out of Time	492
+Deadpool	Deadpool	Nighttime is right time	DP		Deadpool		3	5					1					1		1	1																											Depends on current time	dp,jpg	5 2	Deadpool (DP)	Deadpool (DP)	""	493
+Deadpool	Deadpool	It'll grow back	DP		Deadpool		4	5				1									1					1																		1					dp,jpg	3 2	Deadpool (DP)	Deadpool (DP)	""	494
+Deadpool	Deadpool	Running commentary	DP		Deadpool		5	3		1											1																							1				Flavor texts	dp,jpg	4 2	Deadpool (DP)	Deadpool (DP)	""	495
+Deadpool	Deadpool	Deadpool rage me ->	DP		Deadpool		7	1			1										1																											EV: take extra turn	dp,jpg	6 2	Deadpool (DP)	Deadpool (DP)	Excessive Violence	496
+Deadpool	Slapstick	Sat Morning Harpoons	DP		Deadpool		3	5	1												1				1																			1					dp,jpg	2 2	Slapstick (DP)	Slapstick (DP)	Excessive Violence	497
+Deadpool	Slapstick	Napoleon Complex	DP		Deadpool		4	5	1					1						1		1																										Depends on your height	dp,jpg	1 2	Slapstick (DP)	Slapstick (DP)	""	498
+Deadpool	Slapstick	Surprise chainsaw	DP		Deadpool		6	3			1										1																							1					dp,jpg	9 1	Slapstick (DP)	Slapstick (DP)	Excessive Violence	499
+Deadpool	Slapstick	Electroplasmic insanity	DP		Deadpool		8	1	1												1																												dp,jpg	10 1	Slapstick (DP)	Slapstick (DP)	Excessive Violence	500
+Deadpool	Solo	Half-cocked	DP		Deadpool		2	5					1							1	1							1																1					dp,jpg	5 1	Solo (DP)	Solo (DP)	""	501
+Deadpool	Solo	Merc's gotta get paid	DP		Deadpool		3	5				1								1	1																							1					dp,jpg	6 1	Solo (DP)	Solo (DP)	Excessive Violence	502
+Deadpool	Solo	Guns on my guns	DP		Deadpool		5	3					1					1			1	1																						1					dp,jpg	7 1	Solo (DP)	Solo (DP)	""	503
+Deadpool	Solo	Cut in half	DP		Deadpool		7	1				1									1														1									1					dp,jpg	8 1	Solo (DP)	Solo (DP)	""	504
+Deadpool	Stingray	Superpowered swimsuit	DP		Deadpool		2	5					1					1			1	1					-1																	1					dp,jpg	1 1	Stingray (DP)	Stingray (DP)	""	505
+Deadpool	Stingray	Deck chairs of the titanic	DP		Deadpool		4	5					1								1	1					1																	1					dp,jpg	3 1	Stingray (DP)	Stingray (DP)	""	506
+Deadpool	Stingray	Sting of stingray's sting	DP		Deadpool		5	3	1											1																		1											dp,jpg	4 1	Stingray (DP)	Stingray (DP)	Excessive Violence	507
+Deadpool	Stingray	PhD in oceanography	DP		Deadpool		8	1					1								1														1			1						1					dp,jpg	2 1	Stingray (DP)	Stingray (DP)	""	508
+HYDRA	Bob, Agent of HYDRA	Hydra Half-Wit	DP				2	5					1								1	1													1									1					dp,jpg	7 2	Bob, Agent of HYDRA (DP)	Bob, Agent of HYDRA (DP)	""	509
+HYDRA	Bob, Agent of HYDRA	Bullets flying bob hiding	DP				3	5		1										1		1																						1					dp,jpg	8 2	Bob, Agent of HYDRA (DP)	Bob, Agent of HYDRA (DP)	Excessive Violence	510
+HYDRA	Bob, Agent of HYDRA	How do I get out of here	DP				6	3		1					1						1	1																											dp,jpg	10 2	Bob, Agent of HYDRA (DP)	Bob, Agent of HYDRA (DP)	""	511
+HYDRA	Bob, Agent of HYDRA	Epic middle manager	DP				8	1		1											1	1																1											dp,jpg	9 2	Bob, Agent of HYDRA (DP)	Bob, Agent of HYDRA (DP)	Excessive Violence	512
+New Warriors	Speedball	Reckless rescue attempt	CW				3	5	1					1						1					1														1		1								cw2,jpg	7 5	Speedball (CW)	Speedball (CW)	""	513
+New Warriors	Speedball	Bounce around	CW				4	5		1					1						1																		-1										cw2,jpg	6 5	Speedball (CW)	Speedball (CW)	""	514
+New Warriors	Speedball	Double Down	CW	25	Speedball		5	3	1													1																											cw2,jpg	5 5	Speedball (CW)	Speedball (CW)	""	515
+New Warriors	Speedball	Bubble up	CW	25	Namorita		5	3		1											1						-1																						cw2,jpg	5 5	Speedball (CW)	Speedball (CW)	""	516
+New Warriors	Speedball	Kinetic Force Field	CW				7	1	1												1																											Cancel master strike	cw2,jpg	8 5	Speedball (CW)	Speedball (CW)	""	517
+Brotherhood	Magneto	Magnetic levitation	V				3	5	1												1	1	1			-1																							villains2,jpg	5 2	Magneto (V)	Magneto (V)	Dodge	518
+Brotherhood	Magneto	Mutants will rule	V				4	5			1					1				1		1	1			1																							villains2,jpg	6 2	Magneto (V)	Magneto (V)	Dodge	519
+Brotherhood	Magneto	Weapons from scrap	V				5	3	1												1	1	-1																										villains2,jpg	7 2	Magneto (V)	Magneto (V)	""	520
+Brotherhood	Magneto	Master of Magnetism	V				7	1	1												1					1									2														villains2,jpg	4 2	Magneto (V)	Magneto (V)	""	521
+Brotherhood	Juggernaut	Crimson Gem Cyttorak	V				4	5			1					1				1																													villains,jpg	9 7	Juggernaut (V)	Juggernaut (V)	""	522
+Brotherhood	Juggernaut	Size Matters	V				4	5			1										1									2																			villains,jpg	8 7	Juggernaut (V)	Juggernaut (V)	""	523
+Brotherhood	Juggernaut	Runaway train	V				5	3			1										1		1																										villains,jpg	7 7	Juggernaut (V)	Juggernaut (V)	""	524
+Brotherhood	Juggernaut	Unstoppable force	V				8	1			1										1																	-1											villains2,jpg	1 1	Juggernaut (V)	Juggernaut (V)	""	525
+Brotherhood	Mystique	Show your true colors	V				3	5		1									-1	1		1	1																									Can be another class	villains2,jpg	4 3	Mystique (V)	Mystique (V)	Dodge	526
+Brotherhood	Mystique	Hidden weapons	V				4	5					1				1	1			1																												villains2,jpg	2 3	Mystique (V)	Mystique (V)	""	527
+Brotherhood	Mystique	Turn the tide	V				4	3				1																																				Probe hero deck, clone it	villains2,jpg	5 3	Mystique (V)	Mystique (V)	""	528
+Brotherhood	Mystique	Spy games	V				7	1		1											1																											Probe hero deck	villains2,jpg	3 3	Mystique (V)	Mystique (V)	""	529
+Brotherhood	Sabretooth	Leap of the tiger	V				3	5				1					1				1			1																									villains2,jpg	3 5	Sabretooth (V)	Sabretooth (V)	""	530
+Brotherhood	Sabretooth	Take one for the team	V				4	5				1								1				-1											1			1											villains2,jpg	4 5	Sabretooth (V)	Sabretooth (V)	""	531
+Brotherhood	Sabretooth	Stealthy predator	V				2	3		1												1	1	1																									villains2,jpg	2 5	Sabretooth (V)	Sabretooth (V)	""	532
+Brotherhood	Sabretooth	Upper Hand	V				7	1			1						1				1																	-1											villains2,jpg	5 5	Sabretooth (V)	Sabretooth (V)	""	533
+Sinister Six	Venom	Symbiote takeover	V				3	5			1					1				1					1																								villains2,jpg	10 6	Venom (V)	Venom (V)	""	534
+Sinister Six	Venom	Devour	V				4	5				1									1				-1														1										villains2,jpg	1 7	Venom (V)	Venom (V)	""	535
+Sinister Six	Venom	Horrify the populace	V				6	3			1										1				1																								villains2,jpg	8 6	Venom (V)	Venom (V)	""	536
+Sinister Six	Venom	Ravenous Greed	V				7	1				1					1			1	1				1														1										villains2,jpg	9 6	Venom (V)	Venom (V)	""	537
+Sinister Six	Green Goblin	Pumpkin Bombs	V				3	5					1								1	1	-1																										villains,jpg	5 7	Green Goblin (V)	Green Goblin (V)	Dodge	538
+Sinister Six	Green Goblin	Goblin Glider	V				4	5					1								1	1	1																										villains,jpg	4 7	Green Goblin (V)	Green Goblin (V)	Dodge	539
+Sinister Six	Green Goblin	Unstable kidnapper	V				5	3				1								1			-1		1																								villains,jpg	6 7	Green Goblin (V)	Green Goblin (V)	Dodge	540
+Sinister Six	Green Goblin	Experimental goblin sperm	V				7	1					1								1		-1																										villains,jpg	3 7	Green Goblin (V)	Green Goblin (V)	""	541
+Sinister Six	Dr. Octopus	Brilliant research	V				3	5					1					1		1																													villains2,jpg	1 4	Dr. Octopus (V)	Dr. Octopus (V)	""	542
+Sinister Six	Dr. Octopus	Crazed experiments	V				5	5					1								1	1																											villains2,jpg	10 3	Dr. Octopus (V)	Dr. Octopus (V)	""	543
+Sinister Six	Dr. Octopus	Eight times a charm	V				6	3			1										1	-1																											villains2,jpg	3 4	Dr. Octopus (V)	Dr. Octopus (V)	""	544
+Sinister Six	Dr. Octopus	Octo-pulverize	V				8	1					1								1		-1																										villains2,jpg	2 4	Dr. Octopus (V)	Dr. Octopus (V)	""	545
+Sinister Six	Mysterio	Psychedelic mist	V				2	5	1						1						1	1	1																										villains2,jpg	6 3	Mysterio (V)	Mysterio (V)	Dodge	546
+Sinister Six	Mysterio	Shifting decoy	V				3	5		1										1	1																					1						Filter HQ	villains2,jpg	8 3	Mysterio (V)	Mysterio (V)	""	547
+Sinister Six	Mysterio	Holographic illusion	V				3	3					1						2																														villains2,jpg	7 3	Mysterio (V)	Mysterio (V)	""	548
+Sinister Six	Mysterio	False reflection	V				7	1				1								1	1														2							1							villains2,jpg	9 3	Mysterio (V)	Mysterio (V)	""	549
+Sinister Six	Electro	Electroshock therapy	V				2	5	1													1	1	-1														1											villains,jpg	5 6	Electro (V)	Electro (V)	Dodge	550
+Sinister Six	Electro	Shocking robbery	V				3	5	1					1							1	1	1				-1																						villains,jpg	8 6	Electro (V)	Electro (V)	Dodge	551
+Sinister Six	Electro	Supercharge	V				5	3				1									1		-1																										villains,jpg	7 6	Electro (V)	Electro (V)	""	552
+Sinister Six	Electro	Anti-matter	V				7	1													1														2														villains,jpg	6 6	Electro (V)	Electro (V)	""	553
+Sinister Six	Kraven	Ceaseless Tracker	V				2	5				1								1		1	1												1														villains2,jpg	7 1	Kraven (V)	Kraven (V)	Dodge	554
+Sinister Six	Kraven	Corner the prey	V				4	5		1											1						-1																						villains2,jpg	6 1	Kraven (V)	Kraven (V)	""	555
+Sinister Six	Kraven	Hunt down	V				5	3			1										1						1																						villains2,jpg	8 1	Kraven (V)	Kraven (V)	""	556
+Sinister Six	Kraven	He's the best around	V				8	1				1									1																												villains2,jpg	9 1	Kraven (V)	Kraven (V)	""	557
+Asgard Foes	Enchantress	Enchant the senses	V				3	5	1					1							1											1																	villains,jpg	10 6	Enchantress (V)	Enchantress (V)	""	558
+Asgard Foes	Enchantress	Soul Sacrifice	V				4	5		1										1																		1											villains,jpg	1 7	Enchantress (V)	Enchantress (V)	""	559
+Asgard Foes	Enchantress	Irresistible Bribe	V				6	3		1					2					1																												Use MO for FI	villains,jpg	2 7	Enchantress (V)	Enchantress (V)	""	560
+Asgard Foes	Enchantress	Unending Anguish	V				7	1		1												1													1														villains,jpg	9 6	Enchantress (V)	Enchantress (V)	""	561
+Asgard Foes	Kuurth, Breaker of Stone	Reach for power	FI				4	5			1									1				-1						1																			fearitself,jpg	6 1	Kuurth, Breaker of Stone (FI)	Kuurth, Breaker of Stone (FI)	""	562
+Asgard Foes	Kuurth, Breaker of Stone	Unstoppable Sledge	FI				4	5	1												1																			1									fearitself,jpg	4 1	Kuurth, Breaker of Stone (FI)	Kuurth, Breaker of Stone (FI)	Thrown Artifact	563
+Asgard Foes	Kuurth, Breaker of Stone	Contest of strength	FI				5	3			1										1			-1											1														fearitself,jpg	5 1	Kuurth, Breaker of Stone (FI)	Kuurth, Breaker of Stone (FI)	""	564
+Asgard Foes	Kuurth, Breaker of Stone	Break every bone	FI				7	1			1										1			-1																									fearitself,jpg	7 1	Kuurth, Breaker of Stone (FI)	Kuurth, Breaker of Stone (FI)	""	565
+Asgard Foes	Greithoth, Breaker of Wills	Mace of chains	FI				3	5				1								1																				1									fearitself,jpg	1 3	Greithoth, Breaker of Wills (FI)	Greithoth, Breaker of Wills (FI)	Thrown Artifact	566
+Asgard Foes	Greithoth, Breaker of Wills	Absorb metal	FI				3	5		1											1																			-1									fearitself,jpg	10 2	Greithoth, Breaker of Wills (FI)	Greithoth, Breaker of Wills (FI)	""	567
+Asgard Foes	Greithoth, Breaker of Wills	Break the will to resist	FI				5	3			1				1						1																												fearitself,jpg	2 3	Greithoth, Breaker of Wills (FI)	Greithoth, Breaker of Wills (FI)	""	568
+Asgard Foes	Greithoth, Breaker of Wills	Body of Uru	FI				7	1		1											1																			-1									fearitself,jpg	3 3	Greithoth, Breaker of Wills (FI)	Greithoth, Breaker of Wills (FI)	""	569
+Asgard Foes	Nul, Breaker of Worlds	Demolition derby	FI		Hulk		3	5			1					1				1		1																											fearitself,jpg	8 1	Nul, Breaker of Worlds (FI)	Nul, Breaker of Worlds (FI)	Demolish	570
+Asgard Foes	Nul, Breaker of Worlds	Otherworldly Maul	FI		Hulk		4	5				1				2					1																			1									fearitself,jpg	9 1	Nul, Breaker of Worlds (FI)	Nul, Breaker of Worlds (FI)	Thrown Artifact	571
+Asgard Foes	Nul, Breaker of Worlds	Nul Smash!	FI		Hulk		6	3			1										1					1																							fearitself,jpg	10 1	Nul, Breaker of Worlds (FI)	Nul, Breaker of Worlds (FI)	""	572
+Asgard Foes	Nul, Breaker of Worlds	Break the world	FI		Hulk		8	1			1										1																	1											fearitself,jpg	1 2	Nul, Breaker of Worlds (FI)	Nul, Breaker of Worlds (FI)	Demolish	573
+Asgard Foes	Nerkkod, Breaker of Oceans	Pull of the tides	FI				3	5			1									1							1																						fearitself,jpg	7 2	Nerkkod, Breaker of Oceans (FI)	Nerkkod, Breaker of Oceans (FI)	""	574
+Asgard Foes	Nerkkod, Breaker of Oceans	Feed my undersea legions	FI				4	5		1											1						-1					1						1											fearitself,jpg	6 2	Nerkkod, Breaker of Oceans (FI)	Nerkkod, Breaker of Oceans (FI)	""	575
+Asgard Foes	Nerkkod, Breaker of Oceans	Cudgel of the deep	FI				5	3	1												1						-1													1									fearitself,jpg	8 2	Nerkkod, Breaker of Oceans (FI)	Nerkkod, Breaker of Oceans (FI)	Thrown Artifact	576
+Asgard Foes	Nerkkod, Breaker of Oceans	Break their loyalties	FI				7	1				1									1											-1			1														fearitself,jpg	9 2	Nerkkod, Breaker of Oceans (FI)	Nerkkod, Breaker of Oceans (FI)	""	577
+Asgard Foes	Skirn, Breaker of Men	Towering leader	FI				3	5				1					1															1																	fearitself,jpg	4 2	Skirn, Breaker of Men (FI)	Skirn, Breaker of Men (FI)	""	578
+Asgard Foes	Skirn, Breaker of Men	Underhanded dealings	FI				4	5		1					1						1	1																											fearitself,jpg	3 2	Skirn, Breaker of Men (FI)	Skirn, Breaker of Men (FI)	""	579
+Asgard Foes	Skirn, Breaker of Men	Titanic bludgeon	FI				2	3	1												1	-1																		1									fearitself,jpg	2 2	Skirn, Breaker of Men (FI)	Skirn, Breaker of Men (FI)	Thrown Artifact	580
+Asgard Foes	Skirn, Breaker of Men	Break your hopes	FI				7	1			1				1						1	1																											fearitself,jpg	5 2	Skirn, Breaker of Men (FI)	Skirn, Breaker of Men (FI)	""	581
+Asgard Foes	Loki	All humans are expendable	V				3	5		1					1						1											1						1											villains2,jpg	3 2	Loki (V)	Loki (V)	""	582
+Asgard Foes	Loki	Illusionary bindings	V				4	5	1					1						1						1																							villains2,jpg	10 1	Loki (V)	Loki (V)	""	583
+Asgard Foes	Loki	Father of lies	V				5	3		1											1																											Steal other player's heroes	villains2,jpg	2 2	Loki (V)	Loki (V)	""	584
+Asgard Foes	Loki	God of mischief	V				8	1		1											1														1														villains2,jpg	1 2	Loki (V)	Loki (V)	""	585
+Crime Syndicate	Bullseye	Fulfill the contract	V				2	5				1								1		1	1														1												villains,jpg	2 4	Bullseye (V)	Bullseye (V)	Dodge	586
+Crime Syndicate	Bullseye	Everything's a weapon	V				3	5	1								1				1	1																											villains,jpg	4 4	Bullseye (V)	Bullseye (V)	""	587
+Crime Syndicate	Bullseye	Specialist Assassin	V				6	3		1											1																1												villains,jpg	3 4	Bullseye (V)	Bullseye (V)	""	588
+Crime Syndicate	Bullseye	Perfect aim	V				7	1	1												1																												villains,jpg	1 4	Bullseye (V)	Bullseye (V)	""	589
+Crime Syndicate	Kingpin	Recruitment day	V				3	5			1					1				1												1																	villains2,jpg	3 1	Kingpin (V)	Kingpin (V)	""	590
+Crime Syndicate	Kingpin	Pull the strings	V				3	5		1																						-1																	villains2,jpg	5 1	Kingpin (V)	Kingpin (V)	""	591
+Crime Syndicate	Kingpin	Import illegal weapons	V				5	3					1								1											-1																	villains2,jpg	4 1	Kingpin (V)	Kingpin (V)	""	592
+Crime Syndicate	Kingpin	Endless underlings	V				8	1			1																					1			2														villains2,jpg	2 1	Kingpin (V)	Kingpin (V)	""	593
+HYDRA	Skadi	Dark prophecy	FI				3	5					1					1		1																												Gain Madama Hydra (shield officer)	fearitself,jpg	5 3	Skadi (FI)	Skadi (FI)	""	594
+HYDRA	Skadi	Ancient oath of hydra	FI				5	5					1								1	1	1																										fearitself,jpg	4 3	Skadi (FI)	Skadi (FI)	""	595
+HYDRA	Skadi	Hammer of the serpent	FI				5	3			1										1		-1																	1									fearitself,jpg	6 3	Skadi (FI)	Skadi (FI)	Thrown Artifact	596
+HYDRA	Skadi	War banner of hydra	FI				7	1		1											1														2					1									fearitself,jpg	7 3	Skadi (FI)	Skadi (FI)	Thrown Artifact	597
+NONE	Ultron	Encephalo-ray	V				2	5					1					2			1	1																											villains2,jpg	8 5	Ultron (V)	Ultron (V)	Dodge	598
+NONE	Ultron	Army of ultrons	V				3	5					1							1		1																										Generates color S	villains2,jpg	6 5	Ultron (V)	Ultron (V)	Dodge	599
+NONE	Ultron	Genetic experimentation	V				6	3					1					2			1				1																								villains2,jpg	7 5	Ultron (V)	Ultron (V)	""	600
+NONE	Ultron	Molecular rearrangement	V				8	1					1					1			1																												villains2,jpg	9 5	Ultron (V)	Ultron (V)	""	601
+Champions	Totally Awesome Hulk	Beloved Behemoth	CH		Hulk		4	5			1					1					1				1																								champions,jpg	8 3	Totally Awesome Hulk (CH)	Totally Awesome Hulk (CH)	Size-Changing	602
+Champions	Totally Awesome Hulk	Incredible mind, awesome body	CH		Hulk		4	5					1					1		1		1			-1																								champions,jpg	9 3	Totally Awesome Hulk (CH)	Totally Awesome Hulk (CH)	Size-Changing|Cheering Crowds	603
+Champions	Totally Awesome Hulk	Growing pains	CH		Hulk		5	3			1					1					1					1																							champions,jpg	10 3	Totally Awesome Hulk (CH)	Totally Awesome Hulk (CH)	Size-Changing	604
+Champions	Totally Awesome Hulk	Smartest man in the world	CH		Hulk		9	1					1			1		1			1	-1																											champions,jpg	7 3	Totally Awesome Hulk (CH)	Totally Awesome Hulk (CH)	Size-Changing	605
+Champions	Ms. Marvel	Long arm of the law	CH				3	5		1					1							1			1																								champions,jpg	3 1	Ms. Marvel (CH)	Ms. Marvel (CH)	Size-Changing	606
+Champions	Ms. Marvel	Big Impact	CH				4	5			1					1				1	1																						1						champions,jpg	4 1	Ms. Marvel (CH)	Ms. Marvel (CH)	Size-Changing|Versatile	607
+Champions	Ms. Marvel	Need to stretch my legs	CH				6	3		1					1						1				-1													1											champions,jpg	5 1	Ms. Marvel (CH)	Ms. Marvel (CH)	Size-Changing|Cheering Crowds	608
+Champions	Ms. Marvel	Rising Hope	CH				9	1			1				1	1				1	1				-1																		1						champions,jpg	2 1	Ms. Marvel (CH)	Ms. Marvel (CH)	Size-Changing|Versatile|Cheering Crowds	609
+Champions	Nova	Space cop	CH		Nova		2	5			1									1	1				1										1								1						champions,jpg	5 2	Nova (CH)	Nova (CH)	Versatile	610
+Champions	Nova	Interstellar Hero	CH		Nova		4	5	1											1	1				-1																		1						champions,jpg	6 2	Nova (CH)	Nova (CH)	Versatile|Cheering Crowds	611
+Champions	Nova	Holographic Projection	CH		Nova		5	3	1					1						1	1																						1						champions,jpg	7 2	Nova (CH)	Nova (CH)	Versatile	612
+Champions	Nova	Growing Nova-Force	CH		Nova		9	1	1					1		1				1	1																					1							champions,jpg	4 2	Nova (CH)	Nova (CH)	Size-Changing	613
+Champions	Viv Vision	Walking Wi-fi	CH				3	5					1					1		1					1																								champions,jpg	2 4	Viv Vision (CH)	Viv Vision (CH)	""	614
+Champions	Viv Vision	Expanding neural network	CH				4	5					1					1			1																												champions,jpg	3 4	Viv Vision (CH)	Viv Vision (CH)	Size-Changing	615
+Champions	Viv Vision	Crowdsourcing	CH				6	3	1											1	1				-1																		1						champions,jpg	4 4	Viv Vision (CH)	Viv Vision (CH)	Versatile|Cheering Crowds	616
+Champions	Viv Vision	Alter molecular density	CH				9	1					1	1				1		1	1																												champions,jpg	1 4	Viv Vision (CH)	Viv Vision (CH)	Size-Changing	617
+Champions	Gwenpool	Come on, nobody reads these	CH				2	5		1					1					1	1																						1						champions,jpg	5 5	Gwenpool (CH)	Gwenpool (CH)	Versatile	618
+Champions	Gwenpool	I'll rescue you if I feel like it	CH				3	5				1									1				1																								champions,jpg	6 5	Gwenpool (CH)	Gwenpool (CH)	""	619
+Champions	Gwenpool	I heard keywords are powerful	CH				6	3				1					1				1	1			-1																								champions,jpg	1 1	Gwenpool (CH)	Gwenpool (CH)	Size-Changing|Cheering Crowds	620
+Champions	Gwenpool	I'm the best at board games	CH				7	1				1									1	1																										Demolish the others	champions,jpg	4 5	Gwenpool (CH)	Gwenpool (CH)	Demolish	621
+Crime Syndicate	Joe Fixit, Grey Hulk	Carefully considered smashing	WW		Hulk		3	5			1					1				1	1		1																										hulk2,jpg	9 4	Joe Fixit, Grey Hulk (WW)	Joe Fixit, Grey Hulk (WW)	Smash	622
+Crime Syndicate	Joe Fixit, Grey Hulk	Threaten and bribe	WW		Hulk		4	5		1										1																												Generates bribe	hulk2,jpg	8 4	Joe Fixit, Grey Hulk (WW)	Joe Fixit, Grey Hulk (WW)	""	623
+Crime Syndicate	Joe Fixit, Grey Hulk	Ambitious enforcer	WW	T1	Hulk	1	3	3			1										1																												hulk2,jpg	10 4	Joe Fixit, Grey Hulk (WW)	Joe Fixit, Grey Hulk (WW)	""	624
+Crime Syndicate	Joe Fixit, Grey Hulk	Underworld Boss	WW	T1	Hulk		6	3				1									1																												hulk2,jpg	1 5	Joe Fixit, Grey Hulk (WW)	Joe Fixit, Grey Hulk (WW)	""	625
+Crime Syndicate	Joe Fixit, Grey Hulk	Hulk runs this town	WW		Hulk		7	1		1										1																												Generates bribe	hulk2,jpg	7 4	Joe Fixit, Grey Hulk (WW)	Joe Fixit, Grey Hulk (WW)	""	626
+Avengers	Hulkbuster Iron Man	Pound for pound	WW		Iron Man		2	5			1							1			1	1																											hulk2,jpg	9 2	Hulkbuster Iron Man (WW)	Hulkbuster Iron Man (WW)	""	627
+Avengers	Hulkbuster Iron Man	Attune tectonic transducer	WW		Iron Man		4	5					1								1		1								1																		hulk2,jpg	10 2	Hulkbuster Iron Man (WW)	Hulkbuster Iron Man (WW)	Outwit|Smash	628
+Avengers	Hulkbuster Iron Man	Build the suit	WW	T2	Iron Man	1	5	3					1			1		1		1																													hulk2,jpg	8 2	Hulkbuster Iron Man (WW)	Hulkbuster Iron Man (WW)	""	629
+Avengers	Hulkbuster Iron Man	Ultra-massive armor	WW	T2	Iron Man		6	3					1								1	1	1																										hulk2,jpg	1 3	Hulkbuster Iron Man (WW)	Hulkbuster Iron Man (WW)	Smash	630
+Avengers	Hulkbuster Iron Man	Final battle	WW		Iron Man		8	1					1			2		2			1																												hulk2,jpg	7 2	Hulkbuster Iron Man (WW)	Hulkbuster Iron Man (WW)	""	631
+Planet Hulk	Hiroim	Seek redemption	WW				3	5		1					1						1				1																								hulk2,jpg	5 2	Hiroim (WW)	Hiroim (WW)	""	632
+Planet Hulk	Hiroim	Save from the rubble	WW	T3		1	4	5		1										1		1			-1																								hulk2,jpg	4 2	Hiroim (WW)	Hiroim (WW)	""	633
+Planet Hulk	Hiroim	Hiroim redeemed	WW	T3			5	5			1										1				-2																								hulk2,jpg	6 2	Hiroim (WW)	Hiroim (WW)	""	634
+Planet Hulk	Hiroim	Mystic shadow priest	WW				6	3		1											1				1	-1									1			1											hulk2,jpg	3 2	Hiroim (WW)	Hiroim (WW)	""	635
+Planet Hulk	Hiroim	Blade of the people	WW				7	1				1									1				1																								hulk2,jpg	2 2	Hiroim (WW)	Hiroim (WW)	""	636
+Planet Hulk	Gladiator Hulk	Don't make me angry	WW		Hulk		3	5			1										1	1	1																										hulk2,jpg	6 1	Gladiator Hulk (WW)	Gladiator Hulk (WW)	Smash	637
+Planet Hulk	Gladiator Hulk	Seize the throne	WW	T4	Hulk	1	4	5				1									1		-1																										hulk2,jpg	7 1	Gladiator Hulk (WW)	Gladiator Hulk (WW)	Smash	638
+Planet Hulk	Gladiator Hulk	Hulk is King	WW	T4	Hulk		5	5			1										1		-1																										hulk2,jpg	8 1	Gladiator Hulk (WW)	Gladiator Hulk (WW)	""	639
+Planet Hulk	Gladiator Hulk	The green scar	WW		Hulk		5	3			1					1					1					1																							hulk2,jpg	5 1	Gladiator Hulk (WW)	Gladiator Hulk (WW)	Cross-Dimensional Rampage|Wounded Fury	640
+Planet Hulk	Gladiator Hulk	Double-fisted smashing	WW		Hulk		8	1													1		-1																										hulk2,jpg	4 1	Gladiator Hulk (WW)	Gladiator Hulk (WW)	Smash	641
+Planet Hulk	Caiera	Shadow queen	WW				2	5		1											1	1									1																		hulk3,jpg	7 2	Caiera (WW)	Caiera (WW)	Outwit	642
+Planet Hulk	Caiera	Shadowforged blade	WW				4	5		1					1						1		1																										hulk3,jpg	8 2	Caiera (WW)	Caiera (WW)	Smash	643
+Planet Hulk	Caiera	Focus the old power	WW				6	3			1										1										1							1											hulk3,jpg	6 2	Caiera (WW)	Caiera (WW)	Outwit	644
+Planet Hulk	Caiera	Dutiful protector	WW	T4.5			7	1				1																										-1											hulk3,jpg	5 2	Caiera (WW)	Caiera (WW)	""	645
+Planet Hulk	Caiera	Vengeful destructor	WW	T4.5			7	1			1																																						hulk3,jpg	9 2	Caiera (WW)	Caiera (WW)	""	646
+Avengers	Sentry	Agoraphobia	WW	T5		1	2	5		1																																							hulk,jpg	4 4	Sentry (WW)	Sentry (WW)	""	647
+Avengers	Sentry	Golden guardian of good	WW	T5			6	5			1										1																												hulk,jpg	6 4	Sentry (WW)	Sentry (WW)	""	648
+Avengers	Sentry	Rival personalities	WW				4	5													1																											Better if more transform cards	hulk,jpg	5 4	Sentry (WW)	Sentry (WW)	""	649
+Avengers	Sentry	Mournful Sentinel	WW	T6		1	3	3	1											1																													hulk,jpg	3 4	Sentry (WW)	Sentry (WW)	""	650
+NONE	Sentry	The void unchained	WW	T6			5	3		1											1																	1											hulk,jpg	7 4	Sentry (WW)	Sentry (WW)	Feast	651
+Avengers	Sentry	Vast unstable power	WW				8	1	1												1																											Can turn into a mastermind	hulk,jpg	2 4	Sentry (WW)	Sentry (WW)	""	652
+Avengers	She-Hulk	Hurl Legal Objections	WW	T7		1	3	5				1								1																													hulk,jpg	1 5	She-Hulk (WW)	She-Hulk (WW)	""	653
+Avengers	She-Hulk	Hurl trucks	WW	T7			6	5			1										1		1																										hulk,jpg	2 5	She-Hulk (WW)	She-Hulk (WW)	Smash	654
+Avengers	She-Hulk	Window of opportunity	WW				4	5			1									1		1									1																		hulk,jpg	10 4	She-Hulk (WW)	She-Hulk (WW)	Outwit	655
+Avengers	She-Hulk	Radioactive Riot	WW				6	3			1										1																	1											hulk,jpg	9 4	She-Hulk (WW)	She-Hulk (WW)	""	656
+Avengers	She-Hulk	Jade giantess	WW				8	1			1									1	1																												hulk,jpg	8 4	She-Hulk (WW)	She-Hulk (WW)	""	657
+Avengers	Skaar, Son of Hulk	Anger management	WW				3	5			1					1					1		1																										hulk,jpg	5 5	Skaar, Son of Hulk (WW)	Skaar, Son of Hulk (WW)	Smash	658
+Avengers	Skaar, Son of Hulk	Scarred past	WW				3	5				1					1				1					-1																							hulk,jpg	6 5	Skaar, Son of Hulk (WW)	Skaar, Son of Hulk (WW)	Wounded Fury	659
+Avengers	Skaar, Son of Hulk	Mood Swings	WW	T8		1	5	3				1					1			1						1																							hulk,jpg	4 5	Skaar, Son of Hulk (WW)	Skaar, Son of Hulk (WW)	""	660
+Avengers	Skaar, Son of Hulk	Raging Savage	WW	T8			6	3			1										1					-1																							hulk,jpg	7 5	Skaar, Son of Hulk (WW)	Skaar, Son of Hulk (WW)	Wounded Fury	661
+Avengers	Skaar, Son of Hulk	Planetary-Level Revenge	WW				8	1			1										1					-1																							hulk,jpg	3 5	Skaar, Son of Hulk (WW)	Skaar, Son of Hulk (WW)	Wounded Fury	662
+Planet Hulk	No-Name, Brood Queen	Surprise Attack	WW				2	5		1											1	1																											hulk3,jpg	9 1	No-Name, Brood Queen (WW)	No-Name, Brood Queen (WW)	""	663
+Planet Hulk	No-Name, Brood Queen	Appetite for destruction	WW				4	5		1					1						1		1	1														1											hulk3,jpg	8 1	No-Name, Brood Queen (WW)	No-Name, Brood Queen (WW)	Feast	664
+Planet Hulk	No-Name, Brood Queen	Bursting with life	WW	T9		1	3	3			1									1																		-1											hulk3,jpg	7 1	No-Name, Brood Queen (WW)	No-Name, Brood Queen (WW)	Feast	665
+Planet Hulk	No-Name, Brood Queen	Torrent of broodlings	WW	T9			5	3		1											1	1																											hulk3,jpg	10 1	No-Name, Brood Queen (WW)	No-Name, Brood Queen (WW)	""	666
+Planet Hulk	No-Name, Brood Queen	World-spanning hunger	WW				8	1				1									1																	-1											hulk3,jpg	6 1	No-Name, Brood Queen (WW)	No-Name, Brood Queen (WW)	Feast	667
+SHIELD	Rick Jones	Hacktivist	WW				3	5					1					1			1														1														hulk,jpg	8 1	Rick Jones (WW)	Rick Jones (WW)	""	668
+SHIELD	Rick Jones	Seek the nega-bands	WW	T10		1	4	5				1								1				-1					-1																			Heroes of 3 or more	hulk,jpg	9 1	Rick Jones (WW)	Rick Jones (WW)	""	669
+Avengers	Rick Jones	Captain Marvel	WW	T10	Captain Marvel		5	5	1												1			-1					-1																			Heroes of 3 or more	hulk,jpg	2 2	Rick Jones (WW)	Rick Jones (WW)	""	670
+SHIELD	Rick Jones	Irradiated blood	WW	T11		1	5	3					1								1																1											villains in general	hulk,jpg	7 1	Rick Jones (WW)	Rick Jones (WW)	""	671
+NONE	Rick Jones	A-bomb	WW	T11			6	3			1										1		1																										hulk,jpg	1 2	Rick Jones (WW)	Rick Jones (WW)	Smash	672
+SHIELD	Rick Jones	Caught in Kree-Skrull war	WW	T12		1	7	1		1											1																												hulk,jpg	6 1	Rick Jones (WW)	Rick Jones (WW)	""	673
+Avengers	Rick Jones	The destiny force	WW	T12	Captain Marvel		9	1	1													1																											hulk,jpg	10 1	Rick Jones (WW)	Rick Jones (WW)	""	674
+Champions	Namora	Crushing tsunami	WW				3	5	1					1							1	1	1																										hulk2,jpg	7 7	Namora (WW)	Namora (WW)	Smash	675
+Champions	Namora	Heart of the ocean	WW				4	5		1											1						-1																						hulk2,jpg	6 7	Namora (WW)	Namora (WW)	""	676
+Champions	Namora	Herculean effort	WW	T13		1	5	3	1											1							-1																						hulk2,jpg	5 7	Namora (WW)	Namora (WW)	""	677
+Champions	Namora	Master of depths	WW	T13			6	3			1										1		1															1											hulk2,jpg	8 7	Namora (WW)	Namora (WW)	Smash	678
+Champions	Namora	Turning the tide	WW				7	1		1					1						1						1																						hulk2,jpg	4 7	Namora (WW)	Namora (WW)	""	679
+Planet Hulk	Miek, The Unhived	This bug smashes you	WW				3	5				1									1		1																										hulk2,jpg	6 6	Miek, The Unhived (WW)	Miek, The Unhived (WW)	Smash	680
+Planet Hulk	Miek, The Unhived	Devouring frenzy	WW				4	5				1					1			1				1														1											hulk2,jpg	5 6	Miek, The Unhived (WW)	Miek, The Unhived (WW)	Feast	681
+Planet Hulk	Miek, The Unhived	Endless appetite	WW				5	3				1									1	1																-1										Requires KO from deck	hulk2,jpg	4 6	Miek, The Unhived (WW)	Miek, The Unhived (WW)	""	682
+Planet Hulk	Miek, The Unhived	Metamorphosis	WW	T14		1	7	1		1										1				-1														1											hulk2,jpg	3 6	Miek, The Unhived (WW)	Miek, The Unhived (WW)	Feast	683
+Planet Hulk	Miek, The Unhived	Hive King Miek	WW	T14			8	1			1										1			1														1											hulk2,jpg	7 6	Miek, The Unhived (WW)	Miek, The Unhived (WW)	Feast	684
+Planet Hulk	Korg	Nothing beats rock	WW				2	5			1					1					1	1	1			-1																							hulk2,jpg	10 5	Korg (WW)	Korg (WW)	Smash	685
+Planet Hulk	Korg	Move mountains	WW				4	5			1										1	1									1																		hulk2,jpg	1 6	Korg (WW)	Korg (WW)	Outwit	686
+Planet Hulk	Korg	Forged by Fire	WW	T15		1	3	3			1					2				1																													hulk2,jpg	9 5	Korg (WW)	Korg (WW)	""	687
+Planet Hulk	Korg	Lord of granite	WW	T15			5	3		1											1	1	1																										hulk2,jpg	2 6	Korg (WW)	Korg (WW)	Smash	688
+Planet Hulk	Korg	Kronan tactician	WW				8	1			1										1																									1			hulk2,jpg	8 5	Korg (WW)	Korg (WW)	""	689
+Avengers	Bruce Banner	Solve the impossible	WW				2	5					1								1										1																		hulk3,jpg	3 1	Bruce Banner (WW)	Bruce Banner (WW)	Outwit	690
+Avengers	Bruce Banner	Gamma bomb disaster	WW	T16		1	4	5					1							1											1																		hulk3,jpg	4 1	Bruce Banner (WW)	Bruce Banner (WW)	Outwit	691
+Avengers	Bruce Banner	Savage Hulk Unleashed	WW	T16	Hulk		5	4			1										1		1																										hulk3,jpg	5 1	Bruce Banner (WW)	Bruce Banner (WW)	Smash	692
+Avengers	Bruce Banner	Dangerous testing	WW				6	3					1					1			1			-1														1											hulk3,jpg	2 1	Bruce Banner (WW)	Bruce Banner (WW)	""	693
+Avengers	Bruce Banner	Gamma ray experiment	WW				7	1					1								1	1		1														1											hulk3,jpg	1 1	Bruce Banner (WW)	Bruce Banner (WW)	Outwit	694
+Champions	Amadeus Cho	Extrapolate	WW				2	5				1								1		1									1																		hulk3,jpg	2 3	Amadeus Cho (WW)	Amadeus Cho (WW)	Outwit	695
+Champions	Amadeus Cho	Gamma-draining nanites	WW	T17		1	3	5					1									-1																											hulk3,jpg	3 3	Amadeus Cho (WW)	Amadeus Cho (WW)	""	696
+Champions	Amadeus Cho	Like totally Smart Hulk	WW	T17	Hulk		5	5			1										1										1																		hulk3,jpg	4 3	Amadeus Cho (WW)	Amadeus Cho (WW)	Outwit	697
+Champions	Amadeus Cho	Renegade genius	WW				6	3					1								1	1									1																		hulk3,jpg	1 3	Amadeus Cho (WW)	Amadeus Cho (WW)	Outwit	698
+Champions	Amadeus Cho	Visualize the Variables	WW				8	1					1											1							1							1											hulk3,jpg	10 2	Amadeus Cho (WW)	Amadeus Cho (WW)	Outwit	699
+NONE	Happy Hogan	Head of Security	HC				3	5				1								1						-1																							homecoming,jpg	7 1	Happy Hogan (HC)	Happy Hogan (HC)	Coordinate	700
+NONE	Happy Hogan	Watchful Eye	HC				4	5				1					1				1																				1								homecoming,jpg	8 1	Happy Hogan (HC)	Happy Hogan (HC)	Danger Sense	701
+NONE	Happy Hogan	Loyal Friend	HC				5	3					1								1																												homecoming,jpg	9 1	Happy Hogan (HC)	Happy Hogan (HC)	Coordinate|Striker	702
+NONE	Happy Hogan	Asset Management	HC				5	1				1									1																												homecoming,jpg	10 1	Happy Hogan (HC)	Happy Hogan (HC)	Striker	703
+Venompool	Carnage	Rending Claws	VE				3	5				1									1	1																											venom2,jpg	4 2	Carnage (VE)	Carnage (VE)	Excessive Violence	704
+Venompool	Carnage	Carnivore	VE				4	5			1									1		2																											venom2,jpg	3 2	Carnage (VE)	Carnage (VE)	Digest|Excessive Violence	705
+Venompool	Carnage	Gruesome Feast	VE				6	3		1											1																	1											venom2,jpg	2 2	Carnage (VE)	Carnage (VE)	Excessive Violence	706
+Venompool	Carnage	Feast or Famine	VE				8	1		1											1																	1											venom2,jpg	1 2	Carnage (VE)	Carnage (VE)	Excessive Violence	707
+Venompool	Venompool	Digest that Chimichanga	VE		Deadpool		2	5			1					1					1				1																								venom2,jpg	1 5	Venompool (VE)	Venompool (VE)	Digest	708
+Venompool	Venompool	Shenanigans	VE		Deadpool		3	5					1									2																											venom2,jpg	2 5	Venompool (VE)	Venompool (VE)	""	709
+Venompool	Venompool	Can I get a little gratitude?	VE		Deadpool		5	3				1													1																								venom2,jpg	10 4	Venompool (VE)	Venompool (VE)	Excessive Violence	710
+Venompool	Venompool	Play to the crowd	VE		Deadpool		7	1			1										1				1										1														venom2,jpg	9 4	Venompool (VE)	Venompool (VE)	Digest	711
+Venompool	Venomized Dr. Strange	Cauldron of the Cosmos	VE				2	5	1											1		1																											venom,png	10 1	Venomized Dr. Strange (VE)	Venomized Dr. Strange (VE)	Digest	712
+Venompool	Venomized Dr. Strange	Secure Timelines	VE				4	5	1					1							1		1	-1																									venom,png	5 1	Venomized Dr. Strange (VE)	Venomized Dr. Strange (VE)	""	713
+Venompool	Venomized Dr. Strange	Complete the grand ritual	VE				6	3				1									1								1	1																			venom,png	2 1	Venomized Dr. Strange (VE)	Venomized Dr. Strange (VE)	""	714
+Venompool	Venomized Dr. Strange	Crystal of Kadavus	VE				8	1	1												1	1	1												1			1											venom,png	1 1	Venomized Dr. Strange (VE)	Venomized Dr. Strange (VE)	""	715
+Venompool	Venom	Devouring Drool	VE				3	5				1					1			1	1																												venom2,jpg	6 1	Venom (VE)	Venom (VE)	Digest	716
+Venompool	Venom	Razor Teeth	VE				4	5			1									1	1																												venom2,jpg	5 1	Venom (VE)	Venom (VE)	Excessive Violence	717
+Venompool	Venom	Symbiotic Adaptation	VE				6	3				1								1	1																												venom2,jpg	4 1	Venom (VE)	Venom (VE)	""	718
+Venompool	Venom	Insatiable Hunger	VE				8	1				1								1	1														1			1											venom2,jpg	3 1	Venom (VE)	Venom (VE)	Digest	719
+Venompool	Venom Rocket	Hungry for action	VE				3	5				1									1	1	1																										venom2,jpg	2 1	Venom Rocket (VE)	Venom Rocket (VE)	Digest	720
+Venompool	Venom Rocket	Spring the trap	VE				4	5					1								1																												venom2,jpg	1 1	Venom Rocket (VE)	Venom Rocket (VE)	""	721
+Venompool	Venom Rocket	Serious overkill	VE				5	3	1												1																	1											venom2,jpg	10 5	Venom Rocket (VE)	Venom Rocket (VE)	Excessive Violence	722
+Venompool	Venom Rocket	Ultimate survivor	VE				7	1					1								1																												venom2,jpg	9 5	Venom Rocket (VE)	Venom Rocket (VE)	""	723
+Spidermen	Peter Parker, Homecoming	Avenger in Training	HC		Spiderman		2	5				1					1				1			1																	1								homecoming,jpg	10 2	Peter Parker, Homecoming (HC)	Peter Parker, Homecoming (HC)	Wall-Crawl|Danger Sense	724
+Spidermen	Peter Parker, Homecoming	Heightened Senses	HC		Spiderman		2	5		1											1	1		-1																	1								homecoming,jpg	1 3	Peter Parker, Homecoming (HC)	Peter Parker, Homecoming (HC)	Danger Sense	725
+Spidermen	Peter Parker, Homecoming	Homemade web-shooters	HC		Spiderman		2	3					1					1			1			1																	1								homecoming,jpg	2 3	Peter Parker, Homecoming (HC)	Peter Parker, Homecoming (HC)	Wall-Crawl|Danger Sense	726
+Spidermen	Peter Parker, Homecoming	Something is happening	HC		Spiderman		2	1			1										1			1																	1								homecoming,jpg	9 2	Peter Parker, Homecoming (HC)	Peter Parker, Homecoming (HC)	Wall-Crawl|Coordinate|Danger Sense	727
+Spidermen	Peter's Allies	Ned	HC				2	5		1					1					1																													homecoming,jpg	6 2	Peter's Allies (HC)	Peter's Allies (HC)	Coordinate	728
+Spidermen	Peter's Allies	Michelle	HC				3	5		1										1																													homecoming,jpg	5 2	Peter's Allies (HC)	Peter's Allies (HC)	""	729
+Spidermen	Peter's Allies	Liz	HC				6	3				1								1																													homecoming,jpg	7 2	Peter's Allies (HC)	Peter's Allies (HC)	Coordinate	730
+Spidermen	Peter's Allies	May Parker	HC				7	1												1															1														homecoming,jpg	8 2	Peter's Allies (HC)	Peter's Allies (HC)	Coordinate	731
+Spidermen	High-Tech Spider-Man	Recon Drone Connection	HC		Spiderman		2	5					1								1			1																	1								homecoming,jpg	3 2	High-Tech Spider-Man (HC)	High-Tech Spider-Man (HC)	Wall-Crawl|Danger Sense	732
+Spidermen	High-Tech Spider-Man	Advanced Targeting System	HC		Spiderman		2	5		1					1							2		-1																									homecoming,jpg	2 2	High-Tech Spider-Man (HC)	High-Tech Spider-Man (HC)	""	733
+Spidermen	High-Tech Spider-Man	Spider-Grip	HC		Spiderman		2	3					1					1			1			1			-1																						homecoming,jpg	4 2	High-Tech Spider-Man (HC)	High-Tech Spider-Man (HC)	Wall-Crawl	734
+Spidermen	High-Tech Spider-Man	Friendly Neighborhood	HC		Spiderman		2	1					1								1			1			-1																						homecoming,jpg	1 2	High-Tech Spider-Man (HC)	High-Tech Spider-Man (HC)	Wall-Crawl|Coordinate	735
+Avengers	Ant-Man	Ride the Ants	AM				4	5					1					1			1	1																											antman,jpg	2 4	Ant-Man (AM)	Ant-Man (AM)	Size-Changing	736
+Avengers	Ant-Man	Risky Science	AM				5	5					1					2			1	1	1																										antman,jpg	1 4	Ant-Man (AM)	Ant-Man (AM)	Size-Changing	737
+Avengers	Ant-Man	Giant Ego	AM				6	3			1							1			1	-1																											antman,jpg	10 3	Ant-Man (AM)	Ant-Man (AM)	Size-Changing	738
+Avengers	Ant-Man	Pym Particles	AM				9	1					1					2			1																												antman,jpg	9 3	Ant-Man (AM)	Ant-Man (AM)	Size-Changing	739
+Avengers	Black Knight	Defend the Weak	AM				3	5			1					1				1																													antman,jpg	8 4	Black Knight (AM)	Black Knight (AM)	""	740
+Avengers	Black Knight	Amulet of Avalon	AM				3	5				1									1																												antman,jpg	9 4	Black Knight (AM)	Black Knight (AM)	Empowered	741
+Avengers	Black Knight	Flying Steed	AM				6	3		1											1																												antman,jpg	7 4	Black Knight (AM)	Black Knight (AM)	""	742
+Avengers	Black Knight	The Ebony Blade	AM				7	1				1									1																												antman,jpg	6 4	Black Knight (AM)	Black Knight (AM)	""	743
+Avengers	Jocasta	Creation of Ultron	AM				3	5					1					2			1																												antman,jpg	2 5	Jocasta (AM)	Jocasta (AM)	Empowered	744
+Avengers	Jocasta	Reprocess	AM				4	5	1											1																													antman,jpg	3 5	Jocasta (AM)	Jocasta (AM)	""	745
+Avengers	Jocasta	Holographic Image Inducer	AM				6	3					1					1				2																											antman,jpg	1 5	Jocasta (AM)	Jocasta (AM)	Size-Changing	746
+Avengers	Jocasta	Electromagnetic Eyebeams	AM				7	1	1												1																												antman,jpg	10 4	Jocasta (AM)	Jocasta (AM)	""	747
+Avengers	Tony Stark	Genius Billionaire	HC		Iron Man		2	5					1							1	1																												homecoming,jpg	8 3	Tony Stark (HC)	Tony Stark (HC)	Coordinate	748
+Avengers	Tony Stark	Stay out of trouble	HC		Iron Man		4	5					1					1			1																				1								homecoming,jpg	9 3	Tony Stark (HC)	Tony Stark (HC)	Coordinate|Danger Sense	749
+Avengers	Tony Stark	Little grey area	HC		Iron Man		5	3	1												1														1						1								homecoming,jpg	10 3	Tony Stark (HC)	Tony Stark (HC)	Danger Sense	750
+Avengers	Tony Stark	As usual i did all the work	HC		Iron Man		7	1	1												1																												homecoming,jpg	7 3	Tony Stark (HC)	Tony Stark (HC)	Coordinate	751
+Avengers	Wasp	Bio-electric sting	AM				3	5		1					2						1																												antman,jpg	3 3	Wasp (AM)	Wasp (AM)	Size-Changing	752
+Avengers	Wasp	Tiny winged justice	AM				4	5		1					1					1		1																											antman,jpg	4 3	Wasp (AM)	Wasp (AM)	Size-Changing	753
+Avengers	Wasp	Swarm tactics	AM				6	3	1						1						1																												antman,jpg	2 3	Wasp (AM)	Wasp (AM)	Size-Changing	754
+Avengers	Wasp	Founding avenger	AM				9	1		1					2						1														2														antman,jpg	1 3	Wasp (AM)	Wasp (AM)	Size-Changing	755
+Avengers	Wonder Man	One-hit wonder	AM				2	5			1					2					1	1																											antman,jpg	8 3	Wonder Man (AM)	Wonder Man (AM)	Empowered	756
+Avengers	Wonder Man	Ionic energy	AM				4	5	1							2					1																									1			antman,jpg	7 3	Wonder Man (AM)	Wonder Man (AM)	Empowered	757
+Avengers	Wonder Man	Absorb ambient power	AM				5	3	1											1	1																					1							antman,jpg	6 3	Wonder Man (AM)	Wonder Man (AM)	""	758
+Avengers	Wonder Man	8th wonder of the world	AM				8	1			1			2		2					1																									1			antman,jpg	5 3	Wonder Man (AM)	Wonder Man (AM)	Size-Changing|Empowered	759
+NONE	Howard the Duck	Traveling Companion	D				3	5				1								1					1																								sw2,jpg	4 1	Howard the Duck (D)	Howard the Duck (D)	""	760
+NONE	Howard the Duck	Rebel without a cause	D				4	5		1											1			-1										-1															sw2,jpg	2 1	Howard the Duck (D)	Howard the Duck (D)	""	761
+NONE	Howard the Duck	Right place, wrong time	D				5	3				1									1													-1															sw2,jpg	3 1	Howard the Duck (D)	Howard the Duck (D)	""	762
+NONE	Howard the Duck	Interplanetary Visitor	D				7	1					1								1	1	1															1											sw2,jpg	1 1	Howard the Duck (D)	Howard the Duck (D)	""	763
+NONE	Man-Thing	Form from ooze	D				2	5			1										1						-1																						sw2,jpg	1 2	Man-Thing (D)	Man-Thing (D)	Teleport	764
+NONE	Man-Thing	Burn the fearful	D				4	5				1									1						-1																						sw2,jpg	2 2	Man-Thing (D)	Man-Thing (D)	""	765
+NONE	Man-Thing	Travel the nexus of realities	D				5	3		1										1							1																						sw2,jpg	3 2	Man-Thing (D)	Man-Thing (D)	Teleport	766
+NONE	Man-Thing	Eternity of Solitude	D				7	1			1					1					1																												sw2,jpg	4 2	Man-Thing (D)	Man-Thing (D)	""	767
+Avengers	Squirrel Girl	Find tiny friends	D				2	5				1										1																											dimensions,jpg	3 4	Squirrel Girl (D)	Squirrel Girl (D)	Switcheroo|Investigate	768
+Avengers	Squirrel Girl	Nut Punch	D				3	5				1					1				1									1																			dimensions,jpg	2 4	Squirrel Girl (D)	Squirrel Girl (D)	Switcheroo	769
+Avengers	Squirrel Girl	Squirrelgility	D				4	3		1											1																												dimensions,jpg	1 4	Squirrel Girl (D)	Squirrel Girl (D)	Switcheroo	770
+Avengers	Squirrel Girl	Unbeatable Squirrel Girl	D				8	1				1					2				1																												dimensions,jpg	10 3	Squirrel Girl (D)	Squirrel Girl (D)	Switcheroo	771
+Marvel Knights	Jessica Jones	Alter Ego	D				3	5			1										1									1																			dimensions,jpg	9 2	Jessica Jones (D)	Jessica Jones (D)	Switcheroo	772
+Marvel Knights	Jessica Jones	Alias Investigations	D				4	5		1											1	1																											dimensions,jpg	8 2	Jessica Jones (D)	Jessica Jones (D)	Switcheroo|Investigate	773
+Marvel Knights	Jessica Jones	Crack the case	D				5	3			1									1		1																1											dimensions,jpg	7 2	Jessica Jones (D)	Jessica Jones (D)	Switcheroo|Investigate	774
+Marvel Knights	Jessica Jones	Uncover hidden evil	D				7	1		1					1						1																				1								dimensions,jpg	6 2	Jessica Jones (D)	Jessica Jones (D)	Investigate	775
+Avengers	Ms. America	Star Power	D				3	5			1					1					1																												dimensions,jpg	7 3	Ms. America (D)	Ms. America (D)	Teleport	776
+Avengers	Ms. America	Search parallel dimensions	D				4	5	1											1															1														dimensions,jpg	6 3	Ms. America (D)	Ms. America (D)	Investigate|Teleport	777
+Avengers	Ms. America	Kick a hole in reality	D				6	3			1					1					1			-1														1											dimensions,jpg	5 3	Ms. America (D)	Ms. America (D)	Teleport	778
+Avengers	Ms. America	Hyper-cosmic awareness	D				7	1		1											1	-1																											dimensions,jpg	4 3	Ms. America (D)	Ms. America (D)	""	779
+Avengers	Scarlet Witch	Hex Bolt	R				2	5	1					1							1		1	-1																									rev4,png	8 4	Scarlet Witch (R)	Scarlet Witch (R)	""	780
+Avengers	Scarlet Witch	Alter Reality	R				3	5		1					1				2	1				1																									rev4,png	3 4	Scarlet Witch (R)	Scarlet Witch (R)	Dark Memories	781
+Avengers	Scarlet Witch	Chaos Magic	R				4	3		1																																						Depends on top hero deck	rev4,png	10 3	Scarlet Witch (R)	Scarlet Witch (R)	""	782
+Avengers	Scarlet Witch	Warp time and space	R				7	1		1									2		1														2													Depends on top hero deck	rev4,png	9 3	Scarlet Witch (R)	Scarlet Witch (R)	Dark Memories	783
+Avengers	Quicksilver	Too fast to see	R				3	5				1					1			1	1			-1																									rev4,png	1 2	Quicksilver (R)	Quicksilver (R)	Hyperspeed	784
+Avengers	Quicksilver	Perpetual Motion	R				4	5			1					1					1			-1																									rev4,png	5 1	Quicksilver (R)	Quicksilver (R)	Hyperspeed	785
+Avengers	Quicksilver	Jittery Impatience	R				6	3				1					1			1	1		1	1														1											rev4,png	2 1	Quicksilver (R)	Quicksilver (R)	""	786
+Avengers	Quicksilver	Around the world punch	R				8	1			1										1														2														rev4,png	1 1	Quicksilver (R)	Quicksilver (R)	Hyperspeed	787
+Avengers	War Machine	Simulated Target Practice	R				3	5					1					1			1				1												1												rev,png	1 2	War Machine (R)	War Machine (R)	""	788
+Avengers	War Machine	Military-Industrial Complex	R				4	5					1							1	1																												rev,png	5 1	War Machine (R)	War Machine (R)	""	789
+Avengers	War Machine	Hypersonic Cannon	R				5	3	1					1										-1														1											rev,png	2 1	War Machine (R)	War Machine (R)	Hyperspeed	790
+Avengers	War Machine	Overwhelming Firepower	R				8	1					1								1	2			1																								rev,png	1 1	War Machine (R)	War Machine (R)	""	791
+Avengers	Photon	Infrared Conversion	R				3	5	1													2	1																										rev3,png	2 6	Photon (R)	Photon (R)	""	792
+Avengers	Photon	Ultraviolet Radiation	R				4	5	1					1							1		1	-1																									rev3,png	7 5	Photon (R)	Photon (R)	Hyperspeed	793
+Avengers	Photon	Light the Way	R				6	3		1											1		-1																										rev3,png	4 5	Photon (R)	Photon (R)	""	794
+Avengers	Photon	Coruscating Vengeance	R				8	1	1												1														2														rev3,png	3 5	Photon (R)	Photon (R)	Last Stand	795
+Avengers	Ronin	Mysterious Identity	R				3	5		1									-1		1																												rev4,png	4 3	Ronin (R)	Ronin (R)	""	796
+Avengers	Ronin	Storm of Arrows	R				4	5	1					1							1	1		-1																									rev4,png	9 2	Ronin (R)	Ronin (R)	Hyperspeed	797
+Avengers	Ronin	Haunted by Loss	R				5	3				1					1		2		1																												rev4,png	6 2	Ronin (R)	Ronin (R)	Dark Memories	798
+Avengers	Ronin	Brooding Fury	R				7	1			1					1			2		1																												rev4,png	5 2	Ronin (R)	Ronin (R)	Dark Memories	799
+Avengers	Darkhawk	Balance the Darkforce	R				3	5					1					1		1	1	1																											rev3,png	4 3	Darkhawk (R)	Darkhawk (R)	""	800
+Avengers	Darkhawk	Hawk Dive	R				4	5		1										1	1			-1																									rev3,png	9 2	Darkhawk (R)	Darkhawk (R)	Hyperspeed	801
+Avengers	Darkhawk	Travel to Nullspace	R				6	3					1							1	1																					1							rev3,png	6 2	Darkhawk (R)	Darkhawk (R)	""	802
+Avengers	Darkhawk	Warflight	R				7	1					1					2		1	1			-1																		1							rev3,png	5 2	Darkhawk (R)	Darkhawk (R)	Hyperspeed	803
+Avengers	Hellcat	Catlike Agility	R				2	5				1					1				1	1																											rev3,png	8 4	Hellcat (R)	Hellcat (R)	""	804
+Avengers	Hellcat	Part-Time PI	R				3	5				1					1			1		1		1																	1								rev3,png	3 4	Hellcat (R)	Hellcat (R)	""	805
+Avengers	Hellcat	Demon Sight	R				5	3		1											1														1						1								rev3,png	10 3	Hellcat (R)	Hellcat (R)	""	806
+Avengers	Hellcat	Second chance at life	R				8	1				1									1	2																										Can stop master strikes and twists	rev3,png	9 3	Hellcat (R)	Hellcat (R)	""	807
+Avengers	Speed	Accelerate	R				2	5				1					1				1			-1																									rev4,png	2 6	Speed (R)	Speed (R)	Hyperspeed	808
+Avengers	Speed	Speedy Delivery	R				4	5				1								1	1			1																									rev4,png	7 5	Speed (R)	Speed (R)	""	809
+Avengers	Speed	Race to the rescue	R				5	3		1											1			-1																									rev4,png	4 5	Speed (R)	Speed (R)	""	810
+Avengers	Speed	Break the sound barrier	R				8	1	1						1						1	2		1																									rev4,png	3 5	Speed (R)	Speed (R)	Hyperspeed	811
+SHIELD	Captain Marvel, Agent of S.H.I.E.L.D.	The Sword of SHIELD	R				3	5			1									1		1													2														rev3,png	10 1	Captain Marvel, Agent of S.H.I.E.L.D. (R)	Captain Marvel, Agent of S.H.I.E.L.D. (R)	""	812
+SHIELD	Captain Marvel, Agent of S.H.I.E.L.D.	Radiant Blast	R				4	5	1												1	-1																											rev3,png	5 1	Captain Marvel, Agent of S.H.I.E.L.D. (R)	Captain Marvel, Agent of S.H.I.E.L.D. (R)	""	813
+SHIELD	Captain Marvel, Agent of S.H.I.E.L.D.	Dominate the battlefield	R				3	3	1					1							1																												rev3,png	2 1	Captain Marvel, Agent of S.H.I.E.L.D. (R)	Captain Marvel, Agent of S.H.I.E.L.D. (R)	Last Stand	814
+SHIELD	Captain Marvel, Agent of S.H.I.E.L.D.	Higher, Further, Faster	R				7	1			1					2					1	2																											rev3,png	1 1	Captain Marvel, Agent of S.H.I.E.L.D. (R)	Captain Marvel, Agent of S.H.I.E.L.D. (R)	Last Stand	815
+SHIELD	Agent Phil Coulson	Impeccable Planning	AOS				3	5		1											1																										-1		shield,png	10 1	Agent Phil Coulson (AOS)	Agent Phil Coulson (AOS)	SHIELD Level	816
+SHIELD	Agent Phil Coulson	Build the Strike Team	AOS				4	5		1					1						1																										1		shield,png	5 1	Agent Phil Coulson (AOS)	Agent Phil Coulson (AOS)	Undercover	817
+SHIELD	Agent Phil Coulson	Approve Orbital Strike	AOS				6	3					1								1																										1		shield,png	2 1	Agent Phil Coulson (AOS)	Agent Phil Coulson (AOS)	Undercover|SHIELD Level	818
+SHIELD	Agent Phil Coulson	Fake but inspiring death	AOS				8	1		1											1																	-1									1		shield,png	1 1	Agent Phil Coulson (AOS)	Agent Phil Coulson (AOS)	SHIELD Level|Undercover	819
+SHIELD	Mockingbird	Take Cover	AOS				3	5				1					1			1			1	1																							1		shield,png	8 4	Mockingbird (AOS)	Mockingbird (AOS)	Undercover	820
+SHIELD	Mockingbird	Battle Staves	AOS				4	5				1									1	1																									-1		shield,png	3 4	Mockingbird (AOS)	Mockingbird (AOS)	SHIELD Level	821
+SHIELD	Mockingbird	Spymaster	AOS				5	3		1											1																										1		shield,png	10 3	Mockingbird (AOS)	Mockingbird (AOS)	Undercover|SHIELD Level	822
+SHIELD	Mockingbird	Infinity Formula	AOS				7	1					1							1	1	1																									1		shield,png	9 3	Mockingbird (AOS)	Mockingbird (AOS)	Undercover|SHIELD Level	823
+SHIELD	Quake	Aftershock	AOS				4	5	1												1																										-1		shield,png	2 6	Quake (AOS)	Quake (AOS)	SHIELD Level	824
+SHIELD	Quake	Going Underground	AOS				3	5	1					1						1																											1		shield,png	7 5	Quake (AOS)	Quake (AOS)	Undercover	825
+SHIELD	Quake	Tectonic Wave	AOS				6	3		1											1																										1		shield,png	4 5	Quake (AOS)	Quake (AOS)	SHIELD Level|Undercover	826
+SHIELD	Quake	Roil the Earth	AOS				7	1	1												1																									1	1		shield,png	3 5	Quake (AOS)	Quake (AOS)	Undercover|SHIELD Level	827
+SHIELD	Deathlok	Authorize lethal force	AOS				2	5					1								1	1																									-1		shield,png	9 2	Deathlok (AOS)	Deathlok (AOS)	SHIELD Level	828
+SHIELD	Deathlok	Reanimate into service	AOS				4	5					1					1			1																										1		shield,png	4 3	Deathlok (AOS)	Deathlok (AOS)	Undercover	829
+SHIELD	Deathlok	Headlok	AOS				5	3			1									1	1																										1		shield,png	6 2	Deathlok (AOS)	Deathlok (AOS)	SHIELD Level|Undercover	830
+SHIELD	Deathlok	Behind enemy lines	AOS				8	1		1										1	1																										1		shield,png	5 2	Deathlok (AOS)	Deathlok (AOS)	SHIELD Level|Undercover	831
+Heroes of Asgard	Thor	Test of Virtue	HOA				3	5	1											1	1																												hoa,png	9 4	Thor (HOA)	Thor (HOA)	Worthy	832
+Heroes of Asgard	Thor	Divine Lightning	HOA				5	5	1												1																												hoa,png	8 4	Thor (HOA)	Thor (HOA)	Worthy	833
+Heroes of Asgard	Thor	Mjolnir	HOA				4	3			1			2																										1									hoa,png	10 4	Thor (HOA)	Thor (HOA)	Worthy|Thrown Artifact	834
+Heroes of Asgard	Thor	Royal Decree	HOA				8	1	1												1	1													1														hoa,png	7 4	Thor (HOA)	Thor (HOA)	Worthy	835
+Heroes of Asgard	Beta Ray Bill	Hope of the korbinites	HOA				1	5			1									1			1																										hoa,png	2 4	Beta Ray Bill (HOA)	Beta Ray Bill (HOA)	Worthy	836
+Heroes of Asgard	Beta Ray Bill	Bio-engineered cyborg	HOA				5	5					1								1	1	1																										hoa,png	10 3	Beta Ray Bill (HOA)	Beta Ray Bill (HOA)	""	837
+Heroes of Asgard	Beta Ray Bill	Stormbreaker	HOA				4	3	1														-1																	1									hoa,png	1 4	Beta Ray Bill (HOA)	Beta Ray Bill (HOA)	Worthy|Thrown Artifact	838
+Heroes of Asgard	Beta Ray Bill	The warship skuttlebutt	HOA				8	1					1								1	2	-1																										hoa,png	9 3	Beta Ray Bill (HOA)	Beta Ray Bill (HOA)	""	839
+Heroes of Asgard	Valkyrie	Dragonfang	HOA				3	5			1																-1													1									hoa,png	8 5	Valkyrie (HOA)	Valkyrie (HOA)	Thrown Artifact|Conqueror	840
+Heroes of Asgard	Valkyrie	Flying Stallion	HOA				4	5				1									1		1				-1																						hoa,png	7 5	Valkyrie (HOA)	Valkyrie (HOA)	Conqueror	841
+Heroes of Asgard	Valkyrie	Usher to Valhalla	HOA				6	3		1											1						-1								1			1											hoa,png	6 5	Valkyrie (HOA)	Valkyrie (HOA)	Conqueror	842
+Heroes of Asgard	Valkyrie	Ride of the Valkyries	HOA				7	1				1					1				1						-1											-1											hoa,png	5 5	Valkyrie (HOA)	Valkyrie (HOA)	Conqueror	843
+Heroes of Asgard	Lady Sif	Dimensional Blade	HOA				2	5				1																												1									hoa,png	5 4	Lady Sif (HOA)	Lady Sif (HOA)	Thrown Artifact	844
+Heroes of Asgard	Lady Sif	Weapons Master	HOA				5	5				1																												-1									hoa,png	4 4	Lady Sif (HOA)	Lady Sif (HOA)	""	845
+Heroes of Asgard	Lady Sif	Winged Helm	HOA				3	3			1											2				-1														1									hoa,png	6 4	Lady Sif (HOA)	Lady Sif (HOA)	Thrown Artifact	846
+Heroes of Asgard	Lady Sif	Golden Apples of Idunn	HOA				7	1		1																												1		1									hoa,png	3 4	Lady Sif (HOA)	Lady Sif (HOA)	Thrown Artifact	847
+Heroes of Asgard	The Warriors Three	Fandral the Dashing	HOA				3	5				1			1						1	1					1																						hoa,png	3 5	The Warriors Three (HOA)	The Warriors Three (HOA)	""	848
+Heroes of Asgard	The Warriors Three	Hogun the Grim	HOA				4	5		1						1				1																		1											hoa,png	4 5	The Warriors Three (HOA)	The Warriors Three (HOA)	""	849
+Heroes of Asgard	The Warriors Three	Volstagg the Valiant	HOA				6	3			1						1				1						-1																						hoa,png	2 5	The Warriors Three (HOA)	The Warriors Three (HOA)	Conqueror	850
+Heroes of Asgard	The Warriors Three	Three Stand as One	HOA				8	1			1										1						-1								1														hoa,png	1 5	The Warriors Three (HOA)	The Warriors Three (HOA)	Conqueror	851
+X-Men	Sunspot	Absorb Radiation	NM				2	5	1											1		1																								1			newmutants,png	3 1	Sunspot (NM)	Sunspot (NM)	Moonlight|Sunlight	852
+X-Men	Sunspot	Solar-powered	NM				4	5			1										1																												newmutants,png	4 1	Sunspot (NM)	Sunspot (NM)	Sunlight	853
+X-Men	Sunspot	Thermokinetic Fury	NM				6	3	1												1														2														newmutants,png	2 1	Sunspot (NM)	Sunspot (NM)	Sunlight	854
+X-Men	Sunspot	Empyreal Force	NM				8	1			1										1																									1			newmutants,png	1 1	Sunspot (NM)	Sunspot (NM)	Sunlight	855
+X-Men	Wolfsbane	Wolf Out	NM				3	5				1								1		1																								1			newmutants,png	1 2	Wolfsbane (NM)	Wolfsbane (NM)	Sunlight|Moonlight	856
+X-Men	Wolfsbane	Night Vision	NM				3	5			1										1		1	1																									newmutants,png	2 2	Wolfsbane (NM)	Wolfsbane (NM)	Moonlight	857
+X-Men	Wolfsbane	Howl at the Moon	NM				5	3		1											1			1														1											newmutants,png	10 1	Wolfsbane (NM)	Wolfsbane (NM)	Moonlight	858
+X-Men	Wolfsbane	Nocturnal Savagery	NM				7	1				1									1		1	1																									newmutants,png	9 1	Wolfsbane (NM)	Wolfsbane (NM)	Moonlight	859
+X-Men	Mirage	Empathic Link	NM				3	5				1								1			-1																										newmutants,png	5 2	Mirage (NM)	Mirage (NM)	""	860
+X-Men	Mirage	Dreams made real	NM				3	5	1												1	1	1																										newmutants,png	6 2	Mirage (NM)	Mirage (NM)	Moonlight	861
+X-Men	Mirage	Nightmare Wolves	NM				6	3		1											1		1																										newmutants,png	4 2	Mirage (NM)	Mirage (NM)	Waking Nightmare	862
+X-Men	Mirage	Haunted by the Demon-Bear	NM				7	1		1											1		-1																										newmutants,png	3 2	Mirage (NM)	Mirage (NM)	Moonlight|Waking Nightmare	863
+X-Men	Warlock	Earthling Choices	NM				2	5					1									1	1																										newmutants,png	7 1	Warlock (NM)	Warlock (NM)	""	864
+X-Men	Warlock	Analyze planetary rotation	NM				3	5					1					1		1	1																												newmutants,png	8 1	Warlock (NM)	Warlock (NM)	Sunlight|Moonlight	865
+X-Men	Warlock	Techno-organic adaptation	NM				6	3		1								1			1																	1											newmutants,png	6 1	Warlock (NM)	Warlock (NM)	""	866
+X-Men	Warlock	Nanite Shapeshifter	NM				7	1					1							1	1	2													2														newmutants,png	5 1	Warlock (NM)	Warlock (NM)	Sunlight|Moonlight	867
+X-Men	Karma	Sow Rivalry	NM				3	5		1					1						1						-1																						newmutants,png	9 2	Karma (NM)	Karma (NM)	""	868
+X-Men	Karma	Temporary Possession	NM				4	5		1											1																									2			newmutants,png	10 2	Karma (NM)	Karma (NM)	""	869
+X-Men	Karma	Karmic Balance	NM				6	3	1											1																		1								2			newmutants,png	8 2	Karma (NM)	Karma (NM)	""	870
+X-Men	Karma	Control like a puppet	NM				8	1	1												1														1														newmutants,png	7 2	Karma (NM)	Karma (NM)	""	871
+NONE	Ronan the Accuser	Universal Weapon	ITC				3	5					1									2																							1				itc,png	2 4	Ronan the Accuser (ITC)	Ronan the Accuser (ITC)	Shard	872
+NONE	Ronan the Accuser	Rally Kree Warriors	ITC				4	5			1					1				1					1																				1				itc,png	1 4	Ronan the Accuser (ITC)	Ronan the Accuser (ITC)	Shard	873
+NONE	Ronan the Accuser	Accuse enemies of the empire	ITC				6	3			1							1			1				1																								itc,png	10 3	Ronan the Accuser (ITC)	Ronan the Accuser (ITC)	Contest of Champions	874
+NONE	Ronan the Accuser	Seek the infinity gems	ITC				8	1					1			1					1																								1				itc,png	9 3	Ronan the Accuser (ITC)	Ronan the Accuser (ITC)	Contest of Champions|Shard	875
+Guardians	Nebula	Ruthless Cyborg	ITC				3	5					1							1																		1							-1				itc,png	4 2	Nebula (ITC)	Nebula (ITC)	Shard	876
+Guardians	Nebula	Galactic Rogue	ITC				5	5				1					1	1			1																								1				itc,png	3 2	Nebula (ITC)	Nebula (ITC)	Shard	877
+Guardians	Nebula	Illusion Device	ITC				4	3					1		1			1			1				-1																				-1				itc,png	6 2	Nebula (ITC)	Nebula (ITC)	Shard	878
+Guardians	Nebula	Daring Raid	ITC				7	1				1								1	1																								-1				itc,png	5 2	Nebula (ITC)	Nebula (ITC)	Shard	879
+Avengers	Captain Mar-Vell	Cosmic Awareness	ITC				2	5	1					1							1																				1				1				itc,png	5 1	Captain Mar-Vell (ITC)	Captain Mar-Vell (ITC)	Danger Sense|Shard	880
+Avengers	Captain Mar-Vell	Kree Genetics	ITC				3	5			1									1																									-1				itc,png	6 1	Captain Mar-Vell (ITC)	Captain Mar-Vell (ITC)	Shard	881
+Avengers	Captain Mar-Vell	Channel the Nega-Bands	ITC				6	3					1								1			-1											1			1							1				itc,png	7 1	Captain Mar-Vell (ITC)	Captain Mar-Vell (ITC)	Shard	882
+Avengers	Captain Mar-Vell	Protector of the Universe	ITC				7	1		1											1																				1				-1				itc,png	8 1	Captain Mar-Vell (ITC)	Captain Mar-Vell (ITC)	Danger Sense|Shard	883
+Avengers	Quasar	Manipulate Gravitons	ITC				3	5		1					1					1																									1				itc,png	6 3	Quasar (ITC)	Quasar (ITC)	Shard	884
+Avengers	Quasar	Cosmic Champion	ITC				4	5	1												1																								-1				itc,png	7 3	Quasar (ITC)	Quasar (ITC)	Shard	885
+Avengers	Quasar	The Quantum Bands	ITC				3	3		1											1																	1							-1				itc,png	8 3	Quasar (ITC)	Quasar (ITC)	Shard	886
+Avengers	Quasar	The Star Brand	ITC				1	1			1										1																								1				itc,png	5 3	Quasar (ITC)	Quasar (ITC)	Shard	887
+Avengers	Adam Warlock	Transmute Matter	ITC				3	5		1																																			1				itc,png	1 1	Adam Warlock (ITC)	Adam Warlock (ITC)	Shard	888
+Avengers	Adam Warlock	Regenerative Cocoon	ITC				4	5			1												1																										itc,png	2 1	Adam Warlock (ITC)	Adam Warlock (ITC)	""	889
+Avengers	Adam Warlock	Soulblast	ITC				5	3		1					1																														1				itc,png	3 1	Adam Warlock (ITC)	Adam Warlock (ITC)	Shard	890
+Avengers	Adam Warlock	Manifest the Soul Gem	ITC				8	1	1																										2										1				itc,png	4 1	Adam Warlock (ITC)	Adam Warlock (ITC)	Shard	891
+Avengers	Moondragon	Peaceful Meditation	ITC				3	5		1										1																													itc,png	9 1	Moondragon (ITC)	Moondragon (ITC)	""	892
+Avengers	Moondragon	Psionic Warning	ITC				4	5				1					1				1																				1				1				itc,png	10 1	Moondragon (ITC)	Moondragon (ITC)	Danger Sense	893
+Avengers	Moondragon	Psychokinetic Blast	ITC				6	3	1												1														1						1								itc,png	1 2	Moondragon (ITC)	Moondragon (ITC)	Danger Sense	894
+Avengers	Moondragon	Lunar Dragon Form	ITC				8	1			1										1																				1								itc,png	2 2	Moondragon (ITC)	Moondragon (ITC)	Danger Sense	895
+Avengers	Nova	Draw from the worldmind	ITC		Nova		2	5					1					1		1	1	1																											itc,png	9 2	Nova (ITC)	Nova (ITC)	""	896
+Avengers	Nova	Electromagnetic Wave	ITC		Nova		3	5	1					1						1																									1				itc,png	10 2	Nova (ITC)	Nova (ITC)	""	897
+Avengers	Nova	Declare Galatic Threat	ITC		Nova		6	3					1					2				2																											itc,png	7 2	Nova (ITC)	Nova (ITC)	Cosmic Threat	898
+Avengers	Nova	Mobilize the Nova Corps	ITC		Nova		8	1	1					2								2																											itc,png	8 2	Nova (ITC)	Nova (ITC)	Cosmic Threat	899
+Guardians	Yondu	Whistling Arrow	ITC				2	5	1					1																															-1				itc,png	3 4	Yondu (ITC)	Yondu (ITC)	Shard	900
+Guardians	Yondu	Interstellar Hunter	ITC				3	5		1					1						1																				1								itc,png	4 4	Yondu (ITC)	Yondu (ITC)	Danger Sense	901
+Guardians	Yondu	Anticipate their movements	ITC				5	3				1									1														1						1								itc,png	5 4	Yondu (ITC)	Yondu (ITC)	Danger Sense	902
+Guardians	Yondu	Space Pirate	ITC				7	1					1																						2										1				itc,png	6 4	Yondu (ITC)	Yondu (ITC)	Shard	903
+Guardians	Phyla-Vell	Channel cosmic power	ITC				2	5				1					1					1																							1				itc,png	4 3	Phyla-Vell (ITC)	Phyla-Vell (ITC)	Shard	904
+Guardians	Phyla-Vell	Quantum Sword	ITC				4	5				1										1																							-1				itc,png	1 3	Phyla-Vell (ITC)	Phyla-Vell (ITC)	""	905
+Guardians	Phyla-Vell	Martyr	ITC				3	3			1										1					-1																			1				itc,png	2 3	Phyla-Vell (ITC)	Phyla-Vell (ITC)	Shard	906
+Guardians	Phyla-Vell	Avatar of Oblivion	ITC				8	1				1									1																	1							1				itc,png	3 3	Phyla-Vell (ITC)	Phyla-Vell (ITC)	Shard	907
+Inhumans	Black Bolt	Declaration of War	ROK		Black Bolt		4	3					1								1							-1							1													Throne's Favor	blackbolt,jpg	NW	Black Bolt (ROK)	Black Bolt (ROK)	Throne's Favor	908
+Inhumans	Black Bolt	The King's Speech	ROK		Black Bolt		8	1	1												1																											Throne's Favor	blackbolt,jpg	NE	Black Bolt (ROK)	Black Bolt (ROK)	Throne's Favor	909
+Inhumans	Black Bolt	Break the Silence	ROK		Black Bolt		3	5	1					1						1																		1										Throne's Favor	blackbolt,jpg	SW	Black Bolt (ROK)	Black Bolt (ROK)	Throne's Favor	910
+Inhumans	Black Bolt	Wordless Murmur	ROK		Black Bolt		5	5	1											1	1							1																					blackbolt,jpg	SE	Black Bolt (ROK)	Black Bolt (ROK)	""	911
+Inhumans	Crystal	Elemental princess	ROK				6	3		1									-1		1																	1										Throne's Favor	crystal,jpg	NW	Crystal (ROK)	Crystal (ROK)	Throne's Favor	912
+Inhumans	Crystal	Weave four into one	ROK				8	1			1			1	1	1	1				1																												crystal,jpg	NE	Crystal (ROK)	Crystal (ROK)	""	913
+Inhumans	Crystal	Earth, air, fire and water	ROK				3	5	1					1	1	1	1				1																												crystal,jpg	SW	Crystal (ROK)	Crystal (ROK)	""	914
+Inhumans	Crystal	Master the four elements	ROK				4	5				1							-1	1		1																											crystal,jpg	SE	Crystal (ROK)	Crystal (ROK)	""	915
+Inhumans	Gorgon	Trample underhoof	ROK				6	3			1										1																	1											gorgon,jpg	NW	Gorgon (ROK)	Gorgon (ROK)	Abomination	916
+Inhumans	Gorgon	Lead the inhuman elite	ROK				8	1			1										1						-1								1														gorgon,jpg	NE	Gorgon (ROK)	Gorgon (ROK)	Abomination|Teleport	917
+Inhumans	Gorgon	Lockjaw, inhuman's best friend	ROK				3	5		1					1					1																													gorgon,jpg	SW	Gorgon (ROK)	Gorgon (ROK)	Teleport	918
+Inhumans	Gorgon	Stomping shockwave	ROK				5	5			1					1					1						-1																						gorgon,jpg	SE	Gorgon (ROK)	Gorgon (ROK)	Abomination	919
+Inhumans	Karnak	Find fatal flaw	ROK				4	5				1								1																	1												karnak,jpg	NW	Karnak (ROK)	Karnak (ROK)	""	920
+Inhumans	Karnak	Brilliant strategist	ROK				2	5		1					1						1																												karnak,jpg	NE	Karnak (ROK)	Karnak (ROK)	""	921
+Inhumans	Karnak	Seek the center	ROK				7	1		1																																							karnak,jpg	SW	Karnak (ROK)	Karnak (ROK)	""	922
+Inhumans	Karnak	Shatter the weak point	ROK				5	3			1										1																1												karnak,jpg	SE	Karnak (ROK)	Karnak (ROK)	""	923
+Inhumans	Medusa	Royal command	ROK				5	3				1									1														1		1											Throne's Favor	medusa,jpg	NW	Medusa (ROK)	Medusa (ROK)	Throne's Favor	924
+Inhumans	Medusa	Headstrong	ROK				7	1				1									1	2																										Throne's Favor	medusa,jpg	NE	Medusa (ROK)	Medusa (ROK)	Throne's Favor	925
+Inhumans	Medusa	Queen of the inhumans	ROK				2	5			1										1																											Throne's Favor	medusa,jpg	SW	Medusa (ROK)	Medusa (ROK)	Throne's Favor	926
+Inhumans	Medusa	Splitting hairs	ROK				3	5				1					1				1	1																										Throne's Favor	medusa,jpg	SE	Medusa (ROK)	Medusa (ROK)	Throne's Favor	927

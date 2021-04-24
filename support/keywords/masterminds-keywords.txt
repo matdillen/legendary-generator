@@ -1,0 +1,404 @@
+Name	MM	Epic	T	Set	LeadsV	LeadsH	VP	BP	B	R	G	Y	S	Team	TeamSC	Wnd	KOH	KBS	CRWD	BS	PL	Effect/Master Strike	OtherEffects	NOTE	file	loc	id	keywords	seq
+Apocalypse				DC	Four Horsemen		6	12											1			Put all good heroes on top of your deck	Four Horsemen get +2.	Wins if all horsemen escape	darkcity,jpg	7 1	Apocalypse	""	1
+The end of all things	Apocalypse			DC			6										2					Other players reveal top 3, KO all good heroes.			darkcity,jpg	6 1	Apocalypse	""	2
+Apocalyptic Destruction	Apocalypse			DC			6										2					Other players KO two good heroes from discard pile.			darkcity,jpg	8 1	Apocalypse	""	3
+Horsemen are drawing nearer	Apocalypse			DC			6												1			Other players play a Four Horsemen villain from victory pile.			darkcity,jpg	9 1	Apocalypse	""	4
+Immortal and undefeated	Apocalypse			DC			6														1	If not final tactic, rescue six BS and shuffle back.			darkcity,jpg	10 1	Apocalypse	""	5
+Arcade				XM	Murderworld		5	3												1		Add a Human Shield from each player's VP. Players who can't get a wound.	Starts with 5 Human Shields.		mm,jpg	4 1	Arcade	Human Shield	6
+Arcade		1		XM	Murderworld		5	4												1		Add two Human Shields from each player's VP. Players who can't get a wound.	Starts with 8 Human Shields and a Horror.		earc,png	1	Arcade	""	7
+I Love a Parade!	Arcade			XM			5												1	1		Add two Human Shields. Play extra card from villain deck next turn.			xmen2,jpg	2 2	Arcade	Human Shield	8
+Welcome to my theme park!	Arcade			XM			5													1		Add two Human Shields, also to all Murderworld villains.			xmen2,jpg	10 1	Arcade	Human Shield	9
+Roulette wheel of death	Arcade			XM			5													1		Add Human Shield from deck, escape, each city space, each other player's VP.			xmen2,jpg	3 2	Arcade	Human Shield	10
+I need an audience	Arcade			XM			5													1		Add Human Shield for each villain in city.			xmen2,jpg	1 2	Arcade	Human Shield	11
+Arnim Zola				C75	Zola's Creations		6	6														Heroes in the HQ with \\\<2 go back to deck and each player discards cards with equal cost.	Ultimate abomination (for all heroes)		c75,jpg	1 3	Arnim Zola	Abomination	12
+Dominate the Weak	Arnim Zola			C75			6															Any player gets hero from hq with \\\<2.			c75,jpg	2 3	Arnim Zola	""	13
+Pet Projects	Arnim Zola			C75			6									1						Other players reveal Zola's Creations villain from VP or get wound.			c75,jpg	4 3	Arnim Zola	""	14
+Computer-uploaded genius	Arnim Zola			C75			6						1									Other players reveal S hero or discard a card.			c75,jpg	3 3	Arnim Zola	""	15
+Crush pacifist resistance	Arnim Zola			C75			6															KO up to two heroes with \\\<2.			c75,jpg	5 3	Arnim Zola	""	16
+Authoritarian Iron Man				CW	Superhuman Registration Act		6	12														He fortifies the next city space and can't be attacked if villain is there.	Villain in his space gets +3.		civilwar,jpg	3 3	Authoritarian Iron Man	Fortify	17
+Armada of armors	Authoritarian Iron Man			CW			6		1				1									Get 6 * only for B or S heroes.			civilwar,jpg	3 4	Authoritarian Iron Man	""	18
+Freeze domestic assets	Authoritarian Iron Man			CW			6															Other players discard all * cards.			civilwar,jpg	4 4	Authoritarian Iron Man	""	19
+Recall to service	Authoritarian Iron Man			CW			6												1			Escaped villain with highest \\\ enters city in his space.			civilwar,jpg	2 4	Authoritarian Iron Man	Fortify	20
+Man the fortifications	Authoritarian Iron Man			CW			6												1			Reveal top card of villain deck. If villain, enters his space.			civilwar,jpg	1 4	Authoritarian Iron Man	Fortify	21
+Baron Heinrich Zemo				C75	Masters of Evil (WWII)		6	9								1		1		1		Each player KO's BS from VP. If not, gets a wound.			c75,jpg	10 3	Baron Heinrich Zemo	Savior	22
+Hatred for the Avengers	Baron Heinrich Zemo			C75										Avengers	2					1		For each avengers hero, rescue BS.			c75,jpg	3 4	Baron Heinrich Zemo	""	23
+Prisoners of War	Baron Heinrich Zemo			C75										Avengers	1					1		Unless avenger hero, rescue BS from other player's VP.			c75,jpg	4 4	Baron Heinrich Zemo	""	24
+Finding Zemo	Baron Heinrich Zemo			C75												1		1				Top 5 of villain deck, KO BS and if so, other players get wound			c75,jpg	2 4	Baron Heinrich Zemo	""	25
+Fallen Idols	Baron Heinrich Zemo			C75																		Not saviors discard a card.			c75,jpg	1 4	Baron Heinrich Zemo	Savior	26
+Baron Helmut Zemo				CW	Thunderbolts		6	16					1			1						Each player KO's villain from VP. If not, gets a wound.	Gets minus for villains in your VP		civilwar,jpg	4 3	Baron Helmut Zemo	""	27
+Cursed Dynasty	Baron Helmut Zemo			CW																		Draw 2 extra next turn			civilwar,jpg	10 3	Baron Helmut Zemo	""	28
+Blasted Henchmen!	Baron Helmut Zemo			CW									1									Other players reveal S or KO villain from vp			civilwar,jpg	9 3	Baron Helmut Zemo	""	29
+Endless Minions	Baron Helmut Zemo			CW									1						1			Other players reveal S or put villain from vp in city.			civilwar,jpg	7 3	Baron Helmut Zemo	""	30
+Revenger for my father	Baron Helmut Zemo			CW										Avengers	1	1						Other players with avenger hero get wound			civilwar,jpg	8 3	Baron Helmut Zemo	""	31
+Carnage				PTT	Maximum Carnage		6	9								1	2					Feast on every player; wound if hero cost 0			pttr,jpg	3 2	Carnage	Feast	32
+Endless hunger	Carnage			PTT													2					Feast. If 0 cost hero, continue feasting.			pttr,jpg	10 1	Carnage	Feast	33
+Feed me	Carnage			PTT													1					Feast, get MO equal to cost.			pttr,jpg	1 2	Carnage	Feast	34
+Drooling Jaws	Carnage			PTT													1					Each player reveals top. You choose where to feast.			pttr,jpg	9 1	Carnage	Feast	35
+Om nom nom	Carnage			PTT													1	1				Feast, if a 0 cost hero, other players KO BS from VP.			pttr,jpg	2 2	Carnage	Feast	36
+Charles Xavier, Professor of Crime				N	X-Men Noir		6	8												1		Four heroes capture hidden witnesses	Get plus for BS in HQ and city		noir,jpg	8 4	Charles Xavier, Professor of Crime	Hidden Witness	37
+Corrupt weak minds	Charles Xavier, Professor of Crime			N																		Other players put BS from vp as hidden witness on hero in hq			noir,jpg	7 4	Charles Xavier, Professor of Crime	Hidden Witness	38
+Master manipulator	Charles Xavier, Professor of Crime			N										X-Men	2							Investigate hero deck for x-men			noir,jpg	5 4	Charles Xavier, Professor of Crime	Investigate	39
+X-con men	Charles Xavier, Professor of Crime			N										X-Men	1	1						Other players reveal x-men or gain wound			noir,jpg	6 4	Charles Xavier, Professor of Crime	""	40
+Commit to the asylum	Charles Xavier, Professor of Crime			N													1					Other players investigate for FI hero and KO it			noir,jpg	4 4	Charles Xavier, Professor of Crime	Investigate	41
+Dark Phoenix				XM	Hellfire Club		7	13									2					KO top card of hero deck and all heroes from it with same classes.	Wins when hero deck runs out		mm,jpg	1 1	Dark Phoenix	""	42
+Dark Phoenix		1		XM	Hellfire Club		7	15									2					KO top card of hero deck and all heroes from it with same classes. Return Hellfire Club villain. Play horror	Wins when hero deck runs out		ephoenix,png	1	Dark Phoenix	""	43
+Fiery Reincarnation	Dark Phoenix			XM																		Gain hero from KO pile costing 7 or more			xmen2,jpg	7 1	Dark Phoenix	""	44
+Worship me as a god	Dark Phoenix			XM																		Other players gain two zero cost heroes from KO pile.			xmen2,jpg	6 1	Dark Phoenix	""	45
+Burn the world to ashes	Dark Phoenix			XM																		Other players discards cards from their hand with same name as KO'd cards.			xmen2,jpg	9 1	Dark Phoenix	""	46
+Consume an entire galaxy	Dark Phoenix			XM													2					Other players KO card that costs 1 or more from their discard pile.			xmen2,jpg	8 1	Dark Phoenix	""	47
+Deathbird				XM	Shi'ar Imperial Guard		6	8								1			2			If Shi'Ar in city, wounds for everyone. Then put a 7 Shi'Ar token in city.	Gets +1 for Shi'Ar in city and escape pile	Also add Shi'Ar henchmen group	mm,jpg	3 1	Deathbird	""	48
+Deathbird		1		XM			6	10											2			If Shi'Ar in city, horror. Then put a 9 Shi'Ar token in city.	Gets +2 for Shi'Ar in city and escape pile	Also add Shi'Ar henchmen group	edp,png	1	Deathbird	""	49
+Shi'Ar Elite Bodyguards	Deathbird			XM															1		1	Rescue 4 BS. Tactic enters city, shuffles back upon escape.			xmen2,jpg	5 3	Deathbird	""	50
+Shi'Ar Extermination Legion	Deathbird			XM															1			Rescue 4 BS. Tactic enters city, discard upon escape.			xmen2,jpg	3 3	Deathbird	""	51
+Shi'Ar Hovertank Battalion	Deathbird			XM												1			1			Rescue 4 BS. Tactic enters city, wounds upon escape.			xmen2,jpg	4 3	Deathbird	""	52
+Shi'Ar Master Spies	Deathbird			XM															1			Rescue 4 BS. Tactic enters city, twist upon escape.			xmen2,jpg	2 3	Deathbird	""	53
+Dr. Doom				B		Doombot Legion	5	9					1									If no Silver hero, put 2 card on top of deck (if 6 cards in hand)			base,jpg	7 7	Dr. Doom	""	54
+Secrets of time travel	Dr. Doom			B																		Take extra turn			base2,jpg	1 1	Dr. Doom	""	55
+Monarch's decree	Dr. Doom			B																		Other players draw or discard.			base2,jpg	2 1	Dr. Doom	""	56
+Treasures of Latveria	Dr. Doom			B																		Next hand draw three extra			base,jpg	8 7	Dr. Doom	""	57
+Dark Technology	Dr. Doom			B					1				1									Recruit B or S hero for free			base,jpg	9 7	Dr. Doom	""	58
+Evil Deadpool				DP	Evil Deadpool Corpse		6	11								2						Each player discards; the one with cheapest hero gets wound	Gets plus for tactics you already gained		dp,jpg	6 3	Evil Deadpool	Revenge	59
+Evil even oddball	Evil Deadpool			DP												1						Other players with fewest odd costed cards gets wound			dp,jpg	9 3	Evil Deadpool	""	60
+Hyper-insane healing factor	Evil Deadpool			DP																	1	If not final tactic, gain 6 MO and shuffle back.			dp,jpg	7 3	Evil Deadpool	""	61
+Stitched from dead (pool) parts	Evil Deadpool			DP												1						Other players discard top of deck. Lowest costs get wound.			dp,jpg	8 3	Evil Deadpool	""	62
+Of course it's corpse	Evil Deadpool			DP												1						Other player with fewest team villains gains wound.			dp,jpg	10 3	Evil Deadpool	""	63
+Galactus				FF	Heralds of Galactus		7	20									1		2			Destroy a city space	Gets minus for every hero of same class	Wins when city is gone	pttr,jpg	10 6	Galactus	Cosmic Threat	64
+Force of Eternity	Galactus			FF																		New hand, draw six and discard six.			pttr,jpg	1 7	Galactus	""	65
+Panicked Mobs	Galactus			FF																1		Choose class. Players rescue BS for each hero they have of that class.			pttr,jpg	2 7	Galactus	""	66
+Cosmic Entity	Galactus			FF																		Choose class. Players draw cards for each hero they have of that class.			pttr,jpg	9 6	Galactus	""	67
+Sunder the Earth	Galactus			FF													1					Other players KO heroes from hand with same name as hero in hq			pttr,jpg	8 6	Galactus	""	68
+Immortal Emperor Zheng-Zhu				SW2	K'un-lun		5	7														Discard an ultimate hero or discard down to 3 cards.	7th circle of Kung Fu		sw22,jpg	7 7	Immortal Emperor Zheng-Zhu	Circle of Kung Fu	69
+Imperial Edict	Immortal Emperor Zheng-Zhu			SW2																		Put any number of heroes on bottom hero deck.			sw2,jpg	9 2	Immortal Emperor Zheng-Zhu	""	70
+Emperor's Justice	Immortal Emperor Zheng-Zhu			SW2										Marvel Knights	1	1						Other players reveal MK or wound			sw2,jpg	7 2	Immortal Emperor Zheng-Zhu	""	71
+Humble the Pretenders	Immortal Emperor Zheng-Zhu			SW2										Marvel Knights	1							Other players reveal MK or discard a card costing less than 7.			sw2,jpg	8 2	Immortal Emperor Zheng-Zhu	""	72
+Ultimate Kung-Fu Mastery	Immortal Emperor Zheng-Zhu			SW2												1						Other players reveal circle of kung fu card from VP or wound			sw2,jpg	6 2	Immortal Emperor Zheng-Zhu	""	73
+King Hyperion				SW2	Utopolis		6	12								1			2			Goes into the city and charges 3 spaces. Wounds if he escapes.			sw22,jpg	8 7	King Hyperion	Charge	74
+Monarch of Utopolis	King Hyperion			SW2																	1	If in city, remove him, shuffle back tactic and draw three extra cards next turn.			sw2,jpg	10 2	King Hyperion	""	75
+Rule with an iron fist	King Hyperion			SW2																	1	If in city, remove him, shuffle back tactic and defeat villain for free.			sw2,jpg	2 3	King Hyperion	""	76
+Worshipped by millions	King Hyperion			SW2																	1	If in city, remove him, shuffle back tactic and rescue six bystanders.			sw2,jpg	3 3	King Hyperion	""	77
+Royal treasury	King Hyperion			SW2																	1	If in city, remove him, shuffle back tactic and get 5 MO.			sw2,jpg	1 3	King Hyperion	""	78
+Kingpin				DC	Streets of New York		6	13						Marvel Knights	1							Reveal MK or discard hand, then draw 5.	Bribe		darkcity,jpg	5 2	Kingpin	Bribe	79
+Dirty Cops	Kingpin			DC																		Put zero cost hero from KO on other player's deck.			darkcity,jpg	4 2	Kingpin	""	80
+Criminal Empire	Kingpin			DC															2			If not final tactic, play all villains in top 3 of villain deck. Put rest back.			darkcity,jpg	3 2	Kingpin	""	81
+Call a hit	Kingpin			DC													1					KO a hero from each player's discard pile.			darkcity,jpg	2 2	Kingpin	""	82
+Mob war	Kingpin			DC															2			Other players play a henchmen from VP.			darkcity,jpg	1 2	Kingpin	""	83
+Loki				B	Enemies of Asgard		5	10			1					1						Reveal green hero or get wound			base2,jpg	4 1	Loki	""	84
+Vanishing Illusions	Loki			B																		Other players KO villain from VP.			base2,jpg	7 1	Loki	""	85
+Whispers and Lies	Loki			B														1				Other players KO 2 BS from VP.			base2,jpg	3 1	Loki	""	86
+Maniacal Tyrant	Loki			B																		KO up to 4 cards from your discard.			base2,jpg	6 1	Loki	""	87
+Cruel Ruler	Loki			B																		Defeat villain for free.			base2,jpg	5 1	Loki	""	88
+Macho Gomez				DP	"Deadpool's ""Friends"""		6	9								2						Strike becomes bounty. Get wounds for each bounty. Pay 1 MO to move to left	Gets plus for # of his villains in your vp		dp,jpg	1 3	Macho Gomez	Revenge	89
+Bounty Payout	Macho Gomez			DP																		Get MO for each bounty on other players.			dp,jpg	2 3	Macho Gomez	""	90
+Renegotiate the contract	Macho Gomez			DP																		Redistribute bounties.			dp,jpg	4 3	Macho Gomez	""	91
+Interstellar Assassin	Macho Gomez			DP																		Other players with a bounty discard down to 4.			dp,jpg	3 3	Macho Gomez	""	92
+Super Macho Man	Macho Gomez			DP																		Rescue BS for each bounty on other players.			dp,jpg	5 3	Macho Gomez	""	93
+Madelyne Pryor, Goblin Queen				SW1	Limbo		6	10								1				1		If she has bystanders, wounds. Then she captures 4.	Her BS fought as 2 villains. Can't be attacked if any BS.		sw12,jpg	7 7	Madelyne Pryor, Goblin Queen	""	94
+Everyon's a demon on the inside	Madelyne Pryor, Goblin Queen			SW1																1		She captures a BS from other player's VP.			sw1,jpg	1 1	Madelyne Pryor, Goblin Queen	""	95
+City of demon goblins	Madelyne Pryor, Goblin Queen			SW1																1		She captures 5 BS.			ambition,jpg	9 1	Madelyne Pryor, Goblin Queen	""	96
+Gather the harvest	Madelyne Pryor, Goblin Queen			SW1																1		She captures a BS for her team in city/escape.			sw12,jpg	8 7	Madelyne Pryor, Goblin Queen	""	97
+Corrupted clone of Jean Grey	Madelyne Pryor, Goblin Queen			SW1										X-Men	1	1						Other players reveal x-men or gain wound			sw12,jpg	9 7	Madelyne Pryor, Goblin Queen	""	98
+Magneto				B	Brotherhood		5	8						X-Men	2							Reveal X-men or discard down to 4 cards.			base2,jpg	2 2	Magneto	""	99
+Crushing shockwave	Magneto			B										X-Men	2	2						Other player's reveal X-men or gain 2 wounds.			base2,jpg	9 1	Magneto	""	100
+Electromagnetic bubble	Magneto			B										X-Men	1							Add one of your X-men to your next hand.			base2,jpg	1 2	Magneto	""	101
+Xavier's nemesis	Magneto			B										X-Men	2							Rescue BS for each of your X-men.			base2,jpg	10 1	Magneto	""	102
+Bitter captor	Magneto			B										X-Men	1							Recruit an X-men hero.			base2,jpg	8 1	Magneto	""	103
+Maria Hill, Director of S.H.I.E.L.D.				CW	S.H.I.E.L.D. Elite		6	7											2			Add 2 shield officers to city as 3 villains	2x shield clearance; need to clear shield officers first		civilwar,jpg	10 2	Maria Hill, Director of S.H.I.E.L.D.	SHIELD Clearance	104
+Declare martial law	Maria Hill, Director of S.H.I.E.L.D.			CW															2			Put officer in empty city spaces.			civilwar,jpg	6 5	Maria Hill, Director of S.H.I.E.L.D.	""	105
+Crash the helicarrier	Maria Hill, Director of S.H.I.E.L.D.			CW																		KO any number of SHIELD heroes.			civilwar,jpg	5 5	Maria Hill, Director of S.H.I.E.L.D.	""	106
+Rapid response team	Maria Hill, Director of S.H.I.E.L.D.			CW															2			2 officers enter citY.			civilwar,jpg	4 5	Maria Hill, Director of S.H.I.E.L.D.	""	107
+Evacuation Code Epsilon	Maria Hill, Director of S.H.I.E.L.D.			CW																		Other players discard SHIELD hero.			civilwar,jpg	3 5	Maria Hill, Director of S.H.I.E.L.D.	""	108
+Mephisto				DC	Underworld		6	10						Marvel Knights	1	2						Reveal MK or wound.		Wounds go to top of your deck	darkcity,jpg	8 2	Mephisto	""	109
+Damned if you do	Mephisto			DC												1		1				Other player's KO BS from VP or wound.			darkcity,jpg	7 2	Mephisto	""	110
+The price of failure	Mephisto			DC												1						Other players without tactic get wound.			darkcity,jpg	10 2	Mephisto	""	111
+Devilish torment	Mephisto			DC																		Other players put zero cost heroes from discard on top of their deck			darkcity,jpg	9 2	Mephisto	""	112
+Pain begets pain	Mephisto			DC																		Give any number of wounds in your hand to other player.			darkcity,jpg	6 2	Mephisto	""	113
+Misty Knight				CW	Heroes for Hire		6	14								1						Reveal 4 MO cards or get wound	Bribe		civilwar,jpg	1 3	Misty Knight	Bribe	114
+Cyborg detective	Misty Knight			CW																		Reveal top 3 cards of villain deck and put back in any order.			civilwar,jpg	2 5	Misty Knight	""	115
+Vibranium cyber arm	Misty Knight			CW										Marvel Knights	1	1						Other players reveal MK or wound.			civilwar,jpg	10 4	Misty Knight	""	116
+Bionic repulsor field	Misty Knight			CW										Marvel Knights	1							Other players reveal MK or put two cards from hand on top deck.			civilwar,jpg	1 5	Misty Knight	""	117
+Trusted bodyguard	Misty Knight			CW																1		Player with Colleen wing in VP rescues 5 BS, then Wing fortifies this.			civilwar,jpg	9 4	Misty Knight	Fortify	118
+Mojo				XM	Mojoverse		5	6					1							1		Add Human Shield. Reveal silver hero or discard at random.	Starts with 3 human shields.	Bystanders are worth 3 VP.	mm,jpg	6 1	Mojo	Human Shield	119
+Mojo		1		XM	Mojoverse		5	7					1							1		Add Human Shield, also to Mojo villains. Reveal silver hero or discard down to 4.	Starts with 6 human shields.	Bystanders are worth 4 VP.	emojo,png	1	Mojo	""	120
+Mojo branding opportunity	Mojo			XM																1		Add Human Shield. Draw card for each Mojoverse villain in your VP.			xmen2,jpg	4 2	Mojo	Human Shield	121
+Billions of tv viewers	Mojo			XM									1							1		Other players reveal S hero or give BS to Mojo.			xmen2,jpg	7 2	Mojo	Human Shield	122
+Brain-melting tv marathon	Mojo			XM												1						Other players without tactic get wound.			xmen2,jpg	6 2	Mojo	""	123
+Cross-dimensional marketing	Mojo			XM																1		Add Human Shield. Get MO for each BS in your VP.			xmen2,jpg	5 2	Mojo	Human Shield	124
+Mole Man				FF	Subterranea		6	7								1			1			All of his villains escape. If so, wounds.	Gets plus for his escaped villains.		pttr,jpg	4 6	Mole Man	""	125
+Dig to freedom	Mole Man			FF																		Other players put Subterranea villain from VP in escape pile			pttr,jpg	6 6	Mole Man	""	126
+Underground riches	Mole Man			FF																		Get 6 MO only for heroes under the streets.			pttr,jpg	7 6	Mole Man	""	127
+Master of monsters	Mole Man			FF															2			If not final tactic, play all Subterranea villains from top 6 of villain deck. Rest on bottom			pttr,jpg	5 6	Mole Man	""	128
+Secret tunnel	Mole Man			FF																		Get 6 FI only for villain on the streets.			pttr,jpg	3 6	Mole Man	""	129
+Mr. Sinister				DC	Marauders		6	8		1										1		Add BS. Reveal red or discard cards equal to # of BS he has.	Gets plus for his bystanders.		darkcity,jpg	2 3	Mr. Sinister	""	130
+Telepathic manipulation	Mr. Sinister			DC																		Add BS from other player's VP.			darkcity,jpg	1 3	Mr. Sinister	""	131
+Plans within plans	Mr. Sinister			DC																		Add BS for each tactic in VP's (including this one).			darkcity,jpg	4 3	Mr. Sinister	""	132
+Master geneticist	Mr. Sinister			DC																		Add BS from top 7 of villain deck. Rest back at random.			darkcity,jpg	3 3	Mr. Sinister	""	133
+Human experimentation	Mr. Sinister			DC																		Add BS for each villain in city.			darkcity,jpg	5 3	Mr. Sinister	""	134
+Mysterio				PTT	Sinister Six		6	8														This MS becomes a tactic.			pttr,jpg	5 2	Mysterio	""	135
+Blurring images	Mysterio			PTT																		Get MO for each tactic left.			pttr,jpg	6 2	Mysterio	""	136
+Mists of deception	Mysterio			PTT																		If not final tactic, play all master strikes in top five of villain deck. Bottom the rest.			pttr,jpg	8 2	Mysterio	""	137
+Master of illusions	Mysterio			PTT																	1	If not final tactic, shuffle a master strike from each other player's VP.			pttr,jpg	4 2	Mysterio	""	138
+Captive audience	Mysterio			PTT																		Rescue BS for each tactic left.			pttr,jpg	7 2	Mysterio	""	139
+Nimrod, Super Sentinel				SW1	Sentinel Territories		6	6					1									Reveal silver hero or discard all your MO or FI heroes (your choice).	Need 6 MO to fight him		sw1,jpg	2 1	Nimrod, Super Sentinel	""	140
+Scatter the mutants	Nimrod, Super Sentinel			SW1																		Put all heroes with either MO or FI signs from hq on bottom of hero deck.			sw1,jpg	6 1	Nimrod, Super Sentinel	""	141
+Adapt and destroy	Nimrod, Super Sentinel			SW1																		Other players discard a MO or FI hero (your choice).			sw1,jpg	5 1	Nimrod, Super Sentinel	""	142
+Detect mutation	Nimrod, Super Sentinel			SW1																		Choose MO or FI. If top card of your deck has that, draw it, then repeat.			sw1,jpg	4 1	Nimrod, Super Sentinel	""	143
+Teleport and incarcerate	Nimrod, Super Sentinel			SW1																		Choose MO or FI. If top card of hero deck has that, teleport it.			sw1,jpg	3 1	Nimrod, Super Sentinel	Teleport	144
+Onslaught				XM	Dark Descendants		7	10									2					KO all his heroes, then dominate a nongrey from each player's hand.		Hand size is -1!	mm,jpg	2 1	Onslaught	Dominate	145
+Onslaught		1		XM	Dark Descendants		7	12									2					KO all his heroes, then dominate two nongrey from each player's hand. Play horror.		Hand size is -1!	eons,png	1	Onslaught	""	146
+Xavier and Magneto combined	Onslaught			XM										X-men|Brotherhood	1|1		1					Dominate all X-men and Brotherhood heroes from top 3 of hero deck. Put others back.			xmen2,jpg	8 2	Onslaught	Dominate	147
+Worldwide mental control	Onslaught			XM																		Dominate 4 zero cost heroes from KO pile. KO them when fought.			xmen2,jpg	9 2	Onslaught	Dominate	148
+Godlike psionic entity	Onslaught			XM													2					Dominate all heroes from the HQ.			xmen2,jpg	1 3	Onslaught	Dominate	149
+Sins of X-men past	Onslaught			XM										X-men	1		1					Dominate an X-men from top 6 of other players deck.			xmen2,jpg	10 2	Onslaught	Dominate	150
+Ragnarok				CW	Registration Enforcers		6	6														Discard all zero or nonzero heroes	Gets plus for each color in the HQ.		civilwar,jpg	2 3	Ragnarok	""	151
+Hammer Goliath	Ragnarok			CW													1					KO all heroes costing 7 or more from HQ			civilwar,jpg	5 4	Ragnarok	""	152
+God of Cyborg Thunder	Ragnarok			CW																		Can spend MO as FI this turn			civilwar,jpg	8 4	Ragnarok	""	153
+Unnatural Storm Clouds	Ragnarok			CW																		Tuck all heroes from the HQ			civilwar,jpg	6 4	Ragnarok	""	154
+Electrical Charge	Ragnarok			CW					2													Draw a card for each of your B heroes			civilwar,jpg	7 4	Ragnarok	""	155
+Red Skull				B	HYDRA		5	7									1					Each player KO's a hero			base2,jpg	10 2	Red Skull	""	156
+Endless resources	Red Skull			B																		Get 4 MO			base2,jpg	1 3	Red Skull	""	157
+Hydra conspiracy	Red Skull			B																		Draw two cards, and draw more for each HYDRA villain in your vp			base2,jpg	8 2	Red Skull	""	158
+Negablast grenades	Red Skull			B																		Get 3 FI			base2,jpg	7 2	Red Skull	""	159
+Ruthless dictator	Red Skull			B																		Look at top 3 of your deck. KO one, discard one, put one back.			base2,jpg	9 2	Red Skull	""	160
+Shadow King				XM	Shadow-X		6	7									2					KO all his heroes, then dominate a nongrey from each player's discard pile.			mm,jpg	5 1	Shadow King	Dominate	161
+Shadow King		1		XM	Shadow-X		6	9									2					KO all his heroes, then dominate two nongrey from each player's discard pile.	Play two horrors at beginning of game		esh,png	1	Shadow King	""	162
+Poison their minds	Shadow King			XM													1					Other players have one nongrey hero from hand dominated.			xmen2,jpg	6 3	Shadow King	Dominate	163
+Psychic Seduction	Shadow King			XM													2					Dominate all heroes costing 5 or more from HQ			xmen2,jpg	9 3	Shadow King	Dominate	164
+Telepathic betrayal	Shadow King			XM																		Put Betrayal of the Shadow trap from any VP or KO on top of villain deck			xmen2,jpg	7 3	Shadow King	""	165
+Fiend of the astral plane	Shadow King			XM																		Other players shuffle two MO heroes from hand back into deck			xmen2,jpg	8 3	Shadow King	""	166
+Shiklah, the Demon Bride				SW2	Monster Metropolis		6	9														Put all twists among top 3 of villain deck on top, rest on bottom.			sw22,jpg	9 7	Shiklah, the Demon Bride	""	167
+Enslavement beam	Shiklah, the Demon Bride			SW2																		Fateful Resurrection: if so, rescue 4 BS.			sw2,jpg	6 3	Shiklah, the Demon Bride	Fateful Resurrection	168
+Infernal power	Shiklah, the Demon Bride			SW2																		Fateful Resurrection: if so, draw two cards.			sw2,jpg	4 3	Shiklah, the Demon Bride	Fateful Resurrection	169
+Shiklah's Husband, Deadpool	Shiklah, the Demon Bride			SW2																		Gain as hero; 5 FI, red, gets +1 for each hero with odd cost you played			sw2,jpg	5 3	Shiklah, the Demon Bride	""	170
+Drain life	Shiklah, the Demon Bride			SW2																		Fateful Resurrection: if so, defeat a villain for free.			sw2,jpg	7 3	Shiklah, the Demon Bride	Fateful Resurrection	171
+Spider-Queen				SW2		Spider-Infected	6	8								1				2		Put Spider-Infected back in city or wound.	Gets plus for escaped bystanders.		sw2,jpg	5 2	Spider-Queen	""	172
+Web the skyscrapers	Spider-Queen			SW2										Spider Friends	1					2		Other players reveal spider friends hero or put BS from VP into escape			sw2,jpg	1 4	Spider-Queen	""	173
+Control arachnid genes	Spider-Queen			SW2										Spider Friends	1							Gain a spider friends hero			sw2,jpg	8 3	Spider-Queen	""	174
+Sonic scream	Spider-Queen			SW2																2		Put all BS from top 8 of villain deck into escape, rest on bottom.			sw2,jpg	10 3	Spider-Queen	""	175
+Infect the entire city	Spider-Queen			SW2																2		Put BS in escape, then put one on each spider-infected.			sw2,jpg	9 3	Spider-Queen	""	176
+Stryfe				DC	MLF		6	7						X-Force	1							Reveal X-force or discard at random.	Gets plus for MS played.		darkcity,jpg	7 3	Stryfe	""	177
+Swift vengeance	Stryfe			DC																		A wound becomes a master strike.			darkcity,jpg	10 3	Stryfe	""	178
+Tide of retribution	Stryfe			DC										X-Force	1	1						Other players reveal X-force or gian wound.			darkcity,jpg	6 3	Stryfe	""	179
+Furious wrath	Stryfe			DC																		Play all master strike from top 6 villain deck, rest back.			darkcity,jpg	8 3	Stryfe	""	180
+Psychic torment	Stryfe			DC																		Look at top five of your deck. Draw one, rest discard.			darkcity,jpg	9 3	Stryfe	""	181
+Supreme Intelligence of the Kree				GG	Kree Starforce		6	9														Add shard, then discard equal to and cost of plus 1 number of shards.	Shards		gotg,jpg	10 5	Supreme Intelligence of the Kree	Shard	182
+Countermeasure protocols	Supreme Intelligence of the Kree			GG																		Add shard for each tactic in vp's (including this one).			gotg,jpg	2 6	Supreme Intelligence of the Kree	Shard	183
+Combined knowledge of all Kree	Supreme Intelligence of the Kree			GG																		Add shard for every Kree in city or escape.			gotg,jpg	9 5	Supreme Intelligence of the Kree	Shard	184
+Guide Kree Evolution	Supreme Intelligence of the Kree			GG																		Add shard, also to all Kree			gotg,jpg	6 1	Supreme Intelligence of the Kree	Shard	185
+Cosmic Omniscience	Supreme Intelligence of the Kree			GG																		Add shard for each strike played			gotg,jpg	5 1	Supreme Intelligence of the Kree	Shard	186
+Thanos				GG	Infinity Gems		7	24														Put nongrey hero from hand next to Thanos.	Gets minus for infinity gems in play.		gotg,jpg	5 5	Thanos	""	187
+The Mad Titan	Thanos			GG																		Other players discard all heroes with same name as hero next to Thanos			gotg,jpg	10 1	Thanos	""	188
+God of Death	Thanos			GG												1						Other players gain wound for each hero with same name as bound hero in hand.			gotg,jpg	9 1	Thanos	""	189
+Keeper of Souls	Thanos			GG																		Gain a hero from the pile. Other players put nongrey hero from discard in there.			gotg,jpg	8 1	Thanos	""	190
+Centuries of Envy	Thanos			GG																		Other players discard an infinity gem from play			gotg,jpg	7 1	Thanos	""	191
+The Goblin, Underworld Boss				N	Goblin's Freak Show		6	10								1				1		Two BS from each player become HW. Wounds if they cannot	Hidden witnesses	Starts with 2 HW	noir,jpg	9 4	The Goblin, Underworld Boss	Hidden Witness	192
+Carnival of carnage	The Goblin, Underworld Boss			N																		Other players discard for each freak show villain in citY.			noir,jpg	3 5	The Goblin, Underworld Boss	""	193
+Blackmail the judges	The Goblin, Underworld Boss			N																		2 HW for each freak show villain in city.			noir,jpg	1 5	The Goblin, Underworld Boss	Hidden Witness	194
+Sinister dreams	The Goblin, Underworld Boss			N										Sinister Six|Spider Friends	1|1	1						Other players reveal Sinister Six or Spider Friends hero or wound			noir,jpg	10 4	The Goblin, Underworld Boss	""	195
+Blind loyalty	The Goblin, Underworld Boss			N																		Investigate villain deck for freak show villain and put in vp.			noir,jpg	2 5	The Goblin, Underworld Boss	Investigate	196
+Wasteland Hulk				SW1	Wasteland		6	7								1						Hulk rampage	Gets plus 3 for tactics already gained		sw12,jpg	2 7	Wasteland Hulk	Cross-Dimensional Rampage	197
+Revert to Bruce Banner	Wasteland Hulk			SW1									1									Gain S hero			sw12,jpg	5 7	Wasteland Hulk	""	198
+Brutal Beating	Wasteland Hulk			SW1																		Other players discard for each wound in discard.			sw12,jpg	3 7	Wasteland Hulk	""	199
+Memories of Pain	Wasteland Hulk			SW1																		Other players put two wounds from discard on top of their deck			sw12,jpg	6 7	Wasteland Hulk	""	200
+Radioactive Regeneration	Wasteland Hulk			SW1																		KO up to two wound from hand/discard			sw12,jpg	4 7	Wasteland Hulk	""	201
+Zombie Green Goblin				SW1	The Deadlands		6	11									1					KO all ultimate heroes, then discard for each such hero KO'd total.	Gets plus 1 for KO'd ultimate heroes.		sw12,jpg	7 6	Zombie Green Goblin	Rise of the Living Dead	202
+Reign of Terror	Zombie Green Goblin			SW1															1			Rise of the Living Dead: Tuck all heroes costing 6 or less.			sw12,jpg	10 6	Zombie Green Goblin	Rise of the Living Dead	203
+The Hungry Dead	Zombie Green Goblin			SW1												1			1			Rise of the Living Dead: Other players get wound if villain in city with Rise			sw12,jpg	9 6	Zombie Green Goblin	Rise of the Living Dead	204
+Love to have you for dinner	Zombie Green Goblin			SW1													1		1			Rise of the Living Dead: KO all cost 7 or more in top 5 of hero deck, bottom rest			sw12,jpg	8 6	Zombie Green Goblin	Rise of the Living Dead	205
+Army of cadavers	Zombie Green Goblin			SW1															1			Other players discard for each villain with Rise in city			sw12,jpg	1 7	Zombie Green Goblin	Rise of the Living Dead	206
+Odin				V		Asgardian Warriors	6	10								1			2			Each player puts Asgardian Warriors in city. Wounds if they cannot.	Gets plus henchmen in city or escaped		villains,jpg	2 5	Odin	""	207
+Might of Valhalla	Odin			V																		Draw card for each Asgardian Warrios in your vp.			villains,jpg	3 5	Odin	""	208
+Riches of Asgard	Odin			V																		Get MO for each Asgardian Warrios in your vp.			villains,jpg	10 4	Odin	""	209
+Ride of the Valkyries	Odin			V										Asgardian Foes	1							Other players reveal Enemies of Asgard or discard for each Asgardian Warriors in escape			villains,jpg	4 5	Odin	""	210
+Divine Justice	Odin			V												1						Other players with wound in discard get another wound.			villains,jpg	1 5	Odin	""	211
+Dr. Strange				V	Defenders		6	8														Top 3 of villain deck: put toughest villain on top, play twist, rest on bottom.			villains,jpg	7 5	Dr. Strange	""	212
+Crimson bands of cyttorak	Dr. Strange			V												2						Other players gain binding for each nongrey hero in hand.			villains,jpg	8 5	Dr. Strange	""	213
+Book of the vishanti	Dr. Strange			V						1												Other players discard and draw anew unless they have red.			villains,jpg	6 5	Dr. Strange	""	214
+Eye of Agamotto	Dr. Strange			V																		Take top cards of hero deck and distribute them among players			villains,jpg	5 5	Dr. Strange	""	215
+Winds of Watoomb	Dr. Strange			V																		Exchange nongrey heroes			villains,jpg	9 5	Dr. Strange	""	216
+Uru-Enchanted Iron Man				FI	The Mighty		6	7														Demolish each player	Uru for each MS played		fearitself,jpg	8 3	Uru-Enchanted Iron Man	Uru-Enchanted Weapon|Demolish	217
+Quantum inventions	Uru-Enchanted Iron Man			FI									1									Draw two, then draw tw more if you reveal S hero			fearitself,jpg	1 4	Uru-Enchanted Iron Man	""	218
+Pepper Potts in Rescue armor	Uru-Enchanted Iron Man			FI																		Bystander becomes master strike			fearitself,jpg	2 4	Uru-Enchanted Iron Man	""	219
+Armor of the destroyer	Uru-Enchanted Iron Man			FI									1									Demolish other players for each S hero you have			fearitself,jpg	9 3	Uru-Enchanted Iron Man	Demolish	220
+Repulsor coils	Uru-Enchanted Iron Man			FI									1			1						Other players reveal S hero or wound.			fearitself,jpg	10 3	Uru-Enchanted Iron Man	""	221
+Nick Fury				V	Avengers		6	9														Demolish for each strike played.			villains,jpg	8 4	Nick Fury	""	222
+Bounty on Fury's head	Nick Fury			V																		KO any of your SHIELD heroes, you may gain that many officers.			villains,jpg	7 4	Nick Fury	""	223
+Total fury	Nick Fury			V																		Defeat villain with power less than number of KO'd SHIELD heroes			villains,jpg	9 4	Nick Fury	""	224
+Purge hydra	Nick Fury			V																		Other players discard 2 SHIELD heroes			villains,jpg	6 4	Nick Fury	""	225
+The avengers initiative	Nick Fury			V									1						2			Other players reveal S hero or put Avengers villain on bridge from VP.			villains,jpg	5 4	Nick Fury	""	226
+Professor X				V	X-Men First Class		6	8														Put 2 most expensive heroes from HQ next to MM.	Gets plus for each hero stacked next to him	Top hero stacked can be recruited	villains,jpg	1 6	Professor X	""	227
+Telepathic imprisonment	Professor X			V										Brotherhood	1	1						Other players reveal Brotherhood hero or gain wound			villains,jpg	3 6	Professor X	""	228
+Cerebro device	Professor X			V															1			Play all Xtreme attack heroes from top 3 of hero deck. Rest back			villains,jpg	4 6	Professor X	""	229
+Mental dominance	Professor X			V																		Put top 3 of hero deck next to this in random order.			villains,jpg	10 5	Professor X	""	230
+Mightiest mutant mind	Professor X			V																		Other players reveal Brotherhood hero or stack nongrey hero from hand next to this.			villains,jpg	2 6	Professor X	""	231
+Fin Fang Foom				CH	Monsters Unleashed		7	20	1	1	1	1	1									Demolish, again for his villain group.	Size-changing for every color		champions,jpg	9 4	Fin Fang Foom	Size-Changing|Demolish	232
+Fin Fang Foom		1		CH	Monsters Unleashed		7	24	1	1	1	1	1				2					Demolish, again for his villain group. KO all of these heroes discarded.			efoom,png	1	Fin Fang Foom	""	233
+Flammable Acid Breath	Fin Fang Foom			CH													2					KO top card hero deck, then other players KO hero sharing a color from discard pile.			champions,jpg	1 5	Fin Fang Foom	""	234
+Alien Dragon Technology	Fin Fang Foom			CH					1	1	1	1	1									A hero gains size changing for every color			champions,jpg	10 4	Fin Fang Foom	Size-Changing	235
+Supersonic Dive Attack	Fin Fang Foom			CH													1					KO top card hero deck, then other players discard hero sharing a color.			champions,jpg	3 5	Fin Fang Foom	""	236
+Multipronged Assault	Fin Fang Foom			CH												1						Other players gain wound unless they have spectrum.			champions,jpg	2 5	Fin Fang Foom	""	237
+General Ross				WW	Code Red		6	6								1				1		Transform, then hulk rampage	Starts with 8 bystanders to rescue for 2 FI	Easier if there's a Hulk	hulk,jpg	3 2	General Ross	Cross-Dimensional Rampage|Wounded Fury	238
+Red Hulk	General Ross		1	WW			6	9								1				1		Transform, then add bystanders from VP. If no BS, wound.	Wounded fury		hulk,jpg	8 2	General Ross	""	239
+Urban Warfare	General Ross			WW																		Add BS from stack, escape, city space and other player's vp, then transform			hulk,jpg	7 2	General Ross	""	240
+Call out the Army	General Ross			WW																		Add 3 BS, then transform			hulk,jpg	6 2	General Ross	""	241
+Bust you down to private	General Ross			WW																		Other players put nongrey hero from hand on bottom hero deck, then gain zero cost hero from KO, then transform			hulk,jpg	5 2	General Ross	""	242
+Personal Arsenal	General Ross			WW																		Add BS for each master strike, then transform.			hulk,jpg	4 2	General Ross	""	243
+Illuminati, Secret Society				WW	Illuminati		7	11														Each player discards two cards costing between 1 and 4 then transform.	You need to outwit or gets +4		hulk2,jpg	7 3	Illuminati, Secret Society	Outwit	244
+Illuminati, Open Warfare	Illuminati, Secret Society		1	WW			7	13														Each player discards two cards costing between 5 and 8 then transform.	Whenever drawing extra cards, also discard a card		hulk2,jpg	2 4	Illuminati, Secret Society	""	245
+Hulkbuster's Hammer Fist	Illuminati, Secret Society			WW						1			1				2					Other players KO a S or G hero from hand or discard, then transform.			hulk2,jpg	10 3	Illuminati, Secret Society	""	246
+Zom's Manacles of Living Bondage	Illuminati, Secret Society			WW						1						1						Other players reveal R hero or gain wound, then transform.			hulk2,jpg	1 4	Illuminati, Secret Society	""	247
+Dr. Strange's Orb of Agamotto	Illuminati, Secret Society			WW					1			1										Other players discard B or Y hero, then transform			hulk2,jpg	9 3	Illuminati, Secret Society	""	248
+Black Bolt's Omni-Shout	Illuminati, Secret Society			WW																		Other players discard two cards without rules text, then transform.			hulk2,jpg	8 3	Illuminati, Secret Society	""	249
+King Hulk, Sakaarson				WW	Warbound		6	9								1						KO warbound villain or wound, transform.	Gets plus for his villain group.		hulk2,jpg	2 5	King Hulk, Sakaarson	Wounded Fury	250
+King Hulk, Worldbreaker	King Hulk, Sakaarson		1	WW			6	10									2					KO card from hand or discard with same name as card in hq, transform	Wounded fury		hulk2,jpg	7 5	King Hulk, Sakaarson	""	251
+Fury of the Green Scar	King Hulk, Sakaarson			WW							1											Other players discard nongrey non G hero, transform			hulk2,jpg	3 5	King Hulk, Sakaarson	""	252
+Rule by the Strongest	King Hulk, Sakaarson			WW							2											Get MO for your G heroes, transform.			hulk2,jpg	6 5	King Hulk, Sakaarson	""	253
+Revenge from the Stars	King Hulk, Sakaarson			WW												1						Hulk rampage, transform.			hulk2,jpg	5 5	King Hulk, Sakaarson	Cross-Dimensional Rampage	254
+Oath of the Warbound	King Hulk, Sakaarson			WW															1			Toughest escaped villain enters sewers, transform.			hulk2,jpg	4 5	King Hulk, Sakaarson	""	255
+M.O.D.O.K.				WW	Intelligencia		6	9								1						Outwit him or get wound, transform	Outwit needs 4 different costs.		hulk2,jpg	8 6	M.O.D.O.K.	Outwit	256
+M.O.D.O.K., Network Nightmare	M.O.D.O.K.		1	WW			6	8														Outwit him or KO nongrey hero, transform	Only be fought with MO.		hulk2,jpg	3 7	M.O.D.O.K.	""	257
+Designed only for K.O.ing	M.O.D.O.K.			WW																		Reveal top 3 of your deck, KO one, draw one, discard one, transform			hulk2,jpg	1 7	M.O.D.O.K.	""	258
+Brain scramble	M.O.D.O.K.			WW																		Other player's discard hand, then draw anew, transform			hulk2,jpg	9 6	M.O.D.O.K.	""	259
+Redundancy Algorithms	M.O.D.O.K.			WW																		Other players discard two cards with same cost, transform			hulk2,jpg	2 7	M.O.D.O.K.	""	260
+Don't get a big head about it	M.O.D.O.K.			WW																		Draw a card for each intelligencia in vp, transform			hulk2,jpg	10 6	M.O.D.O.K.	""	261
+Pagliacci				CH	Wrecking Crew		6	9														Scheme twist on 1 or 5, demolish on 2,3,4			champions,jpg	9 2	Pagliacci	Demolish	262
+Pagliacci		1		CH	Wrecking Crew		6	11														Scheme twist on odd, demolish on even.			epag,png	1	Pagliacci	""	263
+Insane clown has a posse	Pagliacci			CH																		Other players may KO Wrecking crew villain from VP. Demolish if not.			champions,jpg	2 3	Pagliacci	Demolish	264
+Creative assassin	Pagliacci			CH																		Versatile 3			champions,jpg	1 3	Pagliacci	Versatile	265
+Jester of a twisted opera	Pagliacci			CH													1					Other players may KO hero of cost 1 or more from discard. Demolish if not.			champions,jpg	8 2	Pagliacci	Demolish	266
+Commedia dell' Morte	Pagliacci			CH												1						Other players may gain 2 wounds. Demolish if not.			champions,jpg	10 2	Pagliacci	Demolish	267
+The Red King				WW	Sakaar Imperial Guard		6	7					1			1						Transform, then wound unless S hero.	Can't be fought if there are villains in the citY.		hulk2,jpg	9 7	The Red King	""	268
+The Red King, Power Armored	The Red King		1	WW															1			Transform, then play another card from villain deck.			hulk,jpg	5 1	The Red King	""	269
+Vast armies of Sakaar	The Red King			WW															1			If not final tactic, play all villains in top 3 of villain deck, rest back. Transform			hulk,jpg	4 1	The Red King	""	270
+Treasury of Sakaar	The Red King			WW																		Get MO for each Sakaar and Red king in your VP, then transform.			hulk,jpg	3 1	The Red King	""	271
+Haughty spite	The Red King			WW												1						Players without tactic get wound, transform.			hulk,jpg	1 1	The Red King	""	272
+Royal bodyguard	The Red King			WW															1			Play the first Sakaar villain from villain deck, transform.			hulk,jpg	2 1	The Red King	""	273
+The Sentry				WW	Aspects of the Void		6	10								2						Transform, void rampage		Players start with two wounds	hulk,jpg	3 6	The Sentry	Cross-Dimensional Rampage|Wounded Fury|Feast	274
+The Void	The Sentry		1	WW			6	11								1	1					Feast, if grey, wound, transform.	Wounded fury		hulk,jpg	8 6	The Sentry	""	275
+Repressed darkness	The Sentry			WW					1										1			Other players reveal B hero or play Void villain from VP. Transform.			hulk,jpg	7 6	The Sentry	""	276
+Pacifying light	The Sentry			WW																		Other players discard two MO heroes, transform			hulk,jpg	4 6	The Sentry	""	277
+Power of a million exploding suns	The Sentry			WW																		Tuck all heroes in HQ. Other players discard heroes with same card names.			hulk,jpg	5 6	The Sentry	""	278
+Reflexive teleportation	The Sentry			WW																		Teleport one of your heroes that costs 5 or less. Transform			hulk,jpg	6 6	The Sentry	""	279
+Adrian Toomes				HC	Salvagers		6	5														Each villain uses its escape ability.	Double striker		homecoming,jpg	1 1	Adrian Toomes	Striker	280
+Adrian Toomes		1		HC	Salvagers		6	5														Each villain uses its ambush and escape ability.	Triple striker		eadrian,png	1	Adrian Toomes	""	281
+More Harm than Good	Adrian Toomes			HC										Spidermen		1						Each player wound if no spidermen.			homecoming,jpg	5 1	Adrian Toomes	""	282
+Take Everything	Adrian Toomes			HC																		Put card from discard on top of deck.			homecoming,jpg	4 1	Adrian Toomes	""	283
+Don't Interfere	Adrian Toomes			HC																1		Danger sense 4, rescue any bs.			homecoming,jpg	3 1	Adrian Toomes	Danger Sense	284
+The World's Changed	Adrian Toomes			HC																		Danger sense 3, defeat any henchmen and do their fight effects.			homecoming,jpg	2 1	Adrian Toomes	Danger Sense	285
+Hybrid				HC	Life Foundation		6	6								1						Symbiote bond with villain in city. If already bonded, everybody wound.	If fought while bonded, rescue 3 bs and gain villain.		venom,png	5 4	Hybrid	Symbiote Bond	286
+Hybrid		1		VE	Life Foundation		6	8								1						Symbiote bond with highest power villain in city or escape. If not possible, everybody wound	If fought while bonded, rescue 3 bs and gain villain.		ehybrid,png	1	Hybrid	""	287
+Symbiotic Call	Hybrid			VE																		Symbiote bond with a henchman in top 4 of villain deck.			venom,png	6 4	Hybrid	Symbiote Bond	288
+Life foundation research	Hybrid			VE																		Get MO for Life Foundation villains in vp.			venom,png	9 4	Hybrid	""	289
+Escaped monstrosity	Hybrid			VE																		A villain from city or escape symbiotic bonds.			venom,png	8 4	Hybrid	Symbiote Bond	290
+Alien awakening	Hybrid			VE																		A henchman from a vp symbiotic bonds.			venom,png	7 4	Hybrid	Symbiote Bond	291
+Morgan Le Fay				AM	Queen's Vengeance		6	7		1						1						Each player reveals R or gets 0 cost hero or wound from KO pile.	Chivalrous Duel		antman,jpg	4 5	Morgan Le Fay	Chivalrous Duel	292
+Morgan Le Fay		1		AM	Queen's Vengeance		6	9								1						Each player gets 0 cost hero and wound from KO pile.	Chivalrous Duel		antman,jpg	5 5	Morgan Le Fay	""	293
+Stolen tomes of Merlin	Morgan Le Fay			AM					1	1												Get 4 MO for B or R heroes.			antman,jpg	7 5	Morgan Le Fay	""	294
+Sorcerous blasts	Morgan Le Fay			AM												1						Other players discard R or get wound.			antman,jpg	8 5	Morgan Le Fay	""	295
+Reverse the flow of time	Morgan Le Fay			AM																		Reverse turn order			antman,jpg	9 5	Morgan Le Fay	""	296
+Transmogrify	Morgan Le Fay			AM													1					Each other player KO's non-grey hero from discard and gains hero from KO with lower cost.			antman,jpg	6 5	Morgan Le Fay	""	297
+Poison Thanos				VE	Poisons		7	12														Each player puts non-grey hero from hand in poisoned souls pile.	Gets + 1 FI for different costs in pile		venom,png	10 4	Poison Thanos	""	298
+Poison Thanos		1		VE	Poisons		7	13								1						Each player puts half of their non-grey heroes from hand in poisoned souls pile. If no hero lost, wound.	Gets + 2 FI for different costs in pile		epoison,png	1	Poison Thanos	""	299
+Poisoned loyalties	Poison Thanos			VE																		Other players put poisons hero from discard into poisoned souls pile.			venom,png	3 5	Poison Thanos	""	300
+Searing poisons	Poison Thanos			VE												1						Other players discard poisons hero or gain wound.			venom,png	4 5	Poison Thanos	""	301
+Desperate rescue	Poison Thanos			VE																		Gain hero from poisoned souls pile.			venom,png	2 5	Poison Thanos	""	302
+Soul seize	Poison Thanos			VE																		Put all heroes that cost 5 or more from hq into poisoned souls pile.			venom,png	1 5	Poison Thanos	""	303
+Ultron				AM	Ultron's Legacy		6	9					1									Reveal S hero or put non-grey hero from discard into threat analysis pile.	Empowered for colors in analysis pile.		antman,jpg	7 1	Ultron	Empowered	304
+Ultron		1		AM	Ultron's Legacy		6	10														Put non-grey hero from hand into threat analysis pile.	Triple empowered for colors in analysis pile.		antman,jpg	8 1	Ultron	""	305
+Arrogant Blindspot	Ultron			AM																		Gain hero from analysis pile.			antman,jpg	9 1	Ultron	""	306
+Paralyzing Encephalo-Ray	Ultron			AM																		Other players discard cards with same name as cards in analysis pile.			antman,jpg	10 1	Ultron	""	307
+Self-repairing legions	Ultron			AM									1						1			Other players reveal S or put Ultron's Legacy villain in city.			antman,jpg	1 2	Ultron	""	308
+Predictive analysis	Ultron			AM																		Put top 3 of hero deck in analysis pile.			antman,jpg	2 2	Ultron	""	309
+Vulture				HC	Vulture Tech		6	8								2						Put wound under each hq space. Give 1 wound to next player if hero is gained or KO'd from there.	Striker		homecoming,jpg	5 4	Vulture	Striker	310
+Vulture		1		HC	Vulture Tech		6	10								2						Wound under each hq space. Can be from KO. Put 1 wound on top of next player's deck if hero is gained or KO'd from there.	Striker		evult,png	1	Vulture	""	311
+Bird of Prey	Vulture			HC										Spidermen								Other players discard a spiderman or two cards.			homecoming,jpg	9 4	Vulture	""	312
+Winged Assault	Vulture			HC																		Each other players get two wounds from the hq.			homecoming,jpg	8 4	Vulture	""	313
+Lurking Shadow	Vulture			HC															1			Danger sense 2. A villain of them may enter the empty rooftops.			homecoming,jpg	7 4	Vulture	Danger Sense	314
+Mid Air Heist	Vulture			HC									1									Get 5 MO for S heroeS.			homecoming,jpg	6 4	Vulture	""	315
+J. Jonah Jameson				D		Spider-Slayer	5	4														Investigate for hero to put in angry mobs stack. Stack starts with 2 shield officers. 4 to fight any in the stack.			jonah,png	3 1	J. Jonah Jameson	Investigate	316
+J. Jonah Jameson		1		D		Spider-Slayer	5	5								1						Investigate for hero to put in angry mobs stack. Stack starts with 3 shield officers. 5 to fight any in the stack.			ejonah,png	1	J. Jonah Jameson	""	317
+Slanderous Editorial	J. Jonah Jameson			D																		Other players investigate for non-grey hero and put in angry mobs stack.			jonah,png	7 1	J. Jonah Jameson	Investigate	318
+Incite violent riots	J. Jonah Jameson			D												2						Each player puts a wound in the angry mobs stack.			jonah,png	6 1	J. Jonah Jameson	""	319
+Promote spider-slayer security	J. Jonah Jameson			D															1			Other players put spider-slayer in angry mobs stack. These enter the city when revealed.			jonah,png	5 1	J. Jonah Jameson	""	320
+That menace spiderman!	J. Jonah Jameson			D										Spidermen								Other player discard a spiderman hero. If they can't, they put non-grey card from hand in the angry mobs stack.			jonah,png	4 1	J. Jonah Jameson	""	321
+Grim Reaper				R	Lethal Legion		6	8														Add as Location of 7 FI with +2 if villain there.	+1 for each location		reaper,png	1	Grim Reaper	Location	322
+Grim Reaper		1		R	Lethal Legion		6	9								1						Add as Location of 8 FI with +3 if villain there. Wounds if three locations.	+2 for each location		ereaper,png	1	Grim Reaper	""	323
+Carnival of Concussions	Grim Reaper			R														1				Draw 3 then add as Location of 8. KBS if fight villain there.			revelations,png	3 6	Grim Reaper	Location	324
+Cult of Skulls	Grim Reaper			R																		KO up to 2 from discard, then add as Location of 8. Other players discard when fight villain there.			revelations,png	4 6	Grim Reaper	Location	325
+Maze of Bones	Grim Reaper			R												1						Filter top of deck, then add as Location of 8. Wounds if fight villain there.			revelations,png	5 6	Grim Reaper	Location	326
+Prison of Coffins	Grim Reaper			R															1			Get 5 MO, then add as Location of 8. Escape villains from VP if fight villain there.			revelations,png	6 6	Grim Reaper	Location	327
+The Hood				R	Hood's Gang		6	9														Reveal top six of deck, discard all non-grey.	Dark Memories		hood,png	1	The Hood	Dark Memories	328
+The Hood		1		R	Hood's Gang		6	10														Discard deck, then shuffle back 6 random grey cards.	Dark Memories		ehood,png	1	The Hood	""	329
+Demonic Revelation	The Hood			R																		Other players discard nongrey hero.			revelations,png	1 7	The Hood	""	330
+Focus magic through guns	The Hood			R						1			1									Other players reveal R or discard a card, reveal S or get wound.			revelations,png	2 7	The Hood	""	331
+Paean to Dormammu	The Hood			R																		Other players discard their deck.			revelations,png	3 7	The Hood	""	332
+The Hood's Warehouse	The Hood			R															1	1		Rescue 4 BS, then add as Location of 9. Play villain card if fight villain there.			revelations,png	4 7	The Hood	Location	333
+Mandarin				R		Mandarin's Rings	6	16								1			2			Each player adds a hench from VP to the city. If not, wound.	Henchmen +1. -1 for each henchmen in VP.		mandarin,png	1	Mandarin	""	334
+Mandarin		1		R		Mandarin's Rings	6	26								1			2			Each player adds a hench from VP to the city. If not, wound on top of deck.	Henchmen +2. -2 for each henchmen in VP.		emandarin,png	1	Mandarin	""	335
+Circles Unbroken	Mandarin			R																		Draw a card for each hench in VP.			revelations,png	7 6	Mandarin	""	336
+Intertwining powers	Mandarin			R												1						Other players with < 2 hench in VP get wound.			revelations,png	8 6	Mandarin	""	337
+Rings seek their true hand	Mandarin			R									1						1			Other players reveal S or put a hench in escape.			revelations,png	9 6	Mandarin	""	338
+Dragon of heaven spaceship	Mandarin			R													2					KO up to 2 heroes, then add as Location. KO nongrey hero when fight here.			revelations,png	10 6	Mandarin	Location	339
+Hydra High Council				AOS	Hydra Elite																	Placeholder, not a card					Hydra High Council	Adapt	340
+Red Skull	Hydra High Council			AOS			6	7									2					Each player KO's a nongrey hero. Adapt. | Fight is KO a grey hero and Adapt.	+1 for each two hydra levels.		shield,png	10 6	Hydra High Council	HYDRA Level|Adapt	341
+Viper	Hydra High Council			AOS			6	9								1						Wound if hydra villains in city. Adapt. | Fight: discard, then draw. Adapt.	+1 for each HYDRA villain in city		shield,png	9 6	Hydra High Council	Adapt	342
+Arnim Zola	Hydra High Council			AOS			6	6														Each player discard 2 FI heroes. Adapt. | Fight: Gain a FI hero. Adapt.	Abomination		shield,png	7 6	Hydra High Council	Adapt	343
+Baron Helmut Zemo	Hydra High Council			AOS			6	16								1						KO a hydra villain or gain wound. Adapt. | Fight: same for other players, adapt.	-1 for each villain in VP		shield,png	8 6	Hydra High Council	Adapt	344
+Hydra Super-Adaptoid				AOS	A.I.M., Hydra Offshoot																	Placeholder, not a card					Hydra Super-Adaptoid	Adapt	345
+Black Widow's Bite	Hydra Super-Adaptoid			AOS			6	8		1						1		1		1		KO 2 BS from VP or wound. Adapt. | Fight: Rescue a BS for each R hero. Adapt.			officers,png	9 3	Hydra Super-Adaptoid	Adapt	346
+Captain America's Shield	Hydra Super-Adaptoid			AOS			6	10				1										Reveal Y hero or discard hand, draw 4. Adapt. | Fight: +1 MO for SP. Adapt.			officers,png	1 4	Hydra Super-Adaptoid	Adapt	347
+Iron Man's Armor	Hydra Super-Adaptoid			AOS			6	12					1									Reveal S hero or discard down to 3. Adapt. | Fight: draw for each S hero. Adapt			officers,png	10 3	Hydra Super-Adaptoid	Adapt	348
+Thor's Hammer	Hydra Super-Adaptoid			AOS			6	14	1		1					1						Reveal B hero or wound. Adapt. | Fight: KO a hero for each G hero. Adapt.			officers,png	2 4	Hydra Super-Adaptoid	Adapt	349
+Malekith the Accursed				HOA	Dark Council		6	8											1			Captures villainous weapons and adds one to the city.			male,png	1	Malekith the Accursed	Villainous Weapon|Thrown Artifact	350
+Malekith the Accursed		1		HOA	Dark Council		6	10											1			Captures villainous weapons and adds one to the city.			emale,png	1	Malekith the Accursed	""	351
+Dagger of Living Abyss	Malekith the Accursed			HOA															1	1		Becomes a villainous weapon, which can be beaten for an artifact.			hoa,png	2 2	Malekith the Accursed	Villainous Weapon|Artifact	352
+The hunting horn of faerie	Malekith the Accursed			HOA															1	1		Becomes a villainous weapon, which can be beaten for an artifact.			hoa,png	1 2	Malekith the Accursed	Villainous Weapon|Artifact	353
+Blackhammer of the accursed	Malekith the Accursed			HOA													1		1			Becomes a villainous weapon, which can be beaten for an artifact.			hoa,png	9 1	Malekith the Accursed	Villainous Weapon|Artifact	354
+Vulnerable to cold iron	Malekith the Accursed			HOA									2									Get 2 MO for each S hero.			hoa,png	10 1	Malekith the Accursed	""	355
+Hela, Goddess of Death				HOA	Omens of Ragnarok		6	10								1			1			Becomes a villain, then add another villain from your VP or wound.	Bridge and Streets Conqueror 5		hela,png	1	Hela, Goddess of Death	Conqueror	356
+Hela, Goddess of Death		1		HOA	Omens of Ragnarok		6	12								1			1			Becomes a villain, then add another villain from your VP or wound.	Bridge, Streets and Rooftops Conqueror 6		ehela,png	1	Hela, Goddess of Death	""	357
+Hela's Cloak	Hela, Goddess of Death			HOA																1		Becomes a villainous weapon.			hoa,png	8 1	Hela, Goddess of Death	Villainous Weapon|Artifact	358
+The Nightsword	Hela, Goddess of Death			HOA																1		Becomes a villainous weapon.			hoa,png	6 1	Hela, Goddess of Death	Villainous Weapon|Thrown Artifact|Conqueror	359
+Seize Bifrost, the Rainbow Bridge	Hela, Goddess of Death			HOA															1			Play a villain if any.			hoa,png	7 1	Hela, Goddess of Death	""	360
+Naglfar, Longship of Fingernails	Hela, Goddess of Death			HOA															1			Other player adds a villain from VP to city			hoa,png	5 1	Hela, Goddess of Death	""	361
+Emma Frost, The White Queen				NM	Hellions		6	8														Waking nightmares	Extra FI for grey heroes		emma,png	1	Emma Frost, The White Queen	Waking Nightmare	362
+Emma Frost, The White Queen		1		NM	Hellions		6	9														Waking nightmares	Extra FI for grey heroes		eemma,png	1	Emma Frost, The White Queen	""	363
+Assume Diamond Form	Emma Frost, The White Queen			NM																		Can't be fought again this turn			newmutants,png	2 5	Emma Frost, The White Queen	""	364
+Contempt for Weaklings	Emma Frost, The White Queen			NM																		Other players gain 0-cost heroes			newmutants,png	1 5	Emma Frost, The White Queen	""	365
+Psychic X-Men Link	Emma Frost, The White Queen			NM										X-Men	1	1						Waking nightmare, discard X-men or wound.			newmutants,png	3 5	Emma Frost, The White Queen	Waking Nightmare	366
+Tempting Bargain	Emma Frost, The White Queen			NM																		Play top card of villain deck for 5 MO.			newmutants,png	4 5	Emma Frost, The White Queen	""	367
+Belasco, Demon Lord of Limbo				NM	Demons of Limbo		6	9									2					KO nongrey heroes	Extra FI for KO'd nongrey heroes		belasco,png	1	Belasco, Demon Lord of Limbo	Sunlight|Moonlight|Waking Nightmare	368
+Belasco, Demon Lord of Limbo		1		NM	Demons of Limbo		6	10									2					KO nongrey heroes	Extra FI for KO'd nongrey heroes		ebelasco,png	1	Belasco, Demon Lord of Limbo	""	369
+A Demon's Mercy	Belasco, Demon Lord of Limbo			NM													2					Other player's KO nongrey hero.			newmutants,png	7 4	Belasco, Demon Lord of Limbo	""	370
+Bargain for Souls	Belasco, Demon Lord of Limbo			NM													2					KO nongrey heroes			newmutants,png	8 4	Belasco, Demon Lord of Limbo	""	371
+Cleaving Demonblade	Belasco, Demon Lord of Limbo			NM													2					KO nongrey heroes			newmutants,png	9 4	Belasco, Demon Lord of Limbo	""	372
+Rescue from Limbo	Belasco, Demon Lord of Limbo			NM																		Exchange for KO'd hero.			newmutants,png	10 4	Belasco, Demon Lord of Limbo	""	373
+Magus				ITC		Universal Church of Truth	6	9								2			1					shards	magus,jpg	1	Magus	Shard	374
+Magus		1		ITC		Universal Church of Truth	6	11								2			2					shards	emagus,jpg	1	Magus	""	375
+Seize Cosmic Power	Magus			ITC																				shards	itcmm,png	2 2	Magus	Shard	376
+Dark Side of Adam Warlock	Magus			ITC						1														shards	itcmm,png	1 2	Magus	Shard	377
+Resurrected as the Child Magus	Magus			ITC																				shards	itcmm,png	10 1	Magus	Shard	378
+Conjured Shade of Thanos	Magus			ITC																1				shards	itcmm,png	9 1	Magus	Shard	379
+The Grandmaster				ITC	Elders of the Universe		6	10								1									gm,jpg	1	The Grandmaster	Contest of Champions|Shard	380
+The Grandmaster		1		ITC	Elders of the Universe		6	11								1									egm,jpg	1	The Grandmaster	""	381
+Deal with Death	The Grandmaster			ITC						1							1								itcmm,png	7 1	The Grandmaster	Contest of Champions|Shard	382
+Galactic Marathon	The Grandmaster			ITC								1													itcmm,png	6 1	The Grandmaster	Contest of Champions|Shard	383
+Cheat against Thanos	The Grandmaster			ITC					1									1		1					itcmm,png	5 1	The Grandmaster	Contest of Champions|Shard	384
+Match Offenders vs. Defenders	The Grandmaster			ITC							1														itcmm,png	8 1	The Grandmaster	Contest of Champions|Shard	385
+The Beyonder				ITC	From Beyond		7	21																	beyon,jpg	1	The Beyonder	Cosmic Threat	386
+The Beyonder		1		ITC	From Beyond		7	24																	ebeyon,jpg	1	The Beyonder	""	387
+Playthings of a Petulant God	The Beyonder			ITC													1						cosmic threat for cost >4		itcmm,png	4 1	The Beyonder	""	388
+Dimensional Collapse	The Beyonder			ITC																			cosmic threat for cost >5		itcmm,png	3 1	The Beyonder	""	389
+Create the Secret Wars	The Beyonder			ITC												1									itcmm,png	2 1	The Beyonder	Contest of Champions	390
+Pull Earth into the Beyond	The Beyonder			ITC																1					itcmm,png	1 1	The Beyonder	""	391
+Emperor Vulcan of the Shi'ar				ROK	Shi'ar Imperial Elite		6	10														Throne's favor			vulcan,jpg	1	Emperor Vulcan of the Shi'ar	Throne's Favor	392
+Emperor Vulcan of the Shi'ar		1		ROK	Shi'ar Imperial Elite		6	12														Throne's favor			evulcan,jpg	1	Emperor Vulcan of the Shi'ar	""	393
+Contempt for Weakness	Emperor Vulcan of the Shi'ar			ROK																		Throne's favor			vulcantactics,jpg	NW	Emperor Vulcan of the Shi'ar	Throne's Favor	394
+Solar Cage	Emperor Vulcan of the Shi'ar			ROK												1						Throne's favor			vulcantactics,jpg	NE	Emperor Vulcan of the Shi'ar	Throne's Favor	395
+Blast every form of energy	Emperor Vulcan of the Shi'ar			ROK																		Throne's favor			vulcantactics,jpg	SW	Emperor Vulcan of the Shi'ar	Throne's Favor	396
+Vast wealth of the Shi'ar	Emperor Vulcan of the Shi'ar			ROK																		Throne's favor			vulcantactics,jpg	SE	Emperor Vulcan of the Shi'ar	Throne's Favor	397
+Maximus the Mad				ROK	Inhuman Rebellion		6	8																	max,jpg	1	Maximus the Mad	Abomination	398
+Maximus the Mad		1		ROK	Inhuman Rebellion		6	9																	emax,jpg	1	Maximus the Mad	""	399
+Seize the inhuman throne	Maximus the Mad			ROK																					maxtactics,jpg	NW	Maximus the Mad	Throne's Favor	400
+Terrigen bomb	Maximus the Mad			ROK													1								maxtactics,jpg	NE	Maximus the Mad	Throne's Favor	401
+Echo-tech chorus sentries	Maximus the Mad			ROK												1	1								maxtactics,jpg	SW	Maximus the Mad	""	402
+Sieve of secrets	Maximus the Mad			ROK																					maxtactics,jpg	SE	Maximus the Mad	""	403

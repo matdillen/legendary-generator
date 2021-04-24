@@ -1,0 +1,42 @@
+Name	NameSpecific	Ct	Set	KO_HERO	KO_WND	BS	CRWD	KO_BS	KO_NG	TOP	file	loc	Comments	id	keywords	seq
+Spider-Infected		10	SW2			1				1	sw2,jpg	6 5		Spider-Infected	Wall-Crawl	1
+Doombot Legion		10	B	1	1				1	1	base,jpg	5 2		Doombot Legion	""	2
+Phalanx		10	DC	1					1		ff,jpg	5 7		Phalanx	""	3
+Khonshu Guardians		10	SW2	1							sw2,jpg	7 5		Khonshu Guardians	""	4
+Magma Men		10	SW2	1			1				sw2,jpg	5 5		Magma Men	Fateful Resurrection	5
+Ghost Racers		10	SW1	1			1		1		sw1,jpg	7 4		Ghost Racers	Rise of the Living Dead	6
+M.O.D.O.K.s		10	SW1	1					1		sw1,jpg	6 4		M.O.D.O.K.s	""	7
+Sentinel		10	B	1							base,jpg	4 2		Sentinel	""	8
+Maggia Goons		10	DC	1							ff,jpg	6 7		Maggia Goons	Bribe	9
+Thor Corps		10	SW1				1				sw1,jpg	5 4		Thor Corps	""	10
+Savage Land Mutates		10	B								base,jpg	2 3		Savage Land Mutates	""	11
+Hand Ninjas		10	B								base,jpg	6 2		Hand Ninjas	""	12
+Cops		10	V								villains,jpg	10 3		Cops	""	13
+Asgardian Warriors		10	V								villains,jpg	9 3		Asgardian Warriors	""	14
+Multiple Man		10	V	1					1		villains,jpg	8 3		Multiple Man	""	15
+S.H.I.E.L.D. Assault Squad		10	V	1					1		villains,jpg	7 3		S.H.I.E.L.D. Assault Squad	""	16
+Cape-Killers		10	CW	1	1						civilwar,jpg	5 3		Cape-Killers	SHIELD Clearance	17
+Mandroid		10	CW	1							civilwar,jpg	6 3		Mandroid	""	18
+Hellfire Cult		10	XM	1	1					1	xmen,jpg	9 3		Hellfire Cult	""	19
+Sapien League		10	XM	1			1				xmen,jpg	10 3		Sapien League	""	20
+Shi'ar Death Commandos		10	XM	1		1					xmen,jpg	1 4		Shi'ar Death Commandos	Human Shield	21
+Shi'ar Patrol Craft		10	XM								xmen,jpg	2 4		Shi'ar Patrol Craft	Soaring Flight	22
+The Brood		10	XM	1				1			xmen,jpg	3 4		The Brood	""	23
+Sakaaran Hivelings		10	WW	1	1				1	1	hulk2,jpg	10 1		Sakaaran Hivelings	Feast	24
+Cytoplasm Spikes		10	WW	1	1				1	1	hulk2,jpg	1 2		Cytoplasm Spikes	Feast	25
+Death's Heads		10	WW	1	1						hulk2,jpg	9 1		Death's Heads	Outwit	26
+Circus of Crime		10	D	1	1					1	sw2,jpg	5 1		Circus of Crime	""	27
+Spider-Slayer		10	D							1	sw2,jpg	6 1		Spider-Slayer	""	28
+Mandarin's Rings	Daimonic, the White Light	1	R								revelations,png	3 4		Mandarin's Rings	""	29
+Mandarin's Rings	Incandescence, the Flame Blast	1	R	1	1						revelations,png	4 4		Mandarin's Rings	""	30
+Mandarin's Rings	Influence, the Impact Beam	1	R								revelations,png	5 4		Mandarin's Rings	""	31
+Mandarin's Rings	Liar, the Mento-Intensifier	1	R								revelations,png	6 4		Mandarin's Rings	""	32
+Mandarin's Rings	Lightning, the Electro-Blast	1	R	1	1					1	revelations,png	7 4		Mandarin's Rings	""	33
+Mandarin's Rings	Nightbringer, the Black Light	1	R								revelations,png	8 4		Mandarin's Rings	""	34
+Mandarin's Rings	Remaker, the Matter Rearranger	1	R								revelations,png	9 4		Mandarin's Rings	""	35
+Mandarin's Rings	Spectral, the Disintegration Beam	1	R	1					1		revelations,png	10 4		Mandarin's Rings	""	36
+Mandarin's Rings	Spin, the Vortex Beam	1	R							1	revelations,png	1 5		Mandarin's Rings	""	37
+Mandarin's Rings	Zero, the Ice Blast	1	R								revelations,png	2 5		Mandarin's Rings	""	38
+HYDRA Base		10	R	1					1		revelations,png	3 5		HYDRA Base	Location	39
+Sidera Maris, Bridge Builders		10	ITC	1							itc,png	5 5		Sidera Maris, Bridge Builders	Shard	40
+Universal Church of Truth		10	ITC	1							itc,png	4 5	required shards	Universal Church of Truth	Shard	41

@@ -57,7 +57,7 @@ function shift_to_next(objects,targetZone)
 			broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
 		end
 		for i,o in pairs(obj.getTags()) do
-			if o == "Bystander" then
+			if o == "Bystander" and obj.name ~= "Shapeshifted Copycat" then
 				bs = true
 			end
 		end

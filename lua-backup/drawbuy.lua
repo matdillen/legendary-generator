@@ -21,6 +21,7 @@ function onLoad()
     --Local positions for each pile of cards
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}
+	pos_add2 = {-3.15, 0.178, 0.222}
 
     --This is which way is face down for a card or deck relative to the tool
     rot_offset = {x=0, y=0, z=180}
@@ -48,13 +49,21 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
         ["White"]="206c9c"
 
     }
-    pos_discard = {-0.957, 0.178, 0.222}
+	local desc = card.getDescription()
+	if desc:find("WALL%-CRAWL") then
+		pos = pos_draw
+		card.flip()
+	elseif desc:find("SOARING FLIGHT") then
+		pos = pos_add2
+	else 
+		pos = pos_discard
+	end
     --log(card)
     --log("boardGUID")
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     --log("playerBoard")
     --log(playerBoard)
-    local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
+    local dest = playerBoard.positionToWorld(pos)
 	log(player_clicker_color)
 	if player_clicker_color == "White" then
 		angle = 90

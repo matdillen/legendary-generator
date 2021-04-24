@@ -3,7 +3,7 @@ library(tidyverse)
 library(jsonlite)
 
 #read the json file for the mod/save you want to edit
-a = fromJSON("lua/2269377314.json",
+a = fromJSON("lua/TS_Save_72.json",
              simplifyVector = F)
 
 #fix nickname that doesn't match

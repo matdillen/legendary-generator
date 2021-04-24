@@ -1,0 +1,438 @@
+Group	Name	Ct	Set	VP	BP	B	R	G	Y	S	SP	ESC	AMB	Team	TeamSC	Wnd	KOH	KBS	CRWD	BS	MM	Cty	Protection	NOTE	file	loc	id	keywords	seq
+Uncanny X-Men	Colossus	2	V	3	5											1							X-Treme Attack		villains2,jpg	7 6	Uncanny X-Men	X-Treme Attack	1
+Uncanny X-Men	Shadowcat	2	V	2	2																		X-treme Attack, Elusive 5		villains2,jpg	4 6	Uncanny X-Men	X-Treme Attack|Elusive	2
+Uncanny X-Men	Nightcrawler	2	V	2	4																		X-Treme Attack		villains2,jpg	6 6	Uncanny X-Men	X-Treme Attack	3
+Uncanny X-Men	Storm	2	V	2	4								1			1									villains2,jpg	5 6	Uncanny X-Men	X-Treme Attack	4
+Spider Friends	Moon Knight	2	V	2	4												1								villains,jpg	10 2	Spider Friends	""	5
+Spider Friends	Spiderman	2	V	3	2							1							1						villains,jpg	7 2	Spider Friends	""	6
+Spider Friends	Firestar	2	V	3	5							1					2								villains,jpg	9 2	Spider Friends	""	7
+Spider Friends	Black Cat	2	V	2	2																		Elusive 6		villains,jpg	8 2	Spider Friends	Elusive	8
+The Mighty	Iron Fist	1	FI	2	3												1						Uru-Enchanted Weapon		fearitself,jpg	4 4	The Mighty	Uru-Enchanted Weapon	9
+The Mighty	Wolverine	1	FI	6	5				1			1											2 Uru-Enchanted Weapons		fearitself,jpg	10 4	The Mighty	Uru-Enchanted Weapon	10
+The Mighty	Dr. Strange	1	FI	4	5								1										Uru-Enchanted Weapon		fearitself,jpg	8 4	The Mighty	Uru-Enchanted Weapon	11
+The Mighty	Ms. Marvel	1	FI	3	4	1						1											Uru-Enchanted Weapon		fearitself,jpg	5 4	The Mighty	Uru-Enchanted Weapon	12
+The Mighty	Red She-Hulk	1	FI	2	4																		Uru-Enchanted Weapon		fearitself,jpg	7 4	The Mighty	Uru-Enchanted Weapon	13
+The Mighty	Hawkeye	1	FI	2	3																		Uru-Enchanted Weapon		fearitself,jpg	6 4	The Mighty	Uru-Enchanted Weapon	14
+The Mighty	Spiderman	1	FI	3	2							1							1				2 Uru-Enchanted Weapons		fearitself,jpg	9 4	The Mighty	Uru-Enchanted Weapon	15
+The Mighty	Black Widow	1	FI	4	3																		2 Uru-Enchanted Weapons		fearitself,jpg	3 4	The Mighty	Uru-Enchanted Weapon	16
+Defenders	Namor, the Sub-Mariner	2	V	4	6								1			1									villains,jpg	5 2	Defenders	""	17
+Defenders	Iron Fist	2	V	2	3																		Reveal 3 heroes with # cost		villains,jpg	4 2	Defenders	""	18
+Defenders	Luke Cage	2	V	2	4																				villains,jpg	3 2	Defenders	""	19
+Defenders	Daredevil	2	V	3	5							1													villains,jpg	6 2	Defenders	""	20
+Marvel Knights	Ghost Rider	2	V	3	5							1													villains2,jpg	9 2	Marvel Knights	""	21
+Marvel Knights	Elektra	2	V	2	4											-1	1								villains2,jpg	10 2	Marvel Knights	""	22
+Marvel Knights	Black Panther	2	V	2	4																				villains2,jpg	8 2	Marvel Knights	""	23
+Marvel Knights	The Punisher	2	V	4	6							1					1								villains2,jpg	1 3	Marvel Knights	""	24
+Uncanny Avengers	Havok	2	V	2	4	1							1										X-Treme Attack		villains2,jpg	2 6	Uncanny Avengers	X-Treme Attack	25
+Uncanny Avengers	Scarlet Witch	2	V	3	5																				villains2,jpg	10 5	Uncanny Avengers	""	26
+Uncanny Avengers	Rogue	2	V	2	4																		X-Treme Attack		villains2,jpg	1 6	Uncanny Avengers	X-Treme Attack	27
+Uncanny Avengers	Wolverine	2	V	5	7				1			1											X-Treme Attack		villains2,jpg	3 6	Uncanny Avengers	X-Treme Attack	28
+X-Men First Class	Iceman	2	V	3	5	2																	X-Treme Attack		villains2,jpg	6 7	X-Men First Class	X-Treme Attack	29
+X-Men First Class	Angel	2	V	2	4																		X-Treme Attack		villains2,jpg	2 7	X-Men First Class	X-Treme Attack	30
+X-Men First Class	Beast	2	V	3	5												1						X-Treme Attack		villains2,jpg	5 7	X-Men First Class	X-Treme Attack	31
+X-Men First Class	Jean Grey	1	V	4	6								1							1			X-Treme Attack		villains2,jpg	3 7	X-Men First Class	X-Treme Attack	32
+X-Men First Class	Cyclops	1	V	4	6							1											X-Treme Attack		villains2,jpg	4 7	X-Men First Class	X-Treme Attack	33
+Avengers	Wasp	2	V	4	1																		Elusive 7		villains,jpg	5 3	Avengers	Elusive	34
+Avengers	Antman	2	V	2	3																		Elusive 4		villains,jpg	1 3	Avengers	Elusive	35
+Avengers	Iron Man	1	V	5	7					1		1	1			1									villains,jpg	4 3	Avengers	Demolish	36
+Avengers	Captain America	1	V	5	4							1	1			1							Gets plus for classes in HQ		villains,jpg	3 3	Avengers	Demolish	37
+Avengers	Hulk	1	V	6	8								1												villains,jpg	6 3	Avengers	Demolish	38
+Avengers	Thor	1	V	5	7								1				2								villains,jpg	2 3	Avengers	Demolish	39
+Brotherhood	Sabretooth	2	B	3	5							1		X-Men	1	1									base,jpg	10 1	Brotherhood	""	40
+Brotherhood	Juggernaut	2	B	4	6							1	1				1								base,jpg	2 2	Brotherhood	""	41
+Brotherhood	Mystique	2	B	3	5							1													base,jpg	1 2	Brotherhood	""	42
+Brotherhood	Blob	2	B	2	4									X-Men	2										base,jpg	9 1	Brotherhood	""	43
+CSA Special Marshals	Venom	2	CW	4	7		1					1						1					Size-changing		civilwar,jpg	8 5	CSA Special Marshals	Size-Changing|Fortify	44
+CSA Special Marshals	Moonstone	2	CW	2	4																				civilwar,jpg	10 5	CSA Special Marshals	""	45
+CSA Special Marshals	Bullseye	2	CW	4	6							1					2								civilwar,jpg	9 5	CSA Special Marshals	""	46
+CSA Special Marshals	Penance	2	CW	3	2																		Gets plus for each villain in VP		civilwar,jpg	7 5	CSA Special Marshals	""	47
+Dark Descendants	Havok, Brainwashed	2	XM	0	6	1						1													xmen,jpg	8 5	Dark Descendants	Dominate|X-Gene	48
+Dark Descendants	Random	2	XM	3	4								1										Dominates a bunch of heroes		xmen,jpg	9 5	Dark Descendants	Dominate	49
+Dark Descendants	Fatale	2	XM	3	5							1					1								xmen,jpg	7 5	Dark Descendants	Dominate	50
+Dark Descendants	Nemesis	1	XM	5	5								1										Dominates a bunch of heroes		xmen,jpg	6 5	Dark Descendants	Dominate	51
+Dark Descendants	Psychic Subjugation	1	XM	3	-1														1				Recruit some heroes		xmen,jpg	5 5	Dark Descendants	Trap	52
+"Deadpool's ""Friends"""	Taskmaster	2	DP	4	3								1							1			Gets plus for the most expensive hero played		dp,jpg	3 4	"Deadpool's ""Friends"""	""	53
+"Deadpool's ""Friends"""	Blind Al and Deuce	2	DP	3	2							1											Revenge, discard a card		dp,jpg	4 4	"Deadpool's ""Friends"""	Revenge	54
+"Deadpool's ""Friends"""	Sluggo	2	DP	4	5							1											Revenge		dp,jpg	1 4	"Deadpool's ""Friends"""	Revenge|Excessive Violence	55
+"Deadpool's ""Friends"""	Weasel	2	DP	3	4								1										Revenge		dp,jpg	2 4	"Deadpool's ""Friends"""	Revenge	56
+Deadpool's Secret Secret Wars	Pink Sphinx	3	SW2	2	4						1						1								sw2,jpg	5 4	Deadpool's Secret Secret Wars	Spectrum	57
+Deadpool's Secret Secret Wars	Doop	2	SW2	2	2														2						sw2,jpg	3 4	Deadpool's Secret Secret Wars	""	58
+Deadpool's Secret Secret Wars	Howard the Duck	2	SW2	4	1								1							1			7th circle		sw2,jpg	4 4	Deadpool's Secret Secret Wars	Circle of Kung Fu	59
+Deadpool's Secret Secret Wars	Deadpool	1	SW2	5	5							1							1		1		5th circle, resurrect		sw2,jpg	2 4	Deadpool's Secret Secret Wars	Circle of Kung Fu|Fateful Resurrection	60
+Domain of Apocalypse	Apocalyptic Blink	3	SW1	3	5																				sw1,jpg	6 3	Domain of Apocalypse	Teleport	61
+Domain of Apocalypse	Apocalyptic Rogue	2	SW1	4	6							1													sw1,jpg	5 3	Domain of Apocalypse	""	62
+Domain of Apocalypse	Apocalyptic Weapon X	2	SW1	5	7							1					1								sw1,jpg	4 3	Domain of Apocalypse	Cross-Dimensional Rampage	63
+Domain of Apocalypse	Apocalyptic Magneto	1	SW1	6	8							1		X-Men	1						1				sw1,jpg	3 3	Domain of Apocalypse	""	64
+Emissaries of Evil	Egghead	2	DC	2	4								1						1						darkcity,jpg	8 6	Emissaries of Evil	""	65
+Emissaries of Evil	Rhino	2	DC	3	5								1			1									darkcity,jpg	6 6	Emissaries of Evil	""	66
+Emissaries of Evil	Gladiator	2	DC	3	5								1												darkcity,jpg	7 6	Emissaries of Evil	""	67
+Emissaries of Evil	Electro	2	DC	4	6								1												darkcity,jpg	5 6	Emissaries of Evil	""	68
+Enemies of Asgard	Frost Giant	3	B	2	4	1						1				1									base,jpg	7 4	Enemies of Asgard	""	69
+Enemies of Asgard	Enchantress	2	B	4	6																				base,jpg	5 4	Enemies of Asgard	""	70
+Enemies of Asgard	Ymir, Frost Giant King	2	B	4	6	1							1			1									base,jpg	8 4	Enemies of Asgard	""	71
+Enemies of Asgard	Destroyer	1	B	5	7							1					1								base,jpg	6 4	Enemies of Asgard	""	72
+Evil Deadpool Corpse	Wolverinepool	2	DP	6	7								1			1							Revenge		dp,jpg	9 4	Evil Deadpool Corpse	Revenge	73
+Evil Deadpool Corpse	D.E.A.D.P.O.O.L.	2	DP	3	4												1						Revenge		dp,jpg	2 5	Evil Deadpool Corpse	Revenge|Excessive Violence	74
+Evil Deadpool Corpse	Ultimate Deadpool	2	DP	4	5							1											Revenge		dp,jpg	1 5	Evil Deadpool Corpse	Revenge|Excessive Violence	75
+Evil Deadpool Corpse	The Deadpool Kid	2	DP	4	5							1											Revenge		dp,jpg	10 4	Evil Deadpool Corpse	Revenge	76
+Four Horsemen	War	2	DC	4	6				1			1				1									darkcity,jpg	10 6	Four Horsemen	""	77
+Four Horsemen	Pestilence	2	DC	3	5							1													darkcity,jpg	2 7	Four Horsemen	""	78
+Four Horsemen	Famine	2	DC	2	4				1			1													darkcity,jpg	1 7	Four Horsemen	""	79
+Four Horsemen	Death	2	DC	5	7							1					2								darkcity,jpg	9 6	Four Horsemen	""	80
+Goblin's Freak Show	The Chameleon	2	N	2	4								1						1	1					noir,jpg	2 4	Goblin's Freak Show	Hidden Witness	81
+Goblin's Freak Show	The Vulture, Cannibal	2	N	3	5							1	1			1		1		1					noir,jpg	1 4	Goblin's Freak Show	Hidden Witness	82
+Goblin's Freak Show	Montana	1	N	2	4								1							1					noir,jpg	10 3	Goblin's Freak Show	Hidden Witness	83
+Goblin's Freak Show	Fancy Dan	1	N	2	1								1				1			1					noir,jpg	9 3	Goblin's Freak Show	Hidden Witness	84
+Goblin's Freak Show	Ox	1	N	3	5			1					1							1					noir,jpg	8 3	Goblin's Freak Show	Hidden Witness	85
+Goblin's Freak Show	Kraven, Animal Trainer	1	N	4	5								1							1					noir,jpg	3 4	Goblin's Freak Show	Hidden Witness	86
+Great Lakes Avengers	Squirrel Girl	2	CW	2	3							1							1						civilwar,jpg	7 6	Great Lakes Avengers	Fortify	87
+Great Lakes Avengers	Flatman	2	CW	2	5		1									-1	1						Size-changing		civilwar,jpg	8 6	Great Lakes Avengers	Size-Changing	88
+Great Lakes Avengers	Big Bertha	2	CW	4	7			1				1				1							Size-changing		civilwar,jpg	6 6	Great Lakes Avengers	Size-Changing	89
+Great Lakes Avengers	Mr. Immortal	2	CW	2	2														1						civilwar,jpg	5 6	Great Lakes Avengers	""	90
+Guardians of Knowhere	Rocket Raccoon	2	SW2	2	4												1								sw2,jpg	4 5	Guardians of Knowhere	Patrol	91
+Guardians of Knowhere	Groot	2	SW2	4	5														1						sw2,jpg	3 5	Guardians of Knowhere	Fateful Resurrection	92
+Guardians of Knowhere	Drax the Destroyer	2	SW2	4	5												1		1						sw2,jpg	1 5	Guardians of Knowhere	Fateful Resurrection	93
+Guardians of Knowhere	Angela	1	SW2	5	7							1							1		1				sw2,jpg	10 4	Guardians of Knowhere	Fateful Resurrection	94
+Guardians of Knowhere	Gamora	1	SW2	4	6							1	1			1			1						sw2,jpg	2 5	Guardians of Knowhere	Patrol|Charge	95
+Hellfire Club	Harry Leland	2	XM	3	5							1	1												xmen,jpg	9 6	Hellfire Club	""	96
+Hellfire Club	Sebastian Shaw	2	XM	4	3							1							1						xmen,jpg	7 6	Hellfire Club	""	97
+Hellfire Club	Emma Frost	2	XM	4	4								1	X-Men	2										xmen,jpg	10 6	Hellfire Club	Dominate	98
+Hellfire Club	Mastermind	1	XM	6	8								1								1				xmen,jpg	8 6	Hellfire Club	Dominate	99
+Hellfire Club	Corrupt the Phoenix	1	XM	3	-1														1						xmen,jpg	6 6	Hellfire Club	Trap|Dominate	100
+Heralds of Galactus	Stardust	2	FF	5	10		2																Cosmic threat		ff,jpg	7 2	Heralds of Galactus	Cosmic Threat	101
+Heralds of Galactus	Terrax the Tamer	2	FF	5	11			2					1							1			Cosmic threat		ff,jpg	4 2	Heralds of Galactus	Cosmic Threat	102
+Heralds of Galactus	Firelord	2	FF	4	9	2						1				1							Cosmic threat		ff,jpg	5 2	Heralds of Galactus	Cosmic Threat	103
+Heralds of Galactus	Morg	2	FF	6	12				2				1										Cosmic threat		ff,jpg	6 2	Heralds of Galactus	Cosmic Threat	104
+Heroes for Hire	Tarantula	2	CW	5	7							1				1							Bribe		civilwar,jpg	2 6	Heroes for Hire	Bribe	105
+Heroes for Hire	Shang-Chi	2	CW	2	3														1				Bribe		civilwar,jpg	1 6	Heroes for Hire	Bribe	106
+Heroes for Hire	Colleen Wing	2	CW	5	9							1											Bribe		civilwar,jpg	3 6	Heroes for Hire	Bribe|Fortify	107
+Heroes for Hire	Humbug	2	CW	3	5												1						Bribe		civilwar,jpg	4 6	Heroes for Hire	Bribe	108
+HYDRA	Hydra Kidnappers	3	B	1	3																				base,jpg	1 7	HYDRA	""	109
+HYDRA	Endless armies	3	B	3	4														2						base,jpg	10 6	HYDRA	""	110
+HYDRA	Viper	1	B	3	5							1				1									base,jpg	9 6	HYDRA	""	111
+HYDRA	Supreme Hydra	1	B	6	6																				base,jpg	2 7	HYDRA	""	112
+Infinity Gems	Space Gem	2	GG	0	5								1									1	Shards, artifact		gotg,jpg	6 5	Infinity Gems	Shard|Artifact	113
+Infinity Gems	Reality Gem	2	GG	0	5								1										Shards, artifact, probe villain deck		gotg,jpg	1 6	Infinity Gems	Shard|Artifact	114
+Infinity Gems	Power Gem	1	GG	0	7								1										Shards, artifact		gotg,jpg	8 5	Infinity Gems	Shard|Artifact	115
+Infinity Gems	Time Gem	1	GG	0	6								1						1				Shards, artifact		gotg,jpg	2 2	Infinity Gems	Shard|Artifact	116
+Infinity Gems	Soul Gem	1	GG	0	6								1										Shards, artifact		gotg,jpg	1 2	Infinity Gems	Shard|Artifact	117
+Infinity Gems	Mind Gem	1	GG	0	6																		Shards, artifact		gotg,jpg	7 5	Infinity Gems	Shard|Artifact	118
+Kree Starforce	Supremor	2	GG	2	3								1										Shards		gotg,jpg	8 2	Kree Starforce	Shard	119
+Kree Starforce	Demon Druid	1	GG	3	5								1										Shards		gotg,jpg	4 2	Kree Starforce	Shard	120
+Kree Starforce	Korath the Pursuer	1	GG	3	5							1	1										Shards		gotg,jpg	6 2	Kree Starforce	Shard	121
+Kree Starforce	Dr. Minerva	1	GG	3	5								1										Shards		gotg,jpg	5 2	Kree Starforce	Shard	122
+Kree Starforce	Captain Atlas	1	GG	4	6							1											Shards		gotg,jpg	3 2	Kree Starforce	Shard	123
+Kree Starforce	Shatterax	1	GG	3	5																		Shards		gotg,jpg	9 2	Kree Starforce	Shard	124
+Kree Starforce	Ronan the Accuser	1	GG	5	7							1	1			1									gotg,jpg	7 2	Kree Starforce	""	125
+K'un-lun	Razor Fist	2	SW2	3	3												1						3rd circle		sw2,jpg	7 4	K'un-lun	Circle of Kung Fu	126
+K'un-lun	Laughing Skull	2	SW2	5	5							1											5th circle		sw2,jpg	6 4	K'un-lun	Circle of Kung Fu	127
+K'un-lun	Red Sai	2	SW2	4	4																		4th circle		sw2,jpg	9 4	K'un-lun	Circle of Kung Fu	128
+K'un-lun	Rand K'Ai	2	SW2	6	6							1											6th circle		sw2,jpg	8 4	K'un-lun	Circle of Kung Fu	129
+Limbo	Inferno Colossus	2	SW1	3	5								1				1			1					sw1,jpg	10 3	Limbo	""	130
+Limbo	Inferno Darkchilde	2	SW1	3	5							1					1								sw1,jpg	7 3	Limbo	Teleport	131
+Limbo	Inferno Nightcrawler	2	SW1	2	4																				sw1,jpg	8 3	Limbo	Teleport	132
+Limbo	Inferno Cyclops	2	SW1	4	6							1	1							1					sw1,jpg	9 3	Limbo	""	133
+Manhattan (Earth-1610)	Ultimate Capt Marvel	2	SW1	0	4																				sw1,jpg	9 2	Manhattan (Earth-1610)	Teleport	134
+Manhattan (Earth-1610)	Ultimate Thor	2	SW1	0	7	1						1													sw1,jpg	1 3	Manhattan (Earth-1610)	Cross-Dimensional Rampage	135
+Manhattan (Earth-1610)	Ultimate Wasp	2	SW1	0	5		1																		sw1,jpg	10 2	Manhattan (Earth-1610)	""	136
+Manhattan (Earth-1610)	Ultimate Capt America	2	SW1	0	6						2														sw1,jpg	2 3	Manhattan (Earth-1610)	""	137
+Marauders	Vertigo	2	DC	3	5																				darkcity,jpg	3 7	Marauders	""	138
+Marauders	Scalphunter	2	DC	2	4								1							1			Bonus for bystanders		darkcity,jpg	4 7	Marauders	""	139
+Marauders	Chimera	2	DC	3	3								1							1			Bonus for bystanders		darkcity,jpg	6 7	Marauders	""	140
+Marauders	Blockbuster	2	DC	2	4								1										Bonus for bystanders		darkcity,jpg	5 7	Marauders	""	141
+Masters of Evil	Melter	2	B	3	5												1								base,jpg	6 7	Masters of Evil	""	142
+Masters of Evil	Whirlwind	2	B	2	4												1					-1			base,jpg	5 7	Masters of Evil	""	143
+Masters of Evil	Ultron	2	B	6	6					2		1													base,jpg	3 7	Masters of Evil	""	144
+Masters of Evil	Baron Zemo	2	B	4	6									Avengers	2					1					base,jpg	4 7	Masters of Evil	""	145
+Masters of Evil (WWII)	Executioner	2	C75	4	6							1	1					1		1					c75,jpg	6 4	Masters of Evil (WWII)	""	146
+Masters of Evil (WWII)	Radioactive Man	2	C75	3	5							1	1			1				-1					c75,jpg	8 4	Masters of Evil (WWII)	""	147
+Masters of Evil (WWII)	Black Knight	2	C75	2	4								1				1			-1					c75,jpg	5 4	Masters of Evil (WWII)	""	148
+Masters of Evil (WWII)	Melter (WWII)	2	C75	3	5								1				1			1					c75,jpg	7 4	Masters of Evil (WWII)	""	149
+Maximum Carnage	Shriek	2	PTT	4	6							1				1	2								pttr,jpg	3 5	Maximum Carnage	Feast	150
+Maximum Carnage	Demogoblin	2	PTT	3	5								1				2			1					pttr,jpg	2 5	Maximum Carnage	Feast	151
+Maximum Carnage	Carrion	2	PTT	3	4												2		1						pttr,jpg	1 5	Maximum Carnage	Feast	152
+Maximum Carnage	Doppelganger	2	PTT	3	5												2								pttr,jpg	4 5	Maximum Carnage	Feast	153
+MLF	Forearm	2	DC	4	4														1				Different hero names		darkcity,jpg	2 6	MLF	""	154
+MLF	Zero	2	DC	2	0														1						darkcity,jpg	1 6	MLF	""	155
+MLF	Wildside	2	DC	3	5												1					-1			darkcity,jpg	3 6	MLF	""	156
+MLF	Reignfire	2	DC	4	6							1													darkcity,jpg	4 6	MLF	""	157
+Mojoverse	Minor Domo	2	XM	2	2							1	1							1			Human shields		xmen,jpg	3 5	Mojoverse	Human Shield	158
+Mojoverse	Major Domo	2	XM	3	4							1	1							1			Human shields		xmen,jpg	2 5	Mojoverse	Human Shield	159
+Mojoverse	Warwolves	2	XM	2	3								1				1			1			Human shields		xmen,jpg	4 5	Mojoverse	Human Shield	160
+Mojoverse	Spiral	1	XM	4	6		1					1	1												xmen,jpg	1 5	Mojoverse	""	161
+Mojoverse	Mindwarping TV Broadcast	1	XM	3	-1								1							1					xmen,jpg	10 4	Mojoverse	Trap	162
+Monster Metropolis	Marcus, Symbiote Centaur	2	SW2	3	6								1						2			-1	Weaker in bank or streets		sw2,jpg	10 5	Monster Metropolis	Charge	163
+Monster Metropolis	Ghost Deadpool	2	SW2	5	5											1			1						sw2,jpg	1 6	Monster Metropolis	Fateful Resurrection|Cross-Dimensional Rampage	164
+Monster Metropolis	Man-Thing	2	SW2	4	5								1						1	1					sw2,jpg	9 5	Monster Metropolis	Fateful Resurrection	165
+Monster Metropolis	Bug, Shiklah's Pet Dragon	2	SW2	3	4											-1	1		1						sw2,jpg	8 5	Monster Metropolis	Fateful Resurrection	166
+Murderworld	Animatronic Killer Clowns	2	XM	2	-1															1					xmen,jpg	1 6	Murderworld	Trap|Human Shield	167
+Murderworld	Sulfuric Acid Water Slide	2	XM	2	-1								1			1									xmen,jpg	10 5	Murderworld	Trap	168
+Murderworld	Guillotine Roller Coaster	1	XM	3	-1																				xmen,jpg	3 6	Murderworld	Trap	169
+Murderworld	Monstrous Pinball Machine	1	XM	3	-1												2		1						xmen,jpg	2 6	Murderworld	Trap	170
+Murderworld	Miss Locke	2	XM	2	2															1					xmen,jpg	4 6	Murderworld	Human Shield	171
+Radiation	The Leader	2	B	2	4								1						1						base2,jpg	5 2	Radiation	""	172
+Radiation	Maestro	2	B	4	6			2									1								base2,jpg	6 2	Radiation	""	173
+Radiation	Abomination	2	B	3	5															1		-1			base2,jpg	3 2	Radiation	""	174
+Radiation	Zzzax	2	B	3	5			1				1				1									base2,jpg	4 2	Radiation	""	175
+Registration Enforcers	Blade	2	CW	2	4																	-1			civilwar,jpg	5 7	Registration Enforcers	""	176
+Registration Enforcers	Micromax	2	CW	3	6				1								1						Size-changing		civilwar,jpg	4 7	Registration Enforcers	Size-Changing	177
+Registration Enforcers	Captain Marvel	2	CW	4	6							1													civilwar,jpg	6 7	Registration Enforcers	""	178
+Registration Enforcers	Deadpool	2	CW	5	5							1	1												civilwar,jpg	3 7	Registration Enforcers	""	179
+Sentinel Territories	Kate Pryde of Future Past	2	SW1	2	4																				sw1,jpg	10 1	Sentinel Territories	""	180
+Sentinel Territories	Rachel Summers of FP	2	SW1	4	6							1													sw1,jpg	7 1	Sentinel Territories	""	181
+Sentinel Territories	Wolverine of Future Past	2	SW1	5	7							1													sw1,jpg	9 1	Sentinel Territories	Cross-Dimensional Rampage	182
+Sentinel Territories	Colossus of Future Past	2	SW1	3	5																				sw1,jpg	8 1	Sentinel Territories	""	183
+Shadow-X	Dark Angel	2	XM	0	4				1																xmen,jpg	6 4	Shadow-X	X-Gene|Soaring Flight	184
+Shadow-X	Dark Iceman	2	XM	0	5			1																	xmen,jpg	5 4	Shadow-X	X-Gene	185
+Shadow-X	Dark Marvel Girl	1	XM	0	6		1						1	X-men	2					1					xmen,jpg	7 4	Shadow-X	Dominate|X-Gene	186
+Shadow-X	Dark Cyclops	1	XM	0	7	1							1												xmen,jpg	8 4	Shadow-X	X-Gene	187
+Shadow-X	Dark Beast	1	XM	0	5					1						-1	1								xmen,jpg	9 4	Shadow-X	X-Gene	188
+Shadow-X	Betrayal of the shadow	1	XM	4	-1														1						xmen,jpg	4 4	Shadow-X	Trap	189
+Shi'ar Imperial Guard	Smasher	2	XM	3	5			1					1			-1	1								xmen,jpg	1 7	Shi'ar Imperial Guard	""	190
+Shi'ar Imperial Guard	Blackthorn	2	XM	3	5							1				1						-1			xmen,jpg	3 7	Shi'ar Imperial Guard	""	191
+Shi'ar Imperial Guard	Oracle	2	XM	4	6								1												xmen,jpg	5 7	Shi'ar Imperial Guard	Dominate	192
+Shi'ar Imperial Guard	Shi'Ar trial by combat	1	XM	2	-1								1				2								xmen,jpg	4 7	Shi'ar Imperial Guard	Trap	193
+Shi'ar Imperial Guard	Gladiator	1	XM	5	7							1	1	X-men	1	1									xmen,jpg	2 7	Shi'ar Imperial Guard	""	194
+S.H.I.E.L.D. Elite	Dum Dum Dugan	2	CW	3	4							1		SHIELD	1	1									civilwar,jpg	9 6	S.H.I.E.L.D. Elite	SHIELD Clearance	195
+S.H.I.E.L.D. Elite	Agent Gabe Jones	2	CW	2	2									SHIELD	1				1						civilwar,jpg	2 7	S.H.I.E.L.D. Elite	SHIELD Clearance	196
+S.H.I.E.L.D. Elite	Sharon Carter, Agent 13	2	CW	5	6							1		SHIELD	1				1						civilwar,jpg	10 6	S.H.I.E.L.D. Elite	SHIELD Clearance|Fortify	197
+S.H.I.E.L.D. Elite	Agent Eric Marshall	2	CW	2	1								1	SHIELD	1				1						civilwar,jpg	1 7	S.H.I.E.L.D. Elite	SHIELD Clearance	198
+Sinister Six	Shocker	2	PTT	3	5				1				1												pttr,jpg	7 3	Sinister Six	""	199
+Sinister Six	Vulture	2	PTT	2	4				1			1	1												pttr,jpg	10 3	Sinister Six	""	200
+Sinister Six	Chameleon	1	PTT	2	6																	-1			pttr,jpg	8 3	Sinister Six	""	201
+Sinister Six	Sandman	1	PTT	4	6				1			1													pttr,jpg	1 4	Sinister Six	""	202
+Sinister Six	Hobgoblin	1	PTT	3	5															1					pttr,jpg	2 4	Sinister Six	""	203
+Sinister Six	Kraven the hunter	1	PTT	4	5							1					2								pttr,jpg	9 3	Sinister Six	""	204
+Sisterhood of Mutants	Lady Deathstrike	2	XM	4	6				1			1					1								xmen,jpg	9 7	Sisterhood of Mutants	""	205
+Sisterhood of Mutants	Selene	2	XM	3	7							1	1												xmen,jpg	8 7	Sisterhood of Mutants	Dominate	206
+Sisterhood of Mutants	Typhoid Mary	2	XM	3	5								1												xmen,jpg	10 7	Sisterhood of Mutants	Dominate	207
+Sisterhood of Mutants	Resurrect Madelyne Pryor	1	XM	0	-1																		Extra scheme twist		xmen,jpg	6 7	Sisterhood of Mutants	Trap	208
+Sisterhood of Mutants	Lady Mastermind	1	XM	5	7								1								1				xmen,jpg	7 7	Sisterhood of Mutants	Dominate	209
+Skrulls	Skrull Shapeshifters	3	B	2	4								1												base2,jpg	5 4	Skrulls	""	210
+Skrulls	Super Skrull	3	B	2	4												1								base2,jpg	6 4	Skrulls	""	211
+Skrulls	Paibok, the Power Skrull	1	B	3	8																				base2,jpg	8 4	Skrulls	""	212
+Skrulls	Skrull Queen Veranke	1	B	4	6								1												base2,jpg	7 4	Skrulls	""	213
+Spider-Foes	Venom	2	B	3	5		2					1													base2,jpg	10 4	Spider-Foes	""	214
+Spider-Foes	Doctor Octopus	2	B	2	4																				base2,jpg	9 4	Spider-Foes	""	215
+Spider-Foes	Green Goblin	2	B	4	6								1							1					base2,jpg	1 5	Spider-Foes	""	216
+Spider-Foes	The Lizard	2	B	2	3											1									base2,jpg	2 5	Spider-Foes	""	217
+Streets of New York	Jigsaw	2	DC	5	11								1										Bribe		darkcity2,jpg	1 1	Streets of New York	Bribe	218
+Streets of New York	Tombstone	2	DC	4	8			1															Bribe		darkcity,jpg	9 7	Streets of New York	Bribe	219
+Streets of New York	Bullseye	2	DC	4	6												1								darkcity,jpg	8 7	Streets of New York	""	220
+Streets of New York	Hammerhead	2	DC	2	5												1						Bribe		darkcity,jpg	7 7	Streets of New York	Bribe	221
+Subterranea	Moloids	2	FF	2	3												1		1			-1			ff,jpg	1 2	Subterranea	Burrow	222
+Subterranea	Giganto	2	FF	4	7														1			-1			ff,jpg	2 2	Subterranea	Burrow	223
+Subterranea	Megataur	2	FF	4	6														1	1		-1			ff,jpg	3 2	Subterranea	Burrow	224
+Subterranea	Ra'Ktar the Molan King	2	FF	2	4								1						1			-1			ff,jpg	10 1	Subterranea	Burrow	225
+Superhuman Registration Act	Iron Spider	2	CW	3	2								1												am2,jpg	4 1	Superhuman Registration Act	Fortify	226
+Superhuman Registration Act	Ms. Marvel	2	CW	3	5							1													am2,jpg	5 1	Superhuman Registration Act	Fortify	227
+Superhuman Registration Act	Yellowjacket	2	CW	4	7					1		1											Size-changing		am2,jpg	3 1	Superhuman Registration Act	Size-Changing|Fortify	228
+Superhuman Registration Act	She-Hulk	2	CW	5	8			1				1											Size-changing		am2,jpg	2 1	Superhuman Registration Act	Size-Changing|Fortify	229
+The Deadlands	Zombie Mysterio	1	SW1	6	6							1	1						1				Rise of the Living Dead		sw1,jpg	4 2	The Deadlands	Rise of the Living Dead	230
+The Deadlands	Zombie MODOKS	1	SW1	3	5								1				1						Rise of the Living Dead		sw1,jpg	8 2	The Deadlands	Rise of the Living Dead	231
+The Deadlands	Zombie Baron Zemo	1	SW1	4	6								1	Avengers	2					1			Rise of the Living Dead		sw1,jpg	7 2	The Deadlands	Rise of the Living Dead	232
+The Deadlands	Zombie Madame Hydra	1	SW1	2	4								1				1						Rise of the Living Dead		sw1,jpg	6 2	The Deadlands	Rise of the Living Dead	233
+The Deadlands	Zombie Venom	1	SW1	3	5		2					1	1										Rise of the Living Dead		sw1,jpg	3 2	The Deadlands	Rise of the Living Dead	234
+The Deadlands	Zombie Thanos	1	SW1	6	9							1	1				2				1		Rise of the Living Dead		sw1,jpg	2 2	The Deadlands	Rise of the Living Dead	235
+The Deadlands	Zombie Loki	1	SW1	6	8			1				1	1								1		Rise of the Living Dead		sw1,jpg	1 2	The Deadlands	Rise of the Living Dead	236
+The Deadlands	Zombie Mr. Sinister	1	SW1	5	7		1					1	1							1	1		Rise of the Living Dead		sw1,jpg	5 2	The Deadlands	Rise of the Living Dead	237
+Thunderbolts	Fixer	2	CW	2	4											-1	1								civilwar,jpg	9 7	Thunderbolts	""	238
+Thunderbolts	Songbird	2	CW	3	5							1				1									civilwar,jpg	8 7	Thunderbolts	""	239
+Thunderbolts	Radioactive Man	2	CW	4	6							1				1									civilwar,jpg	7 7	Thunderbolts	Fortify	240
+Thunderbolts	Mach-IV	2	CW	3	5					1		1				1									am2,jpg	1 1	Thunderbolts	""	241
+Underworld	Azazel	2	DC	2	4																				darkcity2,jpg	5 1	Underworld	Teleport	242
+Underworld	Lilith, Daughter of Dracula	2	DC	3	5							1													darkcity2,jpg	2 1	Underworld	""	243
+Underworld	Blackheart	2	DC	4	6							1	1	Marvel Knights	1	1									darkcity2,jpg	3 1	Underworld	""	244
+Underworld	Dracula	2	DC	4	7								1												darkcity2,jpg	4 1	Underworld	""	245
+Utopolis	Doctor Spectrum	3	SW2	4	6						1	1	1				1		1						sw2,jpg	2 6	Utopolis	Charge|Spectrum	246
+Utopolis	Nighthawk	2	SW2	4	8							1										-1			sw2,jpg	3 6	Utopolis	""	247
+Utopolis	Whizzer	2	SW2	3	5							1	1			1			2						sw2,jpg	5 6	Utopolis	Charge|Patrol	248
+Utopolis	Warrior Woman	1	SW2	6	8							1	1						1		1				sw2,jpg	4 6	Utopolis	Charge|Patrol	249
+Wasteland	The Hulk Gang	3	SW1	3	5							1				1									sw1,jpg	3 4	Wasteland	Cross-Dimensional Rampage	250
+Wasteland	Wasteland Spider-Girl	2	SW1	2	4												1								sw1,jpg	2 4	Wasteland	""	251
+Wasteland	Wasteland Hawkeye	2	SW1	4	6								1							1					sw1,jpg	4 4	Wasteland	""	252
+Wasteland	Wasteland Kingpin	1	SW1	6	11				1			1									1		Bribe		sw1,jpg	1 4	Wasteland	Bribe	253
+X-Men '92	92 Wolverine	2	SW2	0	7				1			1				1									sw2,jpg	9 6	X-Men '92	Cross-Dimensional Rampage	254
+X-Men '92	92 Beast	2	SW2	0	5					1									1						sw2,jpg	6 6	X-Men '92	Charge	255
+X-Men '92	92 Jubilee	3	SW2	0	4						1														sw2,jpg	7 6	X-Men '92	Spectrum	256
+X-Men '92	92 Professor X	1	SW2	6	8							1									1				sw2,jpg	8 6	X-Men '92	""	257
+X-Men Noir	Comrade Rasputin	2	N	3	5												1								noir,jpg	5 3	X-Men Noir	Investigate	258
+X-Men Noir	Jean Grey Noir	1	N	3	5																				noir,jpg	3 3	X-Men Noir	Investigate	259
+X-Men Noir	"Scott ""Cyclops"" Summer"	1	N	4	6							1					2								noir,jpg	7 3	X-Men Noir	Investigate	260
+X-Men Noir	"Henry ""Beast"" McCoy"	1	N	3	5			1		1															noir,jpg	2 3	X-Men Noir	Investigate	261
+X-Men Noir	"Bobby ""Iceman"" Drake"	1	N	2	4																				noir,jpg	6 3	X-Men Noir	Investigate	262
+X-Men Noir	Warden Emma Frost	1	N	4	6							1													noir,jpg	4 3	X-Men Noir	Investigate	263
+X-Men Noir	Ororo Munroe, Storm-tossed	1	N	2	4												2								noir,jpg	1 3	X-Men Noir	Investigate	264
+Zola's Creations	Man-Fish	2	C75	4	6							1				1						-1			c75,jpg	8 3	Zola's Creations	Abomination	265
+Zola's Creations	Captain Zolandia	2	C75	5	7						1											-1			c75,jpg	6 3	Zola's Creations	Abomination	266
+Zola's Creations	Primus	2	C75	3	3							1													c75,jpg	9 3	Zola's Creations	""	267
+Zola's Creations	Doughboy	2	C75	3	5												1					-1			c75,jpg	7 3	Zola's Creations	Abomination	268
+Warbound	No-Name, Brood Queen	2	WW	3	4												1								hulk,jpg	1 7	Warbound	Wounded Fury|Feast	269
+Warbound	Miek the Unhived	2	WW	3	5												1								hulk,jpg	2 7	Warbound	Feast	270
+Warbound	Elloe Kaifi	1	WW	3	5																				hulk,jpg	3 7	Warbound	""	271
+Warbound	Hiroim	1	WW	5	7							1					2								hulk,jpg	9 6	Warbound	""	272
+Warbound	Korg	1	WW	4	6							1	1				2								hulk,jpg	10 6	Warbound	""	273
+Warbound	Warbound Rescue	1	WW	7	-1											1			1						hulk,jpg	4 7	Warbound	""	274
+U-Foes	X-Ray	2	WW	3	5	1										-1	1								hulk,jpg	8 5	U-Foes	""	275
+U-Foes	Vector	2	WW	2	4				1																hulk,jpg	9 5	U-Foes	""	276
+U-Foes	Vapor	2	WW	2	4		1					1				1									hulk,jpg	10 5	U-Foes	""	277
+U-Foes	Unidentified Flying U-Foes	1	WW	3	-1					1									2						hulk,jpg	2 6	U-Foes	Trap	278
+U-Foes	Ironclad	1	WW	4	6			1				1					2								hulk,jpg	1 6	U-Foes	""	279
+Sakaar Imperial Guard	Great Devil Corker	2	WW	4	6											-1	1								hulk,jpg	1 3	Sakaar Imperial Guard	Feast	280
+Sakaar Imperial Guard	Primus Vand	2	WW	3	3												1		1						hulk,jpg	10 2	Sakaar Imperial Guard	""	281
+Sakaar Imperial Guard	Headman Charr	2	WW	2	2							1													hulk,jpg	9 2	Sakaar Imperial Guard	""	282
+Sakaar Imperial Guard	Lieutenant Caiera	1	WW	5	7																				hulk,jpg	2 3	Sakaar Imperial Guard	Outwit	283
+Sakaar Imperial Guard	Gladiators' Colosseum	1	WW	4	-1																				hulk,jpg	3 3	Sakaar Imperial Guard	Trap	284
+Intelligencia	Battle of Wits	2	WW	3	-1																		outwit		hulk2,jpg	6 4	Intelligencia	Outwit|Trap	285
+Intelligencia	Cosmic Hulk Robot	2	WW	4	5							1	1			1							wounded fury		hulk2,jpg	5 4	Intelligencia	Wounded Fury|Outwit	286
+Intelligencia	The Leader, Gamma Fiend	2	WW	3	5								1						2				outwit		hulk2,jpg	4 4	Intelligencia	Outwit	287
+Intelligencia	Doc Samson	2	WW	3	4												1						outwit		hulk2,jpg	3 4	Intelligencia	Outwit	288
+Illuminati	Black Bolt	2	WW	5	13							1											Cards with no rules text		hulk2,jpg	5 3	Illuminati	""	289
+Illuminati	Hulkbuster Iron Man	2	WW	4	6							1											outwit		hulk2,jpg	4 3	Illuminati	Outwit|Cross-Dimensional Rampage	290
+Illuminati	Dr. Strange	2	WW	3	5								1												hulk2,jpg	2 3	Illuminati	Outwit	291
+Illuminati	Dr. Strange, Possessed by Zom	1	WW	3	5								1							2					hulk2,jpg	3 3	Illuminati	""	292
+Illuminati	Enchain the Hulk	1	WW	4	-1											1							Same color		hulk2,jpg	6 3	Illuminati	Cross-Dimensional Rampage	293
+Code Red	Elektra, Red Blades	2	WW	3	5		1										1								hulk3,jpg	6 3	Code Red	""	294
+Code Red	Crimson Dynamo	2	WW	2	4		1																		hulk3,jpg	5 3	Code Red	""	295
+Code Red	Red She-Hulk	1	WW	5	6		1					1				1							wounded fury		hulk2,jpg	2 1	Code Red	Wounded Fury	296
+Code Red	Punisher, Red Dot Sniper	1	WW	4	6		1									-1	1								hulk2,jpg	1 1	Code Red	""	297
+Code Red	Thundra	1	WW	3	4								1												hulk3,jpg	7 3	Code Red	""	298
+Code Red	Caught Red-Handed	1	WW	3	-1		1									1									hulk2,jpg	3 1	Code Red	Trap	299
+Aspects of the Void	Black Anti-Hurricane	2	WW	4	6							1													hulk,jpg	7 7	Aspects of the Void	""	300
+Aspects of the Void	Shadow Man	2	WW	3	5																				hulk,jpg	6 7	Aspects of the Void	""	301
+Aspects of the Void	Infini-Tendrils	2	WW	3	4								1							1			wounded fury		hulk,jpg	5 7	Aspects of the Void	Wounded Fury	302
+Aspects of the Void	Demonform	1	WW	5	7												1								hulk,jpg	8 7	Aspects of the Void	""	303
+Aspects of the Void	Psychotic Break	1	WW	2	-1								1						1					master strike	hulk,jpg	9 7	Aspects of the Void	Trap	304
+Monsters Unleashed	Tim Boo Ra	1	CH	5	12						1													Size-changing	champions,jpg	3 2	Monsters Unleashed	Size-Changing	305
+Monsters Unleashed	Zzutak	1	CH	5	9	1			1			1												Size-changing	champions,jpg	2 2	Monsters Unleashed	Size-Changing|Demolish	306
+Monsters Unleashed	Trull the Unhuman	1	CH	4	8		1			1			1							1				Size-changing	champions,jpg	1 2	Monsters Unleashed	Size-Changing|Demolish	307
+Monsters Unleashed	Goom	1	CH	4	6												1			1					champions,jpg	10 1	Monsters Unleashed	""	308
+Monsters Unleashed	Sporr	1	CH	3	7	1				1														Size-changing	champions,jpg	9 1	Monsters Unleashed	Size-Changing	309
+Monsters Unleashed	Groot from Planet X	1	CH	2	6		1	1											1	1				Size-changing	champions,jpg	8 1	Monsters Unleashed	Size-Changing	310
+Monsters Unleashed	Monsteroso	1	CH	2	5			1	1															Size-changing	champions,jpg	7 1	Monsters Unleashed	Size-Changing	311
+Monsters Unleashed	Orrgo	1	CH	2	2																				champions,jpg	6 1	Monsters Unleashed	""	312
+Wrecking Crew	The Wrecker	2	CH	5	7																				champions,jpg	8 4	Wrecking Crew	Demolish	313
+Wrecking Crew	Piledriver	2	CH	4	6												1								champions,jpg	7 4	Wrecking Crew	Demolish	314
+Wrecking Crew	Thunderball	2	CH	3	5																	1			champions,jpg	6 4	Wrecking Crew	Demolish	315
+Wrecking Crew	Bulldozer	2	CH	2	4								1						1						champions,jpg	5 4	Wrecking Crew	Demolish	316
+Life Foundation	Riot	2	VE	2	2								1				1						Symbiotic		venom,png	10 2	Life Foundation	Symbiote Bond	317
+Life Foundation	Lasher	2	VE	2	2								1										Symbiotic		venom,png	7 2	Life Foundation	Symbiote Bond	318
+Life Foundation	Phage	1	VE	3	3								1										Symbiotic		venom,png	9 2	Life Foundation	Symbiote Bond	319
+Life Foundation	Agony	1	VE	3	3		1						1										Symbiotic		venom,png	5 2	Life Foundation	Symbiote Bond	320
+Life Foundation	Scream	1	VE	4	4								1										Symbiotic		venom,png	2 3	Life Foundation	Symbiote Bond	321
+Life Foundation	Dr. Carlton Drake	1	VE	3	5				1	1															venom,png	6 2	Life Foundation	""	322
+Poisons	Poison Dr. Octopus	1	VE	0	3														1			-1	Symbiotic		venom,png	6 3	Poisons	Symbiote Bond	323
+Poisons	Poison Scarlet Witch	1	VE	0	3														1				Symbiotic		venom,png	10 3	Poisons	Symbiote Bond	324
+Poisons	Poison Hulk	1	VE	0	5			1											1				Symbiotic		venom,png	5 3	Poisons	Symbiote Bond	325
+Poisons	Poison Captain America	1	VE	0	4						1								1				Symbiotic		venom,png	4 3	Poisons	Symbiote Bond	326
+Poisons	Poison Storm	1	VE	0	3	1													1			-1	Symbiotic		venom,png	9 3	Poisons	Symbiote Bond	327
+Poisons	Poison Sabertooth	1	VE	0	4				1										1			-1	Symbiotic		venom,png	7 3	Poisons	Symbiote Bond	328
+Poisons	Symbiotic Armor	1	VE	6	1								1				1							Protects the mm	venom,png	3 3	Poisons	Symbiote Bond	329
+Poisons	Poison Spiderman	1	VE	0	2														1				Symbiotic		venom,png	8 3	Poisons	Symbiote Bond	330
+Queen's Vengeance	Star-Knight	1	AM	3	3												1						Chivalrous Duel		antman,jpg	2 6	Queen's Vengeance	Chivalrous Duel	331
+Queen's Vengeance	Yeoman America	1	AM	5	5																		Chivalrous Duel		antman,jpg	1 6	Queen's Vengeance	Chivalrous Duel	332
+Queen's Vengeance	Pixie	1	AM	2	3		2																		antman,jpg	1 1	Queen's Vengeance	Size-Changing	333
+Queen's Vengeance	Mordred the Evil	1	AM	3	5							1													antman,jpg	2 1	Queen's Vengeance	""	334
+Queen's Vengeance	Iron Knight	1	AM	4	4					1						1							Chivalrous Duel		antman,jpg	3 1	Queen's Vengeance	Chivalrous Duel	335
+Queen's Vengeance	Gigantus	1	AM	4	7			2									1								antman,jpg	4 1	Queen's Vengeance	Size-Changing	336
+Queen's Vengeance	Daystar	1	AM	2	5	2											1								antman,jpg	5 1	Queen's Vengeance	Size-Changing	337
+Queen's Vengeance	Blackbird	1	AM	3	3												1						Chivalrous Duel		antman,jpg	6 1	Queen's Vengeance	Chivalrous Duel	338
+Salvagers	Hybrid Alien Tech	2	HC	4	4	1						1					1								homecoming,jpg	4 4	Salvagers	Striker	339
+Salvagers	Shocker #1	2	HC	3	3				1			1													homecoming,jpg	2 4	Salvagers	Striker	340
+Salvagers	Shocker #2	2	HC	3	5							1	1												homecoming,jpg	3 4	Salvagers	""	341
+Salvagers	Tinkerer	2	HC	2	4					2		1				1									homecoming,jpg	1 4	Salvagers	""	342
+Ultron's Legacy	Future Ultron Prime	1	AM	5	5					1			1												antman,jpg	4 2	Ultron's Legacy	Empowered	343
+Ultron's Legacy	Ultron-Pym	1	AM	3	6					2															antman,jpg	3 2	Ultron's Legacy	Size-Changing	344
+Ultron's Legacy	Brutish Ultron-14	1	AM	4	5			1				1				1									antman,jpg	5 2	Ultron's Legacy	Empowered	345
+Ultron's Legacy	Crimson Cowl	1	AM	4	5		1						1							1					antman,jpg	6 2	Ultron's Legacy	Empowered	346
+Ultron's Legacy	Legions of Ultron	1	AM	3	4					1															antman,jpg	7 2	Ultron's Legacy	Empowered	347
+Ultron's Legacy	Alkhema	1	AM	3	4				1								1								antman,jpg	8 2	Ultron's Legacy	Empowered	348
+Ultron's Legacy	Original Ultron-1	1	AM	2	3	1											1								antman,jpg	9 2	Ultron's Legacy	Empowered	349
+Ultron's Legacy	Ultron Roboticks	1	AM	2	3					2							1								antman,jpg	10 2	Ultron's Legacy	Size-Changing	350
+Vulture Tech	Razor Talons	2	HC	2	2																				homecoming,jpg	10 4	Vulture Tech	Striker|Wall-Crawl	351
+Vulture Tech	High Tech Helmet	2	HC	3	3																				homecoming,jpg	1 5	Vulture Tech	Striker|Danger Sense	352
+Vulture Tech	Chitauri Weapon Assault	2	HC	4	4												1								homecoming,jpg	2 5	Vulture Tech	Striker	353
+Vulture Tech	Turbine Powered	2	HC	5	5								1							1					homecoming,jpg	3 5	Vulture Tech	Striker	354
+Hood's Gang	The Brothers Grimm	1	R	2	2											-1	1						Requires discard		revelations,png	7 2	Hood's Gang	""	355
+Hood's Gang	Cancer	2	R	2	3							1	1			1							Dark Memories		revelations,png	9 2	Hood's Gang	Dark Memories	356
+Hood's Gang	Chemistro	2	R	3	4																		Dark Memories		revelations,png	1 3	Hood's Gang	Dark Memories	357
+Hood's Gang	Madam Masque	2	R	4	5								1				1		1				Dark Memories		revelations,png	3 3	Hood's Gang	Dark Memories	358
+Hood's Gang	The Dark Dimension	1	R	5	9														1				Dark Memories	Location	revelations,png	8 2	Hood's Gang	Dark Memories|Location	359
+Lethal Legion	Swordsman	1	R	3	4															1			Locations		revelations,png	5 3	Lethal Legion	""	360
+Lethal Legion	Carnival of Wonders	1	R	3	5															1				Location	revelations,png	6 3	Lethal Legion	Location	361
+Lethal Legion	Power Man (Erik Josten)	1	R	4	5							1							1				Locations		revelations,png	7 3	Lethal Legion	""	362
+Lethal Legion	"""The Raft"" Prison"	1	R	4	6														1					Location	revelations,png	8 3	Lethal Legion	Location	363
+Lethal Legion	M'Baku	1	R	4	5					1		1											Locations		revelations,png	9 3	Lethal Legion	""	364
+Lethal Legion	White Gorilla Cult	1	R	4	6					1														Location	revelations,png	10 3	Lethal Legion	Location	365
+Lethal Legion	Living Laser	1	R	5	6	1						1				1							Locations		revelations,png	1 4	Lethal Legion	""	366
+Lethal Legion	Laser Maze	1	R	5	7	1										1								Location	revelations,png	2 4	Lethal Legion	Location	367
+Army of Evil	Blackout	2	R	2	4	1							1												revelations,png	3 1	Army of Evil	""	368
+Army of Evil	Klaw	2	R	3	5	1				1			1												revelations,png	5 1	Army of Evil	""	369
+Army of Evil	Mister Hyde	2	R	4	6												1					1			revelations,png	7 1	Army of Evil	""	370
+Army of Evil	Count Nefaria	1	R	5	7						1	1	1			1									revelations,png	1 1	Army of Evil	""	371
+Army of Evil	Dome of Darkforce	1	R	5	7	1																		Location	revelations,png	2 1	Army of Evil	""	372
+Dark Avengers	Dark Spiderman (Scorpion)	1	R	2	2												1						Last Stand		revelations,png	10 1	Dark Avengers	Last Stand	373
+Dark Avengers	Captain Marvel (Noh-Varr)	1	R	3	3							1	1			1							Last Stand		revelations,png	1 2	Dark Avengers	Last Stand	374
+Dark Avengers	Dark Ms. Marvel (Moonstone)	1	R	4	4																		Last Stand		revelations,png	2 2	Dark Avengers	Last Stand	375
+Dark Avengers	Dark Hawkeye (Bullseye)	1	R	4	4												1						Last Stand		revelations,png	3 2	Dark Avengers	Last Stand	376
+Dark Avengers	Dark Wolverine (Daken)	1	R	5	5				1			1	1			1							Last Stand		revelations,png	4 2	Dark Avengers	Last Stand	377
+Dark Avengers	Ares	1	R	6	6												1						Last Stand		revelations,png	5 2	Dark Avengers	Last Stand	378
+Dark Avengers	Sentry	1	R	5	7							1				1	1					1			revelations,png	6 2	Dark Avengers	""	379
+Dark Avengers	Sentry's Watchtower	1	R	5	8														1						revelations,png	9 1	Dark Avengers	Last Stand|Location	380
+Hydra Elite	Growing Man	2	AOS	3	0								1										Hydra Level	Shield Officer escapes	officers,png	9 2	Hydra Elite	HYDRA Level	381
+Hydra Elite	Crossbones	2	AOS	2	4								1			1								Shield Officer escapes	officers,png	7 2	Hydra Elite	HYDRA Level	382
+Hydra Elite	Hive	2	AOS	3	5								1											Shield Officer escapes	officers,png	1 3	Hydra Elite	HYDRA Level	383
+Hydra Elite	Gorgon	2	AOS	4	6								1											Shield Officer escapes	officers,png	3 3	Hydra Elite	HYDRA Level	384
+A.I.M., Hydra Offshoot	Mentallo	2	AOS	3	3								1										Hydra Level	Shield Officer escapes	shield,png	1 7	A.I.M., Hydra Offshoot	HYDRA Level|Undercover	385
+A.I.M., Hydra Offshoot	Graviton	2	AOS	4	6								1											Shield Officer escapes	shield,png	2 7	A.I.M., Hydra Offshoot	HYDRA Level	386
+A.I.M., Hydra Offshoot	Superia	2	AOS	3	5								1											Shield Officer escapes	shield,png	3 7	A.I.M., Hydra Offshoot	HYDRA Level	387
+A.I.M., Hydra Offshoot	Taskmaster	2	AOS	3	4							1	1			1									shield,png	4 7	A.I.M., Hydra Offshoot	HYDRA Level	388
+Dark Council	Ulik, the Troll	2	HOA	2	3												1								hoa,png	9 2	Dark Council	Worthy	389
+Dark Council	Sindr, Fire Giant Queen	2	HOA	3	5																				hoa,png	7 2	Dark Council	Worthy	390
+Dark Council	Laufey, Father of Loki	1	HOA	4	6							1	1												hoa,png	4 2	Dark Council	""	391
+Dark Council	The Mangog	1	HOA	4	3							1				1									hoa,png	3 2	Dark Council	Worthy	392
+Dark Council	Jarnbjorn, First Axe of Thor	1	HOA	0	3																			Artifact	hoa,png	5 2	Dark Council	Villainous Weapon|Thrown Artifact	393
+Dark Council	The Casket of Eternal Winters	1	HOA	0	4																			Artifact	hoa,png	6 2	Dark Council	Villainous Weapon|Artifact|Worthy	394
+Omens of Ragnarok	Skurge, the Executioner	2	HOA	2	4												1					-1			hoa,png	7 3	Omens of Ragnarok	Conqueror	395
+Omens of Ragnarok	The Fenris Wolf	2	HOA	3	4								1						2			-1			hoa,png	5 3	Omens of Ragnarok	Conqueror	396
+Omens of Ragnarok	Surtur, Fire Giant King	1	HOA	0	6							1												Artifact	hoa,png	1 3	Omens of Ragnarok	Artifact|Conqueror	397
+Omens of Ragnarok	Jormugand, the World-Serpent	1	HOA	5	5																	-1			hoa,png	3 3	Omens of Ragnarok	Conqueror	398
+Omens of Ragnarok	The Hel-Crown	1	HOA	0	3																			Artifact	hoa,png	2 3	Omens of Ragnarok	Villainous Weapon|Artifact|Conqueror	399
+Omens of Ragnarok	The Eternal Flame	1	HOA	0	4								1						1					Artifact	hoa,png	4 3	Omens of Ragnarok	Villainous Weapon|Artifact	400
+Hellions	Catseye	2	NM	3	3												1								newmutants,png	6 3	Hellions	Moonlight	401
+Hellions	Thunderbird	2	NM	4	4												1								newmutants,png	4 3	Hellions	Sunlight	402
+Hellions	Roulette	1	NM	3	5		1			1			1			2									newmutants,png	1 3	Hellions	""	403
+Hellions	Tarot	1	NM	3	5								1			1									newmutants,png	2 3	Hellions	Waking Nightmare	404
+Hellions	Jetstream	1	NM	4	6								1	X-Men	1	1									newmutants,png	3 3	Hellions	""	405
+Hellions	Empath	1	NM	4	4		1						1												newmutants,png	8 3	Hellions	Waking Nightmare	406
+Demons of Limbo	Crotus	2	NM	3	3								1							1					newmutants,png	9 3	Demons of Limbo	Moonlight	407
+Demons of Limbo	Witchfire	2	NM	4	4							1	1												newmutants,png	1 4	Demons of Limbo	""	408
+Demons of Limbo	N'Astirh	2	NM	3	3												1								newmutants,png	3 4	Demons of Limbo	Moonlight	409
+Demons of Limbo	Demon Bear	1	NM	5	5							1	1												newmutants,png	6 4	Demons of Limbo	Waking Nightmare	410
+Demons of Limbo	S'Ym	1	NM	5	7			1				1	1			1									newmutants,png	5 4	Demons of Limbo	Sunlight|Moonlight|Waking Nightmare	411
+From Beyond	The Mapmakers	3	ITC	3	7					1							1								itcmm,png	6 3	From Beyond	Cosmic Threat	412
+From Beyond	The Shaper of Worlds	2	ITC	5	10	1						1	1				2								itcmm,png	5 3	From Beyond	Cosmic Threat	413
+From Beyond	Kubik	2	ITC	5	11				1				1			1	1								itcmm,png	4 3	From Beyond	Cosmic Threat	414
+From Beyond	Kosmos	1	ITC	6	13		1																		itcmm,png	3 3	From Beyond	Cosmic Threat	415
+Elders of the Universe	The Trader	2	ITC	2	4					1			1											shards	itcmm,png	1 3	Elders of the Universe	Contest of Champions	416
+Elders of the Universe	The Runner	2	ITC	3	5				1				1						1					shards	itcmm,png	10 2	Elders of the Universe	Contest of Champions|Shard	417
+Elders of the Universe	The Collector	2	ITC	4	6		1						1												itcmm,png	9 2	Elders of the Universe	Contest of Champions|Shard	418
+Elders of the Universe	The Champion of the Universe	2	ITC	5	7			1					1			1	1							shards	itcmm,png	2 3	Elders of the Universe	Contest of Champions|Shard	419
+Celestials	Gammenon, the Gatherer	2	ITC	3	10			1	1			1						1						celestial boon	celestials,png	5 1	Celestials	Cosmic Threat|Celestial Boon	420
+Celestials	Nezarr, the Calculator	2	ITC	4	11		1			1		1												celestial boon	celestials,png	4 1	Celestials	Cosmic Threat|Celestial Boon|Shard	421
+Celestials	Exitar, the Exterminator	2	ITC	5	12	1				1		1												celestial boon	celestials,png	3 1	Celestials	Cosmic Threat|Celestial Boon	422
+Celestials	Arishem, the Judge	1	ITC	5	13	1		1				1												celestial boon	celestials,png	2 1	Celestials	Cosmic Threat|Celestial Boon	423
+Celestials	Tiamut, the Dreaming Celestial	1	ITC	6	14		1		1			1												celestial boon	celestials,png	1 1	Celestials	Cosmic Threat|Celestial Boon	424
+Black Order of Thanos	Black Dwarf	2	ITC	3	4								1				1								itcmm,png	6 2	Black Order of Thanos	Danger Sense	425
+Black Order of Thanos	Corvus Glaive	2	ITC	4	5								1												itcmm,png	5 2	Black Order of Thanos	Danger Sense	426
+Black Order of Thanos	Supergiant	2	ITC	5	6								1				1								itcmm,png	4 2	Black Order of Thanos	Danger Sense	427
+Black Order of Thanos	Ebony Maw	1	ITC	5	6								1												itcmm,png	8 2	Black Order of Thanos	Danger Sense	428
+Black Order of Thanos	Proxima Midnight	1	ITC	5	7				1			1	1												itcmm,png	7 2	Black Order of Thanos	Danger Sense	429
+Inhuman Rebellion	Lash	2	ROK	4	5								1												inreb,jpg	NW	Inhuman Rebellion	Abomination	430
+Inhuman Rebellion	The Unspoken	2	ROK	5	5								1												inreb,jpg	NE	Inhuman Rebellion	Abomination	431
+Inhuman Rebellion	Lineage	2	ROK	2	3																				inreb,jpg	SW	Inhuman Rebellion	Abomination	432
+Inhuman Rebellion	Omega	2	ROK	3	4																				inreb,jpg	SE	Inhuman Rebellion	Abomination	433
+Shi'ar Imperial Elite	Mentor	2	ROK	3	5								1												rokshiar,jpg	NW	Shi'ar Imperial Elite	Throne's Favor	434
+Shi'ar Imperial Elite	Gladiator	2	ROK	5	7							1	1												rokshiar,jpg	NE	Shi'ar Imperial Elite	Throne's Favor	435
+Shi'ar Imperial Elite	Plutonia	2	ROK	2	4								1												rokshiar,jpg	SW	Shi'ar Imperial Elite	Throne's Favor	436
+Shi'ar Imperial Elite	Starbolt	2	ROK	3	4								1												rokshiar,jpg	SE	Shi'ar Imperial Elite	Throne's Favor	437

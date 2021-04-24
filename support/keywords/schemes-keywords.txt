@@ -1,0 +1,132 @@
+Name	Set	CT	B	R	G	Y	S	Team	TeamSC	Wnd	KOH	KBS	CRWD	BS	EW	EWH	NOTE	HC	VC	CH	Hero_Inc	HM_Inc	Vill_Inc	BSCt	WndCT	solobad	xtra	otherspecial	file	loc	file2	loc2	id	keywords	seq
+Age of Ultron	AM	11											1		SE	Evolved Ultron		2:0;4:1											antman,jpg	3 4			Age of Ultron	Empowered	1
+Alien Brood Encounters	XM	8								1			1		VE		Probing villain deck is extremely good			1		The Brood		x	30				xmen,jpg	7 2			Alien Brood Encounters	""	2
+Annihilation: Conquest	ITC	11													SE	Phalanx-Infected		1											itc,png	10 4			Annihilation: Conquest	""	3
+Anti-Mutant Hatred	XM	11								2					WO		30 wounds only												xmen,jpg	2 3			Anti-Mutant Hatred	""	4
+Asgardian Test of Worth	HOA	11													LT		Requires worthy heroes												hoa,png	4 1			Asgardian Test of Worth	Worthy	5
+Avengers vs. X-Men	CW	9								1					LT		Only two teams of heroes												civilwar,jpg	8 2			Avengers vs. X-Men	""	6
+Bathe the Earth in Cosmic Rays	FF	6									2				HK														pttr,jpg	4 7			Bathe the Earth in Cosmic Rays	""	7
+Brainwash the Military	C75	7											1		SE	Shield Officer	Interacts strongly with shield officers											add shield officers to villain deck	c75,jpg	9 4			Brainwash the Military	""	8
+Break the Planet Asunder	WW	9									2				HK			2:2;5:1											hulk,jpg	10 3			Break the Planet Asunder	""	9
+Build an Army of Annihilation	SW1	9													LT		Not strictly, but likely win on last strike											Put extra HM group in KO pile	sw1,jpg	6 5			Build an Army of Annihilation	""	10
+Build an Underground MegaVault Prison	V	8								2					WO										5*				villains2,jpg	6 4			Build an Underground MegaVault Prison	""	11
+Cage Villains in Power-Suppressing Cells	V	8													O		Also requires a few cops.											Put cops next to scheme	villains2,jpg	9 4			Cage Villains in Power-Suppressing Cells	""	12
+Capture Baby Hope	DC	8											1		VE													baby hope token	darkcity,jpg	8 5			Capture Baby Hope	""	13
+Change the Outcome of WWII	C75	7											2		VE				1										c75,jpg	10 4			Change the Outcome of WWII	""	14
+Clash of the Monsters Unleashed	CH	10								2					WO										6*			put monsters unleashed villains in separate pile	champions,jpg	3 3			Clash of the Monsters Unleashed	""	15
+Corrupt the Next Generation of Heroes	SW1	8											2		SE	Sidekick	Might be a 2 for CRWD?											add sidekicks to villain deck	sw1,jpg	5 5			Corrupt the Next Generation of Heroes	""	16
+Crash the Moon into the Sun	NM	11													O		Benefits from HQ filtering												nmschemes,png	1 1			Crash the Moon into the Sun	Moonlight|Sunlight	17
+Crown Thor King of Asgard	V	8											1		SE	Thor												Add Thor villian	villains2,jpg	5 4			Crown Thor King of Asgard	""	18
+Crush HYDRA	V	8											1		SE	Heroes													villains2,jpg	8 4			Crush HYDRA	""	19
+Crush Them With My Bare Hands	SW1	5													LT		Can be broken with certain MM, e.g. Dark Phoenix												sw1,jpg	4 5			Crush Them With My Bare Hands	""	20
+Cytoplasm Spike Invasion	WW	10										1	1		SE	Bystander	Include Cytoplasm spike henchmen											Shuffle 20 bystanders and 10 cytoplasm in separate pile	hulk,jpg	9 3			Cytoplasm Spike Invasion	""	21
+Dark Alliance	SW1	8													LT														sw1,jpg	2 5			Dark Alliance	""	22
+Dark Reign of H.A.M.M.E.R. Officers	CW	7													LT		Interacts strongly with shield officers												civilwar,jpg	9 2			Dark Reign of H.A.M.M.E.R. Officers	SHIELD Clearance	23
+Deadlands Hordes Charge the Wall	SW2	8											2		VE				1										sw2,jpg	10 6			Deadlands Hordes Charge the Wall	Charge	24
+Deadpool Kills the Marvel Universe	DP	2:6;4:5									1				HK		Only one Deadpool hero	2:-1;3:0			Deadpool								dp,jpg	7 4			Deadpool Kills the Marvel Universe	""	25
+Deadpool Wants A Chimichanga	DP	6												1	SE	Bystander			2:0;3:1					12					dp,jpg	6 4			Deadpool Wants A Chimichanga	""	26
+Deadpool Writes a Scheme	DP	6													LT						Deadpool								dp,jpg	5 4			Deadpool Writes a Scheme	""	27
+Destroy the Nova Corps	ITC	9													HK		Modify starting deck; have 1 Nova hero												itc,png	9 4			Destroy the Nova Corps	Shard	28
+Detonate the Helicarrier	DC	8									2				HK			2:1;5:0											darkcity,jpg	7 5			Detonate the Helicarrier	""	29
+Devolve with Xerogen Crystals	ROK	2:5;3:6;4:7;5:8											2		VE					1								Extra henchmen group that has abomination	roksch,jpg	SW			Devolve with Xerogen Crystals	Abomination	30
+Distract the Hero	HC	8													O		Problematic with villains gained as heroes											Not specific hero, but team	homecoming,jpg	3 3			Distract the Hero	""	31
+Divide and Conquer	CH	8	1	1	1	1	1				1				HK			2:2;5:1											champions,jpg	4 3			Divide and Conquer	""	32
+Earthquake Drains the Ocean	R	11											2		VE				1										earthquake.png	1	tsunami.png	1	Earthquake Drains the Ocean	""	33
+Enthrone the Barons of Battleworld	SW2	8													O	Masterminds	Slightly harder with villains that can ascend												sw2,jpg	1 7			Enthrone the Barons of Battleworld	""	34
+Epic Super Hero Civil War	CW	2:9;4:6									1				HK														civilwar,jpg	7 2			Epic Super Hero Civil War	""	35
+Everybody Hates Deadpool	DP	6											1		VE		Easier with more DP heroes												dp,jpg	8 4			Everybody Hates Deadpool	Revenge	36
+Explosion at the Washington Monument	HC	8										1			SE	Bystander												Make special deck with wounds and bystanders	homecoming,jpg	5 3			Explosion at the Washington Monument	""	37
+Fall of the Hulks	WW	10								1					WO		Two Hulks included				Hulk;Hulk				6*				hulk,jpg	8 3			Fall of the Hulks	Cross-Dimensional Rampage	38
+Fear Itself	FI	10													LT													HQ starts bigger than normal	fearitself,jpg	3 1			Fear Itself	""	39
+Ferry Disaster	HC	9										1	1		SE	Bystander													homecoming,jpg	4 3			Ferry Disaster	""	40
+Find the Split Personality Killer	N	8													O	Cluedo										x			noir,jpg	6 5			Find the Split Personality Killer	Investigate	41
+Five Families of Crime	N	8											2		VE				2									villian deck split in 5	noir,jpg	5 5			Five Families of Crime	""	42
+Flood the Planet with Melted Glaciers	FF	8									2				HK		Easier with higher average cost heroes												pttr,jpg	6 7			Flood the Planet with Melted Glaciers	""	43
+Forge the Infinity Gauntlet	GG	8													SE	Infinity Gems							Infinity Gems						gotg,jpg	5 3			Forge the Infinity Gauntlet	Shard	44
+Fragmented Realities	SW1	2*											2		HK		Combines terribly with city space heroes		1									Split villain deck in pile for each player, then add 2 twists to each pile	sw1,jpg	1 5			Fragmented Realities	""	45
+Gladiator Pits of Sakaar	WW	6											1		VE		Harder with high team diversity												hulk,jpg	6 3			Gladiator Pits of Sakaar	""	46
+Go Back in Time to Slay Heroes' Ancestors	C75	9													LT			2:3;5:2											c75,jpg	1 5			Go Back in Time to Slay Heroes' Ancestors	""	47
+Graduation at Xavier's X-Academy	V	8													LT		Also when enough bystanders escape											Put 8 bystanders next to scheme	villains2,jpg	10 4			Graduation at Xavier's X-Academy	""	48
+Hail Hydra	AOS	11													LT														officers,png	7 3			Hail Hydra	""	49
+Hidden Heart of Darkness	N	8											1		SE	Tactics												tactics in villain deck	noir,jpg	4 5			Hidden Heart of Darkness	Investigate	50
+Horror of Horrors	XM	6													LT														xmen,jpg	1 3			Horror of Horrors	""	51
+House of M	R	8						X-men	2		2				HK		Requires 4 X-men and 2 non-X-men.											Scarlet Witch in villain deck	houseofm,png	1	nomore,png	1	House of M	""	52
+Hydra Helicarriers Hunt Heroes	AOS	8									2				HK			1											officers,png	6 3			Hydra Helicarriers Hunt Heroes	""	53
+Hypnotize Every Human	CH	8											1	1	VE					1				x					champions,jpg	5 3			Hypnotize Every Human	""	54
+Imprison Unregistered Superhumans	CW	11										1	1		SE	Bystander													civilwar,jpg	6 2			Imprison Unregistered Superhumans	Fortify	55
+Infiltrate the Lair with Spies	V	8									1		1		SE	Bystander												21 bystanders next to scheme	villains2,jpg	7 4			Infiltrate the Lair with Spies	""	56
+Intergalactic Kree Nega-Bomb	GG	8									2				HK													6 bystanders in separate pile	gotg,jpg	2 3			Intergalactic Kree Nega-Bomb	""	57
+Invade the Daily Bugle News HQ	PTT	8													O	villains in hq				1								6 henchmen in hero deck	pttr,jpg	4 3			Invade the Daily Bugle News HQ	""	58
+Invasion of the Venom Symbiotes	VE	8											1		VE					1									venom,png	1 4			Invasion of the Venom Symbiotes	Symbiote Bond	59
+Invincible Force Field	FF	7													LT														pttr,jpg	5 7			Invincible Force Field	""	60
+Last Stand at Avengers Tower	FI	6									2				HK														fearitself,jpg	1 1			Last Stand at Avengers Tower	""	61
+Massive Earthquake Generator	DC	8			2						2				HK														darkcity,jpg	3 5			Massive Earthquake Generator	""	62
+Mass Produce War Machine Armor	V	8											1		SE	S.H.I.E.L.D. Assault Squad						S.H.I.E.L.D. Assault Squad							villains2,jpg	4 4			Mass Produce War Machine Armor	""	63
+Master of Tyrants	SW1	8											1		SE	Tactics	3 extra masterminds (tactics only)											3 extra masterminds, put tactics in villain deck	sw1,jpg	3 5			Master of Tyrants	""	64
+Master the Mysteries of Kung-Fu	SW2	8											2		VE														sw2,jpg	2 7			Master the Mysteries of Kung-Fu	Circle of Kung Fu	65
+Maximum Carnage	VE	10								2			1		SE	Bystander	6 wounds per player								6*				venom,png	2 4			Maximum Carnage	""	66
+Midtown Bank Robbery	B	8											1	1	SE	Bystander								12					base2,jpg	1 4			Midtown Bank Robbery	""	67
+Mutant-Hunting Super Sentinels	XM	9											2		SE	Sentinel				1		Sentinel							xmen,jpg	4 3			Mutant-Hunting Super Sentinels	""	68
+Mutating Gamma Rays	WW	7													LT		Hulk in extra deck											Add extra hulk in separate deck	hulk,jpg	1 4			Mutating Gamma Rays	""	69
+Negative Zone Prison Breakout	B	8											1		VE					1									base2,jpg	2 4			Negative Zone Prison Breakout	""	70
+Nitro the Supervillain Threatens Crowds	CW	8										1		1	SE	Bystander													civilwar,jpg	4 2			Nitro the Supervillain Threatens Crowds	""	71
+Nuclear Armageddon	XM	5													LT														xmen,jpg	8 2			Nuclear Armageddon	""	72
+Organized Crime Wave	DC	8											2		SE	Maggia Goons						Maggia Goons							darkcity,jpg	9 5			Organized Crime Wave	""	73
+Pan-Dimensional Plague	SW1	10								2					WO		30 wounds only								30				sw1,jpg	10 4			Pan-Dimensional Plague	""	74
+Paralyzing Venom	VE	6												1	LT														venom,png	3 4			Paralyzing Venom	""	75
+Portals to the Dark Dimension	B	7													LT														base2,jpg	10 3			Portals to the Dark Dimension	""	76
+Predict Future Crime	CW	6											2		VE				1										civilwar,jpg	5 2			Predict Future Crime	""	77
+Pull Earth into Medieval Times	AM	9											1		VE														antman,jpg	4 4			Pull Earth into Medieval Times	Chivalrous Duel	78
+Pull Reality Into the Negative Zone	FF	8													LT														pttr,jpg	3 7			Pull Reality Into the Negative Zone	""	79
+Ragnarok, Twilight of the Gods	HOA	11											1		O														hoa,png	2 1			Ragnarok, Twilight of the Gods	""	80
+Replace Earth's Leaders with Killbots	B	5												1	SE	Bystander								18				3 twists next to scheme	base2,jpg	8 3			Replace Earth's Leaders with Killbots	""	81
+Resurrect Heroes with Norn Stones	V	8											2		VE														villains2,jpg	1 5			Resurrect Heroes with Norn Stones	""	82
+Reveal Heroes' Secret Identities	CW	6													LT			2:2;5:1											civilwar,jpg	3 2			Reveal Heroes' Secret Identities	""	83
+Ruin the Perfect Wedding	ROK	11											2		O														roksch,jpg	NE			Ruin the Perfect Wedding	""	84
+Save Humanity	DC	8				2						1		1	SE	Bystander													darkcity,jpg	6 5			Save Humanity	""	85
+Scavenge Alien Weaponry	HC	7											2		VE					1								identify which group is the smugglers	homecoming,jpg	6 3			Scavenge Alien Weaponry	Striker	86
+Secret Empire of Betrayal	AOS	11								1					LT													Choose extra hero and pick 5 cards with cost <5	officers,png	5 3			Secret Empire of Betrayal	""	87
+Secret HYDRA Corruption	R	2:9;4:11													O		Shield Officers next to scheme or gone											only 30 officers	shydra,png	1	hydrat,png	1	Secret HYDRA Corruption	""	88
+Secret Invasion of the Skrull Shapeshifters	B	8											1		SE	Heroes	Interacts strongly wit dominate and such	2:1;5:0					Skrulls					Shuffle 12 hero cards in villain deck	base2,jpg	6 3			Secret Invasion of the Skrull Shapeshifters	""	89
+Secret Wars	SW2	8													LT		Three extra masterminds												sw2,jpg	3 7			Secret Wars	""	90
+S.H.I.E.L.D. vs. HYDRA War	AOS	7													SE	Shield Officer													officers,png	8 3			S.H.I.E.L.D. vs. HYDRA War	Undercover|HYDRA Level	91
+Shoot Hulk into Space	WW	8													LT		Hulk in extra deck											Put Hulk in extra deck	hulk,jpg	5 3			Shoot Hulk into Space	""	92
+Silence the Witnesses	N	6												1	SE	Bystander													noir,jpg	7 5			Silence the Witnesses	Hidden Witness	93
+Sinister Ambitions	SW2	6											1		SE	Ambition												ambition cards in villain deck	sw2,jpg	7 7			Sinister Ambitions	""	94
+Smash Two Dimensions Together	SW1	8											2		VE				1									City modified	sw1,jpg	9 4			Smash Two Dimensions Together	""	95
+Splice Humans with Spider DNA	PTT	8											1		SE	Sinister Six							Sinister Six						pttr,jpg	5 3			Splice Humans with Spider DNA	Wall-Crawl	96
+Steal All Oxygen on Earth	CH	8									2				HK														champions,jpg	6 3			Steal All Oxygen on Earth	""	97
+Steal the Weaponized Plutonium	DC	8													VE				1										darkcity,jpg	10 5			Steal the Weaponized Plutonium	""	98
+Subjugate with Obedience Disks	WW	11													LT														hulk,jpg	4 3			Subjugate with Obedience Disks	""	99
+Super Hero Civil War	B	2:8;4:5									2				HK			2:-1;3:0											base2,jpg	3 4			Super Hero Civil War	""	100
+Superhuman Baseball Game	NM	9											2		VE				1									Villain deck moved off board, city modified	nmschemes,png	4 1			Superhuman Baseball Game	""	101
+Symbiotic Absorption	VE	11													LT		Extra mastermind and his group		1									add extra mastermind with its villain group	venom,png	4 4			Symbiotic Absorption	""	102
+Televised Deathtraps of Mojoworld	XM	11								2					WO										6*				xmen,jpg	3 3			Televised Deathtraps of Mojoworld	""	103
+The Clone Saga	PTT	8											1		VE														pttr,jpg	6 3			The Clone Saga	""	104
+The Contest of Champions	ITC	11													O			1											itc,png	8 4			The Contest of Champions	Contest of Champions	105
+The Dark Phoenix Saga	XM	10											1		SE	Jean Grey							Hellfire Club					Jean Grey in villain deck	xmen,jpg	10 2			The Dark Phoenix Saga	""	106
+The Dark World of Svartalfheim	HOA	10													LT														hoa,png	3 1			The Dark World of Svartalfheim	""	107
+The Demon Bear Saga	NM	8													SE	Demon Bear							Demons of Limbo					Demon Bear next to scheme	nmschemes,png	3 1			The Demon Bear Saga	""	108
+The Fountain of Eternal Life	SW2	8											2		VE		Also LT												sw2,jpg	6 7			The Fountain of Eternal Life	Fateful Resurrection	109
+The God-Emperor of Battleworld	SW2	8					1								LT														sw2,jpg	5 7			The God-Emperor of Battleworld	""	110
+The Korvac Saga	R	8						Avengers	1	1					LT		Transforms into Korvac villain. Game ends when beaten.												korvac,png	1	korvact,png	1	The Korvac Saga	""	111
+The Kree-Skrull War	GG	8													VE		Kree Starforce and Skrulls as villains						Skrulls;Kree Starforce						gotg,jpg	1 3			The Kree-Skrull War	""	112
+The Legacy Virus	B	8					2			2					WO										6*				base2,jpg	4 4			The Legacy Virus	""	113
+The Mark of Khonshu	SW2	10											2		SE	Khonshu						Khonshu Guardians						Extra hero in villain deck	sw2,jpg	4 7			The Mark of Khonshu	""	114
+The Traitor	FI	8													LT											x			fearitself,jpg	2 1			The Traitor	""	115
+The Unbreakable Enigma Code	C75	6													LT											x			c75,jpg	2 5			The Unbreakable Enigma Code	""	116
+Tornado of Terrigen Mists	ROK	10													LT													Put player tokens into the sewers	roksch,jpg	SE			Tornado of Terrigen Mists	""	117
+Transform Citizens Into Demons	DC	8											1		SE	Jean Grey								x				jean grey in villain deck	darkcity,jpg	5 5			Transform Citizens Into Demons	""	118
+Transform Commuters into Giant Ants	AM	2:8;3:9;4:10;5:11													O		Twists is nr of players +6												antman,jpg	10 5			Transform Commuters into Giant Ants	""	119
+Trap Heroes in the Microverse	AM	11											1		VE													extra hero in villain deck	antman,jpg	5 4			Trap Heroes in the Microverse	Size-Changing	120
+Trapped in the Insane Asylum	NM	2:5;3:7;4:9;5:11													LT														nmschemes,png	2 1			Trapped in the Insane Asylum	""	121
+Turn the Soul of Adam Warlock	ITC	14													O														itc,png	7 4			Turn the Soul of Adam Warlock	""	122
+Unite the Shards	GG	2:7;3:8;4:9;5:10													O		Interacts poorly with a lot of shards heroes												gotg,jpg	10 2			Unite the Shards	Shard	123
+United States Split by Civil War	CW	10													O		City manipulation												civilwar,jpg	2 2			United States Split by Civil War	""	124
+Unleash the Power of the Cosmic Cube	B	8													LT														base2,jpg	7 3			Unleash the Power of the Cosmic Cube	""	125
+War of Kings	ROK	11													O		Can't pay war's wage												roksch,jpg	NW			War of Kings	Throne's Favor	126
+War of the Frost Giants	HOA	9											2		SE	Scheme Twist													hoa,png	1 1			War of the Frost Giants	Worthy	127
+Weave a Web of Lies	PTT	7													LT														pttr,jpg	3 3			Weave a Web of Lies	""	128
+World War Hulk	WW	9													LT		Three extra masterminds (lurking)											three extra masterminds	hulk,jpg	7 3			World War Hulk	""	129
+X-Cutioner's Song	DC	8									2				HK		Also escaping with heroes							x				extra hero in villain deck	darkcity,jpg	4 5			X-Cutioner's Song	""	130
+X-Men Danger Room Goes Berserk	XM	8													LT														xmen,jpg	9 2			X-Men Danger Room Goes Berserk	Trap	131
