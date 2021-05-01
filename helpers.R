@@ -509,7 +509,7 @@ setupSumm <- function(game,setupid) {
             game$Villains,
             "<br>",
             game$Henchmen,
-            "<br",
+            "<br>",
             game$Heroes)
   namespace = c("Scheme",
                 "Mastermind",
@@ -930,7 +930,7 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
       vals$loc[2] = vals$loc2[1]
     }
   }
-  if (cardtype == "none") {
+  if (cardtype == "none"|id=="<br>") {
     return(F)
   }
   n = dim(vals)[1]
