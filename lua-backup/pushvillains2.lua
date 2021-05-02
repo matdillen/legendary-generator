@@ -47,130 +47,244 @@ function get_decks_and_cards_from_zone(zoneGUID)
 end
 
 
-function shift_to_next(objects,targetZone)
+function shift_to_next(objects,targetZone,enterscity)
     --all found cards, decks and shards (objects) in a city space will be moved to the next space (targetzone)
+    --enterscity is equal to 1 if this shift is a single card moving into the city
+    isEnteringCity = enterscity or 0
+    local shard = false
     for k, obj in pairs(objects) do
+        local targetZone_final = targetZone
+        local xshift = 0
         local zPos = obj.getPosition().z
         local bs = false
-        if targetZone.guid == escape_zone_guid or targetZone.guid == city_start_zone_guid then
+        --if an object enters or leaves the city, then it should move vertically accordingly
+        if targetZone.guid == escape_zone_guid or isEnteringCity == 1 then
             zPos = targetZone.getPosition().z
         end
-        if targetZone.guid == escape_zone_guid then
-            broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
-        end
         local desc = obj.getDescription()
-        if desc:find("VILLAINOUS WEAPON") then
-            bs = true
-        end
+        --is the object a bystander?
         for i,o in pairs(obj.getTags()) do
             if o == "Bystander" then
                 bs = true
             end
         end
+        --is the object a villainous weapon
+        if desc:find("VILLAINOUS WEAPON") then
+            bs = true
+        end
+        --is the object leaving the city?
+        if targetZone.guid == escape_zone_guid and not desc:find("LOCATION") then
+            if obj.getName() == "Shard" then
+                --first shard moves to the mastermind
+                if shard == false then
+                    targetZone_final = getObjectFromGUID("a91fe7")
+                    shard = true
+                    broadcastToAll("A Shard from an escaping villain was moved to the mastermind!",{r=1,g=0,b=0})
+                else
+                --other shards go back to the supply
+                    targetZone_final = getObjectFromGUID("0cd6a9")
+                    --shard supply is located through the herodeck zone, so also nudge a bit to the right 
+                    xshift = xshift + 4
+                    zPos = targetZone_final.getPosition().z
+                    broadcastToAll("Additional shards beyond the first were returned to the supply!",{r=0,g=1,b=0}) 
+                end
+            elseif desc:find("VILLAINOUS WEAPON") then
+                -- weapons move to mastermind upon escaping
+                broadcastToAll("Villainous Weapon Escaped", {r=1,g=0,b=0})
+                targetZone_final = getObjectFromGUID("a91fe7")
+                zPos = targetZone_final.getPosition().z - 1.5
+            elseif bs == true then
+                broadcastToAll("Bystander Escaped", {r=1,g=0,b=0})
+            else
+                broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
+            end
+        end
         if desc:find("LOCATION") then
+            --locations will be nudged a bit upwards to distinguish from villains
             zPos = zPos + 1.5
         end
-        if #objects == 1 and bs == true then
+        if isEnteringCity == 1 and bs == true then
+            --bystanders (when entering) will be nudged downwards to distinguish
             zPos = targetZone.getPosition().z - 1.5
         end
-        if targetZone.guid == city_start_zone_guid or not desc:find("LOCATION") then
-            obj.setPositionSmooth({targetZone.getPosition().x, targetZone.getPosition().y + 3,
-                zPos},false,false)
+        if isEnteringCity == 1 or not desc:find("LOCATION") then
+            --locations don't move unless they are entering
+            obj.setPositionSmooth({targetZone_final.getPosition().x+xshift,
+                targetZone_final.getPosition().y + 3,
+                zPos},
+                false,
+                false)
         end
     end
 end
 
 function push_all (city,init)
+    --init is 1 when this function is called by the button, otherwise it should be 0
+    -- this is important for some scheme twists
+    
+    --if all guids are still there, cards will be entering the city
+    --this will cause issues if multiple cards enter at the same time
+    --that should therefore never happen!
+    if city[1] == "e6b0bc" then
+        cityEntering = 1
+    else
+        cityEntering = 0
+    end
+    --does the city table exist and does it have any elements in it
     if city and city[1] then
+        --the zone which will be checked with this push
         local zoneGUID=table.remove(city,1)
+        --the zone cards should be moved to
         local targetZoneGUID=city[1]
         if not targetZoneGUID then
             targetZoneGUID=escape_zone_guid
         end
-        local cards=get_decks_and_cards_from_zone(zoneGUID)
-        --log(cards)
         local targetZone=getObjectFromGUID(targetZoneGUID)
+        --find all cards, decks and shards in a zone
+        local cards=get_decks_and_cards_from_zone(zoneGUID)
         if cards then
+            --any cards found:
             if cards[1] and targetZone then
-                local schemeZone=getObjectFromGUID("c39f60")
-                local mmZone=getObjectFromGUID("a91fe7")
-                if schemeZone.getObjects()[2] then
-                    schemename = schemeZone.getObjects()[2].getName()
+                --retrieve setup information
+                local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+                if schemeParts then
+                    schemename = schemeParts[1]
                 else
                     schemename = "missing"
                 end
+                
+                --special scheme: all cards enter the city face down
+                --so no special card behavior
                 if schemename == "Alien Brood Encounters" then
                     if city then
                         push_all(city,0)
                     end
                     return shift_to_next(cards,targetZone)
                 end
+                
+                --special scripted scheme twists
                 if cards[1].getName() == "Scheme Twist" and init == 1 then
                     proceed = twistSpecials(cards)
+                    --this function should return nil if it covers all scheme twist behavior
+                    --and hence the city should be no further affected
                     if not proceed then
                         return nil
                     end
-                end
-                if cards[1].getName() == "Masterstrike" then
-                    return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
-                end
-
-                if cards[1].getName() == "Scheme Twist" then
-                    if schemename == "Crush Them With My Bare Hands" then
-                        return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
-                    end
+                    --as a default, move the twist to the twists zone
+                    --city is otherwise not affected
+                    --Age of Ultron turns the twist into a villain, so it can enter
                     if schemename ~= "Age of Ultron" then
                         return cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
                     end
                 end
+                
+                --master strikes always go to the master strike zone
+                --maybe later on they can be scripted, but this requires knowing all masterminds that are present
+                if cards[1].getName() == "Masterstrike" and cityEntering == 1 then
+                    return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
+                end
+                
+                --bystanders behave differently when entering
                 local bs = false
                 for i,o in pairs(cards[1].getTags()) do
-                    if o == "Bystander" and not cards[2] then
+                    if o == "Bystander" and cityEntering == 1 then
                         bs = true
                     end
                 end
+                
+                --same for villainous weapons
                 local vw = false
-                if cards[1].getDescription():find("VILLAINOUS WEAPON") and not cards[2] then
+                if cards[1].getDescription():find("VILLAINOUS WEAPON") and cityEntering == 1 then
                     vw = true
                 end
-                if cards[1].getDescription():find("LOCATION") and not cards[2] then
-                    --will still cause locations to pile up
-                    return shift_to_next(cards,targetZone)
+                
+                --entering location is moved into the first location-free city space
+                if cards[1].getDescription():find("LOCATION") and cityEntering == 1 then
+                    local cityspaces = city
+                    local locationfound = true
+                    while locationfound == true do
+                        local cards=get_decks_and_cards_from_zone(cityspaces[1])
+                        --any cards found?
+                        if next(cards) then
+                            --is any of them a location?
+                            local locationhere = false
+                            for i,o in pairs(cards) do
+                                if o.getDescription():find("LOCATION") then
+                                    locationhere = true
+                                end
+                            end
+                            --if so, check next city space
+                            if locationhere == true then
+                                table.remove(cityspaces,1)
+                            else
+                                --if not, move the location here
+                                locationfound = false
+                                targetZone = getObjectFromGUID(cityspaces[1])
+                            end
+                            if not cityspaces[1] then
+                                broadcastToAll("City is filled with locations. Please KO the weakest one!",{r=1,g=0,b=0})
+                                return nil
+                            end
+                        else
+                            --if no cards are here, move the location here
+                            locationfound = false
+                            targetZone = getObjectFromGUID(cityspaces[1])
+                        end
+                    end
+                    return shift_to_next(cards,targetZone,cityEntering)
                 end
-                if (bs == true or vw == true) and init == 1 then
+                
+                --bystanders and weapons go to the first villain in the city
+                if (bs == true or vw == true) and cityEntering == 1 then
                     local cityspaces = city
                     local cardfound = false
                     while cardfound == false do
                         local cards=get_decks_and_cards_from_zone(cityspaces[1])
+                        --locations don't count as villains, so they get skipped
+                        --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
                         local locationfound = false
                         if cards[1] and not cards[2] then
                             if cards[1].getDescription():find("LOCATION") then
                                 locationfound = true
                             end
                         end
+                        
+                        --if no cards or only a location, check next city space
                         if not next(cards) or locationfound == true then
                             table.remove(cityspaces,1)
                         else
+                            --villain found, so put bystander here
+                            --this will break if something other than a villain or location is on its own in the city
                             cardfound = true
                             targetZone = getObjectFromGUID(cityspaces[1])
                         end
                         if not cityspaces[1] then
+                            --if the city is empty:
                             cardfound = true
                             if bs == true then
+                                --bystanders go to the mastermind
                                 targetZone = getObjectFromGUID("be6070")
                                 broadcastToAll("Bystander moved to Mastermind as city is empty!",{r=1,g=0,b=0})
                             elseif vw == true then
+                                --weapons get KO'd
                                 targetZone = getObjectFromGUID(kopile_guid)
                                 broadcastToAll("Villainous Weapon KO'd as city is empty!",{r=1,g=0,b=0})
                             end
                         end
                     end
-                    return shift_to_next(cards,targetZone)
+                    return shift_to_next(cards,targetZone,cityEntering)
                 end
-                if city then
-                    push_all(city,0)
+                
+                --if this space has only a location, it's effectively empty and no further pushing needs to be done
+                if cards[1].getDescription():find("LOCATION") and not cards[2] then
+                    return nil
+                else
+                    --otherwise, shift all and rerun this function for the next city space
+                    shift_to_next(cards,targetZone,cityEntering)
+                    if city then
+                        push_all(city,0)
+                    end
                 end
-                shift_to_next(cards,targetZone)
             end
         end
     end
@@ -405,6 +519,11 @@ function twistSpecials(cards)
             end
         end
         printToAll("TWIST: Put a non-grey hero from your hand in front of you and put a cop on top of it.")
+        return nil
+    end
+    if schemename == "Crush Them With My Bare Hands" then
+        cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
+        broadcastToAll("Master Strike!")
         return nil
     end
     if schemename == "Dark Alliance" then

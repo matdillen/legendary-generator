@@ -172,6 +172,18 @@ function mmGetCards(mmname)
     return(mmcardnumber)
 end
 
+function returnSetupParts()
+    -- setupElements = {
+        -- ["Scheme"]=1,
+        -- ["Mastermind"]=5,
+        -- ["Villains"]=6,
+        -- ["Henchmen"]=7,
+        -- ["Heroes"]=8,
+        -- ["Extra"]=9
+    -- }
+    return setupParts
+end
+
 function import_setup()
     log("Generating imported setup...")
     playercount = #Player.getPlayers()
