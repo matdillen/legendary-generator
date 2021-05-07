@@ -656,6 +656,30 @@ function twistSpecials(cards,city,schemename)
         --log(twistsresolved)
         return twistsresolved
     end
+    if schemename == "Deadpool Kills the Marvel Universe" then
+        twistsresolved = twistsresolved + 1
+        heroZone=getObjectFromGUID("0cd6a9")
+        herodeck = heroZone.getObjects()[2]
+        herodeckcards = herodeck.getObjects()
+        deadpoolfound = -1
+        --don't do pairs as it doesn't iterate in the right order
+        for i = 1,#herodeckcards do
+            for index,o in pairs(herodeckcards[i].tags) do
+                if o == "Team:Deadpool" then
+                    deadpoolfound = i
+                end
+            end
+            if deadpoolfound > -1 then
+                break
+            end
+        end
+        for i = 1,deadpoolfound do
+            herodeck.takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                flip=true,
+                smooth=true}) 
+        end
+        return twistsresolved
+    end
     if schemename == "Mutant-Hunting Super Sentinels" then
         local twistpile = getObjectFromGUID("4f53f9")
         cards[1].setPositionSmooth(twistpile.getPosition())
