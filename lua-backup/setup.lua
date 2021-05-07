@@ -254,6 +254,9 @@ function import_setup()
         end
         
         mmSepShuffle = function(obj)
+            if epicness == true then
+                obj.hide_when_face_down = false
+            end
             mm.randomize()
             log("Mastermind tactics shuffled")
             if setupParts[1] == "World War Hulk" then
@@ -809,6 +812,8 @@ function schemeSpecials (setupParts,mmGUID)
     if setupParts[1] == "Capture Baby Hope" then
         log("Baby hope token moved to scheme.")
         local babyHope = getObjectFromGUID("e27f77")
+        babyHope.locked = false
+        babyHope.setTags({"VP6"})
         babyHope.setPosition(schemZone.getPosition())
     end
     if setupParts[1] == "Clash of the Monsters Unleashed" then

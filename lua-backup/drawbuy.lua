@@ -11,13 +11,6 @@ function onLoad()
          position={0,0.01,4}, label="buy hero", color={1,1,1,1}, width=2000, height=1000
      })
 
-    --This is how I found the positions to check for cards
-    --That GUID was a card I put on it
-    --local pos = self.positionToLocal(getObjectFromGUID("61b186").getPosition())
-    --log(pos.x)
-    --log(pos.y)
-    --log(pos.z)
-
     --Local positions for each pile of cards
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}

@@ -28,6 +28,7 @@ end
 
 function get_decks_and_cards_from_zone(zoneGUID)
     --this function returns cards, decks and shards in a city space (or the start zone)
+    --returns a table of objects
     local zone = getObjectFromGUID(zoneGUID)
     if zone then
         decks = zone.getObjects()
@@ -45,7 +46,6 @@ function get_decks_and_cards_from_zone(zoneGUID)
     end
     return result
 end
-
 
 function shift_to_next(objects,targetZone,enterscity)
     --all found cards, decks and shards (objects) in a city space will be moved to the next space (targetzone)
@@ -118,6 +118,46 @@ function shift_to_next(objects,targetZone,enterscity)
     end
 end
 
+function click_draw_villain()
+    obj=getObjectFromGUID("e6b0bc")
+    villain_deck_zone = getObjectFromGUID("4bc134")
+    villain_decks   = villain_deck_zone.getObjects()
+    if villain_decks then
+        for k, deck in pairs(villain_decks) do
+          if deck.tag == "Deck" then
+            villain_deck=deck
+          end
+          if deck.tag == "Card" then
+            villain_deck=deck
+          end
+        end
+    end
+    local schemeZone=getObjectFromGUID("c39f60")
+    flip_villains = true
+    if schemeZone.getObjects()[2] then
+        if schemeZone.getObjects()[2].getName() == "Alien Brood Encounters" then
+            flip_villains = false
+        end
+    end
+    if villain_deck then
+        takeParams = {
+            position = {obj.getPosition().x,obj.getPosition().y+5,obj.getPosition().z},
+            flip = flip_villains
+        }
+        takeParams_single = {obj.getPosition().x,obj.getPosition().y+5,obj.getPosition().z}
+        if villain_deck.tag == "Deck" then
+            villain_deck.takeObject(takeParams)
+        end
+        if villain_deck.tag == "Card" then
+            villain_deck.flip()
+            villain_deck.setPositionSmooth(takeParams_single)
+            villain_deck = nil
+        end
+    else
+        print("Villain deck is empty!")
+    end
+end
+
 function push_all (city,init)
     --init is 1 when this function is called by the button, otherwise it should be 0
     -- this is important for some scheme twists
@@ -164,7 +204,7 @@ function push_all (city,init)
                 
                 --special scripted scheme twists
                 if cards[1].getName() == "Scheme Twist" and init == 1 then
-                    proceed = twistSpecials(cards)
+                    proceed = twistSpecials(cards,city,schemename)
                     --this function should return nil if it covers all scheme twist behavior
                     --and hence the city should be no further affected
                     if not proceed then
@@ -317,47 +357,8 @@ function click_push_vilain_into_city(obj, player_clicker_color, alt_click)
     end
 end
 
-function click_draw_villain()
-    obj=getObjectFromGUID("e6b0bc")
-    villain_deck_zone = getObjectFromGUID("4bc134")
-    villain_decks   = villain_deck_zone.getObjects()
-    if villain_decks then
-        for k, deck in pairs(villain_decks) do
-          if deck.tag == "Deck" then
-            villain_deck=deck
-          end
-          if deck.tag == "Card" then
-            villain_deck=deck
-          end
-        end
-    end
-    local schemeZone=getObjectFromGUID("c39f60")
-    flip_villains = true
-    if schemeZone.getObjects()[2] then
-        if schemeZone.getObjects()[2].getName() == "Alien Brood Encounters" then
-            flip_villains = false
-        end
-    end
-    if villain_deck then
-        takeParams = {
-            position = {obj.getPosition().x,obj.getPosition().y+5,obj.getPosition().z},
-            flip = flip_villains
-        }
-        takeParams_single = {obj.getPosition().x,obj.getPosition().y+5,obj.getPosition().z}
-        if villain_deck.tag == "Deck" then
-            villain_deck.takeObject(takeParams)
-        end
-        if villain_deck.tag == "Card" then
-            villain_deck.flip()
-            villain_deck.setPositionSmooth(takeParams_single)
-            villain_deck = nil
-        end
-    else
-        print("Villain deck is empty!")
-    end
-end
-
-function twistSpecials(cards)
+function twistSpecials(cards,city,schemename)
+    --log("special" .. schemename)
     if schemename == "Age of Ultron" then
         posi = getObjectFromGUID("1fa829")
         actuposi = {x=posi.getPosition().x+4*twistsresolved,y=posi.getPosition().y,z=posi.getPosition().z}
@@ -366,6 +367,9 @@ function twistSpecials(cards)
         --will not work if hero deck contains 1 or less cards
         herodeck.takeObject({position = actuposi,flip=true})
         twistsresolved = twistsresolved + 1    
+        cards[1].setName("Evolved Ultron")
+        cards[1].setTags({"VP6"})
+        cards[1].setDescription("EMPOWERED: This card gets extra Power for each Hero with the listed Hero Class in the Evolution Pile.")
         return twistsresolved
     end
     --if schemename == "Annihilation: Conquest" then
@@ -388,14 +392,27 @@ function twistSpecials(cards)
         cards[1].setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
         return nil
     end
-    if schemename == "Brainwash The Military" then
+    if schemename == "Brainwash the Military" then
+        --cards[1].setName("Traitor Batallion")
+        twistsresolved = twistsresolved + 1 
+        --log("twists:" .. twistsresolved)
         if twistsresolved < 7 then
             click_draw_villain()
             print("Scheme Twist: Play another card of the villain deck!")
         elseif twistsresolved == 7 then
             print("Scheme Twist: All SHIELD Officers in the city escape!")
+            for i,o in pairs(city) do
+                local cardsincity = get_decks_and_cards_from_zone(o) 
+                if next(cardsincity) then
+                    for index,object in pairs(cardsincity) do
+                        if object.getName() == "S.H.I.E.L.D. Officer" or object.getName() == "Madame Hydra" then
+                            object.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+                            broadcastToAll("S.H.I.E.L.D. Officer escaped!",{r=1,g=0,b=0})
+                        end
+                    end
+                end
+            end
         end
-        twistsresolved = twistsresolved + 1    
         return twistsresolved
     end
     -- if schemename == "Break The Planet Asunder" then
@@ -518,7 +535,66 @@ function twistSpecials(cards)
                 end
             end
         end
-        printToAll("TWIST: Put a non-grey hero from your hand in front of you and put a cop on top of it.")
+        broadcastToAll("TWIST: Put a non-grey hero from your hand in front of you and put a cop on top of it.")
+        return nil
+    end
+    if schemename == "Capture Baby Hope" then
+        babyfound = false
+        for i,o in pairs(city) do
+            local cityobjects = getObjectFromGUID(o).getObjects()
+            if next(cityobjects) then
+                babycheck = false
+                for index,object in pairs(cityobjects) do
+                    if object.getName() == "Baby Hope Token" then
+                        babycheck = true
+                        babyfound = true
+                    end
+                end
+                if babycheck == true then
+                    for index,object in pairs(cityobjects) do
+                        if object.getName() == "Baby Hope Token" then
+                            object.setPositionSmooth(getObjectFromGUID("c39f60").getPosition())
+                            broadcastToAll("Villain with Baby Hope escaped!",{r=1,g=0,b=0})
+                        end
+                    end
+                    cityobjects = get_decks_and_cards_from_zone(o)
+                    shift_to_next(cityobjects,getObjectFromGUID(escape_zone_guid),0)
+                    cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+                end
+            end
+        end
+        if babyfound == false then
+            babyHope = getObjectFromGUID("e27f77")
+            local cityspaces = city
+            local cardfound = false
+            while cardfound == false do
+                local cityobjects=get_decks_and_cards_from_zone(cityspaces[1])
+                --locations don't count as villains, so they get skipped
+                --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
+                local locationfound = false
+                if cityobjects[1] and not cityobjects[2] then
+                    if cityobjects[1].getDescription():find("LOCATION") then
+                        locationfound = true
+                    end
+                end
+                --if no cards or only a location, check next city space
+                if not next(cityobjects) or locationfound == true then
+                    table.remove(cityspaces,1)
+                else
+                    --villain found, so put bystander here
+                    --this will break if something other than a villain or location is on its own in the city
+                    cardfound = true
+                    targetZone = getObjectFromGUID(cityspaces[1])
+                    shift_to_next({babyHope},targetZone,1)
+                end
+                if not cityspaces[1] then
+                    --if the city is empty:
+                    cardfound = true
+                    babyHope.setPositionSmooth(getObjectFromGUID("c39f60").getPosition())
+                end
+            end
+            cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+        end
         return nil
     end
     if schemename == "Crush Them With My Bare Hands" then
@@ -579,6 +655,66 @@ function twistSpecials(cards)
         twistsresolved = twistsresolved + 1
         --log(twistsresolved)
         return twistsresolved
+    end
+    if schemename == "Mutant-Hunting Super Sentinels" then
+        local twistpile = getObjectFromGUID("4f53f9")
+        cards[1].setPositionSmooth(twistpile.getPosition())
+        vildeckzone = getObjectFromGUID("4bc134")
+        vildeck = getObjectFromGUID("4bc134").getObjects()[2]
+        vildeckcurrentcount = vildeck.getQuantity()
+        sentinelsfound = 0
+        for i,o in pairs(vpileguids) do
+            if Player[i].seated == true then
+                vpilecontent = getObjectFromGUID(o).getObjects()[1]
+                copguids = {}
+                if vpilecontent then
+                    if vpilecontent.getQuantity() > 1  then
+                        local vpileCards = vpilecontent.getObjects()
+                        for j = 1, vpilecontent.getQuantity() do
+                            if vpileCards[j].name == "Sentinel" then
+                                table.insert(copguids,vpileCards[j].guid)
+                                sentinelsfound = sentinelsfound + 1
+                            end
+                        end
+                        for j = 1,#copguids do
+                            if not vpilecontent.remainder then
+                                vpilecontent.takeObject({position=vildeckzone.getPosition(),
+                                    guid=copguids[j],flip=true})
+                            else
+                                vpilecontent.remainder.flip()
+                                vpilecontent.remainder.setPositionSmooth(vildeckzone.getPosition())
+                            end  
+                        end
+                    end
+                    if vpilecontent.getQuantity() == -1 then
+                        if vpilecontent.getName() == "Sentinel" then
+                            vpilecontent.flip()
+                            vpilecontent.setPositionSmooth(vildeckzone.getPosition())
+                            sentinelsfound = sentinelsfound + 1
+                        end
+                    end
+                end
+            end
+        end
+        local sentinelsAdded = function()
+            test = vildeckcurrentcount + sentinelsfound
+            if vildeckzone.getObjects()[2] then
+                if vildeckzone.getObjects()[2].getQuantity() == test then
+                    return true
+                else
+                    return false
+                end
+                return false
+            end
+        end
+        local sentinelsNext = function()
+            if sentinelsfound > 0 then
+                vildeckzone.getObjects()[2].randomize()
+            end
+            click_draw_villain()
+        end
+        Wait.condition(sentinelsNext,sentinelsAdded)
+        return nil
     end
     return twistsresolved
 end

@@ -489,25 +489,29 @@ function isHandFull()
 end
 
 function toggle_button(name,color,color2)
-     buttonList = self.getButtons()
-     for i,b in ipairs(buttonList) do
-         if b.click_function == name then
-             b.color=color
-         elseif  b.click_function != "click_refillDeck" then
-             b.color=color2
-         end
-          self.editButton(b)
-     end
+    buttonList = self.getButtons()
+    for i,b in ipairs(buttonList) do
+        if b.click_function == name then
+            b.color=color
+        elseif  b.click_function != "click_refillDeck" then
+            b.color=color2
+        end
+         self.editButton(b)
+    end
 end
 
 function click_end_turn()
     -- log ("--- before discard ---")
-   global_deal=0
-   click_discard_hand()
-   -- log ("--- before deal cards ---")
-   Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
-   -- log ("--- after deal cards ---")
-   --Wait.condition(function() print("end turn") Turns. Global.nd,isHandFull, 5, function() print("card draw timeout") end)
+    global_deal=0
+    click_discard_hand()
+    -- log ("--- before deal cards ---")
+    Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
+    -- log ("--- after deal cards ---")
+    --Wait.condition(function() print("end turn") Turns. Global.nd,isHandFull, 5, function() print("card draw timeout") end)
+    if boardcolor == Turns.turn_color then
+        getObjectFromGUID("8280ca").Call('click_draw_villain')
+        printToAll("Next Turn! Villain card played from villain deck.")
+    end
 end
 
 function click_draw_card()
