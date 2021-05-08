@@ -14,6 +14,14 @@ vpileguids = {
     ["Blue"]="f6396a",
     ["White"]="7732c7"
 }
+
+hqguids = {
+    "aabe45",
+    "bf3815",
+    "11b14c",
+    "b8a776",
+    "75241e"
+}
 function onLoad()
     escape_zone_guid  =  "de2016"
     city_start_zone_guid = "40b47d"
@@ -158,7 +166,7 @@ function click_draw_villain()
     end
 end
 
-function push_all (city,init)
+function push_all (city)
     --init is 1 when this function is called by the button, otherwise it should be 0
     -- this is important for some scheme twists
     
@@ -197,13 +205,33 @@ function push_all (city,init)
                 --so no special card behavior
                 if schemename == "Alien Brood Encounters" then
                     if city then
-                        push_all(city,0)
+                        push_all(city)
                     end
                     return shift_to_next(cards,targetZone)
                 end
                 
+                if schemename == "Devolve with Xerogen Crystals" and cityEntering == 1 then
+                    if cards[1].getName() == schemeParts[9] then
+                        cards[1].setName("Xerogen Experiments")
+                        if cards[1].getDescription() == "" then
+                            cards[1].setDescription("ABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
+                        else
+                            cards[1].setDescription(cards[1].getDescription() .. "\r\nABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
+                        end
+                    end
+                end
+                
+                if schemename == "Scavenge Alien Weaponry" and cityEntering == 1 then
+                    cards[1].setName("Smugglers")
+                    if cards[1].getDescription() == "" then
+                        cards[1].setDescription("STRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
+                    else
+                        cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
+                    end
+                end
+                
                 --special scripted scheme twists
-                if cards[1].getName() == "Scheme Twist" and init == 1 then
+                if cards[1].getName() == "Scheme Twist" and cityEntering == 1 then
                     proceed = twistSpecials(cards,city,schemename)
                     --this function should return nil if it covers all scheme twist behavior
                     --and hence the city should be no further affected
@@ -322,7 +350,7 @@ function push_all (city,init)
                     --otherwise, shift all and rerun this function for the next city space
                     shift_to_next(cards,targetZone,cityEntering)
                     if city then
-                        push_all(city,0)
+                        push_all(city)
                     end
                 end
             end
@@ -353,23 +381,114 @@ function click_push_vilain_into_city(obj, player_clicker_color, alt_click)
     end
     --log (city_zones_guids)
     if city_zones_guids[1] then
-        push_all(city_zones_guids,1)
+        push_all(city_zones_guids)
     end
+end
+
+function updateStats(obj,player_clicker_color, alt_click)
+    --destroy buttons upon escape:
+    --card.removeButton(0)
+    --stats don't get updated
+    --empowered only looks at the last card stored in the hq zones
+    --any other replacement is ignored
+end
+
+function updateUltronPower()
+    ultronpower = 4
+    evolutionPile = get_decks_and_cards_from_zone("1fa829")
+    if next(evolutionPile) then
+        if evolutionPile[1].tag == "Deck" then
+            evolutionPileCards = evolutionPile[1].getObjects()
+            evolutionPileSize = #evolutionPileCards
+        elseif evolutionPile[1].tag == "Card" then
+            evolutionPileCards = evolutionPile[1]
+            evolutionPileSize = 1
+        else
+            printToAll("Get those shards out of there.")
+            return nil
+        end
+    else
+        printToAll("Evolution deck missing???")
+        return nil
+    end
+    local evolutionColors = {
+            ["HC:Red"]=false,
+            ["HC:Green"]=false,
+            ["HC:Yellow"]=false,
+            ["HC:Blue"]=false,
+            ["HC:Silver"]=false
+    }
+    if evolutionPileSize > 1 then
+        for i=1,evolutionPileSize do
+            for j,k in pairs(evolutionPileCards[i].tags) do
+                if k:find("HC:") then
+                    evolutionColors[k] = true
+                end
+            end
+        end
+    else
+        for i,o in pairs(evolutionPileCards.getTags()) do
+                if o:find("HC:") then
+                    evolutionColors[o] = true
+                end
+        end
+    end
+    for i,o in pairs(hqguids) do
+        local herocard = getObjectFromGUID(o).Call('getHero')
+        if herocard then
+            for index,object in pairs(herocard.getTags()) do
+                if object:find("HC:") then
+                    if evolutionColors[object] == true then
+                        ultronpower = ultronpower + 1
+                        break
+                    end
+                end
+            end
+        end
+    end
+    
+    local city_zones = {"e6b0bc","40b47d","5a74e7","07423f","5bc848","82ccd7"}
+    for i,o in pairs(city_zones) do
+        local cityobjects = get_decks_and_cards_from_zone(o)
+        for index,object in pairs(cityobjects) do
+            if object.getName() == "Evolved Ultron" then
+                object.editButton({label=ultronpower})
+            end
+        end
+    end
+end
+
+function ultronCallback(obj)
+    updateUltronPower()
 end
 
 function twistSpecials(cards,city,schemename)
     --log("special" .. schemename)
     if schemename == "Age of Ultron" then
         posi = getObjectFromGUID("1fa829")
-        actuposi = {x=posi.getPosition().x+4*twistsresolved,y=posi.getPosition().y,z=posi.getPosition().z}
+        --actuposi = {x=posi.getPosition().x+4*twistsresolved,y=posi.getPosition().y,z=posi.getPosition().z}
         heroZone=getObjectFromGUID("0cd6a9")
         herodeck = heroZone.getObjects()[2]
         --will not work if hero deck contains 1 or less cards
-        herodeck.takeObject({position = actuposi,flip=true})
-        twistsresolved = twistsresolved + 1    
+        if twistsresolved == 0 then
+            ultronpower = 4
+        end
+        twistsresolved = twistsresolved + 1
+        herodeck.takeObject({position = posi.getPosition(),flip=true,callback_function=ultronCallback})
         cards[1].setName("Evolved Ultron")
         cards[1].setTags({"VP6"})
         cards[1].setDescription("EMPOWERED: This card gets extra Power for each Hero with the listed Hero Class in the Evolution Pile.")
+        cards[1].createButton({click_function="updateUltronPower",
+            function_owner=self,
+            position={0,22,0},
+            label=ultronpower,
+            font_size=500,
+            font_color={1,0,0},
+            width=250,height=250})
+        
+        --find all twists in the city and update their label:
+        --twistobject.editButton({label="newvalue"})
+        --make sure card objects never get more than one button!
         return twistsresolved
     end
     --if schemename == "Annihilation: Conquest" then

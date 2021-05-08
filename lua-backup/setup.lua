@@ -119,6 +119,17 @@ function click_shuffle()
             end
         end
     end
+    hqguids = {
+    "aabe45",
+    "bf3815",
+    "11b14c",
+    "b8a776",
+    "75241e"
+    }
+    --add exceptions here for some schemes
+    for i,o in pairs(hqguids) do
+        getObjectFromGUID(o).Call('click_draw_hero')
+    end
 
 end
 
@@ -257,6 +268,7 @@ function import_setup()
             if epicness == true then
                 obj.hide_when_face_down = false
             end
+            mm.flip()
             mm.randomize()
             log("Mastermind tactics shuffled")
             if setupParts[1] == "World War Hulk" then

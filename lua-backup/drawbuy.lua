@@ -81,6 +81,14 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
     click_draw_hero(obj, player_clicker_color, alt_click)
 end
 
+function storeHero(obj)
+    hero = obj
+end
+
+function getHero()
+    return hero
+end
+
 function click_draw_hero(obj, player_clicker_color, alt_click)
     --log("start")
     hero_deck_zone = getObjectFromGUID("0cd6a9")
@@ -106,7 +114,8 @@ function click_draw_hero(obj, player_clicker_color, alt_click)
         --log(hero_deck)
         takeParams = {
             position = {self.getPosition().x,self.getPosition().y+5,self.getPosition().z},
-            flip = hero_deck.is_face_down
+            flip = hero_deck.is_face_down,
+            callback_function=storeHero
         }
         hero_deck.takeObject(takeParams)
     else
