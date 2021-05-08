@@ -721,6 +721,40 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "Crash the Moon into the Sun" then
+        local sunlight = 0
+        local moonlight = 0
+        for i,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHero')
+            if hero then
+                for j,k in pairs(hero.getTags()) do
+                    if k:find("Cost:") then
+                        if math.fmod(k:match("%d+"),2) == 0 then
+                            sunlight = sunlight + 1
+                        else
+                            moonlight = moonlight + 1
+                        end
+                    end
+                end
+            end
+        end
+        local light = sunlight - moonlight
+        --log("light " .. light)
+        twistsresolved = twistsresolved + 1
+        if twistsresolved < 9 then
+            if (light > 0 and math.fmod(twistsresolved,2) == 1) or (light < 0 and math.fmod(twistsresolved,2) == 0) then
+                cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+                broadcastToAll("Scheme Twist caused an Altered Orbit!",{1,0,0})
+            else
+                cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                broadcastToAll("Scheme Twist, but the light aligned!",{0,1,0})
+            end
+        else
+            cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+            broadcastToAll("Scheme Twist caused an Altered Orbit!",{1,0,0})
+        end
+        return nil
+    end
     if schemeParts[1] == "Crush Them With My Bare Hands" then
         cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
         broadcastToAll("Master Strike!")
