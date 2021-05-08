@@ -24,19 +24,10 @@ function onLoad()
 end
 
 function click_buy_hero(obj, player_clicker_color, alt_click)
-    local objects =findObjectsAtPosition({0,0,0})
-    log(objects)
-    if not objects then return nil end
-    local card = nil
-    for _,item in pairs(objects) do
-        if item.tag == "Card" then
-            card = item
-        end
+    local card = getHero()
+    if not card then
+        return nil
     end
-    log (card)
-    if not card then return nil end
-    log("Turns.turn_color")
-    log(Turns.turn_color )
     local playerBoards = {
         ["Red"]="8a35bd",
         ["Green"]="d7ee3e",
@@ -86,7 +77,21 @@ function storeHero(obj)
 end
 
 function getHero()
-    return hero
+    local objects = findObjectsAtPosition({0,0,0})
+    if not objects then 
+        return nil 
+    end
+    local card = nil
+    for _,item in pairs(objects) do
+        if item.tag == "Card" then
+            card = item
+        end
+    end
+    --log (card)
+    if not card then 
+        return nil
+    end
+    return card
 end
 
 function click_draw_hero(obj, player_clicker_color, alt_click)

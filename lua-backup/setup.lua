@@ -533,24 +533,28 @@ function import_setup()
             end
         end
     end
-    
-    if setupParts[1] == "Five Families of Crime" then
-        vildeckc = 0
-            for i,o in pairs(vildeck_done) do
-                vildeckc = vildeckc + o
-            end
-        local vilDeckComplete = function()
-            local test = vilDeckZone.getObjects()[2]
-            if test ~= nil then 
-                if test.getQuantity() == vildeckc then
-                    return true
-                else
-                    return false
-                end
+    vildeckc = 0
+    for i,o in pairs(vildeck_done) do
+        vildeckc = vildeckc + o
+    end  
+    vilDeckComplete = function()
+        local test = vilDeckZone.getObjects()[2]
+        if test ~= nil then 
+            if test.getQuantity() == vildeckc then
+                return true
             else
                 return false
             end
-        end    
+        else
+            return false
+        end
+    end   
+    vilDeckFlip = function()
+        vildeck = vilDeckZone.getObjects()[2]
+        vildeck.flip()
+    end
+    
+    if setupParts[1] == "Five Families of Crime" then 
         local vilDeckSplit = function() 
             log("Splitting villain deck in five")
             vilDeck = vilDeckZone.getObjects()[2]
@@ -577,19 +581,13 @@ function import_setup()
             print("Villain deck split in piles above the board!")
         end
         Wait.condition(vilDeckSplit,vilDeckComplete)
-    end
-    
-    if setupParts[1] == "Fragmented Realities" then
+    elseif setupParts[1] == "Fragmented Realities" then
         hqZonesGUIDs={
                 "4c1868",
                 "8656c3",
                 "533311",
                 "3d3ba7",
                 "725c5d"}
-        vildeckc = 0
-            for i,o in pairs(vildeck_done) do
-                vildeckc = vildeckc + o
-            end
         vildeckc2 = vildeckc + playercount*2
         log("Adding scheme twists to the separate villain decks")
         for i=6-playercount,5 do
@@ -599,19 +597,7 @@ function import_setup()
                 flip=true,smooth=false})
             stPile.takeObject({position=deckZone.getPosition(),
                 flip=true,smooth=false})
-        end
-        local vilDeckComplete = function()
-            local test = vilDeckZone.getObjects()[2]
-            if test ~= nil then 
-                if test.getQuantity() == vildeckc then
-                    return true
-                else
-                    return false
-                end
-            else
-                return false
-            end
-        end    
+        end 
         local vilDeckSplit = function() 
             log("Splitting villain deck in deck for each player")
             vilDeck = vilDeckZone.getObjects()[2]
@@ -662,6 +648,9 @@ function import_setup()
             newtoken.setColorTint(Player.getPlayers()[i-5+playercount].color)
             newtoken.setName(Player.getPlayers()[i-5+playercount].color .. " Player's Villain Deck")
         end
+    else
+        log("villain deck size = " .. vildeckc)
+        Wait.condition(vilDeckFlip,vilDeckComplete)
     end
     
     -- Heroes
@@ -739,35 +728,40 @@ function import_setup()
                 end
             end
         end
-    end
-    
-    if setupParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
-        local skrullShuffle = function() 
-            log("Shuffle 12 hero cards in villain deck.")
-            print("12 random hero cards shuffled into villain deck.")
-            heroDeck = heroZone.getObjects()[2]
-            heroDeck.randomize()
-            for i=1,12 do
-                heroDeck.takeObject({position=vilDeckZone.getPosition(),
-                    flip=false,smooth=false})
-            end
-        end
-        local heroDeckComplete = function()
-            local test = heroZone.getObjects()[2]
-            if test ~= nil then 
-                local test2 = #heroParts - 1
-                if test.getQuantity() == test2*14 then
-                    return true
-                else
-                    return false
-                end
+        heroDeckComplete = function()
+        local test = heroZone.getObjects()[2]
+        if test ~= nil then 
+            local test2 = #heroParts
+            if test.getQuantity() == test2*14 then
+                return true
             else
                 return false
             end
+        else
+            return false
         end
-        Wait.condition(skrullShuffle,heroDeckComplete)
+        end
+        heroDeckFlip = function()
+            herodeck = heroZone.getObjects()[2]
+            herodeck.flip()
+        end
+        if setupParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
+            local skrullShuffle = function() 
+                log("Shuffle 12 hero cards in villain deck.")
+                print("12 random hero cards shuffled into villain deck.")
+                heroDeck = heroZone.getObjects()[2]
+                heroDeck.randomize()
+                herodeck.flip()
+                for i=1,12 do
+                    heroDeck.takeObject({position=vilDeckZone.getPosition(),
+                        flip=true,smooth=false})
+                end
+            end
+            Wait.condition(skrullShuffle,heroDeckComplete)
+        else
+            Wait.condition(heroDeckFlip,heroDeckComplete)
+        end
     end
-    
     return nil
 end
 
