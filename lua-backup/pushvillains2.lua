@@ -55,7 +55,7 @@ function get_decks_and_cards_from_zone(zoneGUID)
     return result
 end
 
-function shift_to_next(objects,targetZone,enterscity)
+function shift_to_next(objects,targetZone,enterscity,schemeParts)
     --all found cards, decks and shards (objects) in a city space will be moved to the next space (targetzone)
     --enterscity is equal to 1 if this shift is a single card moving into the city
     isEnteringCity = enterscity or 0
@@ -102,9 +102,18 @@ function shift_to_next(objects,targetZone,enterscity)
                 targetZone_final = getObjectFromGUID("a91fe7")
                 zPos = targetZone_final.getPosition().z - 1.5
             elseif bs == true then
-                broadcastToAll("Bystander Escaped", {r=1,g=0,b=0})
+                broadcastToAll("Bystander(s) Escaped", {r=1,g=0,b=0})
+                --if multiple bystanders escape, they're often stacked as a deck
+                --only one notice will be given
             else
                 broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
+                if obj.getName() == "Thor" and schemeParts[1] == "Crown Thor King of Asgard" then
+                    getObjectFromGUID("c82082").takeObject({position = getObjectFromGUID("4f53f9").getPosition(),
+                        smooth=false})
+                        --this should be from the KO pile, but that is still a mess to sort out
+                        --take them from the scheme twist pile for now
+                    broadcastToAll("Thor escaped! Triumph of Asgard!")
+                end
             end
         end
         if desc:find("LOCATION") then
@@ -113,7 +122,7 @@ function shift_to_next(objects,targetZone,enterscity)
         end
         if isEnteringCity == 1 and bs == true then
             --bystanders (when entering) will be nudged downwards to distinguish
-            zPos = targetZone.getPosition().z - 1.5
+            zPos = targetZone.getPosition().z - 2
         end
         if isEnteringCity == 1 or not desc:find("LOCATION") then
             --locations don't move unless they are entering
@@ -164,6 +173,14 @@ function click_draw_villain()
     else
         print("Villain deck is empty!")
     end
+end
+
+function addBystanders(cityspace)
+    local targetZone = getObjectFromGUID(cityspace).getPosition()
+    targetZone.z = targetZone.z - 2
+    getObjectFromGUID("0b48dd").takeObject({position=targetZone,
+        smooth=true,
+        flip=true})
 end
 
 function push_all (city)
@@ -224,7 +241,7 @@ function push_all (city)
                         --city is otherwise not affected
                         --Age of Ultron turns the twist into a villain, so it can enter
                         if schemeParts[1] ~= "Age of Ultron" then
-                            return cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+                            return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
                         end
                     end
                 
@@ -330,7 +347,7 @@ function push_all (city)
                     return nil
                 else
                     --otherwise, shift all and rerun this function for the next city space
-                    shift_to_next(cards,targetZone,cityEntering)
+                    shift_to_next(cards,targetZone,cityEntering,schemeParts)
                     if city then
                         push_all(city)
                     end
@@ -754,6 +771,130 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist caused an Altered Orbit!",{1,0,0})
         end
         return nil
+    end
+    if schemeParts[1] == "Crown Thor King of Asgard" then
+        thorcheck = false
+        --check if Thor is in the city
+        for i,o in pairs(city) do
+            local cityobjects = get_decks_and_cards_from_zone(o)
+            if next(cityobjects) then
+                thorcheck = false
+                for index,object in pairs(cityobjects) do
+                    if object.getName() == "Thor" then
+                        thorcheck = true
+                    end
+                end
+                if thorcheck == true then
+                    shift_to_next(cityobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                    --cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+                    broadcastToAll("Scheme Twist! Thor escapes",{1,0,0})
+                    return twistsresolved
+                end
+            end
+        end
+        --or his starting spot
+        if thorcheck == false then
+            local cityobjects = get_decks_and_cards_from_zone("4f53f9")
+            if next(cityobjects) then
+                if cityobjects[1].getName() == "Thor" then
+                    thorcheck = true
+                    local bridgeobjects = get_decks_and_cards_from_zone("82ccd7")
+                    if next(bridgeobjects) then
+                        shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                    end
+                    cityobjects[1].setPositionSmooth(getObjectFromGUID("82ccd7").getPosition())
+                    local bridgespaceGUID = "82ccd7"
+                    addBystanders("82ccd7")
+                    addBystanders("82ccd7")
+                    addBystanders("82ccd7")
+                    return twistsresolved
+                end
+            end
+        end
+        --or the escape pile
+        if thorcheck == false then
+            local escapedobjects = get_decks_and_cards_from_zone(escape_zone_guid)
+            if next(escapedobjects) then
+                if escapedobjects[1].tag == "Deck" then
+                    for index,object in pairs(escapedobjects[1].getObjects()) do
+                        if object.name == "Thor" then
+                            thorcheck = true
+                            local bridgeobjects = get_decks_and_cards_from_zone("82ccd7")
+                            if next(bridgeobjects) then
+                                shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                            end
+                            log(escapedobjects)
+                            log(object.guid)
+                            escapedobjects[1].takeObject({guid=object.guid,
+                                position=getObjectFromGUID("82ccd7").getPosition(),
+                                smooth=true})
+                            addBystanders("82ccd7")
+                            addBystanders("82ccd7")
+                            addBystanders("82ccd7")
+                            return twistsresolved
+                        end
+                    end
+                elseif escapedobjects[1].tag == "Card" then
+                    if escapedobjects[1].getName() == "Thor" then
+                        thorcheck = true
+                        local bridgeobjects = get_decks_and_cards_from_zone("82ccd7")
+                        if next(bridgeobjects) then
+                            shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                        end
+                        escapedobjects[1].setPositionSmooth(getObjectFromGUID("82ccd7").getPosition())
+                        addBystanders("82ccd7")
+                        addBystanders("82ccd7")
+                        addBystanders("82ccd7")
+                        return twistsresolved
+                    end
+                end
+            end
+        end
+        --or the victory pile
+        if thorcheck == false then
+            for i,o in pairs(vpileguids) do
+                local vpobjects = get_decks_and_cards_from_zone(o)
+                if next(vpobjects) then
+                if vpobjects[1].tag == "Deck" then
+                    for index,object in pairs(vpobjects[1].getObjects()) do
+                        if object.name == "Thor" then
+                            thorcheck = true
+                            local bridgeobjects = get_decks_and_cards_from_zone("82ccd7")
+                            if next(bridgeobjects) then
+                                shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                            end
+                            vpobjects[1].takeObject({guid=object.guid,
+                                position=getObjectFromGUID("82ccd7").getPosition(),
+                                smooth=true})
+                            addBystanders("82ccd7")
+                            addBystanders("82ccd7")
+                            addBystanders("82ccd7")
+                            return twistsresolved
+                        end
+                    end
+                elseif vpobjects[1].tag == "Card" then
+                    if vpobjects[1].getName() == "Thor" then
+                        thorcheck = true
+                        local bridgeobjects = get_decks_and_cards_from_zone("82ccd7")
+                        if next(bridgeobjects) then
+                            shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                        end
+                        vpobjects[1].setPositionSmooth(getObjectFromGUID("82ccd7").getPosition())
+                        addBystanders("82ccd7")
+                        addBystanders("82ccd7")
+                        addBystanders("82ccd7")
+                        return twistsresolved
+                    end
+                end
+            end
+            end
+        end
+        --add additional check for ko pile (e.g. ghost rider)
+        --thor not found
+        if thorcheck == false then
+            broadcastToAll("Thor not found? Where is he? Maybe KO pile.")
+            return nil
+        end
     end
     if schemeParts[1] == "Crush Them With My Bare Hands" then
         cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
