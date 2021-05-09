@@ -407,7 +407,7 @@ function updateTwistPower()
         local cityobjects = get_decks_and_cards_from_zone(o)
         for index,object in pairs(cityobjects) do
             --this needs to be a single value to check; requires tagging officers and sidekicks
-            if object.getName() == "S.H.I.E.L.D. Officer" or object.getName() == "Madame Hydra" or object.getName() == "Sidekick" then
+            if object.hasTag("Corrupted") == true or object.hasTag("Brainwashed") == true then
                 object.editButton({label=twistsstacked+basestrength})
             end
         end
@@ -543,9 +543,10 @@ function twistSpecials(cards,city,schemeParts)
         twistsresolved = twistsresolved + 1 
         --log("twists:" .. twistsresolved)
         basestrength = 3
+        cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
         if twistsresolved < 7 then
             click_draw_villain()
-            updateTwistPower()
+            Wait.time(updateTwistPower,1)
             printToAll("Scheme Twist: Play another card of the villain deck!")
         elseif twistsresolved == 7 then
             printToAll("Scheme Twist: All SHIELD Officers in the city escape!")
@@ -561,7 +562,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         end
-        return twistsresolved
+        return nil
     end
     -- if sschemeParts[1] == "Break The Planet Asunder" then
         -- KO heroes from HQ if they're weaker than twistsresolved
@@ -756,9 +757,10 @@ function twistSpecials(cards,city,schemeParts)
             else
                 twistsstacked = 0
             end
+            obj.addTag("Corrupted")
             powerButton(obj,"updateTwistPower",twistsstacked+basestrength)
             obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
-            updateTwistPower()
+            Wait.time(updateTwistPower,2)
             click_push_villain_into_city()
             --one will stay on the enter spot because the callback triggers while they're still in the air
         end
@@ -786,19 +788,19 @@ function twistSpecials(cards,city,schemeParts)
                     local discard = getObjectFromGUID(o).Call('returnDiscardPile')
                     if next(discard) then
                         if discard[1].tag == "Card" then
-                            if discard[1].getName() == "Sidekick" then
+                            if discard[1].hasTag("Sidekick") == true then
                                 discard[1].flip()
                                 discard[1].setPositionSmooth(skpile.getPosition())
                             end
                         elseif discard[1].tag == "Deck" then
                             for index,object in pairs(discard[1].getObjects()) do
-                                if object.name == "Sidekick" then
-                                    discard[1].takeObject({position = skpile.getPosition(),
-                                        smooth=true,
-                                        flip=true,
-                                        guid = object.guid})
-                                    break
-                                end
+                                    if object.hasTag("Sidekick") == true then
+                                        discard[1].takeObject({position = skpile.getPosition(),
+                                            smooth=true,
+                                            flip=true,
+                                            guid = object.guid})
+                                        break
+                                    end
                             end
                         end
                     end
@@ -807,23 +809,24 @@ function twistSpecials(cards,city,schemeParts)
             getSidekick()
             Wait.time(getSidekick,1)
         end
-        Wait.condition(corruptHeroes,twistMoved)
-        return nil
+        twistsresolved = twistsresolved + 1
+        if twistsresolved < 8 then
+            Wait.condition(corruptHeroes,twistMoved)
+            return nil
+        elseif twistsresolved == 8 then
+            printToAll("Scheme Twist: All Sidekicks in the city escape!")
+            for i,o in pairs(city) do
+                local cardsincity = get_decks_and_cards_from_zone(o) 
+                if next(cardsincity) then
+                    for index,object in pairs(cardsincity) do
+                        if object.hasTag("Sidekick") == true then
+                            shift_to_next(cardsincity,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                        end
+                    end
+                end
+            end
+        end
     end
-        -- if pcolor == "White" then
-            -- angle = 90
-        -- elseif pcolor == "Blue" then
-            -- angle = -90
-        -- else
-            -- angle = 0
-        -- end
-        -- brot = {x=0, y=angle, z=0}
-        -- local playerBoard = getObjectFromGUID(playerBoards[pcolor])
-        -- local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
-        -- print("Angry Mob moved to player's discard pile!")
-        -- cards[1].setRotationSmooth(brot)
-        -- cards[1].setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
-    -- end
     if schemeParts[1] == "Crash the Moon into the Sun" then
         local sunlight = 0
         local moonlight = 0
@@ -1138,6 +1141,7 @@ function nonTwistspecials(cards,city,schemeParts)
             else
                 twistsstacked = 0
             end
+            cards[1].addTag("Brainwashed")
             powerButton(cards[1],"updateTwistPower",twistsstacked+basestrength)
         end
     end

@@ -534,6 +534,17 @@ function import_setup()
         end
     end
     
+    if setupParts[1] == "Brainwash the Military" then
+        log("12 officers in villain deck.")
+        local sopile = getObjectFromGUID("9c9649")
+        sopile.randomize()
+        for i=1,12 do
+            sopile.takeObject({position=vilDeckZone.getPosition(),
+                flip=true,smooth=false})
+        end
+        table.insert(vildeck_done,12)
+    end
+    
     if setupParts[1] == "Corrupt the Next Generation of Heroes" then
         log("Add 10 sidekicks to villain deck.")
         local skPile = getObjectFromGUID("959976")
@@ -794,14 +805,6 @@ function schemeSpecials (setupParts,mmGUID)
     local stPile = getObjectFromGUID("c82082")
     heroZone=getObjectFromGUID("0cd6a9")
 
-    
-    if setupParts[1] == "Brainwash the Military" then
-        log("12 officers in villain deck.")
-        for i=1,12 do
-            sopile.takeObject({position=vilDeckZone.getPosition(),
-                flip=true,smooth=false})
-        end
-    end
     if setupParts[1] == "Build an Army of Annihilation" then
         log("Add extra annihilation group.")
         local henchsczone = getObjectFromGUID("8656c3")
