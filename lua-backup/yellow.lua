@@ -238,6 +238,11 @@ function findObjectsAtPosition(localPos)
     return decksAndCards
 end
 
+function returnDiscardPile()
+    local discard = findObjectsAtPosition(pos_discard)
+    return discard
+end
+
 --Activated by a timer to shuffle deck
 function timer_shuffle()
     -- log("-- time shuffle start --")

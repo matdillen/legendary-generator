@@ -533,6 +533,18 @@ function import_setup()
             end
         end
     end
+    
+    if setupParts[1] == "Corrupt the Next Generation of Heroes" then
+        log("Add 10 sidekicks to villain deck.")
+        local skPile = getObjectFromGUID("959976")
+        skPile.randomize()
+        for i=1,10 do
+            skPile.takeObject({position=vilDeckZone.getPosition(),
+                flip=true,smooth=false})
+        end
+        table.insert(vildeck_done,10)
+    end
+    
     vildeckc = 0
     for i,o in pairs(vildeck_done) do
         vildeckc = vildeckc + o
@@ -826,13 +838,6 @@ function schemeSpecials (setupParts,mmGUID)
         log("Add extra Monsters Unleashed villains.")
         findInPile("Monsters Unleashed","375566","4f53f9")
         print("Monsters Unleashed moved to twists pile.")
-    end
-    if setupParts[1] == "Corrupt the Next Generation of Heroes" then
-        log("Add 10 sidekicks to villain deck.")
-        for i=1,10 do
-            skPile.takeObject({position=vilDeckZone.getPosition(),
-                flip=true,smooth=false})
-        end
     end
     if setupParts[1] == "Crown Thor King of Asgard" then
         log("Add extra Avengers villain group.")

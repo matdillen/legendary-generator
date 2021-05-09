@@ -1,4 +1,5 @@
 twistsresolved = 0
+basestrength = 0
 playerBoards = {
     ["Red"]="8a35bd",
     ["Green"]="d7ee3e",
@@ -14,6 +15,13 @@ vpileguids = {
     ["Blue"]="f6396a",
     ["White"]="7732c7"
 }
+
+playercolors = {
+    "Red",
+    "Green",
+    "Yellow",
+    "Blue",
+    "White"}
 
 hqguids = {
     "aabe45",
@@ -184,9 +192,6 @@ function addBystanders(cityspace)
 end
 
 function push_all (city)
-    --init is 1 when this function is called by the button, otherwise it should be 0
-    -- this is important for some scheme twists
-    
     --if all guids are still there, cards will be entering the city
     --this will cause issues if multiple cards enter at the same time
     --that should therefore never happen!
@@ -401,8 +406,9 @@ function updateTwistPower()
     for i,o in pairs(city_zones) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for index,object in pairs(cityobjects) do
-            if object.getName() == "S.H.I.E.L.D. Officer" or object.getName() == "Madame Hydra" then
-                object.editButton({label=twistsstacked+3})
+            --this needs to be a single value to check; requires tagging officers and sidekicks
+            if object.getName() == "S.H.I.E.L.D. Officer" or object.getName() == "Madame Hydra" or object.getName() == "Sidekick" then
+                object.editButton({label=twistsstacked+basestrength})
             end
         end
     end
@@ -536,6 +542,7 @@ function twistSpecials(cards,city,schemeParts)
         --cards[1].setName("Traitor Batallion")
         twistsresolved = twistsresolved + 1 
         --log("twists:" .. twistsresolved)
+        basestrength = 3
         if twistsresolved < 7 then
             click_draw_villain()
             updateTwistPower()
@@ -738,6 +745,85 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
+        cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+        skpile = getObjectFromGUID("959976")
+        basestrength = 2
+        pushSidekick = function(obj)
+            local twistsstack = get_decks_and_cards_from_zone("4f53f9")
+            if twistsstack[1] then
+                twistsstacked = math.abs(twistsstack[1].getQuantity())
+            else
+                twistsstacked = 0
+            end
+            powerButton(obj,"updateTwistPower",twistsstacked+basestrength)
+            obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
+            updateTwistPower()
+            click_push_villain_into_city()
+            --one will stay on the enter spot because the callback triggers while they're still in the air
+        end
+        getSidekick = function()
+            skpile.takeObject({position = getObjectFromGUID("e6b0bc").getPosition(),
+                smooth = false,
+                flip=true,
+                callback_function = pushSidekick})
+        end
+        local twistMoved = function()
+            local twist = get_decks_and_cards_from_zone("e6b0bc")
+            if next(twist) then
+                if twist[1].getName() == "Scheme Twist" then
+                    return false
+                else
+                    return true
+                end
+            else
+                return true
+            end
+        end
+        local corruptHeroes = function()
+            for i,o in pairs(playerBoards) do
+                if Player[i].seated == true then
+                    local discard = getObjectFromGUID(o).Call('returnDiscardPile')
+                    if next(discard) then
+                        if discard[1].tag == "Card" then
+                            if discard[1].getName() == "Sidekick" then
+                                discard[1].flip()
+                                discard[1].setPositionSmooth(skpile.getPosition())
+                            end
+                        elseif discard[1].tag == "Deck" then
+                            for index,object in pairs(discard[1].getObjects()) do
+                                if object.name == "Sidekick" then
+                                    discard[1].takeObject({position = skpile.getPosition(),
+                                        smooth=true,
+                                        flip=true,
+                                        guid = object.guid})
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            getSidekick()
+            Wait.time(getSidekick,1)
+        end
+        Wait.condition(corruptHeroes,twistMoved)
+        return nil
+    end
+        -- if pcolor == "White" then
+            -- angle = 90
+        -- elseif pcolor == "Blue" then
+            -- angle = -90
+        -- else
+            -- angle = 0
+        -- end
+        -- brot = {x=0, y=angle, z=0}
+        -- local playerBoard = getObjectFromGUID(playerBoards[pcolor])
+        -- local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
+        -- print("Angry Mob moved to player's discard pile!")
+        -- cards[1].setRotationSmooth(brot)
+        -- cards[1].setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
+    -- end
     if schemeParts[1] == "Crash the Moon into the Sun" then
         local sunlight = 0
         local moonlight = 0
@@ -1044,6 +1130,7 @@ end
 
 function nonTwistspecials(cards,city,schemeParts)
     if schemeParts[1] == "Brainwash the Military" then
+        basestrength = 3
         if cards[1].getName() == "S.H.I.E.L.D. Officer" or cards[1].getName() == "Madame Hydra" then
             local twistsstack = get_decks_and_cards_from_zone("4f53f9")
             if twistsstack[1] then
@@ -1051,7 +1138,7 @@ function nonTwistspecials(cards,city,schemeParts)
             else
                 twistsstacked = 0
             end
-            powerButton(cards[1],"updateTwistPower",twistsstacked+3)
+            powerButton(cards[1],"updateTwistPower",twistsstacked+basestrength)
         end
     end
     
