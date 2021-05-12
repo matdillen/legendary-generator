@@ -201,3 +201,52 @@ write(toJSON(a,
              flatten=T,
              auto_unbox=T),
       "tagattackrecruit.json")
+
+
+masterminds=read_csv2('masterminds.csv')
+a = fromJSON("tagattackrecruit.json",
+             simplifyVector = F)
+
+for (i in 1:length(a$ObjectStates[[12]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[12]]$ContainedObjects[[i]]
+  
+  mmname = a$ObjectStates[[12]]$ContainedObjects[[i]]$Nickname
+  
+  data = filter(masterminds,Name==mmname|MM==mmname)
+  #extra filter to exclude tactic names that correspond to mm names (e.g. adapters)
+  data = filter(data,is.na(MM)|MM==data$Name[1])
+  
+  if (dim(data)[1]==0) {
+    next
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  fixedBP = data$BP[1]
+  for (j in 1:length(src$ContainedObjects)) {
+    tags = src$ContainedObjects[[j]]$Tags
+    subdata = data %>%
+      filter(Name==src$ContainedObjects[[j]]$Nickname,
+             !is.na(file))
+    
+    if (dim(subdata)[1]==1) {
+      tags = c(tags,"Mastermind",paste0("Attack:",ifelse(is.na(subdata$BP[1]),fixedBP,subdata$BP[1])))
+    }
+    if (dim(subdata)[1]==2) {
+      tags = c(tags,"Mastermind",paste0("Attack:",fixedBP),paste0("Epic:",subdata$BP[2]))
+    }
+    if (!is.na(data$T[2])&j==5) {
+      tags = c(tags,paste0("Transformed:",data$BP[2]))
+    }
+    src$ContainedObjects[[j]]$Tags = tags
+  }
+  a$ObjectStates[[12]]$ContainedObjects[[i]] = src
+}
+
+write(toJSON(a,
+             digits=NA,
+             pretty=T,
+             flatten=T,
+             auto_unbox=T),
+      "tagattackrecruit.json")
