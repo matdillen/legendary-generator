@@ -2,7 +2,9 @@
 herotext = filter(tooltext,type=="Heroes")
 heroes=read_csv2('data/heroes.csv')
 
+library(tidyverse)
 library(magrittr)
+library(jsonlite)
 
 attack = NA
 recruit = NA
@@ -207,11 +209,12 @@ masterminds=read_csv2('masterminds.csv')
 a = fromJSON("tagattackrecruit.json",
              simplifyVector = F)
 
-for (i in 1:length(a$ObjectStates[[12]]$ContainedObjects)) {
+
+for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
   #this is a temporary extract to work in to save text and for troubleshooting
-  src = a$ObjectStates[[12]]$ContainedObjects[[i]]
+  src = a$ObjectStates[[mmid]]$ContainedObjects[[i]]
   
-  mmname = a$ObjectStates[[12]]$ContainedObjects[[i]]$Nickname
+  mmname = a$ObjectStates[[mmid]]$ContainedObjects[[i]]$Nickname
   
   data = filter(masterminds,Name==mmname|MM==mmname)
   #extra filter to exclude tactic names that correspond to mm names (e.g. adapters)
@@ -241,7 +244,50 @@ for (i in 1:length(a$ObjectStates[[12]]$ContainedObjects)) {
     }
     src$ContainedObjects[[j]]$Tags = tags
   }
-  a$ObjectStates[[12]]$ContainedObjects[[i]] = src
+  a$ObjectStates[[mmid]]$ContainedObjects[[i]] = src
+}
+
+villains = read_csv2("villains.csv")
+
+
+for (i in 1:length(a$ObjectStates[[13]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[13]]$ContainedObjects[[i]]
+  
+  mmname = a$ObjectStates[[13]]$ContainedObjects[[i]]$Nickname
+  
+  data = filter(villains,Group==mmname)
+  
+  if (dim(data)[1]==0) {
+    next
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  for (j in 1:length(src$ContainedObjects)) {
+    tags = src$ContainedObjects[[j]]$Tags
+    subdata = data %>%
+      filter(Name==src$ContainedObjects[[j]]$Nickname)
+    
+    if (subdata$BP[1]=="-1") {
+      tags = c(tags,"Trap")
+      next
+    }
+    if (dim(subdata)[1]>1) {
+      print(paste0(i," ",mmname," threw an error at ",j))
+      break
+    }
+    tags = c(tags,paste0("Power:",data$BP[1]))
+    if (grepl("LOCATION:",src$ContainedObjects[[j]]$Description,fixed=T)) {
+      tags = c(tags,"Location")
+    } else if (grepl("VILLAINOUS WEAPON:",src$ContainedObjects[[j]]$Description,fixed=T)) {
+      tags = c(tags,"Villainous Weapon")
+    } else {
+      tags = c(tags,"Villain")
+    }
+    src$ContainedObjects[[j]]$Tags = tags
+  }
+  a$ObjectStates[[13]]$ContainedObjects[[i]] = src
 }
 
 write(toJSON(a,
@@ -249,4 +295,48 @@ write(toJSON(a,
              pretty=T,
              flatten=T,
              auto_unbox=T),
-      "tagattackrecruit.json")
+      "tagvillains.json")
+
+#henchmen!
+
+henchmen = read_csv2("henchmen.csv")
+
+a = fromJSON("tagvillains.json",
+             simplifyVector = F)
+#annotate physical power in the data file first
+
+for (i in 1:length(a$ObjectStates[[11]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[11]]$ContainedObjects[[i]]
+  
+  mmname = a$ObjectStates[[11]]$ContainedObjects[[i]]$Nickname
+  
+  data = filter(henchmen,Name==mmname)
+  
+  if (dim(data)[1]==0) {
+    next
+  }
+  
+  #list of cardids to be used
+  #the order of this list also indicates the order of appearance in the deck in tts
+  for (j in 1:length(src$ContainedObjects)) {
+    tags = src$ContainedObjects[[j]]$Tags
+    tags = c(tags,paste0("Power:",data$BP[1]),"Henchmen")
+    if (grepl("LOCATION:",src$ContainedObjects[[j]]$Description,fixed=T)) {
+      tags = c(tags,"Location")
+    } else if (grepl("VILLAINOUS WEAPON:",src$ContainedObjects[[j]]$Description,fixed=T)) {
+      tags = c(tags,"Villainous Weapon")
+    } else {
+      tags = c(tags,"Villain")
+    }
+    src$ContainedObjects[[j]]$Tags = tags
+  }
+  a$ObjectStates[[11]]$ContainedObjects[[i]] = src
+}
+
+write(toJSON(a,
+             digits=NA,
+             pretty=T,
+             flatten=T,
+             auto_unbox=T),
+      "tagvillains.json")
