@@ -1,4 +1,5 @@
 
+tooltext = read_tsv("data/tooltext.txt")
 herotext = filter(tooltext,type=="Heroes")
 heroes=read_csv2('data/heroes.csv')
 
@@ -69,8 +70,8 @@ heroes$uni = paste0(heroes$Hero," (",heroes$Set,")")
 
 data = filter(herotext2,id==herotext$id[1])
 data2 = filter(heroes,uni==herotext$id[1])
-data = arrange(data,copies2,id)
-data2 = arrange(data2,Ct,uni)
+data = arrange(data,copies2,textname)
+data2 = arrange(data2,Ct,Name)
 data2$attack = data$attack2
 data2$recruit = data$recruit2
 data2$verbatimName = data$textname
@@ -80,14 +81,14 @@ for (i in 2:dim(herotext)[1]) {
   data = filter(herotext2,id==herotext$id[i])
   data2 = filter(heroes,uni==herotext$id[i])
   if (dim(data)[1]<5) {
-    data = arrange(data,copies2,id)
-    data2 = arrange(data2,Ct,uni)
+    data = arrange(data,copies2,textname)
+    data2 = arrange(data2,Ct,Name)
     data2$attack = data$attack2
     data2$recruit = data$recruit2
     data2$verbatimName = data$textname
   } else {
-    data = arrange(data,copies2,id)
-    data2 = arrange(data2,Ct,uni)
+    data = arrange(data,copies2,textname)
+    data2 = arrange(data2,Ct,Name)
     data %<>% filter(!grepl("/",textname,fixed=T))
     data2$attack = data$attack2
     data2$recruit = data$recruit2
@@ -197,18 +198,9 @@ for (i in 1:length(a$ObjectStates[[heroid]]$ContainedObjects)) {
   a$ObjectStates[[heroid]]$ContainedObjects[[i]] = src
 }
 
-write(toJSON(a,
-             digits=NA,
-             pretty=T,
-             flatten=T,
-             auto_unbox=T),
-      "tagattackrecruit.json")
 
-
-masterminds=read_csv2('masterminds.csv')
-a = fromJSON("tagattackrecruit.json",
-             simplifyVector = F)
-
+masterminds=read_csv2('data/masterminds.csv')
+mmid = 12
 
 for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
   #this is a temporary extract to work in to save text and for troubleshooting
@@ -247,7 +239,7 @@ for (i in 1:length(a$ObjectStates[[mmid]]$ContainedObjects)) {
   a$ObjectStates[[mmid]]$ContainedObjects[[i]] = src
 }
 
-villains = read_csv2("villains.csv")
+villains = read_csv2("data/villains.csv")
 
 
 for (i in 1:length(a$ObjectStates[[13]]$ContainedObjects)) {
@@ -290,20 +282,11 @@ for (i in 1:length(a$ObjectStates[[13]]$ContainedObjects)) {
   a$ObjectStates[[13]]$ContainedObjects[[i]] = src
 }
 
-write(toJSON(a,
-             digits=NA,
-             pretty=T,
-             flatten=T,
-             auto_unbox=T),
-      "tagvillains.json")
-
 #henchmen!
 
-henchmen = read_csv2("henchmen.csv")
+henchmen = read_csv2("data/henchmen.csv")
 
-a = fromJSON("tagvillains.json",
-             simplifyVector = F)
-#annotate physical power in the data file first
+
 
 for (i in 1:length(a$ObjectStates[[11]]$ContainedObjects)) {
   #this is a temporary extract to work in to save text and for troubleshooting

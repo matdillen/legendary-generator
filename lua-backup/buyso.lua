@@ -9,7 +9,8 @@ function onLoad()
 
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="buy hero", color={1,1,1,1}, width=2000, height=1000
+         position={0,0.01,4}, label="Buy SHIELD Officer", color={1,1,1,1}, width=2000, height=1000,
+         font_size = 250, tooltip = "Buy a S.HI.E.L.D. Officer (or Madame HYDRA)"
      })
 
     --This is how I found the positions to check for cards

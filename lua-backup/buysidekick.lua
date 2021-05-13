@@ -9,8 +9,8 @@ function onLoad()
 
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="buy sidekick", color={1,1,1,1}, width=2000, height=1000,
-         tooltip="buy sidekick"
+         position={0,0.01,4}, label="Buy sidekick", color={1,1,1,1}, width=2000, height=1000,
+         tooltip="Buy a sidekick", font_size = 250
      })
 
     --This is how I found the positions to check for cards

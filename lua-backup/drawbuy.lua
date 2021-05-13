@@ -3,12 +3,13 @@ function onLoad()
 
    self.createButton({
         click_function="click_draw_hero", function_owner=self,
-        position={0,0,0}, label="draw hero", color={1,1,1,0}, width=2000, height=3000
+        position={0,0,0}, label="Draw hero", color={1,1,1,0}, width=2000, height=3000
     })
 
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="buy hero", color={1,1,1,1}, width=2000, height=1000
+         position={0,0.01,4}, label="Buy hero", color={1,1,1,1}, width=2000, height=1000,
+         font_size = 250
      })
 
     --Local positions for each pile of cards

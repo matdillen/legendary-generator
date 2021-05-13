@@ -38,8 +38,71 @@ function onLoad()
     self.createButton({
         click_function="click_push_villain_into_city", function_owner=self,
         position={0,0,0}, label="Push villain into city", color={1,1,1,0}, width=2000, height=3000,
-        tooltip = "Push villains into the city or charge once"
+        tooltip = "Push villains into the city or charge once",
+        font_size = 250
     })
+    
+    self.createButton({
+        click_function="click_rescue_bystander", function_owner=self,
+        position={0,2.7,-15}, label="Rescue Bystander", color={0.6,0.4,0.8,1}, width=2000, height=1000,
+        tooltip = "Rescue a bystander",
+        font_size = 250
+    })
+    
+    self.createButton({
+        click_function="click_get_wound", function_owner=self,
+        position={0,2.7,-22}, label="Gain wound", color={1,0.2,0.1,1}, width=2000, height=1000,
+        tooltip = "Gain a wound",
+        font_size = 250
+    })
+
+    --Local positions for each pile of cards
+    pos_vp2 = {-5, 0.178, 0.222}
+    pos_discard = {-0.957, 0.178, 0.222}
+
+    bystandersPileGUID="0b48dd"
+    woundsDeckGUID="653663"
+end
+
+function click_rescue_bystander(obj, player_clicker_color, alt_click)
+    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+    local bspile = getObjectFromGUID(bystandersPileGUID)
+    local dest = playerBoard.positionToWorld(pos_vp2)
+    dest.y = dest.y + 3
+	if player_clicker_color == "White" then
+		angle = 90
+	elseif player_clicker_color == "Blue" then
+		angle = -90
+	else
+		angle = 180
+	end
+	local brot = {x=0, y=angle, z=0}
+    if bspile then
+        bspile.takeObject({position=dest,rotation=brot,flip=true,smooth=true})
+        broadcastToAll("Player " .. player_clicker_color .. " rescued a bystander!")
+    end
+    --won't work if one or no cards in bystander stack, but this is unlikely
+end
+
+function click_get_wound(obj, player_clicker_color, alt_click)
+    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+    local woundsDeck=getObjectFromGUID(woundsDeckGUID)
+    local dest = playerBoard.positionToWorld(pos_discard)
+    dest.y = dest.y + 3
+	if player_clicker_color == "White" then
+		angle = 90
+	elseif player_clicker_color == "Blue" then
+		angle = -90
+	else
+		angle = 180
+	end
+	local brot = {x=0, y=angle, z=0}
+    if woundsDeck then
+        woundsDeck.takeObject({position=dest,rotation=brot,flip=true,smooth=true})
+        printToAll("Player " .. player_clicker_color .. " got a wound!")
+    end
+    --won't work if one or no cards in wound stack
+    --this may happen!
 end
 
 function get_decks_and_cards_from_zone(zoneGUID)
@@ -564,11 +627,34 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
-    -- if sschemeParts[1] == "Break The Planet Asunder" then
-        -- KO heroes from HQ if they're weaker than twistsresolved
-        -- requires hero tags with their base power
-        -- twistsresolved = twistsresolved + 1    
-    -- end
+    if schemeParts[1] == "Break the Planet Asunder" then
+        twistsresolved = twistsresolved + 1 
+        cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+        for i,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHero')
+            local attack = 0
+            if hero then
+                for j,k in pairs(hero.getTags()) do
+                    if k:find("Attack:") then
+                        if attack == 0 then
+                            attack = tonumber(k:match("%d+"))
+                        elseif attack < tonumber(k:match("%d+")) then
+                            attack = tonumber(k:match("%d+"))
+                        end
+                    end
+                end
+                if attack < twistsresolved then
+                    hero.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                    getObjectFromGUID(o).Call('click_draw_hero')
+                    broadcastToAll("Scheme Twist! Weak hero " .. hero.getName() .. " KO'd from HQ!")
+                end
+            else
+                broadcastToAll("Hero missing in hq!")
+                return nil
+            end
+        end
+        return nil
+    end
     if schemeParts[1] == "Build an Army of Annihilation" then
         local twistpile = getObjectFromGUID("4f53f9")
         annipile = getObjectFromGUID("8656c3")
