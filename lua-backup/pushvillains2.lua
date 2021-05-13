@@ -1,39 +1,48 @@
-twistsresolved = 0
-basestrength = 0
-playerBoards = {
-    ["Red"]="8a35bd",
-    ["Green"]="d7ee3e",
-    ["Yellow"]="ed0d43",
-    ["Blue"]="9d82f3",
-    ["White"]="206c9c"
-}
 
-vpileguids = {
-    ["Red"]="fac743",
-    ["Green"]="a42b83",
-    ["Yellow"]="7f3bcd",
-    ["Blue"]="f6396a",
-    ["White"]="7732c7"
-}
-
-playercolors = {
-    "Red",
-    "Green",
-    "Yellow",
-    "Blue",
-    "White"}
-
-hqguids = {
-    "aabe45",
-    "bf3815",
-    "11b14c",
-    "b8a776",
-    "75241e"
-}
 function onLoad()
+    --starting values
+    twistsresolved = 0
+    basestrength = 0
+    
+    --guids
+    playerBoards = {
+        ["Red"]="8a35bd",
+        ["Green"]="d7ee3e",
+        ["Yellow"]="ed0d43",
+        ["Blue"]="9d82f3",
+        ["White"]="206c9c"
+    }
+
+    vpileguids = {
+        ["Red"]="fac743",
+        ["Green"]="a42b83",
+        ["Yellow"]="7f3bcd",
+        ["Blue"]="f6396a",
+        ["White"]="7732c7"
+    }
+
+    playercolors = {
+        "Red",
+        "Green",
+        "Yellow",
+        "Blue",
+        "White"}
+
+    hqguids = {
+        "aabe45",
+        "bf3815",
+        "11b14c",
+        "b8a776",
+        "75241e"
+    }
+    
     escape_zone_guid  =  "de2016"
     city_start_zone_guid = "40b47d"
     kopile_guid = "79d60b"
+    bystandersPileGUID="0b48dd"
+    woundsDeckGUID="653663"
+    
+    
     --Creates invisible button onload, hidden under the "REFILL" on the deck pad
     self.createButton({
         click_function="click_push_villain_into_city", function_owner=self,
@@ -42,6 +51,7 @@ function onLoad()
         font_size = 250
     })
     
+    --buttons above bystander and wound deck
     self.createButton({
         click_function="click_rescue_bystander", function_owner=self,
         position={0,2.7,-15}, label="Rescue Bystander", color={0.6,0.4,0.8,1}, width=2000, height=1000,
@@ -59,9 +69,6 @@ function onLoad()
     --Local positions for each pile of cards
     pos_vp2 = {-5, 0.178, 0.222}
     pos_discard = {-0.957, 0.178, 0.222}
-
-    bystandersPileGUID="0b48dd"
-    woundsDeckGUID="653663"
 end
 
 function click_rescue_bystander(obj, player_clicker_color, alt_click)
@@ -1076,6 +1083,39 @@ function twistSpecials(cards,city,schemeParts)
         broadcastToAll("Master Strike!")
         return nil
     end
+    if schemeParts[1] == "Cytoplasm Spike Invasion" then
+        cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+        local spikepush = function(obj)
+            if obj.hasTag("Bystander") then
+                obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+            elseif obj.getName() == "Cytoplasm Spikes" then
+                click_push_villain_into_city()
+            end
+        end
+        local drawspike = function()
+            local spikedeck =  get_decks_and_cards_from_zone("4f53f9")
+            if spikedeck[1] then
+                if spikedeck[1].tag == "Deck" then
+                    spikedeck[1].takeObject({position = getObjectFromGUID("e6b0bc").getPosition(),
+                        callback_function = spikepush, flip = true, smooth = true})
+                elseif spikedeck[1].tag == "Card" then
+                    spikedeck[1].flip()
+                    if spikedeck[1].hasTag("Bystander") then
+                        spikedeck[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                    else
+                        spikedeck[1].setPositionSmooth(getObjectFromGUID("e6b0bc").getPosition())
+                        Wait.time(click_push_villain_into_city,1)
+                    end
+                end
+            else
+                printToAll("Spike deck is empty!")
+            end
+        end
+        Wait.time(drawspike,1)
+        Wait.time(drawspike,2)
+        Wait.time(drawspike,3)
+        return nil
+    end
     if schemeParts[1] == "Dark Alliance" then
         if twistsresolved == 0 then
             mmPile=getObjectFromGUID("c7e1d5")
@@ -1130,27 +1170,50 @@ function twistSpecials(cards,city,schemeParts)
         --log(twistsresolved)
         return twistsresolved
     end
+    if schemeParts[1] == "Deadlands Hordes Charge the Wall" then
+        cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+        Wait.time(click_push_villain_into_city,1)
+        Wait.time(click_push_villain_into_city,3)
+        Wait.time(click_draw_villain,4)
+        --don't play the new card automatically as this makes the automation unstoppable
+        --if the automation breaks, players should be able to continue manually
+        return nil
+    end
     if schemeParts[1] == "Deadpool Kills the Marvel Universe" then
         twistsresolved = twistsresolved + 1
-        heroZone=getObjectFromGUID("0cd6a9")
-        herodeck = heroZone.getObjects()[2]
-        herodeckcards = herodeck.getObjects()
-        deadpoolfound = -1
-        --don't do pairs as it doesn't iterate in the right order
-        for i = 1,#herodeckcards do
-            for index,o in pairs(herodeckcards[i].tags) do
-                if o == "Team:Deadpool" then
-                    deadpoolfound = i
+        local herodeck = get_decks_and_cards_from_zone("0cd6a9")
+        if herodeck[1] then
+            if herodeck[1].tag == "Deck" then
+                local herodeckcards = herodeck[1].getObjects()
+                local deadpoolfound = -1
+                --don't do pairs as it doesn't iterate in the right order
+                for i = 1,#herodeckcards do
+                    for _,o in pairs(herodeckcards[i].tags) do
+                        if o == "Team:Deadpool" or herodeckcards[i].name == "Deadpool (B)" then
+                            deadpoolfound = i
+                            break
+                        end
+                    end
+                    if deadpoolfound > -1 then
+                        break
+                    end
                 end
+                if deadpoolfound == -1 or deadpoolfound == #herodeckcards then
+                    herodeck[1].flip()
+                    herodeck[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                else
+                    for i = 1,deadpoolfound do
+                        herodeck[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                            flip=true,
+                            smooth=true}) 
+                    end
+                end
+            else 
+                herodeck[1].flip()
+                herodeck[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
             end
-            if deadpoolfound > -1 then
-                break
-            end
-        end
-        for i = 1,deadpoolfound do
-            herodeck.takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
-                flip=true,
-                smooth=true}) 
+        else
+            broadcastToAll("Hero deck is empty!")
         end
         return twistsresolved
     end
