@@ -1349,6 +1349,24 @@ function twistSpecials(cards,city,schemeParts)
         if bsfound == true then
             Wait.time(vildeckshuffle,2)
         end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Divide and Conquer" then
+        twistsresolved = twistsresolved + 1
+        if twistsresolved < 4 then
+            for i,o in pairs(hqguids) do
+                local hqzone = getObjectFromGUID(o)
+                local herocard = hqzone.Call('getHero')
+                if herocard then
+                    herocard.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                    hqzone.Call('click_draw_hero')
+                end
+            end
+            broadcastToAll("Scheme Twist: All heroes in HQ KO'd!")
+        else
+            broadcastToAll("Scheme Twist: KO one of the hero decks!!",{1,0,0})
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
         local twistpile = getObjectFromGUID("4f53f9")

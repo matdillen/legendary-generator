@@ -127,6 +127,26 @@ function click_shuffle()
     "75241e"
     }
     --add exceptions here for some schemes
+    
+    local dividedDeckGUIDs = {
+            ["HC:Red"]="4c1868",
+            ["HC:Green"]="8656c3",
+            ["HC:Yellow"]="533311",
+            ["HC:Blue"]="3d3ba7",
+            ["HC:Silver"]="725c5d"
+        }
+    if setupParts then
+        if setupParts[1] == "Divide and Conquer" then
+            for i,o in pairs(dividedDeckGUIDs) do
+                local dividedDeck = get_decks_and_cards_from_zone(o)
+                if dividedDeck[1] then
+                    if dividedDeck[1].tag == "Deck" then
+                        dividedDeck[1].randomize()
+                    end
+                end
+            end
+        end
+    end
     for i,o in pairs(hqguids) do
         getObjectFromGUID(o).Call('click_draw_hero')
     end
@@ -181,6 +201,27 @@ function mmGetCards(mmname)
             mmcardnumber = 4
     end
     return(mmcardnumber)
+end
+
+function get_decks_and_cards_from_zone(zoneGUID)
+    --this function returns cards, decks and shards in a city space (or the start zone)
+    --returns a table of objects
+    local zone = getObjectFromGUID(zoneGUID)
+    if zone then
+        decks = zone.getObjects()
+    else
+        return nil
+    end
+    local result = {}
+    if decks then
+        for k, deck in pairs(decks) do
+            local desc = deck.getDescription()
+            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == "Shard" then
+                table.insert(result, deck)
+            end
+        end
+    end
+    return result
 end
 
 function returnSetupParts()
@@ -720,8 +761,10 @@ function import_setup()
                 if not obj.remainder then
                     obj.takeObject({guid=o.guid,
                         position=dividedDeckZone.getPosition(),
-                        smooth=false})
+                        smooth=false,
+                        flip=true})
                 else
+                    obj.remainder.flip()
                     obj.remainder.setPosition(dividedDeckZone.getPosition())
                 end
             end
