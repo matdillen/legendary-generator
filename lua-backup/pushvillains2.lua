@@ -528,7 +528,7 @@ function updateUltronPower()
         end
     end
     for i,o in pairs(hqguids) do
-        local herocard = getObjectFromGUID(o).Call('getHero')
+        local herocard = getObjectFromGUID(o).Call('getHeroUp')
         if herocard then
             for index,object in pairs(herocard.getTags()) do
                 if object:find("HC:") then
@@ -649,7 +649,7 @@ function twistSpecials(cards,city,schemeParts)
         twistsresolved = twistsresolved + 1 
         cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
         for i,o in pairs(hqguids) do
-            local hero = getObjectFromGUID(o).Call('getHero')
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
             local attack = 0
             if hero then
                 for j,k in pairs(hero.getTags()) do
@@ -985,7 +985,7 @@ function twistSpecials(cards,city,schemeParts)
         local sunlight = 0
         local moonlight = 0
         for i,o in pairs(hqguids) do
-            local hero = getObjectFromGUID(o).Call('getHero')
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
             if hero then
                 for j,k in pairs(hero.getTags()) do
                     if k:find("Cost:") then
@@ -1351,12 +1351,78 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Detonate the Helicarrier" then
+        twistsresolved = twistsresolved + 1
+        local twistpile = getObjectFromGUID("4f53f9")
+        cards[1].setPositionSmooth(twistpile.getPosition())
+        local heroboom = 0
+        local hq = hqguids
+        broadcastToAll("Scheme Twist: " .. twistsresolved .. " heroes will be KO'd from the HQ!")
+        explode_heroes = function(zone,n)
+            local currenthero = nil
+            local explode_hero = function()
+                local hero = getObjectFromGUID(zone).Call('getHeroUp')
+                if hero then
+                    currenthero = hero
+                    local hq_cards = getObjectFromGUID(zone).Call('getHeroDown')
+                    hero.flip()
+                    if not hq_cards or hq_cards.getQuantity() < 5 then
+                        getObjectFromGUID(zone).Call('click_draw_hero')
+                    end
+                else
+                    printToAll("Error: hero not found in HQ.",{1,0,0})
+                end
+            end
+            local hero_drawn = function()
+                if not currenthero then
+                    return true
+                end
+                local hero = getObjectFromGUID(zone).Call('getHeroUp')
+                if hero then
+                    if hero.guid == currenthero.guid then
+                        return false
+                    else
+                        return true
+                    end
+                else
+                    return false
+                end
+            end
+            for i=1,n do
+                Wait.condition(explode_hero,hero_drawn)
+            end
+        end
+        while heroboom < twistsresolved do
+            local boomstack = nil
+            local hq_cards = getObjectFromGUID(hq[1]).Call('getHeroDown')
+            if hq_cards then
+                boomstack_count = math.abs(hq_cards.getQuantity())
+            else
+                boomstack_count = 0
+            end
+            if boomstack_count > 5 then
+                table.remove(hq,1)
+            else
+                local todestroy = math.min(6-boomstack_count,twistsresolved-heroboom)
+                explode_heroes(hq[1],todestroy)
+                heroboom = heroboom + todestroy
+                if heroboom < twistsresolved then
+                    table.remove(hq,1)
+                end
+            end
+            if not hq[1] then
+                broadcastToAll("Helicarrier destroyed!!!",{1,0,0})
+                return nil
+            end
+        end
+        return nil
+    end
     if schemeParts[1] == "Divide and Conquer" then
         twistsresolved = twistsresolved + 1
         if twistsresolved < 4 then
             for i,o in pairs(hqguids) do
                 local hqzone = getObjectFromGUID(o)
-                local herocard = hqzone.Call('getHero')
+                local herocard = hqzone.Call('getHeroUp')
                 if herocard then
                     herocard.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
                     hqzone.Call('click_draw_hero')

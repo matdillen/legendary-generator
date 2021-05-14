@@ -1,26 +1,3 @@
-setupText = ""
-playerdeckIDs = {
-        "e3db1b",
-        "504f36",
-        "6869d3",
-        "098082",
-        "dedfc6"
-        }
-playercolors = {
-    "Yellow",
-    "Green",
-    "Red",
-    "White",
-    "Blue"}
-    
-playerBoards = {
-    ["Red"]="8a35bd",
-    ["Green"]="d7ee3e",
-    ["Yellow"]="ed0d43",
-    ["Blue"]="9d82f3",
-    ["White"]="206c9c"
-}
-    
 function onLoad()
     --create buttons for importing and autoshuffle
 
@@ -36,6 +13,13 @@ function onLoad()
         label = "Import Setup",tooltip="Import a setup. Paste text in proper format in textbox below first."
     })
     
+    self.createButton({
+        click_function="toggle_autoplay", function_owner=self,
+        position={-60,0.1,14}, height=125,
+        width=1500, height=500, label="Autoplay from villain deck", tooltip="Set autoplay from villain deck when player draws new hand!", 
+        color={0,1,0}
+    })
+    
     -- create text input to paste setup parameters
     self.createInput({
         input_function = "input_print",
@@ -47,8 +31,55 @@ function onLoad()
         width=2000,
         height=3000
     })
-
+    
+    setupText = ""
+    playerdeckIDs = {
+        "e3db1b",
+        "504f36",
+        "6869d3",
+        "098082",
+        "dedfc6"
+    }
+    playercolors = {
+        "Yellow",
+        "Green",
+        "Red",
+        "White",
+        "Blue"
+    }
+    
+    playerBoards = {
+        ["Red"]="8a35bd",
+        ["Green"]="d7ee3e",
+        ["Yellow"]="ed0d43",
+        ["Blue"]="9d82f3",
+        ["White"]="206c9c"
+    }
+    
+    autoplay = true
     Turns.enable = true
+end
+
+function returnAutoplay()
+    return autoplay
+end
+
+function toggle_autoplay(obj,player_clicker_color)
+    local butt = self.getButtons()
+    for _,o in pairs(butt) do
+        if o.click_function == "toggle_autoplay" then
+            buttonindex = o.index
+        end
+    end
+    if autoplay == false then
+        autoplay = true
+        self.editButton({index=buttonindex,color = {0,1,0}})
+        printToAll("Cards will be played from villain deck at each player's turn end, when clicking New Hand.")
+    else
+        autoplay = false
+        self.editButton({index=buttonindex,color = {1,0,0}})
+        printToAll("Cards will NOT be played from villain deck at each player's turn end.")
+    end
 end
 
 function input_print(obj, color, input, stillEditing)

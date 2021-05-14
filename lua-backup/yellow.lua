@@ -287,7 +287,8 @@ function click_end_turn()
     global_deal=0
     click_discard_hand()
     Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
-    if boardcolor == Turns.turn_color then
+    local autoplay = getObjectFromGUID("912967").Call('returnAutoplay')
+    if boardcolor == Turns.turn_color and autoplay == true then
         getObjectFromGUID("8280ca").Call('click_draw_villain')
         broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
     end

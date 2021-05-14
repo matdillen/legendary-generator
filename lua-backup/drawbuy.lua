@@ -52,7 +52,7 @@ function onLoad()
 end
 
 function click_buy_hero(obj, player_clicker_color)
-    local card = getHero()
+    local card = getHero(false)
     if not card then
         return nil
     end
@@ -91,14 +91,16 @@ function click_buy_hero(obj, player_clicker_color)
     click_draw_hero()
 end
 
-function getHero()
+function getHero(face)
     local objects = findObjectsAtPosition({0,0,0})
     if not objects then 
         return nil 
     end
     local card = nil
     for _,item in pairs(objects) do
-        if item.tag == "Card" and item.is_face_down == false then
+        if item.tag == "Card" and item.is_face_down == face then
+            card = item
+        elseif item.tag == "Deck" and item.is_face_down == true and face == true then
             card = item
         end
     end
@@ -107,6 +109,14 @@ function getHero()
         return nil
     end
     return card
+end
+
+function getHeroUp()
+    return getHero(false)
+end
+
+function getHeroDown()
+    return getHero(true)
 end
 
 function click_draw_hero()
