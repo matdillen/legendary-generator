@@ -279,6 +279,7 @@ function push_all (city)
         if not targetZoneGUID then
             targetZoneGUID=escape_zone_guid
         end
+        updateTwistPower()
         local targetZone=getObjectFromGUID(targetZoneGUID)
         --find all cards, decks and shards in a zone
         local cards=get_decks_and_cards_from_zone(zoneGUID)
@@ -375,6 +376,11 @@ function push_all (city)
                         end
                         return shift_to_next(cards,targetZone,cityEntering)
                     end
+                    
+                    if cards[1].getDescription():find("TRAP") then
+                        broadcastToAll("Trap! Resolve it by end of turn or suffer the consequences!",{r=1,g=0,b=0})
+                        return nil
+                    end
                 
                     --bystanders and weapons go to the first villain in the city
                     if (bs == true or vw == true) then
@@ -460,9 +466,6 @@ function click_push_villain_into_city(obj, player_clicker_color, alt_click)
         push_all(city_zones_guids)
     end
 end
-
---destroy buttons upon escape:
---card.removeButton(0)
 
 function updateTwistPower()
     local city_zones = {"e6b0bc","40b47d","5a74e7","07423f","5bc848","82ccd7"}
@@ -564,6 +567,14 @@ function powerButton(obj,click_f,label_f)
             font_color={1,0,0},
             color={0,0,0,0.75},
             width=250,height=250})
+    end
+end
+
+function dealWounds()
+    for i,_ in pairs(playerBoards) do
+        if Player[i].seated == true then
+            click_get_wound(getObjectFromGUID(woundsDeckGUID),i)
+        end
     end
 end
 
@@ -736,14 +747,51 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(refeedMM,anniGathered)
         return nil
     end
-    --if schemeParts[1] == "Build an Underground MegaVault Prison" then
-        --check sewers for villain, if so, deal wounds
-        --can do, but potentially complicated with locations or mm specials
-        
-        --check top card and play if villain
-        --requires villain tag, or could check for VP and exclude bystanders
-        --still tricky with locations and weapons
-    --end
+    if schemeParts[1] == "Build an Underground MegaVault Prison" then
+        local sewersCards = get_decks_and_cards_from_zone(city_start_zone_guid)
+        if sewersCards[1] then
+            for i,o in pairs(sewersCards) do
+                if o.hasTag("Villain") then
+                    dealWounds()
+                    broadcastToAll("Scheme Twist: There's a villain in the sewers! Everyone gets a wound!")
+                    return twistsresolved
+                end
+            end
+        end
+        local vildeck = get_decks_and_cards_from_zone("4bc134")
+        if vildeck[1] then
+            local pos = getObjectFromGUID(city_start_zone_guid).getPosition()
+            pos.y = pos.y + 3
+            if vildeck[1].tag == "Deck" then
+                for _,o in pairs(vildeck[1].getObjects()[1].tags) do
+                    if o == "Villain" then
+                        vildeck[1].takeObject({position = pos,
+                            flip=true})
+                        broadcastToAll("The top card of the villain deck enters the sewers!")
+                        return twistsresolved
+                    end
+                end
+                local pos = vildeck[1].getPosition()
+                pos.y = pos.y +3
+                local showCardCallback = function(obj)
+                    broadcastToAll("Top card of villain deck is " .. obj.getName() .. ", not a villain!")
+                    Wait.time(function() obj.flip() end,1)
+                end
+                vildeck[1].takeObject({position = pos,flip=true,
+                    callback_function = showCardCallback})
+            else 
+                if vildeck[1].hasTag("Villain") then
+                    vildeck[1].flip()
+                    vildeck[1].setPositionSmooth(getObjectFromGUID(pos))
+                else
+                    vildeck[1].flip()
+                    broadcastToAll("Top card of villain deck is " .. vildeck[1].getName() .. ", not a villain!")
+                    Wait.time(function() vildeck[1].flip() end,1)
+                end
+            end
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Cage Villains in Power-Suppressing Cells" then
         local twistpile = getObjectFromGUID("4f53f9")
         cards[1].setPositionSmooth(twistpile.getPosition())
@@ -843,6 +891,7 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
         skpile = getObjectFromGUID("959976")
         basestrength = 2
+        broadcastToAll("Scheme Twist!",{1,0,0})
         pushSidekick = function(obj)
             local twistsstack = get_decks_and_cards_from_zone("4f53f9")
             if twistsstack[1] then
@@ -853,8 +902,20 @@ function twistSpecials(cards,city,schemeParts)
             obj.addTag("Corrupted")
             powerButton(obj,"updateTwistPower",twistsstacked+basestrength)
             obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
-            Wait.time(updateTwistPower,2)
-            click_push_villain_into_city()
+            local sidekickLanded = function()
+                local landed = get_decks_and_cards_from_zone("e6b0bc")
+                if landed[1] then
+                    if landed[1].guid == obj.guid then
+                        return true
+                    else
+                        return false
+                    end
+                else
+                    return false
+                end
+            end
+            broadcastToAll("Corrupted sidekick enters the city!",{1,0,0})
+            Wait.condition(click_push_villain_into_city,sidekickLanded)
             --one will stay on the enter spot because the callback triggers while they're still in the air
         end
         getSidekick = function()
@@ -900,7 +961,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             getSidekick()
-            Wait.time(getSidekick,1)
+            Wait.time(getSidekick,2)
         end
         twistsresolved = twistsresolved + 1
         if twistsresolved < 8 then
@@ -1170,6 +1231,16 @@ function twistSpecials(cards,city,schemeParts)
         --log(twistsresolved)
         return twistsresolved
     end
+    if schemeParts[1] == "Dark Reign of H.A.M.M.E.R. Officers" then
+        local twistpile = getObjectFromGUID("4f53f9")
+        cards[1].setPositionSmooth(twistpile.getPosition())
+        twistsresolved = twistsresolved + 1
+        local sostack = getObjectFromGUID("9c9649")
+        for i = 1,twistsresolved do
+            sostack.takeObject({position=getObjectFromGUID("bf7e87").getPosition(),flip=true,smooth=false})
+        end
+        return nil
+    end
     if schemeParts[1] == "Deadlands Hordes Charge the Wall" then
         cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
         Wait.time(click_push_villain_into_city,1)
@@ -1216,6 +1287,68 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Hero deck is empty!")
         end
         return twistsresolved
+    end
+    if schemeParts[1] == "Deadpool Wants A Chimichanga" then
+        for _,o in pairs(city) do
+            local cards = get_decks_and_cards_from_zone(o)
+            if cards[1] then
+                for _,object in pairs(cards) do
+                    if object.hasTag("Bystander") then
+                        object.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+                        broadcastToAll("Bystander moved to escape pile (do not discard).")
+                    end
+                end
+            end
+        end
+        vildeckshuffle = function(obj)
+            vildeck = get_decks_and_cards_from_zone("4bc134")[1]
+            vildeck.randomize()
+        end
+        local bsfound = false
+        for i,o in pairs(vpileguids) do
+            if Player[i].seated == true then
+                local cards = get_decks_and_cards_from_zone(o)
+                local vildeck = get_decks_and_cards_from_zone("4bc134")[1]
+                if cards[1] then
+                    if cards[1].tag == "Deck" then
+                        local bystanderguids = {}
+                        for _,object in pairs(cards[1].getObjects()) do
+                            for j,k in pairs(object.tags) do
+                                if k == "Bystander" then
+                                    table.insert(bystanderguids,object.guid)
+                                end
+                            end
+                        end
+                        bsguid = nil
+                        if bystanderguids[2] then
+                            bsguid = bystanderguids[math.random(#bystanderguids)]
+                        elseif bystanderguids[1] then
+                            bsguid = bystanderguids[1]
+                        end
+                        if bsguid then
+                            cards[1].takeObject({position = vildeck.getPosition(),
+                                guid = bsguid,flip=true})
+                            bsfound = true
+                        else
+                            click_get_wound(cards[1],i)
+                        end
+                    else
+                        if cards[1].hasTag("Bystander") then
+                            cards[1].flip()
+                            cards[1].setPositionSmooth(vildeck.getPosition())
+                            bsfound = true
+                        else
+                            click_get_wound(cards[1],i)
+                        end
+                    end
+                else
+                    click_get_wound(cards[1],i)
+                end
+            end
+        end
+        if bsfound == true then
+            Wait.time(vildeckshuffle,2)
+        end
     end
     if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
         local twistpile = getObjectFromGUID("4f53f9")
@@ -1292,6 +1425,12 @@ function nonTwistspecials(cards,city,schemeParts)
             end
             cards[1].addTag("Brainwashed")
             powerButton(cards[1],"updateTwistPower",twistsstacked+basestrength)
+        end
+    end
+    
+    if schemeParts[1] == "Deadpool Wants A Chimichanga" and cityEntering == 1 then
+        if cards[1].hasTag("Bystander") then
+            Wait.time(click_draw_villain,1)
         end
     end
     
