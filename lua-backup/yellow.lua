@@ -1,28 +1,36 @@
-handsize_init = 6
-handsize = handsize_init
-handsizef = false
-boardcolor = self.getName()
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
-    global_refill_done=false
     global_deal=0
     countEnd=0
     countStart=0
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}
-	pos_vp = {3.828, 0.178, 0.222}
-	pos_vp2 = {-4.8, 0.178, 0.222}
-	pos_add = {2.871, 0.178, 0.222}
-	pos_add2 = {-2.871, 0.178, 0.222}
-	createButtons()
+    pos_vp2 = {-4.8, 0.178, 0.222}
+    pos_add2 = {-2.871, 0.178, 0.222}
+    createButtons()
     --This is which way is face down for a card or deck relative to the tool
     rot_offset = {x=0, y=0, z=180}
+    
+    local vpileguids = {
+        ["Red"]="fac743",
+        ["Green"]="a42b83",
+        ["Yellow"]="7f3bcd",
+        ["Blue"]="f6396a",
+        ["White"]="7732c7"
+    }
+    
+    handsize_init = 6
+    handsize = handsize_init
+    handsizef = false
+    boardcolor = self.getName()
+    vpileguid = vpileguids[boardcolor]
 end
 
 function createButtons()
     self.createButton({
         click_function="click_refillDeck", function_owner=self,
-        position={0,0.1,-1.12}, height=200, width=620, color={1,1,1,0}
+        position={0,0.1,-1.12}, height=200, width=620, color={1,1,1,0},
+        tooltip="Shuffle discard pile back into deck"
     })
 
     self.createButton({
@@ -34,30 +42,30 @@ function createButtons()
     self.createButton({
         click_function="click_end_turn", function_owner=self,
         position={0 , 0.178, 2.1}, height=500,
-        width=800, label="New Hand", tooltip="discard hand, and played cards,and draw 6 cards to current player", color={1,1,1,1}
+        width=800, label="New Hand", tooltip="Discard hand and cards in play, then draw 6 cards and play card from villain deck", color={1,1,1,1}
     })
 
     self.createButton({
         click_function="handsizeplus", function_owner=self,
         position={3 , 0.178, 1.9}, height=250,
-        width=660, label="Hand Size +1", tooltip="Set hand size to 1 extra card.", 
+        width=660, label="Hand Size +1", tooltip="Set hand size to 1 extra card next turn.", 
         color={1,1,1}
     })
-	self.createButton({
+    self.createButton({
         click_function="handsizefixed", function_owner=self,
         position={6.5 , 0.178, -0.5}, height=125,
         width=125, label="V", tooltip="Set hand size changes fixed!", 
         color={1,0,0}
     })
-	
+    
     self.createButton({
         click_function="handsizemin", function_owner=self,
         position={3 , 0.178, 2.5}, height=250,
-        width=660, label="Hand Size -1", tooltip="Set hand size to 1 card less.", 
+        width=660, label="Hand Size -1", tooltip="Set hand size to 1 card less next turn.", 
         color={1,1,1}
     })
-	
-	self.createButton({
+    
+    self.createButton({
         click_function="calculate_vp", function_owner=self,
         position={6.5 , 0.178, 0.4}, height=500,
         width=500, label="VP", tooltip="Calculate victory points in victory pile", color={1,1,0,1}
@@ -65,113 +73,95 @@ function createButtons()
 
 end
 
-function donutting()
-end
-
 function onslaughtpain()
-	handsize_init = handsize_init -1
-	handsize = handsize_init
-	printToAll("Handsize permanently reduced by 1!")
+    handsize_init = handsize_init -1
+    handsize = handsize_init
+    printToAll("Handsize permanently reduced by 1!",{1,0,0})
 end
 
 function calculate_vp()
-	vpraw = findObjectsAtPosition(pos_vp2)
-	local vpcards = nil
-	--log(pos_add)
-	--log(adds.tag)
-	if vpraw.type=="Deck" or vpraw.type=="Card" then
-		vpcards = vpraw
-	elseif vpraw[1] and (vpraw[1].type=="Deck" or vpraw[1].type=="Card") then
-			vpcards = vpraw[1]
-	end
-	if vpcards then
-	totalvp = 0
-	totalbs = 0
-	totalother = 0
-		if vpcards.getQuantity() > 1 then
-			for i = 1,vpcards.getQuantity() do
-				tags = vpcards.getObjects()[i].tags
-				vpfound = false
-				for j,o in pairs(tags) do
-					if o:match("VP%d+") then
-						totalvp = totalvp + o:match("%d+")
-						vpfound = true
-					end
-					if o == "Bystander" then
-					-- requires adding 'bystander' tag to bystander cards!
-						totalbs = totalbs + 1
-					end
-				end
-				if vpfound == false then
-					totalother = totalother + 1
-				end
-			end
-			printToAll("##Victory Points##")
-			printToAll(self.getName() .. " player's current victory points: " .. totalvp)
-			if totalbs > 0 then
-				printToAll("##")
-				printToAll(self.getName() .. " player's current bystander count: " .. totalbs)
-			end
-			if totalother > 0 then
-				printToAll("##")
-				printToAll(self.getName() .. " player's other cards in VP: " .. totalother)
-			end
-		elseif vpcards.getQuantity() == -1 then
-			tags = vpcards.getTags()
-			vpfound = false
-			for j,o in pairs(tags) do
-				if o:match("VP%d+") then
-					totalvp = totalvp + o:match("%d+")
-					vpfound = true
-				end
-				if o == "Bystander" then
-					-- requires adding 'bystander' tag to bystander cards!
-						totalbs = totalbs + 1
-				end
-			end
-			if vpfound == false then
-				totalother = totalother + 1
-			end
-			printToAll("##Victory Points##")
-			printToAll(self.getName() .. " player's current victory points: " .. totalvp)
-			if totalbs > 0 then
-				printToAll("##")
-				printToAll(self.getName() .. " player's current bystander count: " .. totalbs)
-			end
-			if totalother > 0 then
-				printToAll("##")
-				printToAll(self.getName() .. " player's other cards in VP: " .. totalother)
-			end
-		end
-	end
+    local vpcontent = get_decks_and_cards_from_zone(vpileguid)
+    if vpcontent[2] then
+        printToAll("Victory pile is not a single deck!")
+        return nil
+    end
+    if vpcontent[1] then
+        local totalvp = 0
+        local totalbs = 0
+        local totalother = 0
+        if math.abs(vpcontent[1].getQuantity()) > 1 then
+            for _,o in pairs(vpcontent[1]) do
+                local vpfound = false
+                for _,k in pairs(o.tags) do
+                    if k:match("VP%d+") then
+                        totalvp = totalvp + k:match("%d+")
+                        vpfound = true
+                    end
+                    if k == "Bystander" then
+                        totalbs = totalbs + 1
+                    end
+                end
+                if vpfound == false then
+                    totalother = totalother + 1
+                end
+            end
+        else 
+            local vpfound = false
+            for _,o in pairs(vpcontent[1].getTags()) do
+                if o:match("VP%d+") then
+                    totalvp = totalvp + o:match("%d+")
+                    vpfound = true
+                end
+                if o == "Bystander" then
+                    totalbs = totalbs + 1
+                end
+            end
+            if vpfound == false then
+                totalother = totalother + 1
+            end
+        end
+        printToAll("##Victory Points##",boardcolor)
+        printToAll(boardcolor .. " player's current victory points: " .. totalvp,boardcolor)
+        if totalbs > 0 then
+            printToAll("##",boardcolor)
+            printToAll(boardcolor .. " player's current bystander count: " .. totalbs,boardcolor)
+        end
+        if totalother > 0 then
+            printToAll("##",boardcolor)
+            printToAll(boardcolor .. " player's other cards in VP: " .. totalother,boardcolor)
+        end
+        printToAll("##",boardcolor)
+    else
+        printToAll(boardcolor .. " player's victory pile is empty!",boardcolor)
+    end
 end
 
 function handsizeplus()
     handsize = handsize + 1
-    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)")
+    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)",boardcolor)
 end
 
 function handsizefixed(obj,player_clicker_color)
-	butt = self.getButtons()
-	for i,o in pairs(butt) do
-		if o.click_function == "handsizefixed" then
-			buttonindex = o.index
-		end
-	end
-	if handsizef == false then
-		handsizef = true
-		self.editButton({index=buttonindex,color = {0,1,0}})
-		printToAll(player_clicker_color .. "'s hand size change set to fixed (" .. handsize .. ")!")
-	else
-		handsizef = false
-		self.editButton({index=buttonindex,color = {1,0,0}})
-		printToAll(player_clicker_color .. "'s hand size change no longer set to fixed (" .. handsize .. ")!")
-	end
+    local butt = self.getButtons()
+    for _,o in pairs(butt) do
+        if o.click_function == "handsizefixed" then
+            buttonindex = o.index
+        end
+    end
+    if handsizef == false then
+        handsizef = true
+        self.editButton({index=buttonindex,color = {0,1,0}})
+        printToAll(player_clicker_color .. "'s hand size change set to fixed (" .. handsize .. ")!",boardcolor)
+    else
+        handsizef = false
+        self.editButton({index=buttonindex,color = {1,0,0}})
+        printToAll(player_clicker_color .. "'s hand size change no longer set to fixed (" .. handsize .. ")!",boardcolor)
+    end
 end
 
 function handsizemin()
     handsize = handsize - 1
-    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)")
+    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)",boardcolor)
 end
 
 function click_refillDeck()
@@ -180,8 +170,6 @@ function click_refillDeck()
 end
 
 function refillDeck()
-    global_refill_done=false
-
     local discardItemList = findObjectsAtPosition(pos_discard)
     local pos = self.positionToWorld(pos_draw)
     local rot = self.getRotation()
@@ -192,7 +180,7 @@ function refillDeck()
         obj.setRotation(rot)
     end
 
-    if #discardItemList > 0 then
+    if discardItemList[1] then
         Wait.condition(timer_shuffle,
             function()
                 local found = findObjectsAtPosition(pos_draw)
@@ -203,14 +191,121 @@ function refillDeck()
                 print("auto-refill timeout")
             end
         )
-    else
-        global_refill_done=true
     end
+end
+
+--Activated by a timer to shuffle deck
+function timer_shuffle()
+    local deck = findObjectsAtPosition(pos_draw)
+    if not deck[1] then
+        printToAll("deck not found")
+        return nil
+    end
+    if deck[2] then
+        printToAll("More than one deck found?")
+        return nil
+    end
+    deck[1].randomize()
+    local count=math.abs(deck[1].getQuantity())
+    if count > 0 then
+        deck[1].deal(global_deal,boardcolor)
+        global_deal=0
+    end
+end
+
+-- discard all card in hand and played
+function click_discard_hand()
+    local cards = Player[boardcolor].getHandObjects()
+    if not cards then 
+        cards = {} 
+    end
+    local zoneGuid = "f49fc9"
+    if boardcolor == "White" then 
+        zoneGuid = "558e75" 
+    end
+    if boardcolor == "Blue" then 
+        zoneGuid = "2b36c3"
+    end
+    local played_cards = get_decks_and_cards_from_zone(zoneGuid)
+    if played_cards then 
+        cards_all = merge(cards,played_cards)
+    end
+    local pos = self.positionToWorld(pos_discard)
+    for _, card in ipairs(cards_all) do
+        card.setPosition(pos, false, true)
+    end
+end
+
+function click_deal_cards()
+    local cards = Player[boardcolor].getHandObjects()
+    local decks = findObjectsAtPosition(pos_draw)
+    if not decks[1] then
+        global_deal = handsize
+        refillDeck()
+        return nil
+    end
+    local count=math.abs(decks[1].getQuantity())
+    decks[1].deal(math.min(handsize,count),boardcolor)
+    if count < handsize then
+        global_deal=handsize-count
+        refillDeck()
+    end
+    local toadd = findObjectsAtPosition(pos_add2)
+    if toadd[1] then
+        local count=math.abs(toadd[1].getQuantity())
+        toadd[1].deal(count,boardcolor)
+    end
+    if handsizef == false then
+        if handsize ~= handsize_init then
+            printToAll(boardcolor .. "'s hand size set back to " .. handsize_init .. " after extra draws!")
+            handsize = handsize_init
+        end
+    end
+end
+
+function isDiscardDone()
+    local cards = Player[boardcolor].getHandObjects()
+    if not cards then cards = {} end
+    local zoneGuid = "f49fc9"
+    if boardcolor == "White" then 
+        zoneGuid = "558e75" 
+    end
+    if boardcolor == "Blue" then 
+        zoneGuid = "2b36c3"
+    end
+    local played_cards = get_decks_and_cards_from_zone(zoneGuid)
+    return ((cards and #cards == 0) or (cards == nil)) and
+        ((played_cards and #played_cards == 0) or (played_cards == nil))
+end
+
+function isHandFull()
+    local cards = Player[boardcolor].getHandObjects()
+    return cards and ( #cards == handsize )
+end
+
+function click_end_turn()
+    global_deal=0
+    click_discard_hand()
+    Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
+    if boardcolor == Turns.turn_color then
+        getObjectFromGUID("8280ca").Call('click_draw_villain')
+        broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
+    end
+end
+
+function click_draw_card()
+    local cards = Player[boardcolor].getHandObjects()
+    local decks = findObjectsAtPosition(pos_draw)
+    if not decks[1] then
+        global_deal = 1
+        refillDeck()
+        return nil
+    end
+    decks[1].deal(1,boardcolor)
 end
 
 function findObjectsAtPosition(localPos)
     local globalPos = self.positionToWorld(localPos)
-	--log(globalPos)
     local objList = Physics.cast({
         origin=globalPos, --Where the cast takes place
         direction={0,1,0}, --Which direction it moves (up is shown)
@@ -219,97 +314,14 @@ function findObjectsAtPosition(localPos)
         max_distance=1, --How far it moves. Just a little bit
         debug=false --If it displays the sphere when casting.
     })
-
-    --Now we have objList which contains any and all objects in that area.
-    --But we only want decks and cards. So we will create a new list
     local decksAndCards = {}
-    --Then go through objList adding any decks/cards to our new list
     for _, obj in ipairs(objList) do
         if obj.hit_object.tag == "Deck" or obj.hit_object.tag == "Card" then
-            --log("findObjectsAtPosition: found")
-            --log(obj.hit_object)
-            --log(obj.hit_object.tag)
             table.insert(decksAndCards, obj.hit_object)
         end
     end
-
-    --Now we return this to where it was called with the information
-    ---- log ("findObjectsAtPosition end")
     return decksAndCards
 end
-
-function returnDiscardPile()
-    local discard = findObjectsAtPosition(pos_discard)
-    return discard
-end
-
---Activated by a timer to shuffle deck
-function timer_shuffle()
-    -- log("-- time shuffle start --")
-    -- log("global_deal")
-    -- log(global_deal)
-    --This uses our findObjects function to find the deck in in the draw area
-    local discardItemList = findObjectsAtPosition(pos_draw)
-    local color  = self.getName()
-    --We should only have 1 item here, and it should be a deck
-    --But just in case, we will go through any and all returns
-    local decks = {}
-    for _, obj in ipairs(discardItemList) do
-        --Final check to make sure its a deck we're trying to shuffle
-        if obj.type == "Deck" or obj.type == "Card" then
-            obj.shuffle()
-            table.insert(decks,obj)
-        end
-    end
-
-
-    if decks then
-        ---- log("timer_shuffle found stuff")
-        ---- log(decks)
-        ---- log(decks.tag)
-        if decks[1] then
-            ---- log ("timer_shuffle decks[1] is #123")
-            ---- log(decks[1])
-            ---- log(decks[1].tag)
-        end
-        local deck = nil
-        if decks.type=="Deck" or decks.type=="Card" then
-            deck=decks
-            deck.shuffle()
-        elseif decks[1] and (decks[1].type=="Deck" or decks[1].type=="Card") then
-           deck = decks[1]
-           if deck.type=="Deck" then deck.shuffle() end
-        else
-            ---- log("timer_shuffle else grouping decks")
-            deck=group(decks)
-        end
-        ---- log ("timer_shuffle global_deal")
-        ---- log (global_deal)
-        if deck  then
-            ---- log("timer_shuffle shuffle deck")
-            ---- log(deck)
-            ---- log("timer_shuffle shuffle deck tag")
-            ---- log(deck.tag)
-            ---- log("timer_shuffle shuffle deck guid")
-            ---- log(deck.guid)
-            local count=math.abs(deck.getQuantity())
-            ---- log("timer_shuffle local count")
-            ---- log(count)
-            if count > 0 then
-                deck.deal(math.min(count,global_deal),color)
-                global_deal=0
-                ---- log ("timer_shuffle global_deal")
-                ---- log (global_deal)
-            end
-        else
-            ---- log("shuffle deal: not deck found to deal from")
-        end
-    end
-    global_refill_done=true
-    ---- log("-- time shuffle end --")
-end
-
-
 
 function merge(t1, t2)
    for k,v in ipairs(t2) do
@@ -319,256 +331,22 @@ function merge(t1, t2)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID)
-    ---- log("-get deck and card from zone start-")
-    ---- log(zoneGUID)
     local zone = getObjectFromGUID(zoneGUID)
     if zone then
-        ---- log("zone found")
-        ---- log(zone)
         decks = zone.getObjects()
     else
         return nil
     end
     local result = {}
     if decks then
-        ---- log("decks found")
-        ---- log(decks)
         for k, deck in pairs(decks) do
-            ---- log("checking deck")
-            ---- log(deck)
-            ---- log(deck.tag)
             if deck.type == "Deck" or deck.type == "Card" then
-                ---- log("deck or card found")
-                ---- log(deck)
-				local desc = deck.getDescription()
-				if not desc:find("ARTIFACT") then
-					table.insert(result, deck)
-				end
-                ---- log("result so far")
-                ---- log(result)
+                local desc = deck.getDescription()
+                if not desc:find("ARTIFACT") then
+                    table.insert(result, deck)
+                end
             end
         end
-    end
-    ---- log("result")
-    for _, res in pairs(result) do
-        ---- log(res)
     end
     return result
-end
-
--- discard all card in hand and played
-function click_discard_hand()
-    -- log("-- ---- log discard hand start --")
-    -- log("global_deal")
-    -- log(global_deal)
-    local color  = self.getName()
-    local player =  Player[color]
-    local cards = player.getHandObjects()
-    if not cards then cards = {} end
-    local zoneGuid = "f49fc9"
-    if self.getName() == "White" then zoneGuid = "558e75" end
-    if self.getName() == "Blue" then  zoneGuid = "2b36c3" end
-    local played_cards = get_decks_and_cards_from_zone(zoneGuid)
-    ---- log("played cards")
-    ---- log(played_cards)
-
-    --This is how we want bal.the card rotation
-    if played_cards then cards_all = merge(cards,played_cards) end
-    local rot = self.getRotation()
-    rot = {rot.x+rot_offset.x, rot.y+rot_offset.y, rot.z+rot_offset.z}
-    --This is where we want to put those discarded cards
-    local pos = self.positionToWorld(pos_discard)
-    for index, card in ipairs(cards_all) do
-        card.setPosition(pos, false, true)
-
-    end
-     ---- log("-- ---- log discard hand end --")
-end
-
-function click_deal_cards()
-    -- log("-- ---- log deal cards start --")
-    -- log("global_deal")
-    -- log(global_deal)
-    local color  = self.getName()
-    local player =  Player[color]
-    local cards = player.getHandObjects()
-    local decks=findObjectsAtPosition(pos_draw)
-    -- log("decks")
-    -- log(decks)
-    local deck = nil
-
-    if not decks or not decks[1] then
-        ---- log("deal_cards: no decks found: refill")
-            global_deal = handsize
-        refillDeck()
-        return nil
-    end
-
-
-    if decks then
-        ---- log("deal_cards:  decks are")
-        ---- log(decks)
-        ---- log(decks.tag)
-        if decks.type=="Deck" or decks.type=="Card" then
-            deck=decks
-        elseif decks[1] and (decks[1].type=="Deck" or decks[1].type=="Card") then
-           deck = decks[1]
-        else
-            deck=group(decks)
-        end
-        ---- log("deal_cards:  deck is")
-        ---- log(deck)
-        if deck then
-            ---- log("deal_cards:  deck tag is ")
-            ---- log(deck.tag)
-            local count=math.abs(deck.getQuantity())
-            ---- log("deal_cards:  dealing 6 from deck")
-            deck.deal(math.min(handsize,count),color)
-            ---- log("deal_cards: count")
-            ---- log(count)
-            ---- log("deal_cards: deck")
-            ---- log(deck)
-            ---- log("deal_cards:  color")
-            ---- log(color)
-            if count <handsize then
-                ---- log("deal_cards:  count is less then 6")
-                global_deal=handsize-count
-                ---- log ("deal_cards: global_deal")
-                ---- log (global_deal)
-                refillDeck()
-                --Wait.time(refillDeck,3)
-                --[[while not global_refill_done do
-                    ---- log("wait shuffle")
-                end
-                --]]
-            end
-
-        end
-        ---- log("deal_cards:  deck is null")
-    else
-        ---- log("no player deck found,decks is null")
-    end
-	local adds = findObjectsAtPosition(pos_add2)
-	local toadd = nil
-	if adds.type=="Deck" or adds.type=="Card" then
-            toadd=adds
-        elseif adds[1] and (adds[1].type=="Deck" or adds[1].type=="Card") then
-           toadd = adds[1]
-        -- else
-            -- toadd=group(adds)
-        end
-	if toadd then
-		if toadd.getQuantity() > 1 then
-			toadd.deal(toadd.getQuantity(),color)
-		elseif toadd.getQuantity() == -1 then
-			toadd.deal(1,color)
-		end
-	end
-	if handsizef == false then
-		if handsize ~= handsize_init then
-			printToAll(color .. "'s hand size set back to " .. handsize_init .. " after extra draws!")
-			handsize = handsize_init
-		end
-	end
-    ---- log("-- ---- log deal cards start --")
-end
-
-function isDiscardDone()
-    local color  = self.getName()
-    local player =  Player[color]
-    local cards = player.getHandObjects()
-    if not cards then cards = {} end
-    local played_cards = get_decks_and_cards_from_zone("558e75")
-    return ((cards and #cards == 0) or (cards == nil)) and
-        ((played_cards and #played_cards == 0) or (played_cards == nil))
-end
-
-function isHandFull()
-    ---- log("ishandfull")
-    local color  = self.getName()
-    local player =  Player[color]
-    local cards = player.getHandObjects()
-    ---- log(cards)
-    ---- log(#cards)
-    return cards and ( #cards == handsize )
-end
-
-function toggle_button(name,color,color2)
-    buttonList = self.getButtons()
-    for i,b in ipairs(buttonList) do
-        if b.click_function == name then
-            b.color=color
-        elseif  b.click_function != "click_refillDeck" then
-            b.color=color2
-        end
-         self.editButton(b)
-    end
-end
-
-function click_end_turn()
-    -- log ("--- before discard ---")
-    global_deal=0
-    click_discard_hand()
-    -- log ("--- before deal cards ---")
-    Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
-    -- log ("--- after deal cards ---")
-    --Wait.condition(function() print("end turn") Turns. Global.nd,isHandFull, 5, function() print("card draw timeout") end)
-    if boardcolor == Turns.turn_color then
-        getObjectFromGUID("8280ca").Call('click_draw_villain')
-        printToAll("Next Turn! Villain card played from villain deck.")
-    end
-end
-
-function click_draw_card()
-    -- log("-- ---- log draw card start --")
-    -- log("global_deal")
-    -- log(global_deal)
-    local color  = self.getName()
-    local player =  Player[color]
-    local cards = player.getHandObjects()
-    local decks=findObjectsAtPosition(pos_draw)
-    -- log("decks")
-    -- log(decks)
-    local deck = nil
-
-    if not decks or not decks[1] then
-        ---- log("deal_cards: no decks found: refill")
-            global_deal = 1
-        refillDeck()
-        return nil
-    end
-
-
-    if decks then
-        ---- log("deal_cards:  decks are")
-        ---- log(decks)
-        ---- log(decks.tag)
-        if decks.type=="Deck" or decks.type=="Card" then
-            deck=decks
-        elseif decks[1] and (decks[1].type=="Deck" or decks[1].type=="Card") then
-           deck = decks[1]
-        else
-            deck=group(decks)
-        end
-        ---- log("deal_cards:  deck is")
-        ---- log(deck)
-        if deck then
-            ---- log("draw_card:  deck tag is ")
-            ---- log(deck.tag)
-
-            ---- log("draw card:  drawing card from deck")
-            deck.deal(1,color)
-
-            ---- log("draw_card: deck")
-            ---- log(deck)
-            ---- log("draw_card:  color")
-            ---- log(color)
-
-
-        end
-        ---- log("draw_card:  deck is null")
-    else
-        ---- log("no player deck found,decks is null")
-    end
-
 end

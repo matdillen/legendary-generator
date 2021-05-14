@@ -1,7 +1,7 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
 
-   self.createButton({
+    self.createButton({
         click_function="click_draw_hero", function_owner=self,
         position={0,0,0}, label="Draw hero", color={1,1,1,0}, width=2000, height=3000
     })
@@ -13,13 +13,19 @@ function onLoad()
      })
 
     --Local positions for each pile of cards
+    
+    playerBoards = {
+        ["Red"]="8a35bd",
+        ["Green"]="d7ee3e",
+        ["Yellow"]="ed0d43",
+        ["Blue"]="9d82f3",
+        ["White"]="206c9c"
+    }
+    
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}
-	pos_add2 = {-3.15, 0.178, 0.222}
-
-    --This is which way is face down for a card or deck relative to the tool
-    rot_offset = {x=0, y=0, z=180}
-	
+    pos_add2 = {-3.15, 0.178, 0.222}
+    
     --drawbuyguids
     drawbuyguids = {
         ["Red"]="aabe45",
@@ -42,48 +48,47 @@ function onLoad()
             divided_deck_guid = dividedDeckGUIDs[i]
         end
     end
-	
+    
 end
 
-function click_buy_hero(obj, player_clicker_color, alt_click)
+function click_buy_hero(obj, player_clicker_color)
     local card = getHero()
     if not card then
         return nil
     end
-    local playerBoards = {
-        ["Red"]="8a35bd",
-        ["Green"]="d7ee3e",
-        ["Yellow"]="ed0d43",
-        ["Blue"]="9d82f3",
-        ["White"]="206c9c"
-    }
-	local desc = card.getDescription()
+    
+    local desc = card.getDescription()
     local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
     if not schemeParts then
         printToAll("No scheme specified!")
         schemeParts = {"no scheme"}
     end
-	if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans With Spider DNA" then
-		pos = pos_draw
-		card.flip()
-	elseif desc:find("SOARING FLIGHT") then
-		pos = pos_add2
-	else 
-		pos = pos_discard
-	end
+    
+    if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans With Spider DNA" then
+        pos = pos_draw
+        card.flip()
+    elseif desc:find("SOARING FLIGHT") then
+        pos = pos_add2
+    else 
+        pos = pos_discard
+    end
+    
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local dest = playerBoard.positionToWorld(pos)
-	if player_clicker_color == "White" then
-		angle = 90
-	elseif player_clicker_color == "Blue" then
-		angle = -90
-	else
-		angle = 180
-	end
-	local brot = {x=0, y=angle, z=0}
-	card.setRotationSmooth(brot)
+    
+    if player_clicker_color == "White" then
+        angle = 90
+    elseif player_clicker_color == "Blue" then
+        angle = -90
+    else
+        angle = 180
+    end
+    local brot = {x=0, y=angle, z=0}
+    
+    card.setRotationSmooth(brot)
     card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
-    click_draw_hero(obj, player_clicker_color, alt_click)
+    
+    click_draw_hero()
 end
 
 function getHero()
@@ -104,7 +109,7 @@ function getHero()
     return card
 end
 
-function click_draw_hero(obj, player_clicker_color, alt_click)
+function click_draw_hero()
     local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
     if not schemeParts then
         printToAll("No scheme specified!")
@@ -136,43 +141,27 @@ function click_draw_hero(obj, player_clicker_color, alt_click)
 
 end
 
---This is used by another function to locate information on what is in an area
 function findObjectsAtPosition(localPos)
-    --log ("findObjectsAtPosition start")
-    --We convert that local position to a global table position
     local globalPos = self.positionToWorld(localPos)
-    --We then do a raycast of a sphere on that position to find objects there
-    --It returns a list of hits which includes references to what it hit
     local objList = Physics.cast({
-        origin=globalPos, --Where the cast takes place
-        direction={0,1,0}, --Which direction it moves (up is shown)
-        type=2, --Type. 2 is "sphere"
-        size={2,2,2}, --How large that sphere is
-        max_distance=1, --How far it moves. Just a little bit
-        debug=false --If it displays the sphere when casting.
+        origin=globalPos,
+        direction={0,1,0},
+        type=2,
+        size={2,2,2},
+        max_distance=1,
+        debug=false
     })
 
-    --Now we have objList which contains any and all objects in that area.
-    --But we only want decks and cards. So we will create a new list
     local decksAndCards = {}
-    --Then go through objList adding any decks/cards to our new list
     for _, obj in ipairs(objList) do
         if obj.hit_object.tag == "Deck" or obj.hit_object.tag == "Card" then
-            --log("findObjectsAtPosition: found")
-            --log(obj.hit_object)
-            --log(obj.hit_object.tag)
             table.insert(decksAndCards, obj.hit_object)
         end
     end
-
-    --Now we return this to where it was called with the information
-    --log ("findObjectsAtPosition end")
     return decksAndCards
 end
 
 function get_decks_and_cards_from_zone(zoneGUID)
-    --this function returns cards, decks and shards in a city space (or the start zone)
-    --returns a table of objects
     local zone = getObjectFromGUID(zoneGUID)
     if zone then
         decks = zone.getObjects()
