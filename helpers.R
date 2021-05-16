@@ -374,6 +374,7 @@ genFun = function(src,
     heroid2 = herolist2$uni[heronumber2]
     heronames = c(heroid1,heroid2)
     heroesc = 6
+    xtra = paste(teamlist$Team,collapse="|")
   }
   if (scheme=="House of M") {
     herolist1 = distinct(filter(src$heroes,Team=="X-Men"),uni)

@@ -331,6 +331,11 @@ function merge(t1, t2)
    return t1
 end
 
+function returnDiscardPile()
+    local discard = findObjectsAtPosition(pos_discard)
+    return discard
+end
+
 function get_decks_and_cards_from_zone(zoneGUID)
     local zone = getObjectFromGUID(zoneGUID)
     if zone then

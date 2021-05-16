@@ -3,6 +3,7 @@ function onLoad()
     --starting values
     twistsresolved = 0
     basestrength = 0
+    wwiiInvasion = false
     
     --guids
     playerBoards = {
@@ -36,11 +37,20 @@ function onLoad()
         "75241e"
     }
     
+    city_zones_guids = {"e6b0bc",
+        "40b47d",
+        "5a74e7",
+        "07423f",
+        "5bc848",
+        "82ccd7"}
+    current_city = table.clone(city_zones_guids)
+    
     escape_zone_guid  =  "de2016"
     city_start_zone_guid = "40b47d"
     kopile_guid = "79d60b"
     bystandersPileGUID="0b48dd"
     woundsDeckGUID="653663"
+    twistpileGUID = "4f53f9"
     
     
     --Creates invisible button onload, hidden under the "REFILL" on the deck pad
@@ -69,6 +79,10 @@ function onLoad()
     --Local positions for each pile of cards
     pos_vp2 = {-5, 0.178, 0.222}
     pos_discard = {-0.957, 0.178, 0.222}
+end
+
+function table.clone(org)
+  return {table.unpack(org)}
 end
 
 function click_rescue_bystander(obj, player_clicker_color, alt_click)
@@ -191,6 +205,12 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                         --this should be from the KO pile, but that is still a mess to sort out
                         --take them from the scheme twist pile for now
                     broadcastToAll("Thor escaped! Triumph of Asgard!")
+                end
+                if schemeParts[1] == "Change the Outcome of WWII" and wwiiInvasion == false then
+                    wwiiInvasion = true
+                    getObjectFromGUID("c82082").takeObject({position=getObjectFromGUID(twistpileGUID).getPosition(),
+                        smooth=false})
+                    broadcastToAll("The Axis successfully conquered this country!")
                 end
             end
         end
@@ -442,34 +462,33 @@ end
 
 function click_push_villain_into_city(obj, player_clicker_color, alt_click)
 -- when moving the villain deck buttons, change the first guid to a new scripting zone
-    local city_zones_guids = {"e6b0bc","40b47d","5a74e7","07423f","5bc848","82ccd7"}
+    local city_topush = table.clone(current_city)
     local cardfound = false
     while cardfound == false do
-        local cards=get_decks_and_cards_from_zone(city_zones_guids[1])
+        local cards = get_decks_and_cards_from_zone(city_topush[1])
         local locationfound = false
         if cards[1] and not cards[2] then
-            if cards[1].getDescription():find("LOCATION") and city_zones_guids[1] ~= "e6b0bc" then
+            if cards[1].getDescription():find("LOCATION") and city_topush[1] ~= "e6b0bc" then
                 locationfound = true
             end
         end
         if not next(cards) or locationfound == true then
-            table.remove(city_zones_guids,1)
+            table.remove(city_topush,1)
         else
             cardfound = true
         end
-        if not city_zones_guids[1] then
+        if not city_topush[1] then
             cardfound = true
         end
     end
-    --log (city_zones_guids)
-    if city_zones_guids[1] then
-        push_all(city_zones_guids)
+    if city_topush[1] then
+        push_all(city_topush)
     end
 end
 
 function updateTwistPower()
     local city_zones = {"e6b0bc","40b47d","5a74e7","07423f","5bc848","82ccd7"}
-    local twistsstack = get_decks_and_cards_from_zone("4f53f9")
+    local twistsstack = get_decks_and_cards_from_zone(twistpileGUID)
     --log(twistsstack)
     if twistsstack[1] then
         twistsstacked = math.abs(twistsstack[1].getQuantity())
@@ -479,9 +498,16 @@ function updateTwistPower()
     for i,o in pairs(city_zones) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for index,object in pairs(cityobjects) do
-            --this needs to be a single value to check; requires tagging officers and sidekicks
             if object.hasTag("Corrupted") == true or object.hasTag("Brainwashed") == true then
                 object.editButton({label=twistsstacked+basestrength})
+            elseif object.hasTag("Phalanx-Infected") then
+                local cost = 0
+                for _,t in pairs(object.getTags()) do
+                    if t:find("Cost:") then
+                        cost = tonumber(t:match("%d+"))
+                    end
+                end
+                object.editButton({label=twistsstacked+cost})
             end
         end
     end
@@ -578,6 +604,45 @@ function dealWounds()
     end
 end
 
+function playTwoVillains(condition_f,topcardguid)
+    --plays two cards from villain deck
+    --but the first has to be pushed into city before the other one is drawn
+    --condition_f: initial condition that triggers the first draw
+    --topcardguid: guid of villain deck's top card right before this all starts
+    local firstVillainPlayed = function()
+        local card = get_decks_and_cards_from_zone("e6b0bc")
+        if card[1] then
+            if card[1].guid == topcardguid then
+                return true
+            else
+                return false
+            end
+        else
+            return false
+        end
+    end
+    local firstVillainGone = function()
+        local card = get_decks_and_cards_from_zone("e6b0bc")
+        if not card[1] then
+            return true
+        else
+            return false
+        end
+    end
+    local playSecondVillain = function()
+        Wait.condition(click_draw_villain,firstVillainGone)
+    end
+    local playVillain = function()
+        click_draw_villain()
+        Wait.condition(playSecondVillain,firstVillainPlayed)
+    end
+    Wait.condition(playVillain,condition_f)
+end
+
+function nonCityZone(obj,player_clicker_color)
+    broadcastToColor("This city zone does not currently exist!",player_clicker_color)
+end
+
 function twistSpecials(cards,city,schemeParts)
     --log("special" .. schemename)
     if schemeParts[1] == "Age of Ultron" then
@@ -599,9 +664,44 @@ function twistSpecials(cards,city,schemeParts)
         powerButton(cards[1],"updateUltronPower",ultronpower)
         return twistsresolved
     end
-    --if schemeParts[1] == "Annihilation: Conquest" then
-        --not automatable: players choose if tie
-    --end
+    if schemeParts[1] == "Annihilation: Conquest" then
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
+        twistsresolved = twistsresolved + 1
+        local candidate = {["Cost"]=0,["GUID"]=""}
+        local tie = false
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero then
+                for _,i in pairs(hero.getTags()) do
+                    if i:find("Cost:") then
+                        local costtag = tonumber(i:match("%d+"))
+                        if costtag > candidate["Cost"] then
+                            candidate["Cost"] = costtag
+                            candidate["GUID"] = o
+                            tie = false
+                        elseif costtag == candidate["Cost"] then
+                            tie = true
+                        end
+                    end
+                end
+            else
+                printToAll("Missing hero in HQ!!")
+                return nil
+            end
+        end
+        if tie == true then
+            broadcastToAll("Scheme Twist: Choose one of the tied highest cost heroes in the HQ and place it in the Enter City zone.")
+            return nil
+        else
+            local hqzone = getObjectFromGUID(candidate["GUID"])
+            local hero = hqzone.Call('getHeroUp')
+            local pos = getObjectFromGUID("e6b0bc").getPosition()
+            pos.y = pos.y + 3
+            hero.setPositionSmooth(pos)
+            hqzone.Call('click_draw_hero')
+            return nil
+        end
+    end
     if schemeParts[1] == "Anti-Mutant Hatred" then
         pcolor = Turns.turn_color
         if pcolor == "White" then
@@ -619,12 +719,52 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
         return nil
     end
+    if schemeParts[1] == "Avengers vs. X-Men" then
+        twistsresolved = twistsresolved + 1
+        local teams = getObjectFromGUID("912967").Call('returnSetupParts')
+        if teams and teams[9] then
+            teamchecks = {}
+            for s in string.gmatch(teams[9],"[^|]+") do
+                table.insert(teamchecks, s)
+            end
+        end
+        if twistsresolved < 8 then
+            for i,o in pairs(playerBoards) do
+                if Player[i].seated == true then
+                    local hand = Player[i].getHandObjects()
+                    --log(hand)
+                    if hand then
+                        local teamcount1 = 0
+                        local teamcount2 = 0
+                        for _,card in pairs(hand) do
+                            local team = hasTag2(card,"Team:",6)
+                            --log(team)
+                            if team then
+                                if team == teamchecks[1] then
+                                    teamcount1 = teamcount1 + 1
+                                elseif team == teamchecks[2] then
+                                    teamcount2 = teamcount2 + 1
+                                end
+                            end
+                        end
+                        if teamcount1 > 0 and teamcount2 > 0 then
+                            click_get_wound(getObjectFromGUID(woundsDeckGUID),i)
+                            printToAll(i .. " player received a wound with this Scheme Twist",i)
+                        end
+                    end
+                end
+            end
+        else
+            broadcastToAll("Twist 8: Evil wins!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Brainwash the Military" then
         --cards[1].setName("Traitor Batallion")
         twistsresolved = twistsresolved + 1 
         --log("twists:" .. twistsresolved)
         basestrength = 3
-        cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
         if twistsresolved < 7 then
             click_draw_villain()
             Wait.time(updateTwistPower,1)
@@ -647,7 +787,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Break the Planet Asunder" then
         twistsresolved = twistsresolved + 1 
-        cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
         for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
             local attack = 0
@@ -674,7 +814,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Build an Army of Annihilation" then
-        local twistpile = getObjectFromGUID("4f53f9")
+        local twistpile = getObjectFromGUID(twistpileGUID)
         annipile = getObjectFromGUID("8656c3")
         cards[1].setPositionSmooth(twistpile.getPosition())
         twistsresolved = twistsresolved + 1
@@ -793,7 +933,7 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Cage Villains in Power-Suppressing Cells" then
-        local twistpile = getObjectFromGUID("4f53f9")
+        local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
         for i,o in pairs(vpileguids) do
             if Player[i].seated == true then
@@ -887,6 +1027,79 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "Change the Outcome of WWII" then
+        cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+        local vildeck = get_decks_and_cards_from_zone("4bc134")[1]
+        local vildeckcount = math.abs(vildeck.getQuantity())
+        local vildeckpos = vildeck.getPosition()
+        local topcard = vildeck.getObjects()[1].guid
+        vildeckpos.y = vildeckpos.y + 3
+        vildeck.setPositionSmooth(vildeckpos)
+        for _,o in pairs(city) do
+            local cards = get_decks_and_cards_from_zone(o)
+            if cards[1] then
+                for _,card in pairs(cards) do
+                    if card.hasTag("Villain") or card.hasTag("Bystander") then
+                        card.flip()
+                        card.setPosition(vildeck.getPosition())
+                        vildeckcount = vildeckcount + 1
+                    end
+                end
+            end
+        end
+        twistsresolved = twistsresolved + 1
+        if twistsresolved < 8 then
+            for i,o in pairs(city_zones_guids) do
+                local zone = getObjectFromGUID(o)
+                if zone.getButtons() then
+                    zone.removeButton(0)
+                end
+            end
+            local wwcountries = {4,3,6,3,5,2,1}
+            city = table.clone(city_zones_guids)
+            table.remove(city,1)
+            if wwcountries[twistsresolved] < 5 then
+                for i=1,#city - wwcountries[twistsresolved] do
+                    table.remove(city)
+                end
+                current_city = table.clone(city)
+                table.insert(current_city,1,"e6b0bc")
+            elseif wwcountries[twistsresolved] > 5 then
+                table.insert(city,"d30aa1")
+                current_city = table.clone(city)
+                table.insert(current_city,1,"e6b0bc")
+            else
+                current_city = table.clone(city)
+                table.insert(current_city,1,"e6b0bc")
+            end
+            for i,o in pairs(city_zones_guids) do
+                if not current_city[i] then
+                    getObjectFromGUID(o).createButton({
+                        click_function="nonCityZone",
+                        function_owner=self,
+                        position={0,-0.5,0},
+                        height=470,
+                        width=700,
+                        color={1,0,0,0.8}})
+                end
+            end
+        end
+        local vildeckLanded = function()
+            local vildeck = get_decks_and_cards_from_zone("4bc134")[1]
+            if vildeck then
+                if vildeck.getQuantity() == vildeckcount then
+                    return true
+                else 
+                    return false
+                end
+            else
+                return false
+            end
+        end
+        playTwoVillains(vildeckLanded,topcard)
+        wwiiInvasion = false
+        return nil
+    end
     if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
         cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
         skpile = getObjectFromGUID("959976")
@@ -916,7 +1129,6 @@ function twistSpecials(cards,city,schemeParts)
             end
             broadcastToAll("Corrupted sidekick enters the city!",{1,0,0})
             Wait.condition(click_push_villain_into_city,sidekickLanded)
-            --one will stay on the enter spot because the callback triggers while they're still in the air
         end
         getSidekick = function()
             skpile.takeObject({position = getObjectFromGUID("e6b0bc").getPosition(),
@@ -947,14 +1159,21 @@ function twistSpecials(cards,city,schemeParts)
                                 discard[1].setPositionSmooth(skpile.getPosition())
                             end
                         elseif discard[1].tag == "Deck" then
-                            for index,object in pairs(discard[1].getObjects()) do
-                                    if object.hasTag("Sidekick") == true then
+                            local skfound = false
+                            for _,object in pairs(discard[1].getObjects()) do
+                                for _,tag in pairs(object.tags) do
+                                    if tag == "Sidekick" then
                                         discard[1].takeObject({position = skpile.getPosition(),
                                             smooth=true,
                                             flip=true,
                                             guid = object.guid})
+                                        skfound = true
                                         break
                                     end
+                                end
+                                if skfound == true then
+                                    break
+                                end
                             end
                         end
                     end
@@ -984,22 +1203,20 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Crash the Moon into the Sun" then
         local sunlight = 0
         local moonlight = 0
-        for i,o in pairs(hqguids) do
+        for _,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
             if hero then
-                for j,k in pairs(hero.getTags()) do
-                    if k:find("Cost:") then
-                        if math.fmod(k:match("%d+"),2) == 0 then
-                            sunlight = sunlight + 1
-                        else
-                            moonlight = moonlight + 1
-                        end
+                local cost = hasTag2(hero,"Cost:")
+                if cost then
+                    if math.fmod(cost,2) == 0 then
+                        sunlight = sunlight + 1
+                    else
+                        moonlight = moonlight + 1
                     end
                 end
             end
         end
         local light = sunlight - moonlight
-        --log("light " .. light)
         twistsresolved = twistsresolved + 1
         if twistsresolved < 9 then
             if (light > 0 and math.fmod(twistsresolved,2) == 1) or (light < 0 and math.fmod(twistsresolved,2) == 0) then
@@ -1029,7 +1246,6 @@ function twistSpecials(cards,city,schemeParts)
                 end
                 if thorcheck == true then
                     shift_to_next(cityobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                    --cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
                     broadcastToAll("Scheme Twist! Thor escapes",{1,0,0})
                     return twistsresolved
                 end
@@ -1066,8 +1282,6 @@ function twistSpecials(cards,city,schemeParts)
                             if next(bridgeobjects) then
                                 shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
                             end
-                            log(escapedobjects)
-                            log(object.guid)
                             escapedobjects[1].takeObject({guid=object.guid,
                                 position=getObjectFromGUID("82ccd7").getPosition(),
                                 smooth=true})
@@ -1232,12 +1446,13 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Dark Reign of H.A.M.M.E.R. Officers" then
-        local twistpile = getObjectFromGUID("4f53f9")
+        local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
         twistsresolved = twistsresolved + 1
         local sostack = getObjectFromGUID("9c9649")
         for i = 1,twistsresolved do
-            sostack.takeObject({position=getObjectFromGUID("bf7e87").getPosition(),flip=true,smooth=false})
+            sostack.takeObject({position=getObjectFromGUID("bf7e87").getPosition(),
+                flip=true,smooth=false})
         end
         return nil
     end
@@ -1313,7 +1528,7 @@ function twistSpecials(cards,city,schemeParts)
                     if cards[1].tag == "Deck" then
                         local bystanderguids = {}
                         for _,object in pairs(cards[1].getObjects()) do
-                            for j,k in pairs(object.tags) do
+                            for _,k in pairs(object.tags) do
                                 if k == "Bystander" then
                                     table.insert(bystanderguids,object.guid)
                                 end
@@ -1353,7 +1568,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Detonate the Helicarrier" then
         twistsresolved = twistsresolved + 1
-        local twistpile = getObjectFromGUID("4f53f9")
+        local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
         local heroboom = 0
         local hq = hqguids
@@ -1435,7 +1650,7 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
-        local twistpile = getObjectFromGUID("4f53f9")
+        local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
         vildeckzone = getObjectFromGUID("4bc134")
         vildeck = getObjectFromGUID("4bc134").getObjects()[2]
@@ -1498,6 +1713,13 @@ function twistSpecials(cards,city,schemeParts)
 end
 
 function nonTwistspecials(cards,city,schemeParts)
+    if schemeParts[1] == "Annihilation: Conquest" then
+        local cost = hasTag2(cards[1],"Cost:")
+        if cost then
+            cards[1].addTag("Phalanx-Infected")
+            powerButton(cards[1],"updateTwistPower",twistsresolved+cost)
+        end
+    end
     if schemeParts[1] == "Brainwash the Military" then
         basestrength = 3
         if cards[1].getName() == "S.H.I.E.L.D. Officer" or cards[1].getName() == "Madame Hydra" then
@@ -1537,4 +1759,20 @@ function nonTwistspecials(cards,city,schemeParts)
             cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
         end
     end
+end
+
+function hasTag2(obj,tag,index)
+    if not obj or not tag then
+        return nil
+    end
+    for _,o in pairs(obj.getTags()) do
+        if o:find(tag) then
+            if index then
+                return o:sub(index,-1)
+            else 
+                return tonumber(o:match("%d+"))
+            end
+        end
+    end
+    return nil
 end
