@@ -36,6 +36,14 @@ function onLoad()
         "07423f",
         "5bc848",
         "82ccd7"}
+        
+    top_city_guids = {
+        "725c5d",
+        "3d3ba7",
+        "533311",
+        "8656c3",
+        "4c1868"
+    }
     --the guids don't change, the current_city might
     current_city = table.clone(city_zones_guids)
     
@@ -515,13 +523,9 @@ function updateTwistPower()
             if object.hasTag("Corrupted") == true or object.hasTag("Brainwashed") == true or object.hasTag("Possessed") then
                 object.editButton({label=twistsstacked+basestrength})
             elseif object.hasTag("Phalanx-Infected") then
-                local cost = 0
-                for _,t in pairs(object.getTags()) do
-                    if t:find("Cost:") then
-                        cost = tonumber(t:match("%d+"))
-                    end
-                end
-                object.editButton({label=twistsstacked+cost})
+                object.editButton({label=twistsstacked+hasTag2(object,"Cost:")})
+            elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
+                object.editButton({label = hasTag2(object,"Cost:") + 4})
             end
         end
     end
@@ -616,6 +620,11 @@ function dealWounds()
             click_get_wound(getObjectFromGUID(woundsDeckGUID),i)
         end
     end
+end
+
+function cityLowTides()
+    table.insert(current_city,"d30aa1")
+    table.insert(current_city,"bd3ef1")
 end
 
 function playTwoVillains(condition_f,topcardguid)
@@ -1245,7 +1254,7 @@ function twistSpecials(cards,city,schemeParts)
             if hero then
                 local cost = hasTag2(hero,"Cost:")
                 if cost then
-                    if math.fmod(cost,2) == 0 then
+                    if cost % 2 == 0 then
                         sunlight = sunlight + 1
                     else
                         moonlight = moonlight + 1
@@ -1256,7 +1265,7 @@ function twistSpecials(cards,city,schemeParts)
         local light = sunlight - moonlight
         twistsresolved = twistsresolved + 1
         if twistsresolved < 9 then
-            if (light > 0 and math.fmod(twistsresolved,2) == 1) or (light < 0 and math.fmod(twistsresolved,2) == 0) then
+            if (light > 0 and twistsresolved % 2 == 1) or (light < 0 and twistsresolved % 2 == 0) then
                 cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
                 broadcastToAll("Scheme Twist caused an Altered Orbit!",{1,0,0})
             else
@@ -1724,6 +1733,85 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Earthquake Drains the Ocean" then
+        twistsresolved = twistsresolved + 1
+        if twistsresolved % 2 == 1 then
+            local scheme = get_decks_and_cards_from_zone("c39f60")
+            if scheme[1] then
+                scheme[1].flip()
+                scheme[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[5]).getPosition())
+                table.remove(current_city)
+                table.remove(current_city)
+                table.remove(current_city)
+                table.remove(current_city)
+                broadcastToAll("Scheme Twist: The tide rushes in and the city is now only three spaces.")
+            else
+                broadcastToAll("Scheme card is missing from the Scheme zone?")
+            end
+        else
+            local scheme = get_decks_and_cards_from_zone(city_zones_guids[5])
+            if scheme[1] then
+                scheme[1].flip()
+                scheme[1].setPositionSmooth(getObjectFromGUID("c39f60").getPosition())
+                current_city = table.clone(city_zones_guids)
+                table.insert(current_city,"d30aa1")
+                table.insert(current_city,"bd3ef1")
+                broadcastToAll("Scheme Twist: The tide rushes out and the city is now seven spaces.")
+                click_draw_villain()
+            else
+                broadcastToAll("Scheme card is missing from the Streets?")
+            end
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Ferry Disaster" then
+        if twistsresolved == 0 or twistsresolved == 4 then
+            ferryzones = table.clone(top_city_guids)
+        end
+        twistsresolved = twistsresolved + 1
+        if twistsresolved < 5 then
+            table.remove(ferryzones,1)
+            local bspile = getObjectFromGUID(bystandersPileGUID)
+            bspile.setPositionSmooth(getObjectFromGUID(ferryzones[1]).getPosition())
+            local citycards = get_decks_and_cards_from_zone(city_zones_guids[twistsresolved+1])
+            if citycards[1] then
+                for _,o in pairs(citycards) do
+                    if o.hasTag("Villain") then
+                        bspile.takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                            flip=true,smooth=true})
+                        bspile.takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                            flip=true,smooth=true})
+                        broadcastToAll("Scheme Twist: Two bystanders fell from the ferry and were KO'd!")
+                        break
+                    end
+                end
+            end
+        elseif twistsresolved < 9 then
+            table.remove(ferryzones)
+            local bspile = getObjectFromGUID(bystandersPileGUID)
+            bspile.setPositionSmooth(getObjectFromGUID(ferryzones[9-twistsresolved]).getPosition())
+            local citycards = get_decks_and_cards_from_zone(city_zones_guids[#ferryzones+1])
+            if citycards[1] then
+                for _,o in pairs(citycards) do
+                    if o.hasTag("Villain") then
+                        bspile.takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                            flip=true,smooth=true})
+                        bspile.takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                            flip=true,smooth=true})
+                        broadcastToAll("Scheme Twist: Two bystanders fell from the ferry and were KO'd!")
+                        break
+                    end
+                end
+            end
+        elseif twistsresolved == 9 then
+            local bspile = getObjectFromGUID(bystandersPileGUID)
+            for i=1,math.floor(0.5+bspile.getQuantity()/2) do
+                bspile.takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                    flip=true,smooth=true})
+            end
+            broadcastToAll("The ferry sank. Half of all the bystanders drowned!")
+        end
+    end
     if schemeParts[1] == "Graduation at Xavier's X-Academy" then
         local twistpile = get_decks_and_cards_from_zone(twistpileGUID)
         if twistpile[1] then
@@ -1735,6 +1823,57 @@ function twistSpecials(cards,city,schemeParts)
                 twistpile[1].flip()
                 twistpile[1].setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
             end
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "House of M" then
+        if not noMoreMutants then
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    if hasTag2(hero,"Team:",6) and hasTag2(hero,"Team:",6) ~= "X-Men" then
+                        hero.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        broadcastToAll("Sapiens hero KO'd from the HQ!")
+                        getObjectFromGUID(o).Call('click_draw_hero')
+                    end
+                end
+            end
+            local scarletWitchCount = 0
+            for _,o in pairs(city) do
+                local citycards = get_decks_and_cards_from_zone(o)
+                if citycards[1] then
+                    for _,k in pairs(citycards) do
+                        if k.getName() == "Scarlet Witch (R)" then
+                            scarletWitchCount = scarletWitchCount +1
+                        end
+                    end
+                end
+            end
+            if scarletWitchCount > 1 then
+                local scheme = get_decks_and_cards_from_zone("c39f60")
+                if scheme[1] then
+                    scheme[1].flip()
+                    noMoreMutants = true
+                    basestrength = 4
+                    broadcastToAll("No More Mutants!")
+                else
+                    broadcastToAll("Scheme card missing?")
+                end
+            else
+                click_draw_villain()
+            end
+        else
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    if hasTag2(hero,"Team:",6) and hasTag2(hero,"Team:",6) == "X-Men" then
+                        hero.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        getObjectFromGUID(o).Call('click_draw_hero')
+                        broadcastToAll("Mutant hero KO'd from the HQ!")
+                    end
+                end
+            end 
+            click_draw_villain()
         end
         return twistsresolved
     end
@@ -1902,13 +2041,22 @@ function nonTwistspecials(cards,city,schemeParts)
             end
         end
     end
-    
+    if schemeParts[1] == "House of M" and cityEntering == 1 then
+        if basestrength == 0 then
+            basestrength = 3
+        end
+        if cards[1].getName() == "Scarlet Witch (R)" then
+            powerButton(cards[1],"updateTwistPower",basestrength + hasTag2(cards[1],"Cost:"))
+        end
+    end
     if schemeParts[1] == "Scavenge Alien Weaponry" and cityEntering == 1 then
-        cards[1].setName("Smugglers")
-        if cards[1].getDescription() == "" then
-            cards[1].setDescription("STRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
-        else
-            cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
+        if cards[1].getName() == schemeParts[9] then
+            cards[1].setName("Smugglers")
+            if cards[1].getDescription() == "" then
+                cards[1].setDescription("STRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
+            else
+                cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
+            end
         end
     end
 end

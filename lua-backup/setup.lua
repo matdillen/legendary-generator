@@ -628,6 +628,12 @@ function import_setup()
         table.insert(vildeck_done,10)
     end
     
+    if setupParts[1] == "House of M" then
+        log("Scarlet Witch in villain deck.")
+        findInPile("Scarlet Witch (R)","16594d","4bc134")
+        table.insert(vildeck_done,14)
+    end
+    
     vildeckc = 0
     for i,o in pairs(vildeck_done) do
         vildeckc = vildeckc + o
@@ -1022,6 +1028,9 @@ function schemeSpecials (setupParts,mmGUID)
         end
         Wait.condition(novaShuffle,novaMoved)
     end
+    if setupParts[1] == "Earthquake Drains the Ocean" then
+        getObjectFromGUID("f3c7e3").Call('cityLowTides')
+    end
     if setupParts[1] == "Explosion at the Washington Monument" then
         washingtonMonumentZonesGUIDs ={
             "1fa829",
@@ -1076,16 +1085,16 @@ function schemeSpecials (setupParts,mmGUID)
     if setupParts[1] == "Fear Itself" then
         print("HQ has size of 8 minus resolved twists. Not scripted.")
     end
+    if setupParts[1] == "Ferry Disaster" then
+        getObjectFromGUID("0b48dd").setPositionSmooth(getObjectFromGUID("725c5d").getPosition())
+        print("Bystander stack moved above the Sewers.")
+    end
     if setupParts[1] == "Graduation at Xavier's X-Academy" then
         log("8 bystanders next to scheme")
         for i=1,8 do
             bsPile.takeObject({position=twistpile.getPosition(),
                 flip=false,smooth=false})
         end
-    end
-    if setupParts[1] == "House of M" then
-        log("Scarlet Witch in villain deck.")
-        findInPile("Scarlet Witch (R)","16594d","4bc134")
     end
     if setupParts[1] == "Infiltrate the Lair with Spies" then
         log("21 bystanders next to scheme")
