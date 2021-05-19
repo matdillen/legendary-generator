@@ -5,6 +5,7 @@ function onLoad()
         position={0,0,0}, label="Draw villain", color={1,1,1,0}, width=2000, height=3000,
 		tooltip = "Draw card from villain deck."
     })
+    flip_villains = true
 end
 
 function click_draw_villain()
@@ -21,10 +22,9 @@ function click_draw_villain()
           end
         end
     end
-    local schemeZone=getObjectFromGUID("c39f60")
-    flip_villains = true
-    if schemeZone.getObjects()[2] then
-        if schemeZone.getObjects()[2].getName() == "Alien Brood Encounters" then
+    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+    if schemeParts then
+        if schemeParts[1] == "Alien Brood Encounters" then
             flip_villains = false
         end
     end

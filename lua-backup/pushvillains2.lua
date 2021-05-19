@@ -1826,6 +1826,75 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Hidden Heart of Darkness" then
+        local villain_deck = get_decks_and_cards_from_zone("4bc134")
+        local villaindeckcount = 0
+        if villain_deck[1] then
+            villaindeckcount = math.abs(villain_deck[1].getQuantity())
+        end
+        for i,o in pairs(vpileguids) do
+            if Player[i].seated == true then
+                local vpilecontent = get_decks_and_cards_from_zone(o)
+                local tacticFound = {}
+                if vpilecontent[1] then
+                    if vpilecontent[1].getQuantity() > 1  then
+                        local vpileCards = vpilecontent[1].getObjects()
+                        for j = 1, #vpileCards do
+                            for _,k in pairs(vpileCards[j].tags) do
+                                if k == "Mastermind" then
+                                    table.insert(tacticFound,vpileCards[j].guid)
+                                    break
+                                end
+                            end
+                        end
+                        if tacticFound[1] then
+                            --random shuffle not strictly correct
+                            vpilecontent[1].takeObject({position = getObjectFromGUID("4bc134").getPosition(),
+                                flip=true,guid=tacticFound[math.random(#tacticFound)]})
+                            villaindeckcount = villaindeckcount + 1
+                        end
+                    else
+                        if vpilecontent[1].hasTag("Mastermind") then
+                            vpilecontent[1].flip()
+                            vpilecontent[1].setPositionSmooth(getObjectFromGUID("4bc134").getPosition())
+                            table.insert(tacticFound,vpilecontent[1].guid)
+                            villaindeckcount = villaindeckcount + 1
+                        end
+                    end
+                    if tacticFound[1] then
+                        local playerBoard = getObjectFromGUID(playerBoards[i])
+                        playerBoard.Call('click_draw_card')
+                        Wait.time(function() playerBoard.Call('click_draw_card') end,1)
+                        printToAll(playerBoards[i] .. " player's tactic was shuffled back in the Villain deck and so they drew two cards.")
+                    end
+                end
+            end
+        end
+        local tacticsAdded = function()
+            local villain_deck = get_decks_and_cards_from_zone("4bc134")
+            if villain_deck[1] and math.abs(villain_deck[1].getQuantity()) == villaindeckcount then
+                return true
+            else
+                return false
+            end
+        end
+        local tacticsFollowup = function()
+            local villain_deck = get_decks_and_cards_from_zone("4bc134")
+            if villain_deck[1] then
+                villain_deck[1].randomize()
+                local pos = getObjectFromGUID("f3c7e3").getPosition()
+                pos.y = pos.y + 3
+                villain_deck[1].takeObject({position = pos,
+                    flip=true})
+                pos = getObjectFromGUID("8280ca").getPosition()
+                pos.y = pos.y + 3
+                villain_deck[1].takeObject({position = pos,
+                    flip=true})
+                broadcastToAll("Scheme Twist: A tactic from these two cards enters the city. Put the rest back on top or bottom of the villain deck.")
+            end
+        end
+        Wait.condition(tacticsFollowup,tacticsAdded)
+    end
     if schemeParts[1] == "House of M" then
         if not noMoreMutants then
             for _,o in pairs(hqguids) do
@@ -1925,10 +1994,10 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
         local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
-        vildeckzone = getObjectFromGUID("4bc134")
-        vildeck = vildeckzone.getObjects()[2]
-        vildeckcurrentcount = vildeck.getQuantity()
-        sentinelsfound = 0
+        local vildeckzone = getObjectFromGUID("4bc134")
+        local vildeck = vildeckzone.getObjects()[2]
+        local vildeckcurrentcount = vildeck.getQuantity()
+        local sentinelsfound = 0
         for i,o in pairs(vpileguids) do
             if Player[i].seated == true then
                 vpilecontent = getObjectFromGUID(o).getObjects()[1]
@@ -1998,6 +2067,63 @@ function twistSpecials(cards,city,schemeParts)
             cards[1].setPositionSmooth(getObjectFromGUID(destroyed).getPosition())
         end
         Wait.time(setTwist,1)
+        return nil
+    end
+    if schemeParts[1] == "Turn the Soul of Adam Warlock" then
+        local adam = get_decks_and_cards_from_zone("1fa829")
+        local setUnPure = function(obj)
+            obj.addTag("Unpure")
+        end
+        if adam[1] then
+            adam[1].takeObject({position = getObjectFromGUID("f3c7e3").getPosition(),
+                callback_function = setUnPure})
+            broadcastToAll("Scheme Twist: Purify Adam or his soul becomes more corrupted!")
+        else
+            broadcastToAll("Adam not found?")
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "United States Split by Civil War" then
+        for i=4,5 do
+            local cardz = get_decks_and_cards_from_zone(city[i])
+            if cardz[1] then
+                for _,o in pairs(cardz) do
+                    if o.hasTag("Villain") then
+                        cards[1].setPositionSmooth(getObjectFromGUID(top_city_guids[5]).getPosition())
+                        broadcastToAll("Scheme Twist! Western State Victory!")
+                        return nil
+                    end
+                end
+            end
+        end
+        local cardz = get_decks_and_cards_from_zone(city[1])
+        if cardz[1] then
+            for _,o in pairs(cardz) do
+                if o.hasTag("Villain") then
+                    cards[1].setPositionSmooth(getObjectFromGUID(top_city_guids[1]).getPosition())
+                    broadcastToAll("Scheme Twist! Eastern State Victory!")
+                    return nil
+                end
+            end
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Unleash the Power of the Cosmic Cube" then
+        twistsresolved = twistsresolved + 1
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
+        if twistsresolved == 5 or twistsresolved == 6 then
+            dealWounds()
+        elseif twistsresolved == 7 then
+            dealWounds()
+            dealWounds()
+            dealWounds()
+        elseif twistsresolved == 8 then
+            broadcastToAll("Cosmic Cube UNLEASHED!! Evil wins",{1,0,0})
+        end
+        return nil
+    end
+    if schemeParts[1] == "Weave a Web of Lies" then
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
         return nil
     end
     return twistsresolved

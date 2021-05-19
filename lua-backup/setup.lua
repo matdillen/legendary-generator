@@ -628,6 +628,10 @@ function import_setup()
         table.insert(vildeck_done,10)
     end
     
+    if setupParts[1] == "Hidden Heart of Darkness" then  
+        table.insert(vildeck_done,4)
+    end
+    
     if setupParts[1] == "House of M" then
         log("Scarlet Witch in villain deck.")
         findInPile("Scarlet Witch (R)","16594d","4bc134")
@@ -1270,8 +1274,27 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Turn the Soul of Adam Warlock" then
         log("Set up Adam Warlock pile.")
-        -- ordering should be done in the card pile itself
-        findInPile("Adam Warlock (ITC)","16594d","1fa829")
+        orderAdam = function(obj)
+            for _,o in pairs(obj.getObjects()) do
+                local pos = obj.getPosition()
+                for _,k in pairs(o.tags) do
+                    if k:find("Cost:") then
+                        pos.y = pos.y + 12 - k:match("%d+")
+                        break
+                    end
+                end
+                if obj.getQuantity() > 1 then
+                    obj.takeObject({position=pos,
+                        guid = o.guid})
+                    if obj.remainder then
+                        obj = obj.remainder
+                    end
+                else
+                    obj.setPositionSmooth(pos)
+                end
+            end
+        end
+        findInPile("Adam Warlock (ITC)","16594d","1fa829",orderAdam)
     end
     
     if setupParts[1] == "World War Hulk" then
