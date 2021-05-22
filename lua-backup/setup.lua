@@ -56,6 +56,13 @@ function onLoad()
         ["White"]="206c9c"
     }
     
+    city_zones_guids = {"e6b0bc",
+        "40b47d",
+        "5a74e7",
+        "07423f",
+        "5bc848",
+        "82ccd7"}
+    
     autoplay = true
     Turns.enable = true
 end
@@ -265,6 +272,14 @@ function returnSetupParts()
         -- ["Extra"]=9
     -- }
     return setupParts
+end
+
+function returnColor(obj)
+    print("this is a button")
+end
+
+function nonCityZone(obj,player_clicker_color)
+    broadcastToColor("This city zone does not currently exist!",player_clicker_color)
 end
 
 function import_setup()
@@ -713,7 +728,7 @@ function import_setup()
                 for j=1,subcount do
                     local hqZone=getObjectFromGUID(hqZonesGUIDs[i])
                     vilDeck.takeObject({
-                        position    = {x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z},
+                        position = {x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z},
                         flip=true})
                 end
             end
@@ -723,10 +738,35 @@ function import_setup()
             print("Villain deck split in piles above the board!")
         end
         local decksShuffle = function()
-            for i=6-playercount,5 do
-                local deck = getObjectFromGUID(hqZonesGUIDs[i]).getObjects()[2]
-                deck.randomize()
+            for i=1,5 do
+                if i > 5 - playercount then
+                    local zone = getObjectFromGUID(hqZonesGUIDs[i])
+                    local deck = zone.getObjects()[2]
+                    deck.randomize()
+                    local color = Player.getPlayers()[6-i].color
+                    deck.addTag(color)
+                    zone.addTag(color)
+                    zone.createButton({click_function='returnColor',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="Deck",
+                        tooltip=color .. " player's deck",
+                        font_size=250,
+                        font_color=color,
+                        color=color,
+                        width=0})
+                else
+                    getObjectFromGUID(city_zones_guids[i+3]).createButton({
+                        click_function="nonCityZone",
+                        function_owner=self,
+                        position={0,-0.5,0},
+                        height=470,
+                        width=700,
+                        color={1,0,0,0.9}})
+                end
             end
+            
         end
         local decksMade = function()
             local test2 = 0
@@ -923,7 +963,11 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Clash of the Monsters Unleashed" then
         log("Add extra Monsters Unleashed villains.")
-        findInPile("Monsters Unleashed","375566","4f53f9")
+        monsterPitRandomize = function(obj)
+            obj.flip()
+            obj.randomize()
+        end
+        findInPile("Monsters Unleashed","375566","4f53f9",monsterPitRandomize)
         print("Monsters Unleashed moved to twists pile.")
     end
     if setupParts[1] == "Crown Thor King of Asgard" then

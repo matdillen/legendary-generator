@@ -6,12 +6,34 @@ function onLoad()
 		tooltip = "Draw card from villain deck."
     })
     flip_villains = true
+    
+    hqZonesGUIDs={
+        "4c1868",
+        "8656c3",
+        "533311",
+        "3d3ba7",
+        "725c5d"}
 end
 
-function click_draw_villain()
+function click_draw_villain(obj,player_clicker_color)
     obj=self
     villain_deck_zone = getObjectFromGUID("4bc134")
-    villain_decks   = villain_deck_zone.getObjects()
+    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+    if schemeParts then
+        if schemeParts[1] == "Alien Brood Encounters" then
+            flip_villains = false
+        end
+        if schemeParts[1] == "Fragmented Realities" then
+            for _,o in pairs(hqZonesGUIDs) do
+                local zone = getObjectFromGUID(o)
+                if zone.hasTag(player_clicker_color) then
+                    villain_deck_zone = zone
+                    break
+                end
+            end
+        end
+    end
+    villain_decks = villain_deck_zone.getObjects()
     if villain_decks then
         for k, deck in pairs(villain_decks) do
           if deck.tag == "Deck" then
@@ -20,12 +42,6 @@ function click_draw_villain()
           if deck.tag == "Card" then
             villain_deck=deck
           end
-        end
-    end
-    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
-    if schemeParts then
-        if schemeParts[1] == "Alien Brood Encounters" then
-            flip_villains = false
         end
     end
     if villain_deck then

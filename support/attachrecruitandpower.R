@@ -261,6 +261,8 @@ for (i in 1:length(a$ObjectStates[[13]]$ContainedObjects)) {
     subdata = data %>%
       filter(Name==src$ContainedObjects[[j]]$Nickname)
     
+    tags = tags[!grepl("Power:",tags)]
+    
     if (subdata$BP[1]=="-1") {
       tags = c(tags,"Trap")
       next
@@ -269,7 +271,7 @@ for (i in 1:length(a$ObjectStates[[13]]$ContainedObjects)) {
       print(paste0(i," ",mmname," threw an error at ",j))
       break
     }
-    tags = c(tags,paste0("Power:",data$BP[1]))
+    tags = c(tags,paste0("Power:",subdata$BP[1]))
     if (grepl("LOCATION:",src$ContainedObjects[[j]]$Description,fixed=T)) {
       tags = c(tags,"Location")
     } else if (grepl("VILLAINOUS WEAPON:",src$ContainedObjects[[j]]$Description,fixed=T)) {
@@ -322,4 +324,4 @@ write(toJSON(a,
              pretty=T,
              flatten=T,
              auto_unbox=T),
-      "tagvillains.json")
+      "TS_Save_83.json")
