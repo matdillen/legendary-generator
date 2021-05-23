@@ -43,6 +43,8 @@ function onLoad()
         ["Silver"]="725c5d"
     }
     hero_deck_zone_guid = "0cd6a9"
+    twistpileGUID = "4f53f9"
+    kopile_guid = "79d60b"
     for i,o in pairs(drawbuyguids) do
         if o == self.guid then
             divided_deck_guid = dividedDeckGUIDs[i]
@@ -130,15 +132,39 @@ function click_draw_hero()
     else
         deckToDrawGUID = hero_deck_zone_guid
     end
-    
     hero_deck = get_decks_and_cards_from_zone(deckToDrawGUID)
-    
+    if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
+        purge = function(obj)
+            local purgedheroes = get_decks_and_cards_from_zone(twistpileGUID)
+            if purgedheroes[1] then
+                if purgedheroes[1].tag == "Deck" then
+                    for _,o in pairs(purgedheroes[1].getObjects()) do
+                        if o.name == obj.getName() then
+                            broadcastToAll("Purged hero " .. obj.getName() .. " KO'd from HQ")
+                            obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                            click_draw_hero()
+                            break
+                        end
+                    end
+                else
+                    if purgedheroes[1].getName() == obj.getName() then
+                        broadcastToAll("Purged hero " .. obj.getName() .. " KO'd from HQ")
+                        obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        click_draw_hero()
+                    end
+                end
+            end
+        end
+    else
+        purge = nil
+    end
     local pos = {self.getPosition().x,self.getPosition().y+5,self.getPosition().z}
     if hero_deck[1] then
         if hero_deck[1].tag == "Deck" then
             takeParams = {
                 position = pos,
-                flip = hero_deck[1].is_face_down
+                flip = hero_deck[1].is_face_down,
+                callback_function = purge
             }
             hero_deck[1].takeObject(takeParams)
         else

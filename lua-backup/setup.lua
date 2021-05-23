@@ -1137,6 +1137,18 @@ function schemeSpecials (setupParts,mmGUID)
         getObjectFromGUID("0b48dd").setPositionSmooth(getObjectFromGUID("725c5d").getPosition())
         print("Bystander stack moved above the Sewers.")
     end
+    if setupParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
+        local twistzone = getObjectFromGUID("4f53f9")
+        twistzone.createButton({click_function='returnColor',
+            function_owner=self,
+            position={0,0,0},
+            rotation={0,180,0},
+            label="Purged",
+            tooltip="Put purged heroes here",
+            font_size=250,
+            font_color={1,0,0},
+            width=0})
+    end
     if setupParts[1] == "Graduation at Xavier's X-Academy" then
         log("8 bystanders next to scheme")
         for i=1,8 do

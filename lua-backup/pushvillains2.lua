@@ -4,6 +4,7 @@ function onLoad()
     twistsresolved = 0
     basestrength = 0
     wwiiInvasion = false
+    villainstoplay = 0
     
     --guids
     playerBoards = {
@@ -253,7 +254,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
             --locations will be nudged a bit upwards to distinguish from villains
             zPos = zPos + 1.5
         end
-        if isEnteringCity == 1 and bs == true then
+        if isEnteringCity == 1 and bs == true and targetZone.guid ~= kopile_guid then
             --bystanders (when entering) will be nudged downwards to distinguish
             zPos = targetZone.getPosition().z - 2
         end
@@ -323,7 +324,7 @@ function addBystanders(cityspace)
         flip=true})
 end
 
-function push_all (city)
+function push_all(city)
     --if all guids are still there, cards will be entering the city
     --this will cause issues if multiple cards enter at the same time
     --that should therefore never happen!
@@ -668,83 +669,100 @@ function playVillains(n,condition_f,vildeckguid)
     if not n then
         n = 1
     end
-    --you may specify a custom villain deck (scripting zone) guid for some schemes
-    if not vildeckguid then
-        vildeckguid = "4bc134"
-    end
-    broadcastToAll("Playing " .. n .. " card(s) from the villain deck, one by one.")
-    --this variable to check whether a card has been played and pushed into the city
-    villaintopcardguid = nil
-    --to limit villains played to n, this tracks each iteration
-    playVillainsStep = 0
-    local villainPlayed = function()
-        --has the previous villain been played, then the next iteration can go on the stack
-        local card = get_decks_and_cards_from_zone("e6b0bc")
-        if card[1] and card[1].guid == villaintopcardguid then
-            return true
-        else
-            return false
+    if villainstoplay == 0 then
+        villainstoplay = villainstoplay + n
+        --you may specify a custom villain deck (scripting zone) guid for some schemes
+        if not vildeckguid then
+            vildeckguid = "4bc134"
         end
-    end
-    local villainGone = function()
-        --has the played villain been moved from the enter-city zone
-        local card = get_decks_and_cards_from_zone("e6b0bc")
-        if not card[1] then
-            return true
-        else
-            return false
-        end
-    end
-    playVillainCallback = function(obj)
-        --checks whether the top card that was taken to get a guid is back on top
-        --of the villain deck again
-        local objLanded = function()
-            local vildeck = get_decks_and_cards_from_zone(vildeckguid)[1]
-            if vildeck.getObjects()[1].guid == obj.guid then
+        broadcastToAll("Playing " .. n .. " card(s) from the villain deck, one by one.")
+        --this variable to check whether a card has been played and pushed into the city
+        villaintopcardguid = nil
+        --to limit villains played to n, this tracks each iteration
+        local villainPlayed = function()
+            --has the previous villain been played, then the next iteration can go on the stack
+            local card = get_decks_and_cards_from_zone("e6b0bc")
+            if card[1] and card[1].guid == villaintopcardguid then
                 return true
             else
                 return false
             end
         end
-        Wait.condition(playVillain,objLanded)
-    end
-    playVillain = function()
-        local vildeck = get_decks_and_cards_from_zone(vildeckguid)[1]
-        if vildeck and vildeck.getQuantity() > 1 then
-            --store the guid of the current top card
-            villaintopcardguid = vildeck.getObjects()[1].guid
-            if villaintopcardguid == "" then
-                --some cards have no guid
-                --if so, they're moved out and back into the villain deck to get a guid
-                local pos = vildeck.getPosition()
-                pos.y = pos.y + 1
-                vildeck.takeObject({position = pos,
-                    smooth = false,
-                    callback_function = playVillainCallback})
+        local villainGone = function()
+            --has the played villain been moved from the enter-city zone
+            local card = get_decks_and_cards_from_zone("e6b0bc")
+            if not card[1] then
+                return true
             else
-                --if we have the guid for the next card, play a card
-                --as soon as the twist or previous villain has left
-                Wait.condition(click_draw_villain,villainGone)
-                playVillainsStep = playVillainsStep + 1
-                if playVillainsStep < n then
-                    --do it all over again until n iterations
-                    Wait.condition(playVillain,villainPlayed)
+                return false
+            end
+        end
+        local playVillainCallback = function(obj)
+            --checks whether the top card that was taken to get a guid is back on top
+            --of the villain deck again
+            local objLanded = function()
+                local vildeck = get_decks_and_cards_from_zone(vildeckguid)[1]
+                if vildeck.getObjects()[1].guid == obj.guid then
+                    return true
+                else
+                    return false
                 end
             end
-        else
-            broadcastToAll("Villain deck ran out!!")
-            return nil
+            Wait.condition(playVillain,objLanded)
         end
-    end
-    if condition_f then
-        Wait.condition(playVillain,condition_f)
+        local drawVillain = function()
+            click_draw_villain()
+            villainstoplay = villainstoplay - 1
+            if villainstoplay > 0 then
+                --do it all over again until n iterations
+                Wait.condition(playVillain,villainPlayed)
+            end
+        end
+        playVillain = function()
+            local vildeck = get_decks_and_cards_from_zone(vildeckguid)[1]
+            if vildeck and vildeck.getQuantity() > 1 then
+                --store the guid of the current top card
+                villaintopcardguid = vildeck.getObjects()[1].guid
+                if villaintopcardguid == "" then
+                    --some cards have no guid
+                    --if so, they're moved out and back into the villain deck to get a guid
+                    local pos = vildeck.getPosition()
+                    pos.y = pos.y + 1
+                    vildeck.takeObject({position = pos,
+                        smooth = false,
+                        callback_function = playVillainCallback})
+                else
+                    --if we have the guid for the next card, play a card
+                    --as soon as the twist or previous villain has left
+                    Wait.condition(drawVillain,villainGone)
+                end
+            else
+                broadcastToAll("Villain deck ran out!!")
+                return nil
+            end
+        end
+        if condition_f then
+            Wait.condition(playVillain,condition_f)
+        else
+            playVillain()
+        end
     else
-        playVillain()
+        villainstoplay = villainstoplay + n
     end
 end
 
 function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
+end
+
+function nonCityZoneShade(guid)
+    getObjectFromGUID(guid).createButton({
+                    click_function="nonCityZone",
+                    function_owner=self,
+                    position={0,-0.5,0},
+                    height=470,
+                    width=700,
+                    color={1,0,0,0.9}})
 end
 
 function twistSpecials(cards,city,schemeParts)
@@ -1135,9 +1153,6 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
         local vildeck = get_decks_and_cards_from_zone("4bc134")[1]
         local vildeckcount = math.abs(vildeck.getQuantity())
-        local vildeckpos = vildeck.getPosition()
-        vildeckpos.y = vildeckpos.y + 3
-        vildeck.setPositionSmooth(vildeckpos)
         for _,o in pairs(city) do
             local cards = get_decks_and_cards_from_zone(o)
             if cards[1] then
@@ -1150,6 +1165,11 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         end
+        if vildeckcount ~= math.abs(vildeck.getQuantity()) then
+            local vildeckpos = vildeck.getPosition()
+            vildeckpos.y = vildeckpos.y + 3
+            vildeck.setPositionSmooth(vildeckpos)
+        end
         twistsresolved = twistsresolved + 1
         if twistsresolved < 8 then
             local wwcountries = {4,3,6,3,5,2,1}
@@ -1161,22 +1181,10 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             if not getObjectFromGUID("bd3ef1").getButtons() then
-                getObjectFromGUID("bd3ef1").createButton({
-                    click_function="nonCityZone",
-                    function_owner=self,
-                    position={0,-0.5,0},
-                    height=470,
-                    width=700,
-                    color={1,0,0,0.9}})
+                nonCityZoneShade("bd3ef1")
             end
             if not getObjectFromGUID("d30aa1").getButtons() then
-                getObjectFromGUID("d30aa1").createButton({
-                    click_function="nonCityZone",
-                    function_owner=self,
-                    position={0,-0.5,0},
-                    height=470,
-                    width=700,
-                    color={1,0,0,0.9}})
+                nonCityZoneShade("d30aa1")
             end
             if getObjectFromGUID("d30aa1").getButtons() and twistsresolved == 3 then
                 getObjectFromGUID("d30aa1").removeButton(0)
@@ -1199,16 +1207,9 @@ function twistSpecials(cards,city,schemeParts)
             end
             for i,o in pairs(city_zones_guids) do
                 if not current_city[i] then
-                    getObjectFromGUID(o).createButton({
-                        click_function="nonCityZone",
-                        function_owner=self,
-                        position={0,-0.5,0},
-                        height=470,
-                        width=700,
-                        color={1,0,0,0.9}})
+                    nonCityZoneShade(o)
                 end
             end
-            
         end
         local vildeckLanded = function()
             local vildeck = get_decks_and_cards_from_zone("4bc134")[1]
@@ -2355,6 +2356,10 @@ function twistSpecials(cards,city,schemeParts)
             Wait.condition(killButton,turnAgain)
         end
         Wait.condition(killButtonCallback,turnHasPassed)
+    end
+    if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
+        broadcastToAll("Scheme Twist: Purge a hero and place it next to the scheme!")
+        return twistsresolved
     end
     if schemeParts[1] == "Graduation at Xavier's X-Academy" then
         local twistpile = get_decks_and_cards_from_zone(twistpileGUID)
