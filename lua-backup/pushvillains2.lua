@@ -2,9 +2,12 @@
 function onLoad()
     --starting values
     twistsresolved = 0
+    strikesresolved = 0
     basestrength = 0
     wwiiInvasion = false
     villainstoplay = 0
+    
+    setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
     --guids
     playerBoards = {
@@ -66,10 +69,10 @@ function onLoad()
     --the guids don't change, the current_city might
     current_city = table.clone(city_zones_guids)
     
-    escape_zone_guid  =  "de2016"
+    escape_zone_guid = "de2016"
     kopile_guid = "79d60b"
-    bystandersPileGUID="0b48dd"
-    woundsDeckGUID="653663"
+    bystandersPileGUID = "0b48dd"
+    woundsDeckGUID = "653663"
     twistpileGUID = "4f53f9"
     
     --Creates invisible button onload, hidden under the "REFILL" on the deck pad
@@ -370,7 +373,11 @@ function push_all(city)
                 
                     --special scripted scheme twists
                     if cards[1].getName() == "Scheme Twist" then
-                        proceed = twistSpecials(cards,city,schemeParts)
+                        twistsresolved = twistsresolved + 1
+                        local notes = getNotes()
+                        notes = notes:gsub("%[%-%] %d+","[-] " .. twistsresolved,1)
+                        setNotes(notes)
+                        local proceed = twistSpecials(cards,city,schemeParts)
                         --this function should return nil if it covers all scheme twist behavior
                         --and hence the city should be no further affected
                         if not proceed then
@@ -387,7 +394,11 @@ function push_all(city)
                     --master strikes always go to the master strike zone
                     --maybe later on they can be scripted, but this requires knowing all masterminds that are present
                     if cards[1].getName() == "Masterstrike" then
-                        return cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
+                        strikesresolved = strikesresolved + 1
+                        local notes = getNotes()
+                        notes = notes:gsub("Strikes resolved:%[/b%]%[%-%] %d+","Strikes resolved:[/b][-] " .. strikesresolved,1)
+                        setNotes(notes)
+                        return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
                     end
                 
                     --bystanders behave differently when entering
@@ -552,12 +563,16 @@ function updateTwistPower()
     for i,o in pairs(city_zones) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for index,object in pairs(cityobjects) do
-            if object.hasTag("Corrupted") == true or object.hasTag("Brainwashed") == true or object.hasTag("Possessed") then
-                object.editButton({label=twistsstacked+basestrength})
-            elseif object.hasTag("Phalanx-Infected") then
-                object.editButton({label=twistsstacked+hasTag2(object,"Cost:")})
-            elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
-                object.editButton({label = hasTag2(object,"Cost:") + 4})
+            if object.getButtons() then
+                if object.hasTag("Corrupted") == true or object.hasTag("Brainwashed") == true or object.hasTag("Possessed") == true then
+                    object.editButton({label=twistsstacked+basestrength})
+                elseif object.hasTag("Phalanx-Infected") then
+                    object.editButton({label=twistsstacked+hasTag2(object,"Cost:")})
+                elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
+                    object.editButton({label = hasTag2(object,"Cost:") + 4})
+                elseif object.getName() == "S.H.I.E.L.D. Assault Squad" then
+                    object.editButton({label = "+" .. twistsstacked})
+                end
             end
         end
     end
@@ -773,10 +788,9 @@ function twistSpecials(cards,city,schemeParts)
         heroZone=getObjectFromGUID("0cd6a9")
         herodeck = heroZone.getObjects()[2]
         --will not work if hero deck contains 1 or less cards
-        if twistsresolved == 0 then
+        if twistsresolved == 1 then
             ultronpower = 4
         end
-        twistsresolved = twistsresolved + 1
         herodeck.takeObject({position = posi.getPosition(),
             flip=true,
             callback_function=ultronCallback})
@@ -788,7 +802,6 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Annihilation: Conquest" then
         cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
-        twistsresolved = twistsresolved + 1
         local candidate = {["Cost"]=0,["GUID"]=""}
         local tie = false
         for _,o in pairs(hqguids) do
@@ -842,7 +855,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Avengers vs. X-Men" then
-        twistsresolved = twistsresolved + 1
         local teams = getObjectFromGUID("912967").Call('returnSetupParts')
         if teams and teams[9] then
             teamchecks = {}
@@ -883,7 +895,6 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Brainwash the Military" then
         --cards[1].setName("Traitor Batallion")
-        twistsresolved = twistsresolved + 1 
         --log("twists:" .. twistsresolved)
         basestrength = 3
         cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
@@ -908,7 +919,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Break the Planet Asunder" then
-        twistsresolved = twistsresolved + 1 
         cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
         for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
@@ -939,7 +949,6 @@ function twistSpecials(cards,city,schemeParts)
         local twistpile = getObjectFromGUID(twistpileGUID)
         annipile = getObjectFromGUID("8656c3")
         cards[1].setPositionSmooth(twistpile.getPosition())
-        twistsresolved = twistsresolved + 1
         if annipile.getObjects()[2] then
             henchpresent = annipile.getObjects()[2].getQuantity()
         else
@@ -1170,7 +1179,6 @@ function twistSpecials(cards,city,schemeParts)
             vildeckpos.y = vildeckpos.y + 3
             vildeck.setPositionSmooth(vildeckpos)
         end
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 8 then
             local wwcountries = {4,3,6,3,5,2,1}
             broadcastToAll("Scheme Twist: The axis invade another country and the city is now " .. wwcountries[twistsresolved] .. " spaces!")
@@ -1228,7 +1236,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Clash of the Monsters Unleashed" then
-        twistsresolved = twistsresolved + 1
         cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
         local monsterpit = get_decks_and_cards_from_zone("4f53f9")
         local monsterpower = 0
@@ -1370,7 +1377,6 @@ function twistSpecials(cards,city,schemeParts)
             getSidekick()
             Wait.time(getSidekick,2)
         end
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 8 then
             Wait.condition(corruptHeroes,twistMoved)
             return nil
@@ -1405,7 +1411,6 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         local light = sunlight - moonlight
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 9 then
             if (light > 0 and twistsresolved % 2 == 1) or (light < 0 and twistsresolved % 2 == 0) then
                 cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
@@ -1542,7 +1547,6 @@ function twistSpecials(cards,city,schemeParts)
         end
     end
     if schemeParts[1] == "Crush HYDRA" then
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 8 then
             for _,o in pairs(city) do
                 local cards = get_decks_and_cards_from_zone(o)
@@ -1618,7 +1622,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Dark Alliance" then
-        if twistsresolved == 0 then
+        if twistsresolved == 1 then
             mmPile=getObjectFromGUID("c7e1d5")
             annipile = getObjectFromGUID("8656c3")
             mmPile.randomize()
@@ -1638,7 +1642,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             mmPile.takeObject({position = annipile.getPosition(),callback_function = stripTactics})
-        elseif twistsresolved < 4 then
+        elseif twistsresolved < 5 then
             annipile = getObjectFromGUID("8656c3")
             if annipile.getObjects()[2] then
                 postop = annipile.getPosition()
@@ -1667,14 +1671,12 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         end
-        twistsresolved = twistsresolved + 1
         --log(twistsresolved)
         return twistsresolved
     end
     if schemeParts[1] == "Dark Reign of H.A.M.M.E.R. Officers" then
         local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
-        twistsresolved = twistsresolved + 1
         local sostack = getObjectFromGUID("9c9649")
         for i = 1,twistsresolved do
             sostack.takeObject({position=getObjectFromGUID("bf7e87").getPosition(),
@@ -1692,7 +1694,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Deadpool Kills the Marvel Universe" then
-        twistsresolved = twistsresolved + 1
         local herodeck = get_decks_and_cards_from_zone("0cd6a9")
         if herodeck[1] then
             if herodeck[1].tag == "Deck" then
@@ -1793,7 +1794,6 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Deadpool Writes a Scheme" then
-        twistsresolved = twistsresolved + 1
         cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
         if twistsresolved == 1 then
             for i,o in pairs(playerBoards) do
@@ -1835,7 +1835,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil    
     end
     if schemeParts[1] == "Detonate the Helicarrier" then
-        twistsresolved = twistsresolved + 1
         local twistpile = getObjectFromGUID(twistpileGUID)
         cards[1].setPositionSmooth(twistpile.getPosition())
         local heroboom = 0
@@ -1901,7 +1900,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Divide and Conquer" then
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 4 then
             for i,o in pairs(hqguids) do
                 local hqzone = getObjectFromGUID(o)
@@ -1918,7 +1916,6 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Earthquake Drains the Ocean" then
-        twistsresolved = twistsresolved + 1
         if twistsresolved % 2 == 1 then
             local scheme = get_decks_and_cards_from_zone("c39f60")
             if scheme[1] then
@@ -1949,7 +1946,6 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Enthrone the Barons of Battleworld" then
-        twistsresolved = twistsresolved + 1
         local maxpower = 0
         local toAscend = nil
         local ascendCard = nil
@@ -2130,7 +2126,6 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Explosion at the Washington Monument" then
-        twistsresolved = twistsresolved + 1
         local floorboom = table.remove(washingtonMonumentZonesGUIDs)
         local floorcontent = get_decks_and_cards_from_zone(floorboom)
         if floorcontent and floorcontent[1] then
@@ -2210,10 +2205,9 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Ferry Disaster" then
-        if twistsresolved == 0 or twistsresolved == 4 then
+        if twistsresolved == 1 or twistsresolved == 5 then
             ferryzones = table.clone(top_city_guids)
         end
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 5 then
             table.remove(ferryzones,1)
             local bspile = getObjectFromGUID(bystandersPileGUID)
@@ -2259,7 +2253,6 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Flood the Planet with Melted Glaciers" then
-        twistsresolved = twistsresolved + 1 
         cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
         for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
@@ -2495,8 +2488,23 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Hydra Helicarriers Hunt Heroes" then
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
+        if twistsresolved < 5 then
+            broadcastToAll("Scheme Twist: Choose " .. twistsresolved .. " different Hero Classes and KO each hero in the HQ that is any of them.",{1,0,0})
+        else
+            broadcastToAll("Scheme Twist: All heroes in the HQ with a hero class KO'd!")
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                --log(hero)
+                if hero and hasTag2(hero,"HC:",4) then
+                    hero.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        getObjectFromGUID(o).Call('click_draw_hero')
+                end
+            end
+        end
+    end
     if schemeParts[1] == "Hypnotize Every Human" then
-        twistsresolved = twistsresolved + 1
         if twistsresolved < 7 then
             local bspile = getObjectFromGUID(bystandersPileGUID)
             for i,o in pairs(top_city_guids) do
@@ -2507,6 +2515,234 @@ function twistSpecials(cards,city,schemeParts)
         elseif twistsresolved < 9 then
             broadcastToAll("Scheme Twist: Each player puts a villain from their victory pile into the escape pile (don't KO).",{1,0,0})
         end
+    end
+    if schemeParts[1] == "Imprison Unregistered Superhumans" then
+        if twistsresolved % 2 == 1 and twistsresolved < 10 then
+            local id = math.modf(twistsresolved/2)
+            if twistsresolved > 2 then
+                getObjectFromGUID(fortifiedCityZoneGUID).clearButtons()
+            end
+            fortifiedCityZoneGUID = city_zones_guids[6 - id]
+            local fortifiedCityZone = getObjectFromGUID(fortifiedCityZoneGUID)
+            fortifiedCityZone.createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="+1",
+                tooltip="Click to update villain's power!",
+                font_size=350,
+                font_color={1,0,0},
+                color={0,0,0,0.75},
+                width=250,height=250})
+        else
+            local citycards = get_decks_and_cards_from_zone(fortifiedCityZoneGUID)
+            if citycards[1] then
+                for _,o in pairs(citycards) do
+                    if o.hasTag("Villain") then
+                        getObjectFromGUID(bystandersPileGUID).takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                            flip=true})
+                        broadcastToAll("Scheme Twist: Bystander KO'd!")
+                        break
+                    end
+                end
+            end
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Infiltrate the Lair with Spies" then
+        for i,o in pairs(hqguids) do
+            local cityzone = getObjectFromGUID(o)
+            local bs = cityzone.Call('getBystander')
+            if bs then
+                bs.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+                broadcastToAll("Scheme Twist: Spy escaped from the HQ with sensitive information!",{1,0,0})
+            end
+            if i % 2 > 0 then
+                local pos = cityzone.getPosition()
+                pos.z = pos.z - 2
+                pos.y = pos.y + 3
+                local spystack = get_decks_and_cards_from_zone(twistpileGUID)
+                if spystack[1] then
+                    if spystack[1].tag == "Deck" then
+                        spystack[1].takeObject({position = pos,
+                            flip=true})
+                    else
+                        spystack[1].flip()
+                        spystack[1].setPositionSmooth(pos)
+                    end
+                else
+                    broadcastToAll("No more spies left.")
+                end
+            end
+        end
+        broadcastToAll("Scheme Twist: Three bystanders infiltrated the HQ!")
+        return twistsresolved
+    end
+    if schemeParts[1] == "Intergalactic Kree Nega-Bomb" then
+        local negabomb = get_decks_and_cards_from_zone(twistpileGUID)
+        cards[1].flip()
+        cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
+        local twistMoved = function()
+            local negabomb_check = get_decks_and_cards_from_zone(twistpileGUID)
+            if negabomb_check[1] and negabomb_check[1].getQuantity() == 7 then
+                return true
+            else
+                return false
+            end
+        end
+        local triggerBomb = function()
+            local negabomb = get_decks_and_cards_from_zone(twistpileGUID)[1]
+            negabomb.randomize()
+            local negabombcontent = negabomb.getObjects()
+            if negabombcontent[1].name == "Scheme Twist" then
+                broadcastToAll("Scheme Twist: Nega Bomb detonated. All heroes in HQ KO'd and every player wounded.")
+                negabomb.takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                    flip=true})
+                dealWounds()
+                for _,o in pairs(hqguids) do
+                    local hero = getObjectFromGUID(o).Call('getHeroUp')
+                    if hero then
+                        hero.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        getObjectFromGUID(o).Call('click_draw_hero')
+                    end
+                end
+            else
+                broadcastToAll("Scheme Twist: Nega Bomb detonation averted (for now) and bystander rescued.")
+                local pcolor = Turns.turn_color
+                if pcolor == "White" then
+                    angle = 90
+                elseif pcolor == "Blue" then
+                    angle = -90
+                else
+                    angle = 180
+                end
+                local brot = {x=0, y=angle, z=0}
+                local playerBoard = getObjectFromGUID(playerBoards[pcolor])
+                local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
+                dest.y = dest.y + 3
+                negabomb.takeObject({position=dest,
+                    flip=true})
+            end
+        end
+        Wait.condition(triggerBomb,twistMoved)
+        return nil
+    end
+    if schemeParts[1] == "Invincible Force Field" then
+        cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
+        if twistsresolved == 1 then
+            local mmzone = getObjectFromGUID("a91fe7")
+            mmzone.createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0.5,0,0},
+                rotation={0,180,0},
+                label="+1",
+                tooltip="Spend this much Recruit and Attack to fight the Mastermind",
+                font_size=350,
+                font_color="Yellow",
+                color={0,0,0,0.75},
+                width=250,height=250})
+            mmzone.createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={-0.5,0,0},
+                rotation={0,180,0},
+                label="+1",
+                tooltip="Spend this much Recruit and Attack to fight the Mastermind",
+                font_size=350,
+                font_color="Red",
+                color={0,0,0,0.75},
+                width=250,height=250})
+        elseif twistsresolved < 7 then
+            local mmzone = getObjectFromGUID("a91fe7")
+            mmzone.editButton({index = 0,
+                label = "+" .. twistsresolved})
+            mmzone.editButton({index = 1,
+                label = "+" .. twistsresolved})
+        else
+            broadcastToAll("Scheme Twist: Evil Wins!")
+        end
+        return nil
+    end
+    if schemeParts[1] == "Last Stand at Avengers Tower" then
+        local twistpile = getObjectFromGUID(twistpileGUID)
+        cards[1].setPositionSmooth(twistpile.getPosition())
+        if twistsresolved == 1 then
+            --may want to modify scale or dimensions
+            getObjectFromGUID(city_zones_guids[4]).createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="+1",
+                tooltip="Stark defenses extra Attack",
+                font_size=350,
+                font_color="Red",
+                color={0,0,0,0.75},
+                width=250,height=250})
+        else
+            getObjectFromGUID(city_zones_guids[4]).editButton({index=0,
+                label="+" .. twistsresolved})
+        end
+        local citycards = get_decks_and_cards_from_zone(city_zones_guids[4])
+        if citycards[1] then
+            for _,o in pairs(citycards) do
+                if o.hasTag("Villain") then
+                    broadcastToAll("Scheme Twist: KO three Heroes from the HQ!",{1,0,0})
+                    break
+                end
+            end
+        end
+        return nil
+    end
+    if schemeParts[1] == "Mass Produce War Machine Armor" then
+        local twistpile = getObjectFromGUID(twistpileGUID)
+        local twistcount = get_decks_and_cards_from_zone(twistpileGUID)
+        if twistcount[1] then
+            twistcountPrevious = twistcount[1].getQuantity()
+        else
+            twistcountPrevious = 0
+        end
+        cards[1].setPositionSmooth(twistpile.getPosition())
+        local twistMoved = function()
+            local twist = get_decks_and_cards_from_zone(twistpileGUID)
+            if twist[1] and twist[1].getQuantity() ~= twistcountPrevious then
+                return true
+            else
+                return false
+            end
+        end
+        Wait.condition(updateTwistPower,twistMoved)
+        local vpile = get_decks_and_cards_from_zone(vpileguids[Turns.turn_color])
+        if vpile[1] then
+            local updateAndPush = function()
+                updateTwistPower()
+                click_push_villain_into_city()
+            end
+            if vpile[1].tag == "Deck"  then
+                local vpileCards = vpile[1].getObjects()
+                for j = 1, vpile[1].getQuantity() do
+                    if vpileCards[j].name == "S.H.I.E.L.D. Assault Squad" then
+                        vpile[1].takeObject({position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                            guid=vpileCards[j].guid,
+                            callback_function = updateAndPush})
+                        break
+                    end
+                end
+            else
+                if vpile[1].getName() == "S.H.I.E.L.D. Assault Squad" then
+                    vpile[1].clearButtons()
+                    vpile[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                    local squadMoved = function()
+                        local squad = get_decks_and_cards_from_zone(city_zones_guids[1])
+                        if squad[1] and squad[1].getName() == "S.H.I.E.L.D. Assault Squad" then
+                            return true
+                        else
+                            return false
+                        end
+                    end
+                    Wait.condition(updateAndPush,squadMoved)
+                end
+            end
+        end
+        return nil
     end
     if schemeParts[1] == "Maximum Carnage" then
         local twistpile = getObjectFromGUID(twistpileGUID)
@@ -2614,7 +2850,6 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Nuclear Armageddon" then
-        twistsresolved = twistsresolved + 1
         local destroyed = table.remove(current_city)
         local escapees = get_decks_and_cards_from_zone(destroyed)
         if escapees[1] then
@@ -2671,7 +2906,6 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Unleash the Power of the Cosmic Cube" then
-        twistsresolved = twistsresolved + 1
         cards[1].setPositionSmooth(getObjectFromGUID(twistpileGUID).getPosition())
         if twistsresolved == 5 or twistsresolved == 6 then
             dealWounds()
@@ -2744,6 +2978,11 @@ function nonTwistspecials(cards,city,schemeParts)
         end
         if cards[1].getName() == "Scarlet Witch (R)" then
             powerButton(cards[1],"updateTwistPower",basestrength + hasTag2(cards[1],"Cost:"))
+        end
+    end
+    if schemeParts[1] == "Mass Produce War Machine Armor" and cityEntering == 1 then
+        if cards[1].getName() == "S.H.I.E.L.D. Assault Squad" then
+            powerButton(cards[1],"updateTwistPower","+" .. twistsresolved)
         end
     end
     if schemeParts[1] == "Scavenge Alien Weaponry" and cityEntering == 1 then
