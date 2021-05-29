@@ -653,6 +653,42 @@ function import_setup()
         table.insert(vildeck_done,14)
     end
     
+    if setupParts[1] == "Master of Tyrants" then
+        log("Moving extra masterminds outside the board.")
+        local tyrants = {}
+        for s in string.gmatch(setupParts[9],"[^|]+") do
+            table.insert(tyrants, string.lower(s))
+        end
+        local tyrantzones = {
+            "1fa829",
+            "bf7e87",
+            "4c1868"}
+        local shuffleTyrantTactics = function(obj)
+              local annotateTyrant = function(obj)
+                obj.setDescription("No abilities!")
+                obj.addTag("Tyrant")
+              end
+              for i=1,4 do
+                log("Mastermind Tactics Into Villain Deck")
+                obj.takeObject({position=vilDeckZone.getPosition(),
+                    smooth=false,
+                    flip=false,
+                    index=0,
+                    callback_function = annotateTyrant})
+              end
+        end
+        for i=1,3 do
+            findInPile(tyrants[i],
+                "c7e1d5",
+                tyrantzones[i],
+                shuffleTyrantTactics)
+        end
+        table.insert(vildeck_done,12)
+        print("Extra mastermind tactics shuffled into villain deck! Their front cards can still be seen above the board.")
+        -- still remove remaining mm cards then
+        -- can stay there to show what is in the deck
+    end
+    
     vildeckc = 0
     for i,o in pairs(vildeck_done) do
         vildeckc = vildeckc + o
@@ -809,6 +845,17 @@ function import_setup()
     for s in string.gmatch(setupParts[8],"[^|]+") do
         table.insert(heroParts, string.lower(s))
     end
+    
+    local herodeckExtras = 0
+    if setupParts[1] == "Save Humanity" then
+        herodeckExtras = 24
+        for i=1,24 do
+            bsPile.takeObject({position = heroZone.getPosition(),
+                flip=true,
+                smooth=false})
+        end
+    end
+    
     if setupParts[1] == "Divide and Conquer" then
         local dividedDeckGUIDs = {
             ["HC:Red"]="4c1868",
@@ -876,17 +923,17 @@ function import_setup()
             end
         end
         heroDeckComplete = function()
-        local test = heroZone.getObjects()[2]
-        if test ~= nil then 
-            local test2 = #heroParts
-            if test.getQuantity() == test2*14 then
-                return true
+            local test = heroZone.getObjects()[2]
+            if test ~= nil then 
+                local test2 = #heroParts
+                if test.getQuantity() == test2*14 + herodeckExtras then
+                    return true
+                else
+                    return false
+                end
             else
                 return false
             end
-        else
-            return false
-        end
         end
         heroDeckFlip = function()
             herodeck = heroZone.getObjects()[2]
@@ -1185,50 +1232,38 @@ function schemeSpecials (setupParts,mmGUID)
         end
         findInPile(setupParts[9],"de8160","4f53f9",bugleInvader)
     end
-    if setupParts[1] == "Master of Tyrants" then
-        log("Moving extra masterminds outside the board.")
-        tyrants = {}
-        for s in string.gmatch(setupParts[9],"[^|]+") do
-            table.insert(tyrants, string.lower(s))
-        end
-        tyrantzones = {
-            "1fa829",
-            "bf7e87",
-            "4c1868"}
-        tyrantsnumber = {}
-        for i,o in pairs(tyrants) do
-            tyrantsnumber[i] = mmGetCards(o)
-        end
-        local shuffleTyrantTactics = function(obj)
-              for i=1,4 do
-                log("Mastermind Tactics Into Villain Deck")
-                obj.takeObject({position=vilDeckZone.getPosition(),
-                    smooth=false,flip=false,index=0})
-              end
-        end
-        for i=1,3 do
-            findInPile(tyrants[i],
-                "c7e1d5",
-                tyrantzones[i],
-                shuffleTyrantTactics)
-        end
-        print("Extra mastermind tactics shuffled into villain deck! Their front cards can still be seen above the board.")
-        -- still remove remaining mm cards then
-        -- can stay there to show what is in the deck
-    end
     if setupParts[1] == "Mutating Gamma Rays" or setupParts[1] == "Shoot Hulk into Space" then
         log("Extra Hulk hero in mutation pile.")
         findInPile(setupParts[9],"16594d","4f53f9")
     end
     if setupParts[1] == "Ruin the Perfect Wedding" then
-        tobewed = {}
+        local tobewed = {}
         for s in string.gmatch(setupParts[9],"[^|]+") do
             table.insert(tobewed, string.lower(s))
         end
         log("Extra heroes to be wed in separate piles.")
-        findInPile(tobewed[1],"16594d","1fa829")
-        findInPile(tobewed[2],"16594d","4e3b7e")
-        print("Still sort the two to be wed hero card decks according to cost!")
+        local orderAdam = function(obj)
+            for _,o in pairs(obj.getObjects()) do
+                local pos = obj.getPosition()
+                for _,k in pairs(o.tags) do
+                    if k:find("Cost:") then
+                        pos.y = pos.y + 12 - k:match("%d+")
+                        break
+                    end
+                end
+                if obj.getQuantity() > 1 then
+                    obj.takeObject({position=pos,
+                        guid = o.guid})
+                    if obj.remainder then
+                        obj = obj.remainder
+                    end
+                else
+                    obj.setPositionSmooth(pos)
+                end
+            end
+        end
+        findInPile(tobewed[1],"16594d","1fa829",orderAdam)
+        findInPile(tobewed[2],"16594d","4e3b7e",orderAdam)
     end
     if setupParts[1] == "Replace Earth's Leaders with Killbots" then
         log("Set up 3 twists next to scheme already.")
@@ -1243,8 +1278,42 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Secret Empire of Betrayal" then
         log("Extra hero in dark betrayal pile.")
-        findInPile(setupParts[9],"16594d","4f53f9")
-        print("Select 5 cards of the betrayer hero that cost < 5.")
+        local betrayalDeck = function(obj)
+            obj.randomize()
+            obj.flip()
+            local keepguids= {}
+            local objcontent = obj.getObjects()
+            for _,o in pairs(objcontent) do
+                for _,k in pairs(o.tags) do
+                    if k:find("Cost:") and tonumber(k:match("%d+")) < 6 then
+                        table.insert(keepguids,o.guid)
+                        break
+                    end
+                end
+                if #keepguids == 5 then
+                    break
+                end
+            end
+            local falsepos = getObjectFromGUID("16594d").getPosition()
+            falsepos.x = falsepos.x + 15
+            for i=1,14 do
+                local tonext = false
+                for j=1,5 do
+                    if keepguids[j] and objcontent[i].guid == keepguids[j] then
+                       tonext = true 
+                       --duplicate guids can occur, so remove found ones from table
+                       table.remove(keepguids,j)
+                       break
+                    end
+                end
+                if tonext == false then
+                    obj.takeObject({position=falsepos,
+                        guid = objcontent[i].guid,
+                        smooth=false})
+                end
+            end
+        end
+        findInPile(setupParts[9],"16594d","533311",betrayalDeck)
     end
     if setupParts[1] == "Secret HYDRA Corruption" then
         log("Only 30 shield officers.")
@@ -1330,7 +1399,7 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Turn the Soul of Adam Warlock" then
         log("Set up Adam Warlock pile.")
-        orderAdam = function(obj)
+        local orderAdam = function(obj)
             for _,o in pairs(obj.getObjects()) do
                 local pos = obj.getPosition()
                 for _,k in pairs(o.tags) do
