@@ -923,7 +923,7 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
     vals = filter(src$schemes,
                   Name==id)
     if (vals$Name%in%c("House of M",
-                       "Secret Hydra Corruption",
+                       "Secret HYDRA Corruption",
                        "The Korvac Saga",
                        "Earthquake Drains the Ocean")) {
       vals = rbind(vals,vals[1,])

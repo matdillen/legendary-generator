@@ -945,7 +945,7 @@ function import_setup()
                 print("12 random hero cards shuffled into villain deck.")
                 heroDeck = heroZone.getObjects()[2]
                 heroDeck.randomize()
-                herodeck.flip()
+                heroDeck.flip()
                 for i=1,12 do
                     heroDeck.takeObject({position=vilDeckZone.getPosition(),
                         flip=true,smooth=false})

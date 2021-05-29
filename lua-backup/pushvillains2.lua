@@ -328,12 +328,15 @@ function click_draw_villain()
     end
 end
 
-function addBystanders(cityspace)
+function addBystanders(cityspace,face)
+    if face == nil then
+        face = true
+    end
     local targetZone = getObjectFromGUID(cityspace).getPosition()
     targetZone.z = targetZone.z - 2
     getObjectFromGUID("0b48dd").takeObject({position=targetZone,
         smooth=true,
-        flip=true})
+        flip=face})
 end
 
 function push_all(city)
@@ -3295,6 +3298,141 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(twistPlay,twistAdded)
         return nil
     end
+    if schemeParts[1] == "Secret HYDRA Corruption" then
+        local twistpile = getObjectFromGUID(twistpileGUID)
+        local scheme = get_decks_and_cards_from_zone("c39f60")[1]
+        if not scheme then
+            broadcastToAll("Scheme card missing???")
+            return nil
+        end
+        if twistsresolved == 1 then
+            officerdeck = getObjectFromGUID("9c9649")
+            twistpile.createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="3",
+                tooltip="Pay 3 Recruit to have any player gain one of these Officers.",
+                font_size=350,
+                font_color="Yellow",
+                color={0,0,0,0.75},
+                width=250,height=250})
+        end
+        if scheme.is_face_down == false then
+            scheme.flip()
+            twistpile.editButton({tooltip = "Fight for 3 to return any of these officers to the Officer deck and KO one of your heroes.",
+                font_color = "Red"})
+        else
+            scheme.flip()
+            twistpile.editButton({tooltip = "Pay 3 Recruit to have any player gain one of these Officers.",
+                font_color = "Yellow"})
+        end
+        for i = 1,twistsresolved do
+            if officerdeck.getQuantity() > 1 then
+                officerdeck.takeObject({position=twistpile.getPosition(),
+                    flip=true,
+                    smooth=true})
+                if officerdeck.remainder then
+                    officerdeck = officerdeck.remainder
+                end
+            else
+                officerdeck.flip()
+                officerdeck.setPositionSmooth(twistpile.getPosition())
+                officerdeck = nil
+                break
+            end
+        end
+        if not officerdeck then
+            broadcastToAll("Officer deck ran out. Evil wins!",{1,0,0})
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
+        koCard(cards[1])
+        local cost = 0
+        local highestguid = nil
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero and hasTag2(hero,"Cost:") > cost then
+                cost = hasTag2(hero,"Cost:")
+                highestguid = hero.guid
+            elseif hero and hasTag2(hero,"Cost:") == cost then
+                highestguid = highestguid .. "|" .. hero.guid
+            end
+        end
+        if highestguid:find("%|") then
+            broadcastToAll("Choose one of the highest cost heroes in the HQ and have it enter the city from the enter city spot.")
+        else
+            local hero = getObjectFromGUID(highestguid)
+            hero.setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+            local pushHero = function()
+                Wait.time(click_push_villain_into_city,0.5)
+            end
+            local heroMoved = function()
+                local entercard = get_decks_and_cards_from_zone(city_zones_guids[1])
+                if entercard[1] and entercard[1].guid == highestguid then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(pushHero,heroMoved)
+        end
+        return nil
+    end
+    if schemeParts[1] == "S.H.I.E.L.D. vs. HYDRA War" then
+        local officerdeck = getObjectFromGUID("9c9649")
+        local twistpilecontent = get_decks_and_cards_from_zone(twistpileGUID)
+        if twistsresolved == 1 then
+            getObjectFromGUID(twistpileGUID).createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="3",
+                tooltip="Fight for 3 to gain any of these Officers as heroes or send them Undercover to your Victory Pile.",
+                font_size=350,
+                font_color="Red",
+                color={0,0,0,0.75},
+                width=250,height=250})
+        end
+        if twistpilecontent[1] then
+            broadcastToAll("Scheme Twist: An Officer escaped! HYDRA level increased!")
+            if twistpilecontent[1].tag == "Deck" then
+                local bottomRest = function(obj)
+                    local twistpilecontent = get_decks_and_cards_from_zone(twistpileGUID)
+                    twistpilecontent[1].flip()
+                    twistpilecontent[1].setPositionSmooth(officerdeck.getPosition())
+                end
+                twistpilecontent[1].takeObject({position=getObjectFromGUID(escape_zone_guid).getPosition(),
+                    callback_function = bottomRest})
+            else
+                twistpilecontent[1].setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+            end
+        end
+        for i = 1,#Player.getPlayers() do
+            officerdeck.takeObject({position=getObjectFromGUID(twistpileGUID).getPosition(),
+                flip=true})
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Silence the Witnesses" then
+        local scheme = get_decks_and_cards_from_zone("c39f60")
+        if not scheme[1] then
+            broadcastToAll("Scheme card missing?")
+            return nil
+        elseif scheme[1] and scheme[2] then
+            for _,o in pairs(scheme) do
+                if string.lower(o.getName()) ~= string.lower(schemeParts[1]) then
+                    o.flip()
+                    o.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+                end
+            end
+        end
+        addBystanders("c39f60",false)
+        addBystanders("c39f60",false)
+        addBystanders("c39f60",false)
+        return twistsresolved
+    end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
         local adam = get_decks_and_cards_from_zone("1fa829")
         local setUnPure = function(obj)
@@ -3444,6 +3582,12 @@ function nonTwistspecials(cards,city,schemeParts)
                 cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
             end
             powerButton(cards[1],"updateTwistPower","+" .. strikesresolved)
+        end
+    end
+    if schemeParts[1] == "Secret Invasion of the Skrull Shapeshifters" and cityEntering == 1 then
+        if hasTag2(cards[1],"Cost:") then
+            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")+2)
+            cards[1].addTag("Villain")
         end
     end
     return twistsresolved
