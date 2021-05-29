@@ -350,7 +350,7 @@ ui <- fluidPage(
                 column(numericInput("gamecount",
                              "# runs",
                              10,
-                             1,
+                             2,
                              1000,
                              1),
                        width=5)),
@@ -539,6 +539,7 @@ server <- function(input, output, session) {
                          dropgames = input$incsetThreshold)
         })
         hide("metrics")
+        updateSliderInput(session,"selectgame",value=1)
         return(games)
     })
     
@@ -554,7 +555,7 @@ server <- function(input, output, session) {
                         label = "Selected setup:",
                         min = 1,
                         max = length(gamelist()),
-                        value = 1,
+                        value = 2,
                         step = 1)
         })
         output$plusbutton <- renderUI({
