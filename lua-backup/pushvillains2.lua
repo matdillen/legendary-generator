@@ -8,6 +8,7 @@ function onLoad()
     basestrength = 0
     wwiiInvasion = false
     villainstoplay = 0
+    goblincount = 0
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
@@ -580,6 +581,8 @@ function updateTwistPower()
                     object.editButton({label = "+" .. strikesresolved})
                 elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
                     object.editButton({label = hasTag2(object,"Cost:") + 4})
+                elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
+                    object.editButton({label = hasTag2(object,"Cost:") + goblincount})
                 elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
                     object.editButton({label = "+" .. twistsstacked})
                 end
@@ -3729,6 +3732,64 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(shufflejean,jeangreyadded)
         return twistsresolved
     end
+    if schemeParts[1] == "Transform Citizens Into Demons" then
+        local bsPile = getObjectFromGUID("0b48dd")
+        if twistsresolved == 1 then
+            getObjectFromGUID(twistpileGUID).createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="2",
+                tooltip="Fight for 2 to rescue one of these bystanders.",
+                font_size=350,
+                font_color="Red",
+                color={0,0,0,0.75},
+                width=250,height=250})
+            getObjectFromGUID(twistpileGUID).createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,1},
+                rotation={0,180,0},
+                label="(5)",
+                tooltip="5 Bystanders remaining",
+                font_size=350,
+                font_color="White",
+                color={0,0,0,0.75},
+                width=250,height=250})
+        end
+        for i=1,5 do
+            bsPile.takeObject({position = getObjectFromGUID(twistpileGUID).getPosition(),
+                smooth = true})
+        end
+        function onObjectEnterZone(zone,object)
+            if zone == getObjectFromGUID(twistpileGUID) then
+                local goblin = get_decks_and_cards_from_zone(twistpileGUID)
+                if goblin[1] then
+                    goblincount = math.abs(goblin[1].getQuantity())
+                else
+                    goblincount = 0
+                end
+                zone.editButton({index=1,
+                    label="(" .. goblincount .. ")",
+                    tooltip=goblincount .. " Bystanders remaining"})
+                updateTwistPower()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if zone == getObjectFromGUID(twistpileGUID) then
+                local goblin = get_decks_and_cards_from_zone(twistpileGUID)
+                if goblin[1] then
+                    goblincount = math.abs(goblin[1].getQuantity())
+                else
+                    goblincount = 0
+                end
+                zone.editButton({index=1,
+                    label="(" .. goblincount .. ")",
+                    tooltip=goblincount .. " Bystanders remaining"})
+                updateTwistPower()
+            end
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
         local adam = get_decks_and_cards_from_zone("1fa829")
         local setUnPure = function(obj)
@@ -3899,7 +3960,15 @@ function nonTwistspecials(cards,city,schemeParts)
     if schemeParts[1] == "The Dark Phoenix Saga" and cityEntering == 1 then
         if cards[1].getName() == "Jean Grey (DC)" then
             powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:"))
+            cards[1].addTag("Villain")
             playVillains(1)
+        end
+    end
+    if schemeParts[1] == "Transform Citizens Into Demons" and cityEntering == 1 then
+        if cards[1].getName() == "Jean Grey (DC)" then
+            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")+goblincount)
+            cards[1].addTag("Villain")
+            cards[1].addTag("VP4")
         end
     end
     return twistsresolved
