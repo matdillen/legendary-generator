@@ -400,7 +400,7 @@ function push_all(city)
                         --as a default, move the twist to the twists zone
                         --city is otherwise not affected
                         --Age of Ultron turns the twist into a villain, so it can enter
-                        if schemeParts[1] ~= "Age of Ultron" then
+                        if schemeParts[1] ~= "Age of Ultron" and schemeParts[1] ~= "Steal the Weaponized Plutonium" then
                             return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
                         end
                     end
@@ -580,7 +580,7 @@ function updateTwistPower()
                     object.editButton({label = "+" .. strikesresolved})
                 elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
                     object.editButton({label = hasTag2(object,"Cost:") + 4})
-                elseif object.getName() == "S.H.I.E.L.D. Assault Squad" then
+                elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
                     object.editButton({label = "+" .. twistsstacked})
                 end
             end
@@ -3433,6 +3433,136 @@ function twistSpecials(cards,city,schemeParts)
         addBystanders("c39f60",false)
         return twistsresolved
     end
+    if schemeParts[1] == "Sinister Ambitions" then
+        stackTwist(cards[1])
+        if twistsresolved < 6 then
+            updateTwistPower()
+            playVillains(1)
+        elseif twistsresolved == 6 then
+            koCard(cards[1])
+            for _,o in pairs(city) do
+                local citycards = get_decks_and_cards_from_zone(o)
+                if citycards[1] then
+                    for _,o in pairs(citycards) do
+                        if o.hasTag("Ambition") then
+                           shift_to_next(citycards,getObjectFromGUID(escape_zone_guid),0)
+                           broadcastToAll("Scheme Twist: Ambition villain escapes!")
+                           break
+                        end
+                    end
+                end
+            end
+        end
+        return nil
+    end
+    if schemeParts[1] == "Splice Humans with Spider DNA" then
+        broadcastToAll("Each player puts a Sinister Six villain from their Victory Pile on top of the villain deck. Then, play a single card from the villain deck.")
+        return twistsresolved
+    end
+    if schemeParts[1] == "Steal All Oxygen on Earth" then
+        stackTwist(cards[1])
+        local notes = getNotes():gsub("Oxygen Level:%[/b%]%[%-%] %d+","Oxygen Level:[/b][-] " .. 8-twistsstacked,1)
+        setNotes(notes)
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero and hasTag2(hero,"Cost:") > 8 - twistsstacked then
+                koCard(hero)
+                getObjectFromGUID(o).Call('click_draw_hero')
+                broadcastToAll("Scheme Twist: " .. hero.getName() .. " suffocated and was KO'd")
+            end
+        end
+        return nil
+    end
+    if schemeParts[1] == "Steal the Weaponized Plutonium" then
+        cards[1].setDescription("VILLAINOUS WEAPON: This plutonium gives +1. Shuffle it back into the villain deck if the villain holding it is defeated.")
+        powerButton(cards[1],"updateTwistPower","+1")
+        --these will often become stacks and that will kill the button...
+        playVillains(1)
+        return twistsresolved
+    end
+    if schemeParts[1] == "Super Hero Civil War" then
+        broadcastToAll("Scheme Twist: All heroes in the HQ KO'd")
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero then
+                koCard(hero)
+                getObjectFromGUID(o).Call('click_draw_hero')
+            end
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Symbiotic Absorption" then
+        local mmZone=getObjectFromGUID("a91fe7")
+        if twistsresolved < 5 then
+            local mmcards = get_decks_and_cards_from_zone("a91fe7")
+            local mmcount = 0
+            if mmcards[1] then
+                for _,o in pairs(mmcards) do
+                    if o.is_face_down == true then
+                        mmcount = math.abs(o.getQuantity())
+                    end
+                end
+            else
+                broadcastToAll("No mastermind found?")
+                return nil
+            end
+            local mmshuffle = function(obj)
+                local mmcards = get_decks_and_cards_from_zone("a91fe7")
+                local pos = getObjectFromGUID("a91fe7").getPosition()
+                pos.y = pos.y + 3
+                if mmcards[1] then
+                    for _,o in pairs(mmcards) do
+                        if o.is_face_down == false then
+                            o.setPositionSmooth(pos)
+                            break
+                        end
+                    end
+                end
+                local mmSepShuffle = function()
+                    local mmcards = get_decks_and_cards_from_zone("a91fe7")
+                    mmcards[1].randomize()
+                    log("Mastermind tactics shuffled")
+                end
+                Wait.time(mmSepShuffle,1)
+            end
+            local tacticMoved = function()
+                local mmcards = get_decks_and_cards_from_zone("a91fe7")
+                if mmcards[1] then
+                    for _,o in pairs(mmcards) do
+                        if o.is_face_down == true then
+                            if mmcount == math.abs(o.getQuantity())-1 then
+                                return true
+                            end
+                        end
+                    end
+                    return false
+                else
+                    return false
+                end
+            end
+            local drainedmm = get_decks_and_cards_from_zone("1fa829")
+            if drainedmm[1] then
+                for _,o in pairs(drainedmm) do
+                    if o.is_face_down == true then
+                        if o.getQuantity() > 1 then
+                            o.takeObject({position = mmZone.getPosition()})
+                        else
+                            o.setPositionSmooth(mmZone.getPosition())
+                        end
+                        Wait.condition(mmshuffle,tacticMoved)
+                    end
+                end
+            else
+                broadcastToAll("Drained mastermind not found.")
+                return nil
+            end
+        elseif twistsresolved % 2 == 0 and twistsresolved < 11 then
+            broadcastToAll("Scheme Twist: This twist copies the master strike effect of the drained mastermind!")
+        elseif twistsresolved == 11 then
+            broadcastToAll("Scheme Twist: Evil wins!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
         local adam = get_decks_and_cards_from_zone("1fa829")
         local setUnPure = function(obj)
@@ -3588,6 +3718,16 @@ function nonTwistspecials(cards,city,schemeParts)
         if hasTag2(cards[1],"Cost:") then
             powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")+2)
             cards[1].addTag("Villain")
+        end
+    end
+    if schemeParts[1] == "Sinister Ambitions" and cityEntering == 1 then
+        if cards[1].hasTag("Ambition") then
+            powerButton(cards[1],"updateTwistPower","+" .. twistsstacked)
+        end
+    end
+    if schemeParts[1] == "Splice Humans with Spider DNA" and cityEntering == 1 then
+        if cards[1].hasTag("Sinister Six") then
+            powerButton(cards[1],"updateTwistPower","+3")
         end
     end
     return twistsresolved

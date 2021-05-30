@@ -66,7 +66,7 @@ function click_buy_hero(obj, player_clicker_color)
         schemeParts = {"no scheme"}
     end
     
-    if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans With Spider DNA" then
+    if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans with Spider DNA" then
         pos = pos_draw
         card.flip()
     elseif desc:find("SOARING FLIGHT") then

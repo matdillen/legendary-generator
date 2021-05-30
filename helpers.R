@@ -176,7 +176,8 @@ genFun = function(src,
   adapters = c("Hydra Super-Adaptoid",
                "Hydra High Council")
   if (scheme=="Hidden Heart of Darkness"|
-      scheme=="World War Hulk") {
+      scheme=="World War Hulk"|
+      scheme=="Symbiotic Absorption") {
     src$masterminds %<>% 
       filter(!MM%in%adapters,
              !Name%in%adapters)

@@ -27,12 +27,11 @@ function onLoad()
     --This is which way is face down for a card or deck relative to the tool
     rot_offset = {x=0, y=0, z=180}
 	
-	schemeZone=getObjectFromGUID("c39f60")
 end
 
 function click_buy_hero(obj, player_clicker_color, alt_click)
     local objects =findObjectsAtPosition({0,0,0})
-    log(objects)
+
     if not objects then return nil end
     local card = nil
     local deck = nil
@@ -44,12 +43,10 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
             deck = item
         end
     end
-    log (card)
-    log (deck)
+
     if not card and not deck then return nil end
 
-    log("Turns.turn_color")
-    log(Turns.turn_color )
+
     local playerBoards = {
         ["Red"]="8a35bd",
         ["Green"]="d7ee3e",
@@ -59,18 +56,16 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
 
     }
     pos_discard = {-0.957, 0.178, 0.222}
-    log(card)
-    log("boardGUID")
+
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    log("playerBoard")
-    log(playerBoard)
-	if schemeZone.getObjects()[2] then
-		schemename = schemeZone.getObjects()[2].getName()
-	else
-		schemename = ""
-	end
+
+	local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+    if not schemeParts then
+        printToAll("No scheme specified!")
+        schemeParts = {"no scheme"}
+    end
 	toflip = deck.is_face_down
-	if schemename == "Splice Humans With Spider DNA" then
+	if schemeParts[1] == "Splice Humans with Spider DNA" then
 		pos = pos_draw
 		if card then
 			card.flip()

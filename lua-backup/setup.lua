@@ -583,15 +583,52 @@ function import_setup()
         table.insert(vilParts, string.lower(s))
     end
     table.insert(vildeck_done,#vilParts*8)
-    for index,object in pairs(vilPile.getObjects()) do
-        for i,o in pairs(vilParts) do
-            if o == string.lower(object.name) then
-                log ("Found villain group: " .. object.name)
-                local vilGUID = object.guid
-                vilPush = vilPile.takeObject({guid=vilGUID,
-                    position=vilDeckZone.getPosition(),
-                    smooth=false,
-                    flip=true})
+    
+    if setupParts[1] == "Splice Humans with Spider DNA" then
+        local splitSinSix = function(obj)
+            local pos = vilDeckZone.getPosition()
+            pos.y = pos.y + 2
+            local annotateSinSix = function(obj)
+                obj.addTag("Sinister Six")
+            end
+            for i=1,8 do
+                pos.y = pos.y + i/2
+                if obj.getQuantity() == -1 then
+                    obj.addTag("Sinister Six")
+                    obj.setPositionSmooth(pos)
+                else
+                    obj.takeObject({position = pos,
+                        callback_function = annotateSinSix})
+                    if obj.remainder then
+                        obj = obj.remainder
+                    end
+                end
+            end
+        end
+        findInPile("Sinister Six","375566","4e3b7e",splitSinSix)
+        for index,object in pairs(vilPile.getObjects()) do
+            for _,o in pairs(vilParts) do
+                if o == object.name:lower() and o ~= "Sinister Six" then
+                    log ("Found villain group: " .. object.name)
+                    local vilGUID = object.guid
+                    vilPush = vilPile.takeObject({guid=vilGUID,
+                        position=vilDeckZone.getPosition(),
+                        smooth=false,
+                        flip=true})
+                end
+            end
+        end
+    else
+        for index,object in pairs(vilPile.getObjects()) do
+            for i,o in pairs(vilParts) do
+                if o == string.lower(object.name) then
+                    log ("Found villain group: " .. object.name)
+                    local vilGUID = object.guid
+                    vilPush = vilPile.takeObject({guid=vilGUID,
+                        position=vilDeckZone.getPosition(),
+                        smooth=false,
+                        flip=true})
+                end
             end
         end
     end
@@ -687,6 +724,28 @@ function import_setup()
         print("Extra mastermind tactics shuffled into villain deck! Their front cards can still be seen above the board.")
         -- still remove remaining mm cards then
         -- can stay there to show what is in the deck
+    end
+    
+    if setupParts[1] == "Sinister Ambitions" then
+        log("Add ambitions to villain deck.")
+        local ambPile = getObjectFromGUID("cf8452")
+        ambPile.randomize()
+        local pos = vilDeckZone.getPosition()
+        pos.y = pos.y + 2
+        local annotateAmbition = function(obj)
+            obj.setName("Ambition")
+            obj.addTag("Ambition")
+            obj.addTag("VP4")
+            obj.setDescription("When this Ambition villain escapes, do its Ambition effect.")
+        end
+        for i=1,10 do
+            pos.y = pos.y + i/2
+            ambPile.takeObject({position=pos,
+                flip=false,
+                smooth=false,
+                callback_function=annotateAmbition})
+        end
+        table.insert(vildeck_done,10)
     end
     
     vildeckc = 0
@@ -1319,21 +1378,37 @@ function schemeSpecials (setupParts,mmGUID)
         log("Only 30 shield officers.")
         reduceStack(30,"9c9649")
     end
-    if setupParts[1] == "Sinister Ambitions" then
-        log("Add ambitions to villain deck.")
-        ambPile = getObjectFromGUID("cf8452")
-        ambPile.randomize()
-        for i=1,10 do
-            ambPile.takeObject({position=vilDeckZone.getPosition(),
-                flip=true,smooth=false})
-        end
+    if setupParts[1] == "Steal All Oxygen on Earth" then
+        setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Oxygen Level:[/b][-] 8")
     end
     if setupParts[1] == "Superhuman Baseball Game" or setupParts[1] == "Smash Two Dimensions Together" then
         print("Not scripted yet!")
     end
     if setupParts[1] == "Symbiotic Absorption" then
         log("Add extra drained mastermind.")
-        findInPile(setupParts[9],"c7e1d5","1fa829")
+        local mmshuffle = function(obj)
+            local mm = obj
+            local mmcardnumber = mmGetCards(mm.getName())
+            if mmcardnumber == 4 then
+                mm.randomize()
+                log("Mastermind tactics shuffled")
+            end
+            local mmSepShuffle = function(obj)
+                mm.flip()
+                mm.randomize()
+                log("Mastermind tactics shuffled")
+            end
+            if mmcardnumber == 5 then
+                mm.takeObject({
+                    position={x=mm.getPosition().x,
+                        y=mm.getPosition().y+2,
+                        z=mm.getPosition().z},
+                        flip = false,
+                        callback_function = mmSepShuffle
+                    })
+            end
+        end
+        findInPile(setupParts[9],"c7e1d5","1fa829",mmshuffle)
     end
     if setupParts[1] == "The Contest of Champions" then
         heroParts = {}
