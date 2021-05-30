@@ -759,6 +759,12 @@ function import_setup()
         table.insert(vildeck_done,14)
     end
     
+    if setupParts[1] == "The Mark of Khonshu" or setupParts[1] == "Trap Heroes in the Microverse" or setupParts[1] == "X-Cutioner's Song" then
+        log("Extra hero " .. setupParts[9] .." in villain deck.")
+        findInPile(setupParts[9],"16594d","4bc134")
+        table.insert(vildeck_done,14)
+    end
+    
     vildeckc = 0
     for i,o in pairs(vildeck_done) do
         vildeckc = vildeckc + o
@@ -1471,32 +1477,40 @@ function schemeSpecials (setupParts,mmGUID)
         end
         Wait.condition(makeChampions,heroDeckComplete)
     end
-    if setupParts[1] == "The Mark of Khonshu" or setupParts[1] == "Trap Heroes in the Microverse" or setupParts[1] == "X-Cutioner's Song" then
-        log("Extra hero " .. setupParts[9] .." in villain deck.")
-        findInPile(setupParts[9],"16594d","4bc134")
-    end
     if setupParts[1] == "Tornado of Terrigen Mists" then
         log("Add player tokens.")
-        hopetoken = getObjectFromGUID("e27f77")
-        sewers = getObjectFromGUID("40b47d")
+        local sewers = getObjectFromGUID("40b47d")
+        playcolors = {}
+        local annotateTokens = function(obj)
+            log(playcolors)
+            local color = table.remove(playcolors,1)
+            obj.setColorTint(color)
+            obj.setName(color .. " Player")
+            obj.mass = 0
+            obj.drag = 10000
+            obj.angular_drag = 10000
+        end
         for i=1,playercount do
             if i < 4 then
-                newtoken = hopetoken.clone({
-                    position = {x=sewers.getPosition().x,y=sewers.getPosition().y,z=sewers.getPosition().z+i*0.5}
+                newtoken = spawnObject({type="PlayerPawn",
+                    position = {x=sewers.getPosition().x,y=sewers.getPosition().y,z=sewers.getPosition().z+i*0.5},
+                    callback_function = annotateTokens
                 })
+                table.insert(playcolors,Player.getPlayers()[i].color)
             elseif i == 4 then
-                newtoken = hopetoken.clone({
-                    position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z}
+                newtoken = spawnObject({type="PlayerPawn",
+                    position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z},
+                    callback_function = annotateTokens
                 })
+                table.insert(playcolors,Player.getPlayers()[i].color)
             else
-                newtoken = hopetoken.clone({
-                    position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z+1}
+                newtoken = spawnObject({type="PlayerPawn",
+                    position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z+1},
+                    callback_function = annotateTokens
                 })
+                table.insert(playcolors,Player.getPlayers()[i].color)
             end
-            newtoken.setColorTint(Player.getPlayers()[i].color)
-            newtoken.setName(Player.getPlayers()[i].color .. " Player")
         end
-
     end
     if setupParts[1] == "Turn the Soul of Adam Warlock" then
         log("Set up Adam Warlock pile.")

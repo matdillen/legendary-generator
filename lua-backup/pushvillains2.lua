@@ -371,6 +371,9 @@ function push_all(city)
                     printToAll("No scheme specified!")
                     return nil
                 end
+                if schemeParts[1] == "Tornado of Terrigen Mists" and twistsresolved > 5 and targetZoneGUID == escape_zone_guid then
+                    return nil
+                end
                 --special scheme: all cards enter the city face down
                 --so no special card behavior
                 if schemeParts[1] == "Alien Brood Encounters" then
@@ -579,6 +582,12 @@ function updateTwistPower()
                     object.editButton({label=twistsstacked+hasTag2(object,"Cost:")})
                 elseif object.getName() == "Smugglers" then
                     object.editButton({label = "+" .. strikesresolved})
+                elseif object.hasTag("Khonshu Guardian") then
+                    if i % 2 == 0 then
+                        object.editButton({label = hasTag2(object,"Cost:")*2})
+                    else
+                        object.editButton({label = hasTag2(object,"Cost:")})
+                    end
                 elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
                     object.editButton({label = hasTag2(object,"Cost:") + 4})
                 elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
@@ -3732,6 +3741,77 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(shufflejean,jeangreyadded)
         return twistsresolved
     end
+    if schemeParts[1] == "The Mark of Khonshu" then
+        playVillains(2)
+        return twistsresolved
+    end
+    if schemeParts[1] == "Tornado of Terrigen Mists" then
+        koCard(cards[1])
+        if twistsresolved == 6 then
+            invertedcity = {}
+            for i=1,5 do
+                table.insert(invertedcity,city[6-i])
+            end
+        end
+        if twistsresolved == 1 then
+            local scheme = get_decks_and_cards_from_zone("c39f60")
+            if scheme[1] then
+                scheme[1].setPositionSmooth(getObjectFromGUID(hqZonesGUIDs[5]).getPosition())
+            else
+                broadcastToAll("Scheme card missing?")
+                return nil
+            end
+        elseif twistsresolved < 6 then
+            local citycontent = getObjectFromGUID(city[twistsresolved-1]).getObjects()
+            if citycontent then
+                for _,o in pairs(citycontent) do
+                    if o.tag == "Figurine" then
+                        click_get_wound(nil,o.getName():gsub(" Player",""))
+                    end
+                end
+            end
+            local scheme = get_decks_and_cards_from_zone(hqZonesGUIDs[7-twistsresolved])[1]
+            scheme.setPositionSmooth(getObjectFromGUID(hqZonesGUIDs[6-twistsresolved]).getPosition())
+            Wait.time(click_push_villain_into_city,1)
+        elseif twistsresolved < 10 then
+            local citycontent = getObjectFromGUID(invertedcity[twistsresolved-5]).getObjects()
+            if citycontent then
+                for _,o in pairs(citycontent) do
+                    if o.tag == "Figurine" then
+                        click_get_wound(nil,o.getName():gsub(" Player",""))
+                    end
+                end
+            end
+            local scheme = get_decks_and_cards_from_zone(hqZonesGUIDs[twistsresolved-5])[1]
+            scheme.setPositionSmooth(getObjectFromGUID(hqZonesGUIDs[twistsresolved-4]).getPosition())
+            local inverted_push = function()
+                local city_topush = table.clone(invertedcity)
+                local cardfound = false
+                while cardfound == false do
+                    local cards = get_decks_and_cards_from_zone(city_topush[1])
+                    local locationfound = false
+                    if cards[1] and not cards[2] then
+                        if cards[1].getDescription():find("LOCATION") then
+                            locationfound = true
+                        end
+                    end
+                    if not next(cards) or locationfound == true then
+                        table.remove(city_topush,1)
+                    else
+                        cardfound = true
+                    end
+                    if not city_topush[1] then
+                        cardfound = true
+                    end
+                end
+                if city_topush[1] then
+                    push_all(city_topush)
+                end
+            end
+            Wait.time(inverted_push,1)
+        end
+        return nil
+    end
     if schemeParts[1] == "Transform Citizens Into Demons" then
         local bsPile = getObjectFromGUID("0b48dd")
         if twistsresolved == 1 then
@@ -3962,6 +4042,13 @@ function nonTwistspecials(cards,city,schemeParts)
             powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:"))
             cards[1].addTag("Villain")
             playVillains(1)
+        end
+    end
+    if schemeParts[1] == "The Mark of Khonshu" and cityEntering == 1 then
+        if hasTag2(cards[1],"Cost:") then
+            cards[1].addTag("Villain")
+            cards[1].addTag("Khonshu Guardian")
+            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")*2)
         end
     end
     if schemeParts[1] == "Transform Citizens Into Demons" and cityEntering == 1 then
