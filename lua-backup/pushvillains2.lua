@@ -3640,6 +3640,95 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "The Dark Phoenix Saga" then
+        local kopilecontent = get_decks_and_cards_from_zone(kopile_guid)
+        local vildeckZone = getObjectFromGUID("4bc134")
+        local jeanfound = 0
+        local vildeck = get_decks_and_cards_from_zone("4bc134")
+        local vildeckcount = 0
+        if vildeck[1] then
+            vildeckcount = vildeck[1].getQuantity()
+        end
+        if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
+            for _,o in pairs(kopilecontent[1].getObjects()) do
+                if o.name == "Jean Grey (DC)" then
+                    kopilecontent[1].takeObject({position = vildeckZone.getPosition(),
+                        guid = o.guid,
+                        flip=true})
+                    jeanfound = jeanfound + 1
+                    if kopilecontent[1].remainder then
+                        if kopilecontent[1].remainder.getName() == "Jean Grey (DC)" then
+                            kopilecontent[1].flip()
+                            kopilecontent[1].setPositionSmooth(vildeckZone.getPosition())
+                            jeanfound = jeanfound + 1
+                        end
+                        break
+                    end
+                end
+            end
+        elseif kopilecontent[1] then
+            if kopilecontent[1].getName() == "Jean Grey (DC)" then
+                kopilecontent[1].flip()
+                kopilecontent[1].setPositionSmooth(vildeckZone.getPosition())
+                jeanfound = jeanfound + 1
+            end
+        end
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            if hand[1] then
+                for _,h in pairs(hand) do
+                    if h.getName() == "Jean Grey (DC)" then
+                        h.flip()
+                        h.setPosition(vildeckZone.getPosition())
+                        jeanfound = jeanfound + 1
+                    end
+                end
+            end
+        end
+        for i,o in pairs(playerBoards) do
+            if Player[i].seated == true then
+                local discard = getObjectFromGUID(o).Call('returnDiscardPile')
+                if discard[1] and discard[1].tag == "Deck" then
+                    for _,o in pairs(discard[1].getObjects()) do
+                        if o.name == "Jean Grey (DC)" then
+                            discard[1].takeObject({position = vildeckZone.getPosition(),
+                                guid = o.guid,
+                                flip=true})
+                            jeanfound = jeanfound + 1
+                            if discard[1].remainder then
+                                if discard[1].remainder.getName() == "Jean Grey (DC)" then
+                                    discard[1].flip()
+                                    discard[1].setPositionSmooth(vildeckZone.getPosition())
+                                    jeanfound = jeanfound + 1
+                                end
+                                break
+                            end
+                        end
+                    end
+                elseif discard[1] then
+                    if discard[1].getName() == "Jean Grey (DC)" then
+                        discard[1].flip()
+                        discard[1].setPositionSmooth(vildeckZone.getPosition())
+                        jeanfound = jeanfound + 1
+                    end
+                end
+            end
+        end
+        local jeangreyadded = function()
+            local vildeck = get_decks_and_cards_from_zone("4bc134")
+            if vildeck[1] and vildeck[1].getQuantity() == vildeckcount + jeanfound then
+                return true
+            else
+                return false
+            end
+        end
+        local shufflejean = function()
+            local vildeck = get_decks_and_cards_from_zone("4bc134")
+            vildeck[1].randomize()
+        end
+        Wait.condition(shufflejean,jeangreyadded)
+        return twistsresolved
+    end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
         local adam = get_decks_and_cards_from_zone("1fa829")
         local setUnPure = function(obj)
@@ -3805,6 +3894,12 @@ function nonTwistspecials(cards,city,schemeParts)
     if schemeParts[1] == "Splice Humans with Spider DNA" and cityEntering == 1 then
         if cards[1].hasTag("Sinister Six") then
             powerButton(cards[1],"updateTwistPower","+3")
+        end
+    end
+    if schemeParts[1] == "The Dark Phoenix Saga" and cityEntering == 1 then
+        if cards[1].getName() == "Jean Grey (DC)" then
+            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:"))
+            playVillains(1)
         end
     end
     return twistsresolved

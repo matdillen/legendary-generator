@@ -753,6 +753,12 @@ function import_setup()
         table.insert(vildeck_done,10)
     end
     
+    if setupParts[1] == "The Dark Phoenix Saga" or setupParts[1] == "Transform Citizens Into Demons" then
+        log("Jean Grey in villain deck.")
+        findInPile("Jean Grey (DC)","16594d","4bc134")
+        table.insert(vildeck_done,14)
+    end
+    
     vildeckc = 0
     for i,o in pairs(vildeck_done) do
         vildeckc = vildeckc + o
@@ -1464,10 +1470,6 @@ function schemeSpecials (setupParts,mmGUID)
             end
         end
         Wait.condition(makeChampions,heroDeckComplete)
-    end
-    if setupParts[1] == "The Dark Phoenix Saga" or setupParts[1] == "Transform Citizens Into Demons" then
-        log("Jean Grey in villain deck.")
-        findInPile("Jean Grey (DC)","16594d","4bc134")
     end
     if setupParts[1] == "The Mark of Khonshu" or setupParts[1] == "Trap Heroes in the Microverse" or setupParts[1] == "X-Cutioner's Song" then
         log("Extra hero " .. setupParts[9] .." in villain deck.")
