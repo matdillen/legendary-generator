@@ -99,6 +99,11 @@ function input_print(obj, color, input, stillEditing)
     end
 end
 
+function obedienceDisk(obj,player_clicker_color)
+    printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
+    return nil
+end
+
 function click_shuffle()
 
     log("Shuffle: heroes, villains, bystanders, wounds, sidekicks, shield officers, player decks")
@@ -1380,6 +1385,25 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Steal All Oxygen on Earth" then
         setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Oxygen Level:[/b][-] 8")
+    end
+    if setupParts[1] == "Subjugate with Obedience Disks" then
+        local dividedDeckGUIDs = {
+            ["HC:Red"]="4c1868",
+            ["HC:Green"]="8656c3",
+            ["HC:Yellow"]="533311",
+            ["HC:Blue"]="3d3ba7",
+            ["HC:Silver"]="725c5d"
+        }
+        for i,o in pairs(dividedDeckGUIDs) do
+            getObjectFromGUID(o).createButton({
+                click_function="obedienceDisk",
+                function_owner=self,
+                tooltip="Put the Obedience Disks (Scheme Twists) here.",
+                position={0,-0.4,0},
+                height=550,
+                width=500,
+                color={0,1,0,0.6}})
+        end
     end
     if setupParts[1] == "Superhuman Baseball Game" or setupParts[1] == "Smash Two Dimensions Together" then
         print("Not scripted yet!")

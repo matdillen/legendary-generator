@@ -658,16 +658,46 @@ function ultronCallback(obj)
     Wait.time(updateUltronPower,1)
 end
 
-function powerButton(obj,click_f,label_f,otherposition)
+function updateHQTags()
+    for i,o in pairs(hqZonesGUIDs) do
+        local content = get_decks_and_cards_from_zone(o)
+        local zone = getObjectFromGUID(o)
+        if content[1] and content[1].getQuantity() < 3 then
+            if #zone.getButtons() == 1 then
+                zone.createButton({click_function="updateHQTags",
+                function_owner=self,
+                position={0,0,-3.7},
+                rotation={0,180,0},
+                label="+" .. math.abs(content[1].getQuantity()),
+                tooltip="Additional cost due to subjugation disks",
+                font_size=300,
+                font_color="Yellow",
+                color={0,0,0,0.75},
+                width=250,height=250})
+            else
+                zone.editButton({index=1,label="+" .. math.abs(content[1].getQuantity())})
+            end
+        elseif content[1] and content[1].getQuantity() > 2 then
+            broadcastToAll("Too many obedience disks in zone " .. i .. " above the board")
+        elseif not content[1] and #zone.getButtons() > 1 then
+            zone.removeButton(1)
+        end
+    end
+end
+
+function powerButton(obj,click_f,label_f,otherposition,toolt)
     if not otherposition then
         otherposition = {0,22,0}
+    end
+    if not toolt then
+        toolt = "Click to update villain's power!"
     end
     if obj and click_f and label_f then
         obj.createButton({click_function=click_f,
             function_owner=self,
             position=otherposition,
             label=label_f,
-            tooltip="Click to update villain's power!",
+            tooltip=toolt,
             font_size=500,
             font_color={1,0,0},
             color={0,0,0,0.75},
@@ -800,6 +830,11 @@ end
 
 function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
+end
+
+function obedienceDisk(obj,player_clicker_color)
+    printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
+    return nil
 end
 
 function nonCityZoneShade(guid)
@@ -3480,6 +3515,14 @@ function twistSpecials(cards,city,schemeParts)
         playVillains(1)
         return twistsresolved
     end
+    if schemeParts[1] == "Subjugate with Obedience Disks" then
+        broadcastToAll("Put this twist in one of the zones above the board. A zone cannot have more than two twists in it.")
+        function onObjectEnterZone()
+            updateHQTags()
+            Wait.time(updateHQTags,1)
+        end
+        return nil
+    end
     if schemeParts[1] == "Super Hero Civil War" then
         broadcastToAll("Scheme Twist: All heroes in the HQ KO'd")
         for _,o in pairs(hqguids) do
@@ -3562,6 +3605,40 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist: Evil wins!")
         end
         return twistsresolved
+    end
+    if schemeParts[1] == "Televised Deathtraps of Mojoworld" then
+        stackTwist(cards[1])
+        broadcastToAll("Scheme Twist: Fight the deathtraps (click the value hovering the scheme card) before end of turn or every player gets a wound!")
+        resolveDeathtraps = function(obj,player_clicker_color)
+            broadcastToAll("Deathtraps averted by player " .. player_clicker_color)
+            obj.clearButtons()
+        end
+        local scheme = get_decks_and_cards_from_zone("c39f60")
+        if scheme[1] then
+            powerButton(scheme[1],"resolveDeathtraps",twistsstacked,nil,"Resolve the deathtraps by spending this much Attack.")
+            local pcolor = Turns.turn_color
+            local turnChanged = function()
+                if Turns.turn_color == pcolor then
+                    return false
+                else
+                    return true
+                end
+            end
+            local deathTrapsActivated = function()
+                local scheme = get_decks_and_cards_from_zone("c39f60")
+                if scheme[1] and scheme[1].getButtons() then
+                    scheme[1].clearButtons()
+                    broadcastToAll("Death traps activated. Each player gains a wound.")
+                    dealWounds()
+                elseif not scheme[1] then
+                    broadcastToAll("Scheme card not found?")
+                end
+            end
+            Wait.condition(deathTrapsActivated,turnChanged)
+        else
+            broadcastToAll("Scheme card not found?")
+        end
+        return nil
     end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
         local adam = get_decks_and_cards_from_zone("1fa829")
