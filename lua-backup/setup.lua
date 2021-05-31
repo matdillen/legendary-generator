@@ -574,6 +574,7 @@ function import_setup()
             log("Demon Bear moved to twists pile. Other demons to villain deck.")
         end
         findInPile("Demons of Limbo","375566","1fa829",extractBear)
+        table.insert(vildeck_done,7)
     end
     
     -- Villain groups
@@ -765,6 +766,7 @@ function import_setup()
         table.insert(vildeck_done,14)
     end
     
+    --log(vildeck_done)
     vildeckc = 0
     for i,o in pairs(vildeck_done) do
         vildeckc = vildeckc + o

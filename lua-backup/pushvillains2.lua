@@ -254,6 +254,12 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                         --this should be from the KO pile, but that is still a mess to sort out
                         --take them from the scheme twist pile for now
                     broadcastToAll("Thor escaped! Triumph of Asgard!")
+                elseif obj.getName() == "Demon Bear" and schemeParts and schemeParts[1] == "The Demon Bear Saga" then
+                    getObjectFromGUID("c82082").takeObject({position = getObjectFromGUID("4f53f9").getPosition(),
+                        smooth=false})
+                        --this should be from the KO pile, but that is still a mess to sort out
+                        --take them from the scheme twist pile for now
+                    broadcastToAll("The Demon Bear escaped! Dream Horror!")
                 end
                 if schemeParts and schemeParts[1] == "Change the Outcome of WWII" and wwiiInvasion == false then
                     wwiiInvasion = true
@@ -860,7 +866,7 @@ function nonCityZoneShade(guid)
 end
 
 function koCard(obj)
-    obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+    obj.setPosition(getObjectFromGUID(kopile_guid).getPosition())
 end
 
 function stackTwist(obj)
@@ -3741,6 +3747,187 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(shufflejean,jeangreyadded)
         return twistsresolved
     end
+    if schemeParts[1] == "The Demon Bear Saga" then
+        koCard(cards[1])
+        --check if Bear is in the city
+        for _,o in pairs(city) do
+            local cityobjects = get_decks_and_cards_from_zone(o)
+            if cityobjects[1] then
+                for _,object in pairs(cityobjects) do
+                    if object.getName() == "Demon Bear" then
+                        shift_to_next(cityobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                        broadcastToAll("Scheme Twist! Demon Bear escapes!",{1,0,0})
+                        return nil
+                    end
+                end
+            end
+        end
+        --or his starting spot
+        local cityobjects = get_decks_and_cards_from_zone("4f53f9")
+        if cityobjects[1] and cityobjects[1].getName() == "Demon Bear" then
+            cityobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+            local bearMoved = function()
+                local bear = get_decks_and_cards_from_zone(city_zones_guids[1])
+                if bear[1] and bear[1].getName() == "Demon Bear" then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(click_push_villain_into_city,bearMoved)
+            broadcastToAll("Scheme Twist! The Demon Bear entered the city.",{1,0,0})
+            return nil
+        end
+        --or the escape pile
+        local escapedobjects = get_decks_and_cards_from_zone(escape_zone_guid)
+        if escapedobjects[1] and escapedobjects[1].tag == "Deck" then
+            for _,object in pairs(escapedobjects[1].getObjects()) do
+                if object.name == "Demon Bear" then
+                    escapedobjects[1].takeObject({guid=object.guid,
+                        position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                        smooth=true,
+                        callback_function = click_push_villain_into_city})
+                    broadcastToAll("Scheme Twist! The Demon Bear re-entered the city from the escape pile.",{1,0,0})
+                    return nil
+                end
+            end
+        elseif escapedobjects[1] and escapedobjects[1].tag == "Card" then
+            if escapedobjects[1].getName() == "Demon Bear" then
+                escapedobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                local bearMoved = function()
+                    local bear = get_decks_and_cards_from_zone(city_zones_guids[1])
+                    if bear[1] and bear[1].getName() == "Demon Bear" then
+                        return true
+                    else
+                        return false
+                    end
+                end
+                Wait.condition(click_push_villain_into_city,bearMoved)
+                broadcastToAll("Scheme Twist! The Demon Bear re-entered the city from the escape pile.",{1,0,0})
+                return nil
+            end
+        end
+        --or the victory pile
+        for i,o in pairs(vpileguids) do
+            if Player[i].seated == true then
+                local vpobjects = get_decks_and_cards_from_zone(o)
+                if vpobjects[1] and vpobjects[1].tag == "Deck" then
+                    for _,object in pairs(vpobjects[1].getObjects()) do
+                        if object.name == "Demon Bear" then
+                            vpobjects[1].takeObject({guid=object.guid,
+                                position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                                smooth=true,
+                                callback_function = click_push_villain_into_city})
+                            broadcastToAll("Scheme Twist! The Demon Bear re-entered the city from ".. i .. " player's victory pile.",{1,0,0})
+                            click_rescue_bystander(nil,i)
+                            click_rescue_bystander(nil,i)
+                            click_rescue_bystander(nil,i)
+                            click_rescue_bystander(nil,i)
+                            return nil
+                        end
+                    end
+                elseif vpobjects[1] and vpobjects[1].tag == "Card" then
+                    if vpobjects[1].getName() == "Demon Bear" then
+                        vpobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                        local bearMoved = function()
+                            local bear = get_decks_and_cards_from_zone(city_zones_guids[1])
+                            if bear[1] and bear[1].getName() == "Demon Bear" then
+                                return true
+                            else
+                                return false
+                            end
+                        end
+                        Wait.condition(click_push_villain_into_city,bearMoved)
+                        broadcastToAll("Scheme Twist! The Demon Bear re-entered the city from ".. i .. " player's victory pile.",{1,0,0})
+                        click_rescue_bystander(nil,i)
+                        click_rescue_bystander(nil,i)
+                        click_rescue_bystander(nil,i)
+                        click_rescue_bystander(nil,i)
+                        return nil
+                    end
+                end
+            end
+        end
+        local kodobjects = get_decks_and_cards_from_zone(kopile_guid)
+        if kodobjects[1] and kodobjects[1].tag == "Deck" then
+            for _,object in pairs(kodobjects[1].getObjects()) do
+                if object.name == "Demon Bear" then
+                    kodobjects[1].takeObject({guid=object.guid,
+                        position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                        smooth=true,
+                        callback_function = click_push_villain_into_city})
+
+                    broadcastToAll("Scheme Twist! The Demon Bear re-entered the city from the KO pile.",{1,0,0})
+                    return nil
+                end
+            end
+        elseif kodobjects[1] and kodobjects[1].tag == "Card" then
+            if kodobjects[1].getName() == "Demon Bear" then
+                kodobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                local bearMoved = function()
+                    local bear = get_decks_and_cards_from_zone(city_zones_guids[1])
+                    if bear[1] and bear[1].getName() == "Demon Bear" then
+                        return true
+                    else
+                        return false
+                    end
+                end
+                Wait.condition(click_push_villain_into_city,bearMoved)
+                broadcastToAll("Scheme Twist! The Demon Bear re-entered the city from the KO pile.",{1,0,0})
+                return nil
+            end
+        end
+        --thor not found
+        broadcastToAll("The Demon Bear not found? Where is he?")
+        return nil
+    end
+    if schemeParts[1] == "The Fountain of Eternal Life" then
+        broadcastToAll("Scheme Twist: A villain from your victory pile enters the sewers. Please choose one! Twist card put on bottom of villain deck.")
+        local vildeck = get_decks_and_cards_from_zone("4bc134")
+        if vildeck[1] then
+            local pos = vildeck[1].getPosition()
+            pos.y = pos.y + 3
+            vildeck[1].setPositionSmooth(pos)
+        end
+        cards[1].flip()
+        cards[1].setPositionSmooth(getObjectFromGUID("4bc134").getPosition())
+        return nil
+    end
+    if schemeParts[1] == "The God-Emperor of Battleworld" then
+        if twistsresolved == 1 then
+            local scheme = get_decks_and_cards_from_zone("c39f60")
+            if scheme[1] then
+                broadcastToAll("Scheme Twist: The scheme ascended to be a Mastermind!")
+                powerButton(scheme[1],"updateTwistPower",9)
+                scheme[1].addTag("Mastermind")
+                scheme[1].addTag("VP9")
+            else
+                broadcastToAll("Missing scheme card?")
+                return nil    
+            end
+        elseif twistsresolved < 7 then
+            stackTwist(cards[1])
+            local scheme = get_decks_and_cards_from_zone("c39f60")
+            if scheme[1] then 
+                scheme[1].editButton({label = 9 + 2*twistsstacked})
+            end
+            return nil
+        elseif twistsresolved == 7 then
+            local mm =get_decks_and_cards_from_zone("a91fe7")
+            broadcastToAll("Scheme Twist: The God-Emperor KO'd the mastermind! KO any other remaining masterminds other than the God-Emperor!")
+            if mm[1] then
+                for _,o in pairs(mm) do
+                    if o.is_face_down then
+                        o.flip()
+                    end
+                    koCard(o)
+                end
+            end
+        elseif twistsresolved == 8 then
+            broadcastToAll("Scheme Twist: Evil Wins!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "The Mark of Khonshu" then
         playVillains(2)
         return twistsresolved
@@ -3930,22 +4117,16 @@ function twistSpecials(cards,city,schemeParts)
 end
 
 function nonTwistspecials(cards,city,schemeParts)
-    if schemeParts[1] == "Annihilation: Conquest" then
+    if schemeParts[1] == "Annihilation: Conquest" and cityEntering == 1 then
         local cost = hasTag2(cards[1],"Cost:")
         if cost then
             cards[1].addTag("Phalanx-Infected")
             powerButton(cards[1],"updateTwistPower",twistsresolved+cost)
         end
     end
-    if schemeParts[1] == "Brainwash the Military" then
+    if schemeParts[1] == "Brainwash the Military" and cityEntering == 1 then
         basestrength = 3
         if cards[1].getName() == "S.H.I.E.L.D. Officer" or cards[1].getName() == "Madame Hydra" then
-            local twistsstack = get_decks_and_cards_from_zone("4f53f9")
-            if twistsstack[1] then
-                twistsstacked = math.abs(twistsstack[1].getQuantity())
-            else
-                twistsstacked = 0
-            end
             cards[1].addTag("Brainwashed")
             powerButton(cards[1],"updateTwistPower",twistsstacked+basestrength)
         end
@@ -4042,6 +4223,15 @@ function nonTwistspecials(cards,city,schemeParts)
             powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:"))
             cards[1].addTag("Villain")
             playVillains(1)
+        end
+    end
+    if schemeParts[1] == "The Fountain of Eternal Life" and cityEntering == 1 then
+        if cards[1].hasTag("Villain") and not cards[1].getDescription():find("FATEFUL RESURRECTION") then
+            if cards[1].getDescription() == "" then
+                cards[1].setDescription("FATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
+            else
+                cards[1].setDescription(cards[1].getDescription() .. "\r\nFATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
+            end
         end
     end
     if schemeParts[1] == "The Mark of Khonshu" and cityEntering == 1 then
