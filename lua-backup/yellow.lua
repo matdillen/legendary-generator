@@ -336,6 +336,11 @@ function returnDiscardPile()
     return discard
 end
 
+function returnDeck()
+    local deck = findObjectsAtPosition(pos_draw)
+    return deck
+end
+
 function get_decks_and_cards_from_zone(zoneGUID)
     local zone = getObjectFromGUID(zoneGUID)
     if zone then
