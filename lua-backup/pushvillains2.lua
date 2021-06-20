@@ -10,6 +10,7 @@ function onLoad()
     villainstoplay = 0
     goblincount = 0
     othermm = false
+    mmStorage = nil
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
@@ -216,7 +217,6 @@ function get_decks_and_cards_from_zone(zoneGUID)
     local result = {}
     if decks then
         for k, deck in pairs(decks) do
-            local desc = deck.getDescription()
             if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == "Shard" or deck.getName() == "Baby Hope Token" then
                 table.insert(result, deck)
             end
@@ -446,7 +446,9 @@ function push_all(city)
                         if not proceed then
                             return nil
                         end
-                        return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        if cards[1].getName() == "Masterstrike" then
+                            return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        end
                     end
                 
                     --bystanders behave differently when entering
@@ -622,6 +624,14 @@ function updateTwistPower()
                     object.editButton({label = hasTag2(object,"Cost:") + goblincount})
                 elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
                     object.editButton({label = "+" .. twistsstacked})
+                elseif object.getName() == "Graveyard" and object.hasTag("Location") then
+                    for _,obj in pairs(cityobjects) do
+                        if obj.hasTag("Villain") then
+                            object.editButton({label = 7 + 2*reaperbonus + 2})
+                            return nil
+                        end
+                    end
+                    object.editButton({label = 7 + 2*reaperbonus})
                 end
             end
         end
@@ -4138,19 +4148,24 @@ function twistSpecials(cards,city,schemeParts)
 end
 
 function strikeSpecials(cards,city,schemeParts)
-    if not schemeParts[5] then
-        broadcastToAll("No mastermind specified?")
-        return nil
+    if not mmStorage then
+        local masterminds = getObjectFromGUID("912967").Call('returnMM')
+        mmStorage = table.clone(masterminds)
     end
-    local mmname = schemeParts[5]
+    if not mmStorage[1] then
+        broadcastToAll("No mastermind specified!")
+        return nil
+    elseif mmStorage[2] then
+        broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
+        --try to script this later by creating buttons allowing to specify the order of master strike resolution
+        return nil
+    else
+        mmname = mmStorage[1]
+    end
     local epicness = false
     if mmname:find(" %- epic") then
         mmname = mmname:gsub(" %- epic","")
         epicness = true
-    end
-    if othermm == true then
-        broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
-        return nil
     end
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
@@ -4556,6 +4571,214 @@ function strikeSpecials(cards,city,schemeParts)
             broadcastToAll("Random horror added to the game (Master Strike zone)")
         end
     end
+    if mmname == "Deathbird" then
+        cards[1].setName("Shi'ar Battlecruiser")
+        local attack = 0
+        if epicness == true then
+            cards[1].addTag("VP6")
+            attack = 9
+        else
+            cards[1].addTag("VP5")
+            attack = 7
+        end
+        cards[1].addTag("Power:" .. attack)
+        powerButton(cards[1],"updateTwistPower",attack)
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,p in pairs(citycontent) do
+                    if p.name:find("Shi'ar") or p.hasTag("Shi'ar") then
+                        if epicness == true then
+                            local horrorPile = getObjectFromGUID(horrorPileGUID)
+                            local horrorZone = getObjectFromGUID(strikeZoneGUID)
+                            horrorPile.randomize()
+                            horrorPile.takeObject({position=horrorZone.getPosition(),
+                                    flip=false,
+                                    smooth=false})       
+                            broadcastToAll("Random horror added to the game (Master Strike zone)")
+                        else
+                            dealWounds()
+                        end
+                        return strikesresolved
+                    end
+                end  
+            end
+        end
+    end
+    if mmname == "Dr. Strange" then
+        local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+        if vildeck and vildeck.tag == "Deck" then
+            local pos = self.getPosition()
+            local strangeguids = {}
+            pos.x = pos.x - 6
+            pos.y = pos.y + 3
+            local insertGuid = function(obj)
+                local objname = obj.getName()
+                if objname == "" then
+                    objname = "an unnamed card"
+                end
+                broadcastToAll("Master Strike: Dr. Strange revealed " .. objname .. " from the villain deck!")
+                table.insert(strangeguids,obj.guid)
+            end
+            for i=1,3 do
+                pos.x = pos.x + 2
+                vildeck.takeObject({position = pos,
+                    flip=true,
+                    smooth=true,
+                    callback_function = insertGuid})
+            end
+            local strangeguidsEntered = function()
+                if strangeguids and #strangeguids == 3 then
+                    return true
+                else
+                    return false
+                end
+            end
+            local strangeProcess = function()
+                local twistfound = false
+                local powerguid = nil
+                local power = 0
+                for i,o in pairs(strangeguids) do
+                    local object = getObjectFromGUID(o)
+                    if twistfound == false and object.getName() == "Scheme Twist" then
+                        twistfound = true
+                        local moveTwist = function()
+                            object.setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                        end
+                        Wait.time(moveTwist,1)
+                        strangeguids[i] = nil
+                    elseif object.hasTag("Villain") then
+                        if not powerguid then
+                            powerguid = i
+                            if hasTag2(object,"Power:") then
+                                power = hasTag2(object,"Power:")
+                            end
+                        elseif hasTag2(object,"Power:") and hasTag2(object,"Power:") > power then
+                            powerguid = i
+                            power = hasTag2(object,"Power:")
+                        end
+                    end
+                end
+                bump(vildeck,4)
+                if powerguid then
+                    local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+                    pos.y = pos.y + 6
+                    local object = getObjectFromGUID(strangeguids[powerguid])
+                    object.flip()
+                    object.setPositionSmooth(pos)
+                    strangeguids[powerguid] = nil
+                end
+                for _,o in pairs(strangeguids) do
+                    local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+                    local object = getObjectFromGUID(o)
+                    object.flip()
+                    object.setPositionSmooth(pos)
+                end
+            end
+            Wait.condition(strangeProcess,strangeguidsEntered)
+        end             
+    end
+    if mmname == "Emma Frost, The White Queen" then
+        cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+        if epicness == false then
+            broadcastToAll("Master Strike: Each player has " .. strikesresolved .. " Waking Nightmares.")
+        else
+            broadcastToAll("Master Strike: Each player has " .. strikesresolved+1 .. " Waking Nightmares.")
+        end
+        return nil
+    end
+    if mmname == "Galactus" then
+        local destroyed = table.remove(current_city)
+        local escapees = get_decks_and_cards_from_zone(destroyed)
+        if escapees[1] then
+            shift_to_next(escapees,getObjectFromGUID(escape_zone_guid),0)
+            for _,o in pairs(escapees) do
+                if o.getDescription():find("LOCATION") then
+                    koCard(o)
+                end
+            end
+        end
+        local setStrike = function()
+            cards[1].setPositionSmooth(getObjectFromGUID(destroyed).getPosition())
+        end
+        Wait.time(setStrike,1)
+        return nil
+    end
+    if mmname == "General Ross" then
+        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformed == true then
+            crossDimensionalRampage("Hulk")
+        else
+            for i,o in pairs(vpileguids) do
+                if Player[i].seated == true then
+                    local vpilecontent = get_decks_and_cards_from_zone(o)
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        local bsguids = {}
+                        for _,k in pairs(vpilecontent[1].getObjects()) do
+                            for _,l in pairs(k.tags) do
+                                if l == "Bystander" then
+                                    bsguids[k.name] = k.guid
+                                    break
+                                end
+                            end
+                        end
+                        if next(bsguids) then
+                            local bsnr = math.random(#bsguids)
+                            local step = 1
+                            for name,guid in pairs(bsguids) do
+                                if step == bsnr then
+                                    if name == "Card" then
+                                        name = ""
+                                    end
+                                    broadcastToColor("Master Strike: Random bystander " .. name .. " piloted one of General Ross's helicopters.",i,i)
+                                    vpilecontent[1].takeObject({position = getObjectFromGUID(strikeZoneGUID).getPosition(),
+                                        smooth = false,
+                                        flip = true,
+                                        guid = guid})
+                                    break
+                                else
+                                    step = step + 1
+                                end
+                            end
+                        else
+                            click_get_wound(nil,i)
+                        end
+                    elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
+                        vpilecontent[1].flip()
+                        vpilecontent[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+                    else
+                        click_get_wound(nil,i)
+                    end
+                end
+            end
+        end
+    end
+    if mmname == "Grim Reaper" then
+        reaperbonus = 0
+        if epicness then
+            reaperbonus = 1
+            for _,o in pairs(city) do
+                local locationcount = 0
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,p in pairs(citycontent) do
+                        if p.getDescription():find("LOCATION") then
+                            locationcount = locationcount + 1
+                        end
+                    end
+                end
+            end
+            if locationcount > 1 then
+                dealWounds()
+            end
+        end
+        cards[1].setName("Graveyard")
+        cards[1].setDescription("LOCATION: Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.")
+        cards[1].addTag("VP" .. 5 + reaperbonus)
+        cards[1].addTag("Attack:" .. 7 + reaperbonus)
+        cards[1].addTag("Location")
+        powerButton(cards[1],"updateTwistPower",7 + reaperbonus)
+    end
     return strikesresolved
 end
 
@@ -4566,6 +4789,39 @@ function bump(obj,y)
     local pos = obj.getPosition()
     pos.y = pos.y + y
     obj.setPositionSmooth(pos)
+end
+
+function crossDimensionalRampage(name)
+    local players = Player.getPlayers()
+    --add pseudonyms for wolverine,hulk still
+    for i,o in pairs(players) do
+        if o.seated == true then
+            local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                for _,k in pairs(vpilecontent[1].getObjects()) do
+                    if string.lower(k):find(name) then
+                        table.remove(players,i)
+                    end
+                end
+            elseif vpilecontent[1] and string.lower(vpilecontent[1].getName()):find(name) then
+                table.remove(players,i)
+            end
+        end
+    end
+    for i,o in pairs(players) do
+        local hand = o.getHandObjects()
+        if hand[1] then
+            for _,h in pairs(hand) do
+                if string.lower(h.getName()):find(name) then
+                    table.remove(players,i)
+                end
+            end
+        end
+    end
+    --does not check heroes in play yet
+    for _,o in pairs(players) do
+        click_get_wound(nil,o.color)
+    end
 end
 
 function nonTwistspecials(cards,city,schemeParts)

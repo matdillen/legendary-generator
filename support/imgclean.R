@@ -609,6 +609,14 @@ for (i in 1:length(a$ObjectStates[[bsid]]$ContainedObjects)) {
   a$ObjectStates[[bsid]]$ContainedObjects[[i]]$Tags = list("VP1","Bystander")
 }
 
+#wounds
+
+woundid = 16
+
+for (i in 1:length(a$ObjectStates[[woundid]]$ContainedObjects)) {
+  a$ObjectStates[[woundid]]$ContainedObjects[[i]]$Tags = list("Wound")
+}
+
 #export
 write(toJSON(a,
              digits=NA,
