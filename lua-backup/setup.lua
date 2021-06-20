@@ -433,6 +433,7 @@ function import_setup()
         mmname = mmname:gsub(" %- epic","")
         epicness = true
     end
+    getObjectFromGUID("f3c7e3").Call('retrieveMM')
     local mmcardnumber = mmGetCards(mmname) 
     
     if mmGetCards(mmname,true) == true then

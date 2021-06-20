@@ -10,7 +10,7 @@ function onLoad()
     villainstoplay = 0
     goblincount = 0
     othermm = false
-    mmStorage = nil
+    mmStorage = {}
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
@@ -1741,52 +1741,73 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Dark Alliance" then
-        local annipile = getObjectFromGUID("8656c3")
         if twistsresolved == 1 then
-            local mmPile = getObjectFromGUID("c7e1d5")
+            local mmPile = getObjectFromGUID(mmPileGUID)
             mmPile.randomize()
             local stripTactics = function(obj)
+                obj.flip()
+                table.insert(mmStorage,obj.getName())
                 local keep = math.random(4)
                 local tacguids = {}
                 for i = 1,4 do
                     table.insert(tacguids,obj.getObjects()[i].guid)
                 end
-                local annimmpile = getObjectFromGUID("bf7e87")
+                local tacticsPile = getObjectFromGUID(topBoardGUIDs[2])
                 for i = 1,4 do
                     if i ~= keep then
-                        obj.takeObject({position = annimmpile.getPosition(),
+                        obj.takeObject({position = tacticsPile.getPosition(),
                             guid = tacguids[i],
                             flip = true})
                     end
                 end
+                local flipTactics = function()
+                    local pos = obj.getPosition()
+                    pos.y = pos.y + 3
+                    obj.takeObject({position = pos,
+                        index = obj.getQuantity()-1,
+                        flip=true})
+                end
+                Wait.time(flipTactics,1)
             end
-            mmPile.takeObject({position = annipile.getPosition(),callback_function = stripTactics})
+            mmPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[4]).getPosition(),callback_function = stripTactics})
         elseif twistsresolved < 5 then
-            if annipile.getObjects()[2] then
-                local postop = annipile.getPosition()
+            local allianceMM = get_decks_and_cards_from_zone(topBoardGUIDs[4])
+            local mmcard = nil
+            if allianceMM[1] then
+                for _,o in pairs(allianceMM) do
+                    for _,k in pairs(mmStorage) do
+                        if k:find(o.getName()) and o.tag == "Card" then
+                            mmcard = o
+                            break
+                        end
+                    end
+                    if mmcard then
+                        break
+                    end
+                end
+                if not mmcard then
+                    broadcastToAll("Alliance mastermind card not found.")
+                    return nil
+                end
+                local postop = allianceMM[1].getPosition()
                 postop.y = postop.y + 4
                 local tacticShuffle = function(obj)
-                    annipile.getObjects()[2].randomize()
+                    get_decks_and_cards_from_zone(topBoardGUIDs[4])[1].randomize()
                 end
                 local addTactic = function(obj)
-                    if annimmpile.getObjects()[2].getQuantity() > 1 then
-                        annimmpile.getObjects()[2].takeObject({position = annipile.getPosition(),
-                            flip=true,
+                    local tacticsPile = get_decks_and_cards_from_zone(topBoardGUIDs[2])
+                    if tacticsPile[1].getQuantity() > 1 then
+                        tacticsPile[1].takeObject({position = allianceMM[1].getPosition(),
+                            flip=false,
                             smooth=false,
                             callback_function = tacticShuffle})
-                    elseif annimmpile.getObjects()[2].getQuantity() == -1 then
-                        annimmpile.getObjects()[2].flip()
-                        local ann = annimmpile.getObjects()[2].setPosition(annipile.getPosition())
+                    else
+                        local ann = tacticsPile[1].setPosition(allianceMM[1].getPosition())
                         tacticShuffle(ann)
                     end
                 end
-                if annipile.getObjects()[2].getQuantity() > 1 then
-                    annipile.getObjects()[2].takeObject({position =postop,
-                        callback_function = addTactic})
-                elseif annipile.getObjects()[2].getQuantity() == -1 then
-                    local ann = annipile.getObjects()[2].setPosition(postop)
-                    addTactic(ann)
-                end
+                local ann = mmcard.setPosition(postop)
+                addTactic(ann)
             end
         end
         return twistsresolved
@@ -4147,16 +4168,36 @@ function twistSpecials(cards,city,schemeParts)
     return twistsresolved
 end
 
-function strikeSpecials(cards,city,schemeParts)
-    if not mmStorage then
-        local masterminds = getObjectFromGUID("912967").Call('returnMM')
-        mmStorage = table.clone(masterminds)
-    end
+function retrieveMM()
+    local masterminds = getObjectFromGUID("912967").Call('returnMM')
+    mmStorage = table.clone(masterminds)
+end
+
+function strikeSpecials(cards,city)
     if not mmStorage[1] then
         broadcastToAll("No mastermind specified!")
         return nil
     elseif mmStorage[2] then
         broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
+        local mmpromptzone = getObjectFromGUID(city_zones_guids[4])
+        local zshift = 0
+        for i,o in ipairs(mmStorage) do
+            _G["resolveStrike" .. i] = function()
+                mmpromptzone.removeButton(i-1)
+                resolveStrike(o,epicness,city)
+            end
+            mmpromptzone.createButton({click_function="resolveStrike" .. i,
+                function_owner=self,
+                position={0,0,zshift},
+                rotation={0,180,0},
+                label=o,
+                tooltip="Resolve the Master Strike effect of " .. o,
+                font_size=100,
+                font_color="Black",
+                color={1,0.64,0},
+                width=1500,height=50})
+            zshift = zshift + 0.5
+        end
         --try to script this later by creating buttons allowing to specify the order of master strike resolution
         return nil
     else
@@ -4167,6 +4208,15 @@ function strikeSpecials(cards,city,schemeParts)
         mmname = mmname:gsub(" %- epic","")
         epicness = true
     end
+    local proceed = resolveStrike(mmname,epicness,city)
+    if proceed then
+        return strikesresolved
+    else
+        return nil
+    end
+end
+
+function resolveStrike(mmname,epicness,city)
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
