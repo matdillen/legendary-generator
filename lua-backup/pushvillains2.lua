@@ -445,9 +445,8 @@ function push_all(city)
                         local proceed = strikeSpecials(cards,city,schemeParts)
                         if not proceed then
                             return nil
-                        end
-                        if cards[1].getName() == "Masterstrike" then
-                            return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                        else
+                            return koCard(cards[1])
                         end
                     end
                 
@@ -4184,7 +4183,12 @@ function strikeSpecials(cards,city)
         for i,o in ipairs(mmStorage) do
             _G["resolveStrike" .. i] = function()
                 mmpromptzone.removeButton(i-1)
-                resolveStrike(o,epicness,city)
+                local proceed = resolveStrike(o,epicness,city,cards)
+                if not proceed then
+                    cards[1] = nil
+                elseif cards[1] and not mmpromptzone.getButtons() then
+                    koCard(cards[1])
+                end
             end
             mmpromptzone.createButton({click_function="resolveStrike" .. i,
                 function_owner=self,
@@ -4198,7 +4202,6 @@ function strikeSpecials(cards,city)
                 width=1500,height=50})
             zshift = zshift + 0.5
         end
-        --try to script this later by creating buttons allowing to specify the order of master strike resolution
         return nil
     else
         mmname = mmStorage[1]
@@ -4208,7 +4211,7 @@ function strikeSpecials(cards,city)
         mmname = mmname:gsub(" %- epic","")
         epicness = true
     end
-    local proceed = resolveStrike(mmname,epicness,city)
+    local proceed = resolveStrike(mmname,epicness,city,cards)
     if proceed then
         return strikesresolved
     else
@@ -4216,7 +4219,7 @@ function strikeSpecials(cards,city)
     end
 end
 
-function resolveStrike(mmname,epicness,city)
+function resolveStrike(mmname,epicness,city,cards)
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
@@ -4298,6 +4301,7 @@ function resolveStrike(mmname,epicness,city)
             end
             Wait.condition(shuffleShields,shieldsAdded)
         end
+        return strikesresolved
     end
     if mmname == "Arnim Zola" then
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
@@ -4318,11 +4322,9 @@ function resolveStrike(mmname,epicness,city)
                 getObjectFromGUID(o).Call('click_draw_hero')
             end
         end
-        --log(costs)
         broadcastToAll("Master Strike! Weak heroes in HQ replaced with new ones. Discard cards with the same cost as the heroes replaced in the HQ (Automatically, unless there are ties).")
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
-            --log(hand)
             if hand[1] then
                 local handcosts = table.clone(herocosts)
                 for _,h in pairs(hand) do
@@ -4362,6 +4364,7 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
         end
+        return strikesresolved
     end
     if mmname == "Authoritarian Iron Man" then
         local mm = nil
@@ -4394,6 +4397,7 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
         end
+        return strikesresolved
     end
     if mmname == "Baron Heinrich Zemo" then
         for i,o in pairs(vpileguids) do
@@ -4436,6 +4440,7 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
         end
+        return strikesresolved
     end
     if mmname == "Baron Helmut Zemo" then
         for i,o in pairs(vpileguids) do
@@ -4490,6 +4495,7 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
         end
+        return strikesresolved
     end
     if mmname == "Belasco, Demon Lord of Limbo" then
         local sunlight = 0
@@ -4521,6 +4527,7 @@ function resolveStrike(mmname,epicness,city)
                 broadcastToAll("Master Strike: Each player has two Waking Nightmares. KO Heroes discarded this way.")
             end
         end
+        return strikesresolved
     end
     if mmname == "Carnage" then
         local playercolors = Player.getPlayers()
@@ -4565,6 +4572,7 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
         end
+        return strikesresolved
     end
     if mmname == "Dark Phoenix" then
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
@@ -4620,19 +4628,23 @@ function resolveStrike(mmname,epicness,city)
             broadcastToAll("Each player must play a Hellfire Club villain from their Victory Pile!")       
             broadcastToAll("Random horror added to the game (Master Strike zone)")
         end
+        return strikesresolved
     end
     if mmname == "Deathbird" then
-        cards[1].setName("Shi'ar Battlecruiser")
-        local attack = 0
-        if epicness == true then
-            cards[1].addTag("VP6")
-            attack = 9
-        else
-            cards[1].addTag("VP5")
-            attack = 7
+        if cards[1] then
+            cards[1].setName("Shi'ar Battlecruiser")
+            local attack = 0
+            if epicness == true then
+                cards[1].addTag("VP6")
+                attack = 9
+            else
+                cards[1].addTag("VP5")
+                attack = 7
+            end
+            cards[1].addTag("Power:" .. attack)
+            powerButton(cards[1],"updateTwistPower",attack)
+            push_all(current_city)
         end
-        cards[1].addTag("Power:" .. attack)
-        powerButton(cards[1],"updateTwistPower",attack)
         for _,o in pairs(city) do
             local citycontent = get_decks_and_cards_from_zone(o)
             if citycontent[1] then
@@ -4654,6 +4666,7 @@ function resolveStrike(mmname,epicness,city)
                 end  
             end
         end
+        return nil
     end
     if mmname == "Dr. Strange" then
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
@@ -4726,10 +4739,13 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
             Wait.condition(strangeProcess,strangeguidsEntered)
-        end             
+        end
+        return strikesresolved
     end
     if mmname == "Emma Frost, The White Queen" then
-        cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+        if cards[1] then
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+        end
         if epicness == false then
             broadcastToAll("Master Strike: Each player has " .. strikesresolved .. " Waking Nightmares.")
         else
@@ -4749,7 +4765,12 @@ function resolveStrike(mmname,epicness,city)
             end
         end
         local setStrike = function()
-            cards[1].setPositionSmooth(getObjectFromGUID(destroyed).getPosition())
+            if cards[1] then
+                cards[1].setPositionSmooth(getObjectFromGUID(destroyed).getPosition())
+            else
+                getObjectFromGUID(mmPileGUID).takeObject({position = getObjectFromGUID(destroyed).getPosition(),
+                    smooth = false})
+            end
         end
         Wait.time(setStrike,1)
         return nil
@@ -4802,34 +4823,40 @@ function resolveStrike(mmname,epicness,city)
                 end
             end
         end
+        return strikesresolved
     end
     if mmname == "Grim Reaper" then
-        reaperbonus = 0
-        if epicness then
-            reaperbonus = 1
-            for _,o in pairs(city) do
-                local locationcount = 0
-                local citycontent = get_decks_and_cards_from_zone(o)
-                if citycontent[1] then
-                    for _,p in pairs(citycontent) do
-                        if p.getDescription():find("LOCATION") then
-                            locationcount = locationcount + 1
+        if cards[1] then
+            reaperbonus = 0
+            if epicness then
+                reaperbonus = 1
+                for _,o in pairs(city) do
+                    local locationcount = 0
+                    local citycontent = get_decks_and_cards_from_zone(o)
+                    if citycontent[1] then
+                        for _,p in pairs(citycontent) do
+                            if p.getDescription():find("LOCATION") then
+                                locationcount = locationcount + 1
+                            end
                         end
                     end
                 end
+                if locationcount > 1 then
+                    dealWounds()
+                end
             end
-            if locationcount > 1 then
-                dealWounds()
-            end
+            cards[1].setName("Graveyard")
+            cards[1].setDescription("LOCATION: Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.")
+            cards[1].addTag("VP" .. 5 + reaperbonus)
+            cards[1].addTag("Attack:" .. 7 + reaperbonus)
+            cards[1].addTag("Location")
+            powerButton(cards[1],"updateTwistPower",7 + reaperbonus)
+            push_all(current_city)
+        else
+            broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")
         end
-        cards[1].setName("Graveyard")
-        cards[1].setDescription("LOCATION: Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.")
-        cards[1].addTag("VP" .. 5 + reaperbonus)
-        cards[1].addTag("Attack:" .. 7 + reaperbonus)
-        cards[1].addTag("Location")
-        powerButton(cards[1],"updateTwistPower",7 + reaperbonus)
     end
-    return strikesresolved
+    return nil
 end
 
 function bump(obj,y)
@@ -5007,6 +5034,72 @@ function nonTwistspecials(cards,city,schemeParts)
         end
     end
     return twistsresolved
+end
+
+function demolish(colors)
+    if not colors then
+        colors = {}
+        for _,o in pairs(Player.getPlayers()) do
+            table.insert(colors,o.color)
+        end
+    end
+    --might streamline this like Arnim Zola for multiple demolish effects avoiding redundant discard choices
+    --then we need to capture all costs like with Zola in a table as well.
+    local demolishEffect = function(obj)
+        local cost = hasTag2(obj,"Cost:")
+        broadcastToAll("Demolish effect with " .. obj.getName() .. " with a cost of " .. cost .. ".")
+        for _,o in pairs(colors) do
+            local hand = Player[o].getHandObjects()
+            local costfound = 0
+            if hand[1] then
+                local handcosts = table.clone(herocosts)
+                for _,h in pairs(hand) do
+                    if handcosts[hasTag2(h,"Cost:")] == cost then
+                        costfound = costfound + 1
+                    end
+                end
+                local posPlay = getObjectFromGUID(playerBoards[Player[o]]).getPosition()
+                if Player[o] == "White" then
+                    posPlay.x = posPlay.x + 15
+                elseif Player[o] == "Blue" then
+                    posPlay.x = posPlay.x - 15
+                else
+                    posPlay.z = posPlay.z - 15
+                end
+                local posdiscard = getObjectFromGUID(playerBoards[Player[o]]).positionToWorld(pos_discard)
+                if costfound > 0 then
+                    for _,h in pairs(hand) do
+                        if hasTag2(h,"Cost:") == cost then
+                            if costfound == 1 then
+                                h.setPosition(posdiscard)
+                                break
+                            else
+                                if o.color == "White" then
+                                    posPlay.z = posPlay.z + 4
+                                elseif o.color == "Blue" then
+                                    posPlay.z = posPlay.z - 4
+                                else
+                                    posPlay.x = posPlay.x + 7
+                                end
+                                h.setPosition(posPlay)
+                                broadcastToColor("Discard " .. costs[i] .. " of the cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o.color,o.color)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+    if herodeck[1] and herodeck[1].tag == "Deck" then
+        bump(herodeck[1],2)
+        herodeck[1].takeObject({position = herodeck.getPosition(),
+            callback_function = demolishEffect})
+    elseif herodeck[1] and herodeck[1].tag == "Card" then
+        demolishEffect(herodeck[1])
+    else
+        return nil
+    end
 end
 
 function hasTag2(obj,tag,index)
