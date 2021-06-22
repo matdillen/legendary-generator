@@ -90,7 +90,7 @@ function calculate_vp()
         local totalbs = 0
         local totalother = 0
         if math.abs(vpcontent[1].getQuantity()) > 1 then
-            for _,o in pairs(vpcontent[1]) do
+            for _,o in pairs(vpcontent[1].getObjects()) do
                 local vpfound = false
                 for _,k in pairs(o.tags) do
                     if k:match("VP%d+") then

@@ -148,11 +148,11 @@ function toggle_autoplay(obj,player_clicker_color)
     if autoplay == false then
         autoplay = true
         self.editButton({index=buttonindex,color = {0,1,0}})
-        broadcastToAllToAll("Cards will be played from villain deck at each player's turn end, when clicking New Hand.")
+        broadcastToAll("Cards will be played from villain deck at each player's turn end, when clicking New Hand.")
     else
         autoplay = false
         self.editButton({index=buttonindex,color = {1,0,0}})
-        broadcastToAllToAll("Cards will NOT be played from villain deck at each player's turn end.")
+        broadcastToAll("Cards will NOT be played from villain deck at each player's turn end.")
     end
 end
 

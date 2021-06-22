@@ -14,6 +14,11 @@ function onLoad()
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
+    herocosts = {}
+    for i=0,9 do
+        table.insert(herocosts,0)
+    end
+    
     --guids
     playerBoards = {
         ["Red"]="8a35bd",
@@ -275,7 +280,11 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                 targetZone_final = getObjectFromGUID("c39f60")
             else
                 broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
-                if obj.getName() == "Thor" and schemeParts and schemeParts[1] == "Crown Thor King of Asgard" then
+                if obj.getName() == "King Hyperion" then
+                    targetZone_final = getObjectFromGUID(mmZoneGUID)
+                    dealWounds()
+                    broadcastToAll("King Hyperion escaped! Everyone gains a wound!")
+                elseif obj.getName() == "Thor" and schemeParts and schemeParts[1] == "Crown Thor King of Asgard" then
                     getObjectFromGUID("c82082").takeObject({position = getObjectFromGUID("4f53f9").getPosition(),
                         smooth=false})
                         --this should be from the KO pile, but that is still a mess to sort out
@@ -896,8 +905,12 @@ function nonCityZoneShade(guid)
         color={1,0,0,0.9}})
 end
 
-function koCard(obj)
-    obj.setPosition(getObjectFromGUID(kopile_guid).getPosition())
+function koCard(obj,smooth)
+    if smooth then
+        obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+    else
+        obj.setPosition(getObjectFromGUID(kopile_guid).getPosition())
+    end
 end
 
 function stackTwist(obj)
@@ -4308,10 +4321,6 @@ function resolveStrike(mmname,epicness,city,cards)
         if herodeck then
             bump(herodeck)
         end
-        local herocosts = {}
-        for i=0,9 do
-            table.insert(herocosts,0)
-        end
         local costs = table.clone(herocosts)
         for _,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
@@ -4323,47 +4332,7 @@ function resolveStrike(mmname,epicness,city,cards)
             end
         end
         broadcastToAll("Master Strike! Weak heroes in HQ replaced with new ones. Discard cards with the same cost as the heroes replaced in the HQ (Automatically, unless there are ties).")
-        for _,o in pairs(Player.getPlayers()) do
-            local hand = o.getHandObjects()
-            if hand[1] then
-                local handcosts = table.clone(herocosts)
-                for _,h in pairs(hand) do
-                    if handcosts[hasTag2(h,"Cost:")] then
-                        handcosts[hasTag2(h,"Cost:")] = handcosts[hasTag2(h,"Cost:")] + 1
-                    end
-                end
-                local posPlay = getObjectFromGUID(playerBoards[o.color]).getPosition()
-                if o.color == "White" then
-                    posPlay.x = posPlay.x + 15
-                elseif o.color == "Blue" then
-                    posPlay.x = posPlay.x - 15
-                else
-                    posPlay.z = posPlay.z - 15
-                end
-                local posdiscard = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard)
-                for i=1,10 do
-                    if costs[i] > 0 and handcosts[i] > 0 then
-                        for _,h in pairs(hand) do
-                            if hasTag2(h,"Cost:") == i then
-                                if costs[i] >= handcosts[i] then
-                                    h.setPosition(posdiscard)
-                                else
-                                    if o.color == "White" then
-                                        posPlay.z = posPlay.z + 4
-                                    elseif o.color == "Blue" then
-                                        posPlay.z = posPlay.z - 4
-                                    else
-                                        posPlay.x = posPlay.x + 7
-                                    end
-                                    h.setPosition(posPlay)
-                                    broadcastToColor("Discard " .. costs[i] .. " of the cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o.color,o.color)
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
+        demolish(nil,1,costs)
         return strikesresolved
     end
     if mmname == "Authoritarian Iron Man" then
@@ -4856,7 +4825,112 @@ function resolveStrike(mmname,epicness,city,cards)
             broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")
         end
     end
+    if mmname == "King Hyperion" then
+        local mm = get_decks_and_cards_from_zone(mmZoneGUID)
+        local kinghyperion = nil
+        if mm[1] then
+            for _,o in pairs(mm) do
+                if o.getName() == "King Hyperion" and o.tag == "Card" then
+                    kinghyperion = o
+                    break
+                end
+            end
+        end
+        if not kinghyperion then   
+            for index,o in pairs(city) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.getName() == "King Hyperion" then
+                            local kingscity = table.clone(city)
+                            if index > 2 then
+                                for i = 1,index-2 do
+                                    table.remove(kingscity,1)
+                                end
+                            end
+                            local stop = math.min(#kingscity-1,3)
+                            local pushKing = function()
+                                table.remove(kingscity,1)
+                                push_all(table.clone(kingscity))
+                            end
+                            broadcastToAll("Charging...",{1,0,0})
+                            for i=1,stop do
+                                Wait.time(pushKing,i*2)
+                                Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,i*2)
+                            end
+                            return strikesresolved
+                        end
+                    end
+                end
+            end
+        end
+        if not kinghyperion then
+            for _,o in pairs(topBoardGUIDs) do
+                local zonecontent = get_decks_and_cards_from_zone(o)
+                for _,obj in pairs(zonecontent) do
+                    if obj.getName() == "King Hyperion" and obj.tag == "Card" then
+                        kinghyperion = obj
+                        break
+                    end
+                end
+                if kinghyperion then
+                    break
+                end
+            end
+        end
+        if not kinghyperion then
+            broadcastToAll("King Hyperion not found?")
+            return nil
+        end
+        koCard(cards[1],true)
+        kinghyperion.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+        broadcastToAll("Charging...",{1,0,0})
+        for i=1,4 do
+            Wait.time(click_push_villain_into_city,i*2)
+            Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,i*2)
+        end
+        return nil
+    end
+    if mmname == "Loki" then
+        local towound = revealCardTrait("Green")
+        if towound[1] then
+            for _,o in pairs(towound) do
+                click_get_wound(nil,o.color)
+                broadcastToAll("Master Strike: Player " .. o.color .. " had no green heroes and was wounded.")
+            end
+        end
+        return strikesresolved
+    end
     return nil
+end
+
+function revealCardTrait(trait,prefix,playercolors)
+    -- trait is the card tag to look for, by default a color
+    -- specify the tag prefix if another trait is needed
+    -- specify players if not all are affected (tbd)
+    if not prefix then
+        prefix = "HC:"
+    end
+    local players = nil
+    if not playercolors then
+        players = Player.getPlayers()
+    else
+        players = {}
+        for _,o in pairs(playercolors) do
+            table.insert(players,Player[o])
+        end
+    end
+    for i,o in pairs(players) do
+        local hand = o.getHandObjects()
+        if hand[1] then
+            for _,h in pairs(hand) do
+                if hasTag2(h,prefix,#prefix+1) and hasTag2(h,prefix,#prefix+1) == trait then
+                    table.remove(players,i)
+                end
+            end
+        end
+    end
+    return players
 end
 
 function bump(obj,y)
@@ -5036,29 +5110,36 @@ function nonTwistspecials(cards,city,schemeParts)
     return twistsresolved
 end
 
-function demolish(colors)
+function demolish(colors,n,altsource)
     if not colors then
         colors = {}
         for _,o in pairs(Player.getPlayers()) do
             table.insert(colors,o.color)
         end
     end
-    --might streamline this like Arnim Zola for multiple demolish effects avoiding redundant discard choices
-    --then we need to capture all costs like with Zola in a table as well.
-    local demolishEffect = function(obj)
-        local cost = hasTag2(obj,"Cost:")
-        broadcastToAll("Demolish effect with " .. obj.getName() .. " with a cost of " .. cost .. ".")
+    if not n then
+        n = 1
+    end
+    local callbacksresolved = 0
+    local logDemolish = function(obj)
+        costs[hasTag2(obj,"Cost:")] = costs[hasTag2(obj,"Cost:")] + 1
+        callbacksresolved = callbacksresolved + 1
+        if callbacksresolved == n then
+            demolishEffect()
+        end
+    end
+    local demolishEffect = function()
         for _,o in pairs(colors) do
             local hand = Player[o].getHandObjects()
             local costfound = 0
             if hand[1] then
                 local handcosts = table.clone(herocosts)
                 for _,h in pairs(hand) do
-                    if handcosts[hasTag2(h,"Cost:")] == cost then
-                        costfound = costfound + 1
+                    if handcosts[hasTag2(h,"Cost:")] then
+                        handcosts[hasTag2(h,"Cost:")] = handcosts[hasTag2(h,"Cost:")] + 1
                     end
                 end
-                local posPlay = getObjectFromGUID(playerBoards[Player[o]]).getPosition()
+                local posPlay = getObjectFromGUID(playerBoards[o]).getPosition()
                 if Player[o] == "White" then
                     posPlay.x = posPlay.x + 15
                 elseif Player[o] == "Blue" then
@@ -5066,39 +5147,59 @@ function demolish(colors)
                 else
                     posPlay.z = posPlay.z - 15
                 end
-                local posdiscard = getObjectFromGUID(playerBoards[Player[o]]).positionToWorld(pos_discard)
-                if costfound > 0 then
-                    for _,h in pairs(hand) do
-                        if hasTag2(h,"Cost:") == cost then
-                            if costfound == 1 then
-                                h.setPosition(posdiscard)
-                                break
-                            else
-                                if o.color == "White" then
-                                    posPlay.z = posPlay.z + 4
-                                elseif o.color == "Blue" then
-                                    posPlay.z = posPlay.z - 4
+                local posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
+                for i=1,10 do
+                    if costs[i] > 0 and handcosts[i] > 0 then
+                        local carddropped = 0
+                        for _,h in pairs(hand) do
+                            if hasTag2(h,"Cost:") == i then
+                                if costs[i] >= handcosts[i] then
+                                    h.setPosition(posdiscard)
+                                    break
                                 else
-                                    posPlay.x = posPlay.x + 7
+                                    if o.color == "White" then
+                                        posPlay.z = posPlay.z + 4
+                                    elseif o.color == "Blue" then
+                                        posPlay.z = posPlay.z - 4
+                                    else
+                                        posPlay.x = posPlay.x + 7
+                                    end
+                                    h.setPosition(posPlay)
+                                    carddropped = carddropped + 1
                                 end
-                                h.setPosition(posPlay)
-                                broadcastToColor("Discard " .. costs[i] .. " of the cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o.color,o.color)
                             end
+                        end
+                        if carddropped > 0 then
+                            broadcastToColor("Discard " .. costs[i] .. " of the " .. carddropped .. " cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o,o)
                         end
                     end
                 end
             end
         end
     end
-    local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
-    if herodeck[1] and herodeck[1].tag == "Deck" then
-        bump(herodeck[1],2)
-        herodeck[1].takeObject({position = herodeck.getPosition(),
-            callback_function = demolishEffect})
-    elseif herodeck[1] and herodeck[1].tag == "Card" then
-        demolishEffect(herodeck[1])
+    if not altsource then
+        costs = table.clone(herocosts)
+        local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+        if herodeck[1].tag == "Deck" then
+            bump(herodeck[1],n+1)
+        end
+        for i = 1,n do
+            if herodeck[1] and herodeck[1].tag == "Deck" then
+                herodeck[1].takeObject({position = herodeck[1].getPosition(),
+                    callback_function = logDemolish})
+                if herodeck[1].remainder then
+                   herodeck[1] =  herodeck[1].remainder
+                end
+            elseif herodeck[1] and herodeck[1].tag == "Card" then
+                logDemolish(herodeck[1])
+                herodeck[1].setPosition(herodeck[1].getPosition())
+            else
+                return nil
+            end
+        end
     else
-        return nil
+        costs = altsource
+        demolishEffect()
     end
 end
 
