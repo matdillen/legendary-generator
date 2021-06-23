@@ -213,6 +213,17 @@ function timer_shuffle()
     end
 end
 
+function tuckSidekicks(cardtable)
+    for i,o in pairs(cardtable) do
+        if o.hasTag("Sidekick") then
+            o.flip()
+            o.setPositionSmooth(getObjectFromGUID("959976").getPosition())
+            cardtable[i] = nil
+        end
+    end
+    return cardtable
+end
+
 -- discard all card in hand and played
 function click_discard_hand()
     local cards = Player[boardcolor].getHandObjects()
@@ -227,7 +238,8 @@ function click_discard_hand()
         zoneGuid = "2b36c3"
     end
     local played_cards = get_decks_and_cards_from_zone(zoneGuid)
-    if played_cards then 
+    if played_cards then
+        played_cards = tuckSidekicks(played_cards)
         cards_all = merge(cards,played_cards)
     end
     local pos = self.positionToWorld(pos_discard)
