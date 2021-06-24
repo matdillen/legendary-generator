@@ -4714,6 +4714,7 @@ function resolveStrike(mmname,epicness,city,cards)
     if mmname == "Emma Frost, The White Queen" then
         if cards[1] then
             cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            strikesstacked = strikesstacked + 1
         end
         if epicness == false then
             broadcastToAll("Master Strike: Each player has " .. strikesresolved .. " Waking Nightmares.")
@@ -4820,10 +4821,78 @@ function resolveStrike(mmname,epicness,city,cards)
             cards[1].addTag("Attack:" .. 7 + reaperbonus)
             cards[1].addTag("Location")
             powerButton(cards[1],"updateTwistPower",7 + reaperbonus)
-            push_all(current_city)
+            push_all(table.clone(current_city))
         else
             broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")
         end
+    end
+    if mmname == "Hela, Goddess of Death" then
+        if cards[1] then
+            helabonus = 0
+            if epicness then
+                helabonus = 1
+            end
+            cards[1].setName("Army of the Dead")
+            cards[1].addTag("VP" .. 3 + helabonus)
+            cards[1].addTag("Attack:" .. 5 + helabonus)
+            cards[1].addTag("Villain")
+            powerButton(cards[1],"updateTwistPower",5 + helabonus)
+            push_all(table.clone(current_city))
+        else
+            broadcastToAll("No Master Strike found, so Hela failed to muster an Army of the Dead.")
+        end
+        local pcolor = Turns.turn_color
+        local vpilecontent = get_decks_and_cards_from_zone(vpileguids[pcolor])
+        local carddropped = 0
+        local posPlay = offerCards(pcolor)
+        if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+            local vpilestrong = {}
+            for _,o in pairs(vpilecontent[1].getObjects()) do
+                for _,k in pairs(o.tags) do
+                    if k:find("VP") and tonumber(k:match("%d+")) > 2 + helabonus then
+                        table.insert(vpilestrong,o)
+                        break
+                    end
+                end
+            end
+            if vpilestrong[1] and not vpilestrong[2] then
+                vpilecontent[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                    smooth = true,
+                    callback_function = click_push_villain_into_city})
+                return nil
+            elseif vpilestrong[1] and vpilestrong[2] then
+                for _,o in pairs(vpilestrong) do
+                    posPlay = offerCards(pcolor,posPlay)
+                    vpilecontent[1].takeObject({position = posPlay,
+                        guid = o.guid})
+                    carddropped = carddropped + 1
+                    if vpilecontent[1].remainder and carddropped < #vpilestrong then
+                        vpilecontent[1] = vpilecontent[1].remainder
+                        break
+                    end  
+                end
+                broadcastToColor("Push 1 of the " .. #vpilestrong .. " villain cards that were put into play from your victory pile into the city. Return the rest to your victory pile.",pcolor,pcolor)
+                if #vpilestrong == carddropped then
+                    return nil
+                end
+            end
+        end
+        if vpilecontent[1] and vpilecontent[1].tag == "Card" then
+            if carddropped > 0 then
+                posPlay = offerCards(pcolor,posPlay)
+                vpilecontent[1].setPosition(posPlay)
+                carddropped = carddropped + 1
+                return nil
+            else
+                if hasTag2(vpilecontent[1],"VP") and hasTag2(vpilecontent[1],"VP") > 2 + helabonus then
+                    vpilecontent[1].setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                    Wait.time(click_push_villain_into_city,2)
+                    return nil
+                end
+            end
+        end
+        dealWounds()
+        return nil
     end
     if mmname == "King Hyperion" then
         local mm = get_decks_and_cards_from_zone(mmZoneGUID)
@@ -4898,6 +4967,27 @@ function resolveStrike(mmname,epicness,city,cards)
                 click_get_wound(nil,o.color)
                 broadcastToAll("Master Strike: Player " .. o.color .. " had no green heroes and was wounded.")
             end
+        end
+        return strikesresolved
+    end
+    if mmname == "Nick Fury" then
+        if cards[1] then
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            strikesstacked = strikesstacked + 1
+        end
+        demolish(nil,strikesstacked)
+        return nil
+    end
+    if mmname == "Pagliacci" then
+        if cards[1] then
+            if strikesresolved == 1 or strikesresolved == 5 or (strikesresolved == 3 and epicness == true) then
+                cards[1].setName("Scheme Twist")
+                click_push_villain_into_city()
+                return nil
+            end
+        end
+        if strikesresolved == 2 or strikesresolved == 4 or (strikesresolved == 3 and not epicness) then
+            demolish()
         end
         return strikesresolved
     end
@@ -5121,13 +5211,6 @@ function demolish(colors,n,altsource)
         n = 1
     end
     local callbacksresolved = 0
-    local logDemolish = function(obj)
-        costs[hasTag2(obj,"Cost:")] = costs[hasTag2(obj,"Cost:")] + 1
-        callbacksresolved = callbacksresolved + 1
-        if callbacksresolved == n then
-            demolishEffect()
-        end
-    end
     local demolishEffect = function()
         for _,o in pairs(colors) do
             local hand = Player[o].getHandObjects()
@@ -5139,14 +5222,7 @@ function demolish(colors,n,altsource)
                         handcosts[hasTag2(h,"Cost:")] = handcosts[hasTag2(h,"Cost:")] + 1
                     end
                 end
-                local posPlay = getObjectFromGUID(playerBoards[o]).getPosition()
-                if Player[o] == "White" then
-                    posPlay.x = posPlay.x + 15
-                elseif Player[o] == "Blue" then
-                    posPlay.x = posPlay.x - 15
-                else
-                    posPlay.z = posPlay.z - 15
-                end
+                local posPlay = offerCards(o)
                 local posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
                 for i=1,10 do
                     if costs[i] > 0 and handcosts[i] > 0 then
@@ -5155,15 +5231,10 @@ function demolish(colors,n,altsource)
                             if hasTag2(h,"Cost:") == i then
                                 if costs[i] >= handcosts[i] then
                                     h.setPosition(posdiscard)
+                                    broadcastToColor("Discarded " .. h.getName() .. " after getting demolished.",o,o)
                                     break
                                 else
-                                    if o.color == "White" then
-                                        posPlay.z = posPlay.z + 4
-                                    elseif o.color == "Blue" then
-                                        posPlay.z = posPlay.z - 4
-                                    else
-                                        posPlay.x = posPlay.x + 7
-                                    end
+                                    posPlay = offerCards(o.color,posPlay)
                                     h.setPosition(posPlay)
                                     carddropped = carddropped + 1
                                 end
@@ -5175,6 +5246,14 @@ function demolish(colors,n,altsource)
                     end
                 end
             end
+        end
+    end
+    local logDemolish = function(obj)
+        costs[hasTag2(obj,"Cost:")] = costs[hasTag2(obj,"Cost:")] + 1
+        broadcastToAll("Demolish effect with " .. obj.getName() .. " with cost " .. hasTag2(obj,"Cost:") .. "!")
+        callbacksresolved = callbacksresolved + 1
+        if callbacksresolved == n then
+            demolishEffect()
         end
     end
     if not altsource then
@@ -5201,6 +5280,28 @@ function demolish(colors,n,altsource)
         costs = altsource
         demolishEffect()
     end
+end
+
+function offerCards(color,position)
+    if not position then
+        local position = getObjectFromGUID(playerBoards[color]).getPosition()
+        if color == "White" then
+            position.x = position.x + 15
+        elseif color == "Blue" then
+            position.x = position.x - 15
+        else
+            position.z = position.z - 15
+        end
+        return position
+    end
+    if color == "White" then
+        position.z = position.z + 4
+    elseif color == "Blue" then
+        position.z = position.z - 4
+    else
+        position.x = position.x + 7
+    end
+    return position
 end
 
 function hasTag2(obj,tag,index)

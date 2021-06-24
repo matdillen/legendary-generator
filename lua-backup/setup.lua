@@ -2115,4 +2115,54 @@ function setupMasterminds(obj,epicness,targetZone)
             Wait.time(updateReaper,1)
         end
     end
+    if obj.getName() == "Hela, Goddess of Death" then
+        helacitycheck = table.clone(city_zones_guids)
+        table.remove(helacitycheck,1)
+        table.remove(helacitycheck,1)
+        table.remove(helacitycheck,1)
+        if not epicness then
+            table.remove(helacitycheck,1)
+        end
+        updateHela = function()
+            local villaincount = 0
+            for _,o in pairs(helacitycheck) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.hasTag("Villain") then
+                            villaincount = villaincount + 1
+                            break
+                        end
+                    end
+                end
+            end
+            local boost = 0
+            if epicness then
+                boost = 1
+            end
+            local mmzone = getObjectFromGUID(targetZone)
+            if villaincount == 0 then
+                mmzone.clearButtons()
+            elseif not mmzone.getButtons() then
+                mmzone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="+" .. villaincount*(5+boost),
+                    tooltip="Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
+                    font_size=350,
+                    font_color={1,0,0},
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+            else
+                mmzone.editButton({label = "+" .. villaincount*(5+boost)})
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateHela,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateHela,1)
+        end
+    end
 end
