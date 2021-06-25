@@ -385,6 +385,40 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
+function woundedFury(obj,color)
+    local discardpile = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
+    local wounds = 0
+    if discardpile[1] and discardpile[1].tag == "Deck" then
+        for _,o in pairs(discardpile[1].getObjects()) do
+            if o.tags[1] == "Wound" then
+                wounds = wounds + 1
+            end
+        end
+    elseif discardpile[1] then
+        if discardpile[1].hasTag("Wound") then
+            wounds = wounds + 1
+        end
+    end
+    if wounds > 0 then
+        if obj.getButtons()[2] then
+            obj.editButton({index=1,label="+" .. wounds,
+                tooltip="Wounded Fury."})
+        else
+            obj.createButton({click_function='woundedFury',
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="+" .. wounds,
+                tooltip="Wounded Fury.",
+                font_size=250,
+                font_color="Red",
+                width=0})
+        end
+    elseif obj.getButtons()[2] then
+        obj.removeButton(1)
+    end
+end
+
 function import_setup()
     log("Generating imported setup...")
     playercount = #Player.getPlayers()
@@ -451,7 +485,7 @@ function import_setup()
                         for _,k in pairs(o.getObjects()) do
                             if k.name == mmname then
                                 local pos = mmZone.getPosition()
-                                pos.y = pos.y + 1
+                                pos.y = pos.y + 0.1
                                 o.takeObject({position = pos,
                                     flip=true})
                                 transformed = not transformed
@@ -503,7 +537,7 @@ function import_setup()
                         width=0})
                 end
             end
-            transformChanges = function()
+            function transformChanges()
                 rossButtons()
                 if transformed == false then
                     strikeZone.editButton({label="2",
@@ -513,34 +547,17 @@ function import_setup()
                 else
                     strikeZone.editButton({label="X",
                         tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk."})
-                    updateRoss(nil,Turns.turn_color)
+                    woundedFury(mmZone,Turns.turn_color)
                 end
-            end
-            function updateRoss(obj,color)
-                local discardpile = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
-                local wounds = 0
-                if discardpile[1] and discardpile[1].tag == "Deck" then
-                    for _,o in pairs(discardpile[1].getObjects()) do
-                        if o.tags[1] == "Wound" then
-                            wounds = wounds + 1
-                        end
-                    end
-                elseif discardpile[1] then
-                    if discardpile[1].hasTag("Wound") then
-                        wounds = wounds + 1
-                    end
-                end
-                mmZone.editButton({index=1,label="+" .. wounds,
-                        tooltip="Wounded Fury."})
             end
             function onPlayerTurn(player,previous_player)
                 if transformed == true then
-                    updateRoss(nil,player.color)
+                    woundedFury(mmZone,player.color)
                 end
             end
             function onObjectEnterZone(zone,object)
                 if transformed == true and object.hasTag("Wound") then
-                    updateRoss(nil,Turns.turn_color)
+                    woundedFury(mmZone,Turns.turn_color)
                 end
                 if transformed == false and zone == strikeZone then
                     if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
@@ -555,7 +572,7 @@ function import_setup()
             end
             function onObjectLeaveZone(zone,object)
                 if transformed == true and object.hasTag("Wound") then
-                    updateRoss(nil,Turns.turn_color)
+                    woundedFury(mmZone,Turns.turn_color)
                 end
                 if transformed == false and zone == strikeZone then
                     if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
@@ -566,6 +583,187 @@ function import_setup()
                     else
                         rossButtons()
                     end
+                end
+            end
+        end
+        if mmname == "King Hulk, Sakaarson" then
+            function updateHulk()
+                local warbound = 0
+                for _,o in pairs(city_zones_guids) do
+                    if o ~= city_zones_guids[1] then
+                        local citycontent = get_decks_and_cards_from_zone(o)
+                        if citycontent[1] then
+                            for _,k in pairs(citycontent) do
+                                if k.hasTag("Group:Warbound") then
+                                    warbound = warbound + 1
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+                local escapedcards = get_decks_and_cards_from_zone(escape_zone_guid)
+                if escapedcards[1] and escapedcards[1].tag == "Deck" then
+                    for _,o in pairs(escapedcards[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k == "Group:Warbound" then
+                                warbound = warbound + 1
+                                break
+                            end
+                        end
+                    end
+                elseif escapedcards[1] and escapedcards[1].tag == "Card" then
+                    if escapedcards[1].hasTag("Group:Warbound") then
+                        warbound = warbound + 1
+                    end
+                end
+                if warbound > 0 then
+                    if mmZone.getButtons()[2] then
+                        mmZone.editButton({index=1,label="+" .. warbound})
+                    else
+                        mmZone.createButton({click_function='returnColor',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="+" .. warbound,
+                            tooltip="King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
+                            font_size=250,
+                            font_color="Red",
+                            width=0})
+                    end
+                elseif mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+            end
+            function transformChanges()
+                if transformed == false then
+                    updateHulk()
+                else
+                    woundedFury(mmZone,Turns.turn_color)
+                end
+            end
+            function onPlayerTurn(player,previous_player)
+                if transformed == true then
+                    woundedFury(mmZone,player.color)
+                end
+            end
+            function onObjectEnterZone(zone,object)
+                if transformed == true and object.hasTag("Wound") then
+                    woundedFury(mmZone,Turns.turn_color)
+                end
+                if transformed == false and object.hasTag("Group:Warbound") then
+                    updateHulk()
+                end
+            end
+            function onObjectLeaveZone(zone,object)
+                if transformed == true and object.hasTag("Wound") then
+                    woundedFury(mmZone,Turns.turn_color)
+                end
+                if transformed == false and object.hasTag("Group:Warbound") then
+                    updateHulk()
+                end
+            end
+        end
+        if mmname == "M.O.D.O.K." then
+            setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
+            function transformChanges()
+                if transformed == false then
+                    if mmZone.getButtons()[2] then
+                        mmZone.removeButton(1)
+                    end
+                    local notes = getNotes()
+                    setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
+                else   
+                    local notes = getNotes()
+                    setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
+                    mmZone.createButton({click_function='returnColor',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="*",
+                        tooltip="You can only fight M.O.D.O.K with Recruit, not Attack.",
+                        font_size=250,
+                        font_color="Yellow",
+                        width=0})
+                end
+            end
+        end
+        if mmname == "The Red King" then
+            function redKing()
+                local villainfound = false
+                for _,o in pairs(city_zones_guids) do
+                    if o ~= city_zones_guids[1] then
+                        local citycontent = get_decks_and_cards_from_zone(o)
+                        if citycontent[1] then
+                            for _,p in pairs(citycontent) do
+                                if p.hasTag("Villain") then
+                                   villainfound = true
+                                   break
+                                end
+                            end
+                            if villainfound == true then
+                                break
+                            end
+                        end
+                    end
+                end
+                if villainfound == true and not mmZone.getButtons()[2] then
+                    mmZone.createButton({click_function='redKing',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="X",
+                        tooltip="You can't fight the Red King while any Villains are in the city. ",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                elseif villainfound == false and mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+            end
+            function transformChanges()
+                if transformed == false then
+                    redKing()
+                else
+                    if mmZone.getButtons()[2] then
+                        mmZone.removeButton(1)
+                    end
+                end
+            end
+            function onObjectEnterZone(zone,object)
+                if transformed == false then
+                    redKing()
+                end
+            end
+            function onObjectLeaveZone(zone,object)
+                if transformed == false then
+                    redKing()
+                end
+            end
+        end
+        if mmname == "The Sentry" then
+            function transformChanges()
+                if transformed == true then
+                    woundedFury(mmZone,Turns.turn_color)
+                else
+                    if mmZone.getButtons()[2] then
+                        mmZone.removeButton(1)
+                    end
+                end
+            end
+            function onPlayerTurn(player,previous_player)
+                if transformed == true then
+                    woundedFury(mmZone,player.color)
+                end
+            end
+            function onObjectEnterZone(zone,object)
+                if transformed == true and object.hasTag("Wound") then
+                    woundedFury(mmZone,Turns.turn_color)
+                end
+            end
+            function onObjectLeaveZone(zone,object)
+                if transformed == true and object.hasTag("Wound") then
+                    woundedFury(mmZone,Turns.turn_color)
                 end
             end
         end

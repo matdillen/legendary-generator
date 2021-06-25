@@ -3,7 +3,7 @@ library(tidyverse)
 library(jsonlite)
 
 #read the json file for the mod/save you want to edit
-a = fromJSON("lua/TS_Save_72.json",
+a = fromJSON("TS_Save_86.json",
              simplifyVector = F)
 
 #fix nickname that doesn't match
@@ -43,7 +43,7 @@ imgconv$file = gsub(".",",",imgconv$file,fixed=T)
 #raw card data
 heroes=read_csv2('legendary-generator/data/heroes.csv')
 schemes=read_csv2('legendary-generator/data/schemes.csv')
-villains=read_csv2('legendary-generator/data/villains.csv')
+villains=read_csv2('../legendary-generator/data/villains.csv')
 henchmen=read_csv2('legendary-generator/data/henchmen.csv')
 masterminds=read_csv2('legendary-generator/data/masterminds.csv')
 
@@ -617,12 +617,29 @@ for (i in 1:length(a$ObjectStates[[woundid]]$ContainedObjects)) {
   a$ObjectStates[[woundid]]$ContainedObjects[[i]]$Tags = list("Wound")
 }
 
+#vilteams
+
+vilid = 13
+
+for (i in 1:length(a$ObjectStates[[vilid]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[vilid]]$ContainedObjects[[i]]
+  
+  #the name of the villain group
+  vilname = a$ObjectStates[[vilid]]$ContainedObjects[[i]]$Nickname
+  
+  for (j in 1:length(src$ContainedObjects)) {
+    src$ContainedObjects[[j]]$Tags = c(src$ContainedObjects[[j]]$Tags,paste0("Group:",vilname))
+  }
+  a$ObjectStates[[vilid]]$ContainedObjects[[i]] = src
+}
+
 #export
 write(toJSON(a,
              digits=NA,
              pretty=T,
              flatten=T,
              auto_unbox=T),
-      "fixmm.json")
+      "villainteamtag.json")
 
 #after export, add to saves and then edit the SaveFileInfos.json correctly

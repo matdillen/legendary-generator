@@ -4550,20 +4550,22 @@ function resolveStrike(mmname,epicness,city,cards)
             local phoenixDevours = function(obj)
                 broadcastToAll("Master Strike: Dark Phoenix purges the whole hero deck of hero class " .. hasTag2(obj,"HC:",4) .. "!")
                 local koguids = {}
-                for _,o in pairs(herodeck[1].getObjects()) do
+                for i,o in ipairs(herodeck[1].getObjects()) do
                     for _,k in pairs(o.tags) do
                         if k == "HC:" .. hasTag2(obj,"HC:",4) then
-                            table.insert(koguids,o.guid)
+                            table.insert(koguids,i)
                             break
                         end
                     end
                 end
                 if koguids[1] then
+                    local remo = 0
                     for i = 1,#koguids do
                         herodeck[1].takeObject({position = kopilepos,
                             flip=true,
                             smooth=true,
-                            guid = koguids[i]})
+                            index = koguids[i]-1-remo})
+                        remo = remo + 1
                         if herodeck[1].remainder then
                             local remains = herodeck[1].remainder
                             remains.flip()
@@ -4723,6 +4725,41 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return nil
     end
+    if mmname == "Fin Fang Foom" then
+        local foomcount = 0
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,k in pairs(citycontent) do
+                    if k.hasTag("Group:Monsters Unleashed") then
+                        foomcount = foomcount + 1
+                        break
+                    end
+                end
+            end
+        end
+        local escapedcards = get_decks_and_cards_from_zone(escape_zone_guid)
+        if escapedcards[1] and escapedcards[1].tag == "Deck" then
+            for _,o in pairs(escapedcards[1].getObjects()) do
+                for _,k in pairs(o.tags) do
+                    if k == "Group:Monsters Unleashed" then
+                        foomcount = foomcount + 1
+                        break
+                    end
+                end
+            end
+        elseif escapedcards[1] and escapedcards[1].tag == "Card" then
+            if escapedcards[1].hasTag("Group:Monsters Unleashed") then
+                foomcount = foomcount + 1
+            end
+        end
+        demolish(nil,foomcount+1,nil,epicness)
+        broadcastToAll("Master Strike: Each player is demolished " .. foomcount+1 .. " times!")
+        if epicness then
+            broadcastToAll("KO all heroes demolished this way!")
+        end
+        return strikesresolved
+    end
     if mmname == "Galactus" then
         local destroyed = table.remove(current_city)
         local escapees = get_decks_and_cards_from_zone(destroyed)
@@ -4825,6 +4862,7 @@ function resolveStrike(mmname,epicness,city,cards)
         else
             broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")
         end
+        return nil
     end
     if mmname == "Hela, Goddess of Death" then
         if cards[1] then
@@ -4893,6 +4931,63 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         dealWounds()
         return nil
+    end
+    if mmname == "King Hulk, Sakaarson" then
+        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformed == true then
+            for i,o in pairs(vpileguids) do
+                if Player[i].seated == true then
+                    local vpilecontent = get_decks_and_cards_from_zone(o)
+                    local vpilewarbound = {}
+                    local posPlay = offerCards(i)
+                    local carddropped = 0
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        for _,k in pairs(vpilecontent[1].getObjects()) do
+                            for _,tag in pairs(k.tags) do
+                                if tag == "Group:Warbound" then 
+                                    table.insert(vpilewarbound,k)
+                                    break
+                                end
+                            end
+                        end
+                        if vpilewarbound[1] and not vpilewarbound[2] then
+                            vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                                smooth = true})
+                        elseif vpilewarbound[1] and vpilewarbound[2] then
+                            for _,k in pairs(vpilewarbound) do
+                                posPlay = offerCards(i,posPlay)
+                                vpilecontent[1].takeObject({position = posPlay,
+                                    guid = k.guid})
+                                carddropped = carddropped + 1
+                                if vpilecontent[1].remainder and carddropped < #vpilewarbound then
+                                    vpilecontent[1] = vpilecontent[1].remainder
+                                    break
+                                end  
+                            end
+                            broadcastToColor("KO 1 of the " .. #vpilewarbound .. " villain cards that were put into play from your victory pile. Return the rest to your victory pile.",i,i)
+                        else
+                            click_get_wound(nil,i)
+                        end
+                    end
+                    if vpilecontent[1] and vpilecontent[1].tag == "Card" then
+                        if carddropped > 0 then
+                            posPlay = offerCards(i,posPlay)
+                            vpilecontent[1].setPosition(posPlay)
+                            carddropped = carddropped + 1
+                        else
+                            if vpilecontent[1].hasTag("Group:Warbound") then
+                                vpilecontent[1].setPosition(getObjectFromGUID(kopile_guid).getPosition())
+                            end
+                        end
+                    else
+                        click_get_wound(nil,i)
+                    end
+                end
+            end
+        else
+            broadcastToAll("Master Strike: Each player reveals their hand, then KO's a card from their hand or discard pile that has the same card name as a card in the HQ.")
+        end
+        return strikesresolved
     end
     if mmname == "King Hyperion" then
         local mm = get_decks_and_cards_from_zone(mmZoneGUID)
@@ -4970,6 +5065,73 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "M.O.D.O.K." then
+        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformed == true then
+            local players = Player.getPlayers()
+            for _,o in pairs(players) do
+                local hand = o.getHandObjects()
+                if hand[1] then
+                    local outwitcount = table.clone(herocosts)
+                    for _,p in pairs(hand) do
+                        --breaks with bystander-heroes, some villain-heroes
+                        if hasTag2(p,"Cost:") then
+                            outwitcount[hasTag2(p,"Cost:")+1] = outwitcount[hasTag2(p,"Cost:")+1] + 1
+                        elseif p.hasTag("Officer") then
+                            outwitcount[4] = outwitcount[4] + 1
+                        elseif p.hasTag("Sidekick") then
+                            outwitcount[3] = outwitcount[3] + 1
+                        else
+                            outwitcount[1] = outwitcount[1] + 1
+                        end
+                    end
+                    local totaloutwitcount = 0
+                    for _,p in pairs(outwitcount) do
+                        if p > 0 then
+                            totaloutwitcount = totaloutwitcount + 1
+                        end
+                    end
+                    if totaloutwitcount < 4 then
+                        click_get_wound(nil,o.color)
+                    end
+                else
+                    click_get_wound(nil,o.color)
+                end
+            end
+        else
+            local players = Player.getPlayers()
+            for _,o in pairs(players) do
+                local hand = o.getHandObjects()
+                if hand[1] then
+                    local outwitcount = table.clone(herocosts)
+                    for _,p in pairs(hand) do
+                        --breaks with bystander-heroes, some villain-heroes
+                        if hasTag2(p,"Cost:") then
+                            outwitcount[hasTag2(p,"Cost:")+1] = outwitcount[hasTag2(p,"Cost:")+1] + 1
+                        elseif p.hasTag("Officer") then
+                            outwitcount[4] = outwitcount[4] + 1
+                        elseif p.hasTag("Sidekick") then
+                            outwitcount[3] = outwitcount[3] + 1
+                        else
+                            outwitcount[1] = outwitcount[1] + 1
+                        end
+                    end
+                    local totaloutwitcount = 0
+                    for _,p in pairs(outwitcount) do
+                        if p > 0 then
+                            totaloutwitcount = totaloutwitcount + 1
+                        end
+                    end
+                    if totaloutwitcount < 3 then
+                        broadcastToColor("Master Strike: KO a nongrey hero from your discard pile.",o.color,o.color)
+                    end
+                else
+                    broadcastToColor("Master Strike: KO a nongrey hero from your discard pile.",o.color,o.color)
+                end
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Nick Fury" then
         if cards[1] then
             cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
@@ -4989,6 +5151,147 @@ function resolveStrike(mmname,epicness,city,cards)
         if strikesresolved == 2 or strikesresolved == 4 or (strikesresolved == 3 and not epicness) then
             demolish()
         end
+        return strikesresolved
+    end
+    if mmname == "Stryfe" then
+        if cards[1] then
+            strikesstacked = strikesstacked + 1
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            if strikesstacked == 1 then
+                getObjectFromGUID(mmZoneGUID).createButton({click_function='updatetwistpower',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="+" .. strikesstacked,
+                    tooltip="Stryfe gets +1 for each Master Strike stacked next to him.",
+                    font_size=250,
+                    font_color="Red",
+                    width=0})
+            else
+                getObjectFromGUID(mmZoneGUID).editButton({label = "+" .. strikesstacked})
+            end
+        end
+        local todiscard= revealCardTrait("X-Force","Team:")
+        if todiscard[1] then
+                for _,o in pairs(todiscard) do
+                    local hand = o.getHandObjects()
+                    if hand[1] then
+                        local posdiscard = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard)
+                        hand[math.random(#hand)].setPosition(posdiscard)
+                        broadcastToAll("Master Strike: Player " .. o.color .. " had no X-Force heroes and discarded a card at random.")
+                    end
+                end
+            end
+        return nil
+    end
+    if mmname == "The Red King" then
+        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformed == true then
+            local towound = revealCardTrait("Silver")
+            if towound[1] then
+                for _,o in pairs(towound) do
+                    click_get_wound(nil,o.color)
+                    broadcastToAll("Master Strike: Player " .. o.color .. " had no silver heroes and was wounded.")
+                end
+            end
+        else
+            playVillains()
+        end
+        return strikesresolved 
+    end
+    if mmname == "The Sentry" then
+        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformed == true then
+            crossDimensionalRampage("Void")
+        else
+            local playercolors = Player.getPlayers()
+            broadcastToAll("Master Strike: The Void feasts on each player!")
+            for i=1,#playercolors do
+                local color = playercolors[i].color
+                local carnageWounds = function(obj)
+                    local name = obj.getName()
+                    if name == "" then
+                        name = "an unnamed card"
+                    end
+                    broadcastToColor("The Void feasted on " .. name .. "!",color,color)
+                    if not hasTag2(obj,"Cost:") or hasTag2(obj,"Cost:") == 0 then
+                        click_get_wound(nil,color)
+                    end
+                end
+                local feastOn = function()
+                    local deck = getObjectFromGUID(playerBoards[color]).Call('returnDeck')
+                    if deck[1] and deck[1].tag == "Deck" then
+                    local pos = getObjectFromGUID(kopile_guid).getPosition()
+                    -- adjust pos to ensure the callback is triggered
+                    pos.y = pos.y + i
+                        deck[1].takeObject({position = pos,
+                            flip=true,
+                            callback_function = carnageWounds})
+                        return true
+                    elseif deck[1] then
+                        deck[1].flip()
+                        koCard(deck[1])
+                        carnageWounds(deck[1])
+                        return true
+                    else
+                        return false
+                    end
+                end
+                local feasted = feastOn()
+                if feasted == false then
+                    local discard = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
+                    if discard[1] then
+                        getObjectFromGUID(playerBoards[color]).Call('click_refillDeck')
+                        Wait.time(feastOn,2)
+                    end
+                end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Wasteland Hulk" then
+        crossDimensionalRampage("Hulk")
+        return strikesresolved
+    end
+    if mmname == "Uru-Enchanted Iron Man" then
+        if cards[1] then
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+        end
+        demolish()
+        return nil
+    end
+    if mmname == "Zombie Green Goblin" then
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero and hasTag2(hero,"Cost:") > 6  then
+                hero.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                getObjectFromGUID(o).Call('click_draw_hero')
+            end
+        end
+        function goblinDiscards()
+            local kopile = get_decks_and_cards_from_zone(kopile_guid)
+            local todiscard = 0
+            if kopile[1] and kopile[2] then
+                broadcastToAll("Please merge the KO pile into a single stack.")
+                return nil
+            end
+            if kopile[1] and kopile[1].tag == "Deck" then
+                for _,o in pairs(kopile[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k:find("Cost:") and tonumber(k:match("%d+")) > 6 then
+                            todiscard = todiscard + 1
+                            break
+                        end
+                    end
+                end
+            elseif kopile[1] then
+                if hasTag2(kopile[1],"Cost:") and hasTag2(kopile[1],"Cost:") > 6 then
+                    todiscard = todiscard + 1
+                end
+            end
+            broadcastToAll("Master Strike! Each player discards " .. todiscard .. " cards.")
+        end
+        Wait.time(goblinDiscards,2)
         return strikesresolved
     end
     return nil
@@ -5200,7 +5503,7 @@ function nonTwistspecials(cards,city,schemeParts)
     return twistsresolved
 end
 
-function demolish(colors,n,altsource)
+function demolish(colors,n,altsource,ko)
     if not colors then
         colors = {}
         for _,o in pairs(Player.getPlayers()) do
@@ -5209,6 +5512,12 @@ function demolish(colors,n,altsource)
     end
     if not n then
         n = 1
+    end
+    local name1 = "Discarded"
+    local name2 = "Discard"
+    if ko then
+       name1 = "KO'd"
+       name2 = "KO"    
     end
     local callbacksresolved = 0
     local demolishEffect = function()
@@ -5223,7 +5532,12 @@ function demolish(colors,n,altsource)
                     end
                 end
                 local posPlay = offerCards(o)
-                local posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
+                local posdiscard = nil
+                if ko == true then
+                    posdiscard = getObjectFromGUID(kopile_guid).getPosition()
+                else
+                    posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
+                end
                 for i=1,10 do
                     if costs[i] > 0 and handcosts[i] > 0 then
                         local carddropped = 0
@@ -5231,7 +5545,7 @@ function demolish(colors,n,altsource)
                             if hasTag2(h,"Cost:") == i then
                                 if costs[i] >= handcosts[i] then
                                     h.setPosition(posdiscard)
-                                    broadcastToColor("Discarded " .. h.getName() .. " after getting demolished.",o,o)
+                                    broadcastToColor(name1 .. " " .. h.getName() .. " after getting demolished.",o,o)
                                     break
                                 else
                                     posPlay = offerCards(o.color,posPlay)
@@ -5241,7 +5555,7 @@ function demolish(colors,n,altsource)
                             end
                         end
                         if carddropped > 0 then
-                            broadcastToColor("Discard " .. costs[i] .. " of the " .. carddropped .. " cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o,o)
+                            broadcastToColor(name2 .. " " .. costs[i] .. " of the " .. carddropped .. " cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o,o)
                         end
                     end
                 end
@@ -5262,16 +5576,19 @@ function demolish(colors,n,altsource)
         if herodeck[1].tag == "Deck" then
             bump(herodeck[1],n+1)
         end
-        for i = 1,n do
+        local pos = herodeck[1].getPosition()
+        for i = 0,n-1 do
             if herodeck[1] and herodeck[1].tag == "Deck" then
-                herodeck[1].takeObject({position = herodeck[1].getPosition(),
+                pos.y = pos.y + i
+                herodeck[1].takeObject({position = pos,
                     callback_function = logDemolish})
                 if herodeck[1].remainder then
-                   herodeck[1] =  herodeck[1].remainder
+                   herodeck[1] = herodeck[1].remainder
                 end
             elseif herodeck[1] and herodeck[1].tag == "Card" then
+                pos.y = pos.y + i
                 logDemolish(herodeck[1])
-                herodeck[1].setPosition(herodeck[1].getPosition())
+                herodeck[1].setPosition(pos)
             else
                 return nil
             end

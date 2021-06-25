@@ -218,7 +218,7 @@ function tuckSidekicks(cardtable)
         if o.hasTag("Sidekick") then
             o.flip()
             o.setPositionSmooth(getObjectFromGUID("959976").getPosition())
-            cardtable[i] = nil
+            table.remove(cardtable,i)
         end
     end
     return cardtable
@@ -286,6 +286,9 @@ function isDiscardDone()
         zoneGuid = "2b36c3"
     end
     local played_cards = get_decks_and_cards_from_zone(zoneGuid)
+    if played_cards then
+        played_cards = tuckSidekicks(played_cards)
+    end
     return ((cards and #cards == 0) or (cards == nil)) and
         ((played_cards and #played_cards == 0) or (played_cards == nil))
 end
