@@ -1761,6 +1761,7 @@ function twistSpecials(cards,city,schemeParts)
             local stripTactics = function(obj)
                 obj.flip()
                 table.insert(mmStorage,obj.getName())
+                mmLocations[obj.getName()] = topBoardGUIDs[4]
                 local keep = math.random(4)
                 local tacguids = {}
                 for i = 1,4 do
@@ -3499,6 +3500,44 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "Secret Wars" then
+        if twistsresolved < 4 then
+            local mmPile = getObjectFromGUID(mmPileGUID)
+            mmPile.randomize()
+            local stripTactics = function(obj)
+                obj.flip()
+                table.insert(mmStorage,obj.getName())
+                mmLocations[obj.getName()] = topBoardGUIDs[3+twistsresolved]
+                local keep = math.random(4)
+                local tacguids = {}
+                for i = 1,4 do
+                    table.insert(tacguids,obj.getObjects()[i].guid)
+                end
+                local tacticsPile = getObjectFromGUID(topBoardGUIDs[2])
+                for i = 1,4 do
+                    if i ~= keep then
+                        obj.takeObject({position = tacticsPile.getPosition(),
+                            guid = tacguids[i],
+                            flip = true})
+                    end
+                end
+                local flipTactics = function()
+                    if obj then
+                        local pos = obj.getPosition()
+                        pos.y = pos.y + 3
+                        obj.takeObject({position = pos,
+                            index = obj.getQuantity()-1,
+                            flip=true})
+                    end
+                end
+                Wait.time(flipTactics,1)
+            end
+            mmPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[3+twistsresolved]).getPosition(),callback_function = stripTactics})
+        elseif twistsresolved == 8 then
+            broadcastToAll("Scheme Twist: Evil Wins!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "S.H.I.E.L.D. vs. HYDRA War" then
         local officerdeck = getObjectFromGUID(officerDeckGUID)
         local twistpilecontent = get_decks_and_cards_from_zone(twistZoneGUID)
@@ -4183,8 +4222,8 @@ function twistSpecials(cards,city,schemeParts)
 end
 
 function retrieveMM()
-    local masterminds = getObjectFromGUID("912967").Call('returnMM')
-    mmStorage = table.clone(masterminds)
+    mmStorage = table.clone(getObjectFromGUID("912967").Call('returnMM'))
+    mmLocations = {mmZoneGUID}
 end
 
 function strikeSpecials(cards,city)
@@ -4195,9 +4234,17 @@ function strikeSpecials(cards,city)
         broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
         local mmpromptzone = getObjectFromGUID(city_zones_guids[4])
         local zshift = 0
+        local resolvingStrikes = {}
         for i,o in ipairs(mmStorage) do
+            resolvingStrikes[i] = i-1
             _G["resolveStrike" .. i] = function()
-                mmpromptzone.removeButton(i-1)
+                --log("buttonpress:" .. resolvingStrikes[i])
+                mmpromptzone.removeButton(resolvingStrikes[i])
+                for i2,o2 in pairs(resolvingStrikes) do
+                    if i2 > i then
+                        resolvingStrikes[i2] = o2-1
+                    end
+                end
                 local proceed = resolveStrike(o,epicness,city,cards)
                 if not proceed then
                     cards[1] = nil
@@ -4785,7 +4832,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "General Ross" then
-        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["General Ross"])
         if transformedPV["General Ross"] == true then
             crossDimensionalRampage("hulk")
         elseif transformedPV["General Ross"] == false then
@@ -4935,7 +4982,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Illuminati, Secret Society" then
-        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["Illuminati, Secret Society"])
         if transformedPV["Illuminati, Secret Society"] == true then
             broadcastToAll("Master Strike: Each player reveals their hand and discards two cards that each cost between 1 and 4.")
         elseif transformedPV["Illuminati, Secret Society"] == false then
@@ -4944,7 +4991,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "King Hulk, Sakaarson" then
-        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["King Hulk, Sakaarson"])
         if transformedPV["King Hulk, Sakaarson"] == true then
             for i,o in pairs(vpileguids) do
                 if Player[i].seated == true then
@@ -5077,7 +5124,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "M.O.D.O.K." then
-        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["M.O.D.O.K."])
         if transformedPV["M.O.D.O.K."] == true then
             local players = Player.getPlayers()
             for _,o in pairs(players) do
@@ -5201,7 +5248,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "The Red King" then
-        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["The Red King"])
         if transformedPV["The Red King"] == true then
             local towound = revealCardTrait("Silver")
             if towound[1] then
@@ -5216,7 +5263,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved 
     end
     if mmname == "The Sentry" then
-        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["The Sentry"])
         if transformedPV["The Sentry"] == true then
             crossDimensionalRampage("void")
         elseif transformedPV["The Sentry"] == false then
