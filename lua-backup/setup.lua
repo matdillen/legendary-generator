@@ -122,6 +122,8 @@ function onLoad()
     
     kopile_guid = "79d60b"
     
+    transformed = {}
+    
     autoplay = true
     Turns.enable = true
 end
@@ -419,6 +421,337 @@ function woundedFury(obj,color)
     end
 end
 
+function transformMM(obj, player_clicker_color, alt_click)
+    local content = get_decks_and_cards_from_zone(obj.guid)
+    if content[1] then
+        for _,o in pairs(content) do
+            if o.tag == "Card" and not hasTag2(o,"Tactic:",8) then
+                o.flip()
+                transformed[o.getName()] = not transformed[o.getName()]
+                --log(transformed)
+                transformChanges(o.getName())
+                return transformed[o.getName()]
+            elseif o.tag == "Deck" then
+                for _,k in pairs(o.getObjects()) do
+                    local istactic = false
+                    for _,tag in pairs(k.tags) do
+                        if tag:find("Tactic:") then
+                            istactic = true
+                            break
+                        end
+                    end
+                    if istactic == false then
+                        local pos = content[1].getPosition()
+                        pos.y = pos.y + 1
+                        o.takeObject({position = pos,
+                            flip=true})
+                        transformed[k.name] = not transformed[k.name]
+                        log(transformed)
+                        transformChanges(k.name)
+                        return transformed[k.name]
+                    end
+                end
+            end
+        end
+    end
+end
+
+function externalTransformMM(zone)
+    if not zone then
+        zone = getObjectFromGUID(mmZoneGUID)
+    end
+    transformMM(zone)
+    return transformed
+end
+
+function transformChanges(name)
+    if name == "General Ross" then
+        updateRoss()
+    elseif name == "Illuminati, Secret Society" then
+        updateIlluminatiSS()
+    elseif name == "King Hulk, Sakaarson" then
+        updateHulk()
+    elseif name == "M.O.D.O.K." then
+        updateMODOK()
+    elseif name == "The Red King" then
+        updateRedKing()
+    elseif name == "The Sentry" then
+        updateSentry()
+    end
+end
+
+function setupTransformingMM(mmname,mmZone)
+    if not mmZone then
+        mmZone = getObjectFromGUID(mmZoneGUID)
+    end
+    mmZone.createButton({click_function='transformMM',
+        function_owner=self,
+        position={0,0,0.75},
+        rotation={0,180,0},
+        label="Transform",
+        tooltip="Transform the Mastermind.",
+        font_size=100,
+        font_color={0,0,0},
+        color="Green",
+        width=700,
+        height=350})
+    transformed[mmname] = false
+    if mmname == "General Ross" then
+        function updateRoss()
+            if transformed["General Ross"] == false then
+                if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
+                    getObjectFromGUID(strikeZoneGUID).clearButtons()
+                    if mmZone.getButtons()[2] then
+                        mmZone.removeButton(1)
+                    end
+                else
+                    if not getObjectFromGUID(strikeZoneGUID).getButtons() then
+                        getObjectFromGUID(strikeZoneGUID).createButton({click_function='returnColor',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="2",
+                            tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders.",
+                            font_size=250,
+                            font_color="Red",
+                            width=0})
+                    else
+                        getObjectFromGUID(strikeZoneGUID).editButton({label="2",
+                            tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders."})
+                    end
+                    if not mmZone.getButtons()[2] then
+                        mmZone.createButton({click_function='updateRoss',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="X",
+                            tooltip="You can't fight General Ross while he has any Helicopters.",
+                            font_size=250,
+                            font_color="Red",
+                            width=0})
+                    else
+                        mmZone.editButton({index=1,
+                            label="X",
+                            tooltip="You can't fight General Ross while he has any Helicopters."})
+                    end
+                end
+            elseif transformed["General Ross"] == true then
+                if getObjectFromGUID(strikeZoneGUID).getButtons() then
+                    getObjectFromGUID(strikeZoneGUID).editButton({label="X",
+                        tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk."})
+                else
+                    getObjectFromGUID(strikeZoneGUID).createButton({click_function='returnColor',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="X",
+                            tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk.",
+                            font_size=250,
+                            font_color="Red",
+                            width=0})
+                end
+                woundedFury(mmZone,Turns.turn_color)
+            end
+        end
+        function onPlayerTurn(player,previous_player)
+            if transformed["General Ross"] == true then
+                updateRoss()
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            if transformed["General Ross"] ~= nil then
+                updateRoss()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if transformed["General Ross"] ~= nil then
+                updateRoss()
+            end
+        end
+    end
+    if mmname == "Illuminati, Secret Society" then
+        function updateIlluminatiSS()
+            if transformed["Illuminati, Secret Society"] == true then
+                local notes = getNotes()
+                setNotes(notes .. "\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.")
+            elseif transformed["Illuminati, Secret Society"] == false then   
+                local notes = getNotes()
+                setNotes(notes:gsub("\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.",""))
+            end
+        end
+    end
+    if mmname == "King Hulk, Sakaarson" then
+        function updateHulk()
+            if transformed["King Hulk, Sakaarson"] == false then
+                local warbound = 0
+                for _,o in pairs(city_zones_guids) do
+                    if o ~= city_zones_guids[1] then
+                        local citycontent = get_decks_and_cards_from_zone(o)
+                        if citycontent[1] then
+                            for _,k in pairs(citycontent) do
+                                if k.hasTag("Group:Warbound") then
+                                    warbound = warbound + 1
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+                local escapedcards = get_decks_and_cards_from_zone(escape_zone_guid)
+                if escapedcards[1] and escapedcards[1].tag == "Deck" then
+                    for _,o in pairs(escapedcards[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k == "Group:Warbound" then
+                                warbound = warbound + 1
+                                break
+                            end
+                        end
+                    end
+                elseif escapedcards[1] and escapedcards[1].tag == "Card" then
+                    if escapedcards[1].hasTag("Group:Warbound") then
+                        warbound = warbound + 1
+                    end
+                end
+                if warbound > 0 then
+                    if mmZone.getButtons()[2] then
+                        mmZone.editButton({index=1,label="+" .. warbound})
+                    else
+                        mmZone.createButton({click_function='returnColor',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="+" .. warbound,
+                            tooltip="King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
+                            font_size=250,
+                            font_color="Red",
+                            width=0})
+                    end
+                elseif mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+            elseif transformed["King Hulk, Sakaarson"] == true then
+                woundedFury(mmZone,Turns.turn_color)
+            end
+        end
+        function onPlayerTurn(player,previous_player)
+            if transformed["King Hulk, Sakaarson"] == true then
+                updateHulk()
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            if transformed["King Hulk, Sakaarson"] ~= nil then
+                updateHulk()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if transformed["King Hulk, Sakaarson"] ~= nil then
+                updateHulk()
+            end
+        end
+    end
+    if mmname == "M.O.D.O.K." then
+        local notes = getNotes()
+        setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
+        function updateMODOK()
+            if transformed["M.O.D.O.K."] == false then
+                if mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+                local notes = getNotes()
+                setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
+            elseif transformed["M.O.D.O.K."] == true then   
+                local notes = getNotes()
+                setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
+                mmZone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="*",
+                    tooltip="You can only fight M.O.D.O.K with Recruit, not Attack.",
+                    font_size=250,
+                    font_color="Yellow",
+                    width=0})
+            end
+        end
+    end
+    if mmname == "The Red King" then
+        function updateRedKing()
+            if transformed["The Red King"] == false then
+                local villainfound = false
+                for _,o in pairs(city_zones_guids) do
+                    if o ~= city_zones_guids[1] then
+                        local citycontent = get_decks_and_cards_from_zone(o)
+                        if citycontent[1] then
+                            for _,p in pairs(citycontent) do
+                                if p.hasTag("Villain") then
+                                   villainfound = true
+                                   break
+                                end
+                            end
+                            if villainfound == true then
+                                break
+                            end
+                        end
+                    end
+                end
+                if villainfound == true and not mmZone.getButtons()[2] then
+                    mmZone.createButton({click_function='redKing',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="X",
+                        tooltip="You can't fight the Red King while any Villains are in the city. ",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                elseif villainfound == false and mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+            elseif transformed["The Red King"] == true then
+                if mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            if transformed["The Red King"] == false then
+                updateRedKing()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if transformed["The Red King"] == false then
+                updateRedKing()
+            end
+        end
+    end
+    if mmname == "The Sentry" then
+        function updateSentry()
+            if transformed["The Sentry"] == true then
+                woundedFury(mmZone,Turns.turn_color)
+            elseif transformed["The Sentry"] == false then
+                if mmZone.getButtons()[2] then
+                    mmZone.removeButton(1)
+                end
+            end
+        end
+        function onPlayerTurn(player,previous_player)
+            if transformed["The Sentry"] == true then
+                updateSentry()
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            if transformed["The Sentry"] == true then
+                updateSentry()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if transformed["The Sentry"] == true then
+                updateSentry()
+            end
+        end
+    end
+end
+
 function import_setup()
     log("Generating imported setup...")
     playercount = #Player.getPlayers()
@@ -471,302 +804,7 @@ function import_setup()
     local mmcardnumber = mmGetCards(mmname) 
     
     if mmGetCards(mmname,true) == true then
-        transformed = false
-        function transformMM(obj, player_clicker_color, alt_click)
-            local content = get_decks_and_cards_from_zone(obj.guid)
-            if content[1] then
-                for _,o in pairs(content) do
-                    if o.getName() == mmname and o.tag == "Card" then
-                        o.flip()
-                        transformed = not transformed
-                        transformChanges()
-                        break
-                    elseif o.tag == "Deck" then
-                        for _,k in pairs(o.getObjects()) do
-                            if k.name == mmname then
-                                local pos = mmZone.getPosition()
-                                pos.y = pos.y + 0.1
-                                o.takeObject({position = pos,
-                                    flip=true})
-                                transformed = not transformed
-                                transformChanges()
-                                break
-                            end
-                        end
-                    end
-                end
-            end
-        end
-        function externalTransformMM()
-            transformMM(mmZone)
-            return transformed
-        end
-        mmZone.createButton({click_function='transformMM',
-            function_owner=self,
-            position={0,0,0.75},
-            rotation={0,180,0},
-            label="Transform",
-            tooltip="Transform the Mastermind.",
-            font_size=100,
-            font_color={0,0,0},
-            color="Green",
-            width=700,
-            height=350})
-        if mmname == "General Ross" then
-            function rossButtons()
-                if not strikeZone.getButtons() then
-                    strikeZone.createButton({click_function='returnColor',
-                        function_owner=self,
-                        position={0,0,0},
-                        rotation={0,180,0},
-                        label="2",
-                        tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders.",
-                        font_size=250,
-                        font_color="Red",
-                        width=0})
-                end
-                if not mmZone.getButtons()[2] then
-                    mmZone.createButton({click_function='updateRoss',
-                        function_owner=self,
-                        position={0,0,0},
-                        rotation={0,180,0},
-                        label="X",
-                        tooltip="You can't fight General Ross while he has any Helicopters.",
-                        font_size=250,
-                        font_color="Red",
-                        width=0})
-                end
-            end
-            function transformChanges()
-                rossButtons()
-                if transformed == false then
-                    strikeZone.editButton({label="2",
-                        tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders."})
-                    mmZone.editButton({index=1,label="X",
-                        tooltip="You can't fight General Ross while he has any Helicopters."})
-                else
-                    strikeZone.editButton({label="X",
-                        tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk."})
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-            end
-            function onPlayerTurn(player,previous_player)
-                if transformed == true then
-                    woundedFury(mmZone,player.color)
-                end
-            end
-            function onObjectEnterZone(zone,object)
-                if transformed == true and object.hasTag("Wound") then
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-                if transformed == false and zone == strikeZone then
-                    if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
-                        strikeZone.clearButtons()
-                        if mmZone.getButtons()[2] then
-                            mmZone.removeButton(1)
-                        end
-                    else
-                        rossButtons()
-                    end
-                end
-            end
-            function onObjectLeaveZone(zone,object)
-                if transformed == true and object.hasTag("Wound") then
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-                if transformed == false and zone == strikeZone then
-                    if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
-                        strikeZone.clearButtons()
-                        if mmZone.getButtons()[2] then
-                            mmZone.removeButton(1)
-                        end
-                    else
-                        rossButtons()
-                    end
-                end
-            end
-        end
-        if mmname == "King Hulk, Sakaarson" then
-            function updateHulk()
-                local warbound = 0
-                for _,o in pairs(city_zones_guids) do
-                    if o ~= city_zones_guids[1] then
-                        local citycontent = get_decks_and_cards_from_zone(o)
-                        if citycontent[1] then
-                            for _,k in pairs(citycontent) do
-                                if k.hasTag("Group:Warbound") then
-                                    warbound = warbound + 1
-                                    break
-                                end
-                            end
-                        end
-                    end
-                end
-                local escapedcards = get_decks_and_cards_from_zone(escape_zone_guid)
-                if escapedcards[1] and escapedcards[1].tag == "Deck" then
-                    for _,o in pairs(escapedcards[1].getObjects()) do
-                        for _,k in pairs(o.tags) do
-                            if k == "Group:Warbound" then
-                                warbound = warbound + 1
-                                break
-                            end
-                        end
-                    end
-                elseif escapedcards[1] and escapedcards[1].tag == "Card" then
-                    if escapedcards[1].hasTag("Group:Warbound") then
-                        warbound = warbound + 1
-                    end
-                end
-                if warbound > 0 then
-                    if mmZone.getButtons()[2] then
-                        mmZone.editButton({index=1,label="+" .. warbound})
-                    else
-                        mmZone.createButton({click_function='returnColor',
-                            function_owner=self,
-                            position={0,0,0},
-                            rotation={0,180,0},
-                            label="+" .. warbound,
-                            tooltip="King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
-                            font_size=250,
-                            font_color="Red",
-                            width=0})
-                    end
-                elseif mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
-                end
-            end
-            function transformChanges()
-                if transformed == false then
-                    updateHulk()
-                else
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-            end
-            function onPlayerTurn(player,previous_player)
-                if transformed == true then
-                    woundedFury(mmZone,player.color)
-                end
-            end
-            function onObjectEnterZone(zone,object)
-                if transformed == true and object.hasTag("Wound") then
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-                if transformed == false and object.hasTag("Group:Warbound") then
-                    updateHulk()
-                end
-            end
-            function onObjectLeaveZone(zone,object)
-                if transformed == true and object.hasTag("Wound") then
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-                if transformed == false and object.hasTag("Group:Warbound") then
-                    updateHulk()
-                end
-            end
-        end
-        if mmname == "M.O.D.O.K." then
-            setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
-            function transformChanges()
-                if transformed == false then
-                    if mmZone.getButtons()[2] then
-                        mmZone.removeButton(1)
-                    end
-                    local notes = getNotes()
-                    setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
-                else   
-                    local notes = getNotes()
-                    setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
-                    mmZone.createButton({click_function='returnColor',
-                        function_owner=self,
-                        position={0,0,0},
-                        rotation={0,180,0},
-                        label="*",
-                        tooltip="You can only fight M.O.D.O.K with Recruit, not Attack.",
-                        font_size=250,
-                        font_color="Yellow",
-                        width=0})
-                end
-            end
-        end
-        if mmname == "The Red King" then
-            function redKing()
-                local villainfound = false
-                for _,o in pairs(city_zones_guids) do
-                    if o ~= city_zones_guids[1] then
-                        local citycontent = get_decks_and_cards_from_zone(o)
-                        if citycontent[1] then
-                            for _,p in pairs(citycontent) do
-                                if p.hasTag("Villain") then
-                                   villainfound = true
-                                   break
-                                end
-                            end
-                            if villainfound == true then
-                                break
-                            end
-                        end
-                    end
-                end
-                if villainfound == true and not mmZone.getButtons()[2] then
-                    mmZone.createButton({click_function='redKing',
-                        function_owner=self,
-                        position={0,0,0},
-                        rotation={0,180,0},
-                        label="X",
-                        tooltip="You can't fight the Red King while any Villains are in the city. ",
-                        font_size=250,
-                        font_color="Red",
-                        width=0})
-                elseif villainfound == false and mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
-                end
-            end
-            function transformChanges()
-                if transformed == false then
-                    redKing()
-                else
-                    if mmZone.getButtons()[2] then
-                        mmZone.removeButton(1)
-                    end
-                end
-            end
-            function onObjectEnterZone(zone,object)
-                if transformed == false then
-                    redKing()
-                end
-            end
-            function onObjectLeaveZone(zone,object)
-                if transformed == false then
-                    redKing()
-                end
-            end
-        end
-        if mmname == "The Sentry" then
-            function transformChanges()
-                if transformed == true then
-                    woundedFury(mmZone,Turns.turn_color)
-                else
-                    if mmZone.getButtons()[2] then
-                        mmZone.removeButton(1)
-                    end
-                end
-            end
-            function onPlayerTurn(player,previous_player)
-                if transformed == true then
-                    woundedFury(mmZone,player.color)
-                end
-            end
-            function onObjectEnterZone(zone,object)
-                if transformed == true and object.hasTag("Wound") then
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-            end
-            function onObjectLeaveZone(zone,object)
-                if transformed == true and object.hasTag("Wound") then
-                    woundedFury(mmZone,Turns.turn_color)
-                end
-            end
-        end
+        setupTransformingMM(mmname,mmZone)
     end
     
     local mmShuffle = function(obj)
@@ -1400,7 +1438,8 @@ function import_setup()
         }
         local divideSort = function(obj)
             --log(obj)
-            for _,o in pairs(obj.getObjects()) do
+            local remo = 0
+            for i,o in ipairs(obj.getObjects()) do
                 local colors = {}
                 for _,tag in pairs(o.tags) do
                     if tag:find("HC:") then
@@ -1412,17 +1451,29 @@ function import_setup()
                 end
                 local dividedDeckZone = getObjectFromGUID(dividedDeckGUIDs[colors[1]])
                 if not obj.remainder then
-                    obj.takeObject({guid=o.guid,
+                    obj.takeObject({index = i-1-remo,
                         position=dividedDeckZone.getPosition(),
                         smooth=false,
                         flip=true})
+                    remo = remo + 1
                 else
-                    obj.remainder.flip()
-                    obj.remainder.setPosition(dividedDeckZone.getPosition())
+                    local temp = obj.remainder
+                    temp.flip()
+                    colors = {}
+                    for _,tag in pairs(temp.getTags()) do
+                        if tag:find("HC:") then
+                            table.insert(colors,tag)
+                        end
+                    end
+                    if #colors > 1 then
+                        table.remove(colors,math.random(2))
+                    end
+                    dividedDeckZone = getObjectFromGUID(dividedDeckGUIDs[colors[1]])
+                    temp.setPosition(dividedDeckZone.getPosition())
                 end
             end
         end
-        for _,o in pairs(heroParts) do
+        for i,o in pairs(heroParts) do
             for _,object in pairs(heroPile.getObjects()) do
                 if o == string.lower(object.name) then
                     log ("Found hero: " .. object.name)
@@ -2361,6 +2412,54 @@ function setupMasterminds(obj,epicness,targetZone)
         end
         function onObjectLeaveZone(zone,object)
             Wait.time(updateHela,1)
+        end
+    end
+    if obj.getName() == "Ragnarok" then
+        updateRagnarok = function()
+            local hccolors = {
+                ["Red"] = 0,
+                ["Yellow"] = 0,
+                ["Green"] = 0,
+                ["Silver"] = 0,
+                ["Blue"] = 0
+            }
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    for _,k in pairs(hero.getTags()) do
+                        if k:find("HC:") then
+                            hccolors[k:gsub("HC:","")] = 2
+                        end
+                    end
+                end
+            end
+            local boost = 0
+            for _,o in pairs(hccolors) do
+                boost = boost + o
+            end
+            local mmzone = getObjectFromGUID(targetZone)
+            if boost == 0 then
+                mmzone.clearButtons()
+            elseif not mmzone.getButtons() then
+                mmzone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="+" .. boost,
+                    tooltip="Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
+                    font_size=350,
+                    font_color={1,0,0},
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+            else
+                mmzone.editButton({label = "+" .. boost})
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateRagnarok,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateRagnarok,1)
         end
     end
 end

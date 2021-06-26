@@ -19,6 +19,8 @@ function onLoad()
         table.insert(herocosts,0)
     end
     
+    transformedPV = {}
+    
     --guids
     playerBoards = {
         ["Red"]="8a35bd",
@@ -4783,10 +4785,10 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "General Ross" then
-        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
-        if transformed == true then
-            crossDimensionalRampage("Hulk")
-        else
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformedPV["General Ross"] == true then
+            crossDimensionalRampage("hulk")
+        elseif transformedPV["General Ross"] == false then
             for i,o in pairs(vpileguids) do
                 if Player[i].seated == true then
                     local vpilecontent = get_decks_and_cards_from_zone(o)
@@ -4932,9 +4934,18 @@ function resolveStrike(mmname,epicness,city,cards)
         dealWounds()
         return nil
     end
+    if mmname == "Illuminati, Secret Society" then
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformedPV["Illuminati, Secret Society"] == true then
+            broadcastToAll("Master Strike: Each player reveals their hand and discards two cards that each cost between 1 and 4.")
+        elseif transformedPV["Illuminati, Secret Society"] == false then
+            broadcastToAll("Master Strike: Each player reveals their hand and discards two cards that each cost between 5 and 8.")
+        end
+        return strikesresolved
+    end
     if mmname == "King Hulk, Sakaarson" then
-        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
-        if transformed == true then
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformedPV["King Hulk, Sakaarson"] == true then
             for i,o in pairs(vpileguids) do
                 if Player[i].seated == true then
                     local vpilecontent = get_decks_and_cards_from_zone(o)
@@ -4984,7 +4995,7 @@ function resolveStrike(mmname,epicness,city,cards)
                     end
                 end
             end
-        else
+        elseif transformedPV["King Hulk, Sakaarson"] == false then
             broadcastToAll("Master Strike: Each player reveals their hand, then KO's a card from their hand or discard pile that has the same card name as a card in the HQ.")
         end
         return strikesresolved
@@ -5066,8 +5077,8 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "M.O.D.O.K." then
-        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
-        if transformed == true then
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformedPV["M.O.D.O.K."] == true then
             local players = Player.getPlayers()
             for _,o in pairs(players) do
                 local hand = o.getHandObjects()
@@ -5098,7 +5109,7 @@ function resolveStrike(mmname,epicness,city,cards)
                     click_get_wound(nil,o.color)
                 end
             end
-        else
+        elseif transformedPV["M.O.D.O.K."] == false then
             local players = Player.getPlayers()
             for _,o in pairs(players) do
                 local hand = o.getHandObjects()
@@ -5153,6 +5164,11 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "Ragnarok" then
+        broadcastToAll("Master Strike: Each player says \"zero\" or \"not zero.\" Then, each player discards all their cards with that cost.")
+        -- could be done more automatically by spawning buttons for each player's hand?
+        return strikesresolved
+    end
     if mmname == "Stryfe" then
         if cards[1] then
             strikesstacked = strikesstacked + 1
@@ -5185,8 +5201,8 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "The Red King" then
-        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
-        if transformed == true then
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformedPV["The Red King"] == true then
             local towound = revealCardTrait("Silver")
             if towound[1] then
                 for _,o in pairs(towound) do
@@ -5194,16 +5210,16 @@ function resolveStrike(mmname,epicness,city,cards)
                     broadcastToAll("Master Strike: Player " .. o.color .. " had no silver heroes and was wounded.")
                 end
             end
-        else
+        elseif transformedPV["The Red King"] == false then
             playVillains()
         end
         return strikesresolved 
     end
     if mmname == "The Sentry" then
-        transformed = getObjectFromGUID("912967").Call('externalTransformMM')
-        if transformed == true then
-            crossDimensionalRampage("Void")
-        else
+        local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM')
+        if transformedPV["The Sentry"] == true then
+            crossDimensionalRampage("void")
+        elseif transformedPV["The Sentry"] == false then
             local playercolors = Player.getPlayers()
             broadcastToAll("Master Strike: The Void feasts on each player!")
             for i=1,#playercolors do
@@ -5250,7 +5266,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "Wasteland Hulk" then
-        crossDimensionalRampage("Hulk")
+        crossDimensionalRampage("hulk")
         return strikesresolved
     end
     if mmname == "Uru-Enchanted Iron Man" then
@@ -5343,7 +5359,7 @@ function crossDimensionalRampage(name)
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
             if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
                 for _,k in pairs(vpilecontent[1].getObjects()) do
-                    if string.lower(k):find(name) then
+                    if string.lower(k.name):find(name) then
                         table.remove(players,i)
                     end
                 end

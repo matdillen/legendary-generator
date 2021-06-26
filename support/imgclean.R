@@ -3,7 +3,7 @@ library(tidyverse)
 library(jsonlite)
 
 #read the json file for the mod/save you want to edit
-a = fromJSON("TS_Save_86.json",
+a = fromJSON("lua/villainteamtag.json",
              simplifyVector = F)
 
 #fix nickname that doesn't match
@@ -634,12 +634,26 @@ for (i in 1:length(a$ObjectStates[[vilid]]$ContainedObjects)) {
   a$ObjectStates[[vilid]]$ContainedObjects[[i]] = src
 }
 
+#mmtactics
+
+for (i in 1:length(a$ObjectStates[[12]]$ContainedObjects)) {
+  #this is a temporary extract to work in to save text and for troubleshooting
+  src = a$ObjectStates[[12]]$ContainedObjects[[i]]
+  
+  mmname = a$ObjectStates[[12]]$ContainedObjects[[i]]$Nickname
+  
+  for (j in 1:4) {
+    src$ContainedObjects[[j]]$Tags = c(src$ContainedObjects[[j]]$Tags,paste0("Tactic:",mmname))
+  }
+  a$ObjectStates[[12]]$ContainedObjects[[i]] = src
+}
+
 #export
 write(toJSON(a,
              digits=NA,
              pretty=T,
              flatten=T,
              auto_unbox=T),
-      "villainteamtag.json")
+      "villainteamtag2.json")
 
 #after export, add to saves and then edit the SaveFileInfos.json correctly
