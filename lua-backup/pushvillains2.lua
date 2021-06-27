@@ -2329,6 +2329,48 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Epic Super Hero Civil War" then
+        stackTwist(cards[1])
+        local toko = twistsstacked
+        broadcastToAll("Scheme Twist: KO " .. twistsstacked .. " heroes from the HQ, one at a time.")
+        click_ko = function(obj)
+            local hero = obj.Call('getHeroUp')
+            if hero then
+                koCard(hero)
+                obj.Call('click_draw_hero')
+                toko = toko - 1
+                if toko == 0 then
+                    for _,o in pairs(hqguids) do
+                        getObjectFromGUID(o).removeButton(2)
+                    end
+                    getObjectFromGUID(heroDeckZoneGUID).clearButtons()
+                else
+                    getObjectFromGUID(heroDeckZoneGUID).editButton({label = "(" .. toko .. ")"})
+                end
+            end
+        end
+        for _,o in pairs(hqguids) do
+            getObjectFromGUID(o).createButton({click_function="click_ko",
+                function_owner=self,
+                position={0,3,0},
+                label="KO",
+                tooltip="KO this hero.",
+                color={0,0,0,1}, 
+                width=1500, height=750,
+                font_size = 250,
+                font_color = "Red"})
+        end
+        getObjectFromGUID(heroDeckZoneGUID).createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,3,0},
+                rotation={0,180,0},
+                label="(" .. toko .. ")",
+                tooltip="Heroes to KO.",
+                width=0,
+                font_size = 250,
+                font_color = "Red"})
+        return nil
+    end
     if schemeParts[1] == "Everybody Hates Deadpool" then
         local deadpoolinhand = {}
         local deadpoolloser = nil
@@ -2439,6 +2481,20 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Fall of the Hulks" then
+        if twistsresolved < 3 then
+            broadcastToAll("Scheme Twist: Nothing yet!")
+        elseif twistsresolved < 7 then
+            crossDimensionalRampage("hulk")
+        elseif twistsresolved < 11 then
+            dealWounds()
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Fear Itself" then
+        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
+        return nil
+    end
     if schemeParts[1] == "Ferry Disaster" then
         if twistsresolved == 1 or twistsresolved == 5 then
             ferryzones = table.clone(top_city_guids)
@@ -2487,6 +2543,10 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Find the Split Personality Killer" or schemeParts[1] == "Five Families of Crime" then
+        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
+        return nil
+    end
     if schemeParts[1] == "Flood the Planet with Melted Glaciers" then
         stackTwist(cards[1])
         for i,o in pairs(hqguids) do
@@ -2502,6 +2562,10 @@ function twistSpecials(cards,city,schemeParts)
                 return nil
             end
         end
+        return nil
+    end
+    if schemeParts[1] == "Forge the Infinity Gauntlet" then
+        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
         return nil
     end
     if schemeParts[1] == "Fragmented Realities" then
@@ -2603,6 +2667,10 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Hail Hydra" then
+        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
+        return nil
+    end
     if schemeParts[1] == "Hidden Heart of Darkness" then
         local villain_deck = get_decks_and_cards_from_zone("4bc134")
         local villaindeckcount = 0
@@ -2671,6 +2739,19 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         Wait.condition(tacticsFollowup,tacticsAdded)
+    end
+    if schemeParts[1] == "Horror of Horrors" then
+        if twistsresolved < 6 then
+            local horrorPile = getObjectFromGUID(horrorPileGUID)
+            horrorPile.randomize()
+            local horror = horrorPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[2+twistsresolved]).getPosition(),
+                flip=false,
+                smooth=false})
+            broadcastToAll("Scheme Twist: Random Horror was played! These are not scripted (or named) yet.")
+        elseif twistsresolved == 6 then
+            broadcastToAll("Scheme Twist: Evil Wins.")
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "House of M" then
         if not noMoreMutants then
@@ -2864,6 +2945,10 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(triggerBomb,twistMoved)
         return nil
     end
+    if schemeParts[1] == "Invade the Daily Bugle News HQ" or schemeParts[1] == "Invasion of the Venom Symbiotes" then
+        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
+        return nil
+    end
     if schemeParts[1] == "Invincible Force Field" then
         cards[1].setPositionSmooth(getObjectFromGUID("be6070").getPosition())
         if twistsresolved == 1 then
@@ -2927,6 +3012,37 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         return nil
+    end
+    if schemeParts[1] == "Massive Earthquake Generator" then
+        local players = revealCardTrait("Green")
+        for i,o in pairs(players) do
+            local feastOn = function()
+                local deck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+                if deck[1] and deck[1].tag == "Deck" then
+                    local pos = getObjectFromGUID(kopile_guid).getPosition()
+                    deck[1].takeObject({position = pos,
+                        flip=true})
+                    return true
+                elseif deck[1] then
+                    deck[1].flip()
+                    koCard(deck[1])
+                    return true
+                else
+                    return false
+                end
+            end
+            local feasted = feastOn()
+            broadcastToAll("Scheme Twist: Player " .. o.color .. " had no Green hero and KOs the top card of their deck")
+            if feasted == false then
+                broadcastToAll("Shuffling " .. o.color .. " player's discard pile into their deck first...")
+                local discard = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
+                if discard[1] then
+                    getObjectFromGUID(playerBoards[o.color]).Call('click_refillDeck')
+                    Wait.time(feastOn,2)
+                end
+            end
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Mass Produce War Machine Armor" then
         local twistpile = getObjectFromGUID(twistZoneGUID)
@@ -3119,6 +3235,10 @@ function twistSpecials(cards,city,schemeParts)
         Wait.condition(sentinelsNext,sentinelsAdded)
         return nil
     end
+    if schemeParts[1] == "Mutating Gamma Rays" then
+        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
+        return nil
+    end
     if schemeParts[1] == "Negative Zone Prison Breakout" then
         playVillains(2)
         return twistsresolved
@@ -3234,6 +3354,14 @@ function twistSpecials(cards,city,schemeParts)
         end
         Wait.condition(goonsShuffle,goonsAdded)
         return twistsresolved
+    end
+    if schemeParts[1] == "Pan-Dimensional Plague" then
+        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
+        return nil
+    end
+    if schemeParts[1] == "Paralyzing Venom" then
+        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
+        return nil
     end
     if schemeParts[1] == "Portals to the Dark Dimension" then
         if twistsresolved == 1 then
@@ -3404,6 +3532,10 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Evil Wins!")
         end
         return twistsresolved
+    end
+    if schemeParts[1] == "Ragnarok, Twilight of the Gods" then
+        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
+        return nil
     end
     if schemeParts[1] == "Replace Earth's Leaders with Killbots" then
         stackTwist(cards[1])
