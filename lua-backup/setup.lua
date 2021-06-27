@@ -2319,6 +2319,51 @@ function setupMasterminds(obj,epicness,targetZone)
             Wait.time(updateEmma,1)
         end
     end
+    if obj.getName() == "Evil Deadpool" then
+        updateDeadpool = function()
+            local color = Turns.turn_color
+            local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
+            local tacticsfound = 0
+            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                for _,o in pairs(vpilecontent[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k:find("Tactic:") then
+                            tacticsfound = tacticsfound + 1
+                            break
+                        end
+                    end
+                end
+            elseif vpilecontent[1] and hasTag2(vpilecontent[1],"Tactic:",8) then
+                tacticsfound = tacticsfound + 1
+            end
+            local mmzone = getObjectFromGUID(targetZone)
+            if tacticsfound == 0 then
+                mmzone.clearButtons()
+            elseif not mmzone.getButtons() then
+                mmzone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="+" .. tacticsfound,
+                    tooltip="Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
+                    font_size=350,
+                    font_color={1,0,0},
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+            else
+                mmzone.editButton({label = "+" .. tacticsfound})
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateDeadpool,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateDeadpool,1)
+        end
+        function onPlayerTurn(player,previous_player)
+            updateDeadpool()
+        end
+    end
     if obj.getName() == "Grim Reaper" then
         updateReaper = function()
             local locationcount = 0
@@ -2412,6 +2457,64 @@ function setupMasterminds(obj,epicness,targetZone)
         end
         function onObjectLeaveZone(zone,object)
             Wait.time(updateHela,1)
+        end
+    end
+    if obj.getName() == "Kingpin" then
+        local mmzone = getObjectFromGUID(targetZone)
+        mmzone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="Bribe",
+                    tooltip="Kingpin can be fought using Recruit as well as Attack.",
+                    font_size=350,
+                    font_color="Yellow",
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+    end
+    if obj.getName() == "Madelyne Pryor, Goblin Queen" then
+        function updateMadelyne()
+            if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
+                getObjectFromGUID(strikeZoneGUID).clearButtons()
+                if mmZone.getButtons() then
+                    mmZone.clearButtons()
+                end
+            else
+                if not getObjectFromGUID(strikeZoneGUID).getButtons() then
+                    getObjectFromGUID(strikeZoneGUID).createButton({click_function='returnColor',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="2",
+                        tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                else
+                    getObjectFromGUID(strikeZoneGUID).editButton({label="2",
+                        tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders."})
+                end
+                if not mmZone.getButtons() then
+                    mmZone.createButton({click_function='updateMadelyne',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="X",
+                        tooltip="You can't fight Madelyne Pryor while she has any Demon Goblins.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                else
+                    mmZone.editButton({label="X",
+                        tooltip="You can't fight Madelyne Pryor while she has any Demon Goblins."})
+                end
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            updateMadelyne()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMadelyne()
         end
     end
     if obj.getName() == "Ragnarok" then

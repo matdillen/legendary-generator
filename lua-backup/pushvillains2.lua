@@ -377,12 +377,14 @@ function click_draw_villain()
     end
 end
 
-function addBystanders(cityspace,face)
+function addBystanders(cityspace,face,posabsolute)
     if not face then
         face = true
     end
     local targetZone = getObjectFromGUID(cityspace).getPosition()
-    targetZone.z = targetZone.z - 2
+    if not posabsolute then
+        targetZone.z = targetZone.z - 2
+    end
     getObjectFromGUID(bystandersPileGUID).takeObject({position=targetZone,
         smooth=true,
         flip=face})
@@ -4496,6 +4498,10 @@ function strikeSpecials(cards,city)
     end
 end
 
+function msno(mmname)
+    broadcastToAll("Master Strike: " .. mmname .. " wasn't scripted yet.")
+end
+
 function resolveStrike(mmname,epicness,city,cards)
     if mmname:find("Ascended Baron") then
         local vp = tonumber(mmname:match("%(%d+%)"):match("%d+"))
@@ -4522,6 +4528,10 @@ function resolveStrike(mmname,epicness,city,cards)
             end
         end
         return strikesresolved
+    end
+    if mmname == "Adrian Toomes" then
+        msno(mmname)
+        return nil
     end
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
@@ -4833,6 +4843,10 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "Charles Xavier, Professor of Crime" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Dark Phoenix" then
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         local kopilepos = getObjectFromGUID(kopile_guid).getPosition()
@@ -4929,6 +4943,18 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return nil
     end
+    if mmname == "Dr. Doom" then
+        local players = revealCardTrait("Silver")
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            if hand[1] and #hand == 6 then
+                broadcastToAll("Master Strike: Player " .. o.color .. " puts two cards from their hand on top of their deck.")
+                local pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld({0.957, 1, 0.222})
+                promptDiscard(o.color,nil,2,pos,true)
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Dr. Strange" then
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
         if vildeck and vildeck.tag == "Deck" then
@@ -5014,6 +5040,17 @@ function resolveStrike(mmname,epicness,city,cards)
             broadcastToAll("Master Strike: Each player has " .. strikesresolved+1 .. " Waking Nightmares.")
         end
         return nil
+    end
+    if mmname == "Emperor Vulcan of the Shi'ar" then
+        msno(mmname)
+        return nil
+    end
+    if mmname == "Evil Deadpool" then
+        for _,o in pairs(Player.getPlayers()) do
+            promptDiscard(o.color)
+            broadcastToAll("Master Strike: Each player simultaneously discards a card. Whoever discards the lowest-costing card (or tied for lowest) gains a Wound (manually).")
+        end
+        return strikesresolved
     end
     if mmname == "Fin Fang Foom" then
         local foomcount = 0
@@ -5222,6 +5259,10 @@ function resolveStrike(mmname,epicness,city,cards)
         dealWounds()
         return nil
     end
+    if mmname == "Hybrid" or mmname == "Hydra High Council" or mmname == "Hydra Super-Adaptoid" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Illuminati, Secret Society" then
         local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["Illuminati, Secret Society"])
         if transformedPV["Illuminati, Secret Society"] == true then
@@ -5230,6 +5271,19 @@ function resolveStrike(mmname,epicness,city,cards)
             broadcastToAll("Master Strike: Each player reveals their hand and discards two cards that each cost between 5 and 8.")
         end
         return strikesresolved
+    end
+    if mmname == "Immortal Emperor Zheng-Zhu" then
+        local players = revealCardTrait(6,"Cost:",nil,"Cost")
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            promptDiscard(o.color,hand,#hand-3)
+            broadcastToColor("Master Strike: Discard down to three cards.")
+        end
+        return strikesresolved
+    end
+    if mmname == "J. Jonah Jameson" then
+        msno(mmname)
+        return nil
     end
     if mmname == "King Hulk, Sakaarson" then
         local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["King Hulk, Sakaarson"])
@@ -5354,12 +5408,50 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return nil
     end
+    if mmname == "Kingpin" then
+        local players = revealCardTrait("Marvel Knights","Team:")
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            promptDiscard(o.color,hand,#hand)
+            local drawfive = function()
+                getObjectFromGUID(playerBoards[o.color]).Call('click_draw_cards',5)
+            end
+            Wait.time(drawfive,1)
+        end
+        return strikesresolved
+    end
     if mmname == "Loki" then
         local towound = revealCardTrait("Green")
         if towound[1] then
             for _,o in pairs(towound) do
                 click_get_wound(nil,o.color)
                 broadcastToAll("Master Strike: Player " .. o.color .. " had no green heroes and was wounded.")
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Macho Gomez" then
+        msno(mmname)
+        return nil
+    end
+    if mmname == "Madelyne Pryor, Goblin Queen" then
+        local madsbs = get_decks_and_cards_from_zone(strikeZoneGUID)
+        if madsbs[1] then
+            dealWounds()
+        end
+        addBystanders(strikeZoneGUID,nil,true)
+        addBystanders(strikeZoneGUID,nil,true)
+        addBystanders(strikeZoneGUID,nil,true)
+        addBystanders(strikeZoneGUID,nil,true)
+        return strikesresolved
+    end
+    if mmname == "Magneto" then
+        local players = revealCardTrait("X-Men","Team:")
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            if hand[1] then
+                broadcastToAll("Master Strike: Player " .. o.color .. " discards down to 4 cards.")
+                promptDiscard(o.color,hand,#hand-4)
             end
         end
         return strikesresolved
@@ -5641,6 +5733,11 @@ function revealCardTrait(trait,prefix,playercolors,what)
                     end
                 elseif what == "Name" then
                     if h.getName() == trait then
+                        table.remove(players,i)
+                        break
+                    end
+                elseif what == "Cost" then
+                    if hasTag2(h,prefix) and hasTag2(h,prefix) > trait then
                         table.remove(players,i)
                         break
                     end
@@ -5962,20 +6059,33 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
-function promptDiscard(color,handobjects)
+function promptDiscard(color,handobjects,n,pos,flip)
     if not handobjects then
         handobjects = Player[color].getHandObjects()
     end
-    local posdiscard = getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
-    if #handobjects == 1 then
-        handobjects[1].setPosition(posdiscard)
+    if not n then
+        n = 1  
+    end
+    if not pos then
+        pos = getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
+    end
+    if #handobjects == n then
+        for i =1,n do
+            handobjects[1].setPosition(pos)
+        end
     else
         for i,o in pairs(handobjects) do
             _G["discardCard" .. color .. i] = function()
-                for _,p in pairs(handobjects) do
-                    p.clearButtons()
+                n = n-1
+                if n == 0 then
+                    for _,p in pairs(handobjects) do
+                        p.clearButtons()
+                    end
                 end
-                handobjects[i].setPosition(posdiscard)
+                if flip then
+                    handobjects[i].flip()
+                end
+                handobjects[i].setPosition(pos)
             end
             o.createButton({click_function="discardCard" .. color .. i,
                 function_owner=self,
