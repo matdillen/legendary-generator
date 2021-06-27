@@ -185,6 +185,16 @@ function click_get_wound(obj, player_clicker_color, alt_click)
     local woundsDeck=getObjectFromGUID(woundsDeckGUID)
     local dest = playerBoard.positionToWorld(pos_discard)
     dest.y = dest.y + 3
+    local flip = true
+    if mmStorage[1] then
+        for _,o in pairs(mmStorage) do
+            if o == "Mephisto" then
+                dest = playerBoard.positionToWorld({0.957, 3.178, 0.222})
+                flip = false
+                break
+            end
+        end
+    end
 	if player_clicker_color == "White" then
 		angle = 90
 	elseif player_clicker_color == "Blue" then
@@ -197,13 +207,15 @@ function click_get_wound(obj, player_clicker_color, alt_click)
         if woundsDeck.tag == "Deck" then
             woundsDeck.takeObject({position=dest,
                 rotation = brot,
-                flip = true,
+                flip = flip,
                 smooth = true})
             if woundsDeck.remainder then
                 woundsDeckGUID = woundsDeck.remainder.guid
             end
         elseif woundsDeck.tag == "Card" then
-            woundsDeck.flip()
+            if flip == true then
+                woundsDeck.flip()
+            end
             woundsDeck.setPositionSmooth(dest)
         end
         broadcastToAll("Player " .. player_clicker_color .. " got a wound!")  
@@ -4443,6 +4455,14 @@ function retrieveMM()
     mmLocations = {mmZoneGUID}
 end
 
+function returnMM(loc)
+    if loc then
+        return(table.clone(mmLocations))
+    else
+        return(table.clone(mmStorage))
+    end
+end
+
 function strikeSpecials(cards,city)
     if not mmStorage[1] then
         broadcastToAll("No mastermind specified!")
@@ -4529,6 +4549,23 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    local mmloc = nil
+    local strikeloc = nil
+    if not mmLocations[mmname] then
+        broadcastToAll("Mastermind " .. mmname .. " not found?")
+        return nil
+    elseif mmLocations[mmname] == mmZoneGUID then
+        mmloc = mmZoneGUID
+        strikeloc = strikeZoneGUID
+    else
+        mmloc = mmLocations[mmname]
+        for i,o in pairs(topBoardGUIDs) do
+            if o == mmloc then
+                strikeloc = topBoardGUIDs[i-1]
+                break
+            end
+        end
+    end
     if mmname == "Adrian Toomes" then
         msno(mmname)
         return nil
@@ -4552,7 +4589,7 @@ function resolveStrike(mmname,epicness,city,cards)
     end
     if mmname == "Arcade" then
         local playercolors = Player.getPlayers()
-        local shieldspresent = get_decks_and_cards_from_zone(strikeZoneGUID)
+        local shieldspresent = get_decks_and_cards_from_zone(strikeloc)
         local shieldcount = 0
         if shieldspresent[1] then
             shieldcount = math.abs(shieldspresent[1].getQuantity())
@@ -4572,7 +4609,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 end
                 if bsguids[1] and epicness == false then
                     bsadded = bsadded + 1
-                    vpile[1].takeObject({position = getObjectFromGUID(strikeZoneGUID).getPosition(),
+                    vpile[1].takeObject({position = getObjectFromGUID(strikeloc).getPosition(),
                         flip=true,
                         guid=bsguids[math.random(#bsguids)],
                         smooth=true})
@@ -4580,7 +4617,7 @@ function resolveStrike(mmname,epicness,city,cards)
                     bsadded = bsadded + 2
                     for i=1,2 do
                         local guid = table.remove(bsguids,math.random(#bsguids)-1)
-                        vpile[1].takeObject({position = getObjectFromGUID(strikeZoneGUID).getPosition(),
+                        vpile[1].takeObject({position = getObjectFromGUID(strikeloc).getPosition(),
                             flip=true,
                             guid=guid,
                             smooth=true})
@@ -4592,7 +4629,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 if vpile[1].hasTag("Bystander") then
                     bsadded = bsadded + 1
                     vpile[1].flip()
-                    vpile[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+                    vpile[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
                 else
                     click_get_wound(nil,playercolors[i].color)
                 end
@@ -4602,10 +4639,10 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         if bsadded > 0 then
             local shuffleShields = function()
-                get_decks_and_cards_from_zone(strikeZoneGUID)[1].randomize()
+                get_decks_and_cards_from_zone(strikeloc)[1].randomize()
             end
             local shieldsAdded = function()
-                local shields = get_decks_and_cards_from_zone(strikeZoneGUID)
+                local shields = get_decks_and_cards_from_zone(strikeloc)
                 if shields[1] and math.abs(shields[1].getQuantity()) == bsadded + shieldcount then
                     return true
                 else
@@ -4637,12 +4674,21 @@ function resolveStrike(mmname,epicness,city,cards)
     end
     if mmname == "Authoritarian Iron Man" then
         local mm = nil
+        local pos = nil
+        if not current_city[#current_city-strikesresolved+1] then
+            broadcastToAll("Master Strike: City too small for " .. mmname .. " to move!")
+            return strikesresolved
+        else
+            pos = getObjectFromGUID(current_city[#current_city-strikesresolved+1]).getPosition()
+            pos.z = pos.z+2
+        end
         if strikesresolved == 1 then
-            mm = get_decks_and_cards_from_zone(mmZoneGUID)
+            mm = get_decks_and_cards_from_zone(mmloc)
             if mm[1] then
                 for _,o in pairs(mm) do
                     if o.getName() == "Authoritarian Iron Man" and o.tag == "Card" then
                         powerButton(o,"updateTwistPower","+3",{0,22,8})
+                        o.setDescription(o.getDescription() .. "\r\nLOCATION: Keyword to indicate he's only fortifying this space.")
                         break
                     end
                 end
@@ -4651,7 +4697,8 @@ function resolveStrike(mmname,epicness,city,cards)
                 return nil
             end
         elseif strikesresolved < 6 then
-            mm = get_decks_and_cards_from_zone(topBoardGUIDs[strikesresolved+1])
+            mm = get_decks_and_cards_from_zone(current_city[#current_city-strikesresolved+2])
+            --what happens to iron man if his city space is destroyed?
         else
             return strikesresolved
         end
@@ -4661,7 +4708,7 @@ function resolveStrike(mmname,epicness,city,cards)
         else
             for _,o in pairs(mm) do
                 if strikesresolved > 1 or (o.getName() == "Authoritarian Iron Man" and o.tag == "Card") then
-                    o.setPositionSmooth(getObjectFromGUID(topBoardGUIDs[strikesresolved+2]).getPosition())
+                    o.setPositionSmooth(pos)
                     broadcastToAll("Master Strike: Authoritarian Iron Man fortifies a new city space!")
                 end
             end
@@ -4895,7 +4942,7 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         if epicness == true then
             local horrorPile = getObjectFromGUID(horrorPileGUID)
-            local horrorZone = getObjectFromGUID(strikeZoneGUID)
+            local horrorZone = getObjectFromGUID(strikeloc)
             horrorPile.randomize()
             horrorPile.takeObject({position=horrorZone.getPosition(),
                     flip=false,
@@ -4927,7 +4974,7 @@ function resolveStrike(mmname,epicness,city,cards)
                     if p.name:find("Shi'ar") or p.hasTag("Shi'ar") then
                         if epicness == true then
                             local horrorPile = getObjectFromGUID(horrorPileGUID)
-                            local horrorZone = getObjectFromGUID(strikeZoneGUID)
+                            local horrorZone = getObjectFromGUID(strikeloc)
                             horrorPile.randomize()
                             horrorPile.takeObject({position=horrorZone.getPosition(),
                                     flip=false,
@@ -5031,7 +5078,7 @@ function resolveStrike(mmname,epicness,city,cards)
     end
     if mmname == "Emma Frost, The White Queen" then
         if cards[1] then
-            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
             strikesstacked = strikesstacked + 1
         end
         if epicness == false then
@@ -5136,7 +5183,7 @@ function resolveStrike(mmname,epicness,city,cards)
                                         name = ""
                                     end
                                     broadcastToColor("Master Strike: Random bystander " .. name .. " piloted one of General Ross's helicopters.",i,i)
-                                    vpilecontent[1].takeObject({position = getObjectFromGUID(strikeZoneGUID).getPosition(),
+                                    vpilecontent[1].takeObject({position = getObjectFromGUID(strikeloc).getPosition(),
                                         smooth = false,
                                         flip = true,
                                         guid = guid})
@@ -5150,7 +5197,7 @@ function resolveStrike(mmname,epicness,city,cards)
                         end
                     elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
                         vpilecontent[1].flip()
-                        vpilecontent[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+                        vpilecontent[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
                     else
                         click_get_wound(nil,i)
                     end
@@ -5343,7 +5390,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "King Hyperion" then
-        local mm = get_decks_and_cards_from_zone(mmZoneGUID)
+        local mm = get_decks_and_cards_from_zone(mmloc)
         local kinghyperion = nil
         if mm[1] then
             for _,o in pairs(mm) do
@@ -5378,20 +5425,6 @@ function resolveStrike(mmname,epicness,city,cards)
                             return strikesresolved
                         end
                     end
-                end
-            end
-        end
-        if not kinghyperion then
-            for _,o in pairs(topBoardGUIDs) do
-                local zonecontent = get_decks_and_cards_from_zone(o)
-                for _,obj in pairs(zonecontent) do
-                    if obj.getName() == "King Hyperion" and obj.tag == "Card" then
-                        kinghyperion = obj
-                        break
-                    end
-                end
-                if kinghyperion then
-                    break
                 end
             end
         end
@@ -5435,14 +5468,14 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Madelyne Pryor, Goblin Queen" then
-        local madsbs = get_decks_and_cards_from_zone(strikeZoneGUID)
+        local madsbs = get_decks_and_cards_from_zone(strikeloc)
         if madsbs[1] then
             dealWounds()
         end
-        addBystanders(strikeZoneGUID,nil,true)
-        addBystanders(strikeZoneGUID,nil,true)
-        addBystanders(strikeZoneGUID,nil,true)
-        addBystanders(strikeZoneGUID,nil,true)
+        addBystanders(strikeloc,nil,true)
+        addBystanders(strikeloc,nil,true)
+        addBystanders(strikeloc,nil,true)
+        addBystanders(strikeloc,nil,true)
         return strikesresolved
     end
     if mmname == "Magneto" then
@@ -5455,6 +5488,70 @@ function resolveStrike(mmname,epicness,city,cards)
             end
         end
         return strikesresolved
+    end
+    if mmname == "Magus" then
+        local shardfound = false
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.getName() == "Shard" then
+                        shardfound = true
+                        break
+                    end
+                end
+                if shardfound == true then
+                    dealWounds()
+                    if epicness then
+                        broadcastToAll("Master Strike: Each player received a wound. Put the wound on top of your deck!")
+                    end
+                    break
+                end
+            end
+        end
+        if cards[1] then
+            local boost = 4
+            if epicness then
+                boost = 6
+            end
+            cards[1].setName("Cosmic Wraith")
+            cards[1].addTag("VP" .. boost)
+            cards[1].addTag("Power:" .. boost)
+            cards[1].addTag("Villain")
+            powerButton(cards[1],"updateTwistPower",boost)
+            for _,o in pairs(city) do
+                local addshard = function()
+                    gainShard(nil,o)
+                end
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.hasTag("Villain") then
+                            Wait.time(addshard,2)
+                            break
+                        end
+                    end
+                end
+            end
+            click_push_villain_into_city()
+            return nil
+        end
+    end
+    if mmname == "Malekith the Accursed" or mmname == "Mandarin" or mmname == "Maria Hill, Director of S.H.I.E.L.D." or mmname == "Maximus the Mad" then
+        msno(mmname)
+        return nil
+    end
+    if mmname == "Mephisto" then
+        local players = revealCardTrait("Marvel Knights","Team:")
+        for _,o in pairs(players) do
+            click_get_wound(nil,o.color)
+            broadcastToAll("Master Strike: Player " .. o.color .. " had no MK hero and was wounded.")
+        end
+        return strikesresolved
+    end
+    if mmname == "Misty Knight" then
+        msno(mmname)
+        return nil
     end
     if mmname == "M.O.D.O.K." then
         local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["M.O.D.O.K."])
@@ -5523,9 +5620,103 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "Mojo" then
+        addBystanders(strikeloc,false,true)
+        if epicness then
+            for _,o in pairs(city) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,p in pairs(citycontent) do
+                        if hasTag2(p,"Group:",6) and hasTag2(p,"Group:",6) == "Mojoverse" then
+                            addBystanders(o,false)
+                            break
+                        end
+                    end
+                end
+            end
+        end
+        local players = revealCardTrait("Silver")
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            if epicness and #hand > 4 then
+                promptDiscard(o.color,nil,#hand-4)
+                broadcastToColor("Master Strike: Discard down to 4 cards.",o.color,o.color)
+            else
+                if #hand > 0 then
+                    local posdiscard = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard)
+                    hand[math.random(#hand)].setPosition(posdiscard)
+                end
+                broadcastToColor("Master Strike: Discard a card at random.",o.color,o.color)
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Mole Man" then
+        local subescaped = false
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,p in pairs(citycontent) do
+                    if hasTag2(p,"Group:",6) and hasTag2(p,"Group:",6) == "Subterranea" then
+                        subescaped = true
+                        shift_to_next(citycontent,getObjectFromGUID(escape_zone_guid),0)
+                        break
+                    end
+                end
+            end
+        end
+        if subescaped == true then
+            dealWounds()
+        end
+        broadcastToAll("Master Strike: All Subterranea Villains in the city escape. If any Villains escaped this way, each player gains a Wound.")
+        return strikesresolved
+    end
+    if mmname == "Morgan Le Fay" then
+        msno(mmname)
+        return nil
+    end
+    if mmname == "Mr. Sinister" then
+        local players = revealCardTrait("Red")
+        addBystanders(strikeloc,nil,false)
+        local bs = get_decks_and_cards_from_zone(strikeloc)
+        local sinisterbs = 1
+        if bs[1] then
+            sinisterbs = math.abs(bs[1].getQuantity()) + 1
+        end
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            if #hand == 6 then
+                promptDiscard(o.color,nil,sinisterbs)
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Mysterio" then
+        if cards[1] then
+            cards[1].setName("Mysterio Tactic")
+            cards[1].addTag("Tactic:Mysterio")
+            cards[1].addTag("VP6")
+            cards[1].flip()
+            local mm = get_decks_and_cards_from_zone(mmloc)
+            if not mm[1] then
+                broadcastToAll("Mysterio not found?")
+                return nil
+            end
+            cards[1].setPositionSmooth(getObjectFromGUID(mmloc).getPosition())
+            local mysterioShuffle = function()
+                for _,o in pairs(mm) do
+                    if o.is_face_down == true and o.tag == "Deck" then
+                        o.randomize()
+                    end
+                end
+            end
+            Wait.time(mysterioShuffle,1)
+        end
+        return nil
+    end
     if mmname == "Nick Fury" then
         if cards[1] then
-            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
             strikesstacked = strikesstacked + 1
         end
         demolish(nil,strikesstacked)
@@ -5552,9 +5743,9 @@ function resolveStrike(mmname,epicness,city,cards)
     if mmname == "Stryfe" then
         if cards[1] then
             strikesstacked = strikesstacked + 1
-            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
             if strikesstacked == 1 then
-                getObjectFromGUID(mmZoneGUID).createButton({click_function='updatetwistpower',
+                getObjectFromGUID(mmloc).createButton({click_function='updatetwistpower',
                     function_owner=self,
                     position={0,0,0},
                     rotation={0,180,0},
@@ -5564,7 +5755,7 @@ function resolveStrike(mmname,epicness,city,cards)
                     font_color="Red",
                     width=0})
             else
-                getObjectFromGUID(mmZoneGUID).editButton({label = "+" .. strikesstacked})
+                getObjectFromGUID(mmloc).editButton({label = "+" .. strikesstacked})
             end
         end
         local todiscard= revealCardTrait("X-Force","Team:")
@@ -5651,7 +5842,7 @@ function resolveStrike(mmname,epicness,city,cards)
     end
     if mmname == "Uru-Enchanted Iron Man" then
         if cards[1] then
-            cards[1].setPositionSmooth(getObjectFromGUID(strikeZoneGUID).getPosition())
+            cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
         end
         demolish()
         return nil
@@ -6074,28 +6265,30 @@ function promptDiscard(color,handobjects,n,pos,flip)
             handobjects[1].setPosition(pos)
         end
     else
-        for i,o in pairs(handobjects) do
-            _G["discardCard" .. color .. i] = function()
-                n = n-1
-                if n == 0 then
-                    for _,p in pairs(handobjects) do
-                        p.clearButtons()
+        if handobjects[1] then
+            for i,o in pairs(handobjects) do
+                _G["discardCard" .. color .. i] = function()
+                    n = n-1
+                    if n == 0 then
+                        for _,p in pairs(handobjects) do
+                            p.clearButtons()
+                        end
                     end
+                    if flip then
+                        handobjects[i].flip()
+                    end
+                    handobjects[i].setPosition(pos)
                 end
-                if flip then
-                    handobjects[i].flip()
-                end
-                handobjects[i].setPosition(pos)
+                o.createButton({click_function="discardCard" .. color .. i,
+                    function_owner=self,
+                    position={0,22,0},
+                    label="Discard",
+                    tooltip="Discard this card.",
+                    font_size=250,
+                    font_color="Black",
+                    color={1,1,1},
+                    width=750,height=450})
             end
-            o.createButton({click_function="discardCard" .. color .. i,
-                function_owner=self,
-                position={0,22,0},
-                label="Discard",
-                tooltip="Discard this card.",
-                font_size=250,
-                font_color="Black",
-                color={1,1,1},
-                width=750,height=450})
         end
     end
 end
@@ -6127,12 +6320,17 @@ function beatenMM(obj)
     end
 end
 
-function gainShard(color)
+function gainShard(color,zone)
     local shard = getObjectFromGUID("eff5ba")
     if not shard then
         broadcastToColor("Shard was not found. Please take one manually.")
         return nil
     end
-    local shardpos = getObjectFromGUID(playerBoards[color]).positionToWorld({-1.5,4,4})
+    local shardpos = nil
+    if not zone then
+        shardpos = getObjectFromGUID(playerBoards[color]).positionToWorld({-1.5,4,4})
+    else
+        shardpos = getObjectFromGUID(zone).getPosition()
+    end
     shard.clone({position = shardpos})
 end

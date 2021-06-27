@@ -2053,9 +2053,27 @@ function schemeSpecials (setupParts,mmGUID)
     return nil
 end
 
+function mmActive(mmname)
+    local currentmm = getObjectFromGUID("f3c7e3").Call('returnMM')
+    for _,o in pairs(currentmm) do
+        if o == mmname then
+            return true
+        end
+    end
+    return false
+end
+
 function setupMasterminds(obj,epicness,targetZone)
     if not targetZone then
         targetZone = mmZoneGUID
+        strikeloc = strikeZoneGUID
+    else
+        for i,o in pairs(topBoardGUIDs) do
+            if o == targetZone then
+                strikeloc = topBoardGUIDs[i-1]
+                break
+            end
+        end
     end
     if obj.getName() == "Baron Heinrich Zemo" then
         obj.createButton({click_function='returnColor',
@@ -2474,14 +2492,15 @@ function setupMasterminds(obj,epicness,targetZone)
     end
     if obj.getName() == "Madelyne Pryor, Goblin Queen" then
         function updateMadelyne()
-            if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
-                getObjectFromGUID(strikeZoneGUID).clearButtons()
+            local mmzone = getObjectFromGUID(targetZone)
+            if not get_decks_and_cards_from_zone(strikeloc)[1] then
+                getObjectFromGUID(strikeloc).clearButtons()
                 if mmZone.getButtons() then
                     mmZone.clearButtons()
                 end
             else
-                if not getObjectFromGUID(strikeZoneGUID).getButtons() then
-                    getObjectFromGUID(strikeZoneGUID).createButton({click_function='returnColor',
+                if not getObjectFromGUID(strikeloc).getButtons() then
+                    getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
                         function_owner=self,
                         position={0,0,0},
                         rotation={0,180,0},
@@ -2491,7 +2510,7 @@ function setupMasterminds(obj,epicness,targetZone)
                         font_color="Red",
                         width=0})
                 else
-                    getObjectFromGUID(strikeZoneGUID).editButton({label="2",
+                    getObjectFromGUID(strikeloc).editButton({label="2",
                         tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders."})
                 end
                 if not mmZone.getButtons() then
@@ -2515,6 +2534,95 @@ function setupMasterminds(obj,epicness,targetZone)
         end
         function onObjectLeaveZone(zone,object)
             updateMadelyne()
+        end
+    end
+    if obj.getName() == "Magus" then
+        updateMagus = function()
+            local shardsfound = 0
+            for _,o in pairs(city_zones_guids) do
+                if o ~= city_zones_guids[1] then
+                    local citycontent = get_decks_and_cards_from_zone(o)
+                    if citycontent[1] then
+                        for _,obj in pairs(citycontent) do
+                            if obj.getName() == "Shard" then
+                                shardsfound = shardsfound + 1
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        local mmzone = getObjectFromGUID(targetZone)
+        local boost = 1
+        if epicness then
+            boost = 2
+        end
+        if shardsfound == 0 then
+            mmzone.clearButtons()
+        elseif not mmzone.getButtons() then
+            mmzone.createButton({click_function='returnColor',
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="+" .. boost*shardsfound,
+                tooltip="Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
+                font_size=350,
+                font_color={1,0,0},
+                color={0,0,0,0.75},
+                width=250,height=250})
+        else
+            mmzone.editButton({label = "+" .. boost*shardsfound})
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateRagnarok,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateRagnarok,1)
+        end
+    end
+    if obj.getName() == "Misty Knight" then
+        local mmzone = getObjectFromGUID(targetZone)
+        mmzone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="Bribe",
+                    tooltip="Misty Knight can be fought using Recruit as well as Attack.",
+                    font_size=350,
+                    font_color="Yellow",
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+    end
+    if obj.getName() == "Mr. Sinister" then
+        function updateMrSinister()
+            local mmzone = getObjectFromGUID(targetZone)
+            local bs = get_decks_and_cards_from_zone(strikeloc)
+            if not bs[1] then
+                if mmZone.getButtons() then
+                    mmZone.clearButtons()
+                end
+            else
+                if not mmZone.getButtons() then
+                    mmZone.createButton({click_function='updateMrSinister',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="+" .. #bs,
+                        tooltip="Mr. Sinister gets +1 for each Bystander he has.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                else
+                    mmZone.editButton({label="+" .. #bs})
+                end
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            updateMrSinister()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMrSinister()
         end
     end
     if obj.getName() == "Ragnarok" then
