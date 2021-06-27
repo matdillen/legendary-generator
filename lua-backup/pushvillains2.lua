@@ -237,7 +237,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
     --enterscity is equal to 1 if this shift is a single card moving into the city
     local isEnteringCity = enterscity or 0
     local shard = false
-    for _, obj in pairs(objects) do
+    for _,obj in pairs(objects) do
         local targetZone_final = targetZone
         local xshift = 0
         local zPos = obj.getPosition().z
@@ -250,6 +250,19 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         --is the object a bystander or a villainous weapon?
         if (obj.hasTag("Bystander") and obj.hasTag("Killbot") == false) or desc:find("VILLAINOUS WEAPON") then
             bs = true
+        end
+        if obj.tag == "Deck" and bs == false then
+            for _,o in pairs(obj.getObjects()) do
+                for _,tag in pairs(o.tags) do
+                    if tag == "Bystander" then
+                        bs = true
+                        break
+                    end
+                end
+                if bs == true then
+                    break
+                end
+            end
         end
         --is the object leaving the city?
         if targetZone.guid == escape_zone_guid and not desc:find("LOCATION") then
@@ -274,6 +287,9 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                 zPos = targetZone_final.getPosition().z - 1.5
             elseif bs == true then
                 broadcastToAll("Bystander(s) Escaped", {r=1,g=0,b=0})
+                for _,o in pairs(Player.getPlayers()) do
+                    promptDiscard(o.color)
+                end
                 --if multiple bystanders escape, they're often stacked as a deck
                 --only one notice will be given
             elseif obj.getName() == "Baby Hope Token" and schemeParts and schemeParts[1] == "Capture Baby Hope" then
@@ -1987,6 +2003,34 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil    
     end
+    if schemeParts[1] == "Destroy the Nova Corps" then
+        if twistsresolved < 6 then
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                local handi = table.clone(hand)
+                local iter = 0
+                for i,obj in ipairs(handi) do
+                    if not obj.hasTag("Officer") and not obj.getName():find("Nova %(") then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                end
+                if not hand[1] then
+                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                        flip=true,
+                        smooth=true})
+                    broadcastToAll("Scheme Twist: Officer KO'd from the officer stack.")
+                else
+                    promptDiscard(o.color,hand)
+                    broadcastToColor("Scheme Twist: Discard an Officer or a Nova hero. You gained a shard.",o.color,o.color)
+                    gainShard(o.color)
+                end
+            end
+        elseif twistsresolved < 10 then
+            broadcastToAll("Scheme Twist: Each player KO's an Officer from the Officer stack or from their hand or discard pile.")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Detonate the Helicarrier" then
         stackTwist(cards[1])
         local heroboom = 0
@@ -2049,6 +2093,33 @@ function twistSpecials(cards,city,schemeParts)
                 return nil
             end
         end
+        return nil
+    end
+    if schemeParts[1] == "Devolve with Xerogen Crystals" then
+        broadcastToAll("Choose a Hero in the HQ that doesn't have a printed Power of 2 or more. Put it on the bottom of the Hero Deck.")
+        --can be automated if there's only one
+        playVillains(2)
+        return twistsresolved
+    end
+    if schemeParts[1] == "Distract the Hero" then
+        broadcastToAll("Scheme Twist: If you get any Victory Points this turn, put this Twist on the bottom of the Villain Deck. Otherwise, stack this Twist next to the Scheme as a Villainous Interruption.")
+        local pcolor = Turns.turn_color
+        local guid = cards[1].guid
+        local turnChanged = function()
+            if Turns.turn_color == pcolor then
+                return false
+            else
+                return true
+            end
+        end
+        local villainousInterruption = function()
+            local card = get_decks_and_cards_from_zone(city_zones_guids[1])
+            if card[1] and card[1].guid == guid then
+                stackTwist(card[1])
+                broadcastToAll("Last turn's twist stacked next to the Scheme as a Villainous Interruption.")
+            end
+        end
+        Wait.condition(villainousInterruption,turnChanged)
         return nil
     end
     if schemeParts[1] == "Divide and Conquer" then
@@ -2157,6 +2228,10 @@ function twistSpecials(cards,city,schemeParts)
                     local annotateNewMM = function(obj)
                         obj.addTag("Ascended")
                         powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
+                        fightButton(obj,beatenMM)
+                        local vp = hasTag2(obj,"VP") or 0
+                        table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
+                        mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
                     end
                     escapedcards[1].takeObject({position = getObjectFromGUID(mmpos).getPosition(),
                         guid=toAscend,
@@ -2174,6 +2249,10 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                     powerButton(ascendCard,"updateTwistPower",power+2)
+                    fightButton(ascendCard,beatenMM)
+                    local vp = hasTag2(ascendCard,"VP") or 0
+                    table.insert(mmStorage,"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
+                    mmLocations["Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")"] = mmpos
                     shift_to_next(vilgroup,getObjectFromGUID(mmpos),1)
                     broadcastToAll("Scheme Twist: Villain in city ascended to become a mastermind!")
                 end
@@ -2221,11 +2300,15 @@ function twistSpecials(cards,city,schemeParts)
                             end
                         end
                         if toAscend and mmpos then
-                            broadcastToAll("Scheme Twist: Villain from " .. Player[i] .. "'s victory pile ascends!",Player[i])
+                            broadcastToAll("Scheme Twist: Villain from " .. i .. "'s victory pile ascends!",i)
                             if vpilecontent[1].tag == "Deck" then
                                 local annotateNewMM = function(obj)
                                     obj.addTag("Ascended")
                                     powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
+                                    fightButton(obj,beatenMM)
+                                    local vp = hasTag2(obj,"VP") or 0
+                                    table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
+                                    mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
                                 end
                                 vpilecontent[1].takeObject({position = getObjectFromGUID(mmpos).getPosition(),
                                     guid=toAscend,
@@ -4282,6 +4365,32 @@ function strikeSpecials(cards,city)
 end
 
 function resolveStrike(mmname,epicness,city,cards)
+    if mmname:find("Ascended Baron") then
+        local vp = tonumber(mmname:match("%(%d+%)"):match("%d+"))
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local handi = table.clone(hand)
+            local iter = 0
+            for i,obj in ipairs(handi) do
+                if vp == 0 then
+                    if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") ~= vp then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                else
+                    if not hasTag2(obj,"Cost:") or hasTag2(obj,"Cost:") ~= vp then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                end
+            end
+            if hand[1] then
+                promptDiscard(o.color,hand)
+                broadcastToColor("Master Strike: Discard a hero with cost " .. vp,o.color,o.color)
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
@@ -5360,12 +5469,15 @@ function resolveStrike(mmname,epicness,city,cards)
     return nil
 end
 
-function revealCardTrait(trait,prefix,playercolors)
+function revealCardTrait(trait,prefix,playercolors,what)
     -- trait is the card tag to look for, by default a color
     -- specify the tag prefix if another trait is needed
-    -- specify players if not all are affected (tbd)
+    -- specify players if not all are affected
     if not prefix then
         prefix = "HC:"
+    end
+    if not what then
+        what = "Prefix"
     end
     local players = nil
     if not playercolors then
@@ -5380,8 +5492,26 @@ function revealCardTrait(trait,prefix,playercolors)
         local hand = o.getHandObjects()
         if hand[1] then
             for _,h in pairs(hand) do
-                if hasTag2(h,prefix,#prefix+1) and hasTag2(h,prefix,#prefix+1) == trait then
-                    table.remove(players,i)
+                if what == "Prefix" then
+                    if hasTag2(h,prefix,#prefix+1) and hasTag2(h,prefix,#prefix+1) == trait then
+                        table.remove(players,i)
+                        break
+                    end
+                elseif what == "Tag" then
+                    if h.hasTag(trait) then
+                        table.remove(players,i)
+                        break
+                    end
+                elseif what == "Namepart" then
+                    if h.getName():find(trait) then
+                        table.remove(players,i)
+                        break
+                    end
+                elseif what == "Name" then
+                    if h.getName() == trait then
+                        table.remove(players,i)
+                        break
+                    end
                 end
             end
         end
@@ -5698,4 +5828,69 @@ function hasTag2(obj,tag,index)
         end
     end
     return nil
+end
+
+function promptDiscard(color,handobjects)
+    if not handobjects then
+        handobjects = Player[color].getHandObjects()
+    end
+    local posdiscard = getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
+    if #handobjects == 1 then
+        handobjects[1].setPosition(posdiscard)
+    else
+        for i,o in pairs(handobjects) do
+            _G["discardCard" .. color .. i] = function()
+                for _,p in pairs(handobjects) do
+                    p.clearButtons()
+                end
+                handobjects[i].setPosition(posdiscard)
+            end
+            o.createButton({click_function="discardCard" .. color .. i,
+                function_owner=self,
+                position={0,22,0},
+                label="Discard",
+                tooltip="Discard this card.",
+                font_size=250,
+                font_color="Black",
+                color={1,1,1},
+                width=750,height=450})
+        end
+    end
+end
+
+function fightButton(obj,beatf)
+    _G["fightEffect" .. obj.guid] = function(obj,player_clicker_color)
+        obj.clearButtons()
+        obj.setPosition(getObjectFromGUID(playerBoards[player_clicker_color]).positionToWorld(pos_vp2))
+        if beatf then
+            beatf(obj)
+        end
+    end
+    obj.createButton({click_function="fightEffect" .. obj.guid,
+        function_owner=self,
+        position={0,22,2},
+        label="Fight",
+        tooltip="Fight this card.",
+        font_size=250,
+        font_color="Red",
+        color={1,1,1},
+        width=750,height=450})
+end
+
+function beatenMM(obj)
+    for i,o in pairs(mmStorage) do
+        if o == obj.getName() or (obj.hasTag("Ascended") and o:find(obj.getName())) then
+            table.remove(mmStorage,i)
+        end
+    end
+end
+
+function gainShard(color)
+    local shard = getObjectFromGUID("eff5ba")
+    if not shard then
+        broadcastToColor("Shard was not found. Please take one manually.")
+        return nil
+    end
+    local shardpos = getObjectFromGUID(playerBoards[color]).positionToWorld({-1.5,4,4})
+    shard.clone({position = shardpos})
 end

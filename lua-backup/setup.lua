@@ -209,9 +209,9 @@ function click_shuffle()
     
     for i=1,5 do
         if Player[playercolors[i]].seated == true then
-            local playerdeck = getObjectFromGUID(playerdeckIDs[i])
-            if playerdeck then 
-                playerdeck.randomize()
+            local playerdeck = getObjectFromGUID(playerBoards[playercolors[i]]).Call('returnDeck')
+            if playerdeck[1] then 
+                playerdeck[1].randomize()
                 log("Shuffling " .. playercolors[i] .. " Player's deck!")
                 --print("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
             else
@@ -1670,21 +1670,21 @@ function schemeSpecials (setupParts,mmGUID)
         end
         findInPile(setupParts[9],heroPileGUID,topBoardGUIDs[1],novaDist)
         local novaMoved = function()
-            local novaloc = getObjectFromGUID(topBoardGUIDs[1]).getObjects()[1]
+            local novaloc = get_decks_and_cards_from_zone(topBoardGUIDs[1])
             local q = 14 - playercount
-            if novaloc and novaloc.getQuantity() == q then
+            if novaloc[1] and novaloc[1].getQuantity() == q then
                 return true
             else
                 return false
             end
         end
         local novaShuffle = function()
-        log("Moving remaining Nova cards to hero deck.")
-            local novaloc = getObjectFromGUID(topBoardGUIDs[1]).getObjects()[1]
+            log("Moving remaining Nova cards to hero deck.")
+            local novaloc = get_decks_and_cards_from_zone(topBoardGUIDs[1])
             local q = 14 - playercount
             for i=1,q do
-                novaloc.takeObject({position=heroZone.getPosition(),
-                    flip=false,smooth=false})
+                novaloc[1].takeObject({position=heroZone.getPosition(),
+                    flip=true,smooth=false})
             end
         end
         Wait.condition(novaShuffle,novaMoved)
