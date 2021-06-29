@@ -4972,14 +4972,8 @@ function resolveStrike(mmname,epicness,city,cards)
             broadcastToAll("Master Strike: The hero deck ran out so Dark Phoenix wins!")
         end
         if epicness == true then
-            local horrorPile = getObjectFromGUID(horrorPileGUID)
-            local horrorZone = getObjectFromGUID(strikeloc)
-            horrorPile.randomize()
-            horrorPile.takeObject({position=horrorZone.getPosition(),
-                    flip=false,
-                    smooth=false})   
+            playHorror()
             broadcastToAll("Each player must play a Hellfire Club villain from their Victory Pile!")       
-            broadcastToAll("Random horror added to the game (Master Strike zone)")
         end
         return strikesresolved
     end
@@ -5004,13 +4998,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 for _,p in pairs(citycontent) do
                     if p.name:find("Shi'ar") or p.hasTag("Shi'ar") then
                         if epicness == true then
-                            local horrorPile = getObjectFromGUID(horrorPileGUID)
-                            local horrorZone = getObjectFromGUID(strikeloc)
-                            horrorPile.randomize()
-                            horrorPile.takeObject({position=horrorZone.getPosition(),
-                                    flip=false,
-                                    smooth=false})       
-                            broadcastToAll("Random horror added to the game (Master Strike zone)")
+                            playHorror()
                         else
                             dealWounds()
                         end
@@ -5762,6 +5750,33 @@ function resolveStrike(mmname,epicness,city,cards)
         demolish(nil,strikesstacked)
         return nil
     end
+    if mmname == "Onslaught" then
+        local dominated = get_decks_and_cards_from_zone(mmLocations[mmname])
+        if dominated[1] then
+            koCard(dominated[1])
+        end
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local handi = table.clone(hand)
+            local iter = 0
+            for i,obj in ipairs(handi) do
+                if not hasTag2(obj,"HC:",4) then
+                    table.remove(hand,i-iter)
+                    iter = iter + 1
+                end
+            end
+            if hand[1] then
+                if epicness then
+                    promptDiscard(o.color,hand,2,getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    broadcastToColor("Master Strike: Two nongrey heroes from your hand become dominated by Onslaught.",o.color,o.color)
+                else
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    broadcastToColor("Master Strike: A nongrey hero from your hand becomes dominated by Onslaught.",o.color,o.color)
+                end
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Pagliacci" then
         if cards[1] then
             if strikesresolved == 1 or strikesresolved == 5 or (strikesresolved == 3 and epicness == true) then
@@ -5775,9 +5790,96 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "Poison Thanos" then
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local handi = table.clone(hand)
+            local iter = 0
+            for i,obj in ipairs(handi) do
+                if not hasTag2(obj,"HC:",4) then
+                    table.remove(hand,i-iter)
+                    iter = iter + 1
+                end
+            end
+            if hand[1] then
+                if epicness then
+                    promptDiscard(o.color,hand,#hand/2 + 0.5*(#hand % 2),getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    broadcastToColor("Master Strike: " .. #hand/2 + 0.5*(#hand % 2) .. " nongrey heroes from your hand become souls poisoned by Thanos.",o.color,o.color)
+                else
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul poisoned by Thanos.",o.color,o.color)
+                end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Professor X" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Ragnarok" then
         broadcastToAll("Master Strike: Each player says \"zero\" or \"not zero.\" Then, each player discards all their cards with that cost.")
         -- could be done more automatically by spawning buttons for each player's hand?
+        return strikesresolved
+    end
+    if mmname == "Red Skull" then
+        for _,o in pairs(Player.getPlayers()) do
+            promptDiscard(o.color,nil,1,getObjectFromGUID(kopile_guid).getPosition())
+        end
+        broadcastToAll("Master Strike: Each player KOs a Hero from their hand.")
+        return strikesresolved
+    end
+    if mmname == "Shadow King" then
+        msno(mmname)
+        return nil
+    end
+    if mmname == "Shiklah, the Demon Bride" then
+        local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+        if vildeck and vildeck.tag == "Deck" then
+            local pos = self.getPosition()
+            local strangeguids = {}
+            pos.x = pos.x - 6
+            pos.y = pos.y + 3
+            local insertGuid = function(obj)
+                local objname = obj.getName()
+                if objname == "" then
+                    objname = "an unnamed card"
+                end
+                broadcastToAll("Master Strike: Dr. Strange revealed " .. objname .. " from the villain deck!")
+                table.insert(strangeguids,obj.guid)
+            end
+            for i=1,3 do
+                pos.x = pos.x + 2
+                vildeck.takeObject({position = pos,
+                    flip=true,
+                    smooth=true,
+                    callback_function = insertGuid})
+            end
+            local strangeguidsEntered = function()
+                if strangeguids and #strangeguids == 3 then
+                    return true
+                else
+                    return false
+                end
+            end
+            local strangeProcess = function()
+                bump(vildeck,4)
+                for _,o in pairs(strangeguids) do
+                    local object = getObjectFromGUID(o)
+                    if object.getName() == "Scheme Twist" then
+                        local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+                        pos.y = pos.y + 6
+                        object.flip()
+                        object.setPositionSmooth(pos)
+                    else
+                        local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+                        object.flip()
+                        object.setPositionSmooth(pos)
+                    end
+                end
+            end
+            Wait.condition(strangeProcess,strangeguidsEntered)
+        end
         return strikesresolved
     end
     if mmname == "Stryfe" then
@@ -6295,8 +6397,11 @@ function promptDiscard(color,handobjects,n,pos,flip)
         handobjects = Player[color].getHandObjects()
     end
     if not n then
-        n = 1  
-    elseif n < 1 then
+        n = 1
+    else
+        n = math.min(n,#handobjects)
+    end
+    if n < 1 then
         return nil
     end
     if not pos then
@@ -6307,30 +6412,28 @@ function promptDiscard(color,handobjects,n,pos,flip)
             handobjects[i].setPosition(pos)
         end
     else
-        if handobjects[1] then
-            for i,o in pairs(handobjects) do
-                _G["discardCard" .. color .. i] = function()
-                    n = n-1
-                    if n == 0 then
-                        for _,p in pairs(handobjects) do
-                            p.clearButtons()
-                        end
+        for i,o in pairs(handobjects) do
+            _G["discardCard" .. color .. i] = function()
+                n = n-1
+                if n == 0 then
+                    for _,p in pairs(handobjects) do
+                        p.clearButtons()
                     end
-                    if flip then
-                        handobjects[i].flip()
-                    end
-                    handobjects[i].setPosition(pos)
                 end
-                o.createButton({click_function="discardCard" .. color .. i,
-                    function_owner=self,
-                    position={0,22,0},
-                    label="Discard",
-                    tooltip="Discard this card.",
-                    font_size=250,
-                    font_color="Black",
-                    color={1,1,1},
-                    width=750,height=450})
+                if flip then
+                    handobjects[i].flip()
+                end
+                handobjects[i].setPosition(pos)
             end
+            o.createButton({click_function="discardCard" .. color .. i,
+                function_owner=self,
+                position={0,22,0},
+                label="Discard",
+                tooltip="Discard this card.",
+                font_size=250,
+                font_color="Black",
+                color={1,1,1},
+                width=750,height=450})
         end
     end
 end
@@ -6348,4 +6451,14 @@ function gainShard(color,zone)
         shardpos = getObjectFromGUID(zone).getPosition()
     end
     shard.clone({position = shardpos})
+end
+
+function playHorror()
+    local horrorPile = getObjectFromGUID(horrorPileGUID)
+    local horrorZone = getObjectFromGUID(topBoardGUIDs[1])
+    horrorPile.randomize()
+    horrorPile.takeObject({position=horrorZone.getPosition(),
+            flip=false,
+            smooth=false})
+    broadcastToAll("Random horror added to the game, above the board.")
 end

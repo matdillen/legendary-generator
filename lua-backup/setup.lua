@@ -22,7 +22,7 @@ function onLoad()
     
     self.createButton({
         click_function="toggle_finalblow", function_owner=self,
-        position={-60,0.1,17}, height=125,
+        position={-60,0.1,13}, height=125,
         width=1500, height=500, label="Final Blow", tooltip="Final Blow enabled", 
         color={0,1,0}
     })
@@ -40,6 +40,11 @@ function onLoad()
     })
     
     setupText = ""
+    
+    herocosts = {}
+    for i=0,9 do
+        table.insert(herocosts,0)
+    end
     
     --following can be combined and integrated with the boards
     playerdeckIDs = {
@@ -555,7 +560,13 @@ function setupTransformingMM(mmname,mmZone)
         width=600,
         height=350})
     transformed[mmname] = false
-    if mmname == "General Ross" then
+    if objname == "General Ross" then
+        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        for i=1,8 do
+            bsPile.takeObject({position=getObjectFromGUID(mmLocationsS[objname]).getPosition(),
+                flip=false,
+                smooth=true})
+        end
         function updateRoss()
             if transformed["General Ross"] == false then
                 if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
@@ -923,21 +934,6 @@ function import_setup()
         end
     end
     
-    if mmname == "J. Jonah Jameson" then
-        local soPile = getObjectFromGUID(officerDeckGUID)
-        soPile.randomize()
-        local jonah = 2
-        if epicness == true then
-            jonah = 3
-        end
-        for i=1,jonah*playercount do
-            soPile.takeObject({position = strikeZone.getPosition(),
-                flip=false,
-                smooth=false})
-        end
-        log(jonah .. " random SHIELD officers moved next to the Mastermind.")
-    end
-    
     -- Master Strike
     
     log("Master strikes: 5")
@@ -957,110 +953,16 @@ function import_setup()
     bsPile.randomize()
     local bsCount = tonumber(setupParts[3])
     log("Bystanders: " .. bsCount)
-    
+    table.insert(vildeck_done,bsCount)
     if mmname ~= "Mojo" then
-        table.insert(vildeck_done,bsCount)
         for i=1,bsCount do
             bsPile.takeObject({position = vilDeckZone.getPosition(),
                 flip = true,
                 smooth = false})
             log(bsCount .. " bystanders added to villain deck.")
         end
-    end
-    
-    local horrorPile = getObjectFromGUID(horrorPileGUID)
-    local horrorZone = getObjectFromGUID(horrorZoneGUID)
-    
-    if mmname == "Arcade" then
-        local arc = 5
-        if epicness == true then
-            arc = 8
-            horrorPile.randomize()
-            horrorPile.takeObject({position=horrorZone.getPosition(),
-                    flip=false,
-                    smooth=false})    
-            log("Random horror added to the game (New Recruits zone)")
-        end
-        for i=1,arc do
-            bsPile.takeObject({position=strikeZone.getPosition(),
-                flip=false,
-                smooth=false})
-        end
-        log(arc .. " Human Shields moved to master strike zone.")
-    end
-    
-    if mmname == "General Ross" then
-        for i=1,8 do
-            bsPile.takeObject({position=strikeZone.getPosition(),
-                flip=false,
-                smooth=true})
-        end
-        log("Eight Helicopter bystanders moved to master strike zone.")
-    end
-    
-    if mmname == "Mojo" then
-        local mojo = 3
-        local mojovp = 3
-        if epicness == true then
-            mojo = 6
-            mojovp = 4
-            horrorPile.randomize()
-            horrorPile.takeObject({position=horrorZone.getPosition(),
-                    flip=false,
-                    smooth=false})    
-            log("Random horror added to the game (New Recruits zone)")
-        end
-        local mojotag = "VP" .. mojovp
-        local mojotagf = function(obj)
-            obj.setTags({"Bystander",mojotag})
-        end
-        local bspilecount = bsPile.getQuantity()
-        local mojopos = bsPile.getPosition()
-        local mojopos2 = nil
-        local bsflip = true
-        for i=1,bspilecount do
-            if i <= bsCount then
-                mojopos2 = vilDeckZone.getPosition()
-                bsflip = true
-            elseif i <= mojo + bsCount then
-                mojopos2 = strikeZone.getPosition()
-                bsflip = false
-            else 
-                mojopos2 = bsPile.getPosition()
-                mojopos2.y = mojopos2.y +2
-                bsflip = false
-            end
-            bsPile.takeObject({position = mojopos2,
-                smooth = false,
-                flip = bsflip,
-                callback_function = mojotagf})
-            if bsPile.remainder then
-                mojotagf(bsPile.remainder)
-                break
-            end
-        end
-        table.insert(vildeck_done,bsCount)
-        local bsTagged = function()
-            local bsdeck = findObjectsAtPosition(mojopos,true)
-            --log(bsdeck)
-            if bsdeck[1] and bsdeck[1].getQuantity() == bspilecount - bsCount - mojo then
-                return true
-            else
-                return false
-            end
-        end
-        local setNewBSGUID = function()
-            local bsDeck = findObjectsAtPosition(mojopos,true)
-            --log(bsDeck)
-            bystandersPileGUID = bsDeck[1].guid
-            --log(bystandersPileGUID)
-        end
-        local timerSetNewGUID = function()
-            Wait.condition(setNewBSGUID,bsTagged)
-        end
-        Wait.time(timerSetNewGUID,2)
-        broadcastToAll("Mojo! Bystanders net " .. mojovp .. " victory points each!")
-        log(mojo .. " Human Shields moved to master strike zone.")
+    else
+        mojoVPUpdate(true,bsCount,epicness)
     end
     
     if mmname == "The Sentry" then
@@ -1075,26 +977,7 @@ function import_setup()
         log("Wounds added to player starter decks. Still shuffle!")
         broadcastToAll("2 wounds in starter deck because of The Sentry. Bastard.")
     end
-    
-    if mmname == "Onslaught" then
-        for i=1,5 do
-            if Player[playercolors[i]].seated == true then
-                board = getObjectFromGUID(playerBoards[playercolors[i]])
-                board.Call('onslaughtpain')
-            end
-        end
-        broadcastToAll("Hand size reduced by 1 because of Onslaught. Good luck! You're going to need it.")
-    end
-    
-    if mmname == "Shadow King" and epicness == true then
-        horrorPile.randomize()
-        for i = 1,2 do
-            horrorPile.takeObject({position=horrorZone.getPosition(),
-                flip=false,smooth=false})
-        end
-        log("Two random horrors added to the game (New Recruits zone)")
-    end
-    
+
     -- Scheme twists
     
     if setupParts[1] ~= "Fragmented Realities" then        
@@ -2093,6 +1976,19 @@ function setupMasterminds(objname,epicness)
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocationsS[objname]))
     end
+    if objname == "Arcade" then
+        local arc = 5
+        if epicness == true then
+            arc = 8
+            playHorror()
+        end
+        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        for i=1,arc do
+            bsPile.takeObject({position=getObjectFromGUID(mmLocationsS[objname]).getPosition(),
+                flip=false,
+                smooth=false})
+        end
+    end
     if objname == "Baron Heinrich Zemo" then
         if not mmActive(objname) then
                 return nil
@@ -2428,6 +2324,19 @@ function setupMasterminds(objname,epicness)
             Wait.time(updateHela,1)
         end
     end
+    if objname == "J. Jonah Jameson" then
+        local soPile = getObjectFromGUID(officerDeckGUID)
+        soPile.randomize()
+        local jonah = 2
+        if epicness == true then
+            jonah = 3
+        end
+        for i=1,jonah*#Player.getPlayers() do
+            soPile.takeObject({position = getObjectFromGUID(mmLocationsS[objname]).getPosition(),
+                flip=false,
+                smooth=false})
+        end
+    end
     if objname == "Kingpin" then
         local mmzone = getObjectFromGUID(mmLocationsS[objname])
         mmzone.createButton({click_function='returnColor',
@@ -2549,6 +2458,70 @@ function setupMasterminds(objname,epicness)
                     color={0,0,0,0.75},
                     width=250,height=250})
     end
+    if objname == "Mojo" then
+        mojobasepower = 6
+        if epicness then
+            playHorror()
+            mojobasepower = 7
+        end
+        function updateMojo()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocationsS[objname])
+            if mmLocationsS[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocationsS[objname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            if not get_decks_and_cards_from_zone(strikeloc)[1] then
+                getObjectFromGUID(strikeloc).clearButtons()
+                if mmzone.getButtons()[2] then
+                    mmzone.removeButton(1)
+                end
+            else
+                if not getObjectFromGUID(strikeloc).getButtons() then
+                    getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label=mojobasepower,
+                        tooltip="You can fight these Human Shields for " .. mojobasepower .. " to rescue them as Bystanders.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                else
+                    getObjectFromGUID(strikeloc).editButton({label=mojobasepower,
+                        tooltip="You can fight these Human Shields for " .. mojobasepower .. " to rescue them as Bystanders."})
+                end
+                if not mmzone.getButtons()[2] then
+                    mmzone.createButton({click_function='updateMojo',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="X",
+                        tooltip="You can't fight Mojo while he has any Human Shields.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                else
+                    mmzone.editButton({index=1,label="X",
+                        tooltip="You can't fight Mojo while he has any Human Shields."})
+                end
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            updateMojo()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMojo()
+        end
+    end
     if objname == "Mr. Sinister" then
         function updateMrSinister()
             if not mmActive(objname) then
@@ -2577,6 +2550,65 @@ function setupMasterminds(objname,epicness)
         end
         function onObjectLeaveZone(zone,object)
             updateMrSinister()
+        end
+    end
+    if objname == "Onslaught" then
+        for _,o in pairs(Player.getPlayers()) do
+            getObjectFromGUID(playerBoards[o.color])Call('onslaughtpain')
+        end
+        broadcastToAll("Hand size reduced by 1 because of Onslaught. Good luck! You're going to need it.")
+    end
+    if objname == "Poison Thanos" then
+        updatePoisonThanos = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocationsS[objname])
+            if mmLocationsS[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocationsS[objname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            local poisoned = get_decks_and_cards_from_zone(strikeloc)
+            local poisoncount = 0
+            if poisoned[1] and poisoned[1].tag == "Deck" then
+                local costs = table.clone(herocosts)
+                for _,o in pairs(poisoned[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k:find("Cost:") then
+                            herocosts[tonumber(k:match("%d+"))] = herocosts[tonumber(k:match("%d+"))] + 1
+                            break
+                        end
+                    end
+                end
+                for _,o in pairs(costs) do
+                    if o > 0 then
+                        poisoncount = poisoncount + 1
+                    end
+                end
+            elseif poisoned[1] then
+                poisoncount = 1
+            end
+            local boost = 1
+            if epicness then
+                boost = 2
+            end
+            Wait.time(function() mmButtons(objname,
+                poisoncount,
+                "+" .. poisoncount*boost,
+                "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
+                'updatePoisonThanos') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updatePoisonThanos,2)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updatePoisonThanos,2)
         end
     end
     if objname == "Ragnarok" then
@@ -2616,6 +2648,14 @@ function setupMasterminds(objname,epicness)
         end
         function onObjectLeaveZone(zone,object)
             Wait.time(updateRagnarok,2)
+        end
+    end
+    if objname == "Shadow King" then
+        if epicness then
+            playHorror()
+            playHorror()
+            -- these will stack
+            broadcastToAll("Shadow King played two horrors. Please read each of them")
         end
     end
 end
@@ -2668,6 +2708,12 @@ function fightButton(zone)
                             break
                         end
                     end
+                    if name == "Onslaught" then
+                        for _,o in pairs(Player.getPlayers()) do
+                            getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
+                        end
+                        broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
+                    end
                     getObjectFromGUID("f3c7e3").Call('retrieveMM') 
                 elseif not finalblow and content[1].tag == "Card" and content[1].getName() == name then
                     broadcastToAll(name .. " was defeated!")
@@ -2678,6 +2724,12 @@ function fightButton(zone)
                             table.remove(masterminds,i)
                             break
                         end
+                    end
+                    if name == "Onslaught" then
+                        for _,o in pairs(Player.getPlayers()) do
+                            getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
+                        end
+                        broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
                     end
                     getObjectFromGUID("f3c7e3").Call('retrieveMM') 
                 elseif transformed[name] ~= nil then
@@ -2697,6 +2749,16 @@ function fightButton(zone)
         font_color="Red",
         color={0,0,0},
         width=600,height=375})
+end
+
+function playHorror()
+    local horrorPile = getObjectFromGUID(horrorPileGUID)
+    local horrorZone = getObjectFromGUID(topBoardGUIDs[1])
+    horrorPile.randomize()
+    horrorPile.takeObject({position=horrorZone.getPosition(),
+            flip=false,
+            smooth=false})
+    broadcastToAll("Random horror added to the game, above the board.")
 end
 
 function bump(obj,y)
@@ -2765,4 +2827,62 @@ function fightMM(content,player_clicker_color)
         end
     end
     return nil
+end
+
+function mojoVPUpdate(start,bsCount,epicness)
+    if not bsCount then
+        bsCount = 0
+    end
+    local mojo = 3
+    local mojovp = 3
+    if epicness == true then
+        mojo = 6
+        mojovp = 4
+    end
+    local mojotagf = function(obj)
+        obj.setTags({"Bystander","VP" .. mojpvp})
+    end
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    local bspilecount = bsPile.getQuantity()
+    local mojopos = bsPile.getPosition()
+    local mojopos2 = nil
+    local bsflip = true
+    for i=1,bspilecount do
+        if i <= bsCount then
+            mojopos2 = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+            bsflip = true
+        elseif i <= mojo + bsCount then
+            mojopos2 = getObjectFromGUID(mmLocationsS["Mojo"]).getPosition()
+            bsflip = false
+        else 
+            mojopos2 = bsPile.getPosition()
+            mojopos2.y = mojopos2.y +2
+            bsflip = false
+        end
+        bsPile.takeObject({position = mojopos2,
+            smooth = false,
+            flip = bsflip,
+            callback_function = mojotagf})
+        if bsPile.remainder then
+            mojotagf(bsPile.remainder)
+            break
+        end
+    end
+    local bsTagged = function()
+        local bsdeck = findObjectsAtPosition(mojopos,true)
+        if bsdeck[1] and bsdeck[1].getQuantity() == bspilecount - bsCount - mojo then
+            return true
+        else
+            return false
+        end
+    end
+    local setNewBSGUID = function()
+        local bsDeck = findObjectsAtPosition(mojopos,true)
+        bystandersPileGUID = bsDeck[1].guid
+    end
+    local timerSetNewGUID = function()
+        Wait.condition(setNewBSGUID,bsTagged)
+    end
+    Wait.time(timerSetNewGUID,2)
+    broadcastToAll("Mojo! Bystanders net " .. mojovp .. " victory points each!")
 end

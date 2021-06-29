@@ -73,8 +73,12 @@ function createButtons()
 
 end
 
-function onslaughtpain()
-    handsize_init = handsize_init -1
+function onslaughtpain(defeated)
+    if defeated then
+        handsize_init = handsize_init + 1
+    else
+        handsize_init = handsize_init - 1
+    end
     handsize = handsize_init
     printToAll("Handsize permanently reduced by 1!",{1,0,0})
 end
