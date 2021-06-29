@@ -138,8 +138,16 @@ end
 
 -- tables always refer to the same object in memory
 -- this function allows to replicate them
-function table.clone(org)
-  return {table.unpack(org)}
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
 end
 
 function click_rescue_bystander(obj, player_clicker_color, alt_click) 
@@ -227,7 +235,7 @@ function click_get_wound(obj, player_clicker_color, alt_click)
     end
 end
 
-function get_decks_and_cards_from_zone(zoneGUID)
+function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     --this function returns cards, decks and shards in a city space (or the start zone)
     --returns a table of objects
     local zone = getObjectFromGUID(zoneGUID)
@@ -236,11 +244,19 @@ function get_decks_and_cards_from_zone(zoneGUID)
     else
         return nil
     end
+    local shardname = "Shard"
+    local hopename = "Baby Hope Token"
+    if shardinc == false then
+        shardname = "notShardName"
+        hopename = "notBaby Hope Token"
+    end
     local result = {}
     if decks then
         for k, deck in pairs(decks) do
-            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == "Shard" or deck.getName() == "Baby Hope Token" then
-                table.insert(result, deck)
+            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == shardname or deck.getName() == hopename then
+                if bsinc == nil or not deck.hasTag("Bystander") then
+                    table.insert(result, deck)
+                end
             end
         end
     end
@@ -1796,8 +1812,7 @@ function twistSpecials(cards,city,schemeParts)
                 table.insert(mmStorage,obj.getName())
                 mmLocations[obj.getName()] = topBoardGUIDs[4]
                 getObjectFromGUID("912967").Call('updateMM')
-                getObjectFromGUID("912967").Call('setupMasterminds',{obj.getName(),false,topBoardGUIDs[4]})
-                --find a way to defeat mm?
+                getObjectFromGUID("912967").Call('setupMasterminds',obj.getName())
                 local keep = math.random(4)
                 local tacguids = {}
                 for i = 1,4 do
@@ -1860,6 +1875,12 @@ function twistSpecials(cards,city,schemeParts)
                 local ann = mmcard.setPosition(postop)
                 addTactic(ann)
             end
+        elseif twistsresolved < 7 then
+            for _,o in pairs(mmStorage) do
+                addBystanders(mmLocations[o])
+            end
+        elseif twistsresolved == 7 then
+            broadcastToAll("Scheme Twist: Evil wins!")
         end
         return twistsresolved
     end
@@ -2248,7 +2269,7 @@ function twistSpecials(cards,city,schemeParts)
                     local annotateNewMM = function(obj)
                         obj.addTag("Ascended")
                         powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
-                        fightButton(obj,beatenMM)
+                        getObjectFromGUID("912967").Call('fightButton',{mmpos})
                         local vp = hasTag2(obj,"VP") or 0
                         table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
                         mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
@@ -2269,7 +2290,7 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                     powerButton(ascendCard,"updateTwistPower",power+2)
-                    fightButton(ascendCard,beatenMM)
+                    getObjectFromGUID("912967").Call('fightButton',{mmpos})
                     local vp = hasTag2(ascendCard,"VP") or 0
                     table.insert(mmStorage,"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
                     mmLocations["Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")"] = mmpos
@@ -2325,7 +2346,7 @@ function twistSpecials(cards,city,schemeParts)
                                 local annotateNewMM = function(obj)
                                     obj.addTag("Ascended")
                                     powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
-                                    fightButton(obj,beatenMM)
+                                    getObjectFromGUID("912967").Call('fightButton',{mmpos})
                                     local vp = hasTag2(obj,"VP") or 0
                                     table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
                                     mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
@@ -3744,7 +3765,7 @@ function twistSpecials(cards,city,schemeParts)
                 table.insert(mmStorage,obj.getName())
                 mmLocations[obj.getName()] = topBoardGUIDs[4+2*(twistsresolved-1)]
                 getObjectFromGUID("912967").Call('updateMM')
-                getObjectFromGUID("912967").Call('setupMasterminds',{obj.getName(),false,topBoardGUIDs[4+2*(twistsresolved-1)]})
+                getObjectFromGUID("912967").Call('setupMasterminds',obj.getName())
                 local keep = math.random(4)
                 local tacguids = {}
                 for i = 1,4 do
@@ -4460,12 +4481,14 @@ end
 
 function retrieveMM()
     mmStorage = table.clone(getObjectFromGUID("912967").Call('returnMM'))
-    mmLocations = {[mmStorage[1]] = mmZoneGUID}
+    log(mmStorage)
+    mmLocations = table.clone(getObjectFromGUID("912967").Call('returnMMLocation'),true)
+    log(mmLocations)
 end
 
 function returnMM(loc)
     if loc then
-        return(table.clone(mmLocations))
+        return(table.clone(mmLocations,true))
     else
         return(table.clone(mmStorage))
     end
@@ -6308,33 +6331,6 @@ function promptDiscard(color,handobjects,n,pos,flip)
                     color={1,1,1},
                     width=750,height=450})
             end
-        end
-    end
-end
-
-function fightButton(obj,beatf)
-    _G["fightEffect" .. obj.guid] = function(obj,player_clicker_color)
-        obj.clearButtons()
-        obj.setPosition(getObjectFromGUID(playerBoards[player_clicker_color]).positionToWorld(pos_vp2))
-        if beatf then
-            beatf(obj)
-        end
-    end
-    obj.createButton({click_function="fightEffect" .. obj.guid,
-        function_owner=self,
-        position={0,22,2},
-        label="Fight",
-        tooltip="Fight this card.",
-        font_size=250,
-        font_color="Red",
-        color={1,1,1},
-        width=750,height=450})
-end
-
-function beatenMM(obj)
-    for i,o in pairs(mmStorage) do
-        if o == obj.getName() or (obj.hasTag("Ascended") and o:find(obj.getName())) then
-            table.remove(mmStorage,i)
         end
     end
 end

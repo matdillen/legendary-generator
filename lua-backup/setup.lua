@@ -20,6 +20,13 @@ function onLoad()
         color={0,1,0}
     })
     
+    self.createButton({
+        click_function="toggle_finalblow", function_owner=self,
+        position={-60,0.1,17}, height=125,
+        width=1500, height=500, label="Final Blow", tooltip="Final Blow enabled", 
+        color={0,1,0}
+    })
+    
     -- create text input to paste setup parameters
     self.createInput({
         input_function = "input_print",
@@ -124,7 +131,12 @@ function onLoad()
     
     transformed = {}
     
+    --Local positions for each pile of cards
+    pos_vp2 = {-5, 0.178, 0.222}
+    pos_discard = {-0.957, 0.178, 0.222}
+    
     autoplay = true
+    finalblow = true
     Turns.enable = true
 end
 
@@ -132,12 +144,28 @@ function returnAutoplay()
     return autoplay
 end
 
+function returnFinalblow()
+    return finalblow
+end
+
 function returnMM()
     return masterminds
 end
 
-function table.clone(org)
-  return {table.unpack(org)}
+function returnMMLocation()
+    return mmLocationsS
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
 end
 
 function toggle_autoplay(obj,player_clicker_color)
@@ -155,6 +183,26 @@ function toggle_autoplay(obj,player_clicker_color)
         autoplay = false
         self.editButton({index=buttonindex,color = {1,0,0}})
         broadcastToAll("Cards will NOT be played from villain deck at each player's turn end.")
+    end
+end
+
+function toggle_finalblow(obj,player_clicker_color)
+    local butt = self.getButtons()
+    for _,o in pairs(butt) do
+        if o.click_function == "toggle_finalblow" then
+            buttonindex = o.index
+        end
+    end
+    if finalblow == false then
+        finalblow = true
+        self.editButton({index=buttonindex,color = {0,1,0},
+            tooltip="Final Blow enabled"})
+        broadcastToAll("Final blow enabled.")
+    else
+        finalblow = false
+        self.editButton({index=buttonindex,color = {1,0,0},
+            tooltip="Final Blow disabled"})
+        broadcastToAll("Final blow disabled.")
     end
 end
 
@@ -322,7 +370,7 @@ function mmGetCards(mmname,transformed)
     end
 end
 
-function get_decks_and_cards_from_zone(zoneGUID)
+function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     --this function returns cards, decks and shards in a city space (or the start zone)
     --returns a table of objects
     local zone = getObjectFromGUID(zoneGUID)
@@ -331,12 +379,19 @@ function get_decks_and_cards_from_zone(zoneGUID)
     else
         return nil
     end
+    local shardname = "Shard"
+    local hopename = "Baby Hope Token"
+    if shardinc == false then
+        shardname = "notShardName"
+        hopename = "notBaby Hope Token"
+    end
     local result = {}
     if decks then
         for k, deck in pairs(decks) do
-            local desc = deck.getDescription()
-            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == "Shard" then
-                table.insert(result, deck)
+            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == shardname or deck.getName() == hopename then
+                if bsinc == nil or not deck.hasTag("Bystander") then
+                    table.insert(result, deck)
+                end
             end
         end
     end
@@ -390,6 +445,10 @@ end
 function woundedFury(obj,color)
     local discardpile = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
     local wounds = 0
+    local t = 0
+    if transformed[objname] ~= nil then
+        t = 1
+    end
     if discardpile[1] and discardpile[1].tag == "Deck" then
         for _,o in pairs(discardpile[1].getObjects()) do
             if o.tags[1] == "Wound" then
@@ -402,8 +461,8 @@ function woundedFury(obj,color)
         end
     end
     if wounds > 0 then
-        if obj.getButtons()[2] then
-            obj.editButton({index=1,label="+" .. wounds,
+        if obj.getButtons()[2+t] then
+            obj.editButton({index=1+t,label="+" .. wounds,
                 tooltip="Wounded Fury."})
         else
             obj.createButton({click_function='woundedFury',
@@ -416,8 +475,8 @@ function woundedFury(obj,color)
                 font_color="Red",
                 width=0})
         end
-    elseif obj.getButtons()[2] then
-        obj.removeButton(1)
+    elseif obj.getButtons()[2+t] then
+        obj.removeButton(1+t)
     end
 end
 
@@ -460,8 +519,8 @@ function externalTransformMM(zone)
     if not zone then
         zone = getObjectFromGUID(mmZoneGUID)
     end
-    transformMM(zone)
-    return transformed
+    transformMM(getObjectFromGUID(zone))
+    return table.clone(transformed,true)
 end
 
 function transformChanges(name)
@@ -486,14 +545,14 @@ function setupTransformingMM(mmname,mmZone)
     end
     mmZone.createButton({click_function='transformMM',
         function_owner=self,
-        position={0,0,0.75},
+        position={0,0,1.2},
         rotation={0,180,0},
         label="Transform",
         tooltip="Transform the Mastermind.",
         font_size=100,
         font_color={0,0,0},
         color="Green",
-        width=700,
+        width=600,
         height=350})
     transformed[mmname] = false
     if mmname == "General Ross" then
@@ -501,8 +560,8 @@ function setupTransformingMM(mmname,mmZone)
             if transformed["General Ross"] == false then
                 if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
                     getObjectFromGUID(strikeZoneGUID).clearButtons()
-                    if mmZone.getButtons()[2] then
-                        mmZone.removeButton(1)
+                    if mmZone.getButtons()[3] then
+                        mmZone.removeButton(2)
                     end
                 else
                     if not getObjectFromGUID(strikeZoneGUID).getButtons() then
@@ -519,7 +578,7 @@ function setupTransformingMM(mmname,mmZone)
                         getObjectFromGUID(strikeZoneGUID).editButton({label="2",
                             tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders."})
                     end
-                    if not mmZone.getButtons()[2] then
+                    if not mmZone.getButtons()[3] then
                         mmZone.createButton({click_function='updateRoss',
                             function_owner=self,
                             position={0,0,0},
@@ -530,7 +589,7 @@ function setupTransformingMM(mmname,mmZone)
                             font_color="Red",
                             width=0})
                     else
-                        mmZone.editButton({index=1,
+                        mmZone.editButton({index=2,
                             label="X",
                             tooltip="You can't fight General Ross while he has any Helicopters."})
                     end
@@ -613,8 +672,8 @@ function setupTransformingMM(mmname,mmZone)
                     end
                 end
                 if warbound > 0 then
-                    if mmZone.getButtons()[2] then
-                        mmZone.editButton({index=1,label="+" .. warbound})
+                    if mmZone.getButtons()[3] then
+                        mmZone.editButton({index=2,label="+" .. warbound})
                     else
                         mmZone.createButton({click_function='returnColor',
                             function_owner=self,
@@ -626,8 +685,8 @@ function setupTransformingMM(mmname,mmZone)
                             font_color="Red",
                             width=0})
                     end
-                elseif mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
+                elseif mmZone.getButtons()[3] then
+                    mmZone.removeButton(2)
                 end
             elseif transformed["King Hulk, Sakaarson"] == true then
                 woundedFury(mmZone,Turns.turn_color)
@@ -654,8 +713,8 @@ function setupTransformingMM(mmname,mmZone)
         setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
         function updateMODOK()
             if transformed["M.O.D.O.K."] == false then
-                if mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
+                if mmZone.getButtons()[3] then
+                    mmZone.removeButton(2)
                 end
                 local notes = getNotes()
                 setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
@@ -694,7 +753,7 @@ function setupTransformingMM(mmname,mmZone)
                         end
                     end
                 end
-                if villainfound == true and not mmZone.getButtons()[2] then
+                if villainfound == true and not mmZone.getButtons()[3] then
                     mmZone.createButton({click_function='redKing',
                         function_owner=self,
                         position={0,0,0},
@@ -704,12 +763,12 @@ function setupTransformingMM(mmname,mmZone)
                         font_size=250,
                         font_color="Red",
                         width=0})
-                elseif villainfound == false and mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
+                elseif villainfound == false and mmZone.getButtons()[3] then
+                    mmZone.removeButton(2)
                 end
             elseif transformed["The Red King"] == true then
-                if mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
+                if mmZone.getButtons()[3] then
+                    mmZone.removeButton(2)
                 end
             end
         end
@@ -729,8 +788,8 @@ function setupTransformingMM(mmname,mmZone)
             if transformed["The Sentry"] == true then
                 woundedFury(mmZone,Turns.turn_color)
             elseif transformed["The Sentry"] == false then
-                if mmZone.getButtons()[2] then
-                    mmZone.removeButton(1)
+                if mmZone.getButtons()[3] then
+                    mmZone.removeButton(2)
                 end
             end
         end
@@ -800,13 +859,9 @@ function import_setup()
         mmname = mmname:gsub(" %- epic","")
         epicness = true
     end
-    getObjectFromGUID("f3c7e3").Call('retrieveMM')
     mmLocationsS = {[mmname] = mmZoneGUID}
+    getObjectFromGUID("f3c7e3").Call('retrieveMM')
     local mmcardnumber = mmGetCards(mmname) 
-    
-    if mmGetCards(mmname,true) == true then
-        setupTransformingMM(mmname,mmZone)
-    end
     
     local mmShuffle = function(obj)
         local mm = obj
@@ -2030,11 +2085,18 @@ end
 
 function updateMM()
     masterminds = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM'))
-    mmLocationsS = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM',{true}))
+    mmLocationsS = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM',{true}),true)
 end
 
-function setupMasterminds(objname,epicness,targetZone)
+function setupMasterminds(objname,epicness)
+    fightButton(mmLocationsS[objname])
+    if mmGetCards(objname,true) == true then
+        setupTransformingMM(objname,getObjectFromGUID(mmLocationsS[objname]))
+    end
     if objname == "Baron Heinrich Zemo" then
+        if not mmActive(objname) then
+                return nil
+            end
         local mmzone = getObjectFromGUID(mmLocationsS[objname])
         mmzone.createButton({click_function='returnColor',
             function_owner=self,
@@ -2063,21 +2125,11 @@ function setupMasterminds(objname,epicness,targetZone)
                     end
                 end
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if savior > 2 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+9",
-                    tooltip="The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
-                    font_size=500,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            end
+            Wait.time(function() mmButtons(objname,
+                math.max(savior-2,0),
+                "+9",
+                "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
+                'updateBaronHein') end,1)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Bystander") then
@@ -2095,6 +2147,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Baron Helmut Zemo" then
         updateBaronHelm = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
             local savior = 0
@@ -2112,23 +2167,11 @@ function setupMasterminds(objname,epicness,targetZone)
                     savior = 1
                 end
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if savior == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="-" .. savior,
-                    tooltip="The Baron gets -1 for each villain in your victory pile.",
-                    font_size=500,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label="-" .. savior})
-            end
+            Wait.time(function() mmButtons(objname,
+                savior,
+                "-" .. savior,
+                "The Baron gets -1 for each villain in your victory pile.",
+                'updateBaronHelm') end,1)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
@@ -2146,6 +2189,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Belasco, Demon Lord of Limbo" then
         updateBelasco = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local kopilecontent = get_decks_and_cards_from_zone(kopile_guid)
             local nongrey = 0
             if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
@@ -2158,24 +2204,12 @@ function setupMasterminds(objname,epicness,targetZone)
                     end
                 end
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
             nongrey = nongrey/#Player.getPlayers() - 0.5*(nongrey % #Player.getPlayers())
-            if nongrey == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. nongrey,
-                    tooltip="Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
-                    font_size=500,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. nongrey})
-            end
+            Wait.time(function() mmButtons(objname,
+                nongrey,
+                "+" .. nongrey,
+                "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
+                'updateBelasco') end,1)
         end
         function onObjectEnterZone(zone,object)
             if zone.guid == kopile_guid then
@@ -2190,6 +2224,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Deathbird" then
         updateDeathbird = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local shiarfound = 0
             for i=2,#city_zones_guids do
                 local citycontent = get_decks_and_cards_from_zone(city_zones_guids[i])
@@ -2221,27 +2258,15 @@ function setupMasterminds(objname,epicness,targetZone)
                     shiarfound = shiarfound + 1
                 end
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
             local modifier = 1
             if epicness == true then
                 modifier = 2
             end
-            if shiarfound == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. shiarfound*modifier,
-                    tooltip="Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
-                    font_size=500,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. shiarfound*modifier})
-            end
+            Wait.time(function() mmButtons(objname,
+                shiarfound,
+                "+" .. shiarfound*modifier,
+                "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
+                'updateDeathbird') end,1)
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateDeathbird,1)
@@ -2252,6 +2277,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Emma Frost, The White Queen" then
         updateEmma = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local color = Turns.turn_color
             local zone = nil
             if color == "Blue" then
@@ -2274,23 +2302,11 @@ function setupMasterminds(objname,epicness,targetZone)
                     end
                 end
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if power == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. power,
-                    tooltip="Emma Frost gets +" .. boost .. " for each grey hero you have.",
-                    font_size=350,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. power})
-            end
+            Wait.time(function() mmButtons(objname,
+                power,
+                "+" .. power,
+                "Emma Frost gets +" .. boost .. " for each grey hero you have.",
+                'updateEmma') end,1)
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateEmma,1)
@@ -2300,6 +2316,9 @@ function setupMasterminds(objname,epicness,targetZone)
         end
     end
     if objname == "Evil Deadpool" then
+        if not mmActive(objname) then
+            return nil
+        end
         updateDeadpool = function()
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
@@ -2316,23 +2335,11 @@ function setupMasterminds(objname,epicness,targetZone)
             elseif vpilecontent[1] and hasTag2(vpilecontent[1],"Tactic:",8) then
                 tacticsfound = tacticsfound + 1
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if tacticsfound == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. tacticsfound,
-                    tooltip="Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
-                    font_size=350,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. tacticsfound})
-            end
+            Wait.time(function() mmButtons(objname,
+                tacticsfound,
+                "+" .. tacticsfound,
+                "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
+                'updateDeadpool') end,1)
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateDeadpool,1)
@@ -2346,6 +2353,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Grim Reaper" then
         updateReaper = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local locationcount = 0
             for _,o in pairs(city_zones_guids) do
                 if o ~= city_zones_guids[1] then
@@ -2364,23 +2374,11 @@ function setupMasterminds(objname,epicness,targetZone)
             if epicness then
                 locationcount2 = locationcount*2
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if locationcount == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. locationcount2,
-                    tooltip="Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
-                    font_size=350,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. locationcount2})
-            end
+            Wait.time(function() mmButtons(objname,
+                locationcount2,
+                "+" .. locationcount2,
+                "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
+                'updateReaper') end,1)
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateReaper,1)
@@ -2398,6 +2396,9 @@ function setupMasterminds(objname,epicness,targetZone)
             table.remove(helacitycheck,1)
         end
         updateHela = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local villaincount = 0
             for _,o in pairs(helacitycheck) do
                 local citycontent = get_decks_and_cards_from_zone(o)
@@ -2414,23 +2415,11 @@ function setupMasterminds(objname,epicness,targetZone)
             if epicness then
                 boost = 1
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if villaincount == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. villaincount*(5+boost),
-                    tooltip="Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
-                    font_size=350,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. villaincount*(5+boost)})
-            end
+            Wait.time(function() mmButtons(objname,
+                villaincount,
+                "+" .. villaincount*(5+boost),
+                "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
+                'updateHela') end,1)
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateHela,1)
@@ -2454,6 +2443,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Madelyne Pryor, Goblin Queen" then
         function updateMadelyne()
+            if not mmActive(objname) then
+                return nil
+            end
             local mmzone = getObjectFromGUID(mmLocationsS[objname])
             if mmLocationsS[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
@@ -2467,8 +2459,8 @@ function setupMasterminds(objname,epicness,targetZone)
             end
             if not get_decks_and_cards_from_zone(strikeloc)[1] then
                 getObjectFromGUID(strikeloc).clearButtons()
-                if mmzone.getButtons() then
-                    mmzone.clearButtons()
+                if mmzone.getButtons()[2] then
+                    mmzone.removeButton(1)
                 end
             else
                 if not getObjectFromGUID(strikeloc).getButtons() then
@@ -2485,7 +2477,7 @@ function setupMasterminds(objname,epicness,targetZone)
                     getObjectFromGUID(strikeloc).editButton({label="2",
                         tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders."})
                 end
-                if not mmzone.getButtons() then
+                if not mmzone.getButtons()[2] then
                     mmzone.createButton({click_function='updateMadelyne',
                         function_owner=self,
                         position={0,0,0},
@@ -2496,7 +2488,7 @@ function setupMasterminds(objname,epicness,targetZone)
                         font_color="Red",
                         width=0})
                 else
-                    mmzone.editButton({label="X",
+                    mmzone.editButton({index=1,label="X",
                         tooltip="You can't fight Madelyne Pryor while she has any Demon Goblins."})
                 end
             end
@@ -2510,6 +2502,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Magus" then
         updateMagus = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local shardsfound = 0
             for _,o in pairs(city_zones_guids) do
                 if o ~= city_zones_guids[1] then
@@ -2524,27 +2519,15 @@ function setupMasterminds(objname,epicness,targetZone)
                     end
                 end
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
             local boost = 1
             if epicness then
                 boost = 2
             end
-            if shardsfound == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. boost*shardsfound,
-                    tooltip="Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
-                    font_size=350,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. boost*shardsfound})
-            end
+            Wait.time(function() mmButtons(objname,
+                shardsfound,
+                "+" .. boost*shardsfound,
+                "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
+                'updateMagus') end,1)
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMagus,1)
@@ -2568,6 +2551,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Mr. Sinister" then
         function updateMrSinister()
+            if not mmActive(objname) then
+                return nil
+            end
             local mmzone = getObjectFromGUID(mmLocationsS[objname])
             if mmLocationsS[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
@@ -2580,25 +2566,11 @@ function setupMasterminds(objname,epicness,targetZone)
                 end
             end
             local bs = get_decks_and_cards_from_zone(strikeloc)
-            if not bs[1] then
-                if mmzone.getButtons() then
-                    mmzone.clearButtons()
-                end
-            else
-                if not mmzone.getButtons() then
-                    mmzone.createButton({click_function='updateMrSinister',
-                        function_owner=self,
-                        position={0,0,0},
-                        rotation={0,180,0},
-                        label="+" .. #bs,
-                        tooltip="Mr. Sinister gets +1 for each Bystander he has.",
-                        font_size=250,
-                        font_color="Red",
-                        width=0})
-                else
-                    mmzone.editButton({label="+" .. #bs})
-                end
-            end
+            Wait.time(function() mmButtons(objname,
+                #bs,
+                "+" .. #bs,
+                "Mr. Sinister gets +1 for each Bystander he has.",
+                'updateMrSinister') end,1)
         end
         function onObjectEnterZone(zone,object)
             updateMrSinister()
@@ -2609,6 +2581,9 @@ function setupMasterminds(objname,epicness,targetZone)
     end
     if objname == "Ragnarok" then
         updateRagnarok = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local hccolors = {
                 ["Red"] = 0,
                 ["Yellow"] = 0,
@@ -2630,29 +2605,164 @@ function setupMasterminds(objname,epicness,targetZone)
             for _,o in pairs(hccolors) do
                 boost = boost + o
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if boost == 0 then
-                mmzone.clearButtons()
-            elseif not mmzone.getButtons() then
-                mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. boost,
-                    tooltip="Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
-                    font_size=350,
-                    font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
-            else
-                mmzone.editButton({label = "+" .. boost})
-            end
+            Wait.time(function() mmButtons(objname,
+                boost,
+                "+" .. boost,
+                "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
+                'updateRagnarok') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateRagnarok,1)
+            Wait.time(updateRagnarok,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateRagnarok,1)
+            Wait.time(updateRagnarok,2)
         end
     end
+end
+
+function mmButtons(objname,checkvalue,label,tooltip,f)
+    local mmzone = getObjectFromGUID(mmLocationsS[objname])
+    local t = 0
+    if transformed[objname] ~= nil then
+        t = 1
+    end
+    if checkvalue == 0 and mmzone.getButtons()[2+t] then
+        mmzone.removeButton(1+t)
+    elseif not mmzone.getButtons()[2+t] then
+        mmzone.createButton({click_function=f,
+            function_owner=self,
+            position={0,0,0},
+            rotation={0,180,0},
+            label=label,
+            tooltip=tooltip,
+            font_size=350,
+            font_color={1,0,0},
+            color={0,0,0,0.75},
+            width=250,height=250})
+    else
+        mmzone.editButton({index=1+t,label = label,tooltip = tooltip})
+    end
+end
+
+function koCard(obj,smooth)
+    if smooth then
+        obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+    else
+        obj.setPosition(getObjectFromGUID(kopile_guid).getPosition())
+    end
+end
+
+function fightButton(zone)
+    _G["fightEffect" .. zone] = function(obj,player_clicker_color)
+        local content = get_decks_and_cards_from_zone(obj.guid,false,false)
+        local name = fightMM(content,player_clicker_color)
+        if name then
+            local killFightButton = function()
+                local content = get_decks_and_cards_from_zone(obj.guid,false,false)
+                if not content[1] then
+                    broadcastToAll(name .. " was defeated!")
+                    obj.clearButtons()
+                    for i,o in pairs(masterminds) do
+                        if o == name then
+                            table.remove(masterminds,i)
+                            break
+                        end
+                    end
+                    getObjectFromGUID("f3c7e3").Call('retrieveMM') 
+                elseif not finalblow and content[1].tag == "Card" and content[1].getName() == name then
+                    broadcastToAll(name .. " was defeated!")
+                    koCard(content[1])
+                    obj.clearButtons()
+                    for i,o in pairs(masterminds) do
+                        if o == name then
+                            table.remove(masterminds,i)
+                            break
+                        end
+                    end
+                    getObjectFromGUID("f3c7e3").Call('retrieveMM') 
+                elseif transformed[name] ~= nil then
+                    transformMM(getObjectFromGUID(mmLocationsS[name]))
+                end
+            end
+            Wait.time(killFightButton,1)
+        end
+    end
+    getObjectFromGUID(zone).createButton({click_function="fightEffect" .. zone,
+        function_owner=self,
+        position={0,0,0.5},
+        rotation={0,180,0},
+        label="Fight",
+        tooltip="Fight this card.",
+        font_size=200,
+        font_color="Red",
+        color={0,0,0},
+        width=600,height=375})
+end
+
+function bump(obj,y)
+    if not y then
+        y = 2
+    end
+    local pos = obj.getPosition()
+    pos.y = pos.y + y
+    obj.setPositionSmooth(pos)
+end
+
+function fightMM(content,player_clicker_color)
+    local vppos = getObjectFromGUID(playerBoards[player_clicker_color]).positionToWorld(pos_vp2)
+    if content[1] and content[2] then
+        for i,o in pairs(content) do
+            if o.tag == "Deck" then
+                if i == 1 then
+                    bump(content[2])
+                else
+                    bump(content[1])
+                end
+                o.takeObject({position = vppos,
+                    flip = true,
+                    smooth = true})
+                return o.getName()
+            elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
+                o.setPositionSmooth(vppos)
+                if o.is_face_down then
+                    Wait.time(function() o.flip() end,0.8)
+                end
+                return hasTag2(o,"Tactic:",8)
+            end
+        end
+    elseif content[1] then
+        if content[1].tag == "Deck" then
+            for i,o in pairs(content[1].getObjects()) do
+                local tacticFound = false
+                for _,k in pairs(o.tags) do
+                    if k:find("Tactic:") then
+                        tacticfound = true
+                        break
+                    end
+                end
+                if tacticFound == false then
+                    content[1].takeObject({position = vppos,
+                        index = i-1,
+                        flip = content[1].is_face_down,
+                        smooth = true})
+                    return content[1].getName()
+                end
+            end
+            content[1].takeObject({position = vppos,
+                flip = true,
+                smooth = true})
+            return content[1].getName()
+        else
+            content[1].setPositionSmooth(vppos)
+            if content[1].is_face_down then
+                Wait.time(function() content[1].flip() end,0.8)
+            end
+            if hasTag2(content[1],"Tactic:",8) then
+                return hasTag2(content[1],"Tactic:",8)
+            else
+                return content[1].getName()
+            end
+        end
+    end
+    return nil
 end
