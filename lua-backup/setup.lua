@@ -15,14 +15,14 @@ function onLoad()
     
     self.createButton({
         click_function="toggle_autoplay", function_owner=self,
-        position={-60,0.1,14}, height=125,
+        position={-60,0.1,16}, height=125,
         width=1500, height=500, label="Autoplay from villain deck", tooltip="Set autoplay from villain deck when player draws new hand!", 
         color={0,1,0}
     })
     
     self.createButton({
         click_function="toggle_finalblow", function_owner=self,
-        position={-60,0.1,13}, height=125,
+        position={-60,0.1,15}, height=125,
         width=1500, height=500, label="Final Blow", tooltip="Final Blow enabled", 
         color={0,1,0}
     })
@@ -76,6 +76,12 @@ function onLoad()
         "07423f",
         "5bc848",
         "82ccd7"
+    }
+    
+    playguids = {
+        ["Yellow"]="f49fc9",
+        ["Blue"]="2b36c3",
+        ["White"]="558e75"
     }
         
     hqguids = {
@@ -962,7 +968,7 @@ function import_setup()
             log(bsCount .. " bystanders added to villain deck.")
         end
     else
-        mojoVPUpdate(true,bsCount,epicness)
+        mojoVPUpdate(bsCount,epicness)
     end
     
     if mmname == "The Sentry" then
@@ -1313,16 +1319,6 @@ function import_setup()
         table.insert(heroParts, string.lower(s))
     end
     
-    local herodeckExtras = 0
-    if setupParts[1] == "Save Humanity" then
-        herodeckExtras = 24
-        for i=1,24 do
-            bsPile.takeObject({position = heroZone.getPosition(),
-                flip=true,
-                smooth=false})
-        end
-    end
-    
     if setupParts[1] == "Divide and Conquer" then
         local dividedDeckGUIDs = {
             ["HC:Red"]="4c1868",
@@ -1406,7 +1402,7 @@ function import_setup()
             local test = heroZone.getObjects()[2]
             if test ~= nil then 
                 local test2 = #heroParts
-                if test.getQuantity() == test2*14 + herodeckExtras then
+                if test.getQuantity() == test2*14 then
                     return true
                 else
                     return false
@@ -1728,6 +1724,17 @@ function schemeSpecials (setupParts,mmGUID)
             stPile.takeObject({position=twistpile.getPosition(),
                 flip=false,smooth=false})
         end
+    end
+    if setupParts[1] == "Save Humanity" then
+        local saveHumanity = function()
+            local bsPile = getObjectFromGUID(bystandersPileGUID)
+            for i=1,24 do
+                bsPile.takeObject({position = heroZone.getPosition(),
+                    smooth=false})
+            end
+        end
+        broadcastToAll("Save Humanity: Adding bystanders to the hero deck, please wait...")
+        Wait.time(saveHumanity,2.5)
     end
     if setupParts[1] == "Scavenge Alien Weaponry" or setupParts[1] == "Devolve with Xerogen Crystals" then
         log("Identify the smugglers/experiments group.")
@@ -2459,6 +2466,9 @@ function setupMasterminds(objname,epicness)
                     width=250,height=250})
     end
     if objname == "Mojo" then
+        if mmLocationsS["Mojo"] ~= mmZoneGUID then
+            mojoVPUpdate(0)
+        end
         mojobasepower = 6
         if epicness then
             playHorror()
@@ -2522,6 +2532,38 @@ function setupMasterminds(objname,epicness)
             updateMojo()
         end
     end
+    if objname == "Mole Man" then
+        updateMoleMan = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local escaped = get_decks_and_cards_from_zone(escape_zone_guid)
+            local bscount = 0
+            if escaped[1] and escaped[1].tag == "Deck" then
+                for _,o in pairs(escaped[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k == "Group:Subterranea" then
+                            bscount = bscount + 1
+                            break
+                        end
+                    end
+                end
+            elseif escaped[1] and escaped[1].hasTag("Group:Subterranea") then
+                bscount = bscount + 1
+            end
+            Wait.time(function() mmButtons(objname,
+                bscount,
+                "+" .. bscount,
+                "Mole Man gets +1 for each Subterranea Villain that has escaped.",
+                'updateMoleMan') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMoleMan,2)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMoleMan,2)
+        end
+    end
     if objname == "Mr. Sinister" then
         function updateMrSinister()
             if not mmActive(objname) then
@@ -2554,7 +2596,7 @@ function setupMasterminds(objname,epicness)
     end
     if objname == "Onslaught" then
         for _,o in pairs(Player.getPlayers()) do
-            getObjectFromGUID(playerBoards[o.color])Call('onslaughtpain')
+            getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain')
         end
         broadcastToAll("Hand size reduced by 1 because of Onslaught. Good luck! You're going to need it.")
     end
@@ -2656,6 +2698,227 @@ function setupMasterminds(objname,epicness)
             playHorror()
             -- these will stack
             broadcastToAll("Shadow King played two horrors. Please read each of them")
+        end
+    end
+    if objname == "Spider-Queen" then
+        updateSpiderQueen = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local escaped = get_decks_and_cards_from_zone(escape_zone_guid)
+            local bscount = 0
+            if escaped[1] and escaped[1].tag == "Deck" then
+                for _,o in pairs(escaped[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k == "Bystander" then
+                            bscount = bscount + 1
+                            break
+                        end
+                    end
+                end
+            elseif escaped[1] and escaped[1].hasTag("Bystander") then
+                bscount = bscount + 1
+            end
+            Wait.time(function() mmButtons(objname,
+                bscount,
+                "+" .. bscount,
+                "Spider-Queen gets +1 for each Bystander in the Escape pile.",
+                'updateSpiderQueen') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateSpiderQueen,2)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateSpiderQueen,2)
+        end
+    end
+    if objname == "Thanos" then
+        updateThanos = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local gemfound = 0
+            for _,o in pairs(playguids) do
+                local playcontent = get_decks_and_cards_from_zone(o)
+                if playcontent[1] then
+                    for _,k in pairs(playcontent) do
+                        if k.hasTag("Group:Infinity Gems") then
+                            gemfound = gemfound + 1
+                        end
+                    end
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                gemfound,
+                "-" .. gemfound*2,
+                "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
+                'updateThanos') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            if object.hasTag("Group:Infinity Gems") then
+                Wait.time(updateThanos,2)
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if object.hasTag("Group:Infinity Gems") then
+                Wait.time(updateThanos,2)
+            end
+        end
+    end
+    if objname == "The Goblin, Underworld Boss" then
+        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        for i=1,2 do
+            bsPile.takeObject({position=getObjectFromGUID(getStrikeloc(objname)).getPosition(),
+                flip=false,
+                smooth=false})
+        end
+    end
+    if objname == "The Hood" then
+        updateHood = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local playerBoard = getObjectFromGUID(playerBoards[Turns.turn_color])
+            local discard = playerBoard.Call('returnDiscardPile')[1]
+            local boost = 1
+            if epicness then
+                boost = 2
+            end
+            local darkmemories = 0
+            if discard and discard.tag == "Deck" then
+                local hccolors = {
+                    ["Red"] = 0,
+                    ["Yellow"] = 0,
+                    ["Green"] = 0,
+                    ["Silver"] = 0,
+                    ["Blue"] = 0
+                }
+                for _,o in pairs(discard.getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k:find("HC:") then
+                            hccolors[k:gsub("HC:","")] = boost
+                        end
+                    end
+                end
+                for _,o in pairs(hccolors) do
+                    darkmemories = darkmemories + o
+                end
+            elseif discard then
+                if hasTag2(discard,"HC:",4) then
+                    darkmemories = boost
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                darkmemories,
+                "+" .. darkmemories,
+                "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
+                'updateHood') end,1)
+        end
+        function onPlayerTurn(player,previous_player)
+            updateHood()
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateHood,2)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateHood,2)
+        end
+    end
+    if objname == "Ultron" then
+        updateUltron = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocationsS[objname])
+            if mmLocationsS[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocationsS[objname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            local threatanalysis = get_decks_and_cards_from_zone(strikeloc)
+            local hccolors = {
+                ["Red"] = false,
+                ["Yellow"] = false,
+                ["Green"] = false,
+                ["Silver"] = false,
+                ["Blue"] = false
+            }
+            local boost = 1
+            local epicboost = ""
+            if epicness then
+                epicboost = "Triple "
+                boost = 3
+            end
+            local empowerment = 0
+            if threatanalysis[1] and threatanalysis[1].tag == "Deck" then
+                for _,o in pairs(threatanalysis[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k:find("HC:") then
+                            hccolors[k:gsub("HC:","")] = true
+                            break
+                        end
+                    end
+                end
+            elseif threatanalysis[1] then
+                hccolors[hasTag2(threatanalysis[1],"HC:",4)] = true
+            end
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero and hasTag2(hero,"HC:",4) and hccolors[hasTag2(hero,"HC:",4)] then
+                    empowerment = empowerment + boost
+                    table.remove(hccolors,hasTag2(hero,"HC:"))
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                empowerment,
+                "+" .. empowerment,
+                "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
+                'updateUltron') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateUltron,2)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateUltron,2)
+        end
+    end
+    if mmname == "Wasteland Hulk" then
+        if not mmActive(objname) then
+            return nil
+        end
+        updateWastelandHulk = function()
+            local tacticsfound = 0
+            for _,o in pairs(Player.getPlayers()) do
+                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    for _,o in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k == "Tactic:Wasteland Hulk" then
+                                tacticsfound = tacticsfound + 1
+                                break
+                            end
+                        end
+                    end
+                elseif vpilecontent[1] and vpilecontent[1].hasTag("Tactic:Wasteland Hulk") then
+                    tacticsfound = tacticsfound + 1
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                tacticsfound,
+                "+" .. tacticsfound*3,
+                "Wasteland Hulk gets +3 for each of his Mastermind Tactics among all players' Victory Piles.",
+                'updateWastelandHulk') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateWastelandHulk,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateWastelandHulk,1)
         end
     end
 end
@@ -2798,13 +3061,13 @@ function fightMM(content,player_clicker_color)
                 local tacticFound = false
                 for _,k in pairs(o.tags) do
                     if k:find("Tactic:") then
-                        tacticfound = true
+                        tacticFound = true
                         break
                     end
                 end
                 if tacticFound == false then
                     content[1].takeObject({position = vppos,
-                        index = i-1,
+                        index = i,
                         flip = content[1].is_face_down,
                         smooth = true})
                     return content[1].getName()
@@ -2829,7 +3092,7 @@ function fightMM(content,player_clicker_color)
     return nil
 end
 
-function mojoVPUpdate(start,bsCount,epicness)
+function mojoVPUpdate(bsCount,epicness)
     if not bsCount then
         bsCount = 0
     end
@@ -2840,7 +3103,7 @@ function mojoVPUpdate(start,bsCount,epicness)
         mojovp = 4
     end
     local mojotagf = function(obj)
-        obj.setTags({"Bystander","VP" .. mojpvp})
+        obj.setTags({"Bystander","VP" .. mojovp})
     end
     local bsPile = getObjectFromGUID(bystandersPileGUID)
     local bspilecount = bsPile.getQuantity()
@@ -2852,7 +3115,7 @@ function mojoVPUpdate(start,bsCount,epicness)
             mojopos2 = getObjectFromGUID(villainDeckZoneGUID).getPosition()
             bsflip = true
         elseif i <= mojo + bsCount then
-            mojopos2 = getObjectFromGUID(mmLocationsS["Mojo"]).getPosition()
+            mojopos2 = getObjectFromGUID(getStrikeloc("Mojo")).getPosition()
             bsflip = false
         else 
             mojopos2 = bsPile.getPosition()
@@ -2879,10 +3142,27 @@ function mojoVPUpdate(start,bsCount,epicness)
     local setNewBSGUID = function()
         local bsDeck = findObjectsAtPosition(mojopos,true)
         bystandersPileGUID = bsDeck[1].guid
+        log("bs pile guid = ")
+        log(bystandersPileGUID)
     end
     local timerSetNewGUID = function()
         Wait.condition(setNewBSGUID,bsTagged)
     end
     Wait.time(timerSetNewGUID,2)
     broadcastToAll("Mojo! Bystanders net " .. mojovp .. " victory points each!")
+end
+
+function getStrikeloc(mmname)
+    local strikeloc = nil
+    if mmLocationsS[mmname] == mmZoneGUID then
+        strikeloc = strikeZoneGUID
+    else
+        for i,o in pairs(topBoardGUIDs) do
+            if o == mmLocationsS[mmname] then
+                strikeloc = topBoardGUIDs[i-1]
+                break
+            end
+        end
+    end
+    return strikeloc
 end

@@ -46,6 +46,12 @@ function onLoad()
         "75241e"
     }
     
+    playguids = {
+        ["Yellow"]="f49fc9",
+        ["Blue"]="2b36c3",
+        ["White"]="558e75"
+    }
+    
     city_zones_guids = {"e6b0bc",
         "40b47d",
         "5a74e7",
@@ -416,7 +422,12 @@ function addBystanders(cityspace,face,posabsolute)
     if posabsolute == nil then
         targetZone.z = targetZone.z - 2
     end
-    getObjectFromGUID(bystandersPileGUID).takeObject({position=targetZone,
+    local bspile = getObjectFromGUID(bystandersPileGUID)
+    if not bspile then
+        bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
+        bspile = getObjectFromGUID(bystandersPileGUID)
+    end
+    bspile.takeObject({position=targetZone,
         smooth=true,
         flip=face})
 end
@@ -5649,7 +5660,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 local citycontent = get_decks_and_cards_from_zone(o)
                 if citycontent[1] then
                     for _,p in pairs(citycontent) do
-                        if hasTag2(p,"Group:",6) and hasTag2(p,"Group:",6) == "Mojoverse" then
+                        if hasTag2(p,"Group:",6) and hasTag2(p,"Group:",7) == "Mojoverse" then
                             addBystanders(o,false)
                             break
                         end
@@ -5751,7 +5762,7 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Onslaught" then
-        local dominated = get_decks_and_cards_from_zone(mmLocations[mmname])
+        local dominated = get_decks_and_cards_from_zone(getStrikeloc(mmname))
         if dominated[1] then
             koCard(dominated[1])
         end
@@ -5767,10 +5778,10 @@ function resolveStrike(mmname,epicness,city,cards)
             end
             if hand[1] then
                 if epicness then
-                    promptDiscard(o.color,hand,2,getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    promptDiscard(o.color,hand,2,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
                     broadcastToColor("Master Strike: Two nongrey heroes from your hand become dominated by Onslaught.",o.color,o.color)
                 else
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
                     broadcastToColor("Master Strike: A nongrey hero from your hand becomes dominated by Onslaught.",o.color,o.color)
                 end
             end
@@ -5803,10 +5814,10 @@ function resolveStrike(mmname,epicness,city,cards)
             end
             if hand[1] then
                 if epicness then
-                    promptDiscard(o.color,hand,#hand/2 + 0.5*(#hand % 2),getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    promptDiscard(o.color,hand,#hand/2 + 0.5*(#hand % 2),getObjectFromGUID(getStrikeloc(mmname)).getPosition())
                     broadcastToColor("Master Strike: " .. #hand/2 + 0.5*(#hand % 2) .. " nongrey heroes from your hand become souls poisoned by Thanos.",o.color,o.color)
                 else
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(mmLocations[mmname]).getPosition())
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
                     broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul poisoned by Thanos.",o.color,o.color)
                 end
             end
@@ -5845,7 +5856,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 if objname == "" then
                     objname = "an unnamed card"
                 end
-                broadcastToAll("Master Strike: Dr. Strange revealed " .. objname .. " from the villain deck!")
+                broadcastToAll("Master Strike: Shiklah revealed " .. objname .. " from the villain deck!")
                 table.insert(strangeguids,obj.guid)
             end
             for i=1,3 do
@@ -5882,6 +5893,61 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "Spider-Queen" then
+        local emptycity = table.clone(city)
+        local iter = 0
+        for i,o in ipairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Villain") then
+                        table.remove(emptycity,i-iter)
+                        iter = iter + 1
+                        break
+                    end
+                end
+            end
+        end
+        if emptycity[1] then
+            for _,o in pairs(Player.getPlayers()) do
+                if not emptycity[1] then
+                    click_get_wound(nil,o.color)
+                else
+                    local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        local spiderinfound = false
+                        for _,obj in pairs(vpilecontent[1].getObjects()) do
+                            if obj.name == "Spider-Infected" then
+                                local pos = getObjectFromGUID(table.remove(emptycity,1)).getPosition()
+                                vpilecontent[1].takeObject({position = pos,
+                                    guid = obj.guid,
+                                    smooth = true})
+                                spiderinfound = true
+                                broadcastToColor("Master Strike: Spider-infected henchmen added to first empty city space. You may move it to another empty one.",o.color,o.color)
+                                break
+                            end
+                        end
+                        if spiderinfound == false then
+                            click_get_wound(nil,o.color)
+                        end
+                    elseif vpilecontent[1] then
+                        if vpilecontent[1].getName() == "Spider-Infected" then
+                            local pos = getObjectFromGUID(table.remove(emptycity,1)).getPosition()
+                            vpilecontent[1].setPositionSmooth(pos)
+                            broadcastToColor("Master Strike: Spider-infected henchmen added to first empty city space. You may move it to another empty one.",o.color,o.color)
+                        else
+                            click_get_wound(nil,o.color)
+                        end
+                    else
+                        click_get_wound(nil,o.color)
+                    end
+                end
+            end
+        else
+            dealWounds()
+        end
+        return strikesresolved
+    end
     if mmname == "Stryfe" then
         if cards[1] then
             strikesstacked = strikesstacked + 1
@@ -5912,6 +5978,294 @@ function resolveStrike(mmname,epicness,city,cards)
                 end
             end
         return nil
+    end
+    if mmname == "Supreme Intelligence of the Kree" then
+        local mmcontent = get_decks_and_cards_from_zone(mmLocations[mmname])
+        local shards = 0
+        for _,o in pairs(mmcontent) do
+            if o.getName() == "Shard" then
+                shards = shards + 1
+            end
+        end
+        shards = shards + 1
+        gainShard(nil,mmLocations[mmname])
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local posdiscard = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard)
+            if hand[1] then
+                for _,obj in pairs(hand) do
+                    local cost = hasTag2(obj,"Cost:")
+                    if cost and (cost == shards or cost == shards + 1) then
+                        obj.setPosition(posdiscard)
+                        broadcastToColor("Master Strike: " .. obj.getName() .. " discarded.",o.color,o.color)
+                    end
+                end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Thanos" then
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local handi = table.clone(hand)
+            local iter = 0
+            for i,obj in ipairs(handi) do
+                if not hasTag2(obj,"HC:",4) then
+                    table.remove(hand,i-iter)
+                    iter = iter + 1
+                end
+            end
+            if hand[1] then
+                promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul bound by Thanos.",o.color,o.color)
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "The Beyonder" then
+        if not pocketdimensions then
+            pocketdimensions = {}
+            updatePocketDimensions = function()
+                for _,o in pairs(pocketdimensions) do
+                    local buttonfound = false
+                    for i,b in pairs(getObjectFromGUID(o).getButtons()) do
+                        if b.click_function == "updatePocketDimensions" then
+                            getObjectFromGUID(o).editButton({index=i-1,label=#pocketdimensions})
+                            buttonfound = true
+                            break
+                        end
+                    end
+                    if not buttonfound then
+                        getObjectFromGUID(o).createButton({click_function='updatePocketDimensions',
+                            function_owner=self,
+                            position={0,2,-2},
+                            label=#pocketdimensions,
+                            tooltip="To recruit a card from a Pocket Dimension, you must pay 1 for each Pocket Dimension in play.",
+                            font_size=500,
+                            font_color={1,0,0},
+                            color={1,1,1,0.85},
+                            width=650,height=450})
+                    end
+                end
+            end
+        end
+        local beyond = 5
+        if epicness then
+            beyond = 6
+        end
+        local players = revealCardTrait(beyond,"Cost:",nil,"Cost")
+        for _,o in pairs(players) do
+            click_get_wound(nil,o.color)
+        end
+        pocketDimensionize = function(obj)
+            table.insert(pocketdimensions,obj.guid)
+            updatePocketDimensions()
+            for _,o in pairs(hqguids) do
+                for i,b in pairs(getObjectFromGUID(o).getButtons()) do
+                    if b.click_function == "pocketDimensionize" then
+                        getObjectFromGUID(o).removeButton(i-1)
+                        break
+                    end
+                end
+            end
+        end
+        for _,o in pairs(hqguids) do
+            if #pocketdimensions ~= #hqguids then
+                local already = false
+                for _,k in pairs(pocketdimensions) do
+                    if k == o then
+                        already = true
+                        break
+                    end
+                end
+                if not already then
+                    getObjectFromGUID(o).createButton({click_function='pocketDimensionize',
+                        function_owner=self,
+                        position={0,2,0},
+                        label="Pull",
+                        tooltip="Pull this space into a Pocket Dimension",
+                        font_size=350,
+                        font_color={1,0,0},
+                        color={0,0,0},
+                        width=1000,height=600})
+                end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "The Goblin, Underworld Boss" then
+        local shieldspresent = get_decks_and_cards_from_zone(strikeloc)
+        local shieldcount = 0
+        if shieldspresent[1] then
+            shieldcount = math.abs(shieldspresent[1].getQuantity())
+        end
+        local bsadded = 0
+        for _,o in pairs(Player.getPlayers()) do
+            local vpile = get_decks_and_cards_from_zone(vpileguids[o.color])
+            if vpile[1] and vpile[1].tag == "Deck" then
+                local bsguids = {}
+                for _,obj in pairs(vpile[1].getObjects()) do
+                    for _,k in pairs(obj.tags) do
+                        if k == "Bystander" then
+                            table.insert(bsguids,obj.guid)
+                            break
+                        end
+                    end
+                end
+                local guid = nil
+                if #bsguids > 1 then
+                    bsadded = bsadded + 2
+                    guid = table.remove(bsguids,math.random(#bsguids))
+                    vpile[1].takeObject({position = getObjectFromGUID(strikeloc).getPosition(),
+                        flip=true,
+                        guid=guid,
+                        smooth=true})
+                    if not vpile[1].remainder then
+                        guid = table.remove(bsguids,math.random(#bsguids))
+                        vpile[1].takeObject({position = getObjectFromGUID(strikeloc).getPosition(),
+                            flip=true,
+                            guid=guid,
+                            smooth=true})
+                    else
+                        vpile[1].remainder.flip()
+                        vpile[1].remainder.setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
+                    end
+                else
+                    click_get_wound(nil,o.color)
+                end
+            else
+                click_get_wound(nil,o.color)
+            end
+        end
+        if bsadded > 0 then
+            local shuffleShields = function()
+                get_decks_and_cards_from_zone(strikeloc)[1].randomize()
+            end
+            local shieldsAdded = function()
+                local shields = get_decks_and_cards_from_zone(strikeloc)
+                if shields[1] and math.abs(shields[1].getQuantity()) == bsadded + shieldcount then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(shuffleShields,shieldsAdded)
+        end
+        return strikesresolved
+    end
+    if mmname == "The Grandmaster" then
+        local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+        local color = nil
+        if not herodeck[1] then
+            broadcastToAll("No hero deck found")
+            return nil
+        elseif herodeck[1].tag == "Deck" then
+            for _,o in pairs(herodeck[1].getObjects()[1].tags) do
+                if o:find("HC:") then
+                    color = o:gsub("HC:","")
+                    break
+                end
+            end
+        else
+            color = hasTag2(herodeck[1],"HC:",4)
+        end
+        local grandmasterContest = function(obj)
+            for i,o in pairs(obj) do
+                if i == "Evil" and o == true then
+                    gainShard(nil,mmLocations["The Grandmaster"])
+                    if epicness then
+                        gainShard(nil,mmLocations["The Grandmaster"])
+                        broadcastToAll("Master Strike: Evil won, so the mastermind gains two shards!")
+                    else
+                        broadcastToAll("Master Strike: Evil won, so the mastermind gains a shard!")
+                    end
+                elseif not o and i ~= "Evil" then
+                    click_get_wound(nil,i)
+                end
+            end
+        end
+        contestOfChampions(color,2,grandmasterContest,epicness)
+        return strikesresolved
+    end
+    if mmname == "The Hood" then
+        if epicness then
+            for _,o in pairs(Player.getPlayers()) do
+                local playerBoard = getObjectFromGUID(playerBoards[o.color])
+                local deck = playerBoard.Call('returnDeck')[1]
+                local posdiscard = playerBoard.positionToWorld(pos_discard)
+                local posdraw = playerBoard.positionToWorld({0.957, 0.178, 0.222})
+                if deck then
+                    deck.flip()
+                    deck.setPosition(posdiscard)
+                end
+                local hoodResets = function()
+                    local discard = playerBoard.Call('returnDiscardPile')[1]
+                    local greyguids = {}
+                    for _,obj in pairs(discard.getObjects()) do
+                        local colored = false
+                        for _,k in pairs(obj.tags) do
+                            if k:find("HC:") then
+                                colored = true
+                                break
+                            end
+                        end
+                        if not colored then
+                            table.insert(greyguids,obj.guid)
+                        end
+                    end
+                    while #greyguids > 6 do
+                        table.remove(greyguids,math.random(#greyguids))
+                    end
+                    for _,k in pairs(greyguids) do
+                        discard.takeObject({position = posdraw,
+                            flip = true,
+                            smooth = true})
+                    end
+                end
+                Wait.time(hoodResets,1)
+            end
+        else
+           for _,o in pairs(Player.getPlayers()) do
+                local playerBoard = getObjectFromGUID(playerBoards[o.color])
+                local posdiscard = playerBoard.positionToWorld(pos_discard)
+                local deck = playerBoard.Call('returnDeck')[1]
+                local hoodDiscards = function()
+                    if not deck then
+                        deck = playerBoard.Call('returnDeck')[1]
+                    end
+                    local deckcards = deck.getObjects()
+                    local todiscard = {}
+                    for i=1,6 do
+                        for _,k in pairs(deckcards[i].tags) do
+                            if k:find("HC:") then
+                                table.insert(todiscard,deckcards[i].guid)
+                                break
+                            end
+                        end
+                    end
+                    if todiscard[1] then
+                        for i=1,#todiscard do
+                            deck.takeObject({position = posdiscard,
+                                flip = true,
+                                smooth = true,
+                                guid = todiscard[i]})
+                            if deck.remainder and i < #todiscard then
+                                deck.remainder.flip()
+                                deck.remainder.setPositionSmooth(posdiscard)
+                            end
+                        end
+                    end
+                end
+                if deck and deck.getQuantity() > 5 then
+                    hoodDiscards()
+                else
+                    playerBoard.Call('click_refillDeck')
+                    deck = nil
+                    Wait.time(hoodDiscards,2)
+                end
+           end
+        end
+        return strikesresolved
     end
     if mmname == "The Red King" then
         local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["The Red King"])
@@ -5974,6 +6328,29 @@ function resolveStrike(mmname,epicness,city,cards)
                         Wait.time(feastOn,2)
                     end
                 end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Ultron" then
+        for _,o in pairs(Player.getPlayers()) do
+            if epicness then
+                local hand = o.getHandObjects()
+                local handi = table.clone(hand)
+                local iter = 0
+                if hand[1] then
+                    for i,h in pairs(handi) do
+                        if not hasTag2(h,"HC:",4) then
+                            table.remove(hand,i-iter)
+                            iter = iter + 1
+                        end
+                    end
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    broadcastToColor("Master Strike: Put a non-grey Hero from your hand into a Threat Analysis pile next to Ultron.",o.color,o.color)
+                end
+            else
+                --local players = revealCardTrait("Silver")
+                broadcastToColor("Master Strike: Put a non-grey Hero from your discard pile into a Threat Analysis pile next to Ultron.",o.color,o.color)
             end
         end
         return strikesresolved
@@ -6268,50 +6645,36 @@ function demolish(colors,n,altsource,ko)
     if not n then
         n = 1
     end
-    local name1 = "Discarded"
-    local name2 = "Discard"
+    local name = "Discard "
     if ko then
-       name1 = "KO'd"
-       name2 = "KO"    
+       name = "KO "    
     end
     local callbacksresolved = 0
     local demolishEffect = function()
         for _,o in pairs(colors) do
-            local hand = Player[o].getHandObjects()
-            local costfound = 0
-            if hand[1] then
-                local handcosts = table.clone(herocosts)
-                for _,h in pairs(hand) do
-                    if handcosts[hasTag2(h,"Cost:")] then
-                        handcosts[hasTag2(h,"Cost:")] = handcosts[hasTag2(h,"Cost:")] + 1
-                    end
-                end
-                local posPlay = offerCards(o)
-                local posdiscard = nil
-                if ko == true then
-                    posdiscard = getObjectFromGUID(kopile_guid).getPosition()
-                else
-                    posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
-                end
-                for i=1,10 do
-                    if costs[i] > 0 and handcosts[i] > 0 then
-                        local carddropped = 0
-                        for _,h in pairs(hand) do
-                            if hasTag2(h,"Cost:") == i then
-                                if costs[i] >= handcosts[i] then
-                                    h.setPosition(posdiscard)
-                                    broadcastToColor(name1 .. " " .. h.getName() .. " after getting demolished.",o,o)
-                                    break
-                                else
-                                    posPlay = offerCards(o.color,posPlay)
-                                    h.setPosition(posPlay)
-                                    carddropped = carddropped + 1
-                                end
+            for i=1,10 do
+                if costs[i] > 0 then
+                    local hand = Player[o].getHandObjects()
+                    if hand[1] then
+                        local handcost = 0
+                        local handi = table.clone(hand)
+                        local iter = 0
+                        for j,h in ipairs(handi) do
+                            if handcosts[hasTag2(h,"Cost:")] and handcosts[hasTag2(h,"Cost:")] == i then
+                                handcost = handcost + 1
+                            else
+                                table.remove(hand,j-iter)
+                                iter = iter + 1
                             end
                         end
-                        if carddropped > 0 then
-                            broadcastToColor(name2 .. " " .. costs[i] .. " of the " .. carddropped .. " cards with cost " .. i .. " that were put into play from your hand. Return the rest to hand.",o,o)
+                        local posdiscard = nil
+                        if ko == true then
+                            posdiscard = getObjectFromGUID(kopile_guid).getPosition()
+                        else
+                            posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
                         end
+                        promptDiscard(o,hand,costs[i],posdiscard)
+                        broadcastToColor(name .. math.min(#hand,costs[i]) .. " cards from your hand with cost " .. i,o,o)
                     end
                 end
             end
@@ -6392,7 +6755,7 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
-function promptDiscard(color,handobjects,n,pos,flip)
+function promptDiscard(color,handobjects,n,pos,flip,label,tooltip)
     if not handobjects then
         handobjects = Player[color].getHandObjects()
     end
@@ -6407,13 +6770,19 @@ function promptDiscard(color,handobjects,n,pos,flip)
     if not pos then
         pos = getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
     end
+    if not label then
+        label = "Discard"
+    end
+    if not tooltip then
+        tooltip = "Discard this card."
+    end
     if #handobjects == n then
         for i = 1,n do
             handobjects[i].setPosition(pos)
         end
     else
         for i,o in pairs(handobjects) do
-            _G["discardCard" .. color .. i] = function()
+            _G["discardCard" .. color .. o.guid] = function()
                 n = n-1
                 if n == 0 then
                     for _,p in pairs(handobjects) do
@@ -6423,13 +6792,18 @@ function promptDiscard(color,handobjects,n,pos,flip)
                 if flip then
                     handobjects[i].flip()
                 end
-                handobjects[i].setPosition(pos)
+                if pos ~= "Stay" then
+                    handobjects[i].setPosition(pos)
+                elseif pos then
+                    responses[color] = handobjects[i]
+                    log(responses)
+                end
             end
-            o.createButton({click_function="discardCard" .. color .. i,
+            o.createButton({click_function="discardCard" .. color .. o.guid,
                 function_owner=self,
                 position={0,22,0},
-                label="Discard",
-                tooltip="Discard this card.",
+                label=label,
+                tooltip=tooltip,
                 font_size=250,
                 font_color="Black",
                 color={1,1,1},
@@ -6461,4 +6835,183 @@ function playHorror()
             flip=false,
             smooth=false})
     broadcastToAll("Random horror added to the game, above the board.")
+end
+
+function contestOfChampions(color,n,winf,epicness)
+    broadcastToAll("Contest of Champions for " .. color .. "!")
+    if not n then
+        n = 2
+    end
+    local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+    local highscore = 0
+    if not herodeck[1] then
+        broadcastToAll("No hero deck found.")
+        return nil
+    elseif herodeck[1].tag == "Deck" then
+        local herodeckcards = herodeck[1].getObjects()
+        n = math.min(n,#herodeckcards)
+        for i=1,n do
+            local score = 0
+            local doubled = false
+            for _,k in pairs(herodeckcards[i].tags) do
+                if k:find("HC:") then
+                    doubled = true
+                end
+                if k:find("Cost:") then
+                    score = k:gsub("Cost:","")
+                    score = tonumber(score)
+                end
+            end
+            if doubled then
+                score = score*2
+            end
+            if score > highscore then
+                highscore = score
+            end
+        end
+    else
+        highscore = hasTag2(herodeck[1],"Cost:") or 0
+        if hasTag2(herodeck[1],"HC:") and hasTag2(herodeck[1],"HC:") == color then
+            highscore = highscore*2
+        end
+    end
+    local contestResult = {}
+    for _,o in pairs(Player.getPlayers()) do
+        contestResult[o.color] = false
+    end
+    contestResult["Evil"] = false
+    responses = {["Evil"] = highscore}
+    if mmStorage["The Grandmaster"] and epicness then
+        responses["Evil"] = responses["Evil"] + 2
+    end
+    for _,o in pairs(Player.getPlayers()) do
+        promptDiscard(o.color,nil,1,"Stay",nil,"Choose","Choose for Contest of Champions.")
+        _G["pickTopCard" .. o.color] = function(obj)
+            local deck = obj.Call('returnDeck')
+            if not deck[1] then
+                broadcastToColor("No top card found!",obj.getName(),obj.getName())
+                return nil
+            elseif deck[1].tag == "Deck" then
+                local doubled = false
+                for _,k in pairs(deck[1].getObjects()[1].tags) do
+                    if k:find("Cost:") then
+                       responses[obj.getName()] = tonumber(k:match("%d+"))
+                       break
+                    end
+                    if k:find("HC:") and k:gsub("HC:","") == color then
+                        doubled = true
+                    end
+                end
+                if responses[obj.getName()] and doubled == true then
+                    responses[obj.getName()] = responses[obj.getName()]*2
+                elseif not responses[obj.getName()] then
+                    responses[obj.getName()] = 0
+                end
+            else
+                if hasTag2(deck[1],"Cost:") then
+                    responses[obj.getName()] = hasTag2(deck[1],"Cost:")
+                    if hasTag2(deck[1],"HC:",4) and hasTag2(deck[1],"HC:",4)  == color then
+                        responses[obj.getName()] = responses[obj.getName()]*2
+                    end
+                else
+                    responses[obj.getName()] = 0
+                end
+            end
+            local hand = Player[obj.getName()].getHandObjects()
+            for _,p in pairs(hand) do
+                p.clearButtons()
+            end
+            for i,b in pairs(obj.getButtons()) do
+                if b.click_function == "pickTopCard" .. obj.getName() then
+                    obj.removeButton(i-1)
+                end
+            end
+        end
+        getObjectFromGUID(playerBoards[o.color]).createButton({click_function="pickTopCard" .. o.color,
+            function_owner=self,
+            position={-0.957, 1.178, 0.222},
+            label="Choose",
+            tooltip="Choose for Contest of Champions.",
+            font_size=250,
+            font_color={0,0,0},
+            color={1,1,1},
+            width=750,height=450}) 
+    end
+    local contestFulfilled = function()
+        local c = 0
+        for _,o in pairs(responses) do
+            c = c + 1
+        end
+        if c == #Player.getPlayers() + 1 then
+            return true
+        else
+            return false
+        end
+    end
+    local resolveContest = function()
+        log("resolving contest")
+        local maxscore = 0
+        for i,o in pairs(responses) do
+            if not tonumber(o) then
+                local score = hasTag2(o,"Cost:") or 0
+                if hasTag2(o,"HC:",4) and hasTag2(o,"HC:",4) == color then
+                    score = score*2
+                end
+                responses[i] = score
+                if score > maxscore then
+                    maxscore = score
+                end
+            elseif o > maxscore then
+                maxscore = o
+            end
+        end
+        for i,o in pairs(contestResult) do
+            if responses[i] == maxscore then
+                contestResult[i] = true
+            end
+        end
+        for _,o in pairs(Player.getPlayers()) do
+            local playerBoard = getObjectFromGUID(playerBoards[o.color])
+            for i,b in pairs(playerBoard.getButtons()) do
+                if b.click_function == "pickTopCard" .. o.color then
+                    playerBoard.removeButton(i-1)
+                    break
+                end
+            end
+        end
+        local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+        if herodeck[1].tag == "Deck" then
+            bump(herodeck[1],n+2)
+            local pos = herodeck[1].getPosition()
+            local logCard = function(obj)
+                local cost = hasTag2(obj,"Cost:") or 0
+                local col = hasTag2(obj,"HC:",4) or "Grey"
+                printToAll(obj.getName() .. " with cost of " .. cost .. " and color " .. col .. " was revealed from the hero deck.")
+            end
+            for i=1,n do
+                herodeck[1].takeObject({position = pos,
+                    smooth = true,
+                    callback_function = logCard})
+                pos.y = pos.y + 1
+            end
+        end
+        log(contestResult)
+        winf(contestResult)
+    end
+    Wait.condition(resolveContest,contestFulfilled)
+end
+
+function getStrikeloc(mmname)
+    local strikeloc = nil
+    if mmLocations[mmname] == mmZoneGUID then
+        strikeloc = strikeZoneGUID
+    else
+        for i,o in pairs(topBoardGUIDs) do
+            if o == mmLocations[mmname] then
+                strikeloc = topBoardGUIDs[i-1]
+                break
+            end
+        end
+    end
+    return strikeloc
 end
