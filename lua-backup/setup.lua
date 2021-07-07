@@ -574,6 +574,9 @@ function setupTransformingMM(mmname,mmZone)
                 smooth=true})
         end
         function updateRoss()
+            if not mmActive(mmname) then
+                return nil
+            end
             if transformed["General Ross"] == false then
                 if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
                     getObjectFromGUID(strikeZoneGUID).clearButtons()
@@ -647,6 +650,9 @@ function setupTransformingMM(mmname,mmZone)
     end
     if mmname == "Illuminati, Secret Society" then
         function updateIlluminatiSS()
+            if not mmActive(mmname) then
+                return nil
+            end
             if transformed["Illuminati, Secret Society"] == true then
                 local notes = getNotes()
                 setNotes(notes .. "\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.")
@@ -658,6 +664,9 @@ function setupTransformingMM(mmname,mmZone)
     end
     if mmname == "King Hulk, Sakaarson" then
         function updateHulk()
+            if not mmActive(mmname) then
+                return nil
+            end
             if transformed["King Hulk, Sakaarson"] == false then
                 local warbound = 0
                 for _,o in pairs(city_zones_guids) do
@@ -729,6 +738,9 @@ function setupTransformingMM(mmname,mmZone)
         local notes = getNotes()
         setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
         function updateMODOK()
+            if not mmActive(mmname) then
+                return nil
+            end
             if transformed["M.O.D.O.K."] == false then
                 if mmZone.getButtons()[3] then
                     mmZone.removeButton(2)
@@ -752,6 +764,9 @@ function setupTransformingMM(mmname,mmZone)
     end
     if mmname == "The Red King" then
         function updateRedKing()
+            if not mmActive(mmname) then
+                return nil
+            end
             if transformed["The Red King"] == false then
                 local villainfound = false
                 for _,o in pairs(city_zones_guids) do
@@ -802,6 +817,9 @@ function setupTransformingMM(mmname,mmZone)
     end
     if mmname == "The Sentry" then
         function updateSentry()
+            if not mmActive(mmname) then
+                return nil
+            end
             if transformed["The Sentry"] == true then
                 woundedFury(mmZone,Turns.turn_color)
             elseif transformed["The Sentry"] == false then
@@ -1399,14 +1417,9 @@ function import_setup()
             end
         end
         local heroDeckComplete = function()
-            local test = heroZone.getObjects()[2]
-            if test ~= nil then 
-                local test2 = #heroParts
-                if test.getQuantity() == test2*14 then
-                    return true
-                else
-                    return false
-                end
+            local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
+            if herodeck and herodeck.getQuantity() == #heroParts*14 then
+                return true
             else
                 return false
             end
@@ -1687,7 +1700,11 @@ function schemeSpecials (setupParts,mmGUID)
     end
     if setupParts[1] == "Mutating Gamma Rays" or setupParts[1] == "Shoot Hulk into Space" then
         log("Extra Hulk hero in mutation pile.")
-        findInPile(setupParts[9],heroPileGUID,twistZoneGUID)
+        local hulkshuffle = function(obj)
+            obj.flip()
+            obj.randomize()
+        end
+        findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
     end
     if setupParts[1] == "Ruin the Perfect Wedding" then
         local tobewed = {}
@@ -1851,12 +1868,24 @@ function schemeSpecials (setupParts,mmGUID)
         local makeChampions = function()
             local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
             herodeck.randomize()
+            if not herodeck.is_face_down then
+                herodeck.flip()
+            end
             local posi = getObjectFromGUID(topBoardGUIDs[1])
             print("Putting 11 contestants above the board!")
+            contestants = {}
+            logContestant = function(obj)
+                table.insert(contestants,obj.guid)
+            end
+            returnContestants = function()
+                return contestants
+            end
             for i=1,11 do
-                herodeck.takeObject({
-                    position = {x=posi.getPosition().x+4*i,y=posi.getPosition().y,z=posi.getPosition().z}
-                    })
+                Wait.time(function() herodeck.takeObject({
+                    position = {x=posi.getPosition().x+4*i,y=posi.getPosition().y,z=posi.getPosition().z},
+                    flip = true,
+                    callback_function = logContestant
+                }) end,i/3)
             end
         end
         Wait.condition(makeChampions,heroDeckComplete)
@@ -2887,7 +2916,7 @@ function setupMasterminds(objname,epicness)
             Wait.time(updateUltron,2)
         end
     end
-    if mmname == "Wasteland Hulk" then
+    if objname == "Wasteland Hulk" then
         if not mmActive(objname) then
             return nil
         end

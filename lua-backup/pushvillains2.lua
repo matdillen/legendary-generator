@@ -3594,6 +3594,99 @@ function twistSpecials(cards,city,schemeParts)
         updateTwistPower()
         return nil
     end
+    if schemeParts[1] == "Reveal Heroes' Secret Identities" then
+        if twistsresolved == 1 then
+            unmasked = {}
+        end
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            local isUnmasked = false
+            if hero then
+                for _,p in pairs(unmasked) do
+                    if hero.getName() == p then
+                        isUnmasked = true
+                        break
+                    end
+                end
+                if not isUnmasked then
+                    _G["unmaskHero" .. hero.guid] = function(obj)
+                        local hero = obj.Call('getHeroUp')
+                        if not hero then
+                            return nil
+                        else
+                            for _,k in pairs(hqguids) do
+                                local butt = getObjectFromGUID(k).getButtons()
+                                for i,b in pairs(butt) do
+                                    if b.click_function:find("unmaskHero") then
+                                        getObjectFromGUID(k).removeButton(i-1)
+                                    end
+                                end
+                            end
+                            table.insert(unmasked,hero.getName())
+                            hero.setPositionSmooth(getObjectFromGUID(twistZoneGUID).getPosition())
+                            obj.Call('click_draw_hero')
+                        end
+                    end
+                    getObjectFromGUID(o).createButton({click_function="unmaskHero" .. hero.guid,
+                        function_owner=self,
+                        position={0,2,0},
+                        label="Unmask",
+                        tooltip="Unmask this hero",
+                        font_size=250,
+                        font_color="Black",
+                        color={1,1,1},
+                        width=750,height=450})
+                end
+            end
+        end
+        function checkUnmasked()
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    local isUnmasked = false
+                    for _,k in pairs(unmasked) do
+                        if hero.getName() == k then
+                            updateUnmasked(o,true)
+                            isUnmasked = true
+                            break
+                        end
+                    end
+                    if isUnmasked == false then
+                        updateUnmasked(o,false)
+                    end
+                end
+            end
+        end
+        function updateUnmasked(guid,isUnmasked)
+            local butt = getObjectFromGUID(guid).getButtons()
+            for i,o in pairs(butt) do
+                if o.label == "+1*" then
+                    if isUnmasked == false then
+                        getObjectFromGUID(guid).removeButton(i-1)
+                    end
+                    return nil
+                end
+            end
+            if isUnmasked == true then
+                getObjectFromGUID(guid).createButton({click_function='updateTwistPower',
+                    function_owner=self,
+                    position={0,2,-2},
+                    label="+1*",
+                    tooltip="All cards with Unmasked Hero Names cost +1 to recruit.",
+                    font_size=500,
+                    font_color="Yellow",
+                    color={1,1,1,0.85},
+                    width=0})
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(checkUnmasked,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(checkUnmasked,1)
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Ruin the Perfect Wedding" then
         local pcolor = Turns.turn_color
         if pcolor == "White" then
@@ -3842,6 +3935,60 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Shoot Hulk into Space" then
+        if twistsresolved == 1 then
+            function click_buy_hulk(obj,player_clicker_color)
+                local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+                if not hulkdeck then
+                    return nil
+                end
+                local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+                local dest = playerBoard.positionToWorld(pos_discard)
+                dest.y = dest.y + 3
+                if player_clicker_color == "White" then
+                    angle = 90
+                elseif player_clicker_color == "Blue" then
+                    angle = -90
+                else
+                    angle = 180
+                end
+                local brot = {x=0, y=angle, z=0}
+                if hulkdeck.tag == "Card" then
+                    hulkdeck.setRotationSmooth(brot)
+                    hulkdeck.setPositionSmooth(dest)
+                else
+                    hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+                end
+            end
+            getObjectFromGUID("bd3ef1").createButton({
+                 click_function="click_buy_hulk", 
+                 function_owner=self,
+                 position={0,0,-0.5},
+                 rotation={0,180,0},
+                 label="Buy hero",
+                 tooltip="Buy the top card of the Prison Ship.",
+                 color={1,1,1,1},
+                 width=800,
+                 height=200,
+                 font_size = 100
+            })
+        end
+        local hulkdeck = get_decks_and_cards_from_zone(twistZoneGUID)
+        if hulkdeck[1] and hulkdeck[1].getQuantity() > 2 then
+            hulkdeck[1].takeObject({position = getObjectFromGUID("bd3ef1").getPosition(),
+                flip = true,
+                smooth = true})
+            hulkdeck[1].takeObject({position = getObjectFromGUID("bd3ef1").getPosition(),
+                flip = true,
+                smooth = true})
+        elseif hulkdeck[1] then
+            hulkdeck[1].flip()
+            hulkdeck[1].setPositionSmooth(getObjectFromGUID("bd3ef1").getPosition())
+        else
+            broadcastToAll("Scheme Twist: No Hulk deck found, so Evil Wins!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Silence the Witnesses" then
         local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
         if not scheme[1] then
@@ -4031,6 +4178,76 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme card not found?")
         end
         return nil
+    end
+    if schemeParts[1] == "The Clone Saga" then
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local cardids = {}
+            local clonecheck = false
+            for _,k in pairs(hand) do
+                if hasTag2(k,"HC:",4) then
+                    local json = k.getJSON()
+                    local id = json:match("\"CardID\": %d+"):gsub("\"CardID\": ","")
+                    --log(id)
+                    for _,l in pairs(cardids) do
+                        if id == l then
+                            clonecheck = true
+                            break
+                        end
+                    end
+                    if clonecheck == true then
+                        break
+                    else
+                        table.insert(cardids,id)
+                    end
+                end
+            end
+            if clonecheck == false and #hand > 3 then
+                promptDiscard(o.color,nil,#hand-3)
+                broadcastToColor("Scheme Twist: Discard down to 3 cards!",o.color,o.color)
+            end
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "The Contest of Champions" then
+        if twistsresolved == 1 then
+            contestantsPV = table.clone(getObjectFromGUID("912967").Call('returnContestants'))
+        end
+        local contestant = getObjectFromGUID(table.remove(contestantsPV,1))
+        local color = hasTag2(contestant,"HC:",4)
+        koCard(contestant)
+        local championContest = function(obj)
+            for i,o in pairs(obj) do
+                if i == "Evil" and o == true then
+                    local woundsdeck = getObjectFromGUID(woundsDeckGUID)
+                    if woundsdeck.tag == "Deck" then
+                        woundsdeck.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                            flip=true,
+                            smooth=true})
+                    else
+                        woundsdeck.flip()
+                        woundsdeck.setPositionSmooth(getObjectFromGUID(twistZoneGUID).getPosition())
+                    end
+                    broadcastToAll("Scheme Twist: Evil won the contest, so a wound was stacked next to the scheme as an Evil Triumph!")
+                elseif o == false and i ~= "Evil" then
+                    promptDiscard(i)
+                    broadcastToColor("You lost the contest, so discard a card",i,i)
+                end
+            end
+        end
+        local contestn = 0
+        local epicgrandmaster = false
+        if schemeParts[4] == "The Grandmaster - epic" then
+            epicgrandmaster = true
+        end
+        if twistsresolved < 5 then
+            contestn = 2
+        elseif twistsresolved < 9 then
+            contestn = 4
+        elseif twistsresolved < 12 then 
+            contestn = 6
+        end
+        contestOfChampions(color,contestn,championContest,epicgrandmaster)
     end
     if schemeParts[1] == "The Dark Phoenix Saga" then
         local kopilecontent = get_decks_and_cards_from_zone(kopile_guid)
@@ -4275,6 +4492,11 @@ function twistSpecials(cards,city,schemeParts)
                 powerButton(scheme[1],"updateTwistPower",9)
                 scheme[1].addTag("Mastermind")
                 scheme[1].addTag("VP9")
+                scheme[1].setName("God-Emperor")
+                table.insert(mmStorage,"God-Emperor")
+                mmLocations["God-Emperor"] = schemeZoneGUID
+                getObjectFromGUID("912967").Call('updateMM')
+                getObjectFromGUID("912967").Call('setupMasterminds',"God-Emperor")
             else
                 broadcastToAll("Missing scheme card?")
                 return nil    
@@ -4285,16 +4507,25 @@ function twistSpecials(cards,city,schemeParts)
             if scheme[1] then 
                 scheme[1].editButton({label = 9 + 2*twistsstacked})
             end
+            broadcastToAll("Scheme Twist: The God-Emperor gets +2")
             return nil
         elseif twistsresolved == 7 then
-            local mm =get_decks_and_cards_from_zone(mmZoneGUID)
-            broadcastToAll("Scheme Twist: The God-Emperor KO'd the mastermind! KO any other remaining masterminds other than the God-Emperor!")
-            if mm[1] then
-                for _,o in pairs(mm) do
-                    if o.is_face_down then
-                        o.flip()
+            broadcastToAll("Scheme Twist: The God-Emperor KO's all other masterminds!")
+            local iter = 0
+            for i,o in ipairs(mmStorage) do
+                if o ~= "God-Emperor" then
+                    local mm = get_decks_and_cards_from_zone(mmLocations[o])
+                    if mm[1] then
+                        for _,o in pairs(mm) do
+                            if o.is_face_down then
+                                o.flip()
+                            end
+                            koCard(o)
+                        end
                     end
-                    koCard(o)
+                    getObjectFromGUID(mmLocations[o]).clearButtons()
+                    table.remove(mmStorage,i-iter)
+                    iter = iter + 1
                 end
             end
         elseif twistsresolved == 8 then
@@ -4302,8 +4533,166 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "The Korvac Saga" then
+        if twistsresolved % 2 == 1 and twistsresolved < 9 then
+            local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
+            scheme[1].flip()
+            scheme[1].addTag("VP9")
+            scheme[1].addTag("Villain")
+            getObjectFromGUID(schemeZoneGUID).createButton({click_function='updateTwistPower',
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="19",
+                tooltip="The Korvac entity",
+                font_size=350,
+                font_color={1,0,0},
+                color={0,0,0,0.75},
+                width=250,height=250})
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                if # hand > 4 then
+                    promptDiscard(o.color,hand,#hand-4)
+                end
+                local vpile = getObjectFromGUID(vpileguids[o.color])
+                _G["koBystander" .. o.color] = function(obj)
+                    local vpilecontent = get_decks_and_cards_from_zone(obj.guid)
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        for _,c in pairs(vpilecontent[1].getObjects()) do
+                            for _,t in pairs(c.tags) do
+                                if t == "Bystander" then
+                                    bsfound = true
+                                    vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                                        guid = c.guid})
+                                    break
+                                end
+                            end
+                            if bsfound == true then
+                                break
+                            end
+                        end
+                    elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
+                        vpilecontent[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                    end
+                    local vpbuttons = obj.getButtons()
+                    local color = nil
+                    for i,b in pairs(vpbuttons) do
+                        if b.click_function:find("koBystander") then
+                            color = b.click_function:gsub("koBystander","")
+                            b.removeButton(i-1)
+                            break
+                        end
+                    end
+                    local hand = Player[color].getHandObjects()
+                    for _,h in pairs(hand) do
+                        h.clearButtons()
+                    end
+                end
+                vpile.createButton({click_function="koBystander" .. o.color,
+                    function_owner=self,
+                    position={0,22,0},
+                    label="KO",
+                    tooltip="KO a bystander.",
+                    font_size=250,
+                    font_color="Black",
+                    color={1,1,1},
+                    width=750,height=450})
+            end
+        elseif twistsresolved < 8 then
+            local players = revealCardTrait("Avengers","Team:")
+            for _,o in pairs(players) do
+                click_get_wound(nil,o.color)
+            end
+            local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
+            scheme[1].flip()
+            scheme[1].removeTag("VP9")
+            scheme[1].removeTag("Villain")
+            getObjectFromGUID(schemeZoneGUID).clearButtons()
+        elseif twistsresolved == 8 then
+            broadcastToAll("Scheme Twist: Evil wins!")
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "The Kree-Skrull War" then
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if hasTag2(obj,"Group:",7) and (hasTag2(obj,"Group:",7) == "Kree Starforce" or hasTag2(obj,"Group:",7) == "Skrulls") then
+                        shift_to_next(citycontent,getObjectFromGUID(escape_zone_guid),0)
+                        break
+                    end
+                end
+            end
+        end
+        local kreeskrull = function()
+            local escaped = get_decks_and_cards_from_zone(escape_zone_guid)
+            local skree = 0
+            if escaped[1] and escaped[1].tag == "Deck" then
+                for _,o in pairs(escaped[1].getObjects()) do
+                    for _,tag in pairs(o.tags) do
+                        if tag == "Group:Kree Starforce" then
+                            skree = skree - 1
+                            break
+                        elseif tag == "Group:Skrulls" then
+                            skree = skree + 1
+                            break
+                        end
+                    end
+                end
+            elseif escaped[1] and hasTag2(obj,"Group:",7) then
+                if hasTag2(obj,"Group:",7) == "Kree Starforce" then
+                    skree = -1
+                elseif hasTag2(obj,"Group:",7) == "Skrulls" then
+                    skree = 1
+                end
+            end
+            if skree < 0 then
+                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+                broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Kree Conquest!")
+            elseif skree > 0 then
+                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[4]).getPosition())
+                broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Skrull Conquest!")
+            else
+                broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Stalemate, no conquest!")
+            end
+        end
+        Wait.time(kreeskrull,2)
+        return nil
+    end
+    if schemeParts[1] == "The Legacy Virus" then
+        local players =revealCardTrait("Silver")
+        for _,o in pairs(players) do
+            click_get_wound(nil,o.color)
+            broadcastToAll("Scheme Twist. Player " .. o.color .. " got a wound!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "The Mark of Khonshu" then
         playVillains(2)
+        return twistsresolved
+    end
+    if schemeParts[1] == "The Unbreakable Enigma Code" then
+        if twistsresolved < 6 then
+            local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+            if herodeck[1] and herodeck[1].tag == "Deck" then
+                herodeck[1].takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                    smooth = true})
+            elseif herodeck[1] then
+                herodeck[1].setPositionSmooth(getObjectFromGUID(twistZoneGUID).getPosition())
+            else
+                broadcastToAll("Hero deck ran out!")
+                return twistsresolved
+            end
+            local shufflethecode = function()
+                local code = get_decks_and_cards_from_zone(twistZoneGUID)
+                code[1].randomize()
+                broadcastToAll("Scheme Twist: Card from the hero deck added to the Enigma Code!")
+            end
+            Wait.time(shufflethecode,2)
+        elseif twistsresolved == 6 then
+            broadcastToAll("Scheme Twist: Evil Wins!")
+        end
         return twistsresolved
     end
     if schemeParts[1] == "Tornado of Terrigen Mists" then
@@ -4430,6 +4819,68 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         return twistsresolved
+    end
+    if schemeParts[1] == "Transform Commuters into Giant Ants" then
+        stackTwist(cards[1])
+        if twistsresolved == 1 then
+            getObjectFromGUID(topBoardGUIDs[2]).createButton({click_function="updateTwistPower",
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label="2",
+                tooltip="Fight for 2 to rescue one of these Giant Ant bystanders.",
+                font_size=350,
+                font_color="Red",
+                color={0,0,0,0.75},
+                width=250,height=250})
+        end
+        for i=1,twistsstacked do
+            addBystanders(topBoardGUIDs[2],false,true)
+        end
+        return nil
+    end
+    if schemeParts[1] == "Trap Heroes in the Microverse" then
+        playVillains(2)
+        return twistsresolved
+    end
+    if schemeParts[1] == "Trapped in the Insane Asylum" then
+        cards[1].setName("Psychotic Break")
+        cards[1].setDescription("ARTIFACT: Not really, but this ensures it sticks during cleanup.")
+        cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5,4,4}))
+        broadcastToAll("Scheme Twist: Discard a card and pass the break to the next player, or keep it!")
+        --shiftPsychoticBreak = function()
+            --cards[1]
+        --end
+        promptDiscard(Turns.turn_color)
+        local keepPsychoticBreak = function(obj)
+            obj.clearButtons()
+            local pos = obj.getPosition()
+            if Turns.turn_color == "White" then
+                pos.z = pos.z - 3
+            elseif Turns.turn_color == "Blue" then
+                pos.z = pos.z + 3
+            else
+                pos.x = pos.x - 3
+            end
+            obj.setPositionSmooth(pos)
+            local hand = Player[Turns.turn_color].getHandObjects()
+            for _,h in pairs(hand) do
+                h.clearButtons()
+            end
+        end
+        cards[1].createButton({click_function="keepPsychoticBreak",
+            function_owner=self,
+            position={0,22,0},
+            label="Keep",
+            tooltip="Keep this psychotic break.",
+            font_size=250,
+            font_color="Black",
+            color={1,1,1},
+            width=750,height=450})
+        --function onPlayerTurn(player,previous_player)
+            
+        --end
+        return nil
     end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
         local adam = get_decks_and_cards_from_zone(topBoardGUIDs[1])
@@ -5020,14 +5471,14 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return nil
     end
-    if mmname == "Dr. Doom" then
+    if mmname == "Dr. Doom" or mmname == "God-Emperor" then
         local players = revealCardTrait("Silver")
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             if hand[1] and #hand == 6 then
                 broadcastToAll("Master Strike: Player " .. o.color .. " puts two cards from their hand on top of their deck.")
                 local pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld({0.957, 1, 0.222})
-                promptDiscard(o.color,nil,2,pos,true)
+                promptDiscard(o.color,nil,2,pos,true,"Top","Put on top of deck.")
             end
         end
         return strikesresolved
@@ -6632,6 +7083,16 @@ function nonTwistspecials(cards,city,schemeParts)
             cards[1].addTag("VP4")
         end
     end
+    if schemeParts[1] == "Trap Heroes in the Microverse" and cityEntering == 1 then
+        if hasTag2(cards[1],"Team:",6) then
+            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:") .. "*")
+            if cards[1].getDescription() == "" then
+                cards[1].setDescription("SIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
+            else
+                cards[1].setDescription(cards[1].getDescription() .. "\r\nSIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
+            end
+        end
+    end
     return twistsresolved
 end
 
@@ -6755,7 +7216,7 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
-function promptDiscard(color,handobjects,n,pos,flip,label,tooltip)
+function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf)
     if not handobjects then
         handobjects = Player[color].getHandObjects()
     end
@@ -6796,7 +7257,10 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip)
                     handobjects[i].setPosition(pos)
                 elseif pos then
                     responses[color] = handobjects[i]
-                    log(responses)
+                    --log(responses)
+                end
+                if triggerf then
+                    triggerf()
                 end
             end
             o.createButton({click_function="discardCard" .. color .. o.guid,
@@ -6854,7 +7318,7 @@ function contestOfChampions(color,n,winf,epicness)
             local score = 0
             local doubled = false
             for _,k in pairs(herodeckcards[i].tags) do
-                if k:find("HC:") then
+                if k:find("HC:") and k:gsub("HC:","") == color then
                     doubled = true
                 end
                 if k:find("Cost:") then
@@ -6950,6 +7414,7 @@ function contestOfChampions(color,n,winf,epicness)
     end
     local resolveContest = function()
         log("resolving contest")
+        log(responses)
         local maxscore = 0
         for i,o in pairs(responses) do
             if not tonumber(o) then
