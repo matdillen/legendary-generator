@@ -4995,18 +4995,98 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "World War Hulk" then
-        -- if not lurking then
-            -- lurking = table.clone(getObjectFromGUID("912967").Call('returnLurking')
-        -- end
-        -- if twistsresolved < 9 then
-            -- local newmm = lurking[math.random(#lurking)]
-            -- table.insert(mmStorage,newmm)
-            -- mmLocations[newmm] = mmZoneGUID
-            -- getObjectFromGUID("912967").Call('updateMM')
-        -- elseif twistsresolved == 9 then
-            -- broadcastToAll("Scheme Twist: Evil wins!")
-        -- end
-        -- return twistsresolved
+        if not lurking then
+            lurking = table.clone(getObjectFromGUID("912967").Call('returnLurking'))
+            lurkingLocations = {}
+            for i = 1,3 do
+                lurkingLocations[lurking[i]] = topBoardGUIDs[2*i]
+            end
+            function addNewLurkingMM()
+                if lurking[1] then
+                    local newmm = table.remove(lurking,math.random(#lurking))
+                    table.insert(mmStorage,newmm)
+                    mmLocations[newmm] = mmZoneGUID
+                    local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
+                    local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
+                    for _,o in pairs(newmmcontent) do
+                        o.setPositionSmooth(newmmposition)
+                        newmmposition.y = newmmposition.y + 4
+                    end
+                    local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
+                    local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(newmm,lurkingLocations))
+                    if newstrikecontent[1] then
+                        for _,o in pairs(newstrikecontent) do
+                            o.setPositionSmooth(newstrikeposition)
+                            newstrikeposition.y = newstrikeposition.y + 4
+                        end
+                    end
+                    getObjectFromGUID("912967").Call('updateMM')
+                    getObjectFromGUID("912967").Call('fightButton',getObjectFromGUID(mmZoneGUID))
+                    if getObjectFromGUID("912967").Call('mmGetCards',newmm,true) == true then
+                        getObjectFromGUID("912967").Call('addTransformButton',getObjectFromGUID(mmZoneGUID))
+                    end
+                else
+                    broadcastToAll("No More masterminds found, so you WIN!")
+                    return nil
+                end
+            end
+        end
+        if twistsresolved < 9 and lurking[1] then
+            local newmm = table.remove(lurking,math.random(#lurking))
+            local currentmm = nil
+            for i,o in pairs(mmLocations) do
+                if o == mmZoneGUID then
+                    currentmm = i
+                    break
+                end
+            end
+            table.insert(mmStorage,newmm)
+            table.insert(lurking,currentmm)
+            lurkingLocations[currentmm] = lurkingLocations[newmm]
+            local lurkingpos = getObjectFromGUID(lurkingLocations[currentmm]).getPosition()
+            local strikelurkingpos = getObjectFromGUID(getStrikeloc(currentmm,lurkingLocations)).getPosition()
+            for i,o in pairs(mmStorage) do
+                if o == currentmm then
+                    table.remove(mmStorage,i)
+                    break
+                end
+            end
+            mmLocations[newmm] = mmZoneGUID
+            local mmcontent = get_decks_and_cards_from_zone(mmZoneGUID)
+            for _,o in pairs(mmcontent) do
+                o.setPositionSmooth(lurkingpos)
+                lurkingpos.y = lurkingpos.y + 4
+            end
+            local strikecontent = get_decks_and_cards_from_zone(strikeZoneGUID)
+            if strikecontent[1] then
+                for _,o in pairs(strikecontent) do
+                    o.setPositionSmooth(strikelurkingpos)
+                    strikelurkingpos.y = strikelurkingpos.y + 4
+                end
+            end
+            local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
+            local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
+            for _,o in pairs(newmmcontent) do
+                o.setPositionSmooth(newmmposition)
+                newmmposition.y = newmmposition.y + 4
+            end
+            local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
+            local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(currentmm,lurkingLocations))
+            if newstrikecontent[1] then
+                for _,o in pairs(newstrikecontent) do
+                    o.setPositionSmooth(newstrikeposition)
+                    newstrikeposition.y = newstrikeposition.y + 4
+                end
+            end
+            getObjectFromGUID("912967").Call('updateMM')
+            if getObjectFromGUID("912967").Call('mmGetCards',newmm,true) == true then
+                getObjectFromGUID("912967").Call('addTransformButton',getObjectFromGUID(mmZoneGUID))
+            end
+            broadcastToAll("Scheme Twist: Mastermind was switched with a random lurking mastermind!")
+        elseif twistsresolved == 9 then
+            broadcastToAll("Scheme Twist: Evil wins!")
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "X-Cutioner's Song" then
         koCard(cards[1])
@@ -7598,13 +7678,16 @@ function contestOfChampions(color,n,winf,epicness)
     Wait.condition(resolveContest,contestFulfilled)
 end
 
-function getStrikeloc(mmname)
+function getStrikeloc(mmname,alttable)
+    if not alttable then
+        alttable = mmLocations
+    end
     local strikeloc = nil
-    if mmLocations[mmname] == mmZoneGUID then
+    if alttable[mmname] == mmZoneGUID then
         strikeloc = strikeZoneGUID
     else
         for i,o in pairs(topBoardGUIDs) do
-            if o == mmLocations[mmname] then
+            if o == alttable[mmname] then
                 strikeloc = topBoardGUIDs[i-1]
                 break
             end

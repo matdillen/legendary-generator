@@ -148,6 +148,7 @@ function onLoad()
     
     autoplay = true
     finalblow = true
+    finalblowfixed = false
     Turns.enable = true
 end
 
@@ -198,6 +199,9 @@ function toggle_autoplay(obj,player_clicker_color)
 end
 
 function toggle_finalblow(obj,player_clicker_color)
+    if finalblowfixed then
+        return nil
+    end
     local butt = self.getButtons()
     for _,o in pairs(butt) do
         if o.click_function == "toggle_finalblow" then
@@ -376,6 +380,8 @@ function mmGetCards(mmname,transformed)
     end
     if transformed and (mmname == "General Ross" or mmname == "Illuminati, Secret Society" or mmname == "King Hulk, Sakaarson" or mmname == "M.O.D.O.K." or mmname == "The Red King" or mmname == "The Sentry") then
         return true
+    elseif transformed then
+        return false
     else
         return(mmcardnumber)
     end
@@ -550,11 +556,8 @@ function transformChanges(name)
     end
 end
 
-function setupTransformingMM(mmname,mmZone)
-    if not mmZone then
-        mmZone = getObjectFromGUID(mmZoneGUID)
-    end
-    mmZone.createButton({click_function='transformMM',
+function addTransformButton(zone)
+    zone.createButton({click_function='transformMM',
         function_owner=self,
         position={0,0,1.2},
         rotation={0,180,0},
@@ -565,6 +568,13 @@ function setupTransformingMM(mmname,mmZone)
         color="Green",
         width=600,
         height=350})
+end
+
+function setupTransformingMM(mmname,mmZone)
+    if not mmZone then
+        mmZone = getObjectFromGUID(mmZoneGUID)
+    end
+    addTransformButton(mmZone)
     transformed[mmname] = false
     if objname == "General Ross" then
         local bsPile = getObjectFromGUID(bystandersPileGUID)
@@ -1951,6 +1961,8 @@ function schemeSpecials (setupParts,mmGUID)
     end
     
     if setupParts[1] == "World War Hulk" then
+        finalblow = false
+        finalblowfixed = true
         log("Moving extra masterminds outside game.")
         lurkingMasterminds = {}
         function returnLurking()
@@ -1962,10 +1974,13 @@ function schemeSpecials (setupParts,mmGUID)
         local tacticsKill = function(obj)
             for i=1,3 do
                 if lurkingMasterminds[i] == obj.getName() then
-                    local zonetokill = getObjectFromGUID(topBoardGUIDs[i])
+                    local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
+                    mmLocationsS[obj.getName()] = topBoardGUIDs[i*2]
+                    setupMasterminds(obj.getName(),false,true)
                     for j,o in pairs(zonetokill.getObjects()) do
                         if o.name == "Deck" then
                             decktokill = zonetokill.getObjects()[j]
+                            decktokill.flip()
                         end
                     end
                 end
@@ -1990,7 +2005,7 @@ function schemeSpecials (setupParts,mmGUID)
             end
         end
         for i=1,3 do
-            findInPile(lurkingMasterminds[i],mmPileGUID,topBoardGUIDs[i],tyrantShuffleHulk)
+            findInPile(lurkingMasterminds[i],mmPileGUID,topBoardGUIDs[i*2],tyrantShuffleHulk)
         end
     end
     return nil
@@ -2010,8 +2025,10 @@ function updateMM()
     mmLocationsS = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM',{true}),true)
 end
 
-function setupMasterminds(objname,epicness)
-    fightButton(mmLocationsS[objname])
+function setupMasterminds(objname,epicness,lurking)
+    if not lurking then
+        fightButton(mmLocationsS[objname])
+    end
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocationsS[objname]))
     end
@@ -3010,7 +3027,7 @@ function fightButton(zone)
                         broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
                     end
                     getObjectFromGUID("f3c7e3").Call('retrieveMM') 
-                elseif not finalblow and content[1].tag == "Card" and content[1].getName() == name then
+                elseif not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2] then
                     broadcastToAll(name .. " was defeated!")
                     koCard(content[1])
                     obj.clearButtons()
@@ -3027,6 +3044,9 @@ function fightButton(zone)
                         broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
                     end
                     getObjectFromGUID("f3c7e3").Call('retrieveMM') 
+                    if setupParts[1] == "World War Hulk" then
+                        getObjectFromGUID("f3c7e3").Call('addNewLurkingMM') 
+                    end
                 elseif transformed[name] ~= nil then
                     transformMM(getObjectFromGUID(mmLocationsS[name]))
                 end
