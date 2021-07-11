@@ -317,8 +317,9 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                     zPos = targetZone_final.getPosition().z
                     broadcastToAll("Additional shards beyond the first were returned to the supply!",{r=0,g=1,b=0}) 
                 end
-            elseif desc:find("VILLAINOUS WEAPON") then
+            elseif desc:find("VILLAINOUS WEAPON") and not hasTag2(obj,"Cost:") then
                 -- weapons move to mastermind upon escaping
+                -- extra cost tag condition if it's not a true villainous weapon, just a captured hero
                 broadcastToAll("Villainous Weapon Escaped", {r=1,g=0,b=0})
                 targetZone_final = getObjectFromGUID("a91fe7")
                 zPos = targetZone_final.getPosition().z - 1.5
@@ -500,7 +501,7 @@ function push_all(city)
                         --as a default, move the twist to the twists zone
                         --city is otherwise not affected
                         --Age of Ultron turns the twist into a villain, so it can enter
-                        if schemeParts[1] ~= "Age of Ultron" and schemeParts[1] ~= "Steal the Weaponized Plutonium" then
+                        if schemeParts[1] ~= "Age of Ultron" and schemeParts[1] ~= "Steal the Weaponized Plutonium" and schemeParts[1] ~= "War of the Frost Giants" then
                             return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
                         end
                     end
@@ -605,10 +606,12 @@ function push_all(city)
                                     --bystanders go to the mastermind
                                     targetZone = getObjectFromGUID(mmZoneGUID)
                                     broadcastToAll("Bystander moved to Mastermind as city is empty!",{r=1,g=0,b=0})
-                                elseif vw == true then
+                                elseif vw == true and not hasTag2(cards[1],"Cost:") then
                                     --weapons get KO'd
                                     targetZone = getObjectFromGUID(kopile_guid)
                                     broadcastToAll("Villainous Weapon KO'd as city is empty!",{r=1,g=0,b=0})
+                                elseif vw == true then
+                                    targetZone = getObjectFromGUID(mmZoneGUID)
                                 end
                             end
                         end
@@ -4614,50 +4617,67 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "The Kree-Skrull War" then
-        for _,o in pairs(city) do
-            local citycontent = get_decks_and_cards_from_zone(o)
-            if citycontent[1] then
-                for _,obj in pairs(citycontent) do
-                    if hasTag2(obj,"Group:",7) and (hasTag2(obj,"Group:",7) == "Kree Starforce" or hasTag2(obj,"Group:",7) == "Skrulls") then
-                        shift_to_next(citycontent,getObjectFromGUID(escape_zone_guid),0)
-                        break
-                    end
-                end
-            end
-        end
-        local kreeskrull = function()
-            local escaped = get_decks_and_cards_from_zone(escape_zone_guid)
-            local skree = 0
-            if escaped[1] and escaped[1].tag == "Deck" then
-                for _,o in pairs(escaped[1].getObjects()) do
-                    for _,tag in pairs(o.tags) do
-                        if tag == "Group:Kree Starforce" then
-                            skree = skree - 1
-                            break
-                        elseif tag == "Group:Skrulls" then
-                            skree = skree + 1
+        if twistsresolved < 8 then
+            for _,o in pairs(city) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if hasTag2(obj,"Group:",7) and (hasTag2(obj,"Group:",7) == "Kree Starforce" or hasTag2(obj,"Group:",7) == "Skrulls") then
+                            shift_to_next(citycontent,getObjectFromGUID(escape_zone_guid),0)
                             break
                         end
                     end
                 end
-            elseif escaped[1] and hasTag2(obj,"Group:",7) then
-                if hasTag2(obj,"Group:",7) == "Kree Starforce" then
-                    skree = -1
-                elseif hasTag2(obj,"Group:",7) == "Skrulls" then
-                    skree = 1
+            end
+            local kreeskrull = function()
+                local escaped = get_decks_and_cards_from_zone(escape_zone_guid)
+                local skree = 0
+                if escaped[1] and escaped[1].tag == "Deck" then
+                    for _,o in pairs(escaped[1].getObjects()) do
+                        for _,tag in pairs(o.tags) do
+                            if tag == "Group:Kree Starforce" then
+                                skree = skree - 1
+                                break
+                            elseif tag == "Group:Skrulls" then
+                                skree = skree + 1
+                                break
+                            end
+                        end
+                    end
+                elseif escaped[1] and hasTag2(escaped[1],"Group:",7) then
+                    if hasTag2(escaped[1],"Group:",7) == "Kree Starforce" then
+                        skree = -1
+                    elseif hasTag2(escaped[1],"Group:",7) == "Skrulls" then
+                        skree = 1
+                    end
+                end
+                if skree < 0 then
+                    cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+                    broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Kree Conquest!")
+                elseif skree > 0 then
+                    cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[4]).getPosition())
+                    broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Skrull Conquest!")
+                else
+                    broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Stalemate, no conquest!")
+                    koCard(cards[1])
                 end
             end
-            if skree < 0 then
+            Wait.time(kreeskrull,2)
+        elseif twistsresolved == 8 then
+            local skree = get_decks_and_cards_from_zone(topBoardGUIDs[2])
+            local skrull = get_decks_and_cards_from_zone(topBoardGUIDs[4])
+            local score = math.abs(skrull[1].getQuantity()) - math.abs(skree[1].getQuantity())
+            if score < 0 then
                 cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
-                broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Kree Conquest!")
-            elseif skree > 0 then
+                broadcastToAll("Scheme Twist: Kree Conquest!")
+            elseif score > 0 then
                 cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[4]).getPosition())
-                broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Skrull Conquest!")
+                broadcastToAll("Scheme Twist: Skrull Conquest!")
             else
-                broadcastToAll("Scheme Twist: All Kree and Skrull villains escape! Stalemate, no conquest!")
+                broadcastToAll("Scheme Twist: Stalemate, no conquest!")
+                koCard(cards[1])
             end
         end
-        Wait.time(kreeskrull,2)
         return nil
     end
     if schemeParts[1] == "The Legacy Virus" then
@@ -4823,7 +4843,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Transform Commuters into Giant Ants" then
         stackTwist(cards[1])
         if twistsresolved == 1 then
-            getObjectFromGUID(topBoardGUIDs[2]).createButton({click_function="updateTwistPower",
+            getObjectFromGUID(topBoardGUIDs[1]).createButton({click_function="updateTwistPower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -4835,7 +4855,7 @@ function twistSpecials(cards,city,schemeParts)
                 width=250,height=250})
         end
         for i=1,twistsstacked do
-            addBystanders(topBoardGUIDs[2],false,true)
+            addBystanders(topBoardGUIDs[1],false,true)
         end
         return nil
     end
@@ -4934,8 +4954,106 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "War of the Frost Giants" then
+        cards[1].setName("Frost Giant Invader")
+        cards[1].addTag("VP6")
+        cards[1].addTag("Villain")
+        cards[1].setDescription("If you are not Worthy (reveal a Hero that costs 5 or more), Frost Giant Invader gets +4.")
+        powerButton(cards[1],"updateTwistPower","6+")
+        broadcastToAll("Scheme Twist: The twist cards enters the city as a Frost Giant Invader!")
+        if twistsresolved == 8 or twistsresolved == 9 then
+            local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+            pos.y = pos.y + 2
+            local giantsfound = 0
+            for _,o in pairs(Player.getPlayers()) do
+                local vpile = get_decks_and_cards_from_zone(vpileguids[o.color])
+                if vpile[1] and vpile[1].tag == "Deck" then
+                    for _,obj in pairs(vpile[1].getObjects()) do
+                        if obj.name == "Frost Giant Invader" then
+                            vpile[1].takeObject({position = pos,
+                                guid = obj.guid,
+                                flip = true})
+                            giantsfound = giantsfound + 1
+                            break
+                        end
+                    end
+                elseif vpile[1] and vpile[1].getName() == "Frost Giant Invader" then
+                    vpile[1].flip()
+                    vpile[1].setPositionSmooth(pos)
+                    giantsfound = giantsfound + 1
+                end
+            end
+            if giantsfound > 0 then
+                Wait.time(function() playVillains(giantsfound) end,2.5)
+                broadcastToAll("Scheme Twist: " .. giantsfound .. " Frost Giant Invaders put on top of villain deck from player's victory piles. Please play them all!")
+            end
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Weave a Web of Lies" then
         stackTwist(cards[1])
+        return nil
+    end
+    if schemeParts[1] == "World War Hulk" then
+        -- if not lurking then
+            -- lurking = table.clone(getObjectFromGUID("912967").Call('returnLurking')
+        -- end
+        -- if twistsresolved < 9 then
+            -- local newmm = lurking[math.random(#lurking)]
+            -- table.insert(mmStorage,newmm)
+            -- mmLocations[newmm] = mmZoneGUID
+            -- getObjectFromGUID("912967").Call('updateMM')
+        -- elseif twistsresolved == 9 then
+            -- broadcastToAll("Scheme Twist: Evil wins!")
+        -- end
+        -- return twistsresolved
+    end
+    if schemeParts[1] == "X-Cutioner's Song" then
+        koCard(cards[1])
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Cost:") then
+                        koCard(obj)
+                    end
+                end
+            end
+        end
+        broadcastToAll("Scheme Twist: all Heroes captured by enemies KO'd. Play another card from the Villain Deck.") 
+        playVillains()
+        return nil
+    end
+    if schemeParts[1] == "X-Men Danger Room Goes Berserk" then
+        broadcastToAll("Scheme Twist: Trap! By End of Turn: You may pay 2*. If you do, shuffle this Twist back into the Villain Deck, then play a card from the Villain Deck.") 
+        local moveToxin = function(obj)
+            obj.flip()
+            obj.setPositionSmooth(getObjectFromGUID(villainDeckZoneGUID).getPosition())
+            local shuffleToxin = function()
+                get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].randomize()
+                playVillains()
+            end
+            Wait.time(shuffleToxin,1.5)
+        end
+        powerButton(cards[1],"moveToxin","2*")
+        local pcolor = Turns.turn_color
+        local guid = cards[1].guid
+        local turnChanged = function()
+            if Turns.turn_color == pcolor then
+                return false
+            else
+                return true
+            end
+        end
+        local villainousInterruption = function()
+            local card = get_decks_and_cards_from_zone(city_zones_guids[1])
+            if card[1] and card[1].guid == guid then
+                cards[1].clearButtons()
+                stackTwist(card[1])
+                broadcastToAll("Last turn's twist stacked next to the Scheme as an Airborne Neurotoxin.")
+            end
+        end
+        Wait.condition(villainousInterruption,turnChanged)
         return nil
     end
     return twistsresolved
@@ -7090,6 +7208,20 @@ function nonTwistspecials(cards,city,schemeParts)
                 cards[1].setDescription("SIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
             else
                 cards[1].setDescription(cards[1].getDescription() .. "\r\nSIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
+            end
+        end
+    end
+    if schemeParts[1] == "War of the Frost Giants" and cityEntering == 1 then
+        if cards[1].getName() == "Frost Giant Invader" then
+            powerButton(cards[1],"updateTwistPower","6+")
+        end
+    end
+    if schemeParts[1] == "X-Cutioner's Song" and cityEntering == 1 then
+        if hasTag2(cards[1],"Cost:") then
+            if cards[1].getDescription() == "" then
+                cards[1].setDescription("VILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
+            else
+                cards[1].setDescription(cards[1].getDescription() .. "\r\nVILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
             end
         end
     end

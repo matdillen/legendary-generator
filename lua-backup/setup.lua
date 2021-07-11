@@ -1952,13 +1952,16 @@ function schemeSpecials (setupParts,mmGUID)
     
     if setupParts[1] == "World War Hulk" then
         log("Moving extra masterminds outside game.")
-        local tyrants = {}
+        lurkingMasterminds = {}
+        function returnLurking()
+            return lurkingMasterminds
+        end
         for s in string.gmatch(setupParts[9],"[^|]+") do
-            table.insert(tyrants, s)
+            table.insert(lurkingMasterminds, s)
         end
         local tacticsKill = function(obj)
             for i=1,3 do
-                if tyrants[i] == obj.getName() then
+                if lurkingMasterminds[i] == obj.getName() then
                     local zonetokill = getObjectFromGUID(topBoardGUIDs[i])
                     for j,o in pairs(zonetokill.getObjects()) do
                         if o.name == "Deck" then
@@ -1987,7 +1990,7 @@ function schemeSpecials (setupParts,mmGUID)
             end
         end
         for i=1,3 do
-            findInPile(tyrants[i],mmPileGUID,topBoardGUIDs[i],tyrantShuffleHulk)
+            findInPile(lurkingMasterminds[i],mmPileGUID,topBoardGUIDs[i],tyrantShuffleHulk)
         end
     end
     return nil
