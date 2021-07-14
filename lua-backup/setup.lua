@@ -387,6 +387,10 @@ function mmGetCards(mmname,transformed)
     end
 end
 
+function isTransformed(mmname)
+    return mmGetCards(mmname,true)
+end
+
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     --this function returns cards, decks and shards in a city space (or the start zone)
     --returns a table of objects
@@ -570,16 +574,18 @@ function addTransformButton(zone)
         height=350})
 end
 
-function setupTransformingMM(mmname,mmZone)
+function setupTransformingMM(mmname,mmZone,lurking)
     if not mmZone then
         mmZone = getObjectFromGUID(mmZoneGUID)
     end
-    addTransformButton(mmZone)
+    if not lurking then
+        addTransformButton(mmZone)
+    end
     transformed[mmname] = false
-    if objname == "General Ross" then
+    if mmname == "General Ross" then
         local bsPile = getObjectFromGUID(bystandersPileGUID)
         for i=1,8 do
-            bsPile.takeObject({position=getObjectFromGUID(mmLocationsS[objname]).getPosition(),
+            bsPile.takeObject({position=getObjectFromGUID(mmLocationsS[mmname]).getPosition(),
                 flip=false,
                 smooth=true})
         end
@@ -587,15 +593,26 @@ function setupTransformingMM(mmname,mmZone)
             if not mmActive(mmname) then
                 return nil
             end
-            if transformed["General Ross"] == false then
-                if not get_decks_and_cards_from_zone(strikeZoneGUID)[1] then
-                    getObjectFromGUID(strikeZoneGUID).clearButtons()
+            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            if mmLocationsS[mmname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocationsS[mmname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            if transformed[mmname] == false then
+                if not get_decks_and_cards_from_zone(strikeloc)[1] then
+                    getObjectFromGUID(strikeloc).clearButtons()
                     if mmZone.getButtons()[3] then
                         mmZone.removeButton(2)
                     end
                 else
-                    if not getObjectFromGUID(strikeZoneGUID).getButtons() then
-                        getObjectFromGUID(strikeZoneGUID).createButton({click_function='returnColor',
+                    if not getObjectFromGUID(strikeloc).getButtons() then
+                        getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -605,7 +622,7 @@ function setupTransformingMM(mmname,mmZone)
                             font_color="Red",
                             width=0})
                     else
-                        getObjectFromGUID(strikeZoneGUID).editButton({label="2",
+                        getObjectFromGUID(strikeloc).editButton({label="2",
                             tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders."})
                     end
                     if not mmZone.getButtons()[3] then
@@ -624,12 +641,12 @@ function setupTransformingMM(mmname,mmZone)
                             tooltip="You can't fight General Ross while he has any Helicopters."})
                     end
                 end
-            elseif transformed["General Ross"] == true then
-                if getObjectFromGUID(strikeZoneGUID).getButtons() then
-                    getObjectFromGUID(strikeZoneGUID).editButton({label="X",
+            elseif transformed[mmname] == true then
+                if getObjectFromGUID(strikeloc).getButtons() then
+                    getObjectFromGUID(strikeloc).editButton({label="X",
                         tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk."})
                 else
-                    getObjectFromGUID(strikeZoneGUID).createButton({click_function='returnColor',
+                    getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -677,7 +694,8 @@ function setupTransformingMM(mmname,mmZone)
             if not mmActive(mmname) then
                 return nil
             end
-            if transformed["King Hulk, Sakaarson"] == false then
+            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            if transformed[mmname] == false then
                 local warbound = 0
                 for _,o in pairs(city_zones_guids) do
                     if o ~= city_zones_guids[1] then
@@ -751,6 +769,7 @@ function setupTransformingMM(mmname,mmZone)
             if not mmActive(mmname) then
                 return nil
             end
+            local mmZone = getObjectFromGUID(mmLocationsS[objname])
             if transformed["M.O.D.O.K."] == false then
                 if mmZone.getButtons()[3] then
                     mmZone.removeButton(2)
@@ -777,6 +796,7 @@ function setupTransformingMM(mmname,mmZone)
             if not mmActive(mmname) then
                 return nil
             end
+            local mmZone = getObjectFromGUID(mmLocationsS[objname])
             if transformed["The Red King"] == false then
                 local villainfound = false
                 for _,o in pairs(city_zones_guids) do
@@ -830,6 +850,7 @@ function setupTransformingMM(mmname,mmZone)
             if not mmActive(mmname) then
                 return nil
             end
+            local mmZone = getObjectFromGUID(mmLocationsS[objname])
             if transformed["The Sentry"] == true then
                 woundedFury(mmZone,Turns.turn_color)
             elseif transformed["The Sentry"] == false then
@@ -1971,6 +1992,8 @@ function schemeSpecials (setupParts,mmGUID)
         for s in string.gmatch(setupParts[9],"[^|]+") do
             table.insert(lurkingMasterminds, s)
         end
+        log("lurkers = ")
+        log(lurkingMasterminds)
         local tacticsKill = function(obj)
             for i=1,3 do
                 if lurkingMasterminds[i] == obj.getName() then
@@ -2030,7 +2053,7 @@ function setupMasterminds(objname,epicness,lurking)
         fightButton(mmLocationsS[objname])
     end
     if mmGetCards(objname,true) == true then
-        setupTransformingMM(objname,getObjectFromGUID(mmLocationsS[objname]))
+        setupTransformingMM(objname,getObjectFromGUID(mmLocationsS[objname]),lurking)
     end
     if objname == "Arcade" then
         local arc = 5
@@ -3095,10 +3118,11 @@ function fightMM(content,player_clicker_color)
                 else
                     bump(content[1])
                 end
+                local name = o.getName()
                 o.takeObject({position = vppos,
                     flip = true,
                     smooth = true})
-                return o.getName()
+                return name
             elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
                 o.setPositionSmooth(vppos)
                 if o.is_face_down then

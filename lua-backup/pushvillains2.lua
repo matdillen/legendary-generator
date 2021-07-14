@@ -580,18 +580,18 @@ function push_all(city)
                         local cityspaces = city
                         local cardfound = false
                         while cardfound == false do
-                            local cards=get_decks_and_cards_from_zone(cityspaces[1])
+                            local citycontent = get_decks_and_cards_from_zone(cityspaces[1])
                             --locations don't count as villains, so they get skipped
                             --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
                             local locationfound = false
-                            if cards[1] and not cards[2] then
-                                if cards[1].getDescription():find("LOCATION") then
+                            if citycontent[1] and not citycontent[2] then
+                                if citycontent[1].getDescription():find("LOCATION") then
                                     locationfound = true
                                 end
                             end
                             
                             --if no cards or only a location, check next city space
-                            if not next(cards) or locationfound == true then
+                            if not next(citycontent) or locationfound == true then
                                 table.remove(cityspaces,1)
                             else
                                 --villain found, so put bystander here
@@ -612,6 +612,7 @@ function push_all(city)
                                     broadcastToAll("Villainous Weapon KO'd as city is empty!",{r=1,g=0,b=0})
                                 elseif vw == true then
                                     targetZone = getObjectFromGUID(mmZoneGUID)
+                                    broadcastToAll("Captured hero moved to Mastermind as city is empty!",{r=1,g=0,b=0})
                                 end
                             end
                         end
@@ -2283,7 +2284,7 @@ function twistSpecials(cards,city,schemeParts)
                     local annotateNewMM = function(obj)
                         obj.addTag("Ascended")
                         powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
-                        getObjectFromGUID("912967").Call('fightButton',{mmpos})
+                        getObjectFromGUID("912967").Call('fightButton',mmpos)
                         local vp = hasTag2(obj,"VP") or 0
                         table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
                         mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
@@ -2304,7 +2305,7 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                     powerButton(ascendCard,"updateTwistPower",power+2)
-                    getObjectFromGUID("912967").Call('fightButton',{mmpos})
+                    getObjectFromGUID("912967").Call('fightButton',mmpos)
                     local vp = hasTag2(ascendCard,"VP") or 0
                     table.insert(mmStorage,"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
                     mmLocations["Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")"] = mmpos
@@ -5001,35 +5002,6 @@ function twistSpecials(cards,city,schemeParts)
             for i = 1,3 do
                 lurkingLocations[lurking[i]] = topBoardGUIDs[2*i]
             end
-            function addNewLurkingMM()
-                if lurking[1] then
-                    local newmm = table.remove(lurking,math.random(#lurking))
-                    table.insert(mmStorage,newmm)
-                    mmLocations[newmm] = mmZoneGUID
-                    local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
-                    local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
-                    for _,o in pairs(newmmcontent) do
-                        o.setPositionSmooth(newmmposition)
-                        newmmposition.y = newmmposition.y + 4
-                    end
-                    local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
-                    local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(newmm,lurkingLocations))
-                    if newstrikecontent[1] then
-                        for _,o in pairs(newstrikecontent) do
-                            o.setPositionSmooth(newstrikeposition)
-                            newstrikeposition.y = newstrikeposition.y + 4
-                        end
-                    end
-                    getObjectFromGUID("912967").Call('updateMM')
-                    getObjectFromGUID("912967").Call('fightButton',getObjectFromGUID(mmZoneGUID))
-                    if getObjectFromGUID("912967").Call('mmGetCards',newmm,true) == true then
-                        getObjectFromGUID("912967").Call('addTransformButton',getObjectFromGUID(mmZoneGUID))
-                    end
-                else
-                    broadcastToAll("No More masterminds found, so you WIN!")
-                    return nil
-                end
-            end
         end
         if twistsresolved < 9 and lurking[1] then
             local newmm = table.remove(lurking,math.random(#lurking))
@@ -5054,8 +5026,12 @@ function twistSpecials(cards,city,schemeParts)
             mmLocations[newmm] = mmZoneGUID
             local mmcontent = get_decks_and_cards_from_zone(mmZoneGUID)
             for _,o in pairs(mmcontent) do
+                if o.is_face_down == false then
+                    lurkingpos.y = lurkingpos.y + 4
+                else
+                    lurkingpos.y = getObjectFromGUID(lurkingLocations[currentmm]).getPosition().y
+                end
                 o.setPositionSmooth(lurkingpos)
-                lurkingpos.y = lurkingpos.y + 4
             end
             local strikecontent = get_decks_and_cards_from_zone(strikeZoneGUID)
             if strikecontent[1] then
@@ -5067,8 +5043,12 @@ function twistSpecials(cards,city,schemeParts)
             local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
             local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
             for _,o in pairs(newmmcontent) do
+                if o.is_face_down == false then
+                    newmmposition.y = newmmposition.y + 4
+                else
+                    newmmposition.y = getObjectFromGUID(mmZoneGUID).getPosition().y
+                end
                 o.setPositionSmooth(newmmposition)
-                newmmposition.y = newmmposition.y + 4
             end
             local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
             local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(currentmm,lurkingLocations))
@@ -5079,8 +5059,16 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             getObjectFromGUID("912967").Call('updateMM')
-            if getObjectFromGUID("912967").Call('mmGetCards',newmm,true) == true then
+            if getObjectFromGUID("912967").Call('isTransformed',newmm) == true then
                 getObjectFromGUID("912967").Call('addTransformButton',getObjectFromGUID(mmZoneGUID))
+            else
+                local butt = getObjectFromGUID(mmZoneGUID).getButtons()
+                for _,o in pairs(butt) do
+                    if o.click_function == "transformMM" then
+                        getObjectFromGUID(mmZoneGUID).removeButton(o.index)
+                        break
+                    end
+                end
             end
             broadcastToAll("Scheme Twist: Mastermind was switched with a random lurking mastermind!")
         elseif twistsresolved == 9 then
@@ -5094,7 +5082,7 @@ function twistSpecials(cards,city,schemeParts)
             local citycontent = get_decks_and_cards_from_zone(o)
             if citycontent[1] then
                 for _,obj in pairs(citycontent) do
-                    if obj.hasTag("Cost:") then
+                    if hasTag2(obj,"Cost:") then
                         koCard(obj)
                     end
                 end
@@ -5106,7 +5094,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "X-Men Danger Room Goes Berserk" then
         broadcastToAll("Scheme Twist: Trap! By End of Turn: You may pay 2*. If you do, shuffle this Twist back into the Villain Deck, then play a card from the Villain Deck.") 
-        local moveToxin = function(obj)
+        moveToxin = function(obj)
             obj.flip()
             obj.setPositionSmooth(getObjectFromGUID(villainDeckZoneGUID).getPosition())
             local shuffleToxin = function()
@@ -5137,6 +5125,51 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     return twistsresolved
+end
+
+function addNewLurkingMM()
+    if not lurking then
+        lurking = table.clone(getObjectFromGUID("912967").Call('returnLurking'))
+        lurkingLocations = {}
+        for i = 1,3 do
+            lurkingLocations[lurking[i]] = topBoardGUIDs[2*i]
+        end
+    end
+    if lurking[1] then
+        local newmm = table.remove(lurking,math.random(#lurking))
+        table.insert(mmStorage,newmm)
+        mmLocations[newmm] = mmZoneGUID
+        local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
+        local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
+        for _,o in pairs(newmmcontent) do
+            o.setPositionSmooth(newmmposition)
+            newmmposition.y = newmmposition.y + 4
+        end
+        local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
+        local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(newmm,lurkingLocations))
+        if newstrikecontent[1] then
+            for _,o in pairs(newstrikecontent) do
+                o.setPositionSmooth(newstrikeposition)
+                newstrikeposition.y = newstrikeposition.y + 4
+            end
+        end
+        getObjectFromGUID("912967").Call('updateMM')
+        getObjectFromGUID("912967").Call('fightButton',mmZoneGUID)
+        if getObjectFromGUID("912967").Call('isTransformed',newmm) == true then
+            getObjectFromGUID("912967").Call('addTransformButton',getObjectFromGUID(mmZoneGUID))
+        else
+            local butt = getObjectFromGUID(mmZoneGUID).getButtons()
+            for _,o in pairs(butt) do
+                if o.click_function == "transformMM" then
+                    getObjectFromGUID(mmZoneGUID).removeButton(o.index)
+                    break
+                end
+            end
+        end
+    else
+        broadcastToAll("No More masterminds found, so you WIN!")
+        return nil
+    end
 end
 
 function retrieveMM()
