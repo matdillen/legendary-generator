@@ -4996,81 +4996,13 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "World War Hulk" then
-        if not lurking then
-            lurking = table.clone(getObjectFromGUID("912967").Call('returnLurking'))
-            lurkingLocations = {}
-            for i = 1,3 do
-                lurkingLocations[lurking[i]] = topBoardGUIDs[2*i]
-            end
-        end
-        if twistsresolved < 9 and lurking[1] then
-            local newmm = table.remove(lurking,math.random(#lurking))
-            local currentmm = nil
+        if twistsresolved < 9 then
             for i,o in pairs(mmLocations) do
-                if o == mmZoneGUID then
-                    currentmm = i
+                if o == mmZoneGUID and mmActive(i) then
+                    addNewLurkingMM(i)
                     break
                 end
             end
-            table.insert(mmStorage,newmm)
-            table.insert(lurking,currentmm)
-            lurkingLocations[currentmm] = lurkingLocations[newmm]
-            local lurkingpos = getObjectFromGUID(lurkingLocations[currentmm]).getPosition()
-            local strikelurkingpos = getObjectFromGUID(getStrikeloc(currentmm,lurkingLocations)).getPosition()
-            for i,o in pairs(mmStorage) do
-                if o == currentmm then
-                    table.remove(mmStorage,i)
-                    break
-                end
-            end
-            mmLocations[newmm] = mmZoneGUID
-            local mmcontent = get_decks_and_cards_from_zone(mmZoneGUID)
-            for _,o in pairs(mmcontent) do
-                if o.is_face_down == false then
-                    lurkingpos.y = lurkingpos.y + 4
-                else
-                    lurkingpos.y = getObjectFromGUID(lurkingLocations[currentmm]).getPosition().y
-                end
-                o.setPositionSmooth(lurkingpos)
-            end
-            local strikecontent = get_decks_and_cards_from_zone(strikeZoneGUID)
-            if strikecontent[1] then
-                for _,o in pairs(strikecontent) do
-                    o.setPositionSmooth(strikelurkingpos)
-                    strikelurkingpos.y = strikelurkingpos.y + 4
-                end
-            end
-            local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
-            local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
-            for _,o in pairs(newmmcontent) do
-                if o.is_face_down == false then
-                    newmmposition.y = newmmposition.y + 4
-                else
-                    newmmposition.y = getObjectFromGUID(mmZoneGUID).getPosition().y
-                end
-                o.setPositionSmooth(newmmposition)
-            end
-            local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
-            local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(currentmm,lurkingLocations))
-            if newstrikecontent[1] then
-                for _,o in pairs(newstrikecontent) do
-                    o.setPositionSmooth(newstrikeposition)
-                    newstrikeposition.y = newstrikeposition.y + 4
-                end
-            end
-            getObjectFromGUID("912967").Call('updateMM')
-            if getObjectFromGUID("912967").Call('isTransformed',newmm) == true then
-                getObjectFromGUID("912967").Call('addTransformButton',getObjectFromGUID(mmZoneGUID))
-            else
-                local butt = getObjectFromGUID(mmZoneGUID).getButtons()
-                for _,o in pairs(butt) do
-                    if o.click_function == "transformMM" then
-                        getObjectFromGUID(mmZoneGUID).removeButton(o.index)
-                        break
-                    end
-                end
-            end
-            broadcastToAll("Scheme Twist: Mastermind was switched with a random lurking mastermind!")
         elseif twistsresolved == 9 then
             broadcastToAll("Scheme Twist: Evil wins!")
         end
@@ -5127,7 +5059,16 @@ function twistSpecials(cards,city,schemeParts)
     return twistsresolved
 end
 
-function addNewLurkingMM()
+function mmActive(mmname)
+    for _,o in pairs(mmStorage) do
+        if o == mmname then
+            return true
+        end
+    end
+    return false
+end
+
+function addNewLurkingMM(currentmm)
     if not lurking then
         lurking = table.clone(getObjectFromGUID("912967").Call('returnLurking'))
         lurkingLocations = {}
@@ -5139,11 +5080,43 @@ function addNewLurkingMM()
         local newmm = table.remove(lurking,math.random(#lurking))
         table.insert(mmStorage,newmm)
         mmLocations[newmm] = mmZoneGUID
+        if currentmm then
+            table.insert(lurking,currentmm)
+            lurkingLocations[currentmm] = lurkingLocations[newmm]
+            local lurkingpos = getObjectFromGUID(lurkingLocations[currentmm]).getPosition()
+            local strikelurkingpos = getObjectFromGUID(getStrikeloc(currentmm,lurkingLocations)).getPosition()
+            for i,o in pairs(mmStorage) do
+                if o == currentmm then
+                    table.remove(mmStorage,i)
+                    break
+                end
+            end
+            local mmcontent = get_decks_and_cards_from_zone(mmZoneGUID)
+            for _,o in pairs(mmcontent) do
+                if o.is_face_down == false then
+                    lurkingpos.y = lurkingpos.y + 4
+                else
+                    lurkingpos.y = getObjectFromGUID(lurkingLocations[currentmm]).getPosition().y
+                end
+                o.setPositionSmooth(lurkingpos)
+            end
+            local strikecontent = get_decks_and_cards_from_zone(strikeZoneGUID)
+            if strikecontent[1] then
+                for _,o in pairs(strikecontent) do
+                    o.setPositionSmooth(strikelurkingpos)
+                    strikelurkingpos.y = strikelurkingpos.y + 4
+                end
+            end
+        end
         local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
         local newmmcontent = get_decks_and_cards_from_zone(lurkingLocations[newmm])
         for _,o in pairs(newmmcontent) do
+            if o.is_face_down == false then
+                newmmposition.y = newmmposition.y + 4
+            else
+                newmmposition.y = getObjectFromGUID(mmZoneGUID).getPosition().y
+            end
             o.setPositionSmooth(newmmposition)
-            newmmposition.y = newmmposition.y + 4
         end
         local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
         local newstrikecontent = get_decks_and_cards_from_zone(getStrikeloc(newmm,lurkingLocations))
@@ -5166,6 +5139,7 @@ function addNewLurkingMM()
                 end
             end
         end
+        broadcastToAll("Scheme Twist: Mastermind was switched with a random lurking mastermind!")
     else
         broadcastToAll("No More masterminds found, so you WIN!")
         return nil
