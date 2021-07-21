@@ -10,7 +10,7 @@ function onLoad()
     villainstoplay = 0
     goblincount = 0
     othermm = false
-    mmStorage = {}
+    masterminds = {}
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
@@ -200,8 +200,8 @@ function click_get_wound(obj, player_clicker_color, alt_click)
     local dest = playerBoard.positionToWorld(pos_discard)
     dest.y = dest.y + 3
     local toflip = nil
-    if mmStorage[1] then
-        for _,o in pairs(mmStorage) do
+    if masterminds[1] then
+        for _,o in pairs(masterminds) do
             if o == "Mephisto" then
                 dest = playerBoard.positionToWorld({0.957, 3.178, 0.222})
                 toflip = function(obj)
@@ -1824,7 +1824,7 @@ function twistSpecials(cards,city,schemeParts)
             mmPile.randomize()
             local stripTactics = function(obj)
                 obj.flip()
-                table.insert(mmStorage,obj.getName())
+                table.insert(masterminds,obj.getName())
                 mmLocations[obj.getName()] = topBoardGUIDs[4]
                 getObjectFromGUID("912967").Call('updateMM')
                 getObjectFromGUID("912967").Call('setupMasterminds',obj.getName())
@@ -1856,7 +1856,7 @@ function twistSpecials(cards,city,schemeParts)
             local mmcard = nil
             if allianceMM[1] then
                 for _,o in pairs(allianceMM) do
-                    for _,k in pairs(mmStorage) do
+                    for _,k in pairs(masterminds) do
                         if k:find(o.getName()) and o.tag == "Card" then
                             mmcard = o
                             break
@@ -1891,7 +1891,7 @@ function twistSpecials(cards,city,schemeParts)
                 addTactic(ann)
             end
         elseif twistsresolved < 7 then
-            for _,o in pairs(mmStorage) do
+            for _,o in pairs(masterminds) do
                 addBystanders(mmLocations[o])
             end
         elseif twistsresolved == 7 then
@@ -2286,7 +2286,7 @@ function twistSpecials(cards,city,schemeParts)
                         powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
                         getObjectFromGUID("912967").Call('fightButton',mmpos)
                         local vp = hasTag2(obj,"VP") or 0
-                        table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
+                        table.insert(masterminds,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
                         mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
                     end
                     escapedcards[1].takeObject({position = getObjectFromGUID(mmpos).getPosition(),
@@ -2307,7 +2307,7 @@ function twistSpecials(cards,city,schemeParts)
                     powerButton(ascendCard,"updateTwistPower",power+2)
                     getObjectFromGUID("912967").Call('fightButton',mmpos)
                     local vp = hasTag2(ascendCard,"VP") or 0
-                    table.insert(mmStorage,"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
+                    table.insert(masterminds,"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
                     mmLocations["Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")"] = mmpos
                     shift_to_next(vilgroup,getObjectFromGUID(mmpos),1)
                     broadcastToAll("Scheme Twist: Villain in city ascended to become a mastermind!")
@@ -2363,7 +2363,7 @@ function twistSpecials(cards,city,schemeParts)
                                     powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
                                     getObjectFromGUID("912967").Call('fightButton',{mmpos})
                                     local vp = hasTag2(obj,"VP") or 0
-                                    table.insert(mmStorage,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
+                                    table.insert(masterminds,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
                                     mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
                                 end
                                 vpilecontent[1].takeObject({position = getObjectFromGUID(mmpos).getPosition(),
@@ -3870,7 +3870,7 @@ function twistSpecials(cards,city,schemeParts)
             mmPile.randomize()
             local stripTactics = function(obj)
                 obj.flip()
-                table.insert(mmStorage,obj.getName())
+                table.insert(masterminds,obj.getName())
                 mmLocations[obj.getName()] = topBoardGUIDs[4+2*(twistsresolved-1)]
                 getObjectFromGUID("912967").Call('updateMM')
                 getObjectFromGUID("912967").Call('setupMasterminds',obj.getName())
@@ -4497,7 +4497,7 @@ function twistSpecials(cards,city,schemeParts)
                 scheme[1].addTag("Mastermind")
                 scheme[1].addTag("VP9")
                 scheme[1].setName("God-Emperor")
-                table.insert(mmStorage,"God-Emperor")
+                table.insert(masterminds,"God-Emperor")
                 mmLocations["God-Emperor"] = schemeZoneGUID
                 getObjectFromGUID("912967").Call('updateMM')
                 getObjectFromGUID("912967").Call('setupMasterminds',"God-Emperor")
@@ -4516,7 +4516,7 @@ function twistSpecials(cards,city,schemeParts)
         elseif twistsresolved == 7 then
             broadcastToAll("Scheme Twist: The God-Emperor KO's all other masterminds!")
             local iter = 0
-            for i,o in ipairs(mmStorage) do
+            for i,o in ipairs(masterminds) do
                 if o ~= "God-Emperor" then
                     local mm = get_decks_and_cards_from_zone(mmLocations[o])
                     if mm[1] then
@@ -4528,7 +4528,7 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                     getObjectFromGUID(mmLocations[o]).clearButtons()
-                    table.remove(mmStorage,i-iter)
+                    table.remove(masterminds,i-iter)
                     iter = iter + 1
                 end
             end
@@ -5060,7 +5060,7 @@ function twistSpecials(cards,city,schemeParts)
 end
 
 function mmActive(mmname)
-    for _,o in pairs(mmStorage) do
+    for _,o in pairs(masterminds) do
         if o == mmname then
             return true
         end
@@ -5078,16 +5078,16 @@ function addNewLurkingMM(currentmm)
     end
     if lurking[1] then
         local newmm = table.remove(lurking,math.random(#lurking))
-        table.insert(mmStorage,newmm)
+        table.insert(masterminds,newmm)
         mmLocations[newmm] = mmZoneGUID
         if currentmm then
             table.insert(lurking,currentmm)
             lurkingLocations[currentmm] = lurkingLocations[newmm]
             local lurkingpos = getObjectFromGUID(lurkingLocations[currentmm]).getPosition()
             local strikelurkingpos = getObjectFromGUID(getStrikeloc(currentmm,lurkingLocations)).getPosition()
-            for i,o in pairs(mmStorage) do
+            for i,o in pairs(masterminds) do
                 if o == currentmm then
-                    table.remove(mmStorage,i)
+                    table.remove(masterminds,i)
                     break
                 end
             end
@@ -5105,6 +5105,17 @@ function addNewLurkingMM(currentmm)
                 for _,o in pairs(strikecontent) do
                     o.setPositionSmooth(strikelurkingpos)
                     strikelurkingpos.y = strikelurkingpos.y + 4
+                end
+            end
+            local strikeZone = getObjectFromGUID(strikeloc)
+            local strikebutt = strikeZone.getButtons()
+            local iter2 = 0
+            if strikebutt then
+                for i,o in ipairs(strikebutt) do
+                    if o.click_function:find("update") and not o.click_function:find("Power") then
+                        strikeZone.removeButton(i-1-iter2)
+                        iter2 = iter2 + 1
+                    end
                 end
             end
         end
@@ -5140,15 +5151,16 @@ function addNewLurkingMM(currentmm)
             end
         end
         broadcastToAll("Scheme Twist: Mastermind was switched with a random lurking mastermind!")
-    else
+    elseif not masterminds[1] then
         broadcastToAll("No More masterminds found, so you WIN!")
-        return nil
+    else
+        broadcastToAll("No More lurking masterminds found.")
     end
 end
 
 function retrieveMM()
-    mmStorage = table.clone(getObjectFromGUID("912967").Call('returnMM'))
-    log(mmStorage)
+    masterminds = table.clone(getObjectFromGUID("912967").Call('returnMM'))
+    log(masterminds)
     mmLocations = table.clone(getObjectFromGUID("912967").Call('returnMMLocation'),true)
     log(mmLocations)
 end
@@ -5157,20 +5169,20 @@ function returnMM(loc)
     if loc then
         return(table.clone(mmLocations,true))
     else
-        return(table.clone(mmStorage))
+        return(table.clone(masterminds))
     end
 end
 
 function strikeSpecials(cards,city)
-    if not mmStorage[1] then
+    if not masterminds[1] then
         broadcastToAll("No mastermind specified!")
         return nil
-    elseif mmStorage[2] then
+    elseif masterminds[2] then
         broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
         local mmpromptzone = getObjectFromGUID(city_zones_guids[4])
         local zshift = 0
         local resolvingStrikes = {}
-        for i,o in ipairs(mmStorage) do
+        for i,o in ipairs(masterminds) do
             resolvingStrikes[i] = i-1
             _G["resolveStrike" .. i] = function()
                 --log("buttonpress:" .. resolvingStrikes[i])
@@ -5201,7 +5213,7 @@ function strikeSpecials(cards,city)
         end
         return nil
     else
-        mmname = mmStorage[1]
+        mmname = masterminds[1]
     end
     local epicness = false
     if mmname:find(" %- epic") then
@@ -7340,9 +7352,7 @@ function demolish(colors,n,altsource,ko)
                         local handi = table.clone(hand)
                         local iter = 0
                         for j,h in ipairs(handi) do
-                            if handcosts[hasTag2(h,"Cost:")] and handcosts[hasTag2(h,"Cost:")] == i then
-                                handcost = handcost + 1
-                            else
+                            if not hasTag2(h,"Cost:") or hasTag2(h,"Cost:") == i then
                                 table.remove(hand,j-iter)
                                 iter = iter + 1
                             end
@@ -7564,7 +7574,7 @@ function contestOfChampions(color,n,winf,epicness)
     end
     contestResult["Evil"] = false
     responses = {["Evil"] = highscore}
-    if mmStorage["The Grandmaster"] and epicness then
+    if masterminds["The Grandmaster"] and epicness then
         responses["Evil"] = responses["Evil"] + 2
     end
     for _,o in pairs(Player.getPlayers()) do

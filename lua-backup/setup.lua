@@ -150,6 +150,8 @@ function onLoad()
     finalblow = true
     finalblowfixed = false
     Turns.enable = true
+    
+    
 end
 
 function returnAutoplay()
@@ -165,7 +167,7 @@ function returnMM()
 end
 
 function returnMMLocation()
-    return mmLocationsS
+    return mmLocations
 end
 
 function table.clone(org,key)
@@ -588,7 +590,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
     if mmname == "General Ross" then
         local bsPile = getObjectFromGUID(bystandersPileGUID)
         for i=1,8 do
-            bsPile.takeObject({position=getObjectFromGUID(mmLocationsS[mmname]).getPosition(),
+            bsPile.takeObject({position=getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
                 flip=false,
                 smooth=true})
         end
@@ -596,7 +598,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
             if not mmActive(mmname) then
                 return nil
             end
-            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            local mmZone = getObjectFromGUID(mmLocations[mmname])
             local buttonindex = nil
             for i,o in pairs(mmZone.getButtons()) do
                 if o.click_function == "updateRoss" then
@@ -604,17 +606,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     break
                 end
             end
-            
-            if mmLocationsS[mmname] == mmZoneGUID then
-                strikeloc = strikeZoneGUID
-            else
-                for i,o in pairs(topBoardGUIDs) do
-                    if o == mmLocationsS[mmname] then
-                        strikeloc = topBoardGUIDs[i-1]
-                        break
-                    end
-                end
-            end
+            local strikeloc = getStrikeloc(mmname)
             if transformed[mmname] == false then
                 if not get_decks_and_cards_from_zone(strikeloc)[1] then
                     getObjectFromGUID(strikeloc).clearButtons()
@@ -623,7 +615,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     end
                 else
                     if not getObjectFromGUID(strikeloc).getButtons() then
-                        getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
+                        getObjectFromGUID(strikeloc).createButton({click_function='updateRoss',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -657,7 +649,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     getObjectFromGUID(strikeloc).editButton({label="X",
                         tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk."})
                 else
-                    getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
+                    getObjectFromGUID(strikeloc).createButton({click_function='updateRoss',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -705,7 +697,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
             if not mmActive(mmname) then
                 return nil
             end
-            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            local mmZone = getObjectFromGUID(mmLocations[mmname])
             local buttonindex = nil
             for i,o in pairs(mmZone.getButtons()) do
                 if o.click_function == "updateHulk" then
@@ -747,7 +739,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     if buttonindex then
                         mmZone.editButton({index=buttonindex,label="+" .. warbound})
                     else
-                        mmZone.createButton({click_function='returnColor',
+                        mmZone.createButton({click_function='updateHulk',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -794,7 +786,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     break
                 end
             end
-            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            local mmZone = getObjectFromGUID(mmLocations[mmname])
             if transformed["M.O.D.O.K."] == false then
                 if buttonindex then
                     mmZone.removeButton(buttonindex)
@@ -804,7 +796,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
             elseif transformed["M.O.D.O.K."] == true then   
                 local notes = getNotes()
                 setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
-                mmZone.createButton({click_function='returnColor',
+                mmZone.createButton({click_function='updateMODOK',
                     function_owner=self,
                     position={0,0,0},
                     rotation={0,180,0},
@@ -822,7 +814,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                 return nil
             end
             local buttonindex = nil
-            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            local mmZone = getObjectFromGUID(mmLocations[mmname])
             for i,o in pairs(mmZone.getButtons()) do
                 if o.click_function == "updateRedKing" then
                     buttonindex = i-1
@@ -848,7 +840,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     end
                 end
                 if villainfound == true and not buttonindex then
-                    mmZone.createButton({click_function='redKing',
+                    mmZone.createButton({click_function='updateRedKing',
                         function_owner=self,
                         position={0,0,0},
                         rotation={0,180,0},
@@ -883,7 +875,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                 return nil
             end
             local buttonindex = nil
-            local mmZone = getObjectFromGUID(mmLocationsS[mmname])
+            local mmZone = getObjectFromGUID(mmLocations[mmname])
             for i,o in pairs(mmZone.getButtons()) do
                 if o.click_function == "updateSentry" then
                     buttonindex = i-1
@@ -964,7 +956,7 @@ function import_setup()
         mmname = mmname:gsub(" %- epic","")
         epicness = true
     end
-    mmLocationsS = {[mmname] = mmZoneGUID}
+    mmLocations = {[mmname] = mmZoneGUID}
     getObjectFromGUID("f3c7e3").Call('retrieveMM')
     local mmcardnumber = mmGetCards(mmname) 
     
@@ -2037,7 +2029,7 @@ function schemeSpecials (setupParts,mmGUID)
             for i=1,3 do
                 if lurkingMasterminds[i] == obj.getName() then
                     local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
-                    mmLocationsS[obj.getName()] = topBoardGUIDs[i*2]
+                    mmLocations[obj.getName()] = topBoardGUIDs[i*2]
                     setupMasterminds(obj.getName(),false,true)
                     for j,o in pairs(zonetokill.getObjects()) do
                         if o.name == "Deck" then
@@ -2084,15 +2076,15 @@ end
 
 function updateMM()
     masterminds = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM'))
-    mmLocationsS = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM',{true}),true)
+    mmLocations = table.clone(getObjectFromGUID("f3c7e3").Call('returnMM',{true}),true)
 end
 
 function setupMasterminds(objname,epicness,lurking)
     if not lurking then
-        fightButton(mmLocationsS[objname])
+        fightButton(mmLocations[objname])
     end
     if mmGetCards(objname,true) == true then
-        setupTransformingMM(objname,getObjectFromGUID(mmLocationsS[objname]),lurking)
+        setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
     end
     if objname == "Arcade" then
         local arc = 5
@@ -2102,16 +2094,16 @@ function setupMasterminds(objname,epicness,lurking)
         end
         local bsPile = getObjectFromGUID(bystandersPileGUID)
         for i=1,arc do
-            bsPile.takeObject({position=getObjectFromGUID(mmLocationsS[objname]).getPosition(),
+            bsPile.takeObject({position=getObjectFromGUID(mmLocations[objname]).getPosition(),
                 flip=false,
                 smooth=false})
         end
     end
     if objname == "Baron Heinrich Zemo" then
         if not mmActive(objname) then
-                return nil
-            end
-        local mmzone = getObjectFromGUID(mmLocationsS[objname])
+            return nil
+        end
+        local mmzone = getObjectFromGUID(mmLocations[objname])
         mmzone.createButton({click_function='returnColor',
             function_owner=self,
             position={0,0,0},
@@ -2450,13 +2442,13 @@ function setupMasterminds(objname,epicness,lurking)
             jonah = 3
         end
         for i=1,jonah*#Player.getPlayers() do
-            soPile.takeObject({position = getObjectFromGUID(mmLocationsS[objname]).getPosition(),
+            soPile.takeObject({position = getObjectFromGUID(mmLocations[objname]).getPosition(),
                 flip=false,
                 smooth=false})
         end
     end
     if objname == "Kingpin" then
-        local mmzone = getObjectFromGUID(mmLocationsS[objname])
+        local mmzone = getObjectFromGUID(mmLocations[objname])
         mmzone.createButton({click_function='returnColor',
                     function_owner=self,
                     position={0,0,0},
@@ -2473,7 +2465,7 @@ function setupMasterminds(objname,epicness,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
+            local mmzone = getObjectFromGUID(mmLocations[objname])
             local buttonindex = nil
             for i,o in pairs(mmzone.getButtons()) do
                 if o.click_function == "updateMadelyne" then
@@ -2481,11 +2473,11 @@ function setupMasterminds(objname,epicness,lurking)
                     break
                 end
             end
-            if mmLocationsS[objname] == mmZoneGUID then
+            if mmLocations[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
             else
                 for i,o in pairs(topBoardGUIDs) do
-                    if o == mmLocationsS[objname] then
+                    if o == mmLocations[objname] then
                         strikeloc = topBoardGUIDs[i-1]
                         break
                     end
@@ -2571,7 +2563,7 @@ function setupMasterminds(objname,epicness,lurking)
         end
     end
     if objname == "Misty Knight" then
-        local mmzone = getObjectFromGUID(mmLocationsS[objname])
+        local mmzone = getObjectFromGUID(mmLocations[objname])
         mmzone.createButton({click_function='returnColor',
                     function_owner=self,
                     position={0,0,0},
@@ -2584,7 +2576,7 @@ function setupMasterminds(objname,epicness,lurking)
                     width=250,height=250})
     end
     if objname == "Mojo" then
-        if mmLocationsS["Mojo"] ~= mmZoneGUID then
+        if mmLocations["Mojo"] ~= mmZoneGUID then
             mojoVPUpdate(0)
         end
         mojobasepower = 6
@@ -2596,7 +2588,7 @@ function setupMasterminds(objname,epicness,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
+            local mmzone = getObjectFromGUID(mmLocations[objname])
             local buttonindex = nil
             for i,o in pairs(mmzone.getButtons()) do
                 if o.click_function == "updateMojo" then
@@ -2604,11 +2596,11 @@ function setupMasterminds(objname,epicness,lurking)
                     break
                 end
             end
-            if mmLocationsS[objname] == mmZoneGUID then
+            if mmLocations[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
             else
                 for i,o in pairs(topBoardGUIDs) do
-                    if o == mmLocationsS[objname] then
+                    if o == mmLocations[objname] then
                         strikeloc = topBoardGUIDs[i-1]
                         break
                     end
@@ -2694,12 +2686,12 @@ function setupMasterminds(objname,epicness,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if mmLocationsS[objname] == mmZoneGUID then
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
             else
                 for i,o in pairs(topBoardGUIDs) do
-                    if o == mmLocationsS[objname] then
+                    if o == mmLocations[objname] then
                         strikeloc = topBoardGUIDs[i-1]
                         break
                     end
@@ -2730,12 +2722,12 @@ function setupMasterminds(objname,epicness,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if mmLocationsS[objname] == mmZoneGUID then
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
             else
                 for i,o in pairs(topBoardGUIDs) do
-                    if o == mmLocationsS[objname] then
+                    if o == mmLocations[objname] then
                         strikeloc = topBoardGUIDs[i-1]
                         break
                     end
@@ -2954,12 +2946,12 @@ function setupMasterminds(objname,epicness,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            local mmzone = getObjectFromGUID(mmLocationsS[objname])
-            if mmLocationsS[objname] == mmZoneGUID then
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
                 strikeloc = strikeZoneGUID
             else
                 for i,o in pairs(topBoardGUIDs) do
-                    if o == mmLocationsS[objname] then
+                    if o == mmLocations[objname] then
                         strikeloc = topBoardGUIDs[i-1]
                         break
                     end
@@ -3049,7 +3041,7 @@ function setupMasterminds(objname,epicness,lurking)
 end
 
 function mmButtons(objname,checkvalue,label,tooltip,f)
-    local mmzone = getObjectFromGUID(mmLocationsS[objname])
+    local mmzone = getObjectFromGUID(mmLocations[objname])
     local buttonindex = nil
     for i,o in pairs(mmzone.getButtons()) do
         if o.click_function == f then
@@ -3093,42 +3085,54 @@ function fightButton(zone)
         end
     end
     _G["fightEffect" .. zone] = function(obj,player_clicker_color)
-        local content = get_decks_and_cards_from_zone(obj.guid,false,false)
-        local name = fightMM(content,player_clicker_color)
+        local name = fightMM(obj.guid,player_clicker_color)
         --log("name:")
         --log(name)
         if name then
             local killFightButton = function()
                 local content = get_decks_and_cards_from_zone(obj.guid,false,false)
-                if not content[1] then
+                if not content[1] or (not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2]) then
                     broadcastToAll(name .. " was defeated!")
-                    obj.clearButtons()
+                    local strikeloc = getStrikeloc(name)
+                    if content[1] then
+                        if content[1].is_face_down then
+                            content[1].flip()
+                        end
+                        koCard(content[1])
+                    end
                     for i,o in pairs(masterminds) do
                         if o == name then
                             table.remove(masterminds,i)
                             break
                         end
                     end
-                    if name == "Onslaught" then
-                        for _,o in pairs(Player.getPlayers()) do
-                            getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
-                        end
-                        broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
-                    end
-                    getObjectFromGUID("f3c7e3").Call('retrieveMM') 
-                    if setupParts[1] == "World War Hulk" then
-                        getObjectFromGUID("f3c7e3").Call('addNewLurkingMM') 
-                    end
-                elseif not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2] then
-                    broadcastToAll(name .. " was defeated!")
-                    koCard(content[1])
-                    obj.clearButtons()
-                    for i,o in pairs(masterminds) do
-                        if o == name then
-                            table.remove(masterminds,i)
-                            break
+                    local butt = obj.getButtons()
+                    local iter = 0
+                    for i,o in ipairs(butt) do
+                        if o.click_function == "fightEffect" then
+                            obj.removeButton(i-1-iter)
+                            iter = iter + 1
+                        elseif o.click_function:find("update") and not o.click_function:find("Power") then
+                            obj.removeButton(i-1-iter)
+                            iter = iter + 1
                         end
                     end
+                    local strikecontent = get_decks_and_cards_from_zone(strikeloc)
+                    if strikecontent[1] then
+                        strikecontent[1].setPosition(getObjectFromGUID(strikePileGUID).getPosition())
+                    end
+                    local strikeZone = getObjectFromGUID(strikeloc)
+                    local strikebutt = strikeZone.getButtons()
+                    local iter2 = 0
+                    if strikebutt then
+                        for i,o in ipairs(strikebutt) do
+                            if o.click_function:find("update") and not o.click_function:find("Power") then
+                                strikeZone.removeButton(i-1-iter2)
+                                iter2 = iter2 + 1
+                            end
+                        end
+                    end
+                    --obj.clearButtons()
                     if name == "Onslaught" then
                         for _,o in pairs(Player.getPlayers()) do
                             getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
@@ -3140,7 +3144,7 @@ function fightButton(zone)
                         getObjectFromGUID("f3c7e3").Call('addNewLurkingMM') 
                     end
                 elseif transformed[name] ~= nil then
-                    transformMM(getObjectFromGUID(mmLocationsS[name]))
+                    transformMM(getObjectFromGUID(mmLocations[name]))
                 end
             end
             Wait.time(killFightButton,1)
@@ -3177,8 +3181,17 @@ function bump(obj,y)
     obj.setPositionSmooth(pos)
 end
 
-function fightMM(content,player_clicker_color)
+function fightMM(zoneguid,player_clicker_color)
+    local content = get_decks_and_cards_from_zone(zoneguid,false,false)
     local vppos = getObjectFromGUID(playerBoards[player_clicker_color]).positionToWorld(pos_vp2)
+    vppos.y = vppos.y + 2
+    local name = nil
+    for i,o in pairs(mmLocations) do
+        if o == zoneguid and mmActive(i) then
+            name = i
+            break
+        end
+    end
     if content[1] and content[2] then
         for i,o in pairs(content) do
             if o.tag == "Deck" then
@@ -3187,7 +3200,6 @@ function fightMM(content,player_clicker_color)
                 else
                     bump(content[1])
                 end
-                local name = o.getName()
                 o.takeObject({position = vppos,
                     flip = true,
                     smooth = true})
@@ -3197,7 +3209,7 @@ function fightMM(content,player_clicker_color)
                 if o.is_face_down then
                     Wait.time(function() o.flip() end,0.8)
                 end
-                return hasTag2(o,"Tactic:",8)
+                return name
             end
         end
     elseif content[1] then
@@ -3218,23 +3230,19 @@ function fightMM(content,player_clicker_color)
                     if content[1].remainder then
                         content[1] = content[1].remainder
                     end
-                    return content[1].getName()
+                    return name
                 end
             end
             content[1].takeObject({position = vppos,
                 flip = true,
                 smooth = true})
-            return content[1].getName()
+            return name
         else
             content[1].setPositionSmooth(vppos)
             if content[1].is_face_down then
                 Wait.time(function() content[1].flip() end,0.8)
             end
-            if hasTag2(content[1],"Tactic:",8) then
-                return hasTag2(content[1],"Tactic:",8)
-            else
-                return content[1].getName()
-            end
+            return name
         end
     end
     return nil
@@ -3302,11 +3310,11 @@ end
 
 function getStrikeloc(mmname)
     local strikeloc = nil
-    if mmLocationsS[mmname] == mmZoneGUID then
+    if mmLocations[mmname] == mmZoneGUID then
         strikeloc = strikeZoneGUID
     else
         for i,o in pairs(topBoardGUIDs) do
-            if o == mmLocationsS[mmname] then
+            if o == mmLocations[mmname] then
                 strikeloc = topBoardGUIDs[i-1]
                 break
             end
