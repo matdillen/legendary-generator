@@ -269,6 +269,38 @@ function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     return result
 end
 
+function ascendVillain(name,group,ambush)
+    local ascendants = {
+        ["The Deadlands"] = "Zombie Loki",
+        ["The Deadlands"] = "Zombie Mr. Sinister",
+        ["The Deadlands"] = "Zombie Thanos",
+        ["Domain of Apocalypse"] = "Apocalyptic Magneto",
+        ["Wasteland"] = "Wasteland Kingpin",
+        ["Deadpool's Secret Secret Wars"] = "Deadpool",
+        ["Guardians of Knowhere"] = "Angela",
+        ["Utopolis"] = "Warrior Woman",
+        ["X-Men '92"] = "'92 Professor X",
+    }
+    local ambushAscendants = {
+        ["Hellfire Club"] = "Mastermind",
+        ["Sisterhood of Mutants"] = "Lady Mastermind"
+    }
+    if not ambush then
+        for i,o in pairs(ascendants) do
+            if o == name and i == group then
+                return true
+            end
+        end
+    else
+        for i,o in pairs(ambushAscendants) do
+            if o == name and i == group then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 function shift_to_next(objects,targetZone,enterscity,schemeParts)
     --all found cards, decks and shards (objects) in a city space will be moved to the next space (targetzone)
     --enterscity is equal to 1 if this shift is a single card moving into the city
@@ -5280,6 +5312,10 @@ function resolveStrike(mmname,epicness,city,cards)
         msno(mmname)
         return nil
     end
+    if mmname == "Angela" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
@@ -5653,6 +5689,14 @@ function resolveStrike(mmname,epicness,city,cards)
         if epicness == true then
             playHorror()
             broadcastToAll("Each player must play a Hellfire Club villain from their Victory Pile!")       
+        end
+        return strikesresolved
+    end
+    if mmname == "Deadpool" then
+        local towound = revealCardTrait(nil,"HC:",nil,"Odd")
+        for _,o in pairs(towound) do
+            click_get_wound(nil,o.color)
+            broadcastToAll("Master Strike: Player " .. o.color .. " had no odd heroes and was wounded.")
         end
         return strikesresolved
     end
@@ -6153,13 +6197,11 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
-    if mmname == "Loki" then
+    if mmname == "Loki" or mmname == "Zombie Loki" then
         local towound = revealCardTrait("Green")
-        if towound[1] then
-            for _,o in pairs(towound) do
-                click_get_wound(nil,o.color)
-                broadcastToAll("Master Strike: Player " .. o.color .. " had no green heroes and was wounded.")
-            end
+        for _,o in pairs(towound) do
+            click_get_wound(nil,o.color)
+            broadcastToAll("Master Strike: Player " .. o.color .. " had no green heroes and was wounded.")
         end
         return strikesresolved
     end
@@ -6178,7 +6220,7 @@ function resolveStrike(mmname,epicness,city,cards)
         addBystanders(strikeloc,nil,true)
         return strikesresolved
     end
-    if mmname == "Magneto" then
+    if mmname == "Magneto" or mmname == "Apocalyptic Magneto" then
         local players = revealCardTrait("X-Men","Team:")
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
@@ -6239,6 +6281,10 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "Malekith the Accursed" or mmname == "Mandarin" or mmname == "Maria Hill, Director of S.H.I.E.L.D." or mmname == "Maximus the Mad" then
+        msno(mmname)
+        return nil
+    end
+    if mmname == "Mastermind" or mmname =="Lady Mastermind" then
         msno(mmname)
         return nil
     end
@@ -6376,9 +6422,10 @@ function resolveStrike(mmname,epicness,city,cards)
         msno(mmname)
         return nil
     end
-    if mmname == "Mr. Sinister" then
+    if mmname == "Mr. Sinister" or mmname == "Zombie Mr. Sinister" then
         local players = revealCardTrait("Red")
         addBystanders(strikeloc,nil,false)
+        --sadly, zombie mr sinister has no strikeloc...
         local bs = get_decks_and_cards_from_zone(strikeloc)
         local sinisterbs = 1
         if bs[1] then
@@ -6492,7 +6539,7 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
-    if mmname == "Professor X" then
+    if mmname == "Professor X" or mmname == "'92 Professor X" then
         msno(mmname)
         return nil
     end
@@ -7023,8 +7070,46 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname == "Warrior Woman" then
+        local citycontent = get_decks_and_cards_from_zone(current_city[2])
+        if citycontent[1] then
+            for _,oc in pairs(citycontent) do
+                if oc.hasTag("Villain") then
+                    for _,o in pairs(Player.getPlayers()) do
+                        local hand = o.getHandObjects()
+                        local handi = table.clone(hand)
+                        local iter = 0
+                        if hand[1] then
+                            for i,h in pairs(handi) do
+                                if not hasTag2(h,"Recruit:",8) then
+                                    table.remove(hand,i-iter)
+                                    iter = iter + 1
+                                end
+                            end
+                            promptDiscard(o.color,hand,1)
+                            broadcastToColor("Master Strike: Discard a card with a Recruit icon.",o.color,o.color)
+                        end
+                    end
+                    break
+                end
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Wasteland Hulk" then
         crossDimensionalRampage("hulk")
+        return strikesresolved
+    end
+    if mmname == "Wasteland Kingpin" then
+        local players = revealCardTrait("Yellow")
+        for _,o in pairs(players) do
+            local hand = o.getHandObjects()
+            promptDiscard(o.color,hand,#hand)
+            local drawfive = function()
+                getObjectFromGUID(playerBoards[o.color]).Call('click_draw_cards',5)
+            end
+            Wait.time(drawfive,1)
+        end
         return strikesresolved
     end
     if mmname == "Uru-Enchanted Iron Man" then
@@ -7066,6 +7151,24 @@ function resolveStrike(mmname,epicness,city,cards)
             broadcastToAll("Master Strike! Each player discards " .. todiscard .. " cards.")
         end
         Wait.time(goblinDiscards,2)
+        return strikesresolved
+    end
+    if mmname == "Zombie Thanos" then
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local handi = table.clone(hand)
+            local iter = 0
+            for i,obj in ipairs(handi) do
+                if not hasTag2(obj,"HC:",4) then
+                    table.remove(hand,i-iter)
+                    iter = iter + 1
+                end
+            end
+            if hand[1] then
+                promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition())
+                broadcastToColor("Master Strike: KO a nongrey hero from your hand.",o.color,o.color)
+            end
+        end
         return strikesresolved
     end
     return nil
@@ -7116,6 +7219,11 @@ function revealCardTrait(trait,prefix,playercolors,what)
                     end
                 elseif what == "Cost" then
                     if hasTag2(h,prefix) and hasTag2(h,prefix) > trait then
+                        players[i] = nil
+                        break
+                    end
+                elseif what == "Odd" then
+                    if hasTag2(h,prefix) and hasTag2(h,prefix) % 2 ~= 0 then
                         players[i] = nil
                         break
                     end
