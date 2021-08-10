@@ -19,11 +19,32 @@ function onLoad()
         ["White"]="7732c7"
     }
     
+    local playguids = {
+        ["Red"]="157bfe",
+        ["Green"]="0818c2",
+        ["Yellow"]="7149d2",
+        ["Blue"]="2b36c3",
+        ["White"]="558e75"
+    }
+    
+    local addguids = {
+        ["Red"]="d833a0",
+        ["Green"]="9ee1fd",
+        ["Yellow"]="c3dfd7",
+        ["Blue"]="03ad58",
+        ["White"]="8a2ca3"
+    }
+    
     handsize_init = 6
     handsize = handsize_init
     handsizef = false
     boardcolor = self.getName()
     vpileguid = vpileguids[boardcolor]
+    playguid = playguids[boardcolor]
+    addguid = addguids[boardcolor]
+end
+
+function colorDummy()
 end
 
 function createButtons()
@@ -36,7 +57,7 @@ function createButtons()
     self.createButton({
         click_function="click_draw_card", function_owner=self,
         position={5, 0.178, 2.1}, height=500,
-        width=500, label="Draw", color={0,0.5,1,1},
+        width=500, label="Draw", tooltip = "Draw a card", color={0,0.5,1,1},
     })
 
     self.createButton({
@@ -234,14 +255,8 @@ function click_discard_hand()
     if not cards then 
         cards = {} 
     end
-    local zoneGuid = "f49fc9"
-    if boardcolor == "White" then 
-        zoneGuid = "558e75" 
-    end
-    if boardcolor == "Blue" then 
-        zoneGuid = "2b36c3"
-    end
-    local played_cards = get_decks_and_cards_from_zone(zoneGuid)
+    local played_cards = get_decks_and_cards_from_zone(playguid)
+    log(played_cards)
     if played_cards then
         played_cards = tuckSidekicks(played_cards)
         cards_all = merge(cards,played_cards)
@@ -266,7 +281,7 @@ function click_deal_cards()
         global_deal=handsize-count
         refillDeck()
     end
-    local toadd = findObjectsAtPosition(pos_add2)
+    local toadd = get_decks_and_cards_from_zone(addguid)
     if toadd[1] then
         local count = math.abs(toadd[1].getQuantity())
         toadd[1].deal(count,boardcolor)
@@ -298,14 +313,7 @@ end
 function isDiscardDone()
     local cards = Player[boardcolor].getHandObjects()
     if not cards then cards = {} end
-    local zoneGuid = "f49fc9"
-    if boardcolor == "White" then 
-        zoneGuid = "558e75" 
-    end
-    if boardcolor == "Blue" then 
-        zoneGuid = "2b36c3"
-    end
-    local played_cards = get_decks_and_cards_from_zone(zoneGuid)
+    local played_cards = get_decks_and_cards_from_zone(playguid)
     if played_cards then
         played_cards = tuckSidekicks(played_cards)
     end

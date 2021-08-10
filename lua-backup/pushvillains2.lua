@@ -47,7 +47,9 @@ function onLoad()
     }
     
     playguids = {
-        ["Yellow"]="f49fc9",
+        ["Red"]="157bfe",
+        ["Green"]="0818c2",
+        ["Yellow"]="7149d2",
         ["Blue"]="2b36c3",
         ["White"]="558e75"
     }
@@ -2671,36 +2673,18 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Gladiator Pits of Sakaar" then
         local playzone = getObjectFromGUID("f49fc9")
         local color = Turns.turn_color
-        playzone.createButton({click_function='updateTwistPower',
-            function_owner=self,
-            position={0,0,0},
-            rotation={0,180,0},
-            scale={0.1,0.5,1},
-            label="You can only play cards from a single Team of your choice!!",
-            tooltip="Play restriction because of Scheme Twist!",
-            font_size=100,
-            font_color={1,0.1,0},
-            color={0,0,0},
-            width=0})
-        if Player["White"].seated then
-            playzone_white = getObjectFromGUID("558e75")
-            playzone_white.createButton({click_function='updateTwistPower',
+        for _,o in pairs(Player.getPlayers()) do
+            local rot = 180
+            if o.color == "White" then
+                rot = 0
+            else
+                rot = 180
+            end
+            local playzone = getObjectFromGUID(playguids[o.color])
+            playzone.createButton({click_function='updateTwistPower',
                 function_owner=self,
                 position={0,0,0},
-                scale={0.25,0.5,1},
-                label="You can only play cards from a single Team of your choice!!",
-                tooltip="Play restriction because of Scheme Twist!",
-                font_size=75,
-                font_color={1,0.1,0},
-                color={0,0,0},
-                width=0})
-        end
-        if Player["Blue"].seated then
-            playzone_blue = getObjectFromGUID("2b36c3")
-            playzone_blue.createButton({click_function='updateTwistPower',
-                function_owner=self,
-                position={0,0,0},
-                rotation={0,180,0},
+                rotation={0,rot,0},
                 scale={0.25,0.5,1},
                 label="You can only play cards from a single Team of your choice!!",
                 tooltip="Play restriction because of Scheme Twist!",
@@ -2724,18 +2708,16 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         local killButton = function()
-            playzone.removeButton(0)
-            if Player["White"].seated then
-                playzone_white.removeButton(0)
-            end
-            if Player["Blue"].seated then
-                playzone_blue.removeButton(0)
+            for _,o in pairs(Player.getPlayers()) do
+                local playzone = getObjectFromGUID(playguids[o])
+                playzone.removeButton(0)
             end
         end
         local killButtonCallback = function()
             Wait.condition(killButton,turnAgain)
         end
         Wait.condition(killButtonCallback,turnHasPassed)
+        return twistsresolved
     end
     if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
         broadcastToAll("Scheme Twist: Purge a hero and place it next to the scheme!")
