@@ -4567,54 +4567,73 @@ function twistSpecials(cards,city,schemeParts)
                 font_color={1,0,0},
                 color={0,0,0,0.75},
                 width=250,height=250})
-            for _,o in pairs(Player.getPlayers()) do
-                local hand = o.getHandObjects()
-                if # hand > 4 then
-                    promptDiscard(o.color,hand,#hand-4)
-                end
-                local vpile = getObjectFromGUID(vpileguids[o.color])
-                _G["koBystander" .. o.color] = function(obj)
-                    local vpilecontent = get_decks_and_cards_from_zone(obj.guid)
-                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
-                        for _,c in pairs(vpilecontent[1].getObjects()) do
-                            for _,t in pairs(c.tags) do
-                                if t == "Bystander" then
-                                    bsfound = true
-                                    vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
-                                        guid = c.guid})
-                                    break
-                                end
-                            end
-                            if bsfound == true then
-                                break
-                            end
-                        end
-                    elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
-                        vpilecontent[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
-                    end
-                    local vpbuttons = obj.getButtons()
-                    local color = nil
+            killKoBystanderButton = function(color)
+                local vpile= getObjectFromGUID(vpileguids[color])
+                local vpbuttons = vpile.getButtons()
+                if vpbuttons then
                     for i,b in pairs(vpbuttons) do
                         if b.click_function:find("koBystander") then
-                            color = b.click_function:gsub("koBystander","")
-                            b.removeButton(i-1)
+                            vpile.removeButton(i-1)
                             break
                         end
                     end
-                    local hand = Player[color].getHandObjects()
-                    for _,h in pairs(hand) do
-                        h.clearButtons()
-                    end
                 end
-                vpile.createButton({click_function="koBystander" .. o.color,
-                    function_owner=self,
-                    position={0,22,0},
-                    label="KO",
-                    tooltip="KO a bystander.",
-                    font_size=250,
-                    font_color="Black",
-                    color={1,1,1},
-                    width=750,height=450})
+            end
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                if # hand > 4 then
+                    promptDiscard(o.color,hand,#hand-4,nil,nil,nil,nil,killKoBystanderButton,o.color)
+                    local vpile = getObjectFromGUID(vpileguids[o.color])
+                    _G["koBystander" .. o.color] = function(obj)
+                        local vpilecontent = get_decks_and_cards_from_zone(obj.guid)
+                        if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                            for _,c in pairs(vpilecontent[1].getObjects()) do
+                                for _,t in pairs(c.tags) do
+                                    if t == "Bystander" then
+                                        bsfound = true
+                                        vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                                            guid = c.guid})
+                                        break
+                                    end
+                                end
+                                if bsfound == true then
+                                    break
+                                end
+                            end
+                        elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
+                            vpilecontent[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                            bsfound = true
+                        end
+                        if bsfound then
+                            local color = nil
+                            for c,g in pairs(vpileguids) do
+                                if g == obj.guid then
+                                    color = c
+                                    break
+                                end
+                            end
+                            killKoBystanderButton(color)
+                            local hand = Player[color].getHandObjects()
+                            for _,h in pairs(hand) do
+                                h.clearButtons()
+                            end
+                        else
+                            broadcastToAll("Can't KO a bystander, none found!")
+                        end
+                    end
+                    vpile.createButton({click_function="koBystander" .. o.color,
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label="KO",
+                        tooltip="KO a bystander.",
+                        font_size=200,
+                        font_color="Black",
+                        color={1,1,1},
+                        width=650,height=400})
+                else
+                    broadcastToColor("Scheme Twist: But you have 4 or less cards in hand, so you don't need to discard. You may KO a bystander if you really hate it.",o.color,o.color)
+                end
             end
         elseif twistsresolved < 8 then
             local players = revealCardTrait("Avengers","Team:")
@@ -4882,39 +4901,107 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setName("Psychotic Break")
         cards[1].setDescription("ARTIFACT: Not really, but this ensures it sticks during cleanup.")
         cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5,4,4}))
+        currentPsychoticBreak = cards[1]
         broadcastToAll("Scheme Twist: Discard a card and pass the break to the next player, or keep it!")
-        --shiftPsychoticBreak = function()
-            --cards[1]
-        --end
-        promptDiscard(Turns.turn_color)
-        local keepPsychoticBreak = function(obj)
-            obj.clearButtons()
-            local pos = obj.getPosition()
-            if Turns.turn_color == "White" then
-                pos.z = pos.z - 3
-            elseif Turns.turn_color == "Blue" then
-                pos.z = pos.z + 3
-            else
-                pos.x = pos.x - 3
+        promptPsychoticBreakChoice = function(color)
+            promptDiscard(color,nil,nil,nil,nil,nil,nil,shiftPsychoticBreak,color)
+            keepPsychoticBreak = function(obj)
+                obj.clearButtons()
+                local color = nil
+                for _,o in pairs(Player.getPlayers()) do
+                    local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
+                    if playcontent[1] then
+                        for _,k in pairs(playcontent) do
+                            if k.guid == obj.guid then
+                                color = o.color
+                                break
+                            end
+                        end
+                        if color then
+                            break
+                        end
+                    end
+                end
+                local pos = obj.getPosition()
+                if color == "White" then
+                    pos.z = pos.z + 14
+                elseif color == "Blue" then
+                    pos.z = pos.z - 14
+                else
+                    pos.x = pos.x + 14
+                end
+                obj.setPositionSmooth(pos)
+                obj.locked = true
+                local hand = Player[color].getHandObjects()
+                for _,h in pairs(hand) do
+                    h.clearButtons()
+                end
             end
-            obj.setPositionSmooth(pos)
-            local hand = Player[Turns.turn_color].getHandObjects()
-            for _,h in pairs(hand) do
-                h.clearButtons()
+            currentPsychoticBreak.createButton({click_function="keepPsychoticBreak",
+                function_owner=self,
+                position={0,22,0},
+                label="Keep",
+                tooltip="Keep this psychotic break.",
+                font_size=250,
+                font_color="Black",
+                color={1,1,1},
+                width=750,height=450})
+        end
+        shiftPsychoticBreak = function(color)
+            local nextcolor = nil
+            for i,o in pairs(Player.getPlayers()) do
+                if o.color == color then
+                    if i == 1 then
+                        nextcolor = Player.getPlayers()[#Player.getPlayers()].color
+                    else
+                        nextcolor = Player.getPlayers()[i-1].color
+                    end
+                    break
+                end
+            end
+            currentPsychoticBreak.setPositionSmooth(getObjectFromGUID(playerBoards[nextcolor]).positionToWorld({-1.5,4,4}))
+            promptPsychoticBreakChoice(nextcolor)
+        end
+        promptPsychoticBreakChoice(Turns.turn_color)
+        function onPlayerTurn(player)
+            local playcontent = get_decks_and_cards_from_zone(playguids[player.color])
+            if playcontent[1] then
+                local breakcount = 0
+                for _,o in pairs(playcontent) do
+                    if o.tag == "Deck" then
+                        for _,k in pairs(o.getObjects()) do
+                            if k.name == "Psychotic Break" then
+                                breakcount = breakcount + 1
+                            end
+                        end
+                    elseif o.tag == "Card" then
+                        if o.getName() == "Psychotic Break" then
+                            breakcount = breakcount + 1
+                        end
+                    end
+                end
+                if breakcount > 0 then
+                    local hand = player.getHandObjects()
+                    local pos = getObjectFromGUID(playerBoards[player.color]).positionToWorld({-3.5,4,4})
+                    if #hand >= breakcount*2 then
+                        for i=1,breakcount*2 do
+                            local card = table.remove(hand,math.random(#hand))
+                            card.setPosition(pos)
+                            pos.x = pos.x + 1
+                            pos.y = pos.y + 1
+                        end
+                    else
+                        for i=1,#hand do
+                            local card = table.remove(hand,math.random(#hand))
+                            card.setPosition(pos)
+                            pos.x = pos.x + 1
+                            pos.y = pos.y + 1
+                        end
+                    end
+                    broadcastToColor("Psychotic Break! Play and activate cards from hand in random order, from left to right!",player.color,player.color)
+                end
             end
         end
-        cards[1].createButton({click_function="keepPsychoticBreak",
-            function_owner=self,
-            position={0,22,0},
-            label="Keep",
-            tooltip="Keep this psychotic break.",
-            font_size=250,
-            font_color="Black",
-            color={1,1,1},
-            width=750,height=450})
-        --function onPlayerTurn(player,previous_player)
-            
-        --end
         return nil
     end
     if schemeParts[1] == "Turn the Soul of Adam Warlock" then
@@ -7535,7 +7622,7 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
-function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf)
+function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args)
     if not handobjects then
         handobjects = Player[color].getHandObjects()
     end
@@ -7578,7 +7665,9 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf)
                     responses[color] = handobjects[i]
                     --log(responses)
                 end
-                if triggerf then
+                if triggerf and args then
+                    triggerf(args)
+                elseif triggerf then
                     triggerf()
                 end
             end
