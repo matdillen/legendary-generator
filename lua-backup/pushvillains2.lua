@@ -2655,27 +2655,117 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Forge the Infinity Gauntlet" then
-        -- local getNextColor = function(color)
-            -- local nextcolor = nil
-            -- for i,o in pairs(Player.getPlayers()) do
-                -- if o.color == color then
-                    -- if i == 1 then
-                        -- nextcolor = Player.getPlayers()[#Player.getPlayers()].color
-                    -- else
-                        -- nextcolor = Player.getPlayers()[i-1].color
-                    -- end
-                    -- break
-                -- end
-            -- end
-            -- return nextcolor
-        -- end
-        -- local gemfound = false
-        -- local color = Turns.turn_color
-        -- while gemfound == false do
-            -- local color = getNextColor(color)
-        broadcastToAll("Scheme Twist not scripted yet.")
-        --requires offering cards from play AND from discard
-        return nil
+        local getNextColor = function(color)
+            local nextcolor = nil
+            for i,o in pairs(Player.getPlayers()) do
+                if o.color == color then
+                    if i == 1 then
+                        nextcolor = Player.getPlayers()[#Player.getPlayers()].color
+                    else
+                        nextcolor = Player.getPlayers()[i-1].color
+                    end
+                    break
+                end
+            end
+            return nextcolor
+        end
+        local gemfound = false
+        local color = Turns.turn_color
+        function killInfinityGemButton(obj)
+            obj.clearButtons()
+            obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+            Wait.time(click_push_villain_into_city,2)
+            local shardAllGems = function()
+                broadcastToAll("Scheme Twist: Shards added to all Infinity Gems in the city.")
+                for _,o in pairs(city) do
+                    local citycontent = get_decks_and_cards_from_zone(o)
+                    if citycontent[1] then
+                        for _,obj in pairs(citycontent) do
+                            if obj.hasTag("Group:Infinity Gems") then
+                                gainShard(nil,o)
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+            Wait.time(shardAllGems,4)
+            for _,b in pairs(discardGemguids) do
+                if b ~= obj.guid then
+                    local card = getObjectFromGUID(b)
+                    if card then
+                        card.clearButtons()
+                        card.locked = false
+                        card.setPosition(getObjectFromGUID(playerBoards[latestGemColor]).positionToWorld(pos_discard))
+                    end
+                end
+            end
+            local playcontent = get_decks_and_cards_from_zone(playguids[latestGemColor])
+            if playcontent[1] then
+                for _,o in pairs(playcontent) do
+                    if o.hasTag("Group:Infinity Gems") and o.guid ~= obj.guid then
+                        o.clearButtons()
+                    end
+                end
+            end
+        end
+        latestGemColor = nil
+        while gemfound == false do
+            color = getNextColor(color)
+            if color == Turns.turn_color then
+                gemfound = true
+            end
+            latestGemColor = color
+            local playcontent = get_decks_and_cards_from_zone(playguids[color])
+            if playcontent[1] then
+                for _,o in pairs(playcontent) do
+                    if o.hasTag("Group:Infinity Gems") then
+                        o.createButton({click_function = 'killInfinityGemButton',
+                            function_owner=self,
+                            position={0,22,0},
+                            label="Pick",
+                            tooltip="Pick this Infinity Gem to re-enter the city.",
+                            font_size=250,
+                            font_color="Black",
+                            color={1,1,1},
+                            width=750,height=450})
+                        gemfound = true
+                    end
+                end
+            end
+            local discarded = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
+            discardGemguids = {}
+            if discarded[1] and discarded[1].tag == "Deck" then
+                for _,o in pairs(discarded[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k == "Group:Infinity Gems" then
+                            gemfound = true
+                            table.insert(discardGemguids,o.guid)
+                            break
+                        end
+                    end
+                end
+                if discardGemguids[1] then
+                    offerCards(color,discarded[1],discardGemguids,killInfinityGemButton,"Pick this Infinity Gem to re-enter the city.")
+                end
+            elseif discarded[1] then
+                if discarded[1].hasTag("Group:Infinity Gems") then
+                    gemfound = true
+                    table.insert(discardGemguids,discarded[1].guid)
+                    discarded[1].createButton({click_function = 'killInfinityGemButton',
+                            function_owner=self,
+                            position={0,22,0},
+                            label="Pick",
+                            tooltip="Pick this Infinity Gem to re-enter the city.",
+                            font_size=250,
+                            font_color="Black",
+                            color={1,1,1},
+                            width=750,height=450})
+                end
+            end
+        end
+        broadcastToAll("Scheme Twist: The first player with an Infinity Gem Artifact card in play or in their discard pile chooses on of those Infinity Gems to enter the city.")
+        return twistsresolved
     end
     if schemeParts[1] == "Fragmented Realities" then
         koCard(cards[1])
