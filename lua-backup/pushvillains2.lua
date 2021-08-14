@@ -2655,7 +2655,26 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Forge the Infinity Gauntlet" then
-        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
+        -- local getNextColor = function(color)
+            -- local nextcolor = nil
+            -- for i,o in pairs(Player.getPlayers()) do
+                -- if o.color == color then
+                    -- if i == 1 then
+                        -- nextcolor = Player.getPlayers()[#Player.getPlayers()].color
+                    -- else
+                        -- nextcolor = Player.getPlayers()[i-1].color
+                    -- end
+                    -- break
+                -- end
+            -- end
+            -- return nextcolor
+        -- end
+        -- local gemfound = false
+        -- local color = Turns.turn_color
+        -- while gemfound == false do
+            -- local color = getNextColor(color)
+        broadcastToAll("Scheme Twist not scripted yet.")
+        --requires offering cards from play AND from discard
         return nil
     end
     if schemeParts[1] == "Fragmented Realities" then
@@ -2742,7 +2761,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Hidden Heart of Darkness" then
-        local villain_deck = get_decks_and_cards_from_zone("4bc134")
+        local villain_deck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
         local villaindeckcount = 0
         if villain_deck[1] then
             villaindeckcount = math.abs(villain_deck[1].getQuantity())
@@ -2756,22 +2775,28 @@ function twistSpecials(cards,city,schemeParts)
                         local vpileCards = vpilecontent[1].getObjects()
                         for j = 1, #vpileCards do
                             for _,k in pairs(vpileCards[j].tags) do
-                                if k == "Mastermind" then
+                                if k:find("Tactic:") then
                                     table.insert(tacticFound,vpileCards[j].guid)
                                     break
                                 end
                             end
                         end
-                        if tacticFound[1] then
-                            --random shuffle not strictly correct
-                            vpilecontent[1].takeObject({position = getObjectFromGUID("4bc134").getPosition(),
-                                flip=true,guid=tacticFound[math.random(#tacticFound)]})
+                        if tacticFound[1] and not tacticFound[2] then
+                            vpilecontent[1].takeObject({position = getObjectFromGUID(villainDeckZoneGUID).getPosition(),
+                                flip=true,guid=tacticFound[1]})
+                            villaindeckcount = villaindeckcount + 1
+                        elseif tacticFound[1] then
+                            local moveToVilDeck = function(obj)
+                                obj.flip()
+                                obj.setPosition(getObjectFromGUID(villainDeckZoneGUID).getPosition())
+                            end
+                            offerCards(i,vpilecontent[1],tacticFound,moveToVilDeck,"Shuffle this tactic back into the Villain deck.","Shuffle")
                             villaindeckcount = villaindeckcount + 1
                         end
                     else
-                        if vpilecontent[1].hasTag("Mastermind") then
+                        if hasTag2(vpilecontent[1],"Tactic:",7) then
                             vpilecontent[1].flip()
-                            vpilecontent[1].setPositionSmooth(getObjectFromGUID("4bc134").getPosition())
+                            vpilecontent[1].setPositionSmooth(getObjectFromGUID(villainDeckZoneGUID).getPosition())
                             table.insert(tacticFound,vpilecontent[1].guid)
                             villaindeckcount = villaindeckcount + 1
                         end
@@ -2786,7 +2811,7 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         local tacticsAdded = function()
-            local villain_deck = get_decks_and_cards_from_zone("4bc134")
+            local villain_deck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
             if villain_deck[1] and math.abs(villain_deck[1].getQuantity()) == villaindeckcount then
                 return true
             else
@@ -2794,7 +2819,7 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         local tacticsFollowup = function()
-            local villain_deck = get_decks_and_cards_from_zone("4bc134")
+            local villain_deck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
             if villain_deck[1] then
                 villain_deck[1].randomize()
                 local pos = getObjectFromGUID("f3c7e3").getPosition()
@@ -2900,7 +2925,34 @@ function twistSpecials(cards,city,schemeParts)
                     flip=false})
             end
         elseif twistsresolved < 9 then
-            broadcastToAll("Scheme Twist: Each player puts a villain from their victory pile into the escape pile (don't KO).",{1,0,0})
+            for _,o in pairs(Player.getPlayers()) do
+                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                local vpilevillains = {}
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    for _,obj in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(obj.tags) do
+                            if k == "Villain" then
+                                table.insert(vpilevillains,obj.guid)
+                                break
+                            end
+                        end
+                    end
+                    if vpilevillains[1] and vpilevillains[2] then
+                        local moveToEscape = function(obj)
+                            obj.setPosition(getObjectFromGUID(escape_zone_guid).getPosition())
+                        end
+                        log(o.color)
+                        log(vpilevillains)
+                        offerCards(o.color,vpilecontent[1],vpilevillains,moveToEscape,"Put this villain in the escape pile.","Escape")
+                    elseif vpilevillains[1] then
+                        vpilecontent[1].takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
+                            guid = vpilevillains[1]})
+                    end
+                elseif vpilecontent[1] and vpilecontent[1].hasTag("Villain") then
+                    vpilecontent[1].setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+                end
+            end
+            broadcastToAll("Scheme Twist: Each player puts a villain from their victory pile into the escape pile.",{1,0,0})
         end
         return twistsresolved
     end
@@ -3430,8 +3482,71 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Paralyzing Venom" then
-        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
-        return nil
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            if #hand > 4 then
+                local bsguids = {}
+                local killBSButton = function(obj)
+                    for _,b in pairs(bsguids) do
+                        local obj = getObjectFromGUID(b)
+                        if obj then
+                            obj.clearButtons()
+                            obj.locked = false
+                            obj.setPosition(getObjectFromGUID(vpileguids[o.color]).getPosition())
+                        end
+                    end
+                end
+                promptDiscard(o.color,hand,#hand-4,nil,nil,nil,nil,killBSButton)
+                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                local killHandButtons = function(obj)
+                    obj.clearButtons()
+                    koCard(obj)
+                    local hand = Player[o.color].getHandObjects()
+                    for _,h in pairs(hand) do
+                        h.clearButtons()
+                    end
+                end
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    for _,p in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(p.tags) do
+                            if k == "Bystander" then
+                                table.insert(bsguids,p.guid)
+                                break
+                            end
+                        end
+                    end
+                    offerCards(o.color,vpilecontent[1],bsguids,killHandButtons,"KO this bystander.","KO")
+                elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
+                    _G['killHandButtons' .. o.color] = function(obj)
+                        local color = nil
+                        for _,b in pairs(obj.getButtons()) do
+                            if b.click_function:find("killHandButtons") then
+                                color = b.click_function:gsub("killHandButtons","")
+                            end
+                        end
+                        obj.clearButtons()
+                        koCard(obj)
+                        local hand = Player[color].getHandObjects()
+                        for _,h in pairs(hand) do
+                            h.clearButtons()
+                        end
+                    end
+                    vpilecontent[1].createButton({click_function = 'killHandButtons' .. o.color,
+                        function_owner=self,
+                        position={0,22,0},
+                        label="KO",
+                        tooltip="KO this bystander.",
+                        font_size=250,
+                        font_color="Black",
+                        color={1,1,1},
+                        width=750,height=450})
+                    table.insert(bsguids,vpilecontent[1].guid)
+                end
+            else
+                broadcastToColor("Scheme Twist: Your hand has less than 5 cards, but you may still KO a bystander from your victory pile if you really hate it.",o.color,o.color)
+            end
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Portals to the Dark Dimension" then
         if twistsresolved == 1 then
@@ -6066,52 +6181,38 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         local pcolor = Turns.turn_color
         local vpilecontent = get_decks_and_cards_from_zone(vpileguids[pcolor])
-        local carddropped = 0
-        local posPlay = offerCards(pcolor)
+        local moveToCity = function(obj)
+            obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+            Wait.time(click_push_villain_into_city,2)
+        end
         if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
             local vpilestrong = {}
             for _,o in pairs(vpilecontent[1].getObjects()) do
                 for _,k in pairs(o.tags) do
                     if k:find("VP") and tonumber(k:match("%d+")) > 2 + helabonus then
-                        table.insert(vpilestrong,o)
+                        table.insert(vpilestrong,o.guid)
                         break
                     end
                 end
             end
+            log(vpilestrong)
             if vpilestrong[1] and not vpilestrong[2] then
+                local pushDelayed = function()
+                    Wait.time(click_push_villain_into_city,2)
+                end
                 vpilecontent[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
                     smooth = true,
-                    callback_function = click_push_villain_into_city})
+                    callback_function = pushDelayed})
                 return nil
             elseif vpilestrong[1] and vpilestrong[2] then
-                for _,o in pairs(vpilestrong) do
-                    posPlay = offerCards(pcolor,posPlay)
-                    vpilecontent[1].takeObject({position = posPlay,
-                        guid = o.guid})
-                    carddropped = carddropped + 1
-                    if vpilecontent[1].remainder and carddropped < #vpilestrong then
-                        vpilecontent[1] = vpilecontent[1].remainder
-                        break
-                    end  
-                end
-                broadcastToColor("Push 1 of the " .. #vpilestrong .. " villain cards that were put into play from your victory pile into the city. Return the rest to your victory pile.",pcolor,pcolor)
-                if #vpilestrong == carddropped then
-                    return nil
-                end
+                offerCards(pcolor,vpilecontent[1],vpilestrong,moveToCity)
+                return nil
             end
         end
         if vpilecontent[1] and vpilecontent[1].tag == "Card" then
-            if carddropped > 0 then
-                posPlay = offerCards(pcolor,posPlay)
-                vpilecontent[1].setPosition(posPlay)
-                carddropped = carddropped + 1
+            if hasTag2(vpilecontent[1],"VP") and hasTag2(vpilecontent[1],"VP") > 2 + helabonus then
+                moveToCity(vpilecontent[1])
                 return nil
-            else
-                if hasTag2(vpilecontent[1],"VP") and hasTag2(vpilecontent[1],"VP") > 2 + helabonus then
-                    vpilecontent[1].setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
-                    Wait.time(click_push_villain_into_city,2)
-                    return nil
-                end
             end
         end
         dealWounds()
@@ -6152,8 +6253,6 @@ function resolveStrike(mmname,epicness,city,cards)
                 if Player[i].seated == true then
                     local vpilecontent = get_decks_and_cards_from_zone(o)
                     local vpilewarbound = {}
-                    local posPlay = offerCards(i)
-                    local carddropped = 0
                     if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
                         for _,k in pairs(vpilecontent[1].getObjects()) do
                             for _,tag in pairs(k.tags) do
@@ -6167,30 +6266,16 @@ function resolveStrike(mmname,epicness,city,cards)
                             vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
                                 smooth = true})
                         elseif vpilewarbound[1] and vpilewarbound[2] then
-                            for _,k in pairs(vpilewarbound) do
-                                posPlay = offerCards(i,posPlay)
-                                vpilecontent[1].takeObject({position = posPlay,
-                                    guid = k.guid})
-                                carddropped = carddropped + 1
-                                if vpilecontent[1].remainder and carddropped < #vpilewarbound then
-                                    vpilecontent[1] = vpilecontent[1].remainder
-                                    break
-                                end  
-                            end
-                            broadcastToColor("KO 1 of the " .. #vpilewarbound .. " villain cards that were put into play from your victory pile. Return the rest to your victory pile.",i,i)
+                            offerCards(i,vpilecontent[1],vpilewarbound,koCard,"KO this villain.","KO")
+                            broadcastToColor("KO 1 of the " .. #vpilewarbound .. " villain cards that were put into play from your victory pile.",i,i)
                         else
                             click_get_wound(nil,i)
                         end
-                    end
-                    if vpilecontent[1] and vpilecontent[1].tag == "Card" then
-                        if carddropped > 0 then
-                            posPlay = offerCards(i,posPlay)
-                            vpilecontent[1].setPosition(posPlay)
-                            carddropped = carddropped + 1
+                    elseif vpilecontent[1] then
+                        if vpilecontent[1].hasTag("Group:Warbound") then
+                            vpilecontent[1].setPosition(getObjectFromGUID(kopile_guid).getPosition())
                         else
-                            if vpilecontent[1].hasTag("Group:Warbound") then
-                                vpilecontent[1].setPosition(getObjectFromGUID(kopile_guid).getPosition())
-                            end
+                            click_get_wound(nil,i)
                         end
                     else
                         click_get_wound(nil,i)
@@ -6199,6 +6284,7 @@ function resolveStrike(mmname,epicness,city,cards)
             end
         elseif transformedPV["King Hulk, Sakaarson"] == false then
             broadcastToAll("Master Strike: Each player reveals their hand, then KO's a card from their hand or discard pile that has the same card name as a card in the HQ.")
+            --could be scripted, but tricky with both hand and discard pile zones
         end
         return strikesresolved
     end
@@ -7584,26 +7670,147 @@ function demolish(colors,n,altsource,ko)
     end
 end
 
-function offerCards(color,position)
-    if not position then
-        local position = getObjectFromGUID(playerBoards[color]).getPosition()
-        if color == "White" then
-            position.x = position.x + 15
-        elseif color == "Blue" then
-            position.x = position.x - 15
-        else
-            position.z = position.z - 15
+function offerCards(color,pile,guids,resolvef,toolt,label,flip,n)
+    if not toolt then
+        toolt = "Pick this card for the scheme twist, master strike or other effect."
+    end
+    if not label then
+        label = "Pick"
+    end
+    if not n then
+        n = 1
+        --n > 1 currently unused
+    end
+    if not flip then
+        flip = false
+    end
+    if not guids then
+        guids = {}
+        for _,o in pairs(pile.getObjects()) do
+            table.insert(guids,o.guid)
         end
-        return position
     end
+    local pos = getObjectFromGUID(playerBoards[color]).getPosition()
+    pos.y = pos.y + 8
+    local posini = nil
+    local angle = 180
     if color == "White" then
-        position.z = position.z + 4
+        pos.z = pos.z - 6
+        posini = pos.z
+        angle = 90
     elseif color == "Blue" then
-        position.z = position.z - 4
+        pos.z = pos.z + 6
+        posini = pos.z
+        angle = -90
     else
-        position.x = position.x + 7
+        pos.x = pos.x - 6
+        posini = pos.x
     end
-    return position
+	local brot = {x=0, y=angle, z=0}
+    if not cardsoffered then 
+        cardsoffered = {}
+        for _,o in pairs(Player.getPlayers()) do
+            cardsoffered[o.color] = {nil}
+        end
+    end
+    local pilepos = pile.getPosition()
+    pilepos.y = pilepos.y + 4
+    _G['resolveOfferCardsEffect' .. color] = function(obj,player_clicker_color)
+        --can use player color to disable other players from clicking
+        --messes up solo two-handed play though
+        local color = nil
+        for _,b in pairs(obj.getButtons()) do
+            if b.click_function:find("resolveOfferCardsEffect") then
+                color = b.click_function:gsub("resolveOfferCardsEffect","")
+            end
+        end
+        log(cardsoffered)
+        for _,o in pairs(cardsoffered[color]) do
+            if o ~= obj.guid then
+                local card = getObjectFromGUID(o)
+                if card then
+                    card.locked = false
+                    card.clearButtons()
+                    card.setPosition(pilepos)
+                    if flip then
+                        card.flip()
+                    end
+                end
+            end
+        end
+        cardsoffered[color] = {nil}
+        obj.locked = false
+        obj.clearButtons()
+        obj.setRotation(brot)
+        resolvef(obj)
+    end
+    function lockAndButton(obj)
+        obj.locked = true
+        obj.createButton({click_function='resolveOfferCardsEffect' .. color,
+            function_owner=self,
+            position={0,20,0},
+            label=label,
+            tooltip=toolt,
+            font_size=300,
+            font_color={0,0,0},
+            color={1,1,1},
+            width=650,height=650})
+    end
+    local stepPos = function(step,pos,color,posini)
+        if color == "White" then
+            pos.z = pos.z + 4
+        elseif color == "Blue" then
+            pos.z = pos.z - 4
+        else
+            pos.x = pos.x + 4
+        end
+        step = step + 1
+        if step > 6 then
+            step = 0
+            if color == "White" then
+                pos.z = posini
+                pos.x = pos.x + 6
+            elseif color == "Blue" then
+                pos.z = posini
+                pos.x = pos.x - 6
+            else
+                pos.x = posini
+                pos.z = pos.z - 6
+            end
+        end
+        return step,pos
+    end
+    local step = 0
+    for _,o in pairs(pile.getObjects()) do
+        if not guids or #guids == pile.getQuantity() then
+            table.insert(cardsoffered[color],o.guid)
+            pile.takeObject({position = pos,
+                guid = o.guid,
+                flip = flip,
+                smooth = true,
+                callback_function = lockAndButton})
+            step,pos = stepPos(step,pos,color,posini)
+            if pile.remainder then
+                table.insert(cardsoffered[color],pile.remainder.guid)
+                pile.remainder.setPositionSmooth(pos)
+                lockAndButton(pile.remainder)
+                break
+            end
+        else
+            for _,p in pairs(guids) do
+                if p == o.guid then
+                    table.insert(cardsoffered[color],o.guid)
+                    pile.takeObject({position = pos,
+                        guid = o.guid,
+                        flip = flip,
+                        smooth = true,
+                        callback_function = lockAndButton})
+                    step,pos = stepPos(step,pos,color,posini)
+                    break
+                end
+            end
+        end
+    end
 end
 
 function hasTag2(obj,tag,index)
@@ -7649,8 +7856,9 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args)
         end
     else
         for i,o in pairs(handobjects) do
-            _G["discardCard" .. color .. o.guid] = function()
+            _G["discardCard" .. color .. o.guid] = function(obj)
                 n = n-1
+                obj.clearButtons()
                 if n == 0 then
                     for _,p in pairs(handobjects) do
                         p.clearButtons()
