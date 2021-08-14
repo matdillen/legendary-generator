@@ -6333,8 +6333,29 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "J. Jonah Jameson" then
-        msno(mmname)
-        return nil
+        for _,o in pairs(Player.getPlayers()) do
+            local investigateMobs = function()
+                local deck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
+                local deckcontent = deck.getObjects()
+                local investiguids = {deckcontent[1].guid,deckcontent[2].guid}
+                local shuffleIntoMobs = function(obj)
+                    obj.setPosition(getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    obj.flip()
+                    if epicness and (not hasTag2(obj,"Cost:") or hasTag2(obj,"Cost:") == 0) then
+                        click_get_wound(nil,o.color)
+                    end
+                end
+                offerCards(o.color,deck,investiguids,shuffleIntoMobs,"Shuffle this card into the Angry Mobs stack.","Shuffle",true)
+            end
+            local deck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+            if not deck[1] or deck[1].getQuantity() < 2 then
+                getObjectFromGUID(playerBoards[o.color]).Call('refillDeck')
+                Wait.time(investigateMobs,1)
+            else
+                investigateMobs()
+            end
+        end
+        return strikesresolved
     end
     if mmname == "King Hulk, Sakaarson" then
         local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["King Hulk, Sakaarson"])
@@ -7883,6 +7904,9 @@ function offerCards(color,pile,guids,resolvef,toolt,label,flip,n)
             if pile.remainder then
                 table.insert(cardsoffered[color],pile.remainder.guid)
                 pile.remainder.setPositionSmooth(pos)
+                if flip then
+                    pile.remainder.flip()
+                end
                 lockAndButton(pile.remainder)
                 break
             end

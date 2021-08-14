@@ -2442,7 +2442,7 @@ function setupMasterminds(objname,epicness,lurking)
             jonah = 3
         end
         for i=1,jonah*#Player.getPlayers() do
-            soPile.takeObject({position = getObjectFromGUID(mmLocations[objname]).getPosition(),
+            soPile.takeObject({position = getObjectFromGUID(getStrikeloc(objname)).getPosition(),
                 flip=false,
                 smooth=false})
         end
