@@ -2067,7 +2067,7 @@ end
 
 function mmActive(mmname)
     for _,o in pairs(masterminds) do
-        if o == mmname then
+        if o == mmname or o == mmname .. " - epic" then
             return true
         end
     end
@@ -2086,7 +2086,7 @@ function setupMasterminds(objname,epicness,lurking)
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
     end
-    if objname == "Arcade" then
+    if objname == "Arcade" or objname == "Arcade - epic" then
         local arc = 5
         if epicness == true then
             arc = 8
@@ -2193,7 +2193,7 @@ function setupMasterminds(objname,epicness,lurking)
             updateBaronHelm()
         end
     end
-    if objname == "Belasco, Demon Lord of Limbo" then
+    if objname == "Belasco, Demon Lord of Limbo" or objname == "Belasco, Demon Lord of Limbo - epic" then
         updateBelasco = function()
             if not mmActive(objname) then
                 return nil
@@ -2276,7 +2276,7 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateCharles,1.5)
         end
     end
-    if objname == "Deathbird" then
+    if objname == "Deathbird" or objname == "Deathbird - epic" then
         updateDeathbird = function()
             if not mmActive(objname) then
                 return nil
@@ -2329,7 +2329,7 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateDeathbird,1)
         end
     end
-    if objname == "Emma Frost, The White Queen" then
+    if objname == "Emma Frost, The White Queen" or objname == "Emma Frost, The White Queen - epic" then
         updateEmma = function()
             if not mmActive(objname) then
                 return nil
@@ -2405,7 +2405,7 @@ function setupMasterminds(objname,epicness,lurking)
             updateDeadpool()
         end
     end
-    if objname == "Grim Reaper" then
+    if objname == "Grim Reaper" or objname == "Grim Reaper - epic" then
         updateReaper = function()
             if not mmActive(objname) then
                 return nil
@@ -2441,7 +2441,7 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateReaper,1)
         end
     end
-    if objname == "Hela, Goddess of Death" then
+    if objname == "Hela, Goddess of Death" or objname == "Hela, Goddess of Death - epic" then
         helacitycheck = table.clone(city_zones_guids)
         table.remove(helacitycheck,1)
         table.remove(helacitycheck,1)
@@ -2482,7 +2482,7 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateHela,1)
         end
     end
-    if objname == "J. Jonah Jameson" then
+    if objname == "J. Jonah Jameson" or objname == "J. Jonah Jameson - epic" then
         local soPile = getObjectFromGUID(officerDeckGUID)
         soPile.randomize()
         local jonah = 2
@@ -2616,7 +2616,7 @@ function setupMasterminds(objname,epicness,lurking)
             updateMadelyne()
         end
     end
-    if objname == "Magus" then
+    if objname == "Magus" or objname == "Magus - epic" then
         updateMagus = function()
             if not mmActive(objname) then
                 return nil
@@ -2627,7 +2627,7 @@ function setupMasterminds(objname,epicness,lurking)
                     local citycontent = get_decks_and_cards_from_zone(o)
                     if citycontent[1] then
                         for _,obj in pairs(citycontent) do
-                            if objname == "Shard" then
+                            if obj.getName() == "Shard" then
                                 shardsfound = shardsfound + 1
                                 break
                             end
@@ -2652,6 +2652,44 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateMagus,1)
         end
     end
+    if objname == "Mandarin" or objname == "Mandarin - epic" then
+        if not mmActive(objname) then
+            return nil
+        end
+        updateMandarin = function()
+            local tacticsfound = 0
+            for _,o in pairs(Player.getPlayers()) do
+                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    for _,o in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k == "Group:Mandarin's Rings" then
+                                tacticsfound = tacticsfound + 1
+                                break
+                            end
+                        end
+                    end
+                elseif vpilecontent[1] and vpilecontent[1].hasTag("Group:Mandarin's Rings") then
+                    tacticsfound = tacticsfound + 1
+                end
+            end
+            local modifier = 1
+            if epicness then
+                modifier = 2
+            end
+            Wait.time(function() mmButtons(objname,
+                tacticsfound,
+                "-" .. tacticsfound*modifier,
+                "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
+                'updateMandarin') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMandarin,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMandarin,1)
+        end
+    end
     if objname == "Misty Knight" then
         local mmzone = getObjectFromGUID(mmLocations[objname])
         mmzone.createButton({click_function='returnColor',
@@ -2665,7 +2703,7 @@ function setupMasterminds(objname,epicness,lurking)
                     color={0,0,0,0.75},
                     width=250,height=250})
     end
-    if objname == "Mojo" then
+    if objname == "Mojo" or objname == "Mojo - epic" then
         if mmLocations["Mojo"] ~= mmZoneGUID then
             mojoVPUpdate(0)
         end
@@ -2801,13 +2839,13 @@ function setupMasterminds(objname,epicness,lurking)
             updateMrSinister()
         end
     end
-    if objname == "Onslaught" then
+    if objname == "Onslaught" or objname == "Onslaught - epic" then
         for _,o in pairs(Player.getPlayers()) do
             getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain')
         end
         broadcastToAll("Hand size reduced by 1 because of Onslaught. Good luck! You're going to need it.")
     end
-    if objname == "Poison Thanos" then
+    if objname == "Poison Thanos" or objname == "Poison Thanos - epic" then
         updatePoisonThanos = function()
             if not mmActive(objname) then
                 return nil
@@ -2899,7 +2937,7 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateRagnarok,2)
         end
     end
-    if objname == "Shadow King" then
+    if objname == "Shadow King" or objname == "Shadow King - epic" then
         if epicness then
             playHorror()
             playHorror()
@@ -2980,7 +3018,7 @@ function setupMasterminds(objname,epicness,lurking)
                 smooth=false})
         end
     end
-    if objname == "The Hood" then
+    if objname == "The Hood" or objname == "The Hood - epic" then
         updateHood = function()
             if not mmActive(objname) then
                 return nil
@@ -3031,7 +3069,7 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateHood,2)
         end
     end
-    if objname == "Ultron" then
+    if objname == "Ultron" or objname == "Ultron - epic" then
         updateUltron = function()
             if not mmActive(objname) then
                 return nil

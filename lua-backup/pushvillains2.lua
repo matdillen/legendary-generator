@@ -11,6 +11,7 @@ function onLoad()
     goblincount = 0
     othermm = false
     masterminds = {}
+    cityPushDelay = 0
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
@@ -196,13 +197,18 @@ function click_rescue_bystander(obj, player_clicker_color, alt_click)
     end
 end
 
-function click_get_wound(obj, player_clicker_color, alt_click)
+function click_get_wound(obj, player_clicker_color, alt_click,top)
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local woundsDeck=getObjectFromGUID(woundsDeckGUID)
     local dest = playerBoard.positionToWorld(pos_discard)
     dest.y = dest.y + 3
     local toflip = nil
-    if masterminds[1] then
+    if top then
+        dest = playerBoard.positionToWorld({0.957, 3.178, 0.222})
+        toflip = function(obj)
+            obj.flip()
+        end
+    elseif masterminds[1] then
         for _,o in pairs(masterminds) do
             if o == "Mephisto" then
                 dest = playerBoard.positionToWorld({0.957, 3.178, 0.222})
@@ -474,13 +480,13 @@ function push_all(city)
     --if all guids are still there, cards will be entering the city
     --this will cause issues if multiple cards enter at the same time
     --that should therefore never happen!
-    if city[1] == city_zones_guids[1] then
+    if city[1] and city[1] == city_zones_guids[1] then
         cityEntering = 1
     else
         cityEntering = 0
     end
     --does the city table exist and does it have any elements in it
-    if city and city[1] then
+    if city[1] then
         --the zone which will be checked with this push
         local zoneGUID = table.remove(city,1)
         --the zone cards should be moved to
@@ -492,189 +498,215 @@ function push_all(city)
         local targetZone = getObjectFromGUID(targetZoneGUID)
         --find all cards, decks and shards in a zone
         local cards = get_decks_and_cards_from_zone(zoneGUID)
-        if cards then
-            --any cards found:
-            if cards[1] and targetZone then
-                --retrieve setup information
-                local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
-                local bspile = getObjectFromGUID(bystandersPileGUID)
-                if not bspile then
-                    bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
-                end
-                if not schemeParts then
-                    printToAll("No scheme specified!")
+        if cards[1] and cards[1].tag == "Deck" and cityEntering == 1 then
+            local pos = cards[1].getPosition()
+            pos.y = pos.y + 3
+            local moveFirstCardFromEnterStack = function(obj)
+                --log(obj)
+                moveCityZoneContent({obj},targetZone,city,cityEntering) 
+            end
+            cards[1].takeObject({position = pos,
+                smooth = true,
+                flip = false,
+                index = 1,
+                callback_function = moveFirstCardFromEnterStack})
+        elseif cards[1] then
+            moveCityZoneContent(cards,targetZone,city,cityEntering)  
+        end
+    end
+end
+
+function moveCityZoneContent(cards,targetZone,city,cityEntering)      
+    --any cards found:
+    if cards[1] and targetZone then
+        --retrieve setup information
+        local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+        local bspile = getObjectFromGUID(bystandersPileGUID)
+        if not bspile then
+            bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
+        end
+        if not schemeParts then
+            printToAll("No scheme specified!")
+            return nil
+        end
+        if schemeParts[1] == "Tornado of Terrigen Mists" and twistsresolved > 5 and targetZoneGUID == escape_zone_guid then
+            return nil
+        end
+        --special scheme: all cards enter the city face down
+        --so no special card behavior
+        if schemeParts[1] == "Alien Brood Encounters" then
+            if city then
+                push_all(city)
+            end
+            return shift_to_next(cards,targetZone)
+        end
+        
+        if cityEntering == 1 then
+            --special events in certain schemes not related to twists
+            local proceed = nonTwistspecials(cards,city,schemeParts)
+            if not proceed then
+                return nil
+            end
+            --special scripted scheme twists
+            if cards[1].getName() == "Scheme Twist" then
+                twistsresolved = twistsresolved + 1
+                local notes = getNotes()
+                notes = notes:gsub("%[%-%] %d+","[-] " .. twistsresolved,1)
+                setNotes(notes)
+                local proceed = twistSpecials(cards,city,schemeParts)
+                --this function should return nil if it covers all scheme twist behavior
+                --and hence the city should be no further affected
+                if not proceed then
                     return nil
                 end
-                if schemeParts[1] == "Tornado of Terrigen Mists" and twistsresolved > 5 and targetZoneGUID == escape_zone_guid then
-                    return nil
-                end
-                --special scheme: all cards enter the city face down
-                --so no special card behavior
-                if schemeParts[1] == "Alien Brood Encounters" then
-                    if city then
-                        push_all(city)
-                    end
-                    return shift_to_next(cards,targetZone)
-                end
-                
-                if cityEntering == 1 then
-                    --special events in certain schemes not related to twists
-                    local proceed = nonTwistspecials(cards,city,schemeParts)
-                    if not proceed then
-                        return nil
-                    end
-                    --special scripted scheme twists
-                    if cards[1].getName() == "Scheme Twist" then
-                        twistsresolved = twistsresolved + 1
-                        local notes = getNotes()
-                        notes = notes:gsub("%[%-%] %d+","[-] " .. twistsresolved,1)
-                        setNotes(notes)
-                        local proceed = twistSpecials(cards,city,schemeParts)
-                        --this function should return nil if it covers all scheme twist behavior
-                        --and hence the city should be no further affected
-                        if not proceed then
-                            return nil
-                        end
-                        --as a default, move the twist to the twists zone
-                        --city is otherwise not affected
-                        --Age of Ultron turns the twist into a villain, so it can enter
-                        if schemeParts[1] ~= "Age of Ultron" and schemeParts[1] ~= "Steal the Weaponized Plutonium" and schemeParts[1] ~= "War of the Frost Giants" then
-                            return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
-                        end
-                    end
-                
-                    --master strikes always go to the master strike zone
-                    --maybe later on they can be scripted, but this requires knowing all masterminds that are present
-                    if cards[1].getName() == "Masterstrike" then
-                        strikesresolved = strikesresolved + 1
-                        updateTwistPower()
-                        local notes = getNotes()
-                        notes = notes:gsub("Strikes resolved:%[/b%]%[%-%] %d+","Strikes resolved:[/b][-] " .. strikesresolved,1)
-                        setNotes(notes)
-                        local proceed = strikeSpecials(cards,city,schemeParts)
-                        if not proceed then
-                            return nil
-                        else
-                            return koCard(cards[1])
-                        end
-                    end
-                
-                    --bystanders behave differently when entering
-                    local bs = false
-                    if cards[1].hasTag("Bystander") and cards[1].hasTag("Killbot") == false then
-                        bs = true
-                    end
-                
-                    --same for villainous weapons
-                    local vw = false
-                    if cards[1].getDescription():find("VILLAINOUS WEAPON") then
-                        vw = true
-                    end
-                
-                    --entering location is moved into the first location-free city space
-                    if cards[1].getDescription():find("LOCATION") then
-                        local cityspaces = city
-                        local locationfound = true
-                        while locationfound == true do
-                            local cards=get_decks_and_cards_from_zone(cityspaces[1])
-                            --any cards found?
-                            if next(cards) then
-                                --is any of them a location?
-                                local locationhere = false
-                                for i,o in pairs(cards) do
-                                    if o.getDescription():find("LOCATION") then
-                                        locationhere = true
-                                    end
-                                end
-                                --if so, check next city space
-                                if locationhere == true then
-                                    table.remove(cityspaces,1)
-                                else
-                                    --if not, move the location here
-                                    locationfound = false
-                                    targetZone = getObjectFromGUID(cityspaces[1])
-                                end
-                                if not cityspaces[1] then
-                                    broadcastToAll("City is filled with locations. Please KO the weakest one!",{r=1,g=0,b=0})
-                                    return nil
-                                end
-                            else
-                                --if no cards are here, move the location here
-                                locationfound = false
-                                targetZone = getObjectFromGUID(cityspaces[1])
-                            end
-                        end
-                        return shift_to_next(cards,targetZone,cityEntering)
-                    end
-                    
-                    if cards[1].getDescription():find("TRAP") then
-                        broadcastToAll("Trap! Resolve it by end of turn or suffer the consequences!",{r=1,g=0,b=0})
-                        return nil
-                    end
-                
-                    --bystanders and weapons go to the first villain in the city
-                    if (bs == true or vw == true) then
-                        local cityspaces = city
-                        local cardfound = false
-                        while cardfound == false do
-                            local citycontent = get_decks_and_cards_from_zone(cityspaces[1])
-                            --locations don't count as villains, so they get skipped
-                            --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
-                            local locationfound = false
-                            if citycontent[1] and not citycontent[2] then
-                                if citycontent[1].getDescription():find("LOCATION") then
-                                    locationfound = true
-                                end
-                            end
-                            
-                            --if no cards or only a location, check next city space
-                            if not next(citycontent) or locationfound == true then
-                                table.remove(cityspaces,1)
-                            else
-                                --villain found, so put bystander here
-                                --this will break if something other than a villain or location is on its own in the city
-                                cardfound = true
-                                targetZone = getObjectFromGUID(cityspaces[1])
-                            end
-                            if not cityspaces[1] then
-                                --if the city is empty:
-                                cardfound = true
-                                if bs == true then
-                                    --bystanders go to the mastermind
-                                    targetZone = getObjectFromGUID(mmZoneGUID)
-                                    broadcastToAll("Bystander moved to Mastermind as city is empty!",{r=1,g=0,b=0})
-                                elseif vw == true and not hasTag2(cards[1],"Cost:") then
-                                    --weapons get KO'd
-                                    targetZone = getObjectFromGUID(kopile_guid)
-                                    broadcastToAll("Villainous Weapon KO'd as city is empty!",{r=1,g=0,b=0})
-                                elseif vw == true then
-                                    targetZone = getObjectFromGUID(mmZoneGUID)
-                                    broadcastToAll("Captured hero moved to Mastermind as city is empty!",{r=1,g=0,b=0})
-                                end
-                            end
-                        end
-                        return shift_to_next(cards,targetZone,cityEntering)
-                    end
-                end
-                --if this space has only a location, it's effectively empty and no further pushing needs to be done
-                if cards[1].getDescription():find("LOCATION") and not cards[2] then
-                    return nil
-                else
-                    --otherwise, shift all and rerun this function for the next city space
-                    shift_to_next(cards,targetZone,cityEntering,schemeParts)
-                    if city then
-                        push_all(city)
-                    end
+                --as a default, move the twist to the twists zone
+                --city is otherwise not affected
+                --Age of Ultron turns the twist into a villain, so it can enter
+                if schemeParts[1] ~= "Age of Ultron" and schemeParts[1] ~= "Steal the Weaponized Plutonium" and schemeParts[1] ~= "War of the Frost Giants" then
+                    return cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
                 end
             end
+        
+            --master strikes always go to the master strike zone
+            --maybe later on they can be scripted, but this requires knowing all masterminds that are present
+            if cards[1].getName() == "Masterstrike" then
+                strikesresolved = strikesresolved + 1
+                updateTwistPower()
+                local notes = getNotes()
+                notes = notes:gsub("Strikes resolved:%[/b%]%[%-%] %d+","Strikes resolved:[/b][-] " .. strikesresolved,1)
+                setNotes(notes)
+                local proceed = strikeSpecials(cards,city,schemeParts)
+                if not proceed then
+                    return nil
+                else
+                    return koCard(cards[1])
+                end
+            end
+        
+            --bystanders behave differently when entering
+            local bs = false
+            if cards[1].hasTag("Bystander") and cards[1].hasTag("Killbot") == false then
+                bs = true
+            end
+        
+            --same for villainous weapons
+            local vw = false
+            if cards[1].getDescription():find("VILLAINOUS WEAPON") then
+                vw = true
+            end
+        
+            --entering location is moved into the first location-free city space
+            if cards[1].getDescription():find("LOCATION") then
+                local cityspaces = city
+                local locationfound = true
+                while locationfound == true do
+                    local cards=get_decks_and_cards_from_zone(cityspaces[1])
+                    --any cards found?
+                    if next(cards) then
+                        --is any of them a location?
+                        local locationhere = false
+                        for i,o in pairs(cards) do
+                            if o.getDescription():find("LOCATION") then
+                                locationhere = true
+                            end
+                        end
+                        --if so, check next city space
+                        if locationhere == true then
+                            table.remove(cityspaces,1)
+                        else
+                            --if not, move the location here
+                            locationfound = false
+                            targetZone = getObjectFromGUID(cityspaces[1])
+                        end
+                        if not cityspaces[1] then
+                            broadcastToAll("City is filled with locations. Please KO the weakest one!",{r=1,g=0,b=0})
+                            return nil
+                        end
+                    else
+                        --if no cards are here, move the location here
+                        locationfound = false
+                        targetZone = getObjectFromGUID(cityspaces[1])
+                    end
+                end
+                return shift_to_next(cards,targetZone,cityEntering)
+            end
+            
+            if cards[1].getDescription():find("TRAP") then
+                broadcastToAll("Trap! Resolve it by end of turn or suffer the consequences!",{r=1,g=0,b=0})
+                return nil
+            end
+        
+            --bystanders and weapons go to the first villain in the city
+            if (bs == true or vw == true) then
+                local cityspaces = city
+                local cardfound = false
+                while cardfound == false do
+                    local citycontent = get_decks_and_cards_from_zone(cityspaces[1])
+                    --locations don't count as villains, so they get skipped
+                    --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
+                    local locationfound = false
+                    if citycontent[1] and not citycontent[2] then
+                        if citycontent[1].getDescription():find("LOCATION") then
+                            locationfound = true
+                        end
+                    end
+                    
+                    --if no cards or only a location, check next city space
+                    if not next(citycontent) or locationfound == true then
+                        table.remove(cityspaces,1)
+                    else
+                        --villain found, so put bystander here
+                        --this will break if something other than a villain or location is on its own in the city
+                        cardfound = true
+                        targetZone = getObjectFromGUID(cityspaces[1])
+                    end
+                    if not cityspaces[1] then
+                        --if the city is empty:
+                        cardfound = true
+                        if bs == true then
+                            --bystanders go to the mastermind
+                            targetZone = getObjectFromGUID(mmZoneGUID)
+                            broadcastToAll("Bystander moved to Mastermind as city is empty!",{r=1,g=0,b=0})
+                        elseif vw == true and not hasTag2(cards[1],"Cost:") then
+                            --weapons get KO'd
+                            targetZone = getObjectFromGUID(kopile_guid)
+                            broadcastToAll("Villainous Weapon KO'd as city is empty!",{r=1,g=0,b=0})
+                        elseif vw == true then
+                            targetZone = getObjectFromGUID(mmZoneGUID)
+                            broadcastToAll("Captured hero moved to Mastermind as city is empty!",{r=1,g=0,b=0})
+                        end
+                    end
+                end
+                return shift_to_next(cards,targetZone,cityEntering)
+            end
+        end
+        --if this space has only a location, it's effectively empty and no further pushing needs to be done
+        if cards[1].getDescription():find("LOCATION") and not cards[2] then
+            return nil
         else
-            updateUltronPower()
+            --otherwise, shift all and rerun this function for the next city space
+            shift_to_next(cards,targetZone,cityEntering,schemeParts)
+            if city then
+                push_all(city)
+            end
         end
     end
 end
 
 function click_push_villain_into_city(obj, player_clicker_color, alt_click)
 -- when moving the villain deck buttons, change the first guid to a new scripting zone
+    cityPushDelay = cityPushDelay + 1
+    checkCityContent()
+end
+
+function checkCityContent()
+    if cityPushDelay > 1 then
+        Wait.time(checkCityContent,cityPushDelay)
+        cityPushDelay = cityPushDelay - 1
+        return nil
+    else
+        Wait.time(function() cityPushDelay = cityPushDelay - 1 end,1)
+    end
     local city_topush = table.clone(current_city)
     local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
     if schemeParts then
@@ -866,10 +898,10 @@ function powerButton(obj,click_f,label_f,otherposition,toolt)
     end
 end
 
-function dealWounds()
+function dealWounds(top)
     for i,_ in pairs(playerBoards) do
         if Player[i].seated == true then
-            click_get_wound(getObjectFromGUID(woundsDeckGUID),i)
+            click_get_wound(getObjectFromGUID(woundsDeckGUID),i,nil,top)
         end
     end
 end
@@ -6816,10 +6848,11 @@ function resolveStrike(mmname,epicness,city,cards)
                     end
                 end
                 if shardfound == true then
-                    dealWounds()
+                    local top = nil
                     if epicness then
-                        broadcastToAll("Master Strike: Each player received a wound. Put the wound on top of your deck!")
+                        top = true
                     end
+                    dealWounds(top)
                     break
                 end
             end
@@ -6834,6 +6867,7 @@ function resolveStrike(mmname,epicness,city,cards)
             cards[1].addTag("Power:" .. boost)
             cards[1].addTag("Villain")
             powerButton(cards[1],"updateTwistPower",boost)
+            click_push_villain_into_city()
             local addshard = function()
                 for _,o in pairs(city) do
                     local citycontent = get_decks_and_cards_from_zone(o)
@@ -6847,15 +6881,61 @@ function resolveStrike(mmname,epicness,city,cards)
                     end
                 end
             end
-            Wait.time(addshard,2)
-            click_push_villain_into_city()
+            Wait.time(addshard,3)
             return nil
         end
         return strikesresolved
     end
-    if mmname == "Malekith the Accursed" or mmname == "Mandarin" or mmname == "Maria Hill, Director of S.H.I.E.L.D." or mmname == "Maximus the Mad" then
+    if mmname == "Malekith the Accursed" or mmname == "Maria Hill, Director of S.H.I.E.L.D." or mmname == "Maximus the Mad" then
         msno(mmname)
         return nil
+    end
+    if mmname == "Mandarin" then
+        local top = nil
+        if epicness then
+            top = true
+        end
+        for _,o in pairs(Player.getPlayers()) do
+            local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+            local moveToCity = function(obj)
+                obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                Wait.time(click_push_villain_into_city,2)
+            end
+            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                local vpilestrong = {}
+                for _,o in pairs(vpilecontent[1].getObjects()) do
+                    for _,k in pairs(o.tags) do
+                        if k == "Group:Mandarin's Rings" then
+                            table.insert(vpilestrong,o.guid)
+                            break
+                        end
+                    end
+                end
+                --log(vpilestrong)
+                if vpilestrong[1] and not vpilestrong[2] then
+                    local pushDelayed = function()
+                        Wait.time(click_push_villain_into_city,2)
+                    end
+                    vpilecontent[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                        smooth = true,
+                        guid = vpilestrong[1],
+                        callback_function = pushDelayed})
+                elseif vpilestrong[1] and vpilestrong[2] then
+                    offerCards(o.color,vpilecontent[1],vpilestrong,moveToCity,"Push this Mandarin's Ring into the city.","Push")
+                else
+                    click_get_wound(nil,o.color,nil,top)
+                end
+            elseif vpilecontent[1] and vpilecontent[1].tag == "Card" then
+                if vpilecontent[1].hasTag("Group:Mandarin's Rings") then
+                    moveToCity(vpilecontent[1])
+                else
+                    click_get_wound(nil,o.color,nil,top)
+                end
+            else
+                click_get_wound(nil,o.color,nil,top)
+            end
+        end
+        return strikesresolved
     end
     if mmname == "Mastermind" or mmname =="Lady Mastermind" then
         msno(mmname)
