@@ -128,6 +128,11 @@ function getBystander()
     return getHero(false,true)
 end
 
+function getCards()
+    local objects = findObjectsAtPosition({0,0,0})
+    return objects
+end
+
 function click_draw_hero()
     local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
     if not schemeParts then

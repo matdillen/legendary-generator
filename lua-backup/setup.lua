@@ -2228,6 +2228,54 @@ function setupMasterminds(objname,epicness,lurking)
             end
         end
     end
+    if objname == "Charles Xavier, Professor of Crime" then
+        updateCharles = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local bsfound = 0
+            for i=2,#city_zones_guids do
+                local citycontent = get_decks_and_cards_from_zone(city_zones_guids[i])
+                if citycontent[1] then
+                    for _,o in pairs(citycontent) do
+                        if o.hasTag("Bystander") then
+                            bsfound = bsfound + 1
+                        end
+                    end
+                end
+            end
+            for _,o in pairs(hqguids) do
+                local hqcontent = getObjectFromGUID(o).Call('getCards')
+                if hqcontent[1] then
+                    for _,o in pairs(hqcontent) do
+                        if o.tag == "Card" and o.hasTag("Bystander") then
+                            bsfound = bsfound + 1
+                        elseif o.tag == "Deck" then
+                            for _,c in pairs(o.getObjects()) do
+                                for _,tag in pairs(c.tags) do
+                                    if tag == "Bystander" then
+                                        bsfound = bsfound + 1
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end   
+            end
+            Wait.time(function() mmButtons(objname,
+                bsfound,
+                "+" .. bsfound,
+                "Charles Xavier gets +1 for each Bystander in the city and HQ.",
+                'updateCharles') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateCharles,1.5)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateCharles,1.5)
+        end
+    end
     if objname == "Deathbird" then
         updateDeathbird = function()
             if not mmActive(objname) then
@@ -2459,6 +2507,48 @@ function setupMasterminds(objname,epicness,lurking)
                     font_color="Yellow",
                     color={0,0,0,0.75},
                     width=250,height=250})
+    end
+    if objname == "Macho Gomez" then
+        updateMacho = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local color = Turns.turn_color
+            local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
+            local savior = 0
+            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                for _,k in pairs(vpilecontent[1].getObjects()) do
+                    for _,l in pairs(k.tags) do
+                        if l == "Group:Deadpool's \"Friends\"" then
+                            savior = savior + 1
+                            break
+                        end
+                    end
+                end
+            elseif vpilecontent[1] then
+                if vpilecontent[1].hasTag("Group:Deadpool's \"Friends\"") then
+                    savior = 1
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                savior,
+                "+" .. savior,
+                "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
+                'updateMacho') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            if object.hasTag("Villain") then
+                Wait.time(updateMacho,2)
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if object.hasTag("Villain") then
+                Wait.time(updateMacho,2)
+            end
+        end
+        function onPlayerTurn(player,previous_player)
+            updateMacho()
+        end
     end
     if objname == "Madelyne Pryor, Goblin Queen" then
         function updateMadelyne()

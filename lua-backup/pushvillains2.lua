@@ -449,7 +449,7 @@ function click_draw_villain()
     end
 end
 
-function addBystanders(cityspace,face,posabsolute)
+function addBystanders(cityspace,face,posabsolute,pos)
     if face == nil then
         face = true
     end
@@ -457,13 +457,16 @@ function addBystanders(cityspace,face,posabsolute)
     if posabsolute == nil then
         targetZone.z = targetZone.z - 2
     end
+    if pos then
+        targetZone = pos
+    end
     local bspile = getObjectFromGUID(bystandersPileGUID)
     if not bspile then
         bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
         bspile = getObjectFromGUID(bystandersPileGUID)
     end
     bspile.takeObject({position=targetZone,
-        smooth=true,
+        smooth=smooth,
         flip=face})
 end
 
@@ -5851,41 +5854,42 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         local light = sunlight - moonlight
         if light > 0 then
-            if epicness == false then
-                for _,o in pairs(Player.getPlayers()) do
-                    local discardguids = {}
-                    local discarded = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
-                    --log("discard:")
-                    --log(discarded)
-                    if discarded[1] and discarded[1].tag == "Deck" then
-                        for _,c in pairs(discarded[1].getObjects()) do
-                            for _,tag in pairs(c.tags) do
-                                if tag:find("HC:") then
-                                    table.insert(discardguids,c.guid)
-                                    break
-                                end
+            for _,o in pairs(Player.getPlayers()) do
+                local discardguids = {}
+                local discarded = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
+                --log("discard:")
+                --log(discarded)
+                if discarded[1] and discarded[1].tag == "Deck" then
+                    for _,c in pairs(discarded[1].getObjects()) do
+                        for _,tag in pairs(c.tags) do
+                            if tag:find("HC:") then
+                                table.insert(discardguids,c.guid)
+                                break
                             end
                         end
-                        --log("discardguids:")
-                        --log(discardguids)
-                        if discardguids[1] and discardguids[2] then
+                    end
+                    log("discardguids " .. o.color)
+                    log(discardguids)
+                    if discardguids[1] and discardguids[2] then
+                        if epicness == true then
+                            offerCards(o.color,discarded[1],discardguids,koCard,"KO this card.","KO",nil,2)
+                            broadcastToColor("Master Strike: Each player KOs two non-grey Heroes from their discard pile.",o.color,o.color)
+                        else
                             offerCards(o.color,discarded[1],discardguids,koCard,"KO this card.","KO")
                             broadcastToColor("Master Strike: Choose a card from your discard pile to be KO'd.",o.color,o.color)
-                        elseif discardguids[1] then
-                            discarded[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
-                                guid = discardguids[1],
-                                smooth = true})
-                            broadcastToColor("Master Strike: The only non-grey hero from your discard pile was KO'd.",o.color,o.color)
                         end
-                    elseif discarded[1] then
-                        if hasTag2(discarded[1],"HC:",4) then
-                            koCard(discarded[1])
-                            broadcastToColor("Master Strike: The only non-grey hero from your discard pile was KO'd.",o.color,o.color)
-                        end
+                    elseif discardguids[1] then
+                        discarded[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                            guid = discardguids[1],
+                            smooth = true})
+                        broadcastToColor("Master Strike: The only non-grey hero from your discard pile was KO'd.",o.color,o.color)
+                    end
+                elseif discarded[1] then
+                    if hasTag2(discarded[1],"HC:",4) then
+                        koCard(discarded[1])
+                        broadcastToColor("Master Strike: The only non-grey hero from your discard pile was KO'd.",o.color,o.color)
                     end
                 end
-            else
-                broadcastToAll("Master Strike: Each player KOs two non-grey Heroes from their discard pile.")
             end
         elseif light < 0 then
             for _,o in pairs(Player.getPlayers()) do
@@ -5958,8 +5962,36 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "Charles Xavier, Professor of Crime" then
-        msno(mmname)
-        return nil
+        function noWitness(obj)
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                local pos = hero.getPosition()
+                pos.y = pos.y + 3
+                pos.z = pos.z - 2
+                if hero.guid ~= obj.guid then
+                    addBystanders(o,false,nil,pos)
+                end
+                hero.clearButtons()
+            end
+        end
+        broadcastToAll("Master Strike: Choose a HQ zone to which NO hidden witness will be added!")
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if not hero then
+                broadcastToAll("Missing hero. Script failed.")
+                return nil
+            end
+            hero.createButton({click_function="noWitness",
+                function_owner=self,
+                position={0,22,0},
+                label="Exclude",
+                tooltip="Don't put a hidden witness here.",
+                font_size=250,
+                font_color="Black",
+                color={1,1,1},
+                width=750,height=450})
+        end
+        return strikesresolved
     end
     if mmname == "Dark Phoenix" then
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
@@ -6487,6 +6519,30 @@ function resolveStrike(mmname,epicness,city,cards)
             end
         elseif name == "Black Widow's Bite" then
             broadcastToAll("Master Strike: Each player KOs two Bystanders from their Victory Pile or gains a Wound.")
+            for i,o in pairs(vpileguids) do
+                if Player[i].seated == true then
+                    local vpilecontent = get_decks_and_cards_from_zone(o)
+                    local vpilewarbound = {}
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        for _,k in pairs(vpilecontent[1].getObjects()) do
+                            for _,tag in pairs(k.tags) do
+                                if tag == "Bystander" then 
+                                    table.insert(vpilewarbound,k.guid)
+                                    break
+                                end
+                            end
+                        end
+                        if  #vpilewarbound > 2 then
+                            offerCards(i,vpilecontent[1],vpilewarbound,koCard,"KO this bystander.","KO",nil,2)
+                            broadcastToColor("Master Strike: KO 2 of the " .. #vpilewarbound .. " bystanders that were put into play from your victory pile.",i,i)
+                        else
+                            click_get_wound(nil,i)
+                        end
+                    else
+                        click_get_wound(nil,i)
+                    end
+                end
+            end
         elseif name == "Thor's Hammer" then
             broadcastToAll("Master Strike: Each player reveals a Blue Hero or gains a Wound")
             local players = revealCardTrait("Blue")
@@ -6695,7 +6751,35 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "Macho Gomez" then
-        msno(mmname)
+        cards[1].setName("Bounty on your head")
+        cards[1].setDescription("ARTIFACT: This is a bounty on your head. Macho will wound you with his master strikes for each bounty you have. Pay 1 recruit during your turn to pass this bounty to the player on your left.")
+        cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5,4,4}))
+        broadcastToAll("Master Strike: Each player gains a Wound for each Bounty on them.")
+        for _,o in pairs(Player.getPlayers()) do
+            local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
+            local bounties = 0
+            if o.color == Turns.turn_color then
+                bounties = 1
+            end
+            if playcontent[1] then
+                for _,o in pairs(playcontent) do
+                    if o.tag == "Card" and o.getName() == "Bounty on your head" then
+                        bounties = bounties + 1
+                    elseif o.tag == "Deck" then
+                        for _,k in pairs(o.getObjects()) do
+                            if k.name == "Bounty on your head" then
+                                bounties = bounties + 1
+                            end
+                        end
+                    end
+                end
+            end
+            if bounties > 0 then
+                for i = 1,bounties do
+                    click_get_wound(nil,o.color)
+                end
+            end
+        end
         return nil
     end
     if mmname == "Madelyne Pryor, Goblin Queen" then
@@ -8013,7 +8097,8 @@ function offerCards(color,pile,guids,resolvef,toolt,label,flip,n)
     end
     if not n then
         n = 1
-        --n > 1 currently unused
+    else
+        n = math.min(n,#guids)
     end
     if not flip then
         flip = false
@@ -8056,23 +8141,27 @@ function offerCards(color,pile,guids,resolvef,toolt,label,flip,n)
         for _,b in pairs(obj.getButtons()) do
             if b.click_function:find("resolveOfferCardsEffect") then
                 color = b.click_function:gsub("resolveOfferCardsEffect","")
+                break
             end
         end
-        log(cardsoffered)
-        for _,o in pairs(cardsoffered[color]) do
-            if o ~= obj.guid then
-                local card = getObjectFromGUID(o)
-                if card then
-                    card.locked = false
-                    card.clearButtons()
-                    card.setPosition(pilepos)
-                    if flip then
-                        card.flip()
+        --log(cardsoffered)
+        n = n - 1
+        if n == 0 then
+            for _,o in pairs(cardsoffered[color]) do
+                if o ~= obj.guid then
+                    local card = getObjectFromGUID(o)
+                    if card then
+                        card.locked = false
+                        card.clearButtons()
+                        card.setPosition(pilepos)
+                        if flip then
+                            card.flip()
+                        end
                     end
                 end
             end
+            cardsoffered[color] = {nil}
         end
-        cardsoffered[color] = {nil}
         obj.locked = false
         obj.clearButtons()
         obj.setRotation(brot)
