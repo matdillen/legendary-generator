@@ -95,13 +95,13 @@ function onLoad()
     
     bystandersPileGUID = "0b48dd"
     woundsDeckGUID = "653663"
-    sidekickDeckGUID = "959976"
-    officerDeckGUID = "9c9649"
+    sidekickDeckGUID = "d40734"
+    officerDeckGUID = "aed7cd"
     
     schemePileGUID = "0716a4"
     mmPileGUID = "c7e1d5"
     strikePileGUID = "aff2e5"
-    horrorPileGUID = "b119a8"
+    horrorPileGUID = "82f3dc"
     twistPileGUID = "c82082"
     villainPileGUID = "375566"
     hmPileGUID = "de8160"

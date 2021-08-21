@@ -47,13 +47,6 @@ function onLoad()
     end
     
     --following can be combined and integrated with the boards
-    playerdeckIDs = {
-        "e3db1b",
-        "504f36",
-        "6869d3",
-        "098082",
-        "dedfc6"
-    }
     playercolors = {
         "Yellow",
         "Green",
@@ -115,13 +108,13 @@ function onLoad()
         
     bystandersPileGUID = "0b48dd"
     woundsDeckGUID = "653663"
-    sidekickDeckGUID = "959976"
-    officerDeckGUID = "9c9649"
+    sidekickDeckGUID = "d40734"
+    officerDeckGUID = "aed7cd"
     
     schemePileGUID = "0716a4"
     mmPileGUID = "c7e1d5"
     strikePileGUID = "aff2e5"
-    horrorPileGUID = "b119a8"
+    horrorPileGUID = "82f3dc"
     twistPileGUID = "c82082"
     villainPileGUID = "375566"
     hmPileGUID = "de8160"
@@ -1055,7 +1048,7 @@ function import_setup()
         local woundstack = getObjectFromGUID(woundsDeckGUID)
         for i=1,5 do
             if Player[playercolors[i]].seated == true then
-                local playerdeck = getObjectFromGUID(playerdeckIDs[i])
+                local playerdeck = getObjectFromGUID(playerBoards[playercolors[i]]).Call('returnDeck')
                 woundstack.takeObject({position = playerdeck.getPosition()})
                 woundstack.takeObject({position = playerdeck.getPosition()})
             end
@@ -1619,15 +1612,8 @@ function schemeSpecials (setupParts,mmGUID)
                     end
                 end
             end
-            for i=1,playercount do
-                local color = Player.getPlayers()[i].color
-                local deckid = nil
-                for j=1,#playercolors do
-                    if playercolors[j] == color then
-                        deckid = playerdeckIDs[j]
-                    end
-                end
-                local playerdeck = getObjectFromGUID(deckid)
+            for i,o in pairs(Player.getPlayers()) do
+                local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
                 wndPile.takeObject({position=playerdeck.getPosition(),
                     flip=false,
                     smooth=false})
