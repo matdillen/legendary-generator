@@ -249,6 +249,10 @@ function click_get_wound(obj, player_clicker_color, alt_click,top)
     end
 end
 
+function getWound(color)
+    click_get_wound(nil,color)
+end
+
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     --this function returns cards, decks and shards in a city space (or the start zone)
     --returns a table of objects
@@ -6521,8 +6525,19 @@ function resolveStrike(mmname,epicness,city,cards)
                 end
             end
         elseif name == "Arnim Zola" then
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                local handi = table.clone(hand)
+                local iter = 0
+                for i,obj in ipairs(handi) do
+                    if not hasTag2(obj,"Attack:") then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                end
+                promptDiscard(o.color,hand,2)
+            end
             broadcastToAll("Master Strike: Each player discards two heroes with Fight icons.")
-            --requires all cards tagged for their symbols...
         end
         mmcontent[1].randomize()
         return strikesresolved      
@@ -6957,6 +6972,13 @@ function resolveStrike(mmname,epicness,city,cards)
         msno(mmname)
         return nil
     end
+    if mmname == "Master Plan" then
+        local players = revealCardTrait("Silver")
+        for _,o in pairs(players) do
+            click_get_wound(nil,o.color)
+        end
+        return strikesresolved
+    end
     if mmname == "Mephisto" then
         local players = revealCardTrait("Marvel Knights","Team:")
         for _,o in pairs(players) do
@@ -6966,8 +6988,24 @@ function resolveStrike(mmname,epicness,city,cards)
         return strikesresolved
     end
     if mmname == "Misty Knight" then
-        msno(mmname)
-        return nil
+        for _,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local recruitcount = 0
+            if hand[1] and hand[4] then
+                for _,h in pairs(hand) do
+                    if hasTag2(h,"Recruit:") then
+                        recruitcount = recruitcount + 1
+                    end
+                end
+                if recruitcount < 4 then
+                    click_get_wound(nil,o.color)
+                end
+            else
+                click_get_wound(nil,o.color)
+            end
+        end
+        broadcastToAll("Master Strike: Each player reveals 4 cards with Recruit icons or gains a Wound.")
+        return strikesresolved
     end
     if mmname == "M.O.D.O.K." then
         local transformedPV = getObjectFromGUID("912967").Call('externalTransformMM',mmLocations["M.O.D.O.K."])
@@ -7213,6 +7251,15 @@ function resolveStrike(mmname,epicness,city,cards)
             strikesstacked = strikesstacked + 1
         end
         demolish(nil,strikesstacked)
+        return nil
+    end
+    if mmname == "Nimrod, Super Sentinel" then
+        -- local players = revealCardTrait("Silver")
+        -- for _,o in pairs(players) do
+            -- --make offercards function for generic choices (not reliant on cards)
+        -- end
+        -- return strikesresolved
+        msno(mmname)
         return nil
     end
     if mmname == "Onslaught" then
