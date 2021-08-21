@@ -2690,6 +2690,38 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateMandarin,1)
         end
     end
+    if objname == "Maria Hill, Director of S.H.I.E.L.D." then
+        updateMaria = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local shieldfound = 0
+            for _,o in pairs(city_zones_guids) do
+                if o ~= city_zones_guids[1] then
+                    local citycontent = get_decks_and_cards_from_zone(o)
+                    if citycontent[1] then
+                        for _,obj in pairs(citycontent) do
+                            if obj.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
+                                shieldfound = shieldfound + 1
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                shieldfound,
+                "X",
+                "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
+                'updateMaria') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMaria,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMaria,1)
+        end
+    end
     if objname == "Misty Knight" then
         local mmzone = getObjectFromGUID(mmLocations[objname])
         mmzone.createButton({click_function='returnColor',
@@ -2809,6 +2841,19 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateMoleMan,2)
         end
     end
+    if objname == "Morgan Le Fay" then
+        local mmzone = getObjectFromGUID(mmLocations[objname])
+        mmzone.createButton({click_function='returnColor',
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="!",
+                    tooltip="Chivalrous Duel: Attack Morgan only with the power of a single hero.",
+                    font_size=250,
+                    font_color="Blue",
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+    end
     if objname == "Mr. Sinister" then
         function updateMrSinister()
             if not mmActive(objname) then
@@ -2898,6 +2943,66 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updatePoisonThanos,2)
         end
     end
+    if objname == "Professor X" then
+        function updateProfessorX()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocations[objname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            local bs = get_decks_and_cards_from_zone(strikeloc)
+            Wait.time(function() mmButtons(objname,
+                #bs,
+                "+" .. #bs,
+                "Professor X gets +1 for each of his telepathic pawns.",
+                'updateProfessorX') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            updateProfessorX()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateProfessorX()
+        end
+    end
+    if objname == "'92 Professor X" then
+        function updateProfessorX92()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocations[objname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            local bs = get_decks_and_cards_from_zone(strikeloc)
+            Wait.time(function() mmButtons(objname,
+                #bs,
+                "+" .. #bs,
+                "'92 Professor X gets +1 for each of his telepathic pawns.",
+                'updateProfessorX92') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            updateProfessorX92()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateProfessorX92()
+        end
+    end
     if objname == "Ragnarok" then
         updateRagnarok = function()
             if not mmActive(objname) then
@@ -2943,6 +3048,34 @@ function setupMasterminds(objname,epicness,lurking)
             playHorror()
             -- these will stack
             broadcastToAll("Shadow King played two horrors. Please read each of them")
+        end
+        function updateShadowKing()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(topBoardGUIDs) do
+                    if o == mmLocations[objname] then
+                        strikeloc = topBoardGUIDs[i-1]
+                        break
+                    end
+                end
+            end
+            local bs = get_decks_and_cards_from_zone(strikeloc)
+            Wait.time(function() mmButtons(objname,
+                #bs,
+                "+" .. #bs,
+                "Shadow King gets +1 for each hero he dominates.",
+                'updateShadowKing') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            updateShadowKing()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateShadowKing()
         end
     end
     if objname == "Spider-Queen" then
