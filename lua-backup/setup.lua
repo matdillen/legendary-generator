@@ -3547,8 +3547,8 @@ function resolveHorror(obj)
         function onPlayerTurn(player)
             local hand = player.getHandObjects()
             if hand[1] then
-                for _,o in pairs(hand) do
-                    if o.getName() == "Psychic Infection" and o.hasTag("Horror") then
+                for _,obj in pairs(hand) do
+                    if obj.getName() == "Psychic Infection" and obj.hasTag("Horror") then
                         broadcastToAll("Psychic Infection! Everyone discards a card and the next player gained the infection.")
                         local nextcolor = nil
                         for i,o in pairs(Player.getPlayers()) do
@@ -3690,8 +3690,8 @@ function resolveHorror(obj)
         function onPlayerTurn(player,previous_player)
             local hand = player.getHandObjects()
             if hand[1] then
-                for _,o in pairs(hand) do
-                    if o.getName() == "Viral Infection" and o.hasTag("Horror") then
+                for _,obj in pairs(hand) do
+                    if obj.getName() == "Viral Infection" and obj.hasTag("Horror") then
                         broadcastToAll("Viral Infection! Previous player is wounded and the next player gained the infection.")
                         local nextcolor = nil
                         for i,o in pairs(Player.getPlayers()) do
