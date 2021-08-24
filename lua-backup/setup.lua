@@ -72,7 +72,9 @@ function onLoad()
     }
     
     playguids = {
-        ["Yellow"]="f49fc9",
+        ["Red"]="157bfe",
+        ["Green"]="0818c2",
+        ["Yellow"]="7149d2",
         ["Blue"]="2b36c3",
         ["White"]="558e75"
     }
@@ -95,6 +97,32 @@ function onLoad()
         "725c5d",
         "4e3b7e"
     }
+    
+    allTopBoardGUIDS = {
+        "7f622a",
+        "000e0c",
+        "3e45a0",
+        "705f8c",
+        "1fa829",
+        "bf7e87",
+        "4c1868",
+        "8656c3",
+        "533311",
+        "3d3ba7",
+        "725c5d",
+        "4e3b7e",
+        "f394e1",
+        "0559f8",
+        "39e3d7",
+        "6b1c18",
+        "57df40"
+    }
+    
+    addMMGUIDS = {}
+    
+    for _,o in pairs(allTopBoardGUIDS) do
+        addMMGUIDS[o] = false
+    end
     
     vpileguids = {
         ["Red"]="fac743",
@@ -1087,7 +1115,7 @@ function import_setup()
             end
             log("Demon Bear moved to twists pile. Other demons to villain deck.")
         end
-        findInPile("Demons of Limbo",villainPileGUID,"1fa829",extractBear)
+        findInPile("Demons of Limbo",villainPileGUID,topBoardGUIDs[1],extractBear)
         table.insert(vildeck_done,7)
     end
     
@@ -1180,10 +1208,6 @@ function import_setup()
         for s in string.gmatch(setupParts[9],"[^|]+") do
             table.insert(tyrants, string.lower(s))
         end
-        local tyrantzones = table.clone(topBoardGUIDs)
-        for i=1,5 do
-            table.remove(tyrantzones)
-        end
         local shuffleTyrantTactics = function(obj)
               local annotateTyrant = function(obj)
                 obj.setDescription("No abilities!")
@@ -1197,11 +1221,18 @@ function import_setup()
                     index=0,
                     callback_function = annotateTyrant})
               end
+              local clearMMFronts = function()
+                for i=1,3 do
+                    local card = get_decks_and_cards_from_zone(topBoardGUIDs[i+5])
+                    card[1].destruct()
+                end
+              end
+              Wait.time(clearMMFronts,2)
         end
         for i=1,3 do
             findInPile(tyrants[i],
                 mmPileGUID,
-                tyrantzones[i],
+                topBoardGUIDs[i+5],
                 shuffleTyrantTactics)
         end
         table.insert(vildeck_done,12)
@@ -1291,13 +1322,18 @@ function import_setup()
             vilDeck.setPosition(hqZone.getPosition())
             print("Villain deck split in piles above the board!")
         end
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
         Wait.condition(vilDeckSplit,vilDeckComplete)
     elseif setupParts[1] == "Fragmented Realities" then
         local topCityZones = table.clone(topBoardGUIDs)
         table.remove(topCityZones)
         table.remove(topCityZones,1)
         table.remove(topCityZones,1)
-        --log(topCityZones)
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
         local vildeckc2 = vildeckc + playercount*2
         log(vildeckc2)
         log("Adding scheme twists to the separate villain decks")
@@ -1409,6 +1445,9 @@ function import_setup()
         "5a74e7",
         "40b47d"
         }
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
         local divideSort = function(obj)
             --log(obj)
             local remo = 0
@@ -1523,11 +1562,14 @@ function schemeSpecials (setupParts,mmGUID)
         log("Add extra annihilation group.")
         local renameHenchmen = function(obj)
             for i=1,10 do
-                local cardTaken = obj.takeObject({position=getObjectFromGUID(topBoardGUIDs[4]).getPosition()})
+                local cardTaken = obj.takeObject({position=getObjectFromGUID(topBoardGUIDs[2]).getPosition()})
                 cardTaken.setName("Annihilation Wave Henchmen")
             end
         end
-        findInPile(setupParts[9],hmPileGUID,topBoardGUIDs[3],renameHenchmen)
+        findInPile(setupParts[9],hmPileGUID,topBoardGUIDs[1],renameHenchmen)
+        for i = 1,2 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
         print("Annihilation group " .. setupParts[9] .. " moved next to the scheme.")
     end
     if setupParts[1] == "Cage Villains in Power-Suppressing Cells" then
@@ -1599,6 +1641,14 @@ function schemeSpecials (setupParts,mmGUID)
         Wait.condition(infectedDeckShuffle,infectedDeckReady)
         print("Infected deck moved to twists pile.")
     end
+    if setupParts[1] == "Dark Alliance" then
+        for i = 2,4 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
+    end
+    if setupParts[1] == "Dark Reign of H.A.M.M.E.R. Officers" then
+        addMMGUIDS[topBoardGUIDs[2]] = true
+    end
     if setupParts[1] == "Destroy the Nova Corps" then
         sopile.randomize()
         wndPile.randomize()
@@ -1653,6 +1703,11 @@ function schemeSpecials (setupParts,mmGUID)
     if setupParts[1] == "Earthquake Drains the Ocean" then
         getObjectFromGUID("f3c7e3").Call('cityLowTides')
     end
+    if setupParts[1] == "Enthrone the Barons of Battleworld" then
+        for i = 3,8 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
+    end
     if setupParts[1] == "Explosion at the Washington Monument" then
         log("Set up the Washington Monument stacks...")
         local topzone = getObjectFromGUID(topBoardGUIDs[1])
@@ -1664,6 +1719,9 @@ function schemeSpecials (setupParts,mmGUID)
         for i=1,14 do
             wndPile.takeObject({position=topzone.getPosition(),
                 flip=false,smooth=false})
+        end
+        for i = 1,8 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
         end
         log("Shuffle..")
         local stack_created = function() 
@@ -1695,8 +1753,11 @@ function schemeSpecials (setupParts,mmGUID)
         print("HQ has size of 8 minus resolved twists. Not scripted.")
     end
     if setupParts[1] == "Ferry Disaster" then
-        getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID("725c5d").getPosition())
+        getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID(topBoardGUIDs[7]).getPosition())
         print("Bystander stack moved above the Sewers.")
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
     end
     if setupParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
         local twistzone = getObjectFromGUID(twistZoneGUID)
@@ -1715,6 +1776,16 @@ function schemeSpecials (setupParts,mmGUID)
         for i=1,8 do
             bsPile.takeObject({position=twistpile.getPosition(),
                 flip=false,smooth=false})
+        end
+    end
+    if setupParts[1] == "Horror of Horrors" then
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
+    end
+    if setupParts[1] == "Hypnotize Every Human" then
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
         end
     end
     if setupParts[1] == "Infiltrate the Lair with Spies" then
@@ -1758,6 +1829,9 @@ function schemeSpecials (setupParts,mmGUID)
         local tobewed = {}
         for s in string.gmatch(setupParts[9],"[^|]+") do
             table.insert(tobewed, string.lower(s))
+        end
+        for i = 1,8 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
         end
         log("Extra heroes to be wed in separate piles.")
         local orderAdam = function(obj)
@@ -1843,11 +1917,17 @@ function schemeSpecials (setupParts,mmGUID)
                 end
             end
         end
+        addMMGUIDS[topBoardGUIDs[5]] = true
         findInPile(setupParts[9],heroPileGUID,topBoardGUIDs[5],betrayalDeck)
     end
     if setupParts[1] == "Secret HYDRA Corruption" then
         log("Only 30 shield officers.")
         reduceStack(30,officerDeckGUID)
+    end
+    if setupParts[1] == "Secret Wars" then
+        for i = 3,8 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
     end
     if setupParts[1] == "Steal All Oxygen on Earth" then
         setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Oxygen Level:[/b][-] 8")
@@ -1860,6 +1940,9 @@ function schemeSpecials (setupParts,mmGUID)
             ["HC:Blue"]="3d3ba7",
             ["HC:Silver"]="725c5d"
         }
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
         for i,o in pairs(dividedDeckGUIDs) do
             getObjectFromGUID(o).createButton({
                 click_function="obedienceDisk",
@@ -1898,6 +1981,7 @@ function schemeSpecials (setupParts,mmGUID)
                     })
             end
         end
+        addMMGUIDS[topBoardGUIDs[1]] = true
         findInPile(setupParts[9],mmPileGUID,topBoardGUIDs[1],mmshuffle)
     end
     if setupParts[1] == "The Contest of Champions" then
@@ -1919,6 +2003,12 @@ function schemeSpecials (setupParts,mmGUID)
             if not herodeck.is_face_down then
                 herodeck.flip()
             end
+            for i = 1,8 do
+                addMMGUIDS[topBoardGUIDs[i]] = true
+            end
+            addMMGUIDS["f394e1"] = true
+            addMMGUIDS["0559f8"] = true
+            addMMGUIDS["39e3d7"] = true
             local posi = getObjectFromGUID(topBoardGUIDs[1])
             print("Putting 11 contestants above the board!")
             contestants = {}
@@ -1938,6 +2028,10 @@ function schemeSpecials (setupParts,mmGUID)
         end
         Wait.condition(makeChampions,heroDeckComplete)
     end
+    if setupParts[1] == "The Kree-Skrull War" then
+        addMMGUIDS[topBoardGUIDs[2]] = true
+        addMMGUIDS[topBoardGUIDs[4]] = true
+    end
     if setupParts[1] == "Tornado of Terrigen Mists" then
         log("Add player tokens.")
         local sewers = getObjectFromGUID(city_zones_guids[2])
@@ -1950,6 +2044,9 @@ function schemeSpecials (setupParts,mmGUID)
             obj.mass = 0
             obj.drag = 10000
             obj.angular_drag = 10000
+        end
+        for i = 3,7 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
         end
         for i=1,playercount do
             if i < 4 then
@@ -1996,8 +2093,13 @@ function schemeSpecials (setupParts,mmGUID)
             end
         end
         findInPile("Adam Warlock (ITC)",heroPileGUID,topBoardGUIDs[1],orderAdam)
+        addMMGUIDS[topBoardGUIDs[1]] = true
     end
-    
+    if setupParts[1] == "United States Split by Civil War" then
+        for i = 1,2 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
+    end
     if setupParts[1] == "World War Hulk" then
         finalblow = false
         finalblowfixed = true
@@ -2011,6 +2113,9 @@ function schemeSpecials (setupParts,mmGUID)
         end
         log("lurkers = ")
         log(lurkingMasterminds)
+        for i = 1,6 do
+            addMMGUIDS[topBoardGUIDs[i]] = true
+        end
         local tacticsKill = function(obj)
             for i=1,3 do
                 if lurkingMasterminds[i] == obj.getName() then
@@ -2320,16 +2425,7 @@ function setupMasterminds(objname,epicness,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            local color = Turns.turn_color
-            local zone = nil
-            if color == "Blue" then
-                zone = "2b36c3"
-            elseif color == "White" then
-                zone = "558e75"
-            else
-                zone = "f49fc9"
-            end
-            local playedcards = get_decks_and_cards_from_zone(zone)
+            local playedcards = get_decks_and_cards_from_zone(playguids[Turns.turn_color])
             local power = 0
             local boost = 1
             if epicness == true then
@@ -3353,10 +3449,12 @@ function fightButton(zone)
                             break
                         end
                     end
+                    addMMGUIDS[mmLocations[name]] = false
+                    mmLocations[name] = nil
                     local butt = obj.getButtons()
                     local iter = 0
                     for i,o in ipairs(butt) do
-                        if o.click_function == "fightEffect" then
+                        if o.click_function:find("fightEffect") then
                             obj.removeButton(i-1-iter)
                             iter = iter + 1
                         elseif o.click_function:find("update") and not o.click_function:find("Power") then
@@ -3604,13 +3702,12 @@ function resolveHorror(obj)
     if obj.getName() == "The Apprentice Rises" then
         local mmPile = getObjectFromGUID(mmPileGUID)
         mmPile.randomize()
+        local mmloc = getNextMMLoc(true)
         local stripTactics = function(obj)
             obj.flip()
             broadcastToAll("The Horror! " .. obj.getName() .. " was added to the game as an apprentice mastermind with one tactic.")
             table.insert(masterminds,obj.getName())
-            mmLocations[obj.getName()] = topBoardGUIDs[4] -- needs a better location
-            -- make a script that sets out where additional mm are to go
-            -- also block spaces if the scheme uses or will use them
+            mmLocations[obj.getName()] = mmloc
             getObjectFromGUID("f3c7e3").Call('retrieveMM')
             setupMasterminds(obj.getName())
             local keep = math.random(4)
@@ -3635,7 +3732,7 @@ function resolveHorror(obj)
             end
             Wait.time(flipTactics,1)
         end
-        mmPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[4]).getPosition(),callback_function = stripTactics})
+        mmPile.takeObject({position = getObjectFromGUID(mmloc).getPosition(),callback_function = stripTactics})
         return nil
     end
     if obj.getName() == "The Blood Thickens" then
@@ -3868,12 +3965,28 @@ function getStrikeloc(mmname)
     if mmLocations[mmname] == mmZoneGUID then
         strikeloc = strikeZoneGUID
     else
-        for i,o in pairs(topBoardGUIDs) do
+        for i,o in pairs(allTopBoardGUIDS) do
             if o == mmLocations[mmname] then
-                strikeloc = topBoardGUIDs[i-1]
+                strikeloc = allTopBoardGUIDS[i-1]
                 break
             end
         end
     end
     return strikeloc
+end
+
+function getNextMMLoc(truemm)
+    for guid,occup in pairs(addMMGUIDS) do
+        if occup == false then
+            for index,guid2 in pairs(allTopBoardGUIDS) do
+                if guid2 == guid and index % 2 == 0 and addMMGUIDS[allTopBoardGUIDS[index-1]] == false then
+                    addMMGUIDS[guid] = true
+                    addMMGUIDS[allTopBoardGUIDS[index-1]] = true
+                    return guid
+                end
+            end
+        end
+    end
+    broadcastToAll("No location found for an extra mastermind.")
+    return nil
 end
