@@ -572,17 +572,17 @@ end
 
 function transformChanges(name)
     if name == "General Ross" then
-        updateRoss()
+        updateMMRoss()
     elseif name == "Illuminati, Secret Society" then
-        updateIlluminatiSS()
+        updateMMIlluminatiSS()
     elseif name == "King Hulk, Sakaarson" then
-        updateHulk()
+        updateMMHulk()
     elseif name == "M.O.D.O.K." then
-        updateMODOK()
+        updateMMMODOK()
     elseif name == "The Red King" then
-        updateRedKing()
+        updateMMRedKing()
     elseif name == "The Sentry" then
-        updateSentry()
+        updateMMSentry()
     end
 end
 
@@ -615,14 +615,14 @@ function setupTransformingMM(mmname,mmZone,lurking)
                 flip=false,
                 smooth=true})
         end
-        function updateRoss()
+        function updateMMRoss()
             if not mmActive(mmname) then
                 return nil
             end
             local mmZone = getObjectFromGUID(mmLocations[mmname])
             local buttonindex = nil
             for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateRoss" then
+                if o.click_function == "updateMMRoss" then
                     buttonindex = i-1
                     break
                 end
@@ -636,7 +636,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     end
                 else
                     if not getObjectFromGUID(strikeloc).getButtons() then
-                        getObjectFromGUID(strikeloc).createButton({click_function='updateRoss',
+                        getObjectFromGUID(strikeloc).createButton({click_function='updateMMRoss',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -650,7 +650,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                             tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders."})
                     end
                     if not buttonindex then
-                        mmZone.createButton({click_function='updateRoss',
+                        mmZone.createButton({click_function='updateMMRoss',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -670,7 +670,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     getObjectFromGUID(strikeloc).editButton({label="X",
                         tooltip="You can't fight Helicopters, and they don't stop you from fighting Red Hulk."})
                 else
-                    getObjectFromGUID(strikeloc).createButton({click_function='updateRoss',
+                    getObjectFromGUID(strikeloc).createButton({click_function='updateMMRoss',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -685,22 +685,22 @@ function setupTransformingMM(mmname,mmZone,lurking)
         end
         function onPlayerTurn(player,previous_player)
             if transformed["General Ross"] == true then
-                updateRoss()
+                updateMMRoss()
             end
         end
         function onObjectEnterZone(zone,object)
             if transformed["General Ross"] ~= nil then
-                updateRoss()
+                updateMMRoss()
             end
         end
         function onObjectLeaveZone(zone,object)
             if transformed["General Ross"] ~= nil then
-                updateRoss()
+                updateMMRoss()
             end
         end
     end
     if mmname == "Illuminati, Secret Society" then
-        function updateIlluminatiSS()
+        function updateMMIlluminatiSS()
             if not mmActive(mmname) then
                 return nil
             end
@@ -714,14 +714,14 @@ function setupTransformingMM(mmname,mmZone,lurking)
         end
     end
     if mmname == "King Hulk, Sakaarson" then
-        function updateHulk()
+        function updateMMHulk()
             if not mmActive(mmname) then
                 return nil
             end
             local mmZone = getObjectFromGUID(mmLocations[mmname])
             local buttonindex = nil
             for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateHulk" then
+                if o.click_function == "updateMMHulk" then
                     buttonindex = i-1
                     break
                 end
@@ -760,7 +760,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     if buttonindex then
                         mmZone.editButton({index=buttonindex,label="+" .. warbound})
                     else
-                        mmZone.createButton({click_function='updateHulk',
+                        mmZone.createButton({click_function='updateMMHulk',
                             function_owner=self,
                             position={0,0,0},
                             rotation={0,180,0},
@@ -779,30 +779,30 @@ function setupTransformingMM(mmname,mmZone,lurking)
         end
         function onPlayerTurn(player,previous_player)
             if transformed["King Hulk, Sakaarson"] == true then
-                updateHulk()
+                updateMMHulk()
             end
         end
         function onObjectEnterZone(zone,object)
             if transformed["King Hulk, Sakaarson"] ~= nil then
-                updateHulk()
+                updateMMHulk()
             end
         end
         function onObjectLeaveZone(zone,object)
             if transformed["King Hulk, Sakaarson"] ~= nil then
-                updateHulk()
+                updateMMHulk()
             end
         end
     end
     if mmname == "M.O.D.O.K." then
         local notes = getNotes()
         setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
-        function updateMODOK()
+        function updateMMMODOK()
             if not mmActive(mmname) then
                 return nil
             end
             local buttonindex = nil
             for i,o in pairs(mmzone.getButtons()) do
-                if o.click_function == "updateMODOK" then
+                if o.click_function == "updateMMMODOK" then
                     buttonindex = i-1
                     break
                 end
@@ -817,7 +817,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
             elseif transformed["M.O.D.O.K."] == true then   
                 local notes = getNotes()
                 setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
-                mmZone.createButton({click_function='updateMODOK',
+                mmZone.createButton({click_function='updateMMMODOK',
                     function_owner=self,
                     position={0,0,0},
                     rotation={0,180,0},
@@ -830,14 +830,14 @@ function setupTransformingMM(mmname,mmZone,lurking)
         end
     end
     if mmname == "The Red King" then
-        function updateRedKing()
+        function updateMMRedKing()
             if not mmActive(mmname) then
                 return nil
             end
             local buttonindex = nil
             local mmZone = getObjectFromGUID(mmLocations[mmname])
             for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateRedKing" then
+                if o.click_function == "updateMMRedKing" then
                     buttonindex = i-1
                     break
                 end
@@ -861,7 +861,7 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     end
                 end
                 if villainfound == true and not buttonindex then
-                    mmZone.createButton({click_function='updateRedKing',
+                    mmZone.createButton({click_function='updateMMRedKing',
                         function_owner=self,
                         position={0,0,0},
                         rotation={0,180,0},
@@ -881,24 +881,24 @@ function setupTransformingMM(mmname,mmZone,lurking)
         end
         function onObjectEnterZone(zone,object)
             if transformed["The Red King"] == false then
-                updateRedKing()
+                updateMMRedKing()
             end
         end
         function onObjectLeaveZone(zone,object)
             if transformed["The Red King"] == false then
-                updateRedKing()
+                updateMMRedKing()
             end
         end
     end
     if mmname == "The Sentry" then
-        function updateSentry()
+        function updateMMSentry()
             if not mmActive(mmname) then
                 return nil
             end
             local buttonindex = nil
             local mmZone = getObjectFromGUID(mmLocations[mmname])
             for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateSentry" then
+                if o.click_function == "updateMMSentry" then
                     buttonindex = i-1
                     break
                 end
@@ -913,17 +913,17 @@ function setupTransformingMM(mmname,mmZone,lurking)
         end
         function onPlayerTurn(player,previous_player)
             if transformed["The Sentry"] == true then
-                updateSentry()
+                updateMMSentry()
             end
         end
         function onObjectEnterZone(zone,object)
             if transformed["The Sentry"] == true then
-                updateSentry()
+                updateMMSentry()
             end
         end
         function onObjectLeaveZone(zone,object)
             if transformed["The Sentry"] == true then
-                updateSentry()
+                updateMMSentry()
             end
         end
     end
@@ -2205,7 +2205,7 @@ function setupMasterminds(objname,epicness,lurking)
             font_color={1,0,0},
             color={0,0,0,0.75},
             width=250,height=250})
-        updateBaronHein = function()
+        updateMMBaronHein = function()
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
             local savior = 0
@@ -2226,24 +2226,24 @@ function setupMasterminds(objname,epicness,lurking)
                 math.max(savior-2,0),
                 "+9",
                 "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
-                'updateBaronHein') end,1)
+                'updateMMBaronHein') end,1)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Bystander") then
-                Wait.time(updateBaronHein,2)
+                Wait.time(updateMMBaronHein,2)
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Bystander") then
-                Wait.time(updateBaronHein,2)
+                Wait.time(updateMMBaronHein,2)
             end
         end
         function onPlayerTurn(player,previous_player)
-            updateBaronHein()
+            updateMMBaronHein()
         end
     end
     if objname == "Baron Helmut Zemo" then
-        updateBaronHelm = function()
+        updateMMBaronHelm = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2268,24 +2268,24 @@ function setupMasterminds(objname,epicness,lurking)
                 savior,
                 "-" .. savior,
                 "The Baron gets -1 for each villain in your victory pile.",
-                'updateBaronHelm') end,1)
+                'updateMMBaronHelm') end,1)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateBaronHelm,2)
+                Wait.time(updateMMBaronHelm,2)
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateBaronHelm,2)
+                Wait.time(updateMMBaronHelm,2)
             end
         end
         function onPlayerTurn(player,previous_player)
-            updateBaronHelm()
+            updateMMBaronHelm()
         end
     end
     if objname == "Belasco, Demon Lord of Limbo" or objname == "Belasco, Demon Lord of Limbo - epic" then
-        updateBelasco = function()
+        updateMMBelasco = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2306,21 +2306,21 @@ function setupMasterminds(objname,epicness,lurking)
                 nongrey,
                 "+" .. nongrey,
                 "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
-                'updateBelasco') end,1)
+                'updateMMBelasco') end,1)
         end
         function onObjectEnterZone(zone,object)
             if zone.guid == kopile_guid then
-                Wait.time(updateBelasco,2)
+                Wait.time(updateMMBelasco,2)
             end
         end
         function onObjectLeaveZone(zone,object)
             if zone.guid == kopile_guid then
-                Wait.time(updateBelasco,2)
+                Wait.time(updateMMBelasco,2)
             end
         end
     end
     if objname == "Charles Xavier, Professor of Crime" then
-        updateCharles = function()
+        updateMMCharles = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2358,17 +2358,17 @@ function setupMasterminds(objname,epicness,lurking)
                 bsfound,
                 "+" .. bsfound,
                 "Charles Xavier gets +1 for each Bystander in the city and HQ.",
-                'updateCharles') end,1)
+                'updateMMCharles') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateCharles,1.5)
+            Wait.time(updateMMCharles,1.5)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateCharles,1.5)
+            Wait.time(updateMMCharles,1.5)
         end
     end
     if objname == "Deathbird" or objname == "Deathbird - epic" then
-        updateDeathbird = function()
+        updateMMDeathbird = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2411,17 +2411,17 @@ function setupMasterminds(objname,epicness,lurking)
                 shiarfound,
                 "+" .. shiarfound*modifier,
                 "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
-                'updateDeathbird') end,1)
+                'updateMMDeathbird') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateDeathbird,1)
+            Wait.time(updateMMDeathbird,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateDeathbird,1)
+            Wait.time(updateMMDeathbird,1)
         end
     end
     if objname == "Emma Frost, The White Queen" or objname == "Emma Frost, The White Queen - epic" then
-        updateEmma = function()
+        updateMMEmma = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2442,20 +2442,20 @@ function setupMasterminds(objname,epicness,lurking)
                 power,
                 "+" .. power,
                 "Emma Frost gets +" .. boost .. " for each grey hero you have.",
-                'updateEmma') end,1)
+                'updateMMEmma') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateEmma,1)
+            Wait.time(updateMMEmma,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateEmma,1)
+            Wait.time(updateMMEmma,1)
         end
     end
     if objname == "Evil Deadpool" then
         if not mmActive(objname) then
             return nil
         end
-        updateDeadpool = function()
+        updateMMDeadpool = function()
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
             local tacticsfound = 0
@@ -2475,20 +2475,20 @@ function setupMasterminds(objname,epicness,lurking)
                 tacticsfound,
                 "+" .. tacticsfound,
                 "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
-                'updateDeadpool') end,1)
+                'updateMMDeadpool') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateDeadpool,1)
+            Wait.time(updateMMDeadpool,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateDeadpool,1)
+            Wait.time(updateMMDeadpool,1)
         end
         function onPlayerTurn(player,previous_player)
-            updateDeadpool()
+            updateMMDeadpool()
         end
     end
     if objname == "Grim Reaper" or objname == "Grim Reaper - epic" then
-        updateReaper = function()
+        updateMMReaper = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2514,13 +2514,13 @@ function setupMasterminds(objname,epicness,lurking)
                 locationcount2,
                 "+" .. locationcount2,
                 "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
-                'updateReaper') end,1)
+                'updateMMReaper') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateReaper,1)
+            Wait.time(updateMMReaper,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateReaper,1)
+            Wait.time(updateMMReaper,1)
         end
     end
     if objname == "Hela, Goddess of Death" or objname == "Hela, Goddess of Death - epic" then
@@ -2531,7 +2531,7 @@ function setupMasterminds(objname,epicness,lurking)
         if not epicness then
             table.remove(helacitycheck,1)
         end
-        updateHela = function()
+        updateMMHela = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2555,13 +2555,13 @@ function setupMasterminds(objname,epicness,lurking)
                 villaincount,
                 "+" .. villaincount*(5+boost),
                 "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
-                'updateHela') end,1)
+                'updateMMHela') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateHela,1)
+            Wait.time(updateMMHela,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateHela,1)
+            Wait.time(updateMMHela,1)
         end
     end
     if objname == "J. Jonah Jameson" or objname == "J. Jonah Jameson - epic" then
@@ -2591,7 +2591,7 @@ function setupMasterminds(objname,epicness,lurking)
                     width=250,height=250})
     end
     if objname == "Macho Gomez" then
-        updateMacho = function()
+        updateMMMacho = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2616,31 +2616,31 @@ function setupMasterminds(objname,epicness,lurking)
                 savior,
                 "+" .. savior,
                 "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
-                'updateMacho') end,1)
+                'updateMMMacho') end,1)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateMacho,2)
+                Wait.time(updateMMMacho,2)
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateMacho,2)
+                Wait.time(updateMMMacho,2)
             end
         end
         function onPlayerTurn(player,previous_player)
-            updateMacho()
+            updateMMMacho()
         end
     end
     if objname == "Madelyne Pryor, Goblin Queen" then
-        function updateMadelyne()
+        function updateMMMadelyne()
             if not mmActive(objname) then
                 return nil
             end
             local mmzone = getObjectFromGUID(mmLocations[objname])
             local buttonindex = nil
             for i,o in pairs(mmzone.getButtons()) do
-                if o.click_function == "updateMadelyne" then
+                if o.click_function == "updateMMMadelyne" then
                     buttonindex = i-1
                     break
                 end
@@ -2676,7 +2676,7 @@ function setupMasterminds(objname,epicness,lurking)
                         tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders."})
                 end
                 if not buttonindex then
-                    mmzone.createButton({click_function='updateMadelyne',
+                    mmzone.createButton({click_function='updateMMMadelyne',
                         function_owner=self,
                         position={0,0,0},
                         rotation={0,180,0},
@@ -2692,14 +2692,14 @@ function setupMasterminds(objname,epicness,lurking)
             end
         end
         function onObjectEnterZone(zone,object)
-            updateMadelyne()
+            updateMMMadelyne()
         end
         function onObjectLeaveZone(zone,object)
-            updateMadelyne()
+            updateMMMadelyne()
         end
     end
     if objname == "Magus" or objname == "Magus - epic" then
-        updateMagus = function()
+        updateMMMagus = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2725,20 +2725,20 @@ function setupMasterminds(objname,epicness,lurking)
                 shardsfound,
                 "+" .. boost*shardsfound,
                 "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
-                'updateMagus') end,1)
+                'updateMMMagus') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMagus,1)
+            Wait.time(updateMMMagus,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMagus,1)
+            Wait.time(updateMMMagus,1)
         end
     end
     if objname == "Mandarin" or objname == "Mandarin - epic" then
         if not mmActive(objname) then
             return nil
         end
-        updateMandarin = function()
+        updateMMMandarin = function()
             local tacticsfound = 0
             for _,o in pairs(Player.getPlayers()) do
                 local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
@@ -2763,17 +2763,17 @@ function setupMasterminds(objname,epicness,lurking)
                 tacticsfound,
                 "-" .. tacticsfound*modifier,
                 "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
-                'updateMandarin') end,1)
+                'updateMMMandarin') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMandarin,1)
+            Wait.time(updateMMMandarin,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMandarin,1)
+            Wait.time(updateMMMandarin,1)
         end
     end
     if objname == "Maria Hill, Director of S.H.I.E.L.D." then
-        updateMaria = function()
+        updateMMMaria = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2795,13 +2795,13 @@ function setupMasterminds(objname,epicness,lurking)
                 shieldfound,
                 "X",
                 "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
-                'updateMaria') end,1)
+                'updateMMMaria') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMaria,1)
+            Wait.time(updateMMMaria,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMaria,1)
+            Wait.time(updateMMMaria,1)
         end
     end
     if objname == "Misty Knight" then
@@ -2826,14 +2826,14 @@ function setupMasterminds(objname,epicness,lurking)
             playHorror()
             mojobasepower = 7
         end
-        function updateMojo()
+        function updateMMMojo()
             if not mmActive(objname) then
                 return nil
             end
             local mmzone = getObjectFromGUID(mmLocations[objname])
             local buttonindex = nil
             for i,o in pairs(mmzone.getButtons()) do
-                if o.click_function == "updateMojo" then
+                if o.click_function == "updateMMMojo" then
                     buttonindex = i-1
                     break
                 end
@@ -2869,7 +2869,7 @@ function setupMasterminds(objname,epicness,lurking)
                         tooltip="You can fight these Human Shields for " .. mojobasepower .. " to rescue them as Bystanders."})
                 end
                 if not buttonindex then
-                    mmzone.createButton({click_function='updateMojo',
+                    mmzone.createButton({click_function='updateMMMojo',
                         function_owner=self,
                         position={0,0,0},
                         rotation={0,180,0},
@@ -2885,14 +2885,14 @@ function setupMasterminds(objname,epicness,lurking)
             end
         end
         function onObjectEnterZone(zone,object)
-            updateMojo()
+            updateMMMojo()
         end
         function onObjectLeaveZone(zone,object)
-            updateMojo()
+            updateMMMojo()
         end
     end
     if objname == "Mole Man" then
-        updateMoleMan = function()
+        updateMMMoleMan = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -2914,13 +2914,13 @@ function setupMasterminds(objname,epicness,lurking)
                 bscount,
                 "+" .. bscount,
                 "Mole Man gets +1 for each Subterranea Villain that has escaped.",
-                'updateMoleMan') end,1)
+                'updateMMMoleMan') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMoleMan,2)
+            Wait.time(updateMMMoleMan,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMoleMan,2)
+            Wait.time(updateMMMoleMan,2)
         end
     end
     if objname == "Morgan Le Fay" then
@@ -2937,7 +2937,7 @@ function setupMasterminds(objname,epicness,lurking)
                     width=250,height=250})
     end
     if objname == "Mr. Sinister" then
-        function updateMrSinister()
+        function updateMMMrSinister()
             if not mmActive(objname) then
                 return nil
             end
@@ -2957,13 +2957,13 @@ function setupMasterminds(objname,epicness,lurking)
                 #bs,
                 "+" .. #bs,
                 "Mr. Sinister gets +1 for each Bystander he has.",
-                'updateMrSinister') end,1)
+                'updateMMMrSinister') end,1)
         end
         function onObjectEnterZone(zone,object)
-            updateMrSinister()
+            updateMMMrSinister()
         end
         function onObjectLeaveZone(zone,object)
-            updateMrSinister()
+            updateMMMrSinister()
         end
     end
     if objname == "Onslaught" or objname == "Onslaught - epic" then
@@ -2973,7 +2973,7 @@ function setupMasterminds(objname,epicness,lurking)
         broadcastToAll("Hand size reduced by 1 because of Onslaught. Good luck! You're going to need it.")
     end
     if objname == "Poison Thanos" or objname == "Poison Thanos - epic" then
-        updatePoisonThanos = function()
+        updateMMPoisonThanos = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -3016,17 +3016,17 @@ function setupMasterminds(objname,epicness,lurking)
                 poisoncount,
                 "+" .. poisoncount*boost,
                 "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
-                'updatePoisonThanos') end,1)
+                'updateMMPoisonThanos') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updatePoisonThanos,2)
+            Wait.time(updateMMPoisonThanos,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updatePoisonThanos,2)
+            Wait.time(updateMMPoisonThanos,2)
         end
     end
     if objname == "Professor X" then
-        function updateProfessorX()
+        function updateMMProfessorX()
             if not mmActive(objname) then
                 return nil
             end
@@ -3046,17 +3046,17 @@ function setupMasterminds(objname,epicness,lurking)
                 #bs,
                 "+" .. #bs,
                 "Professor X gets +1 for each of his telepathic pawns.",
-                'updateProfessorX') end,1)
+                'updateMMProfessorX') end,1)
         end
         function onObjectEnterZone(zone,object)
-            updateProfessorX()
+            updateMMProfessorX()
         end
         function onObjectLeaveZone(zone,object)
-            updateProfessorX()
+            updateMMProfessorX()
         end
     end
     if objname == "'92 Professor X" then
-        function updateProfessorX92()
+        function updateMMProfessorX92()
             if not mmActive(objname) then
                 return nil
             end
@@ -3076,17 +3076,17 @@ function setupMasterminds(objname,epicness,lurking)
                 #bs,
                 "+" .. #bs,
                 "'92 Professor X gets +1 for each of his telepathic pawns.",
-                'updateProfessorX92') end,1)
+                'updateMMProfessorX92') end,1)
         end
         function onObjectEnterZone(zone,object)
-            updateProfessorX92()
+            updateMMProfessorX92()
         end
         function onObjectLeaveZone(zone,object)
-            updateProfessorX92()
+            updateMMProfessorX92()
         end
     end
     if objname == "Ragnarok" then
-        updateRagnarok = function()
+        updateMMRagnarok = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -3115,13 +3115,13 @@ function setupMasterminds(objname,epicness,lurking)
                 boost,
                 "+" .. boost,
                 "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
-                'updateRagnarok') end,1)
+                'updateMMRagnarok') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateRagnarok,2)
+            Wait.time(updateMMRagnarok,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateRagnarok,2)
+            Wait.time(updateMMRagnarok,2)
         end
     end
     if objname == "Shadow King" or objname == "Shadow King - epic" then
@@ -3131,7 +3131,7 @@ function setupMasterminds(objname,epicness,lurking)
             -- these will stack
             broadcastToAll("Shadow King played two horrors. Please read each of them")
         end
-        function updateShadowKing()
+        function updateMMShadowKing()
             if not mmActive(objname) then
                 return nil
             end
@@ -3151,17 +3151,17 @@ function setupMasterminds(objname,epicness,lurking)
                 #bs,
                 "+" .. #bs,
                 "Shadow King gets +1 for each hero he dominates.",
-                'updateShadowKing') end,1)
+                'updateMMShadowKing') end,1)
         end
         function onObjectEnterZone(zone,object)
-            updateShadowKing()
+            updateMMShadowKing()
         end
         function onObjectLeaveZone(zone,object)
-            updateShadowKing()
+            updateMMShadowKing()
         end
     end
     if objname == "Spider-Queen" then
-        updateSpiderQueen = function()
+        updateMMSpiderQueen = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -3183,17 +3183,17 @@ function setupMasterminds(objname,epicness,lurking)
                 bscount,
                 "+" .. bscount,
                 "Spider-Queen gets +1 for each Bystander in the Escape pile.",
-                'updateSpiderQueen') end,1)
+                'updateMMSpiderQueen') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateSpiderQueen,2)
+            Wait.time(updateMMSpiderQueen,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateSpiderQueen,2)
+            Wait.time(updateMMSpiderQueen,2)
         end
     end
     if objname == "Thanos" then
-        updateThanos = function()
+        updateMMThanos = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -3212,16 +3212,16 @@ function setupMasterminds(objname,epicness,lurking)
                 gemfound,
                 "-" .. gemfound*2,
                 "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
-                'updateThanos') end,1)
+                'updateMMThanos') end,1)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Group:Infinity Gems") then
-                Wait.time(updateThanos,2)
+                Wait.time(updateMMThanos,2)
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Group:Infinity Gems") then
-                Wait.time(updateThanos,2)
+                Wait.time(updateMMThanos,2)
             end
         end
     end
@@ -3234,7 +3234,7 @@ function setupMasterminds(objname,epicness,lurking)
         end
     end
     if objname == "The Hood" or objname == "The Hood - epic" then
-        updateHood = function()
+        updateMMHood = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -3272,20 +3272,20 @@ function setupMasterminds(objname,epicness,lurking)
                 darkmemories,
                 "+" .. darkmemories,
                 "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
-                'updateHood') end,1)
+                'updateMMHood') end,1)
         end
         function onPlayerTurn(player,previous_player)
-            updateHood()
+            updateMMHood()
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateHood,2)
+            Wait.time(updateMMHood,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateHood,2)
+            Wait.time(updateMMHood,2)
         end
     end
     if objname == "Ultron" or objname == "Ultron - epic" then
-        updateUltron = function()
+        updateMMUltron = function()
             if not mmActive(objname) then
                 return nil
             end
@@ -3338,20 +3338,20 @@ function setupMasterminds(objname,epicness,lurking)
                 empowerment,
                 "+" .. empowerment,
                 "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
-                'updateUltron') end,1)
+                'updateMMUltron') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateUltron,2)
+            Wait.time(updateMMUltron,2)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateUltron,2)
+            Wait.time(updateMMUltron,2)
         end
     end
     if objname == "Wasteland Hulk" then
         if not mmActive(objname) then
             return nil
         end
-        updateWastelandHulk = function()
+        updateMMWastelandHulk = function()
             local tacticsfound = 0
             for _,o in pairs(Player.getPlayers()) do
                 local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
@@ -3372,29 +3372,49 @@ function setupMasterminds(objname,epicness,lurking)
                 tacticsfound,
                 "+" .. tacticsfound*3,
                 "Wasteland Hulk gets +3 for each of his Mastermind Tactics among all players' Victory Piles.",
-                'updateWastelandHulk') end,1)
+                'updateMMWastelandHulk') end,1)
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateWastelandHulk,1)
+            Wait.time(updateMMWastelandHulk,1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateWastelandHulk,1)
+            Wait.time(updateMMWastelandHulk,1)
         end
     end
 end
 
-function mmButtons(objname,checkvalue,label,tooltip,f)
+function mmButtons(objname,checkvalue,label,tooltip,f,id)
     local mmzone = getObjectFromGUID(mmLocations[objname])
     local buttonindex = nil
+    local toolt_orig = nil
+    if not id then
+        id = "base"
+    end
     for i,o in pairs(mmzone.getButtons()) do
-        if o.click_function == f then
+        if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) then
             buttonindex = i-1
+            toolt_orig = o.tooltip
             break
         end
     end
-    if checkvalue == 0 and buttonindex then
-        mmzone.removeButton(buttonindex)
-    elseif not buttonindex then
+    log("from button:")
+    log(toolt_orig)
+    if not toolt_orig then
+        tooltip = "\n - " .. tooltip ..  " [" .. id .. ":" .. label .. "]"
+    elseif not toolt_orig:find("%[" .. id .. ":") then
+        if tooltip then
+            tooltip = toolt_orig .. "\n - " .. tooltip .. " [" .. id .. ":" .. label .. "]"
+        else
+            tooltip = toolt_orig .. "\n - Unidentified bonus [" .. id .. ":" .. label .. "]"
+        end
+    else
+        tooltip = toolt_orig
+    end
+    log(tooltip)
+    if checkvalue == 0 then
+        label = ""
+    end
+    if not buttonindex then
         mmzone.createButton({click_function=f,
             function_owner=self,
             position={0,0,0},
@@ -3406,8 +3426,51 @@ function mmButtons(objname,checkvalue,label,tooltip,f)
             color={0,0,0,0.75},
             width=250,height=250})
     else
-        mmzone.editButton({index=buttonindex,label = label,tooltip = tooltip})
+        local lab,tool = updateLabel(mmzone,buttonindex+1,label,id)
+        mmzone.editButton({index=buttonindex,label = lab,tooltip = tool})
     end
+end
+
+function updateLabel(obj,index,label,id)
+    local button = obj.getButtons()[index]
+    local tool = button.tooltip
+    local bonuses = {}
+    local step = 1
+    for s in string.gmatch(tool,"[^%[%]]+") do
+        if step % 2 == 0 then
+            bonuses[s:gsub(":.*","")] = s:gsub(".*:","")
+        end
+        step = step + 1
+    end
+    if step > 3 or not bonuses[id] then
+        local sum = 0
+        local aster = false
+        for i,o in pairs(bonuses) do
+            if i == id then
+                tool = tool:gsub("%[" .. id .. ":.*%]","[" .. id .. ":" .. label .. "]")
+            end
+            if o:find("-") then
+                sum = sum - tonumber(o:match("%d+"))
+            elseif o:find("X") then
+                sum = "X"
+                break
+            elseif o:find("*") then
+                aster = true
+            elseif o and o ~= "" then
+                sum = sum + tonumber(o:match("%d+"))
+            end
+        end
+        label = sum
+        if label == 0 then
+            label = ""
+        end
+        if aster and label ~= "X" then
+            label = label .. "*"
+        end
+    else
+        tool = tool:gsub("%[.*%]","[" .. id .. ":"  .. label .. "]")
+    end
+    return label,tool
 end
 
 function koCard(obj,smooth)
@@ -3457,7 +3520,7 @@ function fightButton(zone)
                         if o.click_function:find("fightEffect") then
                             obj.removeButton(i-1-iter)
                             iter = iter + 1
-                        elseif o.click_function:find("update") and not o.click_function:find("Power") then
+                        elseif o.click_function:find("updateMM") and not o.click_function:find("Power") then
                             obj.removeButton(i-1-iter)
                             iter = iter + 1
                         end
@@ -3471,7 +3534,7 @@ function fightButton(zone)
                     local iter2 = 0
                     if strikebutt then
                         for i,o in ipairs(strikebutt) do
-                            if o.click_function:find("update") and not o.click_function:find("Power") then
+                            if o.click_function:find("updateMM") and not o.click_function:find("Power") then
                                 strikeZone.removeButton(i-1-iter2)
                                 iter2 = iter2 + 1
                             end

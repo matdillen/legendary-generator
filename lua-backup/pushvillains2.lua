@@ -5,7 +5,6 @@ function onLoad()
     twistsstacked = 0
     strikesresolved = 0
     strikesstacked = 0
-    basestrength = 0
     wwiiInvasion = false
     villainstoplay = 0
     goblincount = 0
@@ -542,7 +541,7 @@ function push_all(city)
         if not targetZoneGUID then
             targetZoneGUID = escape_zone_guid
         end
-        updateTwistPower()
+        updatePower()
         local targetZone = getObjectFromGUID(targetZoneGUID)
         --find all cards, decks and shards in a zone
         local cards = get_decks_and_cards_from_zone(zoneGUID)
@@ -591,7 +590,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         
         if cityEntering == 1 then
             --special events in certain schemes not related to twists
-            local proceed = nonTwistspecials(cards,city,schemeParts)
+            local proceed = nonTwistspecials(cards,schemeParts)
             if not proceed then
                 return nil
             end
@@ -619,7 +618,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
             --maybe later on they can be scripted, but this requires knowing all masterminds that are present
             if cards[1].getName() == "Masterstrike" then
                 strikesresolved = strikesresolved + 1
-                updateTwistPower()
+                updatePower()
                 local notes = getNotes()
                 notes = notes:gsub("Strikes resolved:%[/b%]%[%-%] %d+","Strikes resolved:[/b][-] " .. strikesresolved,1)
                 setNotes(notes)
@@ -792,106 +791,103 @@ function checkCityContent()
     end
 end
 
-function updateTwistPower()
+function updatePower()
     for _,o in pairs(city_zones_guids) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for _,object in pairs(cityobjects) do
             if object.getButtons() then
-                if object.hasTag("Corrupted") or object.hasTag("Possessed") or object.hasTag("Killbot") then
-                    object.editButton({label=twistsstacked+basestrength})
-                elseif object.hasTag("Brainwashed") then
-                    object.editButton({label=twistsstacked+3})
-                elseif object.hasTag("Phalanx-Infected") then
-                    object.editButton({label=math.floor(twistsstacked/2)+hasTag2(object,"Cost:")})
-                elseif object.getName() == "Smugglers" then
-                    object.editButton({label = "+" .. strikesresolved})
-                elseif object.hasTag("Khonshu Guardian") then
-                    if i % 2 == 0 then
-                        object.editButton({label = hasTag2(object,"Cost:")*2})
-                    else
-                        object.editButton({label = hasTag2(object,"Cost:")})
-                    end
-                elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
-                    object.editButton({label = hasTag2(object,"Cost:") + 4})
-                elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
-                    object.editButton({label = hasTag2(object,"Cost:") + goblincount})
-                elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
-                    object.editButton({label = "+" .. twistsstacked})
-                elseif object.getName() == "Graveyard" and object.hasTag("Location") then
-                    for _,obj in pairs(cityobjects) do
-                        if obj.hasTag("Villain") then
-                            object.editButton({label = 7 + 2*reaperbonus + 2})
-                            return nil
-                        end
-                    end
-                    object.editButton({label = 7 + 2*reaperbonus})
-                end
-            end
-        end
-    end
-end
-
-function updateUltronPower()
-    ultronpower = 4
-    local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
-    if evolutionPile[1] then
-        if evolutionPile[1].tag == "Deck" then
-            evolutionPileCards = evolutionPile[1].getObjects()
-            evolutionPileSize = #evolutionPileCards
-        elseif evolutionPile[1].tag == "Card" then
-            evolutionPileCards = evolutionPile[1]
-            evolutionPileSize = 1
-        else
-            broadcastToAll("Get those shards out of there.")
-            return nil
-        end
-    else
-        broadcastToAll("Evolution deck missing???")
-        return nil
-    end
-    local evolutionColors = {
-            ["HC:Red"]=false,
-            ["HC:Green"]=false,
-            ["HC:Yellow"]=false,
-            ["HC:Blue"]=false,
-            ["HC:Silver"]=false
-    }
-    if evolutionPileSize > 1 then
-        for i=1,evolutionPileSize do
-            for _,k in pairs(evolutionPileCards[i].tags) do
-                if k:find("HC:") then
-                    evolutionColors[k] = true
-                end
-            end
-        end
-    else
-        for i,o in pairs(evolutionPileCards.getTags()) do
-                if o:find("HC:") then
-                    evolutionColors[o] = true
-                end
-        end
-    end
-    for i,o in pairs(hqguids) do
-        local herocard = getObjectFromGUID(o).Call('getHeroUp')
-        if herocard then
-            for _,object in pairs(herocard.getTags()) do
-                if object:find("HC:") then
-                    if evolutionColors[object] == true then
-                        ultronpower = ultronpower + 1
+                local index = nil
+                for i,b in pairs(object.getButtons()) do
+                    if b.click_function == "updatePower" then
+                        index = i
                         break
                     end
                 end
-            end
-        else
-            broadcastToAll("Hero in hq space " .. i .. " is missing?")
-        end
-    end
-    
-    for _,o in pairs(city_zones_guids) do
-        local cityobjects = get_decks_and_cards_from_zone(o)
-        for _,object in pairs(cityobjects) do
-            if object.getName() == "Evolved Ultron" then
-                object.editButton({label=ultronpower})
+                if index then
+                    if object.hasTag("Corrupted") then
+                        object.editButton({index = index-1,label=twistsstacked+2})
+                    elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
+                        object.editButton({index = index-1,label=twistsstacked})
+                    elseif object.hasTag("Brainwashed") then
+                        object.editButton({index = index-1,label=twistsstacked+3})
+                    elseif object.hasTag("Phalanx-Infected") then
+                        object.editButton({index = index-1,label=math.floor(twistsstacked/2)+hasTag2(object,"Cost:")})
+                    elseif object.getName() == "Smugglers" then
+                        object.editButton({index = index-1,label = "+" .. strikesresolved})
+                    elseif object.hasTag("Khonshu Guardian") then
+                        if i % 2 == 0 then
+                            object.editButton({index = index-1,label = hasTag2(object,"Cost:")*2})
+                        else
+                            object.editButton({index = index-1,label = hasTag2(object,"Cost:")})
+                        end
+                    elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
+                        object.editButton({index = index-1,label = hasTag2(object,"Cost:") + 4})
+                    elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
+                        object.editButton({index = index-1,label = hasTag2(object,"Cost:") + goblincount})
+                    elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
+                        object.editButton({index = index-1,label = "+" .. twistsstacked})
+                    elseif object.getName() == "Graveyard" and object.hasTag("Location") then
+                        for _,obj in pairs(cityobjects) do
+                            if obj.hasTag("Villain") then
+                                object.editButton({index = index-1,label = 7 + 2*reaperbonus + 2})
+                                return nil
+                            end
+                        end
+                        object.editButton({index = index-1,label = 7 + 2*reaperbonus})
+                    elseif object.getName() == "Evolved Ultron" then
+                        local ultronpower = 4
+                        local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
+                        local evolutionPileSize = 0
+                        if evolutionPile[1] then
+                            if evolutionPile[1].tag == "Deck" then
+                                evolutionPileSize = #evolutionPile[1].getObjects()
+                            elseif evolutionPile[1] then
+                                evolutionPileSize = 1
+                            end
+                        else
+                            broadcastToAll("Evolution deck missing???")
+                            return nil
+                        end
+                        local evolutionColors = {
+                                ["HC:Red"]=false,
+                                ["HC:Green"]=false,
+                                ["HC:Yellow"]=false,
+                                ["HC:Blue"]=false,
+                                ["HC:Silver"]=false
+                        }
+                        if evolutionPileSize > 1 then
+                            for i,o in pairs(evolutionPile[1].getObjects()) do
+                                for _,k in pairs(o.tags) do
+                                    if k:find("HC:") then
+                                        evolutionColors[k] = true
+                                    end
+                                end
+                            end
+                        else
+                            for i,o in pairs(evolutionPile[1].getTags()) do
+                                if o:find("HC:") then
+                                    evolutionColors[o] = true
+                                end
+                            end
+                        end
+                        for i,o in pairs(hqguids) do
+                            local herocard = getObjectFromGUID(o).Call('getHeroUp')
+                            if herocard then
+                                for _,tag in pairs(herocard.getTags()) do
+                                    if tag:find("HC:") then
+                                        if evolutionColors[tag] == true then
+                                            ultronpower = ultronpower + 1
+                                            break
+                                        end
+                                    end
+                                end
+                            else
+                                broadcastToAll("Hero in hq space " .. i .. " is missing?")
+                            end
+                        end
+                        object.editButton({index = index-1,label=ultronpower})
+                    end
+                end
             end
         end
     end
@@ -924,24 +920,145 @@ function updateHQTags()
     end
 end
 
-function powerButton(obj,click_f,label_f,otherposition,toolt)
+function powerButton(obj,label,toolt,id,click_f,otherposition)
+    if not obj or not label then
+        broadcastToAll("Error: Missing argument to card boost.")
+        return nil
+    end
+    local pos = otherposition
     if not otherposition then
-        otherposition = {0,22,0}
+        pos = {0,22,0}
     end
-    if not toolt then
-        toolt = "Click to update villain's power!"
+    if not click_f then
+        click_f = 'updatePower'
     end
-    if obj and click_f and label_f then
+    if not id then
+        id = "base"
+    end
+    local index = nil
+    local toolt_orig = nil
+    if obj.getButtons() then
+        for i,o in pairs(obj.getButtons()) do
+            if o.click_function == click_f then
+                index = i
+                toolt_orig = o.tooltip
+                break
+            end
+        end
+    end
+    if not toolt_orig then
+        toolt = "Click to update villain's power!\n - Base power boost of this card [" .. id .. ":" .. label .. "]"
+    elseif not toolt_orig:find("%[" .. id .. ":") then
+        if toolt then
+            toolt = toolt_orig .. "\n - " .. toolt .. " [" .. id .. ":" .. label .. "]"
+        else
+            toolt = toolt_orig .. "\n - Unidentified bonus [" .. id .. ":" .. label .. "]"
+        end
+    end
+    if otherposition or not index then
         obj.createButton({click_function=click_f,
             function_owner=self,
-            position=otherposition,
-            label=label_f,
+            position=pos,
+            label=label,
             tooltip=toolt,
             font_size=500,
             font_color={1,0,0},
             color={0,0,0,0.75},
             width=250,height=250})
+    else
+        local lab,tool = updateLabel(obj,index,label,id)
+        obj.editButton({index = index - 1,
+            label = lab,
+            tooltip = tool})
     end
+end
+
+function mmButtons(objname,checkvalue,label,tooltip,f,id)
+    local mmzone = getObjectFromGUID(mmLocations[objname])
+    local buttonindex = nil
+    local toolt_orig = nil
+    if not id then
+        id = "base"
+    end
+    for i,o in pairs(mmzone.getButtons()) do
+        if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) then
+            buttonindex = i-1
+            toolt_orig = o.tooltip
+            break
+        end
+    end
+    if not toolt_orig then
+        tooltip = "\n - " .. tooltip ..  " [" .. id .. ":" .. label .. "]"
+    elseif not toolt_orig:find("%[" .. id .. ":") then
+        if tooltip then
+            tooltip = toolt_orig .. "\n - " .. tooltip .. " [" .. id .. ":" .. label .. "]"
+        else
+            tooltip = toolt_orig .. "\n - Unidentified bonus [" .. id .. ":" .. label .. "]"
+        end
+    else
+        tooltip = toolt_orig
+    end
+    log(tooltip)
+    if checkvalue == 0 then
+        label = ""
+    end
+    if not buttonindex then
+        mmzone.createButton({click_function=f,
+            function_owner=self,
+            position={0,0,0},
+            rotation={0,180,0},
+            label=label,
+            tooltip=tooltip,
+            font_size=350,
+            font_color={1,0,0},
+            color={0,0,0,0.75},
+            width=250,height=250})
+    else
+        local lab,tool = updateLabel(mmzone,buttonindex+1,label,id)
+        mmzone.editButton({index=buttonindex,label = lab,tooltip = tool})
+    end
+end
+
+function updateLabel(obj,index,label,id)
+    local button = obj.getButtons()[index]
+    local tool = button.tooltip
+    local bonuses = {}
+    local step = 1
+    for s in string.gmatch(tool,"[^%[%]]+") do
+        if step % 2 == 0 then
+            bonuses[s:gsub(":.*","")] = s:gsub(".*:","")
+        end
+        step = step + 1
+    end
+    if step > 3 or not bonuses[id] then
+        local sum = 0
+        local aster = false
+        for i,o in pairs(bonuses) do
+            if i == id then
+                tool = tool:gsub("%[" .. id .. ":.*%]","[" .. id .. ":" .. label .. "]")
+            end
+            if o:find("-") then
+                sum = sum - tonumber(o:match("%d+"))
+            elseif o:find("X") then
+                sum = "X"
+                break
+            elseif o:find("*") then
+                aster = true
+            elseif o and o ~= "" then
+                sum = sum + tonumber(o:match("%d+"))
+            end
+        end
+        label = sum
+        if label == 0 then
+            label = ""
+        end
+        if aster then
+            label = label .. "*"
+        end
+    else
+        tool = tool:gsub("%[.*%]","[" .. id .. ":"  .. label .. "]")
+    end
+    return label,tool
 end
 
 function dealWounds(top)
@@ -969,7 +1086,7 @@ function playVillains(n,condition_f,vildeckguid)
     end
     if villainstoplay == 0 then
         villainstoplay = villainstoplay + n
-        getObjectFromGUID(vildeckguid).createButton({click_function="updateTwistPower",
+        getObjectFromGUID(vildeckguid).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -1106,7 +1223,7 @@ function twistSpecials(cards,city,schemeParts)
             ultronpower = 4
         end
         function ultronCallback(obj)
-            Wait.time(updateUltronPower,1)
+            Wait.time(updatePower,1)
         end
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         if herodeck[1] then
@@ -1117,13 +1234,13 @@ function twistSpecials(cards,city,schemeParts)
             else
                 herodeck[1].flip()
                 herodeck[1].setPositionSmooth(getObjectFromGUID(twistZoneGUID).getPosition())
-                Wait.time(updateUltronPower,1)
+                Wait.time(updatePower,1)
             end
         end
         cards[1].setName("Evolved Ultron")
         cards[1].setTags({"VP6"})
         cards[1].setDescription("EMPOWERED: This card gets extra Power for each Hero with the listed Hero Class in the Evolution Pile.")
-        powerButton(cards[1],"updateUltronPower",ultronpower)
+        powerButton(cards[1],ultronpower)
         return twistsresolved
     end
     if schemeParts[1] == "Annihilation: Conquest" then
@@ -1155,7 +1272,7 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist: Choose one of the tied highest cost heroes in the HQ to enter the city as a villain.")
             local processPhalanxInfected = function(obj,index) 
                 obj.setPositionSmooth(pos)
-                powerButton(obj,"updateTwistPower",hasTag2(obj,"Cost:")+math.floor(twistsstacked/2))
+                powerButton(obj,hasTag2(obj,"Cost:")+math.floor(twistsstacked/2))
                 obj.addTag("Villain")
                 obj.addTag("Phalanx-Infected")
                 getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
@@ -1178,7 +1295,7 @@ function twistSpecials(cards,city,schemeParts)
                 hero = o
             end
             hero.setPositionSmooth(pos)
-            powerButton(hero,"updateTwistPower",hasTag2(hero,"Cost:")+math.floor(twistsstacked/2))
+            powerButton(hero,hasTag2(hero,"Cost:")+math.floor(twistsstacked/2))
             hero.addTag("Villain")
             hero.addTag("Phalanx-Infected")
             Wait.time(click_push_villain_into_city,1.5)
@@ -1374,7 +1491,7 @@ function twistSpecials(cards,city,schemeParts)
         if twistsresolved < 7 then
             stackTwist(cards[1])
             playVillains()
-            Wait.time(updateTwistPower,1)
+            Wait.time(updatePower,1)
             broadcastToAll("Scheme Twist: Another card was played from the villain deck!")
             return nil
         elseif twistsresolved == 7 then
@@ -1781,11 +1898,10 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
         stackTwist(cards[1])
         local skpile = getObjectFromGUID(sidekickDeckGUID)
-        basestrength = 2
         broadcastToAll("Scheme Twist!",{1,0,0})
         local pushSidekick = function(obj)
             obj.addTag("Corrupted")
-            powerButton(obj,"updateTwistPower",twistsstacked+basestrength)
+            powerButton(obj,twistsstacked+2)
             obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
             local sidekickLanded = function()
                 local landed = get_decks_and_cards_from_zone(city_zones_guids[1])
@@ -2059,7 +2175,7 @@ function twistSpecials(cards,city,schemeParts)
                                 --otherwise give an officer
                             end
                             --still annotate villain's power boost
-                            --also goes in updatetwistpower
+                            --also goes in updatePower
                             break
                         end
                     end
@@ -2584,7 +2700,7 @@ function twistSpecials(cards,city,schemeParts)
                 if escapee == true then
                     local annotateNewMM = function(obj)
                         obj.addTag("Ascended")
-                        powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
+                        powerButton(obj,hasTag2(obj,"Power:")+2)
                         getObjectFromGUID("912967").Call('fightButton',mmpos)
                         local vp = hasTag2(obj,"VP") or 0
                         table.insert(masterminds,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
@@ -2605,7 +2721,7 @@ function twistSpecials(cards,city,schemeParts)
                             power = power + hasTag2(o,"Power:")
                         end
                     end
-                    powerButton(ascendCard,"updateTwistPower",power+2)
+                    powerButton(ascendCard,power+2)
                     getObjectFromGUID("912967").Call('fightButton',mmpos)
                     local vp = hasTag2(ascendCard,"VP") or 0
                     table.insert(masterminds,"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
@@ -2661,7 +2777,7 @@ function twistSpecials(cards,city,schemeParts)
                             if vpilecontent[1].tag == "Deck" then
                                 local annotateNewMM = function(obj)
                                     obj.addTag("Ascended")
-                                    powerButton(obj,"updateTwistPower",hasTag2(obj,"Power:")+2)
+                                    powerButton(obj,hasTag2(obj,"Power:")+2)
                                     getObjectFromGUID("912967").Call('fightButton',{mmpos})
                                     local vp = hasTag2(obj,"VP") or 0
                                     table.insert(masterminds,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
@@ -2672,7 +2788,7 @@ function twistSpecials(cards,city,schemeParts)
                                     callback_function = annotateNewMM})
                             else
                                 vpilecontent[1].addTag("Ascended")
-                                powerButton(vpilecontent[1],"updateTwistPower",hasTag2(vpilecontent[1],"Power:")+2)
+                                powerButton(vpilecontent[1],hasTag2(vpilecontent[1],"Power:")+2)
                                 vpilecontent[1].setPositionSmooth(getObjectFromGUID(mmpos).getPosition())
                             end
                         elseif not toAscend then
@@ -2717,7 +2833,7 @@ function twistSpecials(cards,city,schemeParts)
                 font_size = 250,
                 font_color = "Red"})
         end
-        getObjectFromGUID(heroDeckZoneGUID).createButton({click_function="updateTwistPower",
+        getObjectFromGUID(heroDeckZoneGUID).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,3,0},
                 rotation={0,180,0},
@@ -3043,7 +3159,7 @@ function twistSpecials(cards,city,schemeParts)
                 rot = 180
             end
             local playzone = getObjectFromGUID(playguids[o.color])
-            playzone.createButton({click_function='updateTwistPower',
+            playzone.createButton({click_function='updatePower',
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,rot,0},
@@ -3306,7 +3422,7 @@ function twistSpecials(cards,city,schemeParts)
             end
             fortifiedCityZoneGUID = city_zones_guids[6 - id]
             local fortifiedCityZone = getObjectFromGUID(fortifiedCityZoneGUID)
-            fortifiedCityZone.createButton({click_function="updateTwistPower",
+            fortifiedCityZone.createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -3417,7 +3533,7 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         if twistsresolved == 1 then
             local mmzone = getObjectFromGUID(mmZoneGUID)
-            mmzone.createButton({click_function="updateTwistPower",
+            mmzone.createButton({click_function="updatePower",
                 function_owner=self,
                 position={0.5,0,0},
                 rotation={0,180,0},
@@ -3427,7 +3543,7 @@ function twistSpecials(cards,city,schemeParts)
                 font_color="Yellow",
                 color={0,0,0,0.75},
                 width=250,height=250})
-            mmzone.createButton({click_function="updateTwistPower",
+            mmzone.createButton({click_function="updatePower",
                 function_owner=self,
                 position={-0.5,0,0},
                 rotation={0,180,0},
@@ -3452,7 +3568,7 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         if twistsresolved == 1 then
             --may want to modify scale or dimensions
-            getObjectFromGUID(city_zones_guids[4]).createButton({click_function="updateTwistPower",
+            getObjectFromGUID(city_zones_guids[4]).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -3525,11 +3641,11 @@ function twistSpecials(cards,city,schemeParts)
                 return false
             end
         end
-        Wait.condition(updateTwistPower,twistMoved)
+        Wait.condition(updatePower,twistMoved)
         local vpile = get_decks_and_cards_from_zone(vpileguids[Turns.turn_color])
         if vpile[1] then
             local updateAndPush = function()
-                updateTwistPower()
+                updatePower()
                 click_push_villain_into_city()
             end
             if vpile[1].tag == "Deck"  then
@@ -3563,7 +3679,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Master of Tyrants" then
         if twistsresolved < 8 then
             broadcastToAll("Scheme Twist: Put this twist under a tyrant as a Dark Power!")
-            powerButton(cards[1],"updateTwistPower","+2")
+            powerButton(cards[1],"+2","This tyrant gets +2 because of a Dark Power.","darkpower" .. twistsresolved)
             cards[1].setName("Dark Power")
             return nil
         elseif twistsresolved == 8 then
@@ -3586,7 +3702,7 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)[1]
         if twistsresolved == 1 then
-            powerButton(scheme,"updateTwistPower","Kung Fu: " .. twistsstacked)
+            powerButton(scheme,"Kung Fu: " .. twistsstacked)
             setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Circle of Kung-Fu:[/b][-] 1")
         else
             scheme.editButton({index=0,label="Kung Fu: " .. twistsstacked})
@@ -3602,7 +3718,7 @@ function twistSpecials(cards,city,schemeParts)
             for _,o in pairs(streetz) do
                 if o.hasTag("Villain") then
                     dealWounds()
-                    Wait.time(updateTwistPower,2)
+                    Wait.time(updatePower,2)
                     return nil
                 end
             end
@@ -3618,8 +3734,8 @@ function twistSpecials(cards,city,schemeParts)
             else
                 twistsstacked = 0
             end
-            powerButton(obj,"updateTwistPower",twistsstacked)
-            updateTwistPower()
+            powerButton(obj,twistsstacked)
+            updatePower()
         end
         bsPile.takeObject({position = getObjectFromGUID(city_zones_guids[5]).getPosition(),
             flip=true,
@@ -3897,12 +4013,19 @@ function twistSpecials(cards,city,schemeParts)
             mmpos.y = mmpos.y + 2
             cards[1].setPositionSmooth(mmpos)
             cards[1].setName("Dark Portal")
-            powerButton(cards[1],"updateTwistPower","+1")
+            local mmname = nil
+            for i,o in pairs(mmLocations) do
+                if o == mmZoneGUID then
+                    mmname = i
+                    break
+                end
+            end
+            mmButtons(mmname,1,"+1","A dark portal gives the mastermind + 1.","mm","darkportal" .. twistsresolved)
             broadcastToAll("Scheme Twist: A dark portal reinforces the mastermind!")
         elseif twistsresolved < 7 then
             if city[7-twistsresolved] then
                 cards[1].setName("Dark Portal")
-                powerButton(cards[1],"updateTwistPower","+1")
+                powerButton(cards[1],"+1")
                 cards[1].setDescription("LOCATION: this isn't actually a location, but the scripts treat it as one and leave it alone.")
                 local citypos = getObjectFromGUID(city[7-twistsresolved]).getPosition()
                 citypos.z = citypos.z + 2
@@ -3987,7 +4110,7 @@ function twistSpecials(cards,city,schemeParts)
             local color = Turns.turn_color
             broadcastToAll("All enemies have Chivalrous Duel until " .. color .. "'s next turn!")
             local vildeckzone = getObjectFromGUID(villainDeckZoneGUID)
-            vildeckzone.createButton({click_function='updateTwistPower',
+            vildeckzone.createButton({click_function='updatePower',
                 function_owner=self,
                 position={3.4,0,0.5},
                 rotation={0,180,0},
@@ -4029,7 +4152,7 @@ function twistSpecials(cards,city,schemeParts)
         local vildeckzone = getObjectFromGUID(villainDeckZoneGUID)
         if twistsresolved % 2 == 0 and twistsresolved < 7 then
             broadcastToAll("Scheme Twist: Until next twist, heroes cost attack to recruit and enemies recruit to fight!")
-            herodeckzone.createButton({click_function='updateTwistPower',
+            herodeckzone.createButton({click_function='updatePower',
                 function_owner=self,
                 position={4,0,0.5},
                 rotation={0,180,0},
@@ -4040,7 +4163,7 @@ function twistSpecials(cards,city,schemeParts)
                 font_color={1,0.1,0},
                 color={0,0,0},
                 width=0})
-            vildeckzone.createButton({click_function='updateTwistPower',
+            vildeckzone.createButton({click_function='updatePower',
                 function_owner=self,
                 position={3.4,0,0.5},
                 rotation={0,180,0},
@@ -4066,7 +4189,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Replace Earth's Leaders with Killbots" then
         stackTwist(cards[1])
-        updateTwistPower()
+        updatePower()
         return nil
     end
     if schemeParts[1] == "Reveal Heroes' Secret Identities" then
@@ -4143,7 +4266,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             if isUnmasked == true then
-                getObjectFromGUID(guid).createButton({click_function='updateTwistPower',
+                getObjectFromGUID(guid).createButton({click_function='updatePower',
                     function_owner=self,
                     position={0,2,-2},
                     label="+1*",
@@ -4262,7 +4385,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         if twistsresolved == 1 then
             officerdeck = getObjectFromGUID(officerDeckGUID)
-            twistpile.createButton({click_function="updateTwistPower",
+            twistpile.createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -4379,7 +4502,7 @@ function twistSpecials(cards,city,schemeParts)
         local officerdeck = getObjectFromGUID(officerDeckGUID)
         local twistpilecontent = get_decks_and_cards_from_zone(twistZoneGUID)
         if twistsresolved == 1 then
-            getObjectFromGUID(twistZoneGUID).createButton({click_function="updateTwistPower",
+            getObjectFromGUID(twistZoneGUID).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -4485,7 +4608,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Sinister Ambitions" then
         stackTwist(cards[1])
         if twistsresolved < 6 then
-            updateTwistPower()
+            updatePower()
             playVillains(1)
         elseif twistsresolved == 6 then
             koCard(cards[1])
@@ -4524,7 +4647,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Steal the Weaponized Plutonium" then
         cards[1].setDescription("VILLAINOUS WEAPON: This plutonium gives +1. Shuffle it back into the villain deck if the villain holding it is defeated.")
-        powerButton(cards[1],"updateTwistPower","+1")
+        powerButton(cards[1],"+1")
         --these will often become stacks and that will kill the button...
         playVillains(1)
         return twistsresolved
@@ -4629,7 +4752,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
         if scheme[1] then
-            powerButton(scheme[1],"resolveDeathtraps",twistsstacked,nil,"Resolve the deathtraps by spending this much Attack.")
+            powerButton(scheme[1],twistsstacked,"Resolve the deathtraps by spending this much Attack.",nil,"resolveDeathtraps")
             local pcolor = Turns.turn_color
             local turnChanged = function()
                 if Turns.turn_color == pcolor then
@@ -4964,7 +5087,7 @@ function twistSpecials(cards,city,schemeParts)
             local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
             if scheme[1] then
                 broadcastToAll("Scheme Twist: The scheme ascended to be a Mastermind!")
-                powerButton(scheme[1],"updateTwistPower",9)
+                powerButton(scheme[1],9)
                 scheme[1].addTag("Mastermind")
                 scheme[1].addTag("VP9")
                 scheme[1].setName("God-Emperor")
@@ -5014,7 +5137,7 @@ function twistSpecials(cards,city,schemeParts)
             scheme[1].flip()
             scheme[1].addTag("VP9")
             scheme[1].addTag("Villain")
-            getObjectFromGUID(schemeZoneGUID).createButton({click_function='updateTwistPower',
+            getObjectFromGUID(schemeZoneGUID).createButton({click_function='updatePower',
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -5276,7 +5399,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Transform Citizens Into Demons" then
         local bsPile = getObjectFromGUID(bystandersPileGUID)
         if twistsresolved == 1 then
-            getObjectFromGUID(twistZoneGUID).createButton({click_function="updateTwistPower",
+            getObjectFromGUID(twistZoneGUID).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -5286,7 +5409,7 @@ function twistSpecials(cards,city,schemeParts)
                 font_color="Red",
                 color={0,0,0,0.75},
                 width=250,height=250})
-            getObjectFromGUID(twistZoneGUID).createButton({click_function="updateTwistPower",
+            getObjectFromGUID(twistZoneGUID).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,1},
                 rotation={0,180,0},
@@ -5312,7 +5435,7 @@ function twistSpecials(cards,city,schemeParts)
                 zone.editButton({index=1,
                     label="(" .. goblincount .. ")",
                     tooltip=goblincount .. " Bystanders remaining"})
-                updateTwistPower()
+                updatePower()
             end
         end
         function onObjectLeaveZone(zone,object)
@@ -5326,7 +5449,7 @@ function twistSpecials(cards,city,schemeParts)
                 zone.editButton({index=1,
                     label="(" .. goblincount .. ")",
                     tooltip=goblincount .. " Bystanders remaining"})
-                updateTwistPower()
+                updatePower()
             end
         end
         return twistsresolved
@@ -5334,7 +5457,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Transform Commuters into Giant Ants" then
         stackTwist(cards[1])
         if twistsresolved == 1 then
-            getObjectFromGUID(topBoardGUIDs[1]).createButton({click_function="updateTwistPower",
+            getObjectFromGUID(topBoardGUIDs[1]).createButton({click_function="updatePower",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -5508,7 +5631,7 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].addTag("VP6")
         cards[1].addTag("Villain")
         cards[1].setDescription("If you are not Worthy (reveal a Hero that costs 5 or more), Frost Giant Invader gets +4.")
-        powerButton(cards[1],"updateTwistPower","6+")
+        powerButton(cards[1],"6+")
         broadcastToAll("Scheme Twist: The twist cards enters the city as a Frost Giant Invader!")
         if twistsresolved == 8 or twistsresolved == 9 then
             local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
@@ -5583,7 +5706,7 @@ function twistSpecials(cards,city,schemeParts)
             end
             Wait.time(shuffleToxin,1.5)
         end
-        powerButton(cards[1],"moveToxin","2*")
+        powerButton(cards[1],"2*","Pay two Recruit by end of turn to shuffle this toxin back.",nil,"moveToxin")
         local pcolor = Turns.turn_color
         local guid = cards[1].guid
         local turnChanged = function()
@@ -5949,7 +6072,7 @@ function resolveStrike(mmname,epicness,city,cards)
             if mm[1] then
                 for _,o in pairs(mm) do
                     if o.getName() == "Authoritarian Iron Man" and o.tag == "Card" then
-                        powerButton(o,"updateTwistPower","+3",{0,22,8})
+                        powerButton(o,"+3","Villains in the fortified city space get +3.","fortifying",nil,{0,22,8})
                         o.setDescription(o.getDescription() .. "\r\nLOCATION: Keyword to indicate he's only fortifying this space.")
                         break
                     end
@@ -6304,7 +6427,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 attack = 7
             end
             cards[1].addTag("Power:" .. attack)
-            powerButton(cards[1],"updateTwistPower",attack)
+            powerButton(cards[1],attack)
             push_all(current_city)
         end
         for _,o in pairs(city) do
@@ -6559,7 +6682,7 @@ function resolveStrike(mmname,epicness,city,cards)
     end
     if mmname == "Grim Reaper" then
         if cards[1] then
-            reaperbonus = 0
+            local reaperbonus = 0
             if epicness then
                 reaperbonus = 1
                 for _,o in pairs(city) do
@@ -6582,7 +6705,7 @@ function resolveStrike(mmname,epicness,city,cards)
             cards[1].addTag("VP" .. 5 + reaperbonus)
             cards[1].addTag("Attack:" .. 7 + reaperbonus)
             cards[1].addTag("Location")
-            powerButton(cards[1],"updateTwistPower",7 + reaperbonus)
+            powerButton(cards[1],7 + reaperbonus)
             push_all(table.clone(current_city))
         else
             broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")
@@ -6591,7 +6714,7 @@ function resolveStrike(mmname,epicness,city,cards)
     end
     if mmname == "Hela, Goddess of Death" then
         if cards[1] then
-            helabonus = 0
+            local helabonus = 0
             if epicness then
                 helabonus = 1
             end
@@ -6599,7 +6722,7 @@ function resolveStrike(mmname,epicness,city,cards)
             cards[1].addTag("VP" .. 3 + helabonus)
             cards[1].addTag("Attack:" .. 5 + helabonus)
             cards[1].addTag("Villain")
-            powerButton(cards[1],"updateTwistPower",5 + helabonus)
+            powerButton(cards[1],5 + helabonus)
             push_all(table.clone(current_city))
         else
             broadcastToAll("No Master Strike found, so Hela failed to muster an Army of the Dead.")
@@ -7084,7 +7207,7 @@ function resolveStrike(mmname,epicness,city,cards)
             cards[1].addTag("VP" .. boost)
             cards[1].addTag("Power:" .. boost)
             cards[1].addTag("Villain")
-            powerButton(cards[1],"updateTwistPower",boost)
+            powerButton(cards[1],boost)
             click_push_villain_into_city()
             local addshard = function()
                 for _,o in pairs(city) do
@@ -7158,7 +7281,7 @@ function resolveStrike(mmname,epicness,city,cards)
     if mmname == "Maria Hill, Director of S.H.I.E.L.D." then
         local officerdeck = getObjectFromGUID(officerDeckGUID)
         local pushOfficer = function(obj)
-            powerButton(obj,"updateTwistPower",3)
+            powerButton(obj,3)
             click_push_villain_into_city()
         end
         local takeOfficer = function()
@@ -7729,7 +7852,7 @@ function resolveStrike(mmname,epicness,city,cards)
             strikesstacked = strikesstacked + 1
             cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
             if strikesstacked == 1 then
-                getObjectFromGUID(mmloc).createButton({click_function='updatetwistpower',
+                getObjectFromGUID(mmloc).createButton({click_function='updatePower',
                     function_owner=self,
                     position={0,0,0},
                     rotation={0,180,0},
@@ -8338,19 +8461,19 @@ function crossDimensionalRampage(name)
     end
 end
 
-function nonTwistspecials(cards,city,schemeParts)
-    if schemeParts[1] == "Brainwash the Military" and cityEntering == 1 then
+function nonTwistspecials(cards,schemeParts)
+    if schemeParts[1] == "Brainwash the Military" then
         if cards[1].getName() == "S.H.I.E.L.D. Officer" or cards[1].getName() == "Madame Hydra" then
             cards[1].addTag("Brainwashed")
-            powerButton(cards[1],"updateTwistPower",twistsstacked+3)
+            powerButton(cards[1],twistsstacked+3)
         end
     end
-    if schemeParts[1] == "Deadpool Wants A Chimichanga" and cityEntering == 1 then
+    if schemeParts[1] == "Deadpool Wants A Chimichanga" then
         if cards[1].hasTag("Bystander") then
             playVillains()
         end
     end
-    if schemeParts[1] == "Devolve with Xerogen Crystals" and cityEntering == 1 then
+    if schemeParts[1] == "Devolve with Xerogen Crystals" then
         if cards[1].getName() == schemeParts[9] then
             cards[1].setName("Xerogen Experiments")
             if cards[1].getDescription() == "" then
@@ -8360,7 +8483,7 @@ function nonTwistspecials(cards,city,schemeParts)
             end
         end
     end
-    if schemeParts[1] == "Everybody Hates Deadpool" and cityEntering == 1 then
+    if schemeParts[1] == "Everybody Hates Deadpool" then
         if cards[1].hasTag("Villain") then
             if cards[1].getDescription() == "" then
                 cards[1].setDescription("REVENGE: This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.")
@@ -8369,42 +8492,42 @@ function nonTwistspecials(cards,city,schemeParts)
             end
         end
     end
-    if schemeParts[1] == "House of M" and cityEntering == 1 then
+    if schemeParts[1] == "House of M" then
         if cards[1].getName() == "Scarlet Witch (R)" then
             local boost = 3
             if noMoreMutants then
                 boost = 4
             end
-            powerButton(cards[1],"updateTwistPower",boost + hasTag2(cards[1],"Cost:"))
+            powerButton(cards[1],boost + hasTag2(cards[1],"Cost:"))
         end
     end
-    if schemeParts[1] == "Master of Tyrants" and cityEntering == 1 then
+    if schemeParts[1] == "Master of Tyrants" then
         if cards[1].getName() == "Dark Power" then
             broadcastToAll("Scheme Twist: Put this twist under a tyrant as a Dark Power!")
             return nil
         end
     end
-    if schemeParts[1] == "Mass Produce War Machine Armor" and cityEntering == 1 then
+    if schemeParts[1] == "Mass Produce War Machine Armor" then
         if cards[1].getName() == "S.H.I.E.L.D. Assault Squad" then
-            powerButton(cards[1],"updateTwistPower","+" .. twistsresolved)
+            powerButton(cards[1],"+" .. twistsresolved)
         end
     end
-    if schemeParts[1] == "Organized Crime Wave" and cityEntering == 1 then
+    if schemeParts[1] == "Organized Crime Wave" then
         if cards[1].getName() == "Maggia Goons" then
             playVillains(1)
         end
     end
-    if schemeParts[1] == "Replace Earth's Leaders with Killbots" and cityEntering == 1 then
+    if schemeParts[1] == "Replace Earth's Leaders with Killbots" then
         if twistsstacked == 0 then
             twistsstacked = 3
         end
         if cards[1].hasTag("Bystander") then
             cards[1].addTag("Villain")
             cards[1].addTag("Killbot")
-            powerButton(cards[1],"updateTwistPower",twistsstacked)
+            powerButton(cards[1],twistsstacked)
         end
     end
-    if schemeParts[1] == "Scavenge Alien Weaponry" and cityEntering == 1 then
+    if schemeParts[1] == "Scavenge Alien Weaponry" then
         if cards[1].getName() == schemeParts[9] then
             cards[1].setName("Smugglers")
             if cards[1].getDescription() == "" then
@@ -8412,33 +8535,33 @@ function nonTwistspecials(cards,city,schemeParts)
             else
                 cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
             end
-            powerButton(cards[1],"updateTwistPower","+" .. strikesresolved)
+            powerButton(cards[1],"+" .. strikesresolved)
         end
     end
-    if schemeParts[1] == "Secret Invasion of the Skrull Shapeshifters" and cityEntering == 1 then
+    if schemeParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
         if hasTag2(cards[1],"Cost:") then
-            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")+2)
+            powerButton(cards[1],hasTag2(cards[1],"Cost:")+2)
             cards[1].addTag("Villain")
         end
     end
-    if schemeParts[1] == "Sinister Ambitions" and cityEntering == 1 then
+    if schemeParts[1] == "Sinister Ambitions" then
         if cards[1].hasTag("Ambition") then
-            powerButton(cards[1],"updateTwistPower","+" .. twistsstacked)
+            powerButton(cards[1],"+" .. twistsstacked)
         end
     end
-    if schemeParts[1] == "Splice Humans with Spider DNA" and cityEntering == 1 then
+    if schemeParts[1] == "Splice Humans with Spider DNA" then
         if cards[1].hasTag("Group:Sinister Six") then
-            powerButton(cards[1],"updateTwistPower","+3")
+            powerButton(cards[1],"+3")
         end
     end
-    if schemeParts[1] == "The Dark Phoenix Saga" and cityEntering == 1 then
+    if schemeParts[1] == "The Dark Phoenix Saga" then
         if cards[1].getName() == "Jean Grey (DC)" then
-            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:"))
+            powerButton(cards[1],hasTag2(cards[1],"Cost:"))
             cards[1].addTag("Villain")
             playVillains(1)
         end
     end
-    if schemeParts[1] == "The Fountain of Eternal Life" and cityEntering == 1 then
+    if schemeParts[1] == "The Fountain of Eternal Life" then
         if cards[1].hasTag("Villain") and not cards[1].getDescription():find("FATEFUL RESURRECTION") then
             if cards[1].getDescription() == "" then
                 cards[1].setDescription("FATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
@@ -8447,23 +8570,23 @@ function nonTwistspecials(cards,city,schemeParts)
             end
         end
     end
-    if schemeParts[1] == "The Mark of Khonshu" and cityEntering == 1 then
+    if schemeParts[1] == "The Mark of Khonshu" then
         if hasTag2(cards[1],"Cost:") then
             cards[1].addTag("Villain")
             cards[1].addTag("Khonshu Guardian")
-            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")*2)
+            powerButton(cards[1],hasTag2(cards[1],"Cost:")*2)
         end
     end
-    if schemeParts[1] == "Transform Citizens Into Demons" and cityEntering == 1 then
+    if schemeParts[1] == "Transform Citizens Into Demons" then
         if cards[1].getName() == "Jean Grey (DC)" then
-            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:")+goblincount)
+            powerButton(cards[1],hasTag2(cards[1],"Cost:")+goblincount)
             cards[1].addTag("Villain")
             cards[1].addTag("VP4")
         end
     end
-    if schemeParts[1] == "Trap Heroes in the Microverse" and cityEntering == 1 then
+    if schemeParts[1] == "Trap Heroes in the Microverse" then
         if hasTag2(cards[1],"Team:",6) then
-            powerButton(cards[1],"updateTwistPower",hasTag2(cards[1],"Cost:") .. "*")
+            powerButton(cards[1],hasTag2(cards[1],"Cost:") .. "*")
             if cards[1].getDescription() == "" then
                 cards[1].setDescription("SIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
             else
@@ -8471,12 +8594,12 @@ function nonTwistspecials(cards,city,schemeParts)
             end
         end
     end
-    if schemeParts[1] == "War of the Frost Giants" and cityEntering == 1 then
+    if schemeParts[1] == "War of the Frost Giants" then
         if cards[1].getName() == "Frost Giant Invader" then
-            powerButton(cards[1],"updateTwistPower","6+")
+            powerButton(cards[1],"6+")
         end
     end
-    if schemeParts[1] == "X-Cutioner's Song" and cityEntering == 1 then
+    if schemeParts[1] == "X-Cutioner's Song" then
         if hasTag2(cards[1],"Cost:") then
             if cards[1].getDescription() == "" then
                 cards[1].setDescription("VILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
@@ -8485,6 +8608,8 @@ function nonTwistspecials(cards,city,schemeParts)
             end
         end
     end
+    --resolveVillainEffect(cards,"Ambush")
+    --needs much more work in setting up functions
     if hasTag2(cards[1],"Group:") and ascendVillain(cards[1].getName(),hasTag2(cards[1],"Group:"),true) then
         local zone = getObjectFromGUID("912967").Call('getNextMMLoc')
         table.insert(masterminds,cards[1].getName())
@@ -9031,4 +9156,134 @@ function getStrikeloc(mmname,alttable)
         end
     end
     return strikeloc
+end
+
+function getVillainsCityZone(obj)
+    for _,o in pairs(current_city) do
+        local citycontent = get_decks_and_cards_from_zone(o)
+        if citycontent[1] then
+            for _,p in pairs(citycontent) do
+                if p.guid == obj.guid then
+                    return o
+                end
+            end
+        end
+    end
+    broadcastToAll("Villain " .. obj.getName() .. " not found in city?")
+    return nil
+end
+
+function resolveVillainEffect(cards,move,player_clicker_color)
+    local name = cards[1].getName()
+    local group = hasTag2(cards[1],"Group:")
+    --for henchmen, check for Henchmen tag
+    if group then
+        if group == "A.I.M., Hydra Offshoot" then
+            if name == "Mentallo" then
+                if move == "Ambush" then
+                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
+                        flip = true,
+                        smooth = true})
+                    broadcastToAll("Mentallo captures an officer for each two HYDRA levels. Unscripted yet.")
+                    --script hydra levels properly, somewhere else
+                elseif move == "Fight" then
+                    local citycontent = get_decks_and_cards_from_zone(getVillainsCityZone(cards[1]))
+                    local officers = {}
+                    for _,o in pairs(citycontent) do
+                        if o.hasTag("Officer") then
+                            table.insert(officers,o)
+                        end
+                    end
+                    promptDiscard(player_clicker_color,officers,1,nil,nil,"Gain","Gain this officer.")
+                    --officers need to move from city to be clearly distinguishable
+                    --not chosen officers need to be KO'd
+                end
+            elseif name == "Graviton" then
+                if move == "Ambush" then
+                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
+                        flip = true,
+                        smooth = true})
+                    --hero cost increase for hydra levels
+                end
+            elseif name == "Superia" then
+                if move == "Ambush" then
+                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
+                        flip = true,
+                        smooth = true})
+                    local hydralevel = twistsresolved --wrong, dummy value for now
+                    for _,o in pairs(Player.getPlayers()) do
+                        local hand = o.getHandObjects()
+                        if hand[2] then
+                            local rand = math.random(#hand)
+                            if not hasTag2(rand,"Cost:") or hasTag2(rand,"Cost:") < hydralevel then
+                                rand.setPosition(getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard))
+                            end
+                        elseif hand[1] and (not hasTag2(hand[1],"Cost:") or hasTag2(hand[1],"Cost:") < hydralevel) then
+                            hand[1].setPosition(getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard))
+                        end
+                    end
+                end
+            elseif name == "Taskmaster" then
+                if move == "Ambush" then
+                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
+                        flip = true,
+                        smooth = true})
+                elseif move == "Fight" or move == "Escape" then
+                    broadcastToAll("Each player must reveal as many colors (incl grey) as the hydra level or gain a wound. Unscripted.")
+                end
+            end
+        end
+        if group == "Army of Evil" then
+            if name == "Blackout" then
+                if move == "Ambush" then
+                    for _,o in pairs(revealCardTrait("Blue")) do
+                        promptDiscard(o.color)
+                    end
+                elseif move == "Fight" then
+                    getObjectFromGUID(playerBoards[player_clicker_color]).Call('click_draw_cards',2)
+                end
+            elseif name == "Klaw" then
+                if move == "Ambush" then
+                    --capture hero
+                elseif move == "Fight" then
+                    --gain hero
+                end
+            elseif name == "Mister Hyde" then
+                if move == "Fight" then
+                    --ko one of your heroes (incl in play, but only heroes)
+                end
+            elseif name == "Count Nefaria" then
+                if move == "Ambush" or move == "Escape" then
+                    local hccolors = {
+                        ["Red"] = 0,
+                        ["Yellow"] = 0,
+                        ["Green"] = 0,
+                        ["Silver"] = 0,
+                        ["Blue"] = 0
+                    }
+                    for _,o in pairs(Player.getPlayers()) do
+                        local hand = o.getHandObjects()
+                        if hand[1] then
+                            for _,obj in pairs(hand) do
+                                if hasTag2(obj,"HC:") then
+                                    hccolors[hasTag2(obj,"HC:")] = 1
+                                end
+                            end
+                        end
+                    end
+                    local spectrum = 0
+                    for _,o in pairs(hccolors) do
+                        spectrum = spectrum + o
+                    end
+                    if spectrum < 5 then
+                        dealWounds()
+                    end
+                end
+            elseif name == "Dome of Darkforce" then
+                if move == "Fight" then
+                    getObjectFromGUID(playerBoards[player_clicker_color]).Call('click_draw_cards',2)
+                end
+            end
+        end
+    end
 end
