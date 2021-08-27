@@ -981,14 +981,20 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
         id = "base"
     end
     for i,o in pairs(mmzone.getButtons()) do
-        if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) then
+        if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) or o.click_function == "updatePower" then
             buttonindex = i-1
             toolt_orig = o.tooltip
+            if f == "mm" then
+                f = o.click_function
+            end
             break
         end
     end
+    if f == "mm" then
+        f = 'updatePower'
+    end
     if not toolt_orig then
-        tooltip = "\n - " .. tooltip ..  " [" .. id .. ":" .. label .. "]"
+        tooltip = "- " .. tooltip ..  " [" .. id .. ":" .. label .. "]"
     elseif not toolt_orig:find("%[" .. id .. ":") then
         if tooltip then
             tooltip = toolt_orig .. "\n - " .. tooltip .. " [" .. id .. ":" .. label .. "]"
@@ -998,7 +1004,6 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
     else
         tooltip = toolt_orig
     end
-    log(tooltip)
     if checkvalue == 0 then
         label = ""
     end
@@ -1019,12 +1024,11 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
     end
 end
 
-function updateLabel(obj,index,label,id)
+function updateLabel(obj,index,label,id,tooltip)
     local button = obj.getButtons()[index]
-    local tool = button.tooltip
     local bonuses = {}
     local step = 1
-    for s in string.gmatch(tool,"[^%[%]]+") do
+    for s in string.gmatch(tooltip,"[^%[%]]+") do
         if step % 2 == 0 then
             bonuses[s:gsub(":.*","")] = s:gsub(".*:","")
         end
@@ -1033,9 +1037,13 @@ function updateLabel(obj,index,label,id)
     if step > 3 or not bonuses[id] then
         local sum = 0
         local aster = false
+        local plus = true
         for i,o in pairs(bonuses) do
             if i == id then
-                tool = tool:gsub("%[" .. id .. ":.*%]","[" .. id .. ":" .. label .. "]")
+                tooltip = tooltip:gsub("%[" .. id .. ":.*%]","[" .. id .. ":" .. label .. "]")
+            end
+            if not o:find("+") then
+                plus = false
             end
             if o:find("-") then
                 sum = sum - tonumber(o:match("%d+"))
@@ -1052,13 +1060,16 @@ function updateLabel(obj,index,label,id)
         if label == 0 then
             label = ""
         end
-        if aster then
+        if aster and label ~= "X" then
             label = label .. "*"
         end
+        if plus and label ~= "X" then
+            label = "+" .. label
+        end
     else
-        tool = tool:gsub("%[.*%]","[" .. id .. ":"  .. label .. "]")
+        tooltip = tooltip:gsub("%[.*%]","[" .. id .. ":"  .. label .. "]")
     end
-    return label,tool
+    return label,tooltip
 end
 
 function dealWounds(top)
