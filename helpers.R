@@ -135,6 +135,9 @@ genFun = function(src,
   if (schemtraits$BSCt[1]=="x") {
     bystc = 0
   }
+  if (scheme == "Breach Parallel Dimensions") {
+    bystc = bystc + 4
+  }
   schemtraits$BSCt[1] = bystc
   
   #modify picklists based on scheme
@@ -972,11 +975,20 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
         }
         if (length(loc)==2) {
           sze = filter(imgsize,filename==vals$file[i])
-          mod = 16.67 - 16.67*(1-sze$rel[1])/7
           mod2 = 397 + 397*(1-sze$rel[1])
-          vals$sz1[i] = (as.numeric(loc[1])-1)*11.11
-          vals$sz2[i] = (as.numeric(loc[2])-1)*mod
+          
           bg = 1000
+          if (vals$file[i]!="anni.jpg") {
+            mod = 16.67 - 16.67*(1-sze$rel[1])/7
+            vals$sz1[i] = (as.numeric(loc[1])-1)*11.11
+            vals$sz2[i] = (as.numeric(loc[2])-1)*mod
+            bg = 1000
+          } else {
+            mod = 25 - 25*(1-sze$rel[1])/5
+            vals$sz1[i] = (as.numeric(loc[1])-1)*12.5
+            vals$sz2[i] = (as.numeric(loc[2])-1)*mod
+            bg = 900
+          }
         }
         if (!is.na(vals$file[i])) {
           line = paste0("#home",

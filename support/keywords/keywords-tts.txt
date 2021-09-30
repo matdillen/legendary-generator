@@ -36,6 +36,7 @@ Last Stand	Gets +1 Power for each empty City Space.
 Lightshow	Once per turn, if you played at least two cards with Lightshow, you may activate a Lightshow effect from one card.
 Location	Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.
 Man out of Time	When you play this card from your hand, set it aside after using its effects. When set aside, play it again at the beginning of your next turn. At the end of that turn, it will be discarded.
+Momentum    This Villain gets the listed extra Power if it entered another city space this turn.
 Moonlight	Majority of heroes in the HQ have odd-numbered costs.
 Outwit	Reveal heroes with 3 different costs.
 Patrol	Check whether the listed zone is empty or not.

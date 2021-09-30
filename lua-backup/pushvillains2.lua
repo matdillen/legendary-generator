@@ -587,7 +587,6 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
             end
             return shift_to_next(cards,targetZone)
         end
-        
         if cityEntering == 1 then
             --special events in certain schemes not related to twists
             local proceed = nonTwistspecials(cards,schemeParts)
@@ -1324,7 +1323,7 @@ function twistSpecials(cards,city,schemeParts)
         elseif pcolor == "Blue" then
             angle = -90
         else
-            angle = 0
+            angle = 180
         end
         local brot = {x=0, y=angle, z=0}
         local playerBoard = getObjectFromGUID(playerBoards[pcolor])
@@ -1352,8 +1351,10 @@ function twistSpecials(cards,city,schemeParts)
                             angle = 180
                         end
                         local brot = {x=0, y=angle, z=0}
+                        o.use_hands = false
                         o.setRotationSmooth(brot)
                         o.setPositionSmooth(dest)
+                        Wait.time(function() o.use_hands = true end,1)
                         click_get_wound(nil,previous_player.color)
                     end
                 end
@@ -1381,14 +1382,17 @@ function twistSpecials(cards,city,schemeParts)
             end
             for _,o in pairs(players) do
                 promptDiscard(o.color)
+                broadcastToColor("Scheme Twist: You are not Worthy, so discard a card.",o.color,o.color)
             end
             if worthy/#Player.getPlayers() <= 0.5 then
                 stackTwist(cards[1])
+                broadcastToAll("Moral Failing! Not enough players were worthy.")
             else
                 koCard(cards[1])
             end
         elseif twistsresolved < 12 then
             stackTwist(cards[1])
+            broadcastToAll("Moral Failing!")
         end
         return nil
     end
@@ -3312,7 +3316,7 @@ function twistSpecials(cards,city,schemeParts)
             local horror = horrorPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[2+twistsresolved]).getPosition(),
                 flip=false,
                 smooth=false})
-            broadcastToAll("Scheme Twist: Random Horror was played! These are not scripted (or named) yet.")
+            broadcastToAll("Scheme Twist: Random Horror was played!")
         elseif twistsresolved == 6 then
             broadcastToAll("Scheme Twist: Evil Wins.")
         end
