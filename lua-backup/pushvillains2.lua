@@ -7470,7 +7470,7 @@ function resolveStrike(mmname,epicness,city,cards)
         local players = nil
         if epicness then
             broadcastToAll("Master Strike: Each player in turn gains a Wound, then gains a 0-cost Hero from the KO pile.")
-            players = Players.getPlayers()
+            players = Player.getPlayers()
             dealWounds()
         else
             players = revealCardTrait("Red")

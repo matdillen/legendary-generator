@@ -42,6 +42,7 @@ function onLoad()
     vpileguid = vpileguids[boardcolor]
     playguid = playguids[boardcolor]
     addguid = addguids[boardcolor]
+    sidekickDeckGUID = "d40734"
 end
 
 function colorDummy()
@@ -242,7 +243,7 @@ function tuckSidekicks(cardtable)
     for i,o in pairs(cardtable) do
         if o.hasTag("Sidekick") then
             o.flip()
-            o.setPositionSmooth(getObjectFromGUID("959976").getPosition())
+            o.setPositionSmooth(getObjectFromGUID(sidekickDeckGUID).getPosition())
             table.remove(cardtable,i)
         end
     end
