@@ -35,6 +35,23 @@ function onLoad()
         ["White"]="8a2ca3"
     }
     
+    local resourceguids = {
+        ["Red"]="437bab",
+        ["Green"]="be2dca",
+        ["Yellow"]="e12656",
+        ["Blue"]="2a97f0",
+        ["White"]="e1c2bd"
+    }
+    
+    local attackguids = {
+        ["Red"]="789e5f",
+        ["Green"]="d58330",
+        ["Yellow"]="bdd497",
+        ["Blue"]="e56ef6",
+        ["White"]="3892b5"
+    }
+    
+    
     handsize_init = 6
     handsize = handsize_init
     handsizef = false
@@ -43,6 +60,8 @@ function onLoad()
     playguid = playguids[boardcolor]
     addguid = addguids[boardcolor]
     sidekickDeckGUID = "d40734"
+    attackguid = attackguids[boardcolor]
+    resourceguid = resourceguids[boardcolor]
 end
 
 function colorDummy()
@@ -332,9 +351,13 @@ function click_end_turn()
     click_discard_hand()
     Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
     local autoplay = getObjectFromGUID("912967").Call('returnAutoplay')
-    if boardcolor == Turns.turn_color and autoplay == true then
-        getObjectFromGUID("8280ca").Call('click_draw_villain')
-        broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
+    if boardcolor == Turns.turn_color then
+        if autoplay == true then
+            getObjectFromGUID("8280ca").Call('click_draw_villain')
+            broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
+        end
+    getObjectFromGUID(resourceguid).editButton({index=0,label=0})
+    getObjectFromGUID(attackguid).editButton({index=0,label=0})
     end
 end
 

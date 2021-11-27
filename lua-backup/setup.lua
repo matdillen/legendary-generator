@@ -3440,6 +3440,7 @@ function fightButton(zone)
     end
     _G["fightEffect" .. zone] = function(obj,player_clicker_color)
         local name = fightMM(obj.guid,player_clicker_color)
+        Wait.time(function() getObjectFromGUID(obj.guid).Call('click_update_tactics') end, 1)
         --log("name:")
         --log(name)
         if name then
