@@ -1857,6 +1857,13 @@ function schemeSpecials (setupParts,mmGUID)
         end
         findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
     end
+    if setupParts[1] == "Put Humanity on Trial" then
+        log("11 bystanders next to scheme")
+        for i=1,11 do
+            bsPile.takeObject({position=twistpile.getPosition(),
+                flip=false,smooth=false})
+        end
+    end
     if setupParts[1] == "Ruin the Perfect Wedding" then
         local tobewed = {}
         for s in string.gmatch(setupParts[9],"[^|]+") do
@@ -1959,6 +1966,19 @@ function schemeSpecials (setupParts,mmGUID)
     if setupParts[1] == "Secret Wars" then
         for i = 3,8 do
             addMMGUIDS[topBoardGUIDs[i]] = true
+        end
+    end
+    if setupParts[1] == "Sneak Attack the Heroes' Homes" then
+        broadcastToAll("Add one hero of your choice to the hero deck! Take three different non-rare cards from that hero and add them to your starting deck.")
+        wndPile.randomize()
+        log("Moving wounds to starter decks.")
+        for _,o in pairs(Player.getPlayers()) do
+            local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+            for j = 1,3 do
+                wndPile.takeObject({position=playerdeck.getPosition(),
+                    flip=false,
+                    smooth=false})
+            end
         end
     end
     if setupParts[1] == "Steal All Oxygen on Earth" then
@@ -2607,6 +2627,41 @@ function setupMasterminds(objname,epicness,lurking)
             soPile.takeObject({position = getObjectFromGUID(getStrikeloc(objname)).getPosition(),
                 flip=false,
                 smooth=false})
+        end
+    end
+    if objname == "Kang the Conqueror" or objname == "Kang the Conqueror - epic" then
+        updateMMKang = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local kangcitycheck = table.clone(getObjectFromGUID("f3c7e3").Call('returnTimeIncursions'))
+            local villaincount = 0
+            for _,o in pairs(kangcitycheck) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.hasTag("Villain") then
+                            villaincount = villaincount + 1
+                            break
+                        end
+                    end
+                end
+            end
+            local boost = 0
+            if epicness then
+                boost = 1
+            end
+            Wait.time(function() mmButtons(objname,
+                villaincount,
+                "+" .. villaincount*(2+boost),
+                "Kang gets +" .. 2+boost .. " for each Villain in the city zones under a time incursion.",
+                'updateMMKang') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMKang,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMKang,1)
         end
     end
     if objname == "Kingpin" then

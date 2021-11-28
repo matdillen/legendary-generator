@@ -1,7 +1,7 @@
 function onLoad()
     self.createButton({
         click_function="click_update_tactics", function_owner=self,
-        position={0,0,0}, rotation={0,180,0}, height=250, color={0,0,0,0.75},
+        position={0,0,1}, rotation={0,180,0}, height=250, color={0,0,0,0.75},
         label = "(4)",font_color = {1,0.1,0,1}, tooltip="Remaining tactics. Click to force update."
     })
 end

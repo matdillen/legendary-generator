@@ -117,6 +117,12 @@ genFun = function(src,
   villainc = villainc + as.numeric(schemtraits$VC[1])
   henchc = henchc + as.numeric(schemtraits$CH[1])
   
+  #Sneak attack scheme, allows players to add heroes of their choice:
+  
+  if (scheme == "Sneak Attack the Heroes' Homes") {
+    heroesc = heroesc - playerc
+  }
+  
   #calculate woundcount
   if (grepl("*",
             schemtraits$WndCT[1],
@@ -216,6 +222,12 @@ genFun = function(src,
   #set NA's to 0 (can be important for metrics)
   mmtraits %<>%
     mutate(across(everything(),~replace_na(.,0)))
+  
+  #Epic Annihilus extra villain group
+  if (mm == "Annihilus"&
+      epic==1) {
+    villainc = villainc + 1
+  }
   
   #modify the scores for epic or not; add epic label to mm name
   if (epic!=1) {

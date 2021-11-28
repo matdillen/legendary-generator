@@ -4201,6 +4201,31 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Pulse Waves from the Negative Zone" then
+        if twistsresolved < 9 and twistsresolved % 2 == 1 then
+            broadcastToColor("Scheme Twist: NEGATIVE PULSE This turn heroes in the HQ cost 1 less and villains/masterminds get -1!",Turns.turn_color,Turns.turn_color)
+        elseif twistsresolved < 9 and twistsresolved % 2 == 0 then
+            broadcastToColor("Scheme Twist: POSITIVE PULSE This turn heroes in the HQ cost 1 more and villains/masterminds get +1!",Turns.turn_color,Turns.turn_color) 
+        elseif twistsresolved == 9 then
+            broadcastToAll("Scheme Twist: Evil wins!")
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Put Humanity on Trial" then
+        broadcastToColor("Scheme Twist: Fulfill this challenge or a juror condemns humanity!",Turns.turn_color,Turns.turn_color)
+        if twistsresolved < 3 then
+            broadcastToColor("Challenge: Discard three cards with different names!",Turns.turn_color,Turns.turn_color)
+        elseif twistsresolved < 9 and twistsresolved % 2 == 1 then
+            broadcastToColor("Challenge: Recruit a hero that costs 5 or more!",Turns.turn_color,Turns.turn_color)
+        elseif twistsresolved < 9 and twistsresolved % 2 == 0 then
+            broadcastToColor("Challenge: Defeat villains worth a total of 3VP or more!",Turns.turn_color,Turns.turn_color)  
+        elseif twistsresolved < 12 then
+            broadcastToColor("Challenge: Defeat (not just fight) the mastermind!",Turns.turn_color,Turns.turn_color)
+        else
+            broadcastToColor("No more challenges!")
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Ragnarok, Twilight of the Gods" then
         broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
         return nil
@@ -5973,6 +5998,54 @@ function resolveStrike(mmname,epicness,city,cards)
         msno(mmname)
         return nil
     end
+    if mmname == "Annihilus" then
+        local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+        local tags = nil
+        local cardtype = nil
+        if vildeck.tag == "Deck" then
+            tags = vildeck.getObjects()[1].tags
+            cardtype = vildeck.getObjects()[1].name
+        else
+            tags = vildeck.getTags()
+            cardtype = vildeck.getName()
+        end
+        for _,o in pairs(tags) do
+            if o == "Villain" then
+                cardtype = "Villain"
+                break
+            elseif o == "Bystander" then
+                cardtype = "Bystander"
+                break
+            end
+        end
+        if epicness == true then
+            if cardtype == "Villain" then
+                playVillains(2)
+                broadcastToAll("Master Strike: Epic Annihilus plays a villain and therefore another card from the villain deck as well!")
+            else
+                playVillains()
+                broadcastToAll("Master Strike: Epic Annihilus plays a villain card, but it's not a villain.")
+            end
+        else
+            if cardtype == "Villain" then
+                playVillains()
+                Wait.time(click_push_villain_into_city,2)
+                Wait.time(function() addBystanders(city_zones_guids[2]) end,2.5)
+                Wait.time(click_push_villain_into_city,4)
+                broadcastToAll("Master Strike: Annihilus plays a villain, it captures a bystander and pushes the city forward!")
+            elseif cardtype == "Bystander" then
+                local pos = getObjectFromGUID(mmLocations[mmname]).getPosition()
+                pos.z = pos.z - 2
+                vildeck.takeObject({position = pos, 
+                    flip = true, 
+                    smooth = true})
+                broadcastToAll("Master Strike: Annihilus captures a bystander from the villain deck!")
+            else
+                broadcastToAll("Master Strike: " .. cardtype .. " was revealed from the villain deck!")
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
@@ -7022,6 +7095,67 @@ function resolveStrike(mmname,epicness,city,cards)
                 Wait.time(investigateMobs,1)
             else
                 investigateMobs()
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Kang the Conqueror" then
+        local kanglabel = "⌛+2"
+        if epicness == true then
+            kanglabel = "⌛+3"
+        end
+        if strikesresolved == 1 then
+            timeIncursions = {current_city[2]}
+            getObjectFromGUID(timeIncursions[1]).createButton({click_function='updatePower',
+                        function_owner=self,
+                        position={0,0,0.5},
+                        rotation={0,180,0},
+                        label=kanglabel,
+                        tooltip="This city space is under a Time Incursion.",
+                        font_size=150,
+                        font_color="Blue",
+                        color={0,0,0,0.75},
+                        width=250,height=250})
+        else
+            for i=2,#current_city do
+                local guidfound = false
+                for _,o in pairs(timeIncursions) do
+                    if o == current_city[i] then
+                        guidfound = true
+                        break
+                    end
+                end
+                if guidfound == false then
+                    table.insert(timeIncursions,current_city[i])
+                    getObjectFromGUID(current_city[i]).createButton({click_function='updatePower',
+                        function_owner=self,
+                        position={0,0,0.5},
+                        rotation={0,180,0},
+                        label=kanglabel,
+                        tooltip="This city space is under a Time Incursion.",
+                        font_size=150,
+                        font_color="Blue",
+                        color={0,0,0,0.75},
+                        width=250,height=250})
+                    break
+                end
+                if i == #current_city then
+                    broadcastToAll("Master Strike: But the whole city is under time incursions already!")
+                end
+            end
+        end
+        if epicness == true then
+            for _,o in pairs(timeIncursions) do
+                local content = get_decks_and_cards_from_zone(o)
+                if content[1] then
+                    for _,p in pairs(content) do
+                        if p.hasTag("Villain") then
+                            dealWounds()
+                            broadcastToAll("Master Strike: There were villains under time incursion so Epic Kang wounds everyone!")
+                            return strikesresolved
+                        end
+                    end
+                end
             end
         end
         return strikesresolved
@@ -9189,6 +9323,14 @@ function getVillainsCityZone(obj)
     end
     broadcastToAll("Villain " .. obj.getName() .. " not found in city?")
     return nil
+end
+
+function returnTimeIncursions()
+    if timeIncursions then
+        return timeIncursions
+    else
+        return {}
+    end
 end
 
 function resolveVillainEffect(cards,move,player_clicker_color)
