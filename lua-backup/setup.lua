@@ -1388,6 +1388,61 @@ function import_setup()
         end
         Wait.condition(vilDeckSplit,vilDeckComplete)
         Wait.condition(decksShuffle,decksMade)
+    elseif setupParts[1] == "Breach Parallel Dimensions" then
+        local topCityZones = table.clone(allTopBoardGUIDS)
+        for i = 1,4 do
+            table.remove(topCityZones)
+        end
+        local vilDeckSplit = function() 
+            log("Splitting villain deck in deck for each player")
+            local vilDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+            vilDeck.randomize()
+            local subcount = 1
+            while subcount > 0 do
+                local hqZoneGUID = table.remove(topCityZones)
+                addMMGUIDS[hqZoneGUID] = true
+                local hqZone = getObjectFromGUID(hqZoneGUID)
+                for j = 1,subcount do
+                    if vilDeck.remainder then
+                        vilDeck = vilDeck.remainder
+                        vilDeck.flip()
+                        vilDeck.setPosition({x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z})
+                        subcount = 0
+                        break
+                    end
+                    vilDeck.takeObject({
+                        position = {x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z},
+                        flip=true})
+                end
+                if subcount > 0 then
+                    subcount = subcount + 1
+                end
+            end
+            print("Villain deck split in piles above the board!")
+        end
+        local decksShuffle = function()
+            for i=1,#allTopBoardGUIDS do
+                local deck = get_decks_and_cards_from_zone(allTopBoardGUIDS[i])[1]
+                if deck then
+                    deck.randomize()
+                    getObjectFromGUID(allTopBoardGUIDS[i]).createButton({click_function='click_draw_villain_call',
+                        function_owner=self,
+                        position={0,0,-0.5},
+                        rotation={0,180,0},
+                        label="Draw",
+                        tooltip="Draw a card from this villain deck dimension.",
+                        font_size=100,
+                        font_color="Black",
+                        color="White",
+                        width=375})
+                end
+            end
+        end
+        click_draw_villain_call = function(obj)
+            getObjectFromGUID("f3c7e3").Call('click_draw_villain',obj)
+        end
+        Wait.condition(vilDeckSplit,vilDeckComplete)
+        Wait.time(decksShuffle,2)
     else
         log("villain deck size = " .. vildeckc)
         Wait.condition(vilDeckFlip,vilDeckComplete)

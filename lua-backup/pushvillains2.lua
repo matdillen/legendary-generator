@@ -465,7 +465,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
     end
 end
 
-function click_draw_villain()
+function click_draw_villain(obj)
     local pos = getObjectFromGUID(city_zones_guids[1]).getPosition()
     pos.y = pos.y + 5
     local vildeckguid = villainDeckZoneGUID
@@ -483,6 +483,9 @@ function click_draw_villain()
                     break
                 end
             end
+        end
+        if schemeParts[1] == "Breach Parallel Dimensions" then
+            vildeckguid = obj.guid
         end
     end
     local villain_deck = get_decks_and_cards_from_zone(vildeckguid)[1]
