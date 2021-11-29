@@ -1081,7 +1081,7 @@ function import_setup()
         local woundstack = getObjectFromGUID(woundsDeckGUID)
         for i=1,5 do
             if Player[playercolors[i]].seated == true then
-                local playerdeck = getObjectFromGUID(playerBoards[playercolors[i]]).Call('returnDeck')
+                local playerdeck = getObjectFromGUID(playerBoards[playercolors[i]]).Call('returnDeck')[1]
                 woundstack.takeObject({position = playerdeck.getPosition()})
                 woundstack.takeObject({position = playerdeck.getPosition()})
             end
