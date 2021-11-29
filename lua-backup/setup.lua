@@ -14,6 +14,12 @@ function onLoad()
     })
     
     self.createButton({
+        click_function="random_setup", function_owner=self,
+        position={-60,0.1,4}, height=500, width=1500, color={1,1,0,1},
+        label = "Random Setup",tooltip="Fetch a random setup. Requires web access!"
+    })
+    
+    self.createButton({
         click_function="toggle_autoplay", function_owner=self,
         position={-60,0.1,16}, height=125,
         width=1500, height=500, label="Autoplay from villain deck", tooltip="Set autoplay from villain deck when player draws new hand!", 
@@ -248,6 +254,19 @@ function input_print(obj, color, input, stillEditing)
     if not stillEditing then
         setupText = input
     end
+end
+
+function random_setup()
+    --https://github.com/matdillen/legendary-generator/blob/master/setups/10krandomgames.txt
+    WebRequest.get("https://github.com/matdillen/legendary-generator/blob/master/support/fixdfc.txt", function(request)
+        if request.is_error then
+            log(request.error)
+        else
+            print(request.text)
+            local k = request.text
+            log(k[1])
+        end
+    end)
 end
 
 function obedienceDisk(obj,player_clicker_color)

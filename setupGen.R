@@ -113,4 +113,4 @@ for (i in 1:10000) {
   }
 }
 
-write_tsv(games,"setups/10krandomgames.txt",na="")
+write_tsv(select(games,-id),"setups/10krandomgames.txt",na="")
