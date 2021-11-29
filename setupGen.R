@@ -114,3 +114,15 @@ for (i in 1:10000) {
 }
 
 write_tsv(select(games,-id),"setups/10krandomgames.txt",na="")
+
+text = "{"
+for (i in 1:10000) {
+  text = paste0(text,
+                "[[",
+                games$setup[i],
+                "]]",
+                ",\r\n")
+}
+#need to remove the last comma still!!!
+text = paste0(text,"}")
+writeClipboard(text)
