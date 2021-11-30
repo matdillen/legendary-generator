@@ -288,20 +288,9 @@ function click_discard_hand()
 end
 
 function click_deal_cards()
-    local cards = Player[boardcolor].getHandObjects()
     local decks = findObjectsAtPosition(pos_draw)
-    if not decks[1] then
-        global_deal = handsize
-        refillDeck()
-        return nil
-    end
-    local count = math.abs(decks[1].getQuantity())
-    decks[1].deal(math.min(handsize,count),boardcolor)
-    if count < handsize then
-        global_deal=handsize-count
-        refillDeck()
-    end
     local toadd = get_decks_and_cards_from_zone(addguid)
+    local todraw = handsize
     if toadd[1] then
         local count = math.abs(toadd[1].getQuantity())
         toadd[1].deal(count,boardcolor)
@@ -311,6 +300,17 @@ function click_deal_cards()
             printToAll(boardcolor .. "'s hand size set back to " .. handsize_init .. " after extra draws!")
             handsize = handsize_init
         end
+    end
+    if not decks[1] then
+        global_deal = todraw
+        refillDeck()
+        return nil
+    end
+    local count = math.abs(decks[1].getQuantity())
+    decks[1].deal(math.min(todraw,count),boardcolor)
+    if count < todraw then
+        global_deal=todraw-count
+        refillDeck()
     end
 end
 
