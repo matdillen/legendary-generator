@@ -79,22 +79,7 @@ function loadGUIDs()
         "b8a776",
         "75241e"
     }
-    
-    top_city_guids = {
-        "725c5d",
-        "3d3ba7",
-        "533311",
-        "8656c3",
-        "4c1868"
-    }
-    
-    hqZonesGUIDs={
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d"}
-            
+      
     topBoardGUIDs ={
         "1fa829",
         "bf7e87",
@@ -1779,11 +1764,6 @@ function schemeSpecials ()
     end
     if setupParts[1] == "Earthquake Drains the Ocean" then
         getObjectFromGUID("f3c7e3").Call('cityLowTides')
-    end
-    if setupParts[1] == "Enthrone the Barons of Battleworld" then
-        for i = 3,8 do
-            addMMGUIDS[topBoardGUIDs[i]] = true
-        end
     end
     if setupParts[1] == "Explosion at the Washington Monument" then
         log("Set up the Washington Monument stacks...")
@@ -3696,7 +3676,7 @@ end
 
 function playHorror()
     local horrorPile = getObjectFromGUID(horrorPileGUID)
-    local horrorpos = getObjectFromGUID(topBoardGUIDs[1]).getPosition()
+    local horrorpos = getNextMMLoc()
     horrorpos.y = horrorpos.y + 3
     horrorPile.randomize()
     horrorPile.takeObject({position=horrorpos,

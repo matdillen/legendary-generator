@@ -31,8 +31,6 @@ function onLoad()
     
     local guids2 = {
        "city_zones_guids",
-       "top_city_guids",
-       "hqZonesGUIDs",
        "topBoardGUIDs",
        "allTopBoardGUIDS",
        "pos_vp2",
@@ -442,7 +440,7 @@ function click_draw_villain(obj)
             flip_villains = false
         end
         if schemeParts[1] == "Fragmented Realities" then
-            for _,o in pairs(hqZonesGUIDs) do
+            for _,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
                 local zone = getObjectFromGUID(o)
                 if zone.hasTag(Turns.turn_color) then
                     vildeckguid = zone.guid
@@ -726,7 +724,7 @@ function checkCityContent()
     local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
     if schemeParts then
         if schemeParts[1] == "Fragmented Realities" then
-            for i,o in pairs(hqZonesGUIDs) do
+            for i,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
                 local zone = getObjectFromGUID(o)
                 if zone.hasTag(player_clicker_color) then
                     villain_deck_zone = i
@@ -865,7 +863,7 @@ function updatePower()
 end
 
 function updateHQTags()
-    for i,o in pairs(hqZonesGUIDs) do
+    for i,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
         local content = get_decks_and_cards_from_zone(o)
         local zone = getObjectFromGUID(o)
         if content[1] and content[1].getQuantity() < 3 then
@@ -2626,14 +2624,7 @@ function twistSpecials(cards,city,schemeParts)
         local maxpower = 0
         local toAscend = nil
         local ascendCard = nil
-        local mmpos = topBoardGUIDs[#topBoardGUIDs]
-        for i=1,#top_city_guids do
-            local citycards = get_decks_and_cards_from_zone(top_city_guids[6-i])
-            if not citycards[1] then
-                mmpos = top_city_guids[6-i]
-                break
-            end
-        end
+        local mmpos = getObjectFromGUID(setupGUID).Call('getNextMMLoc')
         if twistsresolved < 8 then
             for _,o in pairs(city) do
                 local citycards = get_decks_and_cards_from_zone(o)
@@ -2682,7 +2673,7 @@ function twistSpecials(cards,city,schemeParts)
                     local annotateNewMM = function(obj)
                         obj.addTag("Ascended")
                         powerButton(obj,hasTag2(obj,"Power:")+2)
-                        getObjectFromGUID("912967").Call('fightButton',mmpos)
+                        getObjectFromGUID(setupGUID).Call('fightButton',mmpos)
                         local vp = hasTag2(obj,"VP") or 0
                         table.insert(masterminds,"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
                         mmLocations["Ascended Baron " .. obj.getName() .. "(" .. vp .. ")"] = mmpos
@@ -2714,14 +2705,6 @@ function twistSpecials(cards,city,schemeParts)
                 broadcastToAll("Scheme Twist: No villains found.")
             end
         elseif twistsresolved == 8 then
-            local ultimm = table.clone(top_city_guids)
-            table.insert(ultimm,"4e3b7e")
-            for i=1,#ultimm do
-                local citycards = get_decks_and_cards_from_zone(ultimm[i])
-                if citycards[1] then
-                    ultimm[i] = nil
-                end
-            end
             for i,o in pairs(vpileguids) do
                 if Player[i].seated then
                     local vpilecontent = get_decks_and_cards_from_zone(o)
@@ -2745,14 +2728,7 @@ function twistSpecials(cards,city,schemeParts)
                                 toAscend = o
                             end
                         end
-                        local mmpos = nil
-                        for j=1,6 do
-                            if ultimm[j] then
-                                mmpos = ultimm[j]
-                                ultimm[j] = nil
-                                break
-                            end
-                        end
+                        local mmpos = getObjectFromGUID(setupGUID).Call('getNextMMLoc')
                         if toAscend and mmpos then
                             broadcastToAll("Scheme Twist: Villain from " .. i .. "'s victory pile ascends!",i)
                             if vpilecontent[1].tag == "Deck" then
@@ -2958,12 +2934,12 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Ferry Disaster" then
         if twistsresolved == 1 or twistsresolved == 5 then
-            ferryzones = table.clone(top_city_guids)
+            ferryzones = {table.unpack(allTopBoardGUIDS,7,11)}
         end
         if twistsresolved < 5 then
-            table.remove(ferryzones,1)
+            table.remove(ferryzones)
             local bspile = getObjectFromGUID(bystandersPileGUID)
-            bspile.setPositionSmooth(getObjectFromGUID(ferryzones[1]).getPosition())
+            bspile.setPositionSmooth(getObjectFromGUID(ferryzones[#ferryzones]).getPosition())
             local citycards = get_decks_and_cards_from_zone(city_zones_guids[twistsresolved+1])
             if citycards[1] then
                 for _,o in pairs(citycards) do
@@ -2978,9 +2954,9 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         elseif twistsresolved < 9 then
-            table.remove(ferryzones)
+            table.remove(ferryzones,1)
             local bspile = getObjectFromGUID(bystandersPileGUID)
-            bspile.setPositionSmooth(getObjectFromGUID(ferryzones[9-twistsresolved]).getPosition())
+            bspile.setPositionSmooth(getObjectFromGUID(ferryzones[1]).getPosition())
             local citycards = get_decks_and_cards_from_zone(city_zones_guids[#ferryzones+1])
             if citycards[1] then
                 for _,o in pairs(citycards) do
@@ -3127,7 +3103,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Fragmented Realities" then
         koCard(cards[1])
         local villain_deck_zone = nil
-        for _,o in pairs(hqZonesGUIDs) do
+        for _,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
             local zone = getObjectFromGUID(o)
             if zone.hasTag(Turns.turn_color) then
                 villain_deck_zone = o
@@ -3365,7 +3341,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Hypnotize Every Human" then
         if twistsresolved < 7 then
             local bspile = getObjectFromGUID(bystandersPileGUID)
-            for i,o in pairs(top_city_guids) do
+            for i,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
                 local topzone = getObjectFromGUID(o)
                 bspile.takeObject({position = topzone.getPosition(),
                     flip=false})
@@ -5353,7 +5329,7 @@ function twistSpecials(cards,city,schemeParts)
         if twistsresolved == 1 then
             local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
             if scheme[1] then
-                scheme[1].setPositionSmooth(getObjectFromGUID(hqZonesGUIDs[5]).getPosition())
+                scheme[1].setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[11]).getPosition())
             else
                 broadcastToAll("Scheme card missing?")
                 return nil
@@ -5367,8 +5343,8 @@ function twistSpecials(cards,city,schemeParts)
                     end
                 end
             end
-            local scheme = get_decks_and_cards_from_zone(hqZonesGUIDs[7-twistsresolved])[1]
-            scheme.setPositionSmooth(getObjectFromGUID(hqZonesGUIDs[6-twistsresolved]).getPosition())
+            local scheme = get_decks_and_cards_from_zone(allTopBoardGUIDS[13-twistsresolved])[1]
+            scheme.setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[12-twistsresolved]).getPosition())
             Wait.time(click_push_villain_into_city,1)
         elseif twistsresolved < 10 then
             local citycontent = getObjectFromGUID(invertedcity[twistsresolved-5]).getObjects()
@@ -5379,8 +5355,8 @@ function twistSpecials(cards,city,schemeParts)
                     end
                 end
             end
-            local scheme = get_decks_and_cards_from_zone(hqZonesGUIDs[twistsresolved-5])[1]
-            scheme.setPositionSmooth(getObjectFromGUID(hqZonesGUIDs[twistsresolved-4]).getPosition())
+            local scheme = get_decks_and_cards_from_zone(allTopBoardGUIDS[twistsresolved+1])[1]
+            scheme.setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[twistsresolved+2]).getPosition())
             local inverted_push = function()
                 local city_topush = table.clone(invertedcity)
                 local cardfound = false
@@ -5406,6 +5382,8 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             Wait.time(inverted_push,1)
+        elseif twistsresolved == 10 then
+            broadcastToAll("Scheme Twist: Evil wins!")
         end
         return nil
     end
@@ -5607,7 +5585,7 @@ function twistSpecials(cards,city,schemeParts)
             if cardz[1] then
                 for _,o in pairs(cardz) do
                     if o.hasTag("Villain") then
-                        cards[1].setPositionSmooth(getObjectFromGUID(top_city_guids[2]).getPosition())
+                        cards[1].setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[10]).getPosition())
                         broadcastToAll("Scheme Twist! Western State Victory!")
                         return nil
                     end
@@ -5618,7 +5596,7 @@ function twistSpecials(cards,city,schemeParts)
         if cardz[1] then
             for _,o in pairs(cardz) do
                 if o.hasTag("Villain") then
-                    cards[1].setPositionSmooth(getObjectFromGUID(top_city_guids[1]).getPosition())
+                    cards[1].setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[11]).getPosition())
                     broadcastToAll("Scheme Twist! Eastern State Victory!")
                     return nil
                 end
@@ -6463,7 +6441,7 @@ function resolveStrike(mmname,epicness,city,cards)
             broadcastToAll("Master Strike: The hero deck ran out so Dark Phoenix wins!")
         end
         if epicness == true then
-            playHorror()
+            getObjectFromGUID(setupGUID).Call('playHorror')
             broadcastToAll("Each player must play a Hellfire Club villain from their Victory Pile!")       
         end
         return strikesresolved
@@ -6497,7 +6475,7 @@ function resolveStrike(mmname,epicness,city,cards)
                 for _,p in pairs(citycontent) do
                     if p.name:find("Shi'ar") or p.hasTag("Shi'ar") then
                         if epicness == true then
-                            playHorror()
+                            getObjectFromGUID(setupGUID).Call('playHorror')
                         else
                             dealWounds()
                         end
@@ -9088,16 +9066,6 @@ function gainShard(color,zone)
         shardpos = getObjectFromGUID(zone).getPosition()
     end
     shard.clone({position = shardpos})
-end
-
-function playHorror()
-    local horrorPile = getObjectFromGUID(horrorPileGUID)
-    local horrorZone = getObjectFromGUID(topBoardGUIDs[1])
-    horrorPile.randomize()
-    horrorPile.takeObject({position=horrorZone.getPosition(),
-            flip=false,
-            smooth=false})
-    broadcastToAll("Random horror added to the game, above the board.")
 end
 
 function contestOfChampions(color,n,winf,epicness)
