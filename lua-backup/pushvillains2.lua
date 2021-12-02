@@ -1,140 +1,83 @@
-
 function onLoad()
     --starting values
     twistsresolved = 0
     twistsstacked = 0
     strikesresolved = 0
     strikesstacked = 0
-    wwiiInvasion = false
+    
     villainstoplay = 0
-    goblincount = 0
-    othermm = false
-    masterminds = {}
     cityPushDelay = 0
+    
+    masterminds = {}
+    transformedPV = {}
+    
+    createButtons()
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
     
-    herocosts = {}
-    for i=0,9 do
-        table.insert(herocosts,0)
+    --import guids
+    setupGUID = "912967"
+    
+    local guids3 = {
+        "playerBoards",
+        "vpileguids",
+        "hqguids",
+        "playguids"
+    }
+    
+    for _,o in pairs(guids3) do
+        _G[o] = callGUID(o,3)
     end
     
-    transformedPV = {}
-    
-    --guids
-    playerBoards = {
-        ["Red"]="8a35bd",
-        ["Green"]="d7ee3e",
-        ["Yellow"]="ed0d43",
-        ["Blue"]="9d82f3",
-        ["White"]="206c9c"
-    }
-
-    vpileguids = {
-        ["Red"]="fac743",
-        ["Green"]="a42b83",
-        ["Yellow"]="7f3bcd",
-        ["Blue"]="f6396a",
-        ["White"]="7732c7"
-    }
-
-    hqguids = {
-        "aabe45",
-        "bf3815",
-        "11b14c",
-        "b8a776",
-        "75241e"
+    local guids2 = {
+       "city_zones_guids",
+       "top_city_guids",
+       "hqZonesGUIDs",
+       "topBoardGUIDs",
+       "allTopBoardGUIDS",
+       "pos_vp2",
+       "pos_discard"
     }
     
-    playguids = {
-        ["Red"]="157bfe",
-        ["Green"]="0818c2",
-        ["Yellow"]="7149d2",
-        ["Blue"]="2b36c3",
-        ["White"]="558e75"
-    }
-    
-    city_zones_guids = {"e6b0bc",
-        "40b47d",
-        "5a74e7",
-        "07423f",
-        "5bc848",
-        "82ccd7"}
+    for _,o in pairs(guids2) do
+        _G[o] = callGUID(o,2)
+    end
         
-    top_city_guids = {
-        "725c5d",
-        "3d3ba7",
-        "533311",
-        "8656c3",
-        "4c1868"
+    local guids1 = {
+        "escape_zone_guid",
+        "kopile_guid",
+        "bystandersPileGUID",
+        "woundsDeckGUID",
+        "sidekickDeckGUID",
+        "officerDeckGUID",
+        "schemePileGUID",
+        "mmPileGUID",
+        "strikePileGUID",
+        "horrorPileGUID",
+        "twistPileGUID",
+        "villainPileGUID",
+        "hmPileGUID",
+        "ambPileGUID",
+        "heroPileGUID",
+        "heroDeckZoneGUID",
+        "villainDeckZoneGUID",
+        "schemeZoneGUID",
+        "mmZoneGUID",
+        "strikeZoneGUID",
+        "horrorZoneGUID",
+        "twistZoneGUID",
     }
     
-    hqZonesGUIDs={
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d"}
+    for _,o in pairs(guids1) do
+        _G[o] = callGUID(o,1)
+    end
     
-    topBoardGUIDs ={
-        "1fa829",
-        "bf7e87",
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d",
-        "4e3b7e"
-    }
-    
-    allTopBoardGUIDS = {
-        "7f622a",
-        "000e0c",
-        "3e45a0",
-        "705f8c",
-        "1fa829",
-        "bf7e87",
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d",
-        "4e3b7e",
-        "f394e1",
-        "0559f8",
-        "39e3d7",
-        "6b1c18",
-        "57df40"
-    }
     --the guids don't change, the current_city might
     current_city = table.clone(city_zones_guids)
     
-    escape_zone_guid = "de2016"
-    kopile_guid = "79d60b"
-    
-    bystandersPileGUID = "0b48dd"
-    woundsDeckGUID = "653663"
-    sidekickDeckGUID = "d40734"
-    officerDeckGUID = "aed7cd"
-    
-    schemePileGUID = "0716a4"
-    mmPileGUID = "c7e1d5"
-    strikePileGUID = "aff2e5"
-    horrorPileGUID = "82f3dc"
-    twistPileGUID = "c82082"
-    villainPileGUID = "375566"
-    hmPileGUID = "de8160"
-    ambPileGUID = "cf8452"
-    heroPileGUID = "16594d"
-    
-    heroDeckZoneGUID = "0cd6a9"
-    villainDeckZoneGUID = "4bc134"
-    schemeZoneGUID = "c39f60"
-    mmZoneGUID = "a91fe7"
-    strikeZoneGUID = "be6070"
-    horrorZoneGUID = "ef2805"
-    twistZoneGUID = "4f53f9"
-    
+end
+
+function createButtons()
     --Creates invisible button onload, hidden under the "REFILL" on the deck pad
     self.createButton({
         click_function="click_push_villain_into_city", function_owner=self,
@@ -157,11 +100,26 @@ function onLoad()
         tooltip = "Gain a wound",
         font_size = 250
     })
+end
 
-    --Local positions for each pile of cards
-    pos_vp2 = {-5, 0.178, 0.222}
-    pos_discard = {-0.957, 0.178, 0.222}
-    
+function callGUID(var,what)
+    if not var then
+        log("Error, can't fetch guid of object with name nil.")
+        return nil
+    elseif not what then
+        log("Error, can't fetch guid of object with missing type.")
+        return nil
+    end
+    if what == 1 then
+        return getObjectFromGUID(setupGUID).Call('returnVar',var)
+    elseif what == 2 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
+    elseif what == 3 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
+    else
+        log("Error, can't fetch guid of object with unknown type.")
+        return nil
+    end
 end
 
 -- tables always refer to the same object in memory
@@ -193,12 +151,12 @@ function getNextColor(color)
     return nextcolor
 end
 
-function click_rescue_bystander(obj, player_clicker_color, alt_click) 
+function click_rescue_bystander(obj, player_clicker_color) 
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local bspile = getObjectFromGUID(bystandersPileGUID)
     --following is a fix if mojo changes the bspile guid
     if not bspile then
-        bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
+        bystandersPileGUID = callGUID("bystandersPileGUID",1)
         log(bystandersPileGUID)
         bspile = getObjectFromGUID(bystandersPileGUID)
     end
@@ -285,6 +243,14 @@ end
 
 function getWound(color)
     click_get_wound(nil,color)
+end
+
+function dealWounds(top)
+    for i,_ in pairs(playerBoards) do
+        if Player[i].seated == true then
+            click_get_wound(getObjectFromGUID(woundsDeckGUID),i,nil,top)
+        end
+    end
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
@@ -440,7 +406,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                         --take them from the scheme twist pile for now
                     broadcastToAll("The Demon Bear escaped! Dream Horror!")
                 end
-                if schemeParts and schemeParts[1] == "Change the Outcome of WWII" and wwiiInvasion == false then
+                if schemeParts and schemeParts[1] == "Change the Outcome of WWII" and (not wwiiInvasion or wwiiInvasion == false) then
                     wwiiInvasion = true
                     getObjectFromGUID(twistPileGUID).takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
                         smooth=false})
@@ -518,7 +484,7 @@ function addBystanders(cityspace,face,posabsolute,pos)
     end
     local bspile = getObjectFromGUID(bystandersPileGUID)
     if not bspile then
-        bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
+        bystandersPileGUID = callGUID("bystandersPileGUID",1)
         bspile = getObjectFromGUID(bystandersPileGUID)
     end
     bspile.takeObject({position=targetZone,
@@ -573,7 +539,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
         local bspile = getObjectFromGUID(bystandersPileGUID)
         if not bspile then
-            bystandersPileGUID = getObjectFromGUID("912967").Call('returnbsGUID')
+            bystandersPileGUID = callGUID("bystandersPileGUID",1)
         end
         if not schemeParts then
             printToAll("No scheme specified!")
@@ -742,7 +708,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
     end
 end
 
-function click_push_villain_into_city(obj, player_clicker_color, alt_click)
+function click_push_villain_into_city()
 -- when moving the villain deck buttons, change the first guid to a new scripting zone
     cityPushDelay = cityPushDelay + 1
     checkCityContent()
@@ -825,6 +791,9 @@ function updatePower()
                     elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
                         object.editButton({index = index-1,label = hasTag2(object,"Cost:") + 4})
                     elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
+                        if not goblincount then
+                            goblincount = 0
+                        end
                         object.editButton({index = index-1,label = hasTag2(object,"Cost:") + goblincount})
                     elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
                         object.editButton({index = index-1,label = "+" .. twistsstacked})
@@ -920,6 +889,11 @@ function updateHQTags()
             zone.removeButton(1)
         end
     end
+end
+
+function obedienceDisk(obj,player_clicker_color)
+    printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
+    return nil
 end
 
 function powerButton(obj,label,toolt,id,click_f,otherposition)
@@ -1021,7 +995,7 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
             color={0,0,0,0.75},
             width=250,height=250})
     else
-        local lab,tool = updateLabel(mmzone,buttonindex+1,label,id)
+        local lab,tool = updateLabel(mmzone,buttonindex+1,label,id,tooltip)
         mmzone.editButton({index=buttonindex,label = lab,tooltip = tool})
     end
 end
@@ -1072,14 +1046,6 @@ function updateLabel(obj,index,label,id,tooltip)
         tooltip = tooltip:gsub("%[.*%]","[" .. id .. ":"  .. label .. "]")
     end
     return label,tooltip
-end
-
-function dealWounds(top)
-    for i,_ in pairs(playerBoards) do
-        if Player[i].seated == true then
-            click_get_wound(getObjectFromGUID(woundsDeckGUID),i,nil,top)
-        end
-    end
 end
 
 function cityLowTides()
@@ -1201,10 +1167,7 @@ function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
 end
 
-function obedienceDisk(obj,player_clicker_color)
-    printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
-    return nil
-end
+
 
 function nonCityZoneShade(guid)
     getObjectFromGUID(guid).createButton({
@@ -2896,7 +2859,11 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Explosion at the Washington Monument" then
         local floorboom = table.remove(topBoardGUIDs)
         local floorcontent = get_decks_and_cards_from_zone(floorboom)
-        if floorcontent and floorcontent[1] then
+        if not floorcontent then
+            printToAll("ERROR: guids not found")
+            return nil
+        end
+        if floorcontent[1] then
             local pcolor = Turns.turn_color
             if pcolor == "White" then
                 angle = 90
@@ -2930,8 +2897,11 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             local explodeFloor = function(obj)
-                floorcontent[1].flip()
-                floorcontent[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                floorcontent = get_decks_and_cards_from_zone(floorboom)
+                if floorcontent[1] then
+                    floorcontent[1].flip()
+                    floorcontent[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                end
                 broadcastToAll("Scheme Twist: Top floor of the Washington Monument Destroyed!")
             end
             local floorcollapse = function()
@@ -5775,7 +5745,7 @@ end
 
 function mmActive(mmname)
     for _,o in pairs(masterminds) do
-        if o == mmname then
+        if o == mmname or o == mmname .. " - epic" then
             return true
         end
     end
@@ -6134,7 +6104,7 @@ function resolveStrike(mmname,epicness,city,cards)
         if herodeck then
             bump(herodeck)
         end
-        local costs = table.clone(herocosts)
+        local costs = callGUID("herocosts",3)
         for _,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
             if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
@@ -7492,7 +7462,7 @@ function resolveStrike(mmname,epicness,city,cards)
             for _,o in pairs(players) do
                 local hand = o.getHandObjects()
                 if hand[1] then
-                    local outwitcount = table.clone(herocosts)
+                    local outwitcount = callGUID("herocosts",3)
                     for _,p in pairs(hand) do
                         --breaks with bystander-heroes, some villain-heroes
                         if hasTag2(p,"Cost:") then
@@ -7523,7 +7493,7 @@ function resolveStrike(mmname,epicness,city,cards)
             for _,o in pairs(players) do
                 local hand = o.getHandObjects()
                 if hand[1] then
-                    local outwitcount = table.clone(herocosts)
+                    local outwitcount = callGUID("herocosts",3)
                     for _,p in pairs(hand) do
                         --breaks with bystander-heroes, some villain-heroes
                         if hasTag2(p,"Cost:") then
@@ -8731,6 +8701,9 @@ function nonTwistspecials(cards,schemeParts)
     end
     if schemeParts[1] == "Transform Citizens Into Demons" then
         if cards[1].getName() == "Jean Grey (DC)" then
+            if not goblincount then
+                goblincount = 0
+            end
             powerButton(cards[1],hasTag2(cards[1],"Cost:")+goblincount)
             cards[1].addTag("Villain")
             cards[1].addTag("VP4")
@@ -8826,7 +8799,7 @@ function demolish(colors,n,altsource,ko)
         end
     end
     if not altsource then
-        costs = table.clone(herocosts)
+        costs = callGUID("herocosts",3)
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         if herodeck[1].tag == "Deck" then
             bump(herodeck[1],n+1)
@@ -9105,7 +9078,7 @@ end
 function gainShard(color,zone)
     local shard = getObjectFromGUID("eff5ba")
     if not shard then
-        broadcastToColor("Shard was not found. Please take one manually.")
+        broadcastToAll("Shard was not found. Please take one manually.")
         return nil
     end
     local shardpos = nil

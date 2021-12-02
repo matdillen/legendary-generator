@@ -1,70 +1,61 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
+    setupGUID = "912967"
     global_deal=0
-    countEnd=0
-    countStart=0
-    pos_discard = {-0.957, 0.178, 0.222}
-    pos_draw = {0.957, 0.178, 0.222}
-    pos_vp2 = {-4.8, 0.178, 0.222}
-    pos_add2 = {-2.871, 0.178, 0.222}
     createButtons()
-    --This is which way is face down for a card or deck relative to the tool
-    rot_offset = {x=0, y=0, z=180}
-    
-    local vpileguids = {
-        ["Red"]="fac743",
-        ["Green"]="a42b83",
-        ["Yellow"]="7f3bcd",
-        ["Blue"]="f6396a",
-        ["White"]="7732c7"
-    }
-    
-    local playguids = {
-        ["Red"]="157bfe",
-        ["Green"]="0818c2",
-        ["Yellow"]="7149d2",
-        ["Blue"]="2b36c3",
-        ["White"]="558e75"
-    }
-    
-    local addguids = {
-        ["Red"]="d833a0",
-        ["Green"]="9ee1fd",
-        ["Yellow"]="c3dfd7",
-        ["Blue"]="03ad58",
-        ["White"]="8a2ca3"
-    }
-    
-    local resourceguids = {
-        ["Red"]="437bab",
-        ["Green"]="be2dca",
-        ["Yellow"]="e12656",
-        ["Blue"]="2a97f0",
-        ["White"]="e1c2bd"
-    }
-    
-    local attackguids = {
-        ["Red"]="789e5f",
-        ["Green"]="d58330",
-        ["Yellow"]="bdd497",
-        ["Blue"]="e56ef6",
-        ["White"]="3892b5"
-    }
-    
-    
+
     handsize_init = 6
     handsize = handsize_init
     handsizef = false
+    
     boardcolor = self.getName()
-    vpileguid = vpileguids[boardcolor]
-    playguid = playguids[boardcolor]
-    addguid = addguids[boardcolor]
-    sidekickDeckGUID = "d40734"
-    attackguid = attackguids[boardcolor]
-    resourceguid = resourceguids[boardcolor]
+    vpileguid = callGUID("vpileguids",3)[boardcolor]
+    playguid = callGUID("playguids",3)[boardcolor]
+    addguid = callGUID("addguids",3)[boardcolor]
+    attackguid = callGUID("attackguids",3)[boardcolor]
+    resourceguid = callGUID("resourceguids",3)[boardcolor]
+    
+    pos_vp2 = callGUID("pos_vp2",2)
+    pos_discard = callGUID("pos_discard",2)
+    pos_draw = callGUID("pos_draw",2)
+    pos_add2 = callGUID("pos_add2",2)
+    
+    sidekickDeckGUID = callGUID("sidekickDeckGUID",1)
 end
 
 function colorDummy()
+end
+
+function callGUID(var,what)
+    if not var then
+        log("Error, can't fetch guid of object with name nil.")
+        return nil
+    elseif not what then
+        log("Error, can't fetch guid of object with missing type.")
+        return nil
+    end
+    if what == 1 then
+        return getObjectFromGUID(setupGUID).Call('returnVar',var)
+    elseif what == 2 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
+    elseif what == 3 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
+    else
+        log("Error, can't fetch guid of object with unknown type.")
+        return nil
+    end
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
 end
 
 function createButtons()
@@ -121,13 +112,13 @@ function onslaughtpain(defeated)
         handsize_init = handsize_init - 1
     end
     handsize = handsize_init
-    printToAll("Handsize permanently reduced by 1!",{1,0,0})
+    broadcastToAll("Handsize permanently reduced by 1!",{1,0,0})
 end
 
 function calculate_vp()
     local vpcontent = get_decks_and_cards_from_zone(vpileguid)
     if vpcontent[2] then
-        printToAll("Victory pile is not a single deck!")
+        printToColor("Victory pile is not a single deck!",boardcolor,boardcolor)
         return nil
     end
     if vpcontent[1] then
@@ -176,14 +167,21 @@ function calculate_vp()
             printToAll(boardcolor .. " player's other cards in VP: " .. totalother,boardcolor)
         end
         printToAll("##",boardcolor)
+        return totalvp,totalbs,totalother
     else
         printToAll(boardcolor .. " player's victory pile is empty!",boardcolor)
+        return nil
     end
 end
 
 function handsizeplus()
     handsize = handsize + 1
     printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)",boardcolor)
+end
+
+function handsizemin()
+    handsize = handsize - 1
+    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)",boardcolor)
 end
 
 function handsizefixed(obj,player_clicker_color)
@@ -204,11 +202,6 @@ function handsizefixed(obj,player_clicker_color)
     end
 end
 
-function handsizemin()
-    handsize = handsize - 1
-    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)",boardcolor)
-end
-
 function click_refillDeck()
     global_deal = 0
     refillDeck()
@@ -218,8 +211,7 @@ function refillDeck()
     local discardItemList = findObjectsAtPosition(pos_discard)
     local pos = self.positionToWorld(pos_draw)
     local rot = self.getRotation()
-    rot = {rot.x+rot_offset.x, rot.y+rot_offset.y, rot.z+rot_offset.z}
-
+    rot.z = rot.z+180
     for _, obj in ipairs(discardItemList) do
         obj.setPosition(pos, false, true)
         obj.setRotation(rot)
@@ -350,7 +342,7 @@ function click_end_turn()
     global_deal=0
     click_discard_hand()
     Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
-    local autoplay = getObjectFromGUID("912967").Call('returnAutoplay')
+    local autoplay = callGUID("autoplay",1)
     if boardcolor == Turns.turn_color then
         if autoplay == true then
             getObjectFromGUID("8280ca").Call('click_draw_villain')

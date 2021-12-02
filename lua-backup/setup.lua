@@ -1,6 +1,180 @@
 function onLoad()
-    --create buttons for importing and autoshuffle
+    createButtons()
+    setupText = ""
+    
+    loadGUIDs()
+    
+    autoplay = true
+    finalblow = true
+    finalblowfixed = false
+    Turns.enable = true
+end
 
+function loadGUIDs()
+    herocosts = {}
+    for i=0,9 do
+        table.insert(herocosts,0)
+    end
+    
+    addguids = {
+        ["Red"]="d833a0",
+        ["Green"]="9ee1fd",
+        ["Yellow"]="c3dfd7",
+        ["Blue"]="03ad58",
+        ["White"]="8a2ca3"
+    }
+    
+    resourceguids = {
+        ["Red"]="437bab",
+        ["Green"]="be2dca",
+        ["Yellow"]="e12656",
+        ["Blue"]="2a97f0",
+        ["White"]="e1c2bd"
+    }
+    
+    attackguids = {
+        ["Red"]="789e5f",
+        ["Green"]="d58330",
+        ["Yellow"]="bdd497",
+        ["Blue"]="e56ef6",
+        ["White"]="3892b5"
+    }
+    
+    playerBoards = {
+        ["Red"]="8a35bd",
+        ["Green"]="d7ee3e",
+        ["Yellow"]="ed0d43",
+        ["Blue"]="9d82f3",
+        ["White"]="206c9c"
+    }
+    
+    playguids = {
+        ["Red"]="157bfe",
+        ["Green"]="0818c2",
+        ["Yellow"]="7149d2",
+        ["Blue"]="2b36c3",
+        ["White"]="558e75"
+    }
+    
+    vpileguids = {
+        ["Red"]="fac743",
+        ["Green"]="a42b83",
+        ["Yellow"]="7f3bcd",
+        ["Blue"]="f6396a",
+        ["White"]="7732c7"
+    }
+    
+    city_zones_guids = {"e6b0bc",
+        "40b47d",
+        "5a74e7",
+        "07423f",
+        "5bc848",
+        "82ccd7"
+    }
+    
+    hqguids = {
+        "aabe45",
+        "bf3815",
+        "11b14c",
+        "b8a776",
+        "75241e"
+    }
+    
+    top_city_guids = {
+        "725c5d",
+        "3d3ba7",
+        "533311",
+        "8656c3",
+        "4c1868"
+    }
+    
+    hqZonesGUIDs={
+        "4c1868",
+        "8656c3",
+        "533311",
+        "3d3ba7",
+        "725c5d"}
+            
+    topBoardGUIDs ={
+        "1fa829",
+        "bf7e87",
+        "4c1868",
+        "8656c3",
+        "533311",
+        "3d3ba7",
+        "725c5d",
+        "4e3b7e"
+    }
+    
+    allTopBoardGUIDS = {
+        "7f622a",
+        "000e0c",
+        "3e45a0",
+        "705f8c",
+        "1fa829",
+        "bf7e87",
+        "4c1868",
+        "8656c3",
+        "533311",
+        "3d3ba7",
+        "725c5d",
+        "4e3b7e",
+        "f394e1",
+        "0559f8",
+        "39e3d7",
+        "6b1c18",
+        "57df40"
+    }
+    
+    addMMGUIDS = {}
+    
+    for _,o in pairs(allTopBoardGUIDS) do
+        addMMGUIDS[o] = false
+    end
+    
+    masterminds = {}
+        
+    bystandersPileGUID = "0b48dd"
+    woundsDeckGUID = "653663"
+    sidekickDeckGUID = "d40734"
+    officerDeckGUID = "aed7cd"
+    
+    schemePileGUID = "0716a4"
+    mmPileGUID = "c7e1d5"
+    strikePileGUID = "aff2e5"
+    horrorPileGUID = "82f3dc"
+    twistPileGUID = "c82082"
+    villainPileGUID = "375566"
+    hmPileGUID = "de8160"
+    ambPileGUID = "cf8452"
+    heroPileGUID = "16594d"
+    
+    heroDeckZoneGUID = "0cd6a9"
+    villainDeckZoneGUID = "4bc134"
+    schemeZoneGUID = "c39f60"
+    mmZoneGUID = "a91fe7"
+    strikeZoneGUID = "be6070"
+    horrorZoneGUID = strikeZoneGUID
+    twistZoneGUID = "4f53f9"
+    
+    escape_zone_guid = "de2016"
+    
+    kopile_guid = "79d60b"
+    
+    transformed = {}
+    
+    --Local positions for each pile of cards
+    pos_vp2 = {-5, 0.178, 0.222}
+    pos_discard = {-0.957, 0.178, 0.222}
+    pos_draw = {0.957, 0.178, 0.222}
+    pos_add2 = {-2.871, 0.178, 0.222}
+end
+
+function returnVar(var)
+    return _G[var]
+end
+
+function createButtons()
     self.createButton({
         click_function="click_shuffle", function_owner=self,
         position={-60,0.1,12}, height=500, width=1500, color={1,1,1,1},
@@ -44,149 +218,6 @@ function onLoad()
         width=2000,
         height=3000
     })
-    
-    setupText = ""
-    
-    herocosts = {}
-    for i=0,9 do
-        table.insert(herocosts,0)
-    end
-    
-    --following can be combined and integrated with the boards
-    playercolors = {
-        "Yellow",
-        "Green",
-        "Red",
-        "White",
-        "Blue"
-    }
-    
-    playerBoards = {
-        ["Red"]="8a35bd",
-        ["Green"]="d7ee3e",
-        ["Yellow"]="ed0d43",
-        ["Blue"]="9d82f3",
-        ["White"]="206c9c"
-    }
-    
-    city_zones_guids = {"e6b0bc",
-        "40b47d",
-        "5a74e7",
-        "07423f",
-        "5bc848",
-        "82ccd7"
-    }
-    
-    playguids = {
-        ["Red"]="157bfe",
-        ["Green"]="0818c2",
-        ["Yellow"]="7149d2",
-        ["Blue"]="2b36c3",
-        ["White"]="558e75"
-    }
-        
-    hqguids = {
-        "aabe45",
-        "bf3815",
-        "11b14c",
-        "b8a776",
-        "75241e"
-    }
-    
-    topBoardGUIDs ={
-        "1fa829",
-        "bf7e87",
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d",
-        "4e3b7e"
-    }
-    
-    allTopBoardGUIDS = {
-        "7f622a",
-        "000e0c",
-        "3e45a0",
-        "705f8c",
-        "1fa829",
-        "bf7e87",
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d",
-        "4e3b7e",
-        "f394e1",
-        "0559f8",
-        "39e3d7",
-        "6b1c18",
-        "57df40"
-    }
-    
-    addMMGUIDS = {}
-    
-    for _,o in pairs(allTopBoardGUIDS) do
-        addMMGUIDS[o] = false
-    end
-    
-    vpileguids = {
-        ["Red"]="fac743",
-        ["Green"]="a42b83",
-        ["Yellow"]="7f3bcd",
-        ["Blue"]="f6396a",
-        ["White"]="7732c7"
-    }
-    
-    masterminds = {}
-        
-    bystandersPileGUID = "0b48dd"
-    woundsDeckGUID = "653663"
-    sidekickDeckGUID = "d40734"
-    officerDeckGUID = "aed7cd"
-    
-    schemePileGUID = "0716a4"
-    mmPileGUID = "c7e1d5"
-    strikePileGUID = "aff2e5"
-    horrorPileGUID = "82f3dc"
-    twistPileGUID = "c82082"
-    villainPileGUID = "375566"
-    hmPileGUID = "de8160"
-    ambPileGUID = "cf8452"
-    heroPileGUID = "16594d"
-    
-    heroDeckZoneGUID = "0cd6a9"
-    villainDeckZoneGUID = "4bc134"
-    schemeZoneGUID = "c39f60"
-    mmZoneGUID = "a91fe7"
-    strikeZoneGUID = "be6070"
-    horrorZoneGUID = strikeZoneGUID
-    twistZoneGUID = "4f53f9"
-    
-    escape_zone_guid = "de2016"
-    
-    kopile_guid = "79d60b"
-    
-    transformed = {}
-    
-    --Local positions for each pile of cards
-    pos_vp2 = {-5, 0.178, 0.222}
-    pos_discard = {-0.957, 0.178, 0.222}
-    
-    autoplay = true
-    finalblow = true
-    finalblowfixed = false
-    Turns.enable = true
-    
-    
-end
-
-function returnAutoplay()
-    return autoplay
-end
-
-function returnFinalblow()
-    return finalblow
 end
 
 function returnMM()
@@ -209,7 +240,7 @@ function table.clone(org,key)
     end
 end
 
-function toggle_autoplay(obj,player_clicker_color)
+function toggle_autoplay()
     local butt = self.getButtons()
     for _,o in pairs(butt) do
         if o.click_function == "toggle_autoplay" then
@@ -227,7 +258,7 @@ function toggle_autoplay(obj,player_clicker_color)
     end
 end
 
-function toggle_finalblow(obj,player_clicker_color)
+function toggle_finalblow()
     if finalblowfixed then
         return nil
     end
@@ -306,16 +337,14 @@ function click_shuffle()
         broadcastToAll("No Villain deck to shuffle")
     end
     
-    for i=1,5 do
-        if Player[playercolors[i]].seated == true then
-            local playerdeck = getObjectFromGUID(playerBoards[playercolors[i]]).Call('returnDeck')
-            if playerdeck[1] then 
-                playerdeck[1].randomize()
-                log("Shuffling " .. playercolors[i] .. " Player's deck!")
-                --print("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
-            else
-                log("No player deck found for player " .. playercolors[i])
-            end
+    for _,o in pairs(Player.getPlayers()) do
+        local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+        if playerdeck[1] then 
+            playerdeck[1].randomize()
+            log("Shuffling " .. o.color .. " Player's deck!")
+            --print("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
+        else
+            log("No player deck found for player " .. o.color)
         end
     end
     --add exceptions here for some schemes
@@ -372,13 +401,12 @@ function reduceStack(count,stackGUID)
     --currently we keep this one so players can still get cards back if needed
     local destzone = "4e3b7e"
     local outOfGameZone = getObjectFromGUID(destzone)
-    if randomize then stack.randomize() end
+    stack.randomize()
     local stackObjects = stack.getObjects()
     local stackCount = #stackObjects
     while stackCount > count do
         stack.takeObject({
-            position = outOfGameZone.getPosition(),
-            callback_function = function (obj) obj.destruct() end,
+            position = outOfGameZone.getPosition()
         })
         stackObjects = stack.getObjects()
         stackCount = #stackObjects
@@ -470,17 +498,12 @@ function returnSetupParts()
     return setupParts
 end
 
-function returnColor(obj)
+function returnColor()
     --print("this is a dummy function for button clicks")
 end
 
 function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
-end
-
-function returnbsGUID()
-    -- if the guid changes, e.g. because of Mojo
-    return bystandersPileGUID
 end
 
 function hasTag2(obj,tag,index)
@@ -549,7 +572,7 @@ function woundedFury(obj,color)
     end
 end
 
-function transformMM(obj, player_clicker_color, alt_click)
+function transformMM(obj)
     local content = get_decks_and_cards_from_zone(obj.guid)
     if content[1] then
         for _,o in pairs(content) do
@@ -1079,12 +1102,10 @@ function import_setup()
     
     if mmname == "The Sentry" then
         local woundstack = getObjectFromGUID(woundsDeckGUID)
-        for i=1,5 do
-            if Player[playercolors[i]].seated == true then
-                local playerdeck = getObjectFromGUID(playerBoards[playercolors[i]]).Call('returnDeck')[1]
-                woundstack.takeObject({position = playerdeck.getPosition()})
-                woundstack.takeObject({position = playerdeck.getPosition()})
-            end
+        for _,o in pairs(Player.getPlayers()) do
+            local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
+            woundstack.takeObject({position = playerdeck.getPosition()})
+            woundstack.takeObject({position = playerdeck.getPosition()})
         end
         log("Wounds added to player starter decks. Still shuffle!")
         broadcastToAll("2 wounds in starter deck because of The Sentry. Bastard.")
@@ -1103,7 +1124,7 @@ function import_setup()
                 smooth=false})    
         end
         log(twistcount .. " scheme twists added to villain deck.")
-        schemeSpecials(setupParts,mmGUID)
+        schemeSpecials()
     end
     
     if setupParts[1] == "The Demon Bear Saga" then
@@ -1286,20 +1307,16 @@ function import_setup()
     end  
     
     local vilDeckComplete = function()
-        local test = vilDeckZone.getObjects()[2]
-        if test ~= nil then 
-            if test.getQuantity() == vildeckc then
-                return true
-            else
-                return false
-            end
+        local test = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+        if test and test.getQuantity() == vildeckc then
+            return true
         else
             return false
         end
     end   
     
     local vilDeckFlip = function()
-        vildeck = vilDeckZone.getObjects()[2]
+        local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
         vildeck.flip()
     end
     
@@ -1602,7 +1619,7 @@ function import_setup()
     return nil
 end
 
-function schemeSpecials (setupParts,mmGUID)
+function schemeSpecials ()
     local bsPile = getObjectFromGUID(bystandersPileGUID)
     bsPile.randomize()
     local sopile = getObjectFromGUID(officerDeckGUID)
@@ -3837,7 +3854,7 @@ function resolveHorror(obj)
         return nil
     end
     if obj.getName() == "Shadow of the Disciple" then
-        local mmloc = getNextMMLoc(true)
+        local mmloc = getNextMMLoc()
         obj.setPosition(getObjectFromGUID(mmloc).getPosition())
         obj.setName("Master Plan")
         obj.addTag("VP5")
@@ -3857,7 +3874,7 @@ function resolveHorror(obj)
     if obj.getName() == "The Apprentice Rises" then
         local mmPile = getObjectFromGUID(mmPileGUID)
         mmPile.randomize()
-        local mmloc = getNextMMLoc(true)
+        local mmloc = getNextMMLoc()
         local stripTactics = function(obj)
             obj.flip()
             broadcastToAll("The Horror! " .. obj.getName() .. " was added to the game as an apprentice mastermind with one tactic.")
@@ -4132,7 +4149,7 @@ function getStrikeloc(mmname)
     return strikeloc
 end
 
-function getNextMMLoc(truemm)
+function getNextMMLoc()
     for guid,occup in pairs(addMMGUIDS) do
         if occup == false then
             for index,guid2 in pairs(allTopBoardGUIDS) do
