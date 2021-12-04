@@ -1692,6 +1692,11 @@ function schemeSpecials ()
         findInPile("Adam Warlock (ITC)",heroPileGUID,topBoardGUIDs[1],orderAdam)
         mmZone.Call('lockTopZone',topBoardGUIDs[1])
     end
+    if setupParts[1] == "Unite the Shards" then
+        setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Shards in use:[/b][-] 0")
+        shards = {}
+        shardlimit = 30
+    end
     if setupParts[1] == "United States Split by Civil War" then
         for i = 1,2 do
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
@@ -1751,6 +1756,40 @@ function schemeSpecials ()
         end
     end
     return nil
+end
+
+function updateShards(guid)
+    if setupParts[1] == "Unite the Shards" then
+        if guid then
+            local newshard = true
+            for i,o in pairs(shards) do
+                if o == guid then
+                    newshard = false
+                    break
+                end
+            end
+            if newshard == true then
+                table.insert(shards,guid)
+            end
+        end
+        local shardcount = 0
+        for _,o in pairs(shards) do
+            local shard = getObjectFromGUID(o)
+            if shard then
+                shardcount = shardcount + shard.Call('returnVal')
+            end
+        end
+        setNotes(getNotes():gsub("Shards in use:%[/b%]%[%-%] %d+","Shards in use:[/b][-] " .. shardcount))
+        return shardcount
+    end
+end
+
+function returnShardLimit()
+    if shardlimit then
+        return shardlimit - updateShards()
+    else
+        return nil
+    end
 end
 
 function koCard(obj,smooth)

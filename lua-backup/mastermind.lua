@@ -277,7 +277,13 @@ function woundedFury(obj,color)
 end
 
 function transformMM(obj)
-    local content = get_decks_and_cards_from_zone(obj.guid)
+    local content = get_decks_and_cards_from_zone(obj.guid,true)
+    for i,o in pairs(content) do
+        if o.getName() == "Shard" then
+            bump(o)
+            table.remove(content,i)
+        end
+    end
     if content[1] then
         for _,o in pairs(content) do
             if o.tag == "Card" and not hasTag2(o,"Tactic:",8) then
@@ -2087,7 +2093,13 @@ function koCard(obj,smooth)
 end
 
 function fightMM(zoneguid,player_clicker_color)
-    local content = get_decks_and_cards_from_zone(zoneguid,false,false)
+    local content = get_decks_and_cards_from_zone(zoneguid,true,false)
+    for i,o in pairs(content) do
+        if o.getName() == "Shard" then
+            bump(o)
+            table.remove(content,i)
+        end
+    end
     local vppos = getObjectFromGUID(playerBoards[player_clicker_color]).positionToWorld(pos_vp2)
     vppos.y = vppos.y + 2
     local name = nil

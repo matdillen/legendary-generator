@@ -72,6 +72,7 @@ function onLoad()
     --the guids don't change, the current_city might
     current_city = table.clone(city_zones_guids)
     
+    
 end
 
 function createButtons()
@@ -5589,6 +5590,12 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Unite the Shards" then
+        stackTwist(cards[1])
+        gainShard(nil,mmZoneGUID,twistsstacked)
+        broadcastToAll("Scheme Twist: The Mastermind gains " .. twistsstacked .. " shards.")
+        return nil
+    end
     if schemeParts[1] == "United States Split by Civil War" then
         for i=4,5 do
             local cardz = get_decks_and_cards_from_zone(city[i])
@@ -8162,13 +8169,14 @@ function resolveStrike(mmname,epicness,city,cards)
         local grandmasterContest = function(obj)
             for i,o in pairs(obj) do
                 if i == "Evil" and o == true then
-                    gainShard(nil,mmLocations["The Grandmaster"])
+                    local shardn = 1
                     if epicness then
-                        gainShard(nil,mmLocations["The Grandmaster"])
+                        shardn = 2
                         broadcastToAll("Master Strike: Evil won, so the mastermind gains two shards!")
                     else
                         broadcastToAll("Master Strike: Evil won, so the mastermind gains a shard!")
                     end
+                    gainShard(nil,mmLocations["The Grandmaster"],shardn)
                 elseif not o and i ~= "Evil" then
                     click_get_wound(nil,i)
                 end
@@ -9080,11 +9088,16 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
     end
 end
 
-function gainShard(color,zoneGUID)
+function gainShard(color,zoneGUID,n)
+    if not n then
+        n = 1
+    end
     if color then
-        getObjectFromGUID(shardguids[color]).Call('add_subtract')
-        log("Player " .. color .. " gained a shard.")
-        printToColor("You gained a shard!",color,color)
+        for i=1,n do
+            getObjectFromGUID(shardguids[color]).Call('add_subtract')
+            log("Player " .. color .. " gained a shard.")
+            printToColor("You gained a shard!",color,color)
+        end
     else
         local shard = getObjectFromGUID(shardGUID)
         if not shard then
@@ -9098,14 +9111,16 @@ function gainShard(color,zoneGUID)
         if content[1] then
             for _,o in pairs(content) do
                 if o.getName() == "Shard" then
-                    o.Call('add_subtract')
-                    log("Shard added to zone that already had shards, with guid " .. zoneGUID)
+                    for i=1,n do
+                        o.Call('add_subtract')
+                        log("Shard added to zone that already had shards, with guid " .. zoneGUID)
+                    end
                     return nil
                 end
             end
         end
         local newshard = shard.clone({position = getObjectFromGUID(zoneGUID).getPosition()})
-        Wait.time(function() newshard.Call('add_subtract') end,0.2)
+        Wait.time(function() for i=1,n do newshard.Call('add_subtract') end end,0.2)
         log("First shard added to zone with guid " .. zoneGUID)
     end
 end
