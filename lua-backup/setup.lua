@@ -1,6 +1,7 @@
 function onLoad()
     createButtons()
     setupText = ""
+    horrors = {}
     loadGUIDs()
     
     autoplay = true
@@ -366,7 +367,7 @@ function reduceStack(count,stackGUID)
     local stack = getObjectFromGUID(stackGUID)
     --change this zone to move them somewhere else
     --currently we keep this one so players can still get cards back if needed
-    local destzone = "4e3b7e"
+    local destzone = "2aa883"
     local outOfGameZone = getObjectFromGUID(destzone)
     stack.randomize()
     local stackObjects = stack.getObjects()
@@ -453,22 +454,6 @@ end
 
 function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
-end
-
-function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                return tonumber(o:match("%d+"))
-            end
-        end
-    end
-    return nil
 end
 
 function import_setup()
@@ -1358,28 +1343,11 @@ function schemeSpecials ()
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
     end
-    if setupParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
-        local twistzone = getObjectFromGUID(twistZoneGUID)
-        twistzone.createButton({click_function='returnColor',
-            function_owner=self,
-            position={0,0,0},
-            rotation={0,180,0},
-            label="Purged",
-            tooltip="Put purged heroes here",
-            font_size=250,
-            font_color={1,0,0},
-            width=0})
-    end
     if setupParts[1] == "Graduation at Xavier's X-Academy" then
         log("8 bystanders next to scheme")
         for i=1,8 do
             bsPile.takeObject({position=twistpile.getPosition(),
                 flip=false,smooth=false})
-        end
-    end
-    if setupParts[1] == "Horror of Horrors" then
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
     end
     if setupParts[1] == "Hypnotize Every Human" then
@@ -1783,42 +1751,35 @@ function koCard(obj,smooth)
     end
 end
 
-function powerButton(obj,click_f,label_f,otherposition,toolt)
-    if not otherposition then
-        otherposition = {0,22,0}
-    end
-    if not toolt then
-        toolt = "Click to update villain's power!"
-    end
-    if obj and click_f and label_f then
-        obj.createButton({click_function=click_f,
-            function_owner=self,
-            position=otherposition,
-            label=label_f,
-            tooltip=toolt,
-            font_size=500,
-            font_color={1,0,0},
-            color={0,0,0,0.75},
-            width=250,height=250})
-    end
-end
-
 function playHorror()
     local horrorPile = getObjectFromGUID(horrorPileGUID)
-    local horrorpos = getNextMMLoc()
+    local horrorpos = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getNextMMLoc')).getPosition()
     horrorpos.y = horrorpos.y + 3
     horrorPile.randomize()
     horrorPile.takeObject({position=horrorpos,
             flip=false,
             smooth=false,
             callback_function = resolveHorror})
-    broadcastToAll("Random horror added to the game, above the board.")
+    --broadcastToAll("Random horror added to the game, above the board.")
 end
 
 function resolveHorror(obj)
+    table.insert(horrors,obj.getName())
     if obj.getName() == "Army of Evil" then
-        broadcastToAll("All non-henchmen villains get +1. Unscripted!")
-        --requires stacking of bonuses
+        broadcastToAll("The Horror! All non-henchmen villains get +1.")
+        for i,o in pairs(city_zones_guids) do
+            if i > 1 then
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.hasTag("Villain") and not obj.hasTag("Henchmen") then
+                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"+1","All non-henchmen villains get +1","Army of Evil Horror"})
+                            break
+                        end
+                    end
+                end
+            end
+        end
         return nil
     end
     if obj.getName() == "Empire of Oppression" then
@@ -1829,8 +1790,7 @@ function resolveHorror(obj)
         return nil
     end
     if obj.getName() == "Endless Hatred" then
-        broadcastToAll("Complete scheme twist also triggers master strike. Unscripted!")
-        --make a generic function for these in the draw villain (or push villain) scripts
+        broadcastToAll("The Horror! Through the Mastermind's endless hatred, scheme twists will now also trigger master strikes from the main Mastermind.")
         return nil
     end
     if obj.getName() == "Enraged Mastermind" then
@@ -1839,6 +1799,7 @@ function resolveHorror(obj)
         for i,o in pairs(mmLocations) do
             if o == mmZoneGUID then
                 mmname = i
+                broadcastToAll("The Horror! The Mastermind becomes enraged and gets +2.")
                 break
             end
         end
@@ -1851,24 +1812,24 @@ function resolveHorror(obj)
     end
     if obj.getName() == "Fight to the End" then
         if finalblow == false then
-            broadcastToAll("The Horror! Final blow was enable, so you have to defeat the Mastermind one more time after you've taken all of his tactics.")
+            broadcastToAll("The Horror! Final blow was enabled, so you have to defeat the Mastermind one more time after you've taken all of his tactics.")
             finalblow = true
             finalblowfixed = true
         else
             log("Final Blow was already active, so this horror doesn't do anything and is skipped.")
             obj.destruct()
+            table.remove(horrors)
             playHorror()
         end
         return nil
     end
     if obj.getName() == "Growing Threat" then
-        broadcastToAll("The mastermind gets +1 for each tactic in all victory piles. Unscripted!")
+        broadcastToAll("The Horror! The mastermind gets +1 for each tactic in all victory piles. Unscripted!")
         --requires stacking of bonuses
         return nil
     end
     if obj.getName() == "Legions Upon Legions" then
-        broadcastToAll("Whenever you play a henchman villain from the villain deck, play another card. Unscripted!")
-        --make a generic function for these in the draw villain (or push villain) scripts
+        broadcastToAll("Legions Upon Legions! Whenever you play a henchman villain from the villain deck, another card will be played.")
         return nil
     end
     if obj.getName() == "Maniacal Mastermind" then
@@ -1877,6 +1838,7 @@ function resolveHorror(obj)
         for i,o in pairs(mmLocations) do
             if o == mmZoneGUID then
                 mmname = i
+                broadcastToAll("The Horror! The Mastermind becomes maniacal and gets +1.")
                 break
             end
         end
@@ -1888,23 +1850,20 @@ function resolveHorror(obj)
         return nil
     end
     if obj.getName() == "Misery Upon Misery" then
-        broadcastToAll("Whenever you play a bystander from the villain deck, play another card. Unscripted!")
-        --make a generic function for these in the draw villain (or push villain) scripts
+        broadcastToAll("Misery Upon Misery! Whenever you play a bystander from the villain deck, another card will be played.")
         return nil
     end
     if obj.getName() == "Opening Salvo" then
-        getObjectFromGUID("f3c7e3").Call('dealWounds')
+        getObjectFromGUID(pushvillainsguid).Call('dealWounds')
         broadcastToAll("The Horror! in an opening salvo, each player is wounded.")
         return nil
     end
     if obj.getName() == "Pain Upon Pain" then
-        broadcastToAll("Whenever you complete a master strike, play another card. Unscripted!")
-        --make a generic function for these in the draw villain (or push villain) scripts
+        broadcastToAll("Pain Upon Pain! Whenever you complete a master strike, another card will be played.")
         return nil
     end
     if obj.getName() == "Plots Upon Plots" then
-        broadcastToAll("Whenever you complete a scheme twist, play another card. Unscripted!")
-        --make a generic function for these in the draw villain (or push villain) scripts
+        broadcastToAll("Plots Upon Plots! Whenever you complete a scheme twist, another card will be played.")
         return nil
     end
     if obj.getName() == "Psychic Infection" then
@@ -1952,10 +1911,10 @@ function resolveHorror(obj)
                             angle = 180
                         end
                         local brot = {x=0, y=angle, z=0}
-                        obj.setRotationSmooth(brot)
-                        obj.setPositionSmooth(dest)
+                        obj.setRotation(brot)
+                        obj.setPosition(dest)
                         for _,o in pairs(Player.getPlayers()) do
-                            getObjectFromGUID("f3c7e3").Call('promptDiscard',o.color)
+                            getObjectFromGUID(pushvillainsguid).Call('promptDiscard',o.color)
                         end
                         break
                     end
@@ -1970,7 +1929,7 @@ function resolveHorror(obj)
         obj.setPosition(getObjectFromGUID(mmloc).getPosition())
         obj.setName("Master Plan")
         obj.addTag("VP5")
-        powerButton(obj,"returnColor",9)
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"9","Master Plan","masterplan"})
         mmZone.Call('updateMasterminds',obj.getName())
         mmZone.Call('updateMastermindsLocation',{obj.getName(),mmloc})
         mmZone.Call('setupMasterminds',obj.getName())
@@ -1978,7 +1937,7 @@ function resolveHorror(obj)
         return nil
     end
     if obj.getName() == "Surprise Assault" then
-        getObjectFromGUID("f3c7e3").Call('playVillains',2)
+        getObjectFromGUID(pushvillainsguid).Call('playVillains',2)
         broadcastToAll("The Horror! Two more cards are played from the villain deck in a surprise assault.")
         return nil
     end
@@ -2020,17 +1979,17 @@ function resolveHorror(obj)
     end
     if obj.getName() == "The Blood Thickens" then
         local msPile = getObjectFromGUID(strikePileGUID)
-        msPile.takeObject({position=vilDeckZone.getPosition(),
+        msPile.takeObject({position=getObjectFromGUID(villainDeckZoneGUID).getPosition(),
             flip=true,
             smooth=false})   
         Wait.time(function() get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].randomize() end,1)
-        getObjectFromGUID("f3c7e3").Call('playVillains')        
+        getObjectFromGUID(pushvillainsguid).Call('playVillains')        
         broadcastToAll("The Horror! The blood thickens and a master strike was shuffled into the villain deck! Another villain deck card is even played!")
         return nil
     end
     if obj.getName() == "The Plot Thickens" then
         local twistPile = getObjectFromGUID(twistPileGUID)
-        twistPile.takeObject({position=vilDeckZone.getPosition(),
+        twistPile.takeObject({position=getObjectFromGUID(villainDeckZoneGUID).getPosition(),
             flip=true,
             smooth=false})   
         Wait.time(function() get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].randomize() end,1)    
@@ -2043,6 +2002,7 @@ function resolveHorror(obj)
         for i,o in pairs(mmLocations) do
             if o == mmZoneGUID then
                 mmname = i
+                broadcastToAll("The Horror! The Mastermind becomes a merciless tyrant and gets +3.")
                 break
             end
         end
@@ -2098,9 +2058,9 @@ function resolveHorror(obj)
                             angle = 180
                         end
                         local brot = {x=0, y=angle, z=0}
-                        obj.setRotationSmooth(brot)
-                        obj.setPositionSmooth(dest)
-                        getObjectFromGUID("f3c7e3").Call('getWound',previous_player.color)
+                        obj.setRotation(brot)
+                        obj.setPosition(dest)
+                        getObjectFromGUID(pushvillainsguid).Call('getWound',previous_player.color)
                         break
                     end
                 end

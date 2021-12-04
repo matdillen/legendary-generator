@@ -523,13 +523,13 @@ function setupTransformingMM(mmname,mmZone,lurking)
                 return nil
             end
             local buttonindex = nil
-            for i,o in pairs(mmzone.getButtons()) do
+            local mmZone = getObjectFromGUID(mmLocations[mmname])
+            for i,o in pairs(mmZone.getButtons()) do
                 if o.click_function == "updateMMMODOK" then
                     buttonindex = i-1
                     break
                 end
             end
-            local mmZone = getObjectFromGUID(mmLocations[mmname])
             if transformed["M.O.D.O.K."] == false then
                 if buttonindex then
                     mmZone.removeButton(buttonindex)
@@ -1925,6 +1925,13 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
 end
 
 function updateLabel(obj,index,label,id,tooltip)
+    if obj[1] then
+        index = obj[2]
+        label = obj[3]
+        id = obj[4]
+        tooltip = obj[5]
+        obj = obj[1]
+    end
     local button = obj.getButtons()[index]
     local bonuses = {}
     local step = 1

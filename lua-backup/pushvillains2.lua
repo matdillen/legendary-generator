@@ -556,7 +556,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         end
         if cityEntering == 1 then
             --special events in certain schemes not related to twists
-            local proceed = nonTwistspecials(cards,schemeParts)
+            local proceed = nonTwistspecials(cards,schemeParts,city)
             if not proceed then
                 return nil
             end
@@ -895,6 +895,14 @@ function obedienceDisk(obj,player_clicker_color)
 end
 
 function powerButton(obj,label,toolt,id,click_f,otherposition)
+    if obj.locked == nil then
+        label = obj[2]
+        toolt = obj[3]
+        id = obj[4]
+        click_f = obj[5]
+        otherposition = obj[6]
+        obj = obj[1]
+    end
     if not obj or not label then
         broadcastToAll("Error: Missing argument to card boost.")
         return nil
@@ -940,7 +948,7 @@ function powerButton(obj,label,toolt,id,click_f,otherposition)
             color={0,0,0,0.75},
             width=250,height=250})
     else
-        local lab,tool = updateLabel(obj,index,label,id)
+        local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',{obj,index,label,id,toolt})
         obj.editButton({index = index - 1,
             label = lab,
             tooltip = tool})
@@ -1311,7 +1319,7 @@ function twistSpecials(cards,city,schemeParts)
                 batheTheEarth(nextcolor)
             end
         end
-        function pickNewHero(obj,color)
+        function pickNewHero(obj,index,color)
             local cost = hasTag2(obj,"Cost:")
             local heroes = {}
             for i,h in pairs(hqguids) do
@@ -1448,9 +1456,6 @@ function twistSpecials(cards,city,schemeParts)
         end
         local annihilationMMzone = getObjectFromGUID(topBoardGUIDs[1])
         local refeedMM = function()
-            --twist card's setPosition may be too slow, so use a variable
-            --twistsstacked = twistpile.getObjects()[2].getQuantity()
-            --if twistsstacked == -1 then twistsstacked = 1 end
             local deck = get_decks_and_cards_from_zone(topBoardGUIDs[2])
             local annihilationcount = 0
             if deck[1] then
@@ -1528,7 +1533,7 @@ function twistSpecials(cards,city,schemeParts)
         for i,o in pairs(vpileguids) do
             if Player[i].seated == true then
                 local vpilecontent = get_decks_and_cards_from_zone(o)
-                local annipile = getObjectFromGUID(twistZoneGUID)
+                local annipile = getObjectFromGUID(topBoardGUIDs[4])
                 local copguids = {}
                 if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
                     local vpileCards = vpilecontent[1].getObjects()
@@ -1562,12 +1567,34 @@ function twistSpecials(cards,city,schemeParts)
             end
             if hand[1] then
                 local lockUp = function(obj)
-                    obj.setDescription(obj.getDescription() .. "\nARTIFACT:")
-                    local cops = get_decks_and_cards_from_zone(twistZoneGUID)
+                    obj.setDescription(obj.getDescription() .. "\nARTIFACT: Ensures this card is not removed during clean-up.")
+                    --obj.locked = true
+                    local heroguid = obj.guid
+                    local cops = get_decks_and_cards_from_zone(topBoardGUIDs[4])
                     local objpos = obj.getPosition()
                     objpos.y = objpos.y + 3
+                    objpos.z = objpos.z -1
                     local lockCop = function(obj)
-                        obj.setDescription(obj.getDescription() .. "\nARTIFACT: Fight this card to gain back your hero. If you do, remove the extra ARTIFACT line from that card's description (not scripted yet).")
+                        --obj.locked = true
+                        obj.setDescription(obj.getDescription() .. "\nARTIFACT: Ensures this card is not removed during clean-up.")
+                        _G["unlock" .. o.color .. obj.guid .. heroguid] = function(obj)
+                            obj.setDescription(obj.getDescription():gsub("\nARTIFACT: Ensures this card is not removed during clean%-up.",""))
+                            local hero = getObjectFromGUID(heroguid)
+                            hero.setDescription(hero.getDescription():gsub("\nARTIFACT: Ensures this card is not removed during clean%-up.",""))
+                            --hero.locked = false
+                            obj.setPosition(getObjectFromGUID(vpileguids[o.color]).getPosition())
+                            obj.clearButtons()
+                            --obj.locked = false
+                        end
+                        obj.createButton({click_function="unlock" .. o.color .. obj.guid .. heroguid,
+                            function_owner=self,
+                            position={0,22,0},
+                            label="Fight",
+                            tooltip="Fight this cop to rescue the hero",
+                            font_size=250,
+                            font_color="Black",
+                            color={1,1,1},
+                            width=750,height=450})
                     end
                     if cops[1] and cops[1].tag == "Deck" then
                         cops[1].takeObject({position = objpos,
@@ -1578,7 +1605,16 @@ function twistSpecials(cards,city,schemeParts)
                         lockCop(cops[1])
                     end
                 end
-                promptDiscard(o.color,hand,1,getObjectFromGUID(playerBoards[o.color]).positionToWorld({-1.5,4,4}),nil,"Lock","Lock up this card.",lockUp,"self")
+                local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
+                local copcount = 0
+                if playcontent[1] then
+                    for _,card in pairs(playcontent) do
+                        if card.getName() == "Cops" then
+                            copcount = copcount + 1
+                        end
+                    end
+                end
+                promptDiscard(o.color,hand,1,getObjectFromGUID(playerBoards[o.color]).positionToWorld({2-2*copcount,4,3.7}),nil,"Lock","Lock up this card.",lockUp,"self")
             end
         end
         broadcastToAll("Scheme Twist: Choose a non-grey hero from your hand to be locked up.")
@@ -1684,14 +1720,14 @@ function twistSpecials(cards,city,schemeParts)
                     table.remove(city)
                 end
                 current_city = table.clone(city)
-                table.insert(current_city,1,"e6b0bc")
+                table.insert(current_city,1,city_zones_guids[1])
             elseif wwcountries[twistsresolved] > 5 then
                 table.insert(city,"d30aa1")
                 current_city = table.clone(city)
-                table.insert(current_city,1,"e6b0bc")
+                table.insert(current_city,1,city_zones_guids[1])
             else
                 current_city = table.clone(city)
-                table.insert(current_city,1,"e6b0bc")
+                table.insert(current_city,1,city_zones_guids[1])
             end
             for i,o in pairs(city_zones_guids) do
                 if not current_city[i] then
@@ -1700,14 +1736,10 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         local vildeckLanded = function()
-            local vildeck = get_decks_and_cards_from_zone("4bc134")[1]
-            if vildeck then
-                if vildeck.getQuantity() == vildeckcount then
-                    return true
-                else 
-                    return false
-                end
-            else
+            local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+            if vildeck and vildeck.getQuantity() == vildeckcount then
+                return true
+            else 
                 return false
             end
         end
@@ -3072,7 +3104,36 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
-        broadcastToAll("Scheme Twist: Purge a hero and place it next to the scheme!")
+        broadcastToAll("Scheme Twist: Purge a hero from the timestream!")
+        local candidate = {}
+        for i,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero then
+                table.insert(candidate,hero)
+            else
+                printToAll("Missing hero in HQ!!")
+                return nil
+            end
+        end
+        local purgeHero = function(obj,index) 
+            for i,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero and hero.getName() == obj.getName() then
+                    koCard(hero)
+                    getObjectFromGUID(hqguids[i]).Call('click_draw_hero')
+                end
+            end
+            getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
+        end
+        promptDiscard(Turns.turn_color,
+            candidate,
+            1,
+            getObjectFromGUID(twistZoneGUID).getPosition(),
+            nil,
+            "Purge",
+            "Push this hero from the timestream!",
+            purgeHero,
+            "self")
         return twistsresolved
     end
     if schemeParts[1] == "Graduation at Xavier's X-Academy" then
@@ -3170,11 +3231,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Horror of Horrors" then
         if twistsresolved < 6 then
-            local horrorPile = getObjectFromGUID(horrorPileGUID)
-            horrorPile.randomize()
-            local horror = horrorPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[2+twistsresolved]).getPosition(),
-                flip=false,
-                smooth=false})
+            getObjectFromGUID(setupGUID).Call('playHorror')
             broadcastToAll("Scheme Twist: Random Horror was played!")
         elseif twistsresolved == 6 then
             broadcastToAll("Scheme Twist: Evil Wins.")
@@ -3234,7 +3291,51 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Hydra Helicarriers Hunt Heroes" then
         stackTwist(cards[1])
         if twistsresolved < 5 then
-            broadcastToAll("Scheme Twist: Choose " .. twistsresolved .. " different Hero Classes and KO each hero in the HQ that is any of them.",{1,0,0})
+            broadcastToAll("Scheme Twist: Choose " .. twistsresolved .. " different Hero Classes and each hero in the HQ that is any of them will be KO'd.",{1,1,1})
+            local mmpromptzone = getObjectFromGUID(city_zones_guids[4])
+            local zshift = 0
+            local colorspicked = {}
+            local buttonindices = {}
+            local colors = {"Green","Yellow","Red","Silver","Blue"}
+            local colorlabs = {"Green","Yellow","Red","White","Blue"}
+            for i,o in ipairs(colors) do
+                buttonindices[i] = i-1
+                _G["helicarrierColor" .. i] = function()
+                    mmpromptzone.removeButton(buttonindices[i])
+                    for i2,o2 in pairs(buttonindices) do
+                        if i2 > i then
+                            buttonindices[i2] = o2-1
+                        end
+                    end
+                    table.insert(colorspicked,o)
+                    if #colorspicked > twistsresolved - 1 then
+                        mmpromptzone.clearButtons()
+                        for _,o3 in pairs(hqguids) do
+                            local hero = getObjectFromGUID(o3).Call('getHeroUp')
+                            if hero then 
+                                for _,color in pairs(colorspicked) do
+                                    if hero.hasTag("HC:" .. color) then
+                                        koCard(hero)
+                                        getObjectFromGUID(o3).Call('click_draw_hero')
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                mmpromptzone.createButton({click_function="helicarrierColor" .. i,
+                    function_owner=self,
+                    position={0,0,zshift},
+                    rotation={0,180,0},
+                    label=o,
+                    tooltip="Heroes with this hero color will be KO'd: " .. o,
+                    font_size=100,
+                    font_color="Black",
+                    color=colorlabs[i],
+                    width=1500,height=50})
+                zshift = zshift + 0.5
+            end
         else
             broadcastToAll("Scheme Twist: All heroes in the HQ with a hero class KO'd!")
             for _,o in pairs(hqguids) do
@@ -8455,7 +8556,7 @@ function crossDimensionalRampage(name)
     end
 end
 
-function nonTwistspecials(cards,schemeParts)
+function nonTwistspecials(cards,schemeParts,city)
     if schemeParts[1] == "Brainwash the Military" then
         if cards[1].getName() == "S.H.I.E.L.D. Officer" or cards[1].getName() == "Madame Hydra" then
             cards[1].addTag("Brainwashed")
@@ -8603,6 +8704,46 @@ function nonTwistspecials(cards,schemeParts)
             else
                 cards[1].setDescription(cards[1].getDescription() .. "\r\nVILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
             end
+        end
+    end
+    local horrors = callGUID("horrors",2)
+    for _,o in pairs(horrors) do
+        if o == "Army of Evil" and cards[1].hasTag("Villain") and not cards[1].hasTag("Henchmen") then
+            powerButton(cards[1],"+1","All non-henchmen villains get +1","Army of Evil Horror")
+        end
+        if o == "Endless Hatred" and cards[1].getName() == "Scheme Twist" then
+            local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+            local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+            for i,o in pairs(mmLocations) do
+                if o == mmZoneGUID then
+                    Wait.condition(
+                        function() 
+                            resolveStrike(i:gsub(" - epic",""),i:find(" - epic"),city,{}) 
+                        end,
+                        function() 
+                            local content = get_decks_and_cards_from_zone(city_zones_guids[1])
+                            if content[1] and content[1].guid == cards[1].guid then
+                                return false
+                            else
+                                return true
+                            end
+                        end)
+                    broadcastToAll("Through the Horror of Endless Hatred, this Scheme Twist will also trigger a Master Strike from the main Mastermind as soon as the twist effect is completed.")
+                    break
+                end
+            end
+        end
+        if o == "Legions Upon Legions" and cards[1].hasTag("Henchmen") and cards[1].hasTag("Villain") then
+            playVillains()
+        end
+        if o == "Misery Upon Misery" and cards[1].hasTag("Bystander") then
+            playVillains()
+        end
+        if o == "Pain Upon Pain" and cards[1].getName() == "Masterstrike" then
+            playVillains()
+        end
+        if o == "Plots Upon Plots" and cards[1].getName() == "Scheme Twist" then
+            playVillains()
         end
     end
     --resolveVillainEffect(cards,"Ambush")
@@ -8923,11 +9064,7 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
                     --log(responses)
                 end
                 if triggerf and args and args == "self" then
-                    if #handobjects == 0 then
-                        triggerf(obj,i,color)
-                    else
-                        triggerf(obj,color)
-                    end
+                    triggerf(obj,i,color)
                 elseif triggerf and args then
                     triggerf(args)
                 elseif triggerf then
