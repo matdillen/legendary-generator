@@ -32,6 +32,14 @@ function loadGUIDs()
         ["White"]="e1c2bd"
     }
     
+    shardguids = {
+        ["Red"]="16ea02",
+        ["Green"]="f06e6c",
+        ["Yellow"]="5ecac6",
+        ["Blue"]="188433",
+        ["White"]="18da9e"
+    }
+    
     attackguids = {
         ["Red"]="789e5f",
         ["Green"]="d58330",
@@ -139,6 +147,8 @@ function loadGUIDs()
     escape_zone_guid = "de2016"
     
     kopile_guid = "79d60b"
+    
+    shardGUID = "eff5ba"
     
     --Local positions for each pile of cards
     pos_vp2 = {-5, 0.178, 0.222}

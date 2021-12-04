@@ -19,7 +19,8 @@ function onLoad()
         "playerBoards",
         "vpileguids",
         "hqguids",
-        "playguids"
+        "playguids",
+        "shardguids"
     }
     
     for _,o in pairs(guids3) do
@@ -61,6 +62,7 @@ function onLoad()
         "strikeZoneGUID",
         "horrorZoneGUID",
         "twistZoneGUID",
+        "shardGUID"
     }
     
     for _,o in pairs(guids1) do
@@ -317,9 +319,9 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
     --all found cards, decks and shards (objects) in a city space will be moved to the next space (targetzone)
     --enterscity is equal to 1 if this shift is a single card moving into the city
     local isEnteringCity = enterscity or 0
-    local shard = false
     for _,obj in pairs(objects) do
         local targetZone_final = targetZone
+        local shard = false
         local xshift = 0
         local zPos = obj.getPosition().z
         local bs = false
@@ -349,18 +351,11 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         if targetZone.guid == escape_zone_guid and not desc:find("LOCATION") then
             if obj.getName() == "Shard" then
                 --first shard moves to the mastermind
-                if shard == false then
-                    targetZone_final = getObjectFromGUID(mmZoneGUID)
-                    shard = true
-                    broadcastToAll("A Shard from an escaping villain was moved to the mastermind!",{r=1,g=0,b=0})
-                else
-                --other shards go back to the supply
-                    targetZone_final = getObjectFromGUID(heroDeckZoneGUID)
-                    --shard supply is located through the herodeck zone, so also nudge a bit to the right 
-                    xshift = xshift + 4
-                    zPos = targetZone_final.getPosition().z
-                    broadcastToAll("Additional shards beyond the first were returned to the supply!",{r=0,g=1,b=0}) 
-                end
+                gainShard(nil,getObjectFromGUID(mmZoneGUID))
+                broadcastToAll("A Shard from an escaping villain was moved to the mastermind!",{r=1,g=0,b=0})
+                obj.Call('resetVal')
+                obj.destruct()
+                shard = true
             elseif desc:find("VILLAINOUS WEAPON") and not hasTag2(obj,"Cost:") then
                 -- weapons move to mastermind upon escaping
                 -- extra cost tag condition if it's not a true villainous weapon, just a captured hero
@@ -420,7 +415,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
             --bystanders (when entering) will be nudged downwards to distinguish
             zPos = targetZone.getPosition().z - 2
         end
-        if isEnteringCity == 1 or not desc:find("LOCATION") then
+        if not shard and (isEnteringCity == 1 or not desc:find("LOCATION")) then
             --locations don't move unless they are entering
             obj.setPositionSmooth({targetZone_final.getPosition().x+xshift,
                 targetZone_final.getPosition().y + 3,
@@ -7978,7 +7973,8 @@ function resolveStrike(mmname,epicness,city,cards)
         local shards = 0
         for _,o in pairs(mmcontent) do
             if o.getName() == "Shard" then
-                shards = shards + 1
+                shards = o.Call('returnVal')
+                break
             end
         end
         shards = shards + 1
@@ -9084,19 +9080,34 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
     end
 end
 
-function gainShard(color,zone)
-    local shard = getObjectFromGUID("eff5ba")
-    if not shard then
-        broadcastToAll("Shard was not found. Please take one manually.")
-        return nil
-    end
-    local shardpos = nil
-    if not zone then
-        shardpos = getObjectFromGUID(playerBoards[color]).positionToWorld({-1.5,4,4})
+function gainShard(color,zoneGUID)
+    if color then
+        getObjectFromGUID(shardguids[color]).Call('add_subtract')
+        log("Player " .. color .. " gained a shard.")
+        printToColor("You gained a shard!",color,color)
     else
-        shardpos = getObjectFromGUID(zone).getPosition()
+        local shard = getObjectFromGUID(shardGUID)
+        if not shard then
+            broadcastToAll("ERRROR: Shard was not found.")
+            return nil
+        elseif not zoneGUID then
+            broadcastToAll("ERRROR: Zone to put shard was not found.")
+            return nil
+        end
+        local content = get_decks_and_cards_from_zone(zoneGUID)
+        if content[1] then
+            for _,o in pairs(content) do
+                if o.getName() == "Shard" then
+                    o.Call('add_subtract')
+                    log("Shard added to zone that already had shards, with guid " .. zoneGUID)
+                    return nil
+                end
+            end
+        end
+        local newshard = shard.clone({position = getObjectFromGUID(zoneGUID).getPosition()})
+        Wait.time(function() newshard.Call('add_subtract') end,0.2)
+        log("First shard added to zone with guid " .. zoneGUID)
     end
-    shard.clone({position = shardpos})
 end
 
 function contestOfChampions(color,n,winf,epicness)
