@@ -341,6 +341,10 @@ function click_shuffle()
                 dividedDeck[1].randomize()
             end
         end
+    elseif setupParts and setupParts[1] == "Fear Itself" then
+        for _,o in pairs(extrahq) do
+            getObjectFromGUID(o).Call('click_draw_hero')
+        end
     end
     
     for _,o in pairs(hqguids) do
@@ -1344,7 +1348,31 @@ function schemeSpecials ()
         print("Washington monument stacks created!")
     end
     if setupParts[1] == "Fear Itself" then
-        print("HQ has size of 8 minus resolved twists. Not scripted.")
+        extrahq = {}
+        local zone = getObjectFromGUID(hqguids[1])
+        local pos = skPile.getPosition()
+        pos.z = pos.z + 8
+        local zone1 = zone.clone({position = pos})
+        table.insert(extrahq,zone1.guid)
+        local pos2 = sopile.getPosition()
+        pos2.z = pos2.z + 8
+        local zone2 = zone.clone({position = pos2})
+        table.insert(extrahq,zone2.guid)
+        local pos3 = getObjectFromGUID(heroDeckZoneGUID).getPosition()
+        pos3.x = pos3.x + 4.4
+        local zone3 = zone.clone({position = pos3})
+        table.insert(extrahq,zone3.guid)
+        print("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
+        
+        removeExtraFearZone = function(guid)
+            for i,o in pairs(extrahq) do
+                if o == guid then
+                    table.remove(extrahq,i)
+                    --log(extrahq)
+                    break
+                end
+            end
+        end
     end
     if setupParts[1] == "Ferry Disaster" then
         getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID(topBoardGUIDs[7]).getPosition())

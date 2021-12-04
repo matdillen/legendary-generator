@@ -149,6 +149,13 @@ function getNextColor(color)
     return nextcolor
 end
 
+function merge(t1, t2)
+   for k,v in ipairs(t2) do
+      table.insert(t1, v)
+   end
+   return t1
+end
+
 function click_rescue_bystander(obj, player_clicker_color) 
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local bspile = getObjectFromGUID(bystandersPileGUID)
@@ -2867,8 +2874,58 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Fear Itself" then
-        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
-        return nil
+        if twistsresolved < 8 then
+            local extrahq = callGUID("extrahq",2)
+            local newhq = merge(table.clone(hqguids),extrahq)
+            local candidate = {}
+            for i,o in ipairs(newhq) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    table.insert(candidate,hero)
+                else
+                    printToAll("Missing hero in HQ!!")
+                    return nil
+                end
+            end
+            broadcastToAll("Scheme Twist: KO a hero from the HQ and the fear level goes down by 1, removing one HQ space")
+            local purgeHero = function(obj,index) 
+                koCard(obj)
+                local ishq = false
+                for i,o in pairs(hqguids) do
+                    if o == newhq[index] then
+                        ishq = i
+                    end
+                end
+                if ishq ~= false and #newhq > 5 then
+                    local removezone = table.remove(extrahq)
+                    local pos = getObjectFromGUID(hqguids[ishq]).getPosition()
+                    pos.y = pos.y + 2
+                    getObjectFromGUID(removezone).Call('getHeroUp').setPosition(pos)
+                    getObjectFromGUID(setupGUID).Call('removeExtraFearZone',removezone)
+                    getObjectFromGUID(removezone).destruct()
+                else
+                    if extrahq[1] then
+                        getObjectFromGUID(setupGUID).Call('removeExtraFearZone',newhq[index])
+                        getObjectFromGUID(newhq[index]).destruct()
+                    else
+                        table.remove(hqguids,index)
+                        getObjectFromGUID(newhq[index]).destruct()
+                    end
+                end
+            end
+            promptDiscard(Turns.turn_color,
+                candidate,
+                1,
+                getObjectFromGUID(kopile_guid).getPosition(),
+                nil,
+                "KO",
+                "KO this hero.",
+                purgeHero,
+                "self")
+        else
+            broadcastToAll("Scheme Twist: The Fear level is 0. Evil wins!")
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Ferry Disaster" then
         if twistsresolved == 1 or twistsresolved == 5 then
