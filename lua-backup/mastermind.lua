@@ -146,6 +146,10 @@ function callGUID(var,what)
     end
 end
 
+function updateHQ(guid)
+    hqguids = table.clone(getObjectFromGUID(guid).Call('returnVar',"hqguids"))
+end
+
 function table.clone(org,key)
     if key then
         local new = {}
@@ -1051,6 +1055,121 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateMMHela,1)
         end
     end
+    if objname == "Hydra High Council" then
+        updateMMHydraHigh = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mm = get_decks_and_cards_from_zone(mmLocations[objname])
+            local name = nil
+            if mm[1] and mm[1].tag == "Deck" then
+                name = mm[1].getObjects()[mm[1].getQuantity()].name
+            elseif mm[1] then
+                name = mm[1].getName()
+            end
+            if not name then
+                return nil
+            end
+            if name == "Baron Helmut Zemo" then
+                local color = Turns.turn_color
+                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
+                local savior = 0
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    for _,k in pairs(vpilecontent[1].getObjects()) do
+                        for _,l in pairs(k.tags) do
+                            if l == "Villain" then
+                                savior = savior + 1
+                                break
+                            end
+                        end
+                    end
+                elseif vpilecontent[1] then
+                    if vpilecontent[1].hasTag("Villain") then
+                        savior = 1
+                    end
+                end
+                Wait.time(function() mmButtons(objname,
+                    savior,
+                    "-" .. savior,
+                    "The Baron gets -1 for each villain in your victory pile.",
+                    'updateMMHydraHigh') end,1)
+            elseif name == "Viper" then
+                local shiarfound = 0
+                for i=2,#city_zones_guids do
+                    local citycontent = get_decks_and_cards_from_zone(city_zones_guids[i])
+                    if citycontent[1] then
+                        for _,o in pairs(citycontent) do
+                            if o.getName():upper():find("HYDRA") or (hasTag2(o,"Group:") and hasTag2(o,"Group:"):upper():find("HYDRA")) then
+                                shiarfound = shiarfound + 1
+                                break
+                            end
+                        end
+                    end
+                end
+                Wait.time(function() mmButtons(objname,
+                    shiarfound,
+                    "+" .. shiarfound,
+                    "Viper gets +1 for each HYDRA Villain in the city.",
+                    'updateMMHydraHigh') end,1)
+            elseif name == "Red Skull" then
+                local shiarfound = 0
+                local escapezonecontent = get_decks_and_cards_from_zone(escape_zone_guid)
+                if escapezonecontent[1] and escapezonecontent[1].tag == "Deck" then
+                    for _,o in pairs(escapezonecontent[1].getObjects()) do
+                        if o.name:upper():find("HYDRA") then
+                            shiarfound = shiarfound + 1
+                        elseif next(o.tags) then
+                            for _,tag in pairs(o.tags) do
+                                if tag:upper():find("HYDRA") or tag == "Starter" or tag == "Officer" then
+                                    shiarfound = shiarfound + 1
+                                    break
+                                end
+                            end
+                        end
+                    end
+                elseif escapezonecontent[1] then
+                    if escapezonecontent[1].getName():upper():find("HYDRA") or 
+                        (hasTag2(escapezonecontent[1],"Group:") and hasTag2(escapezonecontent[1],"Group:"):upper():find("HYDRA")) or 
+                        escapezonecontent[1].hasTag("Starter") or 
+                        escapezonecontent[1].hasTag("Officer") then
+                        shiarfound = shiarfound + 1
+                    end
+                end
+                shiarfound = shiarfound/2 - 0.5*(shiarfound % 2)
+                Wait.time(function() mmButtons(objname,
+                    shiarfound,
+                    "+" .. shiarfound,
+                    "Red Skull gets +1 for each two HYDRA levels.",
+                    'updateMMHydraHigh') end,1)
+            elseif name == "Arnim Zola" then
+                local power = 0
+                for _,o in pairs(hqguids) do
+                    local hero = getObjectFromGUID(o).Call('getHeroUp')
+                    if hero then
+                        for _,k in pairs(hero.getTags()) do
+                            if k:find("Attack:") then
+                                power = power + tonumber(k:match("%d+"))
+                            end
+                        end
+                    end
+                end
+                Wait.time(function() mmButtons(objname,
+                    power,
+                    "+" .. power,
+                    "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
+                    'updateMMHydraHigh') end,1)
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMHydraHigh,2)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMHydraHigh,2)
+        end
+        function onPlayerTurn(player,previous_player)
+            updateMMHydraHigh()
+        end
+    end
     if objname == "J. Jonah Jameson" or objname == "J. Jonah Jameson - epic" then
         local soPile = getObjectFromGUID(officerDeckGUID)
         soPile.randomize()
@@ -1931,7 +2050,7 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
 end
 
 function updateLabel(obj,index,label,id,tooltip)
-    if obj[1] then
+    if not obj.locked == nil and obj[1] then
         index = obj[2]
         label = obj[3]
         id = obj[4]
@@ -2118,7 +2237,7 @@ function fightMM(zoneguid,player_clicker_color)
                     bump(content[1])
                 end
                 o.takeObject({position = vppos,
-                    flip = true,
+                    flip = o.is_face_down,
                     smooth = true})
                 return name
             elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then

@@ -350,7 +350,13 @@ function click_shuffle()
     for _,o in pairs(hqguids) do
         getObjectFromGUID(o).Call('click_draw_hero')
     end
-
+    
+    local butt = self.getButtons()
+    for i,o in pairs(butt) do
+        if o.click_function == "click_shuffle" then
+            self.removeButton(i-1)
+        end
+    end
 end
 
 function findObjectsAtPosition(pos,where)
@@ -484,7 +490,7 @@ function import_setup()
     local rand = nil
     local imp = nil
     for i,o in pairs(butt) do
-        if o.click_function == "random_setup" or  o.click_function == "import_setup" then
+        if o.click_function == "random_setup" then
             rand = i-1
         end
         if o.click_function == "import_setup" then
@@ -544,6 +550,7 @@ function import_setup()
                 mm.takeObject().destruct()
                 mm.takeObject().destruct()
             end
+            mmZone.Call('setupMasterminds',obj.getName())
             return mm
         end
         
@@ -1362,17 +1369,9 @@ function schemeSpecials ()
         pos3.x = pos3.x + 4.4
         local zone3 = zone.clone({position = pos3})
         table.insert(extrahq,zone3.guid)
+        getObjectFromGUID(pushvillainsguid).Call('fetchHQ',self.guid)
+        getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
         print("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
-        
-        removeExtraFearZone = function(guid)
-            for i,o in pairs(extrahq) do
-                if o == guid then
-                    table.remove(extrahq,i)
-                    --log(extrahq)
-                    break
-                end
-            end
-        end
     end
     if setupParts[1] == "Ferry Disaster" then
         getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID(topBoardGUIDs[7]).getPosition())

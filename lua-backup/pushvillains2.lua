@@ -120,6 +120,11 @@ function callGUID(var,what)
     end
 end
 
+function fetchHQ(guid)
+    hqguids_ori = table.clone(hqguids)
+    hqguids = merge(hqguids,callGUID("extrahq",2))
+end
+
 -- tables always refer to the same object in memory
 -- this function allows to replicate them
 function table.clone(org,key)
@@ -154,6 +159,10 @@ function merge(t1, t2)
       table.insert(t1, v)
    end
    return t1
+end
+
+function returnVar(var)
+    return _G[var]
 end
 
 function click_rescue_bystander(obj, player_clicker_color) 
@@ -430,6 +439,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                 zPos})
         end
     end
+    Wait.time(updatePower,1.5)
 end
 
 function click_draw_villain(obj)
@@ -761,14 +771,14 @@ function checkCityContent()
 end
 
 function updatePower()
-    for _,o in pairs(city_zones_guids) do
+    for i,o in pairs(city_zones_guids) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for _,object in pairs(cityobjects) do
             if object.getButtons() then
                 local index = nil
-                for i,b in pairs(object.getButtons()) do
+                for i2,b in pairs(object.getButtons()) do
                     if b.click_function == "updatePower" then
-                        index = i
+                        index = i2
                         break
                     end
                 end
@@ -828,22 +838,22 @@ function updatePower()
                                 ["HC:Silver"]=false
                         }
                         if evolutionPileSize > 1 then
-                            for i,o in pairs(evolutionPile[1].getObjects()) do
-                                for _,k in pairs(o.tags) do
+                            for _,o2 in pairs(evolutionPile[1].getObjects()) do
+                                for _,k in pairs(o2.tags) do
                                     if k:find("HC:") then
                                         evolutionColors[k] = true
                                     end
                                 end
                             end
                         else
-                            for i,o in pairs(evolutionPile[1].getTags()) do
-                                if o:find("HC:") then
-                                    evolutionColors[o] = true
+                            for _,o2 in pairs(evolutionPile[1].getTags()) do
+                                if o2:find("HC:") then
+                                    evolutionColors[o2] = true
                                 end
                             end
                         end
-                        for i,o in pairs(hqguids) do
-                            local herocard = getObjectFromGUID(o).Call('getHeroUp')
+                        for i2,o2 in pairs(hqguids) do
+                            local herocard = getObjectFromGUID(o2).Call('getHeroUp')
                             if herocard then
                                 for _,tag in pairs(herocard.getTags()) do
                                     if tag:find("HC:") then
@@ -854,7 +864,7 @@ function updatePower()
                                     end
                                 end
                             else
-                                broadcastToAll("Hero in hq space " .. i .. " is missing?")
+                                broadcastToAll("Hero in hq space " .. i2 .. " is missing?")
                             end
                         end
                         object.editButton({index = index-1,label=ultronpower})
@@ -2875,10 +2885,8 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Fear Itself" then
         if twistsresolved < 8 then
-            local extrahq = callGUID("extrahq",2)
-            local newhq = merge(table.clone(hqguids),extrahq)
             local candidate = {}
-            for i,o in ipairs(newhq) do
+            for i,o in ipairs(hqguids) do
                 local hero = getObjectFromGUID(o).Call('getHeroUp')
                 if hero then
                     table.insert(candidate,hero)
@@ -2891,27 +2899,22 @@ function twistSpecials(cards,city,schemeParts)
             local purgeHero = function(obj,index) 
                 koCard(obj)
                 local ishq = false
-                for i,o in pairs(hqguids) do
-                    if o == newhq[index] then
+                for i,o in pairs(hqguids_ori) do
+                    if o == hqguids[index] then
                         ishq = i
                     end
                 end
-                if ishq ~= false and #newhq > 5 then
-                    local removezone = table.remove(extrahq)
-                    local pos = getObjectFromGUID(hqguids[ishq]).getPosition()
+                if ishq ~= false and #hqguids > 5 then
+                    local removezone = table.remove(hqguids)
+                    local pos = getObjectFromGUID(hqguids_ori[ishq]).getPosition()
                     pos.y = pos.y + 2
                     getObjectFromGUID(removezone).Call('getHeroUp').setPosition(pos)
-                    getObjectFromGUID(setupGUID).Call('removeExtraFearZone',removezone)
                     getObjectFromGUID(removezone).destruct()
                 else
-                    if extrahq[1] then
-                        getObjectFromGUID(setupGUID).Call('removeExtraFearZone',newhq[index])
-                        getObjectFromGUID(newhq[index]).destruct()
-                    else
-                        table.remove(hqguids,index)
-                        getObjectFromGUID(newhq[index]).destruct()
-                    end
+                    getObjectFromGUID(hqguids[index]).destruct()
+                    table.remove(hqguids,index)
                 end
+                getObjectFromGUID(mmZoneGUID).Call('updateHQ',self.guid)
             end
             promptDiscard(Turns.turn_color,
                 candidate,
