@@ -219,6 +219,27 @@ function table.clone(org,key)
     end
 end
 
+function hasTag2(obj,tag,index)
+    if not obj or not tag then
+        return nil
+    end
+    for _,o in pairs(obj.getTags()) do
+        if o:find(tag) then
+            if index then
+                return o:sub(index,-1)
+            else 
+                local res = tonumber(o:match("%d+"))
+                if res then
+                    return res
+                else
+                    return o:sub(#tag+1,-1)
+                end
+            end
+        end
+    end
+    return nil
+end
+
 function toggle_autoplay()
     local butt = self.getButtons()
     for _,o in pairs(butt) do
@@ -1900,8 +1921,51 @@ function resolveHorror(obj)
         return nil
     end
     if obj.getName() == "Growing Threat" then
-        broadcastToAll("The Horror! The mastermind gets +1 for each tactic in all victory piles. Unscripted!")
-        --requires stacking of bonuses
+        broadcastToAll("The Horror! The mastermind gets +1 for each tactic in all victory piles.")
+        function growingThreat()
+            local tacticsfound = 0
+            for _,o in pairs(Player.getPlayers()) do
+                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    for _,o in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k:find("Tactic:") then
+                                tacticsfound = tacticsfound + 1
+                                break
+                            end
+                        end
+                    end
+                elseif vpilecontent[1] and hasTag2(vpilecontent[1],"Tactic:") then
+                    tacticsfound = tacticsfound + 1
+                end
+            end
+            local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+            local mmname = nil
+            for i,o in pairs(mmLocations) do
+                if o == mmZoneGUID then
+                    mmname = i
+                    break
+                end
+            end
+            if mmname then
+                Wait.time(
+                    function() 
+                    getObjectFromGUID(mmZoneGUID).Call('mmButtons',
+                        {mmname,tacticsfound,"+" .. tacticsfound,"The mastermind gets +1 for each tactic in all victory piles.","mm","growingthreat"})
+                    end,
+                    1)
+            end
+        end
+        function onObjectEnterZone(zone,object)
+            if hasTag2(object,"Tactic:") then
+                growingThreat()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if hasTag2(object,"Tactic:") then
+                growingThreat()
+            end
+        end
         return nil
     end
     if obj.getName() == "Legions Upon Legions" then

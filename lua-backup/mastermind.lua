@@ -685,17 +685,6 @@ function setupMasterminds(objname,epicness,lurking)
         if not mmActive(objname) then
             return nil
         end
-        local mmzone = getObjectFromGUID(mmLocations[objname])
-        mmzone.createButton({click_function='returnColor',
-            function_owner=self,
-            position={0,0,0},
-            rotation={0,180,0},
-            label="+9",
-            tooltip="The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
-            font_size=500,
-            font_color={1,0,0},
-            color={0,0,0,0.75},
-            width=250,height=250})
         updateMMBaronHein = function()
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
@@ -714,11 +703,12 @@ function setupMasterminds(objname,epicness,lurking)
                 end
             end
             Wait.time(function() mmButtons(objname,
-                math.max(savior-2,0),
+                math.max(2-savior,0),
                 "+9",
                 "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
                 'updateMMBaronHein') end,1)
         end
+        updateMMBaronHein()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Bystander") then
                 Wait.time(updateMMBaronHein,2)
@@ -1988,6 +1978,10 @@ function setupMasterminds(objname,epicness,lurking)
             Wait.time(updateMMWastelandHulk,1)
         end
     end
+end
+
+function updatePower()
+    getObjectFromGUID(pushvillainsguid).Call('updatePower')
 end
 
 function mmButtons(objname,checkvalue,label,tooltip,f,id)
