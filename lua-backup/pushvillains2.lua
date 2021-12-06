@@ -6663,9 +6663,28 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Evil Deadpool" then
+        evilDeadpoolStrike = {}
+        evilDeadpoolCounter = 0
+        evilDeadpoolValue = 20
+        broadcastToAll("Master Strike: Each player simultaneously discards a card. Whoever discards the lowest-costing card (or tied for lowest) gains a Wound.")
         for _,o in pairs(Player.getPlayers()) do
-            promptDiscard(o.color)
-            broadcastToAll("Master Strike: Each player simultaneously discards a card. Whoever discards the lowest-costing card (or tied for lowest) gains a Wound (manually).")
+            function evildeadpool(card,index,color)
+                evilDeadpoolStrike[color] = hasTag2(card,"Cost:") or 0
+                evilDeadpoolCounter = evilDeadpoolCounter + 1
+                evilDeadpoolValue = math.min(evilDeadpoolValue,evilDeadpoolStrike[color])
+                if evilDeadpoolCounter == #Player.getPlayers() then
+                    for i,p in pairs(evilDeadpoolStrike) do
+                        if p == evilDeadpoolValue then
+                            click_get_wound(nil,i)
+                        end
+                    end
+                end
+            end
+            if #o.getHandObjects() == 0 then
+                evilDeadpoolCounter = evilDeadpoolCounter +1
+            else
+                promptDiscard(o.color,nil,nil,nil,nil,nil,nil,evildeadpool,"self")
+            end
         end
         return strikesresolved
     end
@@ -7727,13 +7746,123 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Nimrod, Super Sentinel" then
-        -- local players = revealCardTrait("Silver")
-        -- for _,o in pairs(players) do
-            -- --make offercards function for generic choices (not reliant on cards)
-        -- end
-        -- return strikesresolved
-        msno(mmname)
-        return nil
+        local players = revealCardTrait("Silver")
+        broadcastToAll("Master Strike: Each player with no silver hero discards all hero cards with a Recruit or all cards with an Attack symbol.")
+        for _,p in pairs(players) do
+            local playerboard = getObjectFromGUID(playerBoards[p.color])
+            _G["nimrodDiscardRecruit" .. p.color] = function(obj)
+                local butt = obj.getButtons()
+                for i,o in pairs(butt) do
+                    if o.click_function:find("nimrodDiscard") then
+                        obj.removeButton(i-1)
+                    end
+                end
+                for i,o in pairs(playerBoards) do
+                    if o == obj.guid then
+                        local hand = Player[i].getHandObjects()
+                        for _,card in pairs(hand) do
+                            if hasTag2(card,"Recruit:") then
+                                card.setPosition(getObjectFromGUID(o).positionToWorld(pos_discard))
+                            end
+                        end
+                        break
+                    end
+                end
+            end
+            _G["nimrodDiscardAttack" .. p.color] = function(obj)
+                local butt = obj.getButtons()
+                for i,o in pairs(butt) do
+                    if o.click_function:find("nimrodDiscard") then
+                        obj.removeButton(i-1)
+                    end
+                end
+                for i,o in pairs(playerBoards) do
+                    if o == obj.guid then
+                        local hand = Player[i].getHandObjects()
+                        for _,card in pairs(hand) do
+                            if hasTag2(card,"Attack:") then
+                                card.setPosition(getObjectFromGUID(o).positionToWorld(pos_discard))
+                            end
+                        end
+                        break
+                    end
+                end
+            end
+            playerboard.createButton({click_function="nimrodDiscardRecruit" .. p.color,
+                function_owner=self,
+                position={0,3,5},
+                label="Recruit",
+                tooltip="Discard all cards with a Recruit symbol.",
+                font_size=250,
+                font_color="Black",
+                color={1,1,0},
+                width=750,height=450})
+            playerboard.createButton({click_function="nimrodDiscardAttack" .. p.color,
+                function_owner=self,
+                position={0,3,6},
+                label="Attack",
+                tooltip="Discard all cards with an Attack symbol.",
+                font_size=250,
+                font_color="Black",
+                color={1,0,0},
+                width=750,height=450})
+        end
+        return strikesresolved
+    end
+    if mmname == "Odin" then
+        local emptycity = table.clone(city)
+        local iter = 0
+        for i,o in ipairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Villain") then
+                        table.remove(emptycity,i-iter)
+                        iter = iter + 1
+                        break
+                    end
+                end
+            end
+        end
+        if emptycity[1] then
+            for _,o in pairs(Player.getPlayers()) do
+                if not emptycity[1] then
+                    click_get_wound(nil,o.color)
+                else
+                    local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        local spiderinfound = false
+                        for _,obj in pairs(vpilecontent[1].getObjects()) do
+                            if obj.name == "Asgardian Warriors" then
+                                local pos = getObjectFromGUID(table.remove(emptycity,1)).getPosition()
+                                vpilecontent[1].takeObject({position = pos,
+                                    guid = obj.guid,
+                                    smooth = true})
+                                spiderinfound = true
+                                broadcastToColor("Master Strike: Asgardian Warriors henchmen added to first empty city space. You may move it to another empty one.",o.color,o.color)
+                                break
+                            end
+                        end
+                        if spiderinfound == false then
+                            click_get_wound(nil,o.color)
+                        end
+                    elseif vpilecontent[1] then
+                        if vpilecontent[1].getName() == "Asgardian Warriors" then
+                            local pos = getObjectFromGUID(table.remove(emptycity,1)).getPosition()
+                            vpilecontent[1].setPositionSmooth(pos)
+                            broadcastToColor("Master Strike: Asgardian Warriors henchmen added to first empty city space. You may move it to another empty one.",o.color,o.color)
+                        else
+                            click_get_wound(nil,o.color)
+                        end
+                    else
+                        click_get_wound(nil,o.color)
+                    end
+                end
+            end
+        else
+            dealWounds()
+        end
+        return strikesresolved
     end
     if mmname == "Onslaught" then
         local dominated = get_decks_and_cards_from_zone(getStrikeloc(mmname))

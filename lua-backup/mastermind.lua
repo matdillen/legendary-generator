@@ -664,6 +664,45 @@ function setupMasterminds(objname,epicness,lurking)
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
     end
+    if objname == "Annihilus" or objname == "Annihilus - epic" then
+        annihilusmomentumcounter = 0
+        annihilusmomentumboost = 2
+        annihilusmomentumvillains = {}
+        if epicness then
+            annihilusmomentumboost = 4
+        end
+        updateMMAnnihilus = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            mmButtons(objname,
+                annihilusmomentumcounter,
+                "+" .. annihilusmomentumcounter,
+                "Annihilus has Mass Momentum and gets +" .. annihilusmomentumboost .. " for each villain that entered a new city space this turn.",
+                'updateMMAnnihilus')
+        end
+        function onObjectEnterZone(zone,object)
+            if object.hasTag("Villain") then
+                for _,o in pairs(annihilusmomentumvillains) do
+                    if o == object.guid then
+                        return nil
+                    end
+                end
+                for i,o in ipairs(city_zones_guids) do
+                    if i > 1 and zone.guid == o then
+                        table.insert(annihilusmomentumvillains,object.guid)
+                        annihilusmomentumcounter = annihilusmomentumcounter + annihilusmomentumboost
+                    end
+                end
+                updateMMAnnihilus()
+            end
+        end
+        function onPlayerTurn(player,previous_player)
+            annihilusmomentumcounter = 0
+            annihilusmomentumvillains = {}
+            updateMMAnnihilus()
+        end
+    end
     if objname == "Arcade" or objname == "Arcade - epic" then
         local arc = 5
         if epicness == true then
@@ -682,10 +721,10 @@ function setupMasterminds(objname,epicness,lurking)
         end
     end
     if objname == "Baron Heinrich Zemo" then
-        if not mmActive(objname) then
-            return nil
-        end
         updateMMBaronHein = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
             local savior = 0
@@ -1557,6 +1596,48 @@ function setupMasterminds(objname,epicness,lurking)
         end
         function onObjectLeaveZone(zone,object)
             updateMMMrSinister()
+        end
+    end
+    if objname == "Odin" then
+        updateMMOdin = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local shiarfound = 0
+            for i=2,#city_zones_guids do
+                local citycontent = get_decks_and_cards_from_zone(city_zones_guids[i])
+                if citycontent[1] then
+                    for _,o in pairs(citycontent) do
+                        if o.getName():find("Asgardian Warriors") then
+                            shiarfound = shiarfound + 1
+                            break
+                        end
+                    end
+                end
+            end
+            local escapezonecontent = get_decks_and_cards_from_zone(escape_zone_guid)
+            if escapezonecontent[1] and escapezonecontent[1].tag == "Deck" then
+                for _,o in pairs(escapezonecontent[1].getObjects()) do
+                    if o.name == "Asgardian Warriors" then
+                        shiarfound = shiarfound + 1
+                    end
+                end
+            elseif escapezonecontent[1] then
+                if escapezonecontent[1].getName() == "Asgardian Warriors" then
+                    shiarfound = shiarfound + 1
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                shiarfound,
+                "+" .. shiarfound,
+                "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
+                'updateMMOdin') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMOdin,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMOdin,1)
         end
     end
     if objname == "Onslaught" or objname == "Onslaught - epic" then

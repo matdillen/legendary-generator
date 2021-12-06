@@ -415,7 +415,8 @@ function reduceStack(count,stackGUID)
     local stackCount = #stackObjects
     while stackCount > count do
         stack.takeObject({
-            position = outOfGameZone.getPosition()
+            position = outOfGameZone.getPosition(),
+            smooth = false
         })
         stackObjects = stack.getObjects()
         stackCount = #stackObjects
