@@ -6659,8 +6659,23 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Emperor Vulcan of the Shi'ar" then
-        msno(mmname)
-        return nil
+        local thronesfavor = callGUID("thronesfavor",1)
+        if epicness then
+            broadcastToAll("Master Strike: Each player without the Throne's Favor gains a wound to the top of their deck.")
+        else
+            broadcastToAll("Master Strike: Each player without the Throne's Favor gains a wound.")
+        end
+        for _,o in pairs(Player.getPlayers()) do
+            if o.color ~= thronesfavor then
+                if epicness then
+                    click_get_wound(nil,o.color,nil,true)
+                else
+                    click_get_wound(nil,o.color)
+                end
+            end
+        end
+        getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar",true})
+        return strikesresolved
     end
     if mmname == "Evil Deadpool" then
         evilDeadpoolStrike = {}

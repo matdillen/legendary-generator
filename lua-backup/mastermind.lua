@@ -51,6 +51,7 @@ function onLoad()
     
     masterminds = {}
     transformed = {}
+    mmLocations = {}
 end
 
 function returnVar(var)
@@ -969,6 +970,30 @@ function setupMasterminds(objname,epicness,lurking)
         end
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMEmma,1)
+        end
+    end
+    if objname == "Emperor Vulcan of the Shi'ar" or objname == "Emperor Vulcan of the Shi'ar  - epic" then
+        updateMMEmperorVulcan = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local thronesfavor = callGUID("thronesfavor",1)
+            local power = 0
+            if thronesfavor == "mmEmperor Vulcan of the Shi'ar" then
+                power = 3
+                if epicness then
+                    power = 5
+                end
+            end
+            mmButtons(objname,
+                power,
+                "+" .. power,
+                "Emperor Vulcan gets +" .. power .. " if he has the Throne's Favor.",
+                'updateMMEmperorVulcan')
+        end
+        if epicness then
+            getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar"})
+            updateMMEmperorVulcan()
         end
     end
     if objname == "Evil Deadpool" then

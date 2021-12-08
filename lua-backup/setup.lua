@@ -8,6 +8,7 @@ function onLoad()
     finalblow = true
     finalblowfixed = false
     Turns.enable = true
+    thronesfavor = "none"
 end
 
 function loadGUIDs()
@@ -182,16 +183,23 @@ function createButtons()
     
     self.createButton({
         click_function="toggle_autoplay", function_owner=self,
-        position={-60,0.1,16}, height=125,
+        position={-60,0.1,16},
         width=1500, height=500, label="Autoplay from villain deck", tooltip="Set autoplay from villain deck when player draws new hand!", 
         color={0,1,0}
     })
     
     self.createButton({
         click_function="toggle_finalblow", function_owner=self,
-        position={-60,0.1,15}, height=125,
+        position={-60,0.1,15},
         width=1500, height=500, label="Final Blow", tooltip="Final Blow enabled", 
         color={0,1,0}
+    })
+    
+    self.createButton({
+        click_function="thrones_favor", function_owner=self,
+        position={-60,0.1,14},
+        width=750, height=500, label="Throne's Favor", tooltip="Gain the Throne's Favor.", 
+        color={0.62,0.16,0.16}
     })
     
     -- create text input to paste setup parameters
@@ -278,6 +286,85 @@ function toggle_finalblow()
         self.editButton({index=buttonindex,color = {1,0,0},
             tooltip="Final Blow disabled"})
         broadcastToAll("Final blow disabled.")
+    end
+end
+
+function thrones_favor(obj,player_clicker_color,notspend)
+    if obj.locked == nil and obj[1] then
+        player_clicker_color = obj[2]
+        notspend = obj[3]
+        obj = obj[1]
+    end
+    if obj == "any" then
+        if thronesfavor == "none" then
+            obj = self
+        elseif thronesfavor:find("mm") then
+            local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+            obj = getObjectFromGUID(mmLocations[thronesfavor:gsub("mm","")])
+        else
+            obj = getObjectFromGUID(playerBoards[thronesfavor])
+        end
+    end
+    local color = nil
+    for i,o in pairs(playerBoards) do
+        if o == obj.guid then
+            color = i
+            break
+        end
+    end
+    local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+    for i,o in pairs(mmLocations) do
+        if o == obj.guid then
+            color = "mm" .. i
+            break
+        end
+    end
+    if notspend and (color:find("mm") and player_clicker_color == color) then
+        return nil
+    end
+    local butt = obj.getButtons()
+    for i,o in pairs(butt) do
+        if o.click_function == "thrones_favor" then
+            obj.removeButton(i-1)
+            break
+        end
+    end
+    if color and (player_clicker_color == color or (color:find("mm") and player_clicker_color == color)) then
+        self.createButton({
+            click_function="thrones_favor", function_owner=self,
+            position={-60,0.1,14},
+            width=750, height=500, label="Throne's Favor", tooltip="Gain the Throne's Favor.", 
+            color={0.62,0.16,0.16}
+        })
+        thronesfavor = "none"
+        if color:find("Emperor Vulcan of the Shi'ar") then
+            getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+        end
+        return nil
+    end
+    if player_clicker_color:find("mm") then
+        getObjectFromGUID(mmLocations[player_clicker_color:gsub("mm","")]).createButton({
+            click_function="thrones_favor", function_owner=self,
+            position={0.5,0,1},
+            rotation = {0,180,0},
+            width=250, height=170, label="TF", tooltip="Gain the Throne's Favor.", 
+            color={0.62,0.16,0.16}
+        })
+        if player_clicker_color:find("Emperor Vulcan of the Shi'ar") then
+            getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+        end
+        thronesfavor = player_clicker_color
+    elseif player_clicker_color then
+        getObjectFromGUID(playerBoards[player_clicker_color]).createButton({
+            click_function="thrones_favor", function_owner=self,
+            position={-2,0.178,2.1},
+            width=750, height=500, label="Throne's Favor", tooltip="Gain or spend the Throne's Favor.", 
+            color={0.62,0.16,0.16}
+        })
+        thronesfavor = player_clicker_color
+        if color and color:find("Emperor Vulcan of the Shi'ar") then
+            getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+        end
     end
 end
 
