@@ -1411,10 +1411,27 @@ function setupMasterminds(objname,epicness,lurking)
         end
     end
     if objname == "Mandarin" or objname == "Mandarin - epic" then
-        if not mmActive(objname) then
-            return nil
+        local boost = "+1"
+        if epicness then
+            boost = "+2"
+        end
+        for i,o in pairs(city_zones_guids) do
+            if i ~= 1 then
+                local content = get_decks_and_cards_from_zone(o)
+                if content[1] then
+                    for _,obj in pairs(content) do
+                        if obj.hasTag("Group:Mandarin's Rings") then
+                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,boost,"Bonus of the Mandarin","mandarin"})
+                            break
+                        end
+                    end
+                end
+            end
         end
         updateMMMandarin = function()
+            if not mmActive(objname) then
+                return nil
+            end
             local tacticsfound = 0
             for _,o in pairs(Player.getPlayers()) do
                 local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
@@ -1478,6 +1495,40 @@ function setupMasterminds(objname,epicness,lurking)
         end
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMMaria,1)
+        end
+    end
+    if objname == "Maximus the Mad" or objname == "Maximus the Mad - epic" then
+        updateMMMaximus = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local power = 0
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    for _,k in pairs(hero.getTags()) do
+                        if k:find("Attack:") then
+                            power = math.max(power,tonumber(k:match("%d+")))
+                        end
+                    end
+                end
+            end
+            local boost = ""
+            if epicness then
+                power = power*2
+                boost = " twice "
+            end
+            Wait.time(function() mmButtons(objname,
+                power,
+                "+" .. power,
+                "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
+                'updateMMMaximus') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMMaximus,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMMaximus,1)
         end
     end
     if objname == "Misty Knight" then
@@ -2100,6 +2151,9 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
         objname = objname[1]
     end
     local mmzone = getObjectFromGUID(mmLocations[objname])
+    if not mmzone then
+        return nil
+    end
     local buttonindex = nil
     local toolt_orig = nil
     if not id then
@@ -2150,13 +2204,15 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
 end
 
 function updateLabel(obj,index,label,id,tooltip)
-    if not obj.locked == nil and obj[1] then
+    if obj.locked == nil and obj[1] then
         index = obj[2]
         label = obj[3]
         id = obj[4]
         tooltip = obj[5]
         obj = obj[1]
     end
+    --log(obj)
+    --log(index)
     local button = obj.getButtons()[index]
     local bonuses = {}
     local step = 1
@@ -2271,6 +2327,20 @@ function fightButton(zone)
                             getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
                         end
                         broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
+                    elseif name == "Mandarin" then
+                        for i,o in pairs(city_zones_guids) do
+                            if i ~= 1 then
+                                local content = get_decks_and_cards_from_zone(o)
+                                if content[1] then
+                                    for _,c in pairs(content) do
+                                        if c.hasTag("Group:Mandarin's Rings") then
+                                            getObjectFromGUID(pushvillainsguid).Call('killBonus',{c,"mandarin"})
+                                            break
+                                        end
+                                    end
+                                end
+                            end
+                        end 
                     end
                     if callGUID("setupParts",2)[1] == "World War Hulk" then
                         getObjectFromGUID(pushvillainsguid).Call('addNewLurkingMM') 
@@ -2413,4 +2483,115 @@ function getNextMMLoc()
     end
     broadcastToAll("No location found for an extra mastermind.")
     return nil
+end
+
+function resolveTactics(mmname,tacticname,color)
+    if mmname[1] then
+        tacticname = mmname[2]
+        color = mmname[3]
+        mmname = mmname[1]
+    end
+    if mmname == "Maximus the Mad" then
+        if tacticname == "Seize the inhuman throne" then
+            local thronesfavor = callGUID("thronesfavor",1)
+            local val = 4
+            if thronesfavor == "mmMaximus the Mad" then
+                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","none"})
+                val = 3
+            else
+                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
+            end
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                promptDiscard(o.color,hand,#hand-val)
+            end
+        elseif tacticname == "Terrigen bomb" then
+            bump(get_decks_and_cards_from_zone(heroDeckZoneGUID)[1])
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
+                    hero.setPosition(getObjectFromGUID(heroDeckZoneGUID).getPosition())
+                    getObjectFromGUID(o).Call('click_draw_hero')
+                end
+            end
+            local thronesfavor = callGUID("thronesfavor",1)
+            if thronesfavor == "mmMaximus the Mad" then
+                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","none"})
+                for _,o in pairs(Player.getPlayers()) do
+                    local hand = o.getHandObjects()
+                    local handi = table.clone(hand)
+                    local iter = 0
+                    for i,obj in ipairs(handi) do
+                        if not hasTag2(obj,"Attack:") or not hasTag2(obj,"HC:") then
+                            table.remove(hand,i-iter)
+                            iter = iter + 1
+                        end
+                    end
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card")
+                end
+            else
+                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
+            end
+        elseif tacticname == "Echo-tech chorus sentries" then
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                local handi = table.clone(hand)
+                local iter = 0
+                for i,obj in ipairs(handi) do
+                    if (not hasTag2(obj,"HC:") or hasTag2(obj,"HC:") ~= "Silver") and (not hasTag2(obj,"Team:") or hasTag2(obj,"Team:") ~= "Inhumans") then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                end
+                if #hand == 0 then
+                    click_get_wound(nil,o.color)
+                else
+                    promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card")
+                end
+            end
+        elseif tacticname == "Sieve of secrets" then
+            for _,o in pairs(Player.getPlayers()) do
+                local playerBoard = getObjectFromGUID(playerBoards[o.color])
+                local posdiscard = playerBoard.positionToWorld(pos_discard)
+                local deck = playerBoard.Call('returnDeck')[1]
+                local hoodDiscards = function()
+                    if not deck then
+                        deck = playerBoard.Call('returnDeck')[1]
+                    end
+                    local deckcards = deck.getObjects()
+                    local todiscard = {}
+                    for i=1,6 do
+                        for _,k in pairs(deckcards[i].tags) do
+                            if k:find("HC:") then
+                                table.insert(todiscard,deckcards[i].guid)
+                                break
+                            end
+                        end
+                    end
+                    if todiscard[1] then
+                        for i=1,#todiscard do
+                            deck.takeObject({position = posdiscard,
+                                flip = true,
+                                smooth = true,
+                                guid = todiscard[i]})
+                            if deck.remainder and i < #todiscard then
+                                deck.remainder.flip()
+                                deck.remainder.setPositionSmooth(posdiscard)
+                            end
+                        end
+                    end
+                end
+                if deck and deck.getQuantity() > 5 then
+                    hoodDiscards()
+                else
+                    playerBoard.Call('click_refillDeck')
+                    deck = nil
+                    Wait.time(hoodDiscards,2)
+                end
+           end
+        else
+            printToAll("Unknown tactic found? (" .. tacticname[1] .. ").")
+        end
+        return nil
+    end
 end

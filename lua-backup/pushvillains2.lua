@@ -968,6 +968,34 @@ function powerButton(obj,label,toolt,id,click_f,otherposition)
     end
 end
 
+function killBonus(obj,id,click_f)
+    if obj.locked == nil and obj[1] then
+        id = obj[2]
+        click_f = obj[3]
+        obj = obj[1]
+    end
+    if not click_f then
+        click_f = "updatePower"
+    end
+    --log(obj)
+    if obj.getButtons() then
+        for i,o in pairs(obj.getButtons()) do
+            if o.click_function == click_f then
+                if o.tooltip:find("%[" .. id .. ":") then
+                    local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',{obj,i,0,id,o.tooltip:gsub("\n.+%[" .. id .. ":.+\n","\n")})
+                    if lab == 0 then
+                        lab = ""
+                    end
+                    obj.editButton({index = i - 1,
+                        label = lab,
+                        tooltip = tool})
+                end
+                break
+            end
+        end
+    end
+end
+
 function cityLowTides()
     table.insert(current_city,"d30aa1")
     table.insert(current_city,"bd3ef1")
@@ -5694,6 +5722,83 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "War of Kings" then
+        stackTwist(cards[1])
+        broadcastToAll("Scheme Twist: Pay the battlefront tax or lose a battle.")
+        local payBattlefront = function(obj,player_clicker_color)
+            local butt = obj.getButtons()
+            for i,o in pairs(butt) do
+                if o.click_function == "payBattlefront" then
+                    obj.removeButton(i-1)
+                    break
+                end
+            end
+            getObjectFromGUID(setupGUID).Call('thrones_favor',{"any",player_clicker_color,true})
+            broadcastToAll("Battlefront tax paid. You may KO one of your heroes!")
+        end
+        getObjectFromGUID(schemeZoneGUID).createButton({click_function="payBattlefront",
+            function_owner=self,
+            position={0,0,0},
+            rotation={0,180,0},
+            label="Pay " .. twistsstacked .. "*",
+            tooltip="Pay 1 Recruit for each stacked twist.",
+            font_size=100,
+            font_color="Black",
+            color="Yellow",
+            width=1500,height=50})
+        local pcolor = Turns.turn_color
+        local turnChanged = function()
+            if Turns.turn_color == pcolor then
+                return false
+            else
+                return true
+            end
+        end
+        local victoriousGeneral = function()
+            local butt = getObjectFromGUID(schemeZoneGUID).getButtons()
+            local paid = true
+            for i,o in pairs(butt) do
+                if o.click_function == "payBattlefront" then
+                    obj.removeButton(i-1)
+                    pay = false
+                    break
+                end
+            end
+            if paid == true then
+                return nil
+            end
+            getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                flip = true,
+                smooth = false})
+            local thronesfavor = callGUID("thronesfavor",1)
+            if thronesfavor:find("mm") then
+                click_get_wound(nil,pcolor)
+                broadcastToAll("Victorious General! The mastermind had the Throne's Favor so player " .. pcolor .. " got a wound!")
+            else
+                local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+                local mm = nil
+                for i,o in pairs(mmLocations) do
+                    if o == mmZoneGUID then
+                        mm = i
+                        break
+                    end
+                end
+                if mm then
+                    getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mm" .. mm})
+                     broadcastToAll("Victorious General! The mastermind gains the Throne's Favor!")
+                else
+                    for i,o in pairs(mmLocations) do
+                        mm = i
+                        break
+                    end
+                    getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mm" .. mm})
+                    broadcastToAll("Victorious General! Another remaining mastermind gains the Throne's Favor!")
+                end
+            end
+        end
+        Wait.condition(victoriousGeneral,turnChanged)
+        return nil
+    end
     if schemeParts[1] == "War of the Frost Giants" then
         cards[1].setName("Frost Giant Invader")
         cards[1].addTag("VP6")
@@ -7418,7 +7523,7 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
-    if mmname == "Malekith the Accursed" or mmname == "Maximus the Mad" then
+    if mmname == "Malekith the Accursed" then
         msno(mmname)
         return nil
     end
@@ -7493,6 +7598,73 @@ function resolveStrike(mmname,epicness,city,cards)
         local players = revealCardTrait("Silver")
         for _,o in pairs(players) do
             click_get_wound(nil,o.color)
+        end
+        return strikesresolved
+    end
+    if mmname == "Maximus the Mad" then
+        local content = get_decks_and_cards_from_zone(mmLocations["Maximus the Mad"],true,false)
+        local tacticname = {}
+        if content[1] and content[2] then
+            for i,o in pairs(content) do
+                if o.tag == "Deck" then
+                    local deck = o.getObjects()
+                    local card = table.remove(deck,math.random(#deck))
+                    table.insert(tacticname,card.name)
+                    if epicness then
+                        local card2 = table.remove(deck,math.random(#deck))
+                        table.insert(tacticname,card2.name)
+                    end
+                    break
+                elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
+                    table.insert(tacticname,o.getName())
+                    break
+                end
+            end
+        elseif content[1] then
+            if content[1].tag == "Deck" then
+                local deck = content[1].getObjects()
+                for i,o in pairs(deck) do
+                    local tacticFound = false
+                    for _,k in pairs(o.tags) do
+                        if k:find("Tactic:") then
+                            tacticFound = true
+                            break
+                        end
+                    end
+                    if tacticFound == false then
+                        table.remove(deck,i)
+                        break
+                    end
+                end
+                local card = table.remove(deck,math.random(#deck))
+                table.insert(tacticname,card.name)
+                if epicness then
+                    local card2 = table.remove(deck,math.random(#deck))
+                    table.insert(tacticname,card2.name)
+                end
+            end
+        end
+        if tacticname[1] then
+            printToAll("Master Strike: Random tactic \"" .. tacticname[1] .. "\" was revealed")
+            getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[1]})
+            if epicness and tacticname[2] then
+                printToAll("Master Strike: Random tactic \"" .. tacticname[2] .. "\" was also revealed")
+                local epicMaxTactic = function(obj)
+                    obj.clearButtons()
+                    koCard(obj)
+                    getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[2]})
+                end
+                getObjectFromGUID(cards[1]).createButton({click_function="epicMaxTactic",
+                    function_owner=self,
+                    position={0,22,0},
+                    label="Tactic2",
+                    tooltip="Resolve the second tactic's effect",
+                    font_size=500,
+                    font_color={1,0,0},
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+                return nil
+            end
         end
         return strikesresolved
     end
@@ -8952,6 +9124,16 @@ function nonTwistspecials(cards,schemeParts,city)
         end
         if o == "Plots Upon Plots" and cards[1].getName() == "Scheme Twist" then
             playVillains()
+        end
+    end
+    if cards[1].hasTag("Group:Mandarin's Rings") then
+        local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+        for _,o in pairs(masterminds) do
+            if o == "Mandarin" then
+                powerButton(cards[1],"+1","Bonus of the Mandarin","mandarin")
+            elseif o == "Mandarin - epic" then
+                powerButton(cards[1],"+2","Bonus of the Mandarin","mandarin")
+            end
         end
     end
     --resolveVillainEffect(cards,"Ambush")
