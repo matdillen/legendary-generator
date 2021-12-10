@@ -21,6 +21,9 @@ function onLoad()
     pos_add2 = callGUID("pos_add2",2)
     
     sidekickDeckGUID = callGUID("sidekickDeckGUID",1)
+    
+    objectsentering_recruit = {}
+    objectsentering_attack = {}
 end
 
 function colorDummy()
@@ -44,6 +47,90 @@ function callGUID(var,what)
         log("Error, can't fetch guid of object with unknown type.")
         return nil
     end
+end
+
+function onObjectEnterZone(zone,object)
+    --log(object.held_by_color)
+    if zone.guid == playguid and not object.isSmoothMoving() and (not object.held_by_color or object.held_by_color == boardcolor) then
+        if hasTag2(object,"Recruit:") then
+            if not objectsentering_recruit[object.guid] then
+                objectsentering_recruit[object.guid] = true
+                local addRecruit = function()
+                    local content = get_decks_and_cards_from_zone(playguid)
+                    if content[1] then
+                        for _,o in pairs(content) do
+                            if o.guid == object.guid then
+                                local value = getObjectFromGUID(resourceguid).getButtons()[1].label
+                                value = value + hasTag2(object,"Recruit:")
+                                getObjectFromGUID(resourceguid).editButton({index=0,label=value})
+                                log("Player " .. boardcolor .. "'s recruit increased by " .. value .. ".")
+                                objectsentering_recruit[object.guid] = false
+                                break
+                            end
+                        end  
+                    end
+                end
+                local cardLoose = function()
+                    if not object.held_by_color then
+                        return true
+                    else
+                        return false
+                    end
+                end
+                Wait.condition(addRecruit,cardLoose)
+            end
+        end
+        if hasTag2(object,"Attack:") then
+            if not objectsentering_attack[object.guid] then
+                objectsentering_attack[object.guid] = true
+                local addRecruit = function()
+                    local content = get_decks_and_cards_from_zone(playguid)
+                    if content[1] then
+                        for _,o in pairs(content) do
+                            if o.guid == object.guid then
+                                local value = getObjectFromGUID(attackguid).getButtons()[1].label
+                                value = value + hasTag2(object,"Attack:")
+                                getObjectFromGUID(attackguid).editButton({index=0,label=value})
+                                log("Player " .. boardcolor .. "'s attack increased by " .. value .. ".")
+                                objectsentering_attack[object.guid] = false
+                                break
+                            end
+                        end  
+                    end
+                    
+                end
+                local cardLoose = function()
+                    if not object.held_by_color then
+                        return true
+                    else
+                        return false
+                    end
+                end
+                Wait.condition(addRecruit,cardLoose)
+            end
+        end
+    end
+end
+
+function hasTag2(obj,tag,index)
+    if not obj or not tag then
+        return nil
+    end
+    for _,o in pairs(obj.getTags()) do
+        if o:find(tag) then
+            if index then
+                return o:sub(index,-1)
+            else 
+                local res = tonumber(o:match("%d+"))
+                if res then
+                    return res
+                else
+                    return o:sub(#tag+1,-1)
+                end
+            end
+        end
+    end
+    return nil
 end
 
 function table.clone(org,key)

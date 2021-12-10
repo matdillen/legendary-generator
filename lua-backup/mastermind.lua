@@ -21,7 +21,8 @@ function onLoad()
        "topBoardGUIDs",
        "city_zones_guids",
        "hqguids",
-       "pos_vp2"
+       "pos_vp2",
+       "pos_discard"
     }
     
     for _,o in pairs(guids2) do
@@ -34,7 +35,8 @@ function onLoad()
        "escape_zone_guid",
        "officerDeckGUID",
        "strikeZoneGUID",
-       "pushvillainsguid"
+       "pushvillainsguid",
+       "heroDeckZoneGUID"
     }
     
     for _,o in pairs(guids1) do
@@ -665,6 +667,21 @@ function setupMasterminds(objname,epicness,lurking)
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
     end
+    if objname == "Apocalypse" then
+        for i,o in pairs(city_zones_guids) do
+            if i ~= 1 then
+                local content = get_decks_and_cards_from_zone(o)
+                if content[1] then
+                    for _,obj in pairs(content) do
+                        if obj.hasTag("Group:Four Horsemen") then
+                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"+2","Bonus of Apocalypse","apocalypse"})
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    end
     if objname == "Annihilus" or objname == "Annihilus - epic" then
         annihilusmomentumcounter = 0
         annihilusmomentumboost = 2
@@ -719,6 +736,32 @@ function setupMasterminds(objname,epicness,lurking)
             bsPile.takeObject({position=getObjectFromGUID(mmLocations[objname]).getPosition(),
                 flip=false,
                 smooth=false})
+        end
+    end
+    if objname == "Arnim Zola" then
+        updateMMArnimZola = function()
+            local power = 0
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero then
+                    for _,k in pairs(hero.getTags()) do
+                        if k:find("Attack:") then
+                            power = power + tonumber(k:match("%d+"))
+                        end
+                    end
+                end
+            end
+            Wait.time(function() mmButtons(objname,
+                power,
+                "+" .. power,
+                "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
+                'updateMMArnimZola') end,1)
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMArnimZola,1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMArnimZola,1)
         end
     end
     if objname == "Baron Heinrich Zemo" then
@@ -2340,7 +2383,21 @@ function fightButton(zone)
                                     end
                                 end
                             end
-                        end 
+                        end
+                    elseif name == "Apocalypse" then
+                        for i,o in pairs(city_zones_guids) do
+                            if i ~= 1 then
+                                local content = get_decks_and_cards_from_zone(o)
+                                if content[1] then
+                                    for _,c in pairs(content) do
+                                        if c.hasTag("Group:Four Horsemen") then
+                                            getObjectFromGUID(pushvillainsguid).Call('killBonus',{c,"apocalypse"})
+                                            break
+                                        end
+                                    end
+                                end
+                            end
+                        end
                     end
                     if callGUID("setupParts",2)[1] == "World War Hulk" then
                         getObjectFromGUID(pushvillainsguid).Call('addNewLurkingMM') 
@@ -2503,7 +2560,8 @@ function resolveTactics(mmname,tacticname,color)
             end
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
-                promptDiscard(o.color,hand,#hand-val)
+                log(o.color)
+                getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{o.color,hand,#hand-val})
             end
         elseif tacticname == "Terrigen bomb" then
             bump(get_decks_and_cards_from_zone(heroDeckZoneGUID)[1])
@@ -2527,7 +2585,7 @@ function resolveTactics(mmname,tacticname,color)
                             iter = iter + 1
                         end
                     end
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card")
+                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card"})
                 end
             else
                 getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
@@ -2544,9 +2602,9 @@ function resolveTactics(mmname,tacticname,color)
                     end
                 end
                 if #hand == 0 then
-                    click_get_wound(nil,o.color)
+                    getObjectFromGUID(pushvillainsguid).Call('getWound',o.color)
                 else
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card")
+                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card"})
                 end
             end
         elseif tacticname == "Sieve of secrets" then

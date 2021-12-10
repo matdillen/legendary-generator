@@ -319,7 +319,7 @@ function thrones_favor(obj,player_clicker_color,notspend)
             break
         end
     end
-    if notspend and (color:find("mm") and player_clicker_color == color) then
+    if notspend and (color and color:find("mm") and player_clicker_color == color) then
         return nil
     end
     local butt = obj.getButtons()

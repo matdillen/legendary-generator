@@ -5725,7 +5725,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "War of Kings" then
         stackTwist(cards[1])
         broadcastToAll("Scheme Twist: Pay the battlefront tax or lose a battle.")
-        local payBattlefront = function(obj,player_clicker_color)
+        payBattlefront = function(obj,player_clicker_color)
             local butt = obj.getButtons()
             for i,o in pairs(butt) do
                 if o.click_function == "payBattlefront" then
@@ -5745,7 +5745,7 @@ function twistSpecials(cards,city,schemeParts)
             font_size=100,
             font_color="Black",
             color="Yellow",
-            width=1500,height=50})
+            width=500,height=150})
         local pcolor = Turns.turn_color
         local turnChanged = function()
             if Turns.turn_color == pcolor then
@@ -5759,8 +5759,8 @@ function twistSpecials(cards,city,schemeParts)
             local paid = true
             for i,o in pairs(butt) do
                 if o.click_function == "payBattlefront" then
-                    obj.removeButton(i-1)
-                    pay = false
+                    getObjectFromGUID(schemeZoneGUID).removeButton(i-1)
+                    paid = false
                     break
                 end
             end
@@ -7649,20 +7649,20 @@ function resolveStrike(mmname,epicness,city,cards)
             getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[1]})
             if epicness and tacticname[2] then
                 printToAll("Master Strike: Random tactic \"" .. tacticname[2] .. "\" was also revealed")
-                local epicMaxTactic = function(obj)
+                epicMaxTactic = function(obj)
                     obj.clearButtons()
                     koCard(obj)
                     getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[2]})
                 end
-                getObjectFromGUID(cards[1]).createButton({click_function="epicMaxTactic",
+                cards[1].createButton({click_function="epicMaxTactic",
                     function_owner=self,
                     position={0,22,0},
                     label="Tactic2",
                     tooltip="Resolve the second tactic's effect",
                     font_size=500,
                     font_color={1,0,0},
-                    color={0,0,0,0.75},
-                    width=250,height=250})
+                    color={1,1,1},
+                    width=1500,height=400})
                 return nil
             end
         end
@@ -9136,6 +9136,14 @@ function nonTwistspecials(cards,schemeParts,city)
             end
         end
     end
+    if cards[1].hasTag("Group:Four Horsemen") then
+        local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+        for _,o in pairs(masterminds) do
+            if o == "Apocalypse" then
+                powerButton(cards[1],"+2","Bonus of Apocalypse","apocalypse")
+            end
+        end
+    end
     --resolveVillainEffect(cards,"Ambush")
     --needs much more work in setting up functions
     if hasTag2(cards[1],"Group:") and ascendVillain(cards[1].getName(),hasTag2(cards[1],"Group:"),true) then
@@ -9403,6 +9411,18 @@ function hasTag2(obj,tag,index)
 end
 
 function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,buttoncolor)
+    if color[1] then
+        handobjects = color[2]
+        n = color[3]
+        pos = color[4]
+        flip = color[5]
+        label = color[6]
+        tooltip = color[7]
+        triggerf = color[8]
+        args = color[9]
+        buttoncolor = color[10]
+        color = color[1]
+    end
     if not handobjects then
         handobjects = Player[color].getHandObjects()
     end
