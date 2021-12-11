@@ -98,14 +98,11 @@ function getHero(face,bs)
     if not objects then 
         return nil 
     end
-    if not bs then
-        bs = false
-    end
     local card = nil
     for _,item in pairs(objects) do
-        if item.tag == "Card" and item.is_face_down == face and item.hasTag("Bystander") == bs then
+        if item.tag == "Card" and item.is_face_down == face and (not bs or item.hasTag(bs)) then
             card = item
-        elseif item.tag == "Deck" and item.is_face_down == true and face == true then
+        elseif item.tag == "Deck" and item.is_face_down == true and face == true and (not bs or item.hasTag(bs)) then
             card = item
         end
     end
@@ -125,7 +122,11 @@ function getHeroDown()
 end
 
 function getBystander()
-    return getHero(false,true)
+    return getHero(false,"Bystander")
+end
+
+function getWound()
+    return getHero(false,"Wound")
 end
 
 function getCards()

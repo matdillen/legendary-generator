@@ -60,10 +60,8 @@ function onObjectEnterZone(zone,object)
                     if content[1] then
                         for _,o in pairs(content) do
                             if o.guid == object.guid then
-                                local value = getObjectFromGUID(resourceguid).getButtons()[1].label
-                                value = value + hasTag2(object,"Recruit:")
-                                getObjectFromGUID(resourceguid).editButton({index=0,label=value})
-                                log("Player " .. boardcolor .. "'s recruit increased by " .. value .. ".")
+                                getObjectFromGUID(resourceguid).Call('addValue',hasTag2(object,"Recruit:"))
+                                log("Player " .. boardcolor .. "'s recruit increased by " .. hasTag2(object,"Recruit:") .. ".")
                                 objectsentering_recruit[object.guid] = false
                                 break
                             end
@@ -88,10 +86,8 @@ function onObjectEnterZone(zone,object)
                     if content[1] then
                         for _,o in pairs(content) do
                             if o.guid == object.guid then
-                                local value = getObjectFromGUID(attackguid).getButtons()[1].label
-                                value = value + hasTag2(object,"Attack:")
-                                getObjectFromGUID(attackguid).editButton({index=0,label=value})
-                                log("Player " .. boardcolor .. "'s attack increased by " .. value .. ".")
+                                getObjectFromGUID(attackguid).Call('addValue',hasTag2(object,"Attack:"))
+                                log("Player " .. boardcolor .. "'s attack increased by " .. hasTag2(object,"Attack:") .. ".")
                                 objectsentering_attack[object.guid] = false
                                 break
                             end

@@ -3995,8 +3995,30 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Pan-Dimensional Plague" then
-        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
-        return nil
+        for i,o in pairs(hqguids) do
+            local cityzone = getObjectFromGUID(o)
+            local bs = cityzone.Call('getWound')
+            if bs then
+                bs.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+            end
+            local pos = cityzone.getPosition()
+            pos.z = pos.z - 2
+            pos.y = pos.y + 3
+            local spystack = get_decks_and_cards_from_zone(woundsDeckGUID)
+            if spystack[1] then
+                if spystack[1].tag == "Deck" then
+                    spystack[1].takeObject({position = pos,
+                        flip=true})
+                else
+                    spystack[1].flip()
+                    spystack[1].setPositionSmooth(pos)
+                end
+            else
+                broadcastToAll("Wounds stack ran out.")
+            end
+        end
+        broadcastToAll("Scheme Twist: Wounds were KO'd frm the HQ and new ones added!")
+        return twistsresolved
     end
     if schemeParts[1] == "Paralyzing Venom" then
         for _,o in pairs(Player.getPlayers()) do
@@ -8777,6 +8799,28 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         demolish()
         return nil
+    end
+    if mmname == "Vulture" then
+        for i,o in pairs(hqguids) do
+            local cityzone = getObjectFromGUID(o)
+            local pos = cityzone.getPosition()
+            pos.z = pos.z - 2
+            pos.y = pos.y + 3
+            local spystack = get_decks_and_cards_from_zone(woundsDeckGUID)
+            if spystack[1] then
+                if spystack[1].tag == "Deck" then
+                    spystack[1].takeObject({position = pos,
+                        flip=true})
+                else
+                    spystack[1].flip()
+                    spystack[1].setPositionSmooth(pos)
+                end
+            else
+                broadcastToAll("Wounds stack ran out.")
+            end
+        end
+        broadcastToAll("Master Strike: Wounds were added to the HQ!")
+        return strikesresolved
     end
     if mmname == "Zombie Green Goblin" then
         for _,o in pairs(hqguids) do
