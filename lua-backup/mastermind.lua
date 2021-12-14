@@ -2351,7 +2351,7 @@ function fightButton(zone)
                     end
                     local strikecontent = get_decks_and_cards_from_zone(strikeloc)
                     if strikecontent[1] then
-                        strikecontent[1].setPosition(getObjectFromGUID(strikePileGUID).getPosition())
+                        strikecontent[1].destruct()
                     end
                     local strikeZone = getObjectFromGUID(strikeloc)
                     local strikebutt = strikeZone.getButtons()

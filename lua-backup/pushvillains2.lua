@@ -4021,69 +4021,73 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Paralyzing Venom" then
-        for _,o in pairs(Player.getPlayers()) do
-            local hand = o.getHandObjects()
-            if #hand > 4 then
-                local bsguids = {}
-                local killBSButton = function(obj)
-                    for _,b in pairs(bsguids) do
-                        local obj = getObjectFromGUID(b)
-                        if obj then
-                            obj.clearButtons()
-                            obj.locked = false
-                            obj.setPosition(getObjectFromGUID(vpileguids[o.color]).getPosition())
-                        end
-                    end
-                end
-                promptDiscard(o.color,hand,#hand-4,nil,nil,nil,nil,killBSButton)
-                local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
-                local killHandButtons = function(obj)
-                    obj.clearButtons()
-                    koCard(obj)
-                    local hand = Player[o.color].getHandObjects()
-                    for _,h in pairs(hand) do
-                        h.clearButtons()
-                    end
-                end
-                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
-                    for _,p in pairs(vpilecontent[1].getObjects()) do
-                        for _,k in pairs(p.tags) do
-                            if k == "Bystander" then
-                                table.insert(bsguids,p.guid)
-                                break
+        if twistsresolved < 6 then
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                if #hand > 4 then
+                    local bsguids = {}
+                    local killBSButton = function(obj)
+                        for _,b in pairs(bsguids) do
+                            local obj = getObjectFromGUID(b)
+                            if obj then
+                                obj.clearButtons()
+                                obj.locked = false
+                                obj.setPosition(getObjectFromGUID(vpileguids[o.color]).getPosition())
                             end
                         end
                     end
-                    offerCards(o.color,vpilecontent[1],bsguids,killHandButtons,"KO this bystander.","KO")
-                elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
-                    _G['killHandButtons' .. o.color] = function(obj)
-                        local color = nil
-                        for _,b in pairs(obj.getButtons()) do
-                            if b.click_function:find("killHandButtons") then
-                                color = b.click_function:gsub("killHandButtons","")
-                            end
-                        end
+                    promptDiscard(o.color,hand,#hand-4,nil,nil,nil,nil,killBSButton)
+                    local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+                    local killHandButtons = function(obj)
                         obj.clearButtons()
                         koCard(obj)
-                        local hand = Player[color].getHandObjects()
+                        local hand = Player[o.color].getHandObjects()
                         for _,h in pairs(hand) do
                             h.clearButtons()
                         end
                     end
-                    vpilecontent[1].createButton({click_function = 'killHandButtons' .. o.color,
-                        function_owner=self,
-                        position={0,22,0},
-                        label="KO",
-                        tooltip="KO this bystander.",
-                        font_size=250,
-                        font_color="Black",
-                        color={1,1,1},
-                        width=750,height=450})
-                    table.insert(bsguids,vpilecontent[1].guid)
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        for _,p in pairs(vpilecontent[1].getObjects()) do
+                            for _,k in pairs(p.tags) do
+                                if k == "Bystander" then
+                                    table.insert(bsguids,p.guid)
+                                    break
+                                end
+                            end
+                        end
+                        offerCards(o.color,vpilecontent[1],bsguids,killHandButtons,"KO this bystander.","KO")
+                    elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
+                        _G['killHandButtons' .. o.color] = function(obj)
+                            local color = nil
+                            for _,b in pairs(obj.getButtons()) do
+                                if b.click_function:find("killHandButtons") then
+                                    color = b.click_function:gsub("killHandButtons","")
+                                end
+                            end
+                            obj.clearButtons()
+                            koCard(obj)
+                            local hand = Player[color].getHandObjects()
+                            for _,h in pairs(hand) do
+                                h.clearButtons()
+                            end
+                        end
+                        vpilecontent[1].createButton({click_function = 'killHandButtons' .. o.color,
+                            function_owner=self,
+                            position={0,22,0},
+                            label="KO",
+                            tooltip="KO this bystander.",
+                            font_size=250,
+                            font_color="Black",
+                            color={1,1,1},
+                            width=750,height=450})
+                        table.insert(bsguids,vpilecontent[1].guid)
+                    end
+                else
+                    broadcastToColor("Scheme Twist: Your hand has less than 5 cards, but you may still KO a bystander from your victory pile if you really hate it.",o.color,o.color)
                 end
-            else
-                broadcastToColor("Scheme Twist: Your hand has less than 5 cards, but you may still KO a bystander from your victory pile if you really hate it.",o.color,o.color)
             end
+        else
+            broadcastToAll("Scheme Twist: Evil wins!")
         end
         return twistsresolved
     end

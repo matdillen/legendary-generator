@@ -351,7 +351,7 @@ function click_discard_hand()
         cards = {} 
     end
     local played_cards = get_decks_and_cards_from_zone(playguid)
-    log(played_cards)
+    --log(played_cards)
     if played_cards then
         played_cards = tuckSidekicks(played_cards)
         cards_all = merge(cards,played_cards)
@@ -431,8 +431,8 @@ function click_end_turn()
             getObjectFromGUID("8280ca").Call('click_draw_villain')
             broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
         end
-    getObjectFromGUID(resourceguid).editButton({index=0,label=0})
-    getObjectFromGUID(attackguid).editButton({index=0,label=0})
+    getObjectFromGUID(resourceguid).Call('reset_val')
+    getObjectFromGUID(attackguid).Call('reset_val')
     end
 end
 

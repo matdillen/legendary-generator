@@ -608,6 +608,7 @@ function import_setup()
     end
     self.removeButton(rand)
     self.removeButton(imp)
+    self.removeInput(0)
 
     -- SCHEME
     log("Scheme: " .. setupParts[1])
