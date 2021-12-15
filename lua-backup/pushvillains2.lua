@@ -6131,8 +6131,35 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Angela" then
-        msno(mmname)
-        return nil
+        for _,o in pairs(Player.getPlayers()) do
+            local discardguids = {}
+            local discarded = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
+            if discarded[1] and discarded[1].tag == "Deck" then
+                for _,c in pairs(discarded[1].getObjects()) do
+                    for _,tag in pairs(c.tags) do
+                        if tag:find("Cost:") and tonumber(tag:gsub("Cost:","")) > 0 then
+                            table.insert(discardguids,c.guid)
+                            break
+                        end
+                    end
+                end
+                if discardguids[1] and discardguids[2] then
+                    offerCards(o.color,discarded[1],discardguids,koCard,"KO this hero from your discard pile.","KO")
+                    broadcastToColor("Master Strike: Angela KOs a hero that costs 1 or more from your discard pile.",o.color,o.color)
+                elseif discardguids[1] then
+                    discarded[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                        guid = discardguids[1],
+                        smooth = true})
+                    broadcastToColor("Master Strike: Angela KOs the only hero that costs 1 or more from your discard pile.",o.color,o.color)
+                end
+            elseif discarded[1] then
+                if hasTag2(discarded[1],"Cost:") and hasTag2(discarded[1],"Cost:") > 0 then
+                    koCard(discarded[1])
+                    broadcastToColor("Master Strike: Angela KOs the only hero that costs 1 or more from your discard pile.",o.color,o.color)
+                end
+            end
+        end
+        return strikesresolved
     end
     if mmname == "Annihilus" then
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]

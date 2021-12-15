@@ -2,8 +2,7 @@
 function onLoad()
     setupGUID = "912967"
     global_deal=0
-    createButtons()
-
+    
     handsize_init = 6
     handsize = handsize_init
     handsizef = false
@@ -24,6 +23,16 @@ function onLoad()
     
     objectsentering_recruit = {}
     objectsentering_attack = {}
+    
+    playpos = {
+        ["Red"]={-0.7,2,7.5},
+        ["Green"]={0,2,7.5},
+        ["Yellow"]={1.15 , 2, 7.3},
+        ["Blue"]={1.15,2,7.45},
+        ["White"]={1.35,2,7.8}
+        }
+    
+    createButtons()
 end
 
 function colorDummy()
@@ -185,6 +194,12 @@ function createButtons()
         position={6.5 , 0.178, 0.4}, height=500,
         width=500, label="VP", tooltip="Calculate victory points in victory pile", color={1,1,0,1}
     })
+    
+    self.createButton({
+        click_function="play_hand", function_owner=self,
+        position=playpos[boardcolor], height=350,
+        width=400, label="Play", tooltip="Play all cards from your hand.", color=boardcolor
+    })
 
 end
 
@@ -282,6 +297,21 @@ function handsizefixed(obj,player_clicker_color)
         handsizef = false
         self.editButton({index=buttonindex,color = {1,0,0}})
         printToAll(player_clicker_color .. "'s hand size change no longer set to fixed (" .. handsize .. ")!",boardcolor)
+    end
+end
+
+function play_hand()
+    local hand = Player[boardcolor].getHandObjects()
+    local zshift = 0
+    if boardcolor == "White" or boardcolor == "Blue" then
+        zshift = -0.5
+    end
+    if hand[1] then
+        local xshift = 0
+        for _,o in pairs(hand) do
+            o.setPosition(self.positionToWorld({xshift-3+zshift,0.1,6}))
+            xshift = xshift + 1
+        end
     end
 end
 
