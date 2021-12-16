@@ -3997,21 +3997,27 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Pan-Dimensional Plague" then
         for i,o in pairs(hqguids) do
             local cityzone = getObjectFromGUID(o)
-            local bs = cityzone.Call('getWound')
-            if bs then
-                bs.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+            local bs = 1
+            while bs do
+                bs = cityzone.Call('getWound')
+                if bs then
+                    koCard(bs)
+                end
             end
             local pos = cityzone.getPosition()
             pos.z = pos.z - 2
             pos.y = pos.y + 3
-            local spystack = get_decks_and_cards_from_zone(woundsDeckGUID)
-            if spystack[1] then
-                if spystack[1].tag == "Deck" then
-                    spystack[1].takeObject({position = pos,
+            local spystack = getObjectFromGUID(woundsDeckGUID)
+            if spystack then
+                if spystack.tag == "Deck" then
+                    spystack.takeObject({position = pos,
                         flip=true})
+                    if spystack.remainder then
+                        woundsDeckGUID = spystack.remainder.guid
+                    end
                 else
-                    spystack[1].flip()
-                    spystack[1].setPositionSmooth(pos)
+                    spystack.flip()
+                    spystack.setPositionSmooth(pos)
                 end
             else
                 broadcastToAll("Wounds stack ran out.")
@@ -6303,8 +6309,7 @@ function resolveStrike(mmname,epicness,city,cards)
             if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
                 hero.flip()
                 costs[hasTag2(hero,"Cost:")] = costs[hasTag2(hero,"Cost:")] + 1
-                hero.setPositionSmooth(getObjectFromGUID(heroDeckZoneGUID).getPosition())
-                getObjectFromGUID(o).Call('click_draw_hero')
+                getObjectFromGUID(o).Call('tuckHero')
             end
         end
         broadcastToAll("Master Strike! Weak heroes in HQ replaced with new ones. Discard cards with the same cost as the heroes replaced in the HQ (Automatically, unless there are ties).")
@@ -7571,7 +7576,15 @@ function resolveStrike(mmname,epicness,city,cards)
                     end
                 end
             end
-            Wait.time(addshard,3)
+            local cardLanded = function()
+                local pos = cards[1].getPosition()
+                if not cards[1].isSmoothMoving() and pos.z > 0 and pos.y < 2 then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(addshard,cardLanded)
             return nil
         end
         return strikesresolved
@@ -8776,8 +8789,39 @@ function resolveStrike(mmname,epicness,city,cards)
                     broadcastToColor("Master Strike: Put a non-grey Hero from your hand into a Threat Analysis pile next to Ultron.",o.color,o.color)
                 end
             else
-                --local players = revealCardTrait("Silver")
+                local players = revealCardTrait("Silver")
                 broadcastToColor("Master Strike: Put a non-grey Hero from your discard pile into a Threat Analysis pile next to Ultron.",o.color,o.color)
+                for _,o in pairs(players) do
+                    local discardguids = {}
+                    local discarded = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
+                    if discarded[1] and discarded[1].tag == "Deck" then
+                        for _,c in pairs(discarded[1].getObjects()) do
+                            for _,tag in pairs(c.tags) do
+                                if tag:find("HC:") then
+                                    table.insert(discardguids,c.guid)
+                                    break
+                                end
+                            end
+                        end
+                        if discardguids[1] and discardguids[2] then
+                            local threatAnalysis = function(obj)
+                                obj.setPositionSmooth(getObjectFromGUID(getStrikeloc("Ultron")).getPosition())
+                            end
+                            offerCards(o.color,discarded[1],discardguids,threatAnalysis,"Put this hero from your discard pile into Ultron's Threat Analysis pile.","TA")
+                            broadcastToColor("Master Strike: Ultron seizes a non-grey hero from your discard pile for Threat Analysis.",o.color,o.color)
+                        elseif discardguids[1] then
+                            discarded[1].takeObject({position = getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
+                                guid = discardguids[1],
+                                smooth = true})
+                            broadcastToColor("Master Strike: Ultron seizes the only non-grey hero from your discard pile for Threat Analysis.",o.color,o.color)
+                        end
+                    elseif discarded[1] then
+                        if hasTag2(discarded[1],"HC:") then
+                            discarded[1].setPositionSmooth(getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                            broadcastToColor("Master Strike: Ultron seizes the only non-grey hero from your discard pile for Threat Analysis.",o.color,o.color)
+                        end
+                    end
+                end
             end
         end
         return strikesresolved
@@ -8832,25 +8876,76 @@ function resolveStrike(mmname,epicness,city,cards)
         return nil
     end
     if mmname == "Vulture" then
-        for i,o in pairs(hqguids) do
-            local cityzone = getObjectFromGUID(o)
-            local pos = cityzone.getPosition()
-            pos.z = pos.z - 2
-            pos.y = pos.y + 3
-            local spystack = get_decks_and_cards_from_zone(woundsDeckGUID)
-            if spystack[1] then
-                if spystack[1].tag == "Deck" then
-                    spystack[1].takeObject({position = pos,
-                        flip=true})
-                else
-                    spystack[1].flip()
-                    spystack[1].setPositionSmooth(pos)
-                end
-            else
-                broadcastToAll("Wounds stack ran out.")
+        local kodwounds = {}
+        local vultureWounds = function()
+            local totake = 0
+            if epicness and kodwounds[1] then
+                totake = math.min(#kodwounds,5)
             end
+            for i,o in pairs(hqguids) do
+                local cityzone = getObjectFromGUID(o)
+                local pos = cityzone.getPosition()
+                pos.z = pos.z - 2
+                pos.y = pos.y + 3
+                if totake > 0 then
+                    local guid = table.remove(kodwounds,math.random(#kodwounds))
+                    local kopile = get_decks_and_cards_from_zone(kopile_guid)[1]
+                    kopile.takeObject({position = pos,
+                        guid = guid, smooth = true})
+                    if kopile.remainder and kopile.remainder.hasTag("Wound") then
+                        local rem = kopile.remainder
+                        rem.flip()
+                        rem.setPosition(getObjectFromGUID(woundsDeckGUID).getPosition())
+                        totake = 0
+                    else
+                        totake = totake - 1
+                    end
+                else
+                    local spystack = getObjectFromGUID(woundsDeckGUID)
+                    if spystack then
+                        if spystack.tag == "Deck" then
+                            spystack.takeObject({position = pos,
+                                flip=true})
+                            if spystack.remainder then
+                                woundsDeckGUID = spystack.remainder.guid
+                            end
+                        else
+                            spystack.flip()
+                            spystack.setPositionSmooth(pos)
+                        end
+                    else
+                        broadcastToAll("Wounds stack ran out.")
+                    end
+                end
+            end
+            broadcastToAll("Master Strike: Wounds were added to the HQ!")
         end
-        broadcastToAll("Master Strike: Wounds were added to the HQ!")
+        if epicness then
+            local kopile = get_decks_and_cards_from_zone(kopile_guid)
+            if kopile[1] and kopile[2] then
+                broadcastToAll("Please merge the KO pile into a single deck.")
+                return nil
+            elseif kopile[1] and kopile[1].tag == "Deck" then
+                for _,o in pairs(kopile[1].getObjects()) do
+                    for _,tag in pairs(o.tags) do
+                        if tag == "Wound" then
+                            table.insert(kodwounds,o.guid)
+                            break
+                        end
+                    end
+                end
+            elseif kopile[1] then
+                if kopile[1].hasTag("Wound") and getObjectFromGUID(woundsDeckGUID) then
+                    kopile[1].flip()
+                    local pos = getObjectFromGUID(woundsDeckGUID).getPosition()
+                    pos.y = pos.y + 2
+                    kopile[1].setPosition(pos)
+                end
+            end
+            Wait.time(vultureWounds,1)
+        else
+            vultureWounds()
+        end
         return strikesresolved
     end
     if mmname == "Zombie Green Goblin" then
@@ -9773,7 +9868,7 @@ end
 
 function getStrikeloc(mmname,alttable)
     if not alttable then
-        alttable = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',mmLocations),true)
+        alttable = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
     end
     local strikeloc = nil
     if alttable[mmname] == mmZoneGUID then

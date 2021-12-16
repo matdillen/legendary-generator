@@ -134,6 +134,24 @@ function getCards()
     return objects
 end
 
+function tuckHero()
+    local hero = getHero(false)
+    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+    if not schemeParts then
+        printToAll("No scheme specified!")
+        schemeParts = {"no scheme"}
+    end
+    if schemeParts[1] == "Divide and Conquer" then
+        deckToDrawGUID = divided_deck_guid
+    else
+        deckToDrawGUID = hero_deck_zone_guid
+    end
+    if hero then
+        hero.setPosition(getObjectFromGUID(deckToDrawGUID).getPosition())
+        click_draw_hero()
+    end
+end
+
 function click_draw_hero()
     local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
     if not schemeParts then

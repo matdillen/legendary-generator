@@ -2117,7 +2117,6 @@ function setupMasterminds(objname,epicness,lurking)
                     for _,k in pairs(o.tags) do
                         if k:find("HC:") then
                             hccolors[k:gsub("HC:","")] = true
-                            break
                         end
                     end
                 end
@@ -2126,9 +2125,12 @@ function setupMasterminds(objname,epicness,lurking)
             end
             for _,o in pairs(hqguids) do
                 local hero = getObjectFromGUID(o).Call('getHeroUp')
-                if hero and hasTag2(hero,"HC:",4) and hccolors[hasTag2(hero,"HC:",4)] then
-                    empowerment = empowerment + boost
-                    table.remove(hccolors,hasTag2(hero,"HC:"))
+                if hero and hero.getTags() then
+                    for _,tag in pairs(hero.getTags()) do
+                        if tag:find("HC:") and hccolors[tag:gsub("HC:","")] then
+                            empowerment = empowerment + boost
+                        end
+                    end
                 end
             end
             Wait.time(function() mmButtons(objname,
@@ -2568,8 +2570,7 @@ function resolveTactics(mmname,tacticname,color)
             for _,o in pairs(hqguids) do
                 local hero = getObjectFromGUID(o).Call('getHeroUp')
                 if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
-                    hero.setPosition(getObjectFromGUID(heroDeckZoneGUID).getPosition())
-                    getObjectFromGUID(o).Call('click_draw_hero')
+                    getObjectFromGUID(o).Call('tuckHero')
                 end
             end
             local thronesfavor = callGUID("thronesfavor",1)
