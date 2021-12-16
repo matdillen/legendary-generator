@@ -7469,6 +7469,45 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         return strikesresolved
     end
+    if mmname =="Lady Mastermind" then
+        ladymastermindStrike = {}
+        ladymastermindCounter = 0
+        ladymastermindValue = 0
+        broadcastToAll("Master Strike: Each player simultaneously reveals a non-grey hero. " .. mmname .. " dominates the highest-costing hero (or tied for highest) revealed this way.")
+        for _,o in pairs(Player.getPlayers()) do
+            function ladymastermind(card,index,color)
+                ladymastermindStrike[color] = card
+                ladymastermindCounter = ladymastermindCounter + 1
+                ladymastermindValue = math.max(ladymastermindValue,hasTag2(card,"Cost:"))
+                if ladymastermindCounter == #Player.getPlayers() then
+                    for _,p in pairs(ladymastermindStrike) do
+                        if hasTag2(p,"Cost:") == ladymastermindValue then
+                            p.setPosition(getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                        end
+                    end
+                end
+            end
+            local hand = o.getHandObjects()
+            if hand[1] then
+                local handi = table.clone(hand)
+                local iter = 0
+                for i,obj in ipairs(handi) do
+                    if not hasTag2(obj,"HC:") then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                end
+                if hand[1] then
+                    promptDiscard(o.color,hand,1,"Stay",nil,"Reveal","Reveal this card for Mastermind's master strike.",ladymastermind,"self")
+                else
+                    ladymastermindCounter = ladymastermindCounter +1
+                end
+            else
+                ladymastermindCounter = ladymastermindCounter +1
+            end
+        end
+        return strikesresolved
+    end
     if mmname == "Loki" or mmname == "Zombie Loki" then
         local towound = revealCardTrait("Green")
         for _,o in pairs(towound) do
@@ -7656,9 +7695,44 @@ function resolveStrike(mmname,epicness,city,cards)
         Wait.time(takeOfficer,2)
         return strikesresolved
     end
-    if mmname == "Mastermind" or mmname =="Lady Mastermind" then
-        msno(mmname)
-        return nil
+    if mmname == "Mastermind" then
+        jasonmastermindStrike = {}
+        jasonmastermindCounter = 0
+        jasonmastermindValue = 0
+        broadcastToAll("Master Strike: Each player simultaneously reveals a non-grey hero. " .. mmname .. " dominates the highest-costing hero (or tied for highest) revealed this way.")
+        for _,o in pairs(Player.getPlayers()) do
+            function jasonmastermind(card,index,color)
+                jasonmastermindStrike[color] = card
+                jasonmastermindCounter = jasonmastermindCounter + 1
+                jasonmastermindValue = math.max(jasonmastermindValue,hasTag2(card,"Cost:"))
+                if jasonmastermindCounter == #Player.getPlayers() then
+                    for _,p in pairs(jasonmastermindStrike) do
+                        if hasTag2(p,"Cost:") == jasonmastermindValue then
+                            p.setPosition(getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                        end
+                    end
+                end
+            end
+            local hand = o.getHandObjects()
+            if hand[1] then
+                local handi = table.clone(hand)
+                local iter = 0
+                for i,obj in ipairs(handi) do
+                    if not hasTag2(obj,"HC:") then
+                        table.remove(hand,i-iter)
+                        iter = iter + 1
+                    end
+                end
+                if hand[1] then
+                    promptDiscard(o.color,hand,1,"Stay",nil,"Reveal","Reveal this card for Mastermind's master strike.",jasonmastermind,"self")
+                else
+                    jasonmastermindCounter = jasonmastermindCounter +1
+                end
+            else
+                jasonmastermindCounter = jasonmastermindCounter +1
+            end
+        end
+        return strikesresolved
     end
     if mmname == "Master Plan" then
         local players = revealCardTrait("Silver")
@@ -9615,7 +9689,13 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
     end
     if #handobjects == n then
         for i = 1,n do
-            handobjects[i].setPosition(pos)
+            if pos ~= "Stay" then
+                handobjects[i].setPosition(pos)
+            else
+                if responses then
+                    responses[color] = handobjects[i]
+                end
+            end
             if triggerf and args and args == "self" then
                 triggerf(handobjects[i],i,color)
             elseif triggerf and args then
@@ -9639,9 +9719,10 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
                 end
                 if pos ~= "Stay" then
                     obj.setPosition(pos)
-                elseif pos then
-                    responses[color] = obj
-                    --log(responses)
+                else
+                    if responses then
+                        responses[color] = obj
+                    end
                 end
                 if triggerf and args and args == "self" then
                     triggerf(obj,i,color)
