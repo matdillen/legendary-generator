@@ -565,7 +565,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
             if city then
                 push_all(city)
             end
-            return shift_to_next(cards,targetZone)
+            return shift_to_next(cards,targetZone,cityEntering)
         end
         if cityEntering == 1 then
             --special events in certain schemes not related to twists
@@ -827,7 +827,6 @@ function updatePower()
                                 evolutionPileSize = 1
                             end
                         else
-                            broadcastToAll("Evolution deck missing???")
                             return nil
                         end
                         local evolutionColors = {
@@ -1293,6 +1292,19 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                 end
+                if players[i].color == o.color then
+                    local play = get_decks_and_cards_from_zone(playguids[o.color])
+                    if play[1] then
+                        for _,obj in pairs(play) do
+                            if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 4 then
+                                worthy = worthy + 1
+                                table.remove(players,i-iter)
+                                iter = iter + 1
+                                break
+                            end
+                        end
+                    end
+                end
             end
             for _,o in pairs(players) do
                 promptDiscard(o.color)
@@ -1300,18 +1312,19 @@ function twistSpecials(cards,city,schemeParts)
             end
             if worthy/#Player.getPlayers() <= 0.5 then
                 stackTwist(cards[1])
-                broadcastToAll("Moral Failing! Not enough players were worthy.")
+                broadcastToAll("Scheme Twist: Moral Failing! Not enough players were worthy.")
             else
                 koCard(cards[1])
+                broadcastToAll("Scheme Twist: Enough players were worthy.")
             end
         elseif twistsresolved < 12 then
             stackTwist(cards[1])
-            broadcastToAll("Moral Failing!")
+            broadcastToAll("Scheme Twist: Moral Failing!")
         end
         return nil
     end
     if schemeParts[1] == "Avengers vs. X-Men" then
-        local teams = getObjectFromGUID("912967").Call('returnSetupParts')
+        local teams = getObjectFromGUID(setupGUID).Call('returnSetupParts')
         local teamchecks = {}
         if teams and teams[9] then
             for s in string.gmatch(teams[9],"[^|]+") do
@@ -1340,7 +1353,7 @@ function twistSpecials(cards,city,schemeParts)
                         end
                         if teamcount1 > 0 and teamcount2 > 0 then
                             click_get_wound(getObjectFromGUID(woundsDeckGUID),i)
-                            broadcastToAll(i .. " player received a wound with this Scheme Twist",i)
+                            broadcastToColor("Scheme Twist: You had heroes of both teams and received a wound with this Scheme Twist.",i,i)
                         end
                     end
                 end
@@ -1505,6 +1518,9 @@ function twistSpecials(cards,city,schemeParts)
             for i=1,twistsresolved do
                 if i < annihilationcount then
                     deck[1].takeObject({position=annihilationMMzone.getPosition()})
+                    if deck[1].remainder then
+                        deck[1] = deck[1].remainder
+                    end
                 elseif i == annihilationcount then
                     deck[1].setPositionSmooth(annihilationMMzone.getPosition())
                 else
@@ -2523,8 +2539,27 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Devolve with Xerogen Crystals" then
-        broadcastToAll("Choose a Hero in the HQ that doesn't have a printed Power of 2 or more. Put it on the bottom of the Hero Deck.")
-        --can be automated if there's only one
+        broadcastToAll("Choose a Hero in the HQ that doesn't have a printed Power of 2 or more to be put on the bottom of the Hero Deck.")
+        local heroes = {}
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
+                table.insert(heroes,hero)
+            end
+        end
+        if heroes[1] then
+            function fillHQ()
+                bump(get_decks_and_cards_from_zone(heroDeckZoneGUID)[1],5)
+                for _,o in pairs(hqguids) do
+                    local hero = getObjectFromGUID(o).Call('getHeroUp')
+                    if not hero then
+                        getObjectFromGUID(o).Call('click_draw_hero')
+                        break
+                    end
+                end
+            end
+            promptDiscard(Turns.turn_color,heroes,1,getObjectFromGUID(heroDeckZoneGUID).getPosition(),true,"Tuck","Put this hero on the bottom of the hero deck.",fillHQ)
+        end
         playVillains(2)
         return twistsresolved
     end
@@ -4308,6 +4343,77 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         updatePower()
         return nil
+    end
+    if schemeParts[1] == "Resurrect Heroes with Norn Stones" then
+        if twistsresolved < 7 then
+            local vpile = get_decks_and_cards_from_zone(vpileguids[Turns.turn_color])[1]
+            local villains = {}
+            local pos = getObjectFromGUID(city_zones_guids[6]).getPosition()
+            pos.y = pos.y + 2
+            if vpile and vpile.tag == "Deck" then
+                for _,o in pairs(vpile) do
+                    for _,tag in pairs(o.tags) do
+                        if tag == "Villain" then
+                            table.insert(villains,o.guid)
+                            break
+                        end
+                    end
+                end
+                if villains[1] then
+                    local cityobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
+                    if cityobjects[1] then
+                        shift_to_next(cityobjects,getObjectFromGUID(escape_zone_guid),0)
+                    end
+                    if villains[2] then
+                        local pushToBridge = function(obj)
+                            obj.setPositionSmooth(pos)
+                        end
+                        offerCards(Turns.turn_color,vpile,villains,pushToBridge,"This villain enters the Bridge!","Push")
+                    else
+                        vpile.takeObject({position = pos,
+                            smooth = true})
+                    end
+                end
+            elseif vpile and vpile.hasTag("Villain") then
+                local cityobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
+                if cityobjects[1] then
+                    shift_to_next(cityobjects,getObjectFromGUID(escape_zone_guid),0)
+                end
+                vpile.setPositionSmooth(pos)
+            end
+            playVillains()
+        elseif twistsresolved < 9 then
+            local pos = getObjectFromGUID(escape_zone_guid).getPosition()
+            pos.y = pos.y + 2
+            for _,p in pairs(Player.getPlayers()) do
+                local vpile = get_decks_and_cards_from_zone(vpileguids[p.color])[1]
+                local villains = {}
+                if vpile and vpile.tag == "Deck" then
+                    for _,o in pairs(vpile) do
+                        for _,tag in pairs(o.tags) do
+                            if tag == "Villain" then
+                                table.insert(villains,o.guid)
+                                break
+                            end
+                        end
+                    end
+                    if villains[1] then
+                        if villains[2] then
+                            local pushToEscape = function(obj)
+                                obj.setPositionSmooth(pos)
+                            end
+                            offerCards(p.color,vpile,villains,pushToEscape,"This villain is put into the escape pile!","Escape")
+                        else
+                            vpile.takeObject({position = pos,
+                                smooth = true})
+                        end
+                    end
+                elseif vpile and vpile.hasTag("Villain") then
+                    vpile.setPositionSmooth(pos)
+                end
+            end
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Reveal Heroes' Secret Identities" then
         if twistsresolved == 1 then
@@ -9182,8 +9288,9 @@ end
 
 function nonTwistspecials(cards,schemeParts,city)
     if schemeParts[1] == "Brainwash the Military" then
-        if cards[1].getName() == "S.H.I.E.L.D. Officer" or cards[1].getName() == "Madame Hydra" then
+        if cards[1].hasTag("Officer") then
             cards[1].addTag("Brainwashed")
+            cards[1].addTag("Villain")
             powerButton(cards[1],twistsstacked+3)
         end
     end
