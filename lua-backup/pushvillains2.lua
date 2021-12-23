@@ -62,7 +62,8 @@ function onLoad()
         "strikeZoneGUID",
         "horrorZoneGUID",
         "twistZoneGUID",
-        "shardGUID"
+        "shardGUID",
+        "sidekickZoneGUID"
     }
     
     for _,o in pairs(guids1) do
@@ -316,8 +317,8 @@ function ascendVillain(name,group,ambush)
     }
     if not ambush then
         for i,o in pairs(ascendants) do
-            log("#")
-            log(i .. o)
+            --log("#")
+            --log(i .. o)
             if o == name and i:find(group) then
                 return true
             end
@@ -442,11 +443,13 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
     Wait.time(updatePower,1.5)
 end
 
-function click_draw_villain(obj)
+function click_draw_villain(obj,vildeckguid)
     local pos = getObjectFromGUID(city_zones_guids[1]).getPosition()
     pos.y = pos.y + 5
-    local vildeckguid = villainDeckZoneGUID
-    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+    if not vildeckguid then
+        vildeckguid = villainDeckZoneGUID
+    end
+    local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
     local flip_villains = true
     if schemeParts then
         if schemeParts[1] == "Alien Brood Encounters" then
@@ -1006,9 +1009,9 @@ function playVillains(n,condition_f,vildeckguid)
     if not n then
         n = 1
     end
-    --you may specify a custom villain deck (scripting zone) guid for some schemes
+    --you may specify a custom villain deck (scripting zone) guid for some schemes)
     if not vildeckguid then
-        vildeckguid = "4bc134"
+        vildeckguid = villainDeckZoneGUID
     end
     if villainstoplay == 0 then
         villainstoplay = villainstoplay + n
@@ -1058,7 +1061,7 @@ function playVillains(n,condition_f,vildeckguid)
             Wait.condition(playVillain,objLanded)
         end
         local drawVillain = function()
-            click_draw_villain()
+            click_draw_villain(nil,vildeckguid)
             villainstoplay = villainstoplay - 1
             local vildeckzone = getObjectFromGUID(vildeckguid)
             local butt = vildeckzone.getButtons()
@@ -1805,133 +1808,110 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Clash of the Monsters Unleashed" then
-        koCard(cards[1])
-        local monsterpit = get_decks_and_cards_from_zone(twistZoneGUID)
-        local monsterpower = 0
-        if monsterpit[1] then
-            if monsterpit[1].tag == "Deck" then
-                local monsterToEnter = monsterpit[1].getObjects()[1]
-                for _,i in pairs(monsterToEnter.tags) do
-                    if i:find("Power:") then
-                        monsterpower = tonumber(i:match("%d+"))
-                    end
-                end
-                monsterpit[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
-                    flip=true,
-                    callback_function = click_push_villain_into_city})
-            else
-                monsterpower = hasTag2(monsterpit[1],"Power:")
-                monsterpit[1].flip()
-                monsterpit[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
-                local lastMonsterSpawned = function()
-                    local monster = get_decks_and_cards_from_zone(city_zones_guids[1])
-                    if monster[1] and monster[1].guid == monsterpit[1].guid then
-                        return true
-                    else
-                        return false
-                    end   
-                end
-                Wait.condition(click_push_villain_into_city,lastMonsterSpawned)
-            end
-        end
         if twistsresolved > 2 and twistsresolved < 11 then
+            koCard(cards[1])
+            local monsterpit = get_decks_and_cards_from_zone(twistZoneGUID)
+            local monsterpower = 0
+            if monsterpit[1] then
+                if monsterpit[1].tag == "Deck" then
+                    local monsterToEnter = monsterpit[1].getObjects()[1]
+                    for _,i in pairs(monsterToEnter.tags) do
+                        if i:find("Power:") then
+                            monsterpower = tonumber(i:match("%d+"))
+                        end
+                    end
+                    monsterpit[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                        flip=true,
+                        callback_function = click_push_villain_into_city})
+                else
+                    monsterpower = hasTag2(monsterpit[1],"Power:")
+                    monsterpit[1].flip()
+                    monsterpit[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                    local lastMonsterSpawned = function()
+                        local monster = get_decks_and_cards_from_zone(city_zones_guids[1])
+                        if monster[1] and monster[1].guid == monsterpit[1].guid then
+                            return true
+                        else
+                            return false
+                        end   
+                    end
+                    Wait.condition(click_push_villain_into_city,lastMonsterSpawned)
+                end
+            end
             for i,o in pairs(vpileguids) do
                 if Player[i].seated == true then
-                    local vpilecontent = getObjectFromGUID(o).getObjects()[1]
+                    local vpilecontent = get_decks_and_cards_from_zone(o)
                     local maxpower = 0
-                    if vpilecontent then
-                        if vpilecontent.getQuantity() > 1  then
-                            local vpileCards = vpilecontent.getObjects()
-                            for j = 1, #vpilecards do
-                                for _,k in pairs(vpilecards[j].tags) do
-                                    if k:find("Power:") then
-                                        maxpower = math.max(maxpower,tonumber(k:match("%d+")))
-                                    end
+                    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                        local vpilecards = vpilecontent[1].getObjects()
+                        for _,j in pairs(vpilecards) do
+                            for _,tag in pairs(j.tags) do
+                                if tag:find("Power:") then
+                                    maxpower = math.max(maxpower,tonumber(tag:match("%d+")))
+                                    break
                                 end
                             end
-                        elseif vpilecontent.getQuantity() == -1 then
-                            if hasTag2(vpilecontent,"Power:") then
-                                maxpower = hasTag2(vpilecontent,"Power:")
-                            end
+                        end
+                    elseif vpilecontent[1] then
+                        if hasTag2(vpilecontent[1],"Power:") then
+                            maxpower = hasTag2(vpilecontent[1],"Power:")
                         end
                     end
                     if monsterpower > maxpower then
-                        broadcastToAll("Player " .. i .. "'s Gladiator was no good (power of only " .. maxpower .. ") and they got a wound!",i)
+                        broadcastToAll("Player " .. i .. "'s best Gladiator was no good (power of only " .. maxpower .. ") and they got a wound!",i)
                         click_get_wound(monsterpit,i)
                     end
                 end
             end
+            return nil
+        else
+            return twistsresolved
         end
-        return nil
     end
     if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
         stackTwist(cards[1])
-        local skpile = getObjectFromGUID(sidekickDeckGUID)
-        broadcastToAll("Scheme Twist!",{1,0,0})
-        local pushSidekick = function(obj)
-            obj.addTag("Corrupted")
-            powerButton(obj,twistsstacked+2)
-            obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
-            local sidekickLanded = function()
-                local landed = get_decks_and_cards_from_zone(city_zones_guids[1])
-                if landed[1] and landed[1].guid == obj.guid then
-                    return true
-                else
-                    return false
-                end
-            end
-            broadcastToAll("Corrupted sidekick enters the city!",{1,0,0})
-            Wait.condition(click_push_villain_into_city,sidekickLanded)
-        end
-        local getSidekick = function()
-            skpile.takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
-                smooth = false,
-                flip = true,
-                callback_function = pushSidekick})
-        end
-        local twistMoved = function()
-            local twist = get_decks_and_cards_from_zone(city_zones_guids[1])
-            if twist[1] and twist[1].getName() == "Scheme Twist" then
-                return false
-            else
-                return true
-            end
-        end
-        local corruptHeroes = function()
+        if twistsresolved < 8 then
+            local skpile = getObjectFromGUID(sidekickDeckGUID)
+            broadcastToAll("Scheme Twist! Return a sidekick from your discard pile to the sidekick deck and two corrupted sidekicks enter the city!",{1,0,0})
             for i,o in pairs(playerBoards) do
                 if Player[i].seated == true then
                     local discard = getObjectFromGUID(o).Call('returnDiscardPile')
                     if discard[1] and discard[1].tag == "Card" then
                         if discard[1].hasTag("Sidekick") == true then
                             discard[1].flip()
-                            discard[1].setPositionSmooth(skpile.getPosition())
+                            skpile.putObject(discard[1])
                         end
                     elseif discard[1] and discard[1].tag == "Deck" then
-                        local skfound = false
+                        local skfound = {}
                         for _,object in pairs(discard[1].getObjects()) do
                             for _,tag in pairs(object.tags) do
                                 if tag == "Sidekick" then
-                                    discard[1].takeObject({position = skpile.getPosition(),
-                                        smooth=true,
-                                        flip=true,
-                                        guid = object.guid})
-                                    skfound = true
+                                    table.insert(skfound,object.guid)
                                     break
                                 end
                             end
-                            if skfound == true then
-                                break
-                            end
+                        end
+                        local tuckSidekick = function(obj)
+                            obj.flip()
+                            bump(skpile,4)
+                            Wait.condition(function() skpile.putObject(obj) end,
+                                function() if skpile.isSmoothMoving() == true then return false else return true end end)
+                        end
+                        if skfound[1] and skfound[2] then
+                            offerCards(i,discard[1],skfound,tuckSidekick,"Return this sidekick to the bottom of the sidekick deck.","Return")
+                        elseif skfound[1] then
+                            local pos = getObjectFromGUID(sidekickZoneGUID).getPosition()
+                            pos.z = pos.z -2
+                            discard[1].takeObject({position = pos,
+                                smooth=false,
+                                flip=true,
+                                guid = skfound[1],
+                                callback_function = tuckSidekick})
                         end
                     end
                 end
             end
-            getSidekick()
-            Wait.time(getSidekick,2)
-        end
-        if twistsresolved < 8 then
-            Wait.condition(corruptHeroes,twistMoved)
-            return nil
+            playVillains(2,nil,sidekickZoneGUID)
         elseif twistsresolved == 8 then
             broadcastToAll("Scheme Twist: All Sidekicks in the city escape!")
             for _,o in pairs(city) do
@@ -1945,6 +1925,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         end
+        return nil
     end
     if schemeParts[1] == "Crash the Moon into the Sun" then
         local sunlight = 0
@@ -1964,15 +1945,15 @@ function twistSpecials(cards,city,schemeParts)
         end
         local light = sunlight - moonlight
         if twistsresolved < 9 then
-            if (light > 0 and twistsresolved % 2 == 1) or (light < 0 and twistsresolved % 2 == 0) then
-                cards[1].setPositionSmooth(getObjectFromGUID(twistZoneGUID).getPosition())
+            if (light < 0 and twistsresolved % 2 == 1) or (light > 0 and twistsresolved % 2 == 0) then
+                stackTwist(cards[1])
                 broadcastToAll("Scheme Twist caused an Altered Orbit!",{1,0,0})
             else
-                cards[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
+                koCard(cards[1])
                 broadcastToAll("Scheme Twist, but the light aligned!",{0,1,0})
             end
-        else
-            cards[1].setPositionSmooth(getObjectFromGUID("4f53f9").getPosition())
+        elseif twistsresolved < 12 then
+            stackTwist(cards[1])
             broadcastToAll("Scheme Twist caused an Altered Orbit!",{1,0,0})
         end
         return nil
@@ -2167,7 +2148,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Crush Them With My Bare Hands" then
         cards[1].setName("Masterstrike")
-        broadcastToAll("This Scheme Twist is a Master Strike!")
+        broadcastToAll("Scheme Twist: This Scheme Twist is a Master Strike!")
         click_push_villain_into_city()
         return nil
     end
@@ -9292,6 +9273,18 @@ function nonTwistspecials(cards,schemeParts,city)
             cards[1].addTag("Brainwashed")
             cards[1].addTag("Villain")
             powerButton(cards[1],twistsstacked+3)
+        end
+    end
+    if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
+        if cards[1].hasTag("Sidekick") then
+            cards[1].addTag("Corrupted")
+            cards[1].addTag("Villain")
+            if cards[1].getDescription() == "" then
+                cards[1].setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
+            else
+                cards[1].setDescription(cards[1].getDescription() .. "\nWALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
+            end
+            powerButton(cards[1],twistsstacked+2)
         end
     end
     if schemeParts[1] == "Deadpool Wants A Chimichanga" then

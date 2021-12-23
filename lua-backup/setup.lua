@@ -65,6 +65,14 @@ function loadGUIDs()
         ["White"]="558e75"
     }
     
+    drawguids = {
+        ["Red"]="c6ca07",
+        ["Green"]="4e2f26",
+        ["Yellow"]="c68179",
+        ["Blue"]="862e3c",
+        ["White"]="5d9596"
+    }
+    
     vpileguids = {
         ["Red"]="fac743",
         ["Green"]="a42b83",
@@ -144,6 +152,8 @@ function loadGUIDs()
     strikeZoneGUID = "be6070"
     horrorZoneGUID = strikeZoneGUID
     twistZoneGUID = "4f53f9"
+    officerZoneGUID = "791799"
+    sidekickZoneGUID = "656a39"
     
     escape_zone_guid = "de2016"
     
