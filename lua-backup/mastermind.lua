@@ -1,9 +1,4 @@
 function onLoad()
-    self.createButton({
-        click_function="click_update_tactics", function_owner=self,
-        position={0,0,1}, rotation={0,180,0}, height=250, color={0,0,0,0.75},
-        label = "(4)",font_color = {1,0.1,0,1}, tooltip="Remaining tactics. Click to force update."
-    })
     setupGUID = "912967"
     
     local guids3 = {
@@ -91,20 +86,28 @@ function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     return result
 end
 
-function click_update_tactics()
-    local mmdeck = getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone',self.guid)
+function click_update_tactics(obj)
+    local mmdeck = getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone',obj.guid)
+    local butt = obj.getButtons()
+    local index = 0
+    for i,o in pairs(butt) do
+        if o.click_function == "click_update_tactics" then
+            index = i-1
+            break
+        end
+    end
     if mmdeck[1] and mmdeck[2] then
         for _,o in pairs(mmdeck) do
             if o.is_face_down and (not o.hasTag("Mastermind") or hasTag2(o,"Tactic:")) then
                 local c = math.abs(o.getQuantity())
-                self.editButton({index=0,label="(" .. c .. ")"})
+                obj.editButton({index=index,label="(" .. c .. ")"})
                 return nil
             end
         end
     elseif mmdeck[1] then
-        self.editButton({index=0,label="(" .. math.abs(mmdeck[1].getQuantity())-1 .. ")"})
+        obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity())-1 .. ")"})
     else
-        self.editButton({index=0,label="(" .. 0 .. ")"})
+        obj.editButton({index=index,label="(" .. 0 .. ")"})
     end
 end
 
@@ -655,11 +658,22 @@ function setupTransformingMM(mmname,mmZone,lurking)
     end
 end
 
-function setupMasterminds(objname,epicness,lurking)
+function setupMasterminds(objname,epicness,tactics,lurking)
     if objname[1] then
         epicness = objname[2]
-        lurking = objname[3]
+        tactics = objname[3]
+        lurking = objname[4]
         objname = objname[1]
+    end
+    if not tactics then
+        tactics = 4
+    end
+    if tactics ~= 0 then
+        getObjectFromGUID(mmLocations[objname]).createButton({
+            click_function="click_update_tactics", function_owner=self,
+            position={0,0,1}, rotation={0,180,0}, height=250, color={0,0,0,0.75},
+            label = "(" .. tactics .. ")",font_color = {1,0.1,0,1}, tooltip="Remaining tactics. Click to force update."
+        })
     end
     if not lurking then
         fightButton(mmLocations[objname])
@@ -2316,7 +2330,7 @@ function fightButton(zone)
     end
     _G["fightEffect" .. zone] = function(obj,player_clicker_color)
         local name = fightMM(obj.guid,player_clicker_color)
-        Wait.time(click_update_tactics,1)
+        Wait.time(function() click_update_tactics(obj) end,1)
         --log("name:")
         --log(name)
         if name then
@@ -2340,15 +2354,13 @@ function fightButton(zone)
                     end
                     addMMGUIDS[mmLocations[name]] = false
                     mmLocations[name] = nil
-                    local butt = obj.getButtons()
-                    local iter = 0
-                    for i,o in ipairs(butt) do
-                        if o.click_function:find("fightEffect") then
-                            obj.removeButton(i-1-iter)
-                            iter = iter + 1
+                    for i,o in ipairs(obj.getButtons()) do
+                        if o.click_function:find("fightEffect") or o.click_function == "transformMM" then
+                            obj.removeButton(i-1)
                         elseif o.click_function:find("updateMM") and not o.click_function:find("Power") then
-                            obj.removeButton(i-1-iter)
-                            iter = iter + 1
+                            obj.removeButton(i-1)
+                        elseif o.click_function == "click_update_tactics" then
+                            obj.removeButton(i-1)
                         end
                     end
                     local strikecontent = get_decks_and_cards_from_zone(strikeloc)

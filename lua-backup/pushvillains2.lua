@@ -393,7 +393,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                 zPos = targetZone_final.getPosition().z
                 mmZone.Call('updateMasterminds',obj.getName())
                 mmZone.Call('updateMastermindsLocation',{obj.getName(),targetZone_final.guid})
-                mmZone.Call('setupMasterminds',obj.getName())
+                mmZone.Call('setupMasterminds',{obj.getName(),false,0})
             elseif obj.getName() == "Baby Hope Token" and schemeParts and schemeParts[1] == "Capture Baby Hope" then
                 broadcastToAll("Baby Hope was taken away by a villain!", {r=1,g=0,b=0})
                 getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition()})
@@ -2162,22 +2162,20 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         local drawspike = function()
-            local spikedeck =  get_decks_and_cards_from_zone(twistZoneGUID)
-            if spikedeck[1] then
-                if spikedeck[1].tag == "Deck" then
-                    spikedeck[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
-                        callback_function = spikepush, flip = true, smooth = true})
-                elseif spikedeck[1].tag == "Card" then
-                    spikedeck[1].flip()
-                    if spikedeck[1].hasTag("Bystander") then
-                        koCard(spikedeck[1])
-                    else
-                        spikedeck[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
-                        Wait.time(click_push_villain_into_city,1)
-                    end
+            local spikedeck = get_decks_and_cards_from_zone(twistZoneGUID)
+            if spikedeck[1] and spikedeck[1].tag == "Deck" then
+                spikedeck[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
+                    callback_function = spikepush, flip = true, smooth = true})
+            elseif spikedeck[1] then
+                spikedeck[1].flip()
+                if spikedeck[1].hasTag("Bystander") then
+                    koCard(spikedeck[1])
+                else
+                    spikedeck[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                    Wait.time(click_push_villain_into_city,1)
                 end
             else
-                printToAll("Spike deck is empty!")
+                broadcastToAll("Spike deck is empty!")
             end
         end
         Wait.time(drawspike,1)
@@ -2194,7 +2192,7 @@ function twistSpecials(cards,city,schemeParts)
                 local mmZone = getObjectFromGUID(mmZoneGUID)
                 mmZone.Call('updateMasterminds',obj.getName())
                 mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[4]})
-                mmZone.Call('setupMasterminds',obj.getName())
+                mmZone.Call('setupMasterminds',{obj.getName(),false,1})
                 local keep = math.random(4)
                 local tacguids = {}
                 for i = 1,4 do
@@ -2224,7 +2222,7 @@ function twistSpecials(cards,city,schemeParts)
             if allianceMM[1] then
                 for _,o in pairs(allianceMM) do
                     for _,k in pairs(table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))) do
-                        if k:find(o.getName()) and o.tag == "Card" then
+                        if k:find(o.getName(),1,true) and o.tag == "Card" then
                             mmcard = o
                             break
                         end
@@ -2252,6 +2250,9 @@ function twistSpecials(cards,city,schemeParts)
                     else
                         local ann = tacticsPile[1].setPosition(allianceMM[1].getPosition())
                         tacticShuffle(ann)
+                        Wait.time(function() 
+                            getObjectFromGUID(mmZoneGUID).Call('click_update_tactics',getObjectFromGUID(topBoardGUIDs[4]))
+                            end,3)
                     end
                 end
                 local ann = mmcard.setPosition(postop)
@@ -4671,7 +4672,7 @@ function twistSpecials(cards,city,schemeParts)
                 local mmZone = getObjectFromGUID(mmZoneGUID)
                 mmZone.Call('updateMasterminds',obj.getName())
                 mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[4+2*(twistsresolved-1)]})
-                mmZone.Call('setupMasterminds',obj.getName())
+                mmZone.Call('setupMasterminds',{obj.getName(),false,1})
                 local keep = math.random(4)
                 local tacguids = {}
                 for i = 1,4 do
@@ -5298,7 +5299,7 @@ function twistSpecials(cards,city,schemeParts)
                 local mmZone = getObjectFromGUID(mmZoneGUID)
                 mmZone.Call('updateMasterminds',"God-Emperor")
                 mmZone.Call('updateMastermindsLocation',{"God-Emperor",schemeZoneGUID})
-                mmZone.Call('setupMasterminds',"God-Emperor")
+                mmZone.Call('setupMasterminds',{"God-Emperor",false,0})
             else
                 broadcastToAll("Missing scheme card?")
                 return nil    
@@ -9496,7 +9497,7 @@ function nonTwistspecials(cards,schemeParts,city)
         cards[1].setPositionSmooth(getObjectFromGUID(zone).getPosition())
         mmZone.Call('updateMasterminds',cards[1].getName())
         mmZone.Call('updateMastermindsLocation',{cards[1].getName(),zone})
-        mmZone.Call('setupMasterminds',cards[1].getName())
+        mmZone.Call('setupMasterminds',{cards[1].getName(),false,0})
         return nil
     end
     return twistsresolved

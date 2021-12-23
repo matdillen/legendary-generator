@@ -1870,7 +1870,7 @@ function schemeSpecials ()
                 if lurkingMasterminds[i] == obj.getName() then
                     local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
                     mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[i*2]})
-                    mmZone.Call('setupMasterminds',{obj.getName(),false,true})
+                    mmZone.Call('setupMasterminds',{obj.getName(),false,2,true})
                     for j,o in pairs(zonetokill.getObjects()) do
                         if o.name == "Deck" then
                             decktokill = zonetokill.getObjects()[j]
@@ -2171,7 +2171,7 @@ function resolveHorror(obj)
         getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"9","Master Plan","masterplan"})
         mmZone.Call('updateMasterminds',obj.getName())
         mmZone.Call('updateMastermindsLocation',{obj.getName(),mmloc})
-        mmZone.Call('setupMasterminds',obj.getName())
+        mmZone.Call('setupMasterminds',{obj.getName(),false,0})
         broadcastToAll("The Horror! A master plan was added to the game as an extra mastermind.")
         return nil
     end
@@ -2190,7 +2190,7 @@ function resolveHorror(obj)
             broadcastToAll("The Horror! " .. obj.getName() .. " was added to the game as an apprentice mastermind with one tactic.")
             mmZone.Call('updateMasterminds',obj.getName())
             mmZone.Call('updateMastermindsLocation',{obj.getName(),mmloc})
-            mmZone.Call('setupMasterminds',obj.getName())
+            mmZone.Call('setupMasterminds',{obj.getName(),false,1})
             local keep = math.random(4)
             local tacguids = {}
             for i = 1,4 do
