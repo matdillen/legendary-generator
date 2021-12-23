@@ -2235,12 +2235,10 @@ function twistSpecials(cards,city,schemeParts)
                     broadcastToAll("Alliance mastermind card not found.")
                     return nil
                 end
-                local postop = allianceMM[1].getPosition()
-                postop.y = postop.y + 4
                 local tacticShuffle = function(obj)
                     get_decks_and_cards_from_zone(topBoardGUIDs[4])[1].randomize()
                 end
-                local addTactic = function(obj)
+                local addTactic = function()
                     local tacticsPile = get_decks_and_cards_from_zone(topBoardGUIDs[2])
                     if tacticsPile[1].getQuantity() > 1 then
                         tacticsPile[1].takeObject({position = allianceMM[1].getPosition(),
@@ -2250,13 +2248,13 @@ function twistSpecials(cards,city,schemeParts)
                     else
                         local ann = tacticsPile[1].setPosition(allianceMM[1].getPosition())
                         tacticShuffle(ann)
-                        Wait.time(function() 
-                            getObjectFromGUID(mmZoneGUID).Call('click_update_tactics',getObjectFromGUID(topBoardGUIDs[4]))
-                            end,3)
                     end
                 end
-                local ann = mmcard.setPosition(postop)
-                addTactic(ann)
+                bump(mmcard,6)
+                addTactic()
+                Wait.time(function() 
+                    getObjectFromGUID(mmZoneGUID).Call('click_update_tactics',getObjectFromGUID(topBoardGUIDs[4]))
+                    end,1.5)
             end
         elseif twistsresolved < 7 then
             local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
@@ -2279,12 +2277,22 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Deadlands Hordes Charge the Wall" then
         koCard(cards[1])
-        Wait.time(click_push_villain_into_city,1)
-        Wait.time(click_push_villain_into_city,3)
+        broadcastToAll("Scheme Twist: All villains charge twice, then another cards is played from the villain deck.")
+        local deadlandsCharge = function()
+            for i,o in pairs(city) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                local targetGUID = city[i+1]
+                if not targetGUID then
+                    targetGUID = escape_zone_guid
+                end
+                if citycontent[1] then
+                    shift_to_next(citycontent,getObjectFromGUID(targetGUID),0,schemeParts)
+                end
+            end
+        end
+        Wait.time(deadlandsCharge,1)
+        Wait.time(deadlandsCharge,3)
         Wait.time(click_draw_villain,4)
-        --could be done with conditions, but then needs to check whether all cards have landed again
-        --don't play the new card automatically as this makes the automation unstoppable
-        --if the automation breaks, players should be able to continue manually
         return nil
     end
     if schemeParts[1] == "Deadpool Kills the Marvel Universe" then
@@ -2325,66 +2333,69 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Deadpool Wants A Chimichanga" then
+        broadcastToAll("Scheme Twist: Each player shuffles a bystander from their victory pile into the villain deck or gains a wound. All bystanders in the city escape.")
         for _,o in pairs(city) do
-            local cards = get_decks_and_cards_from_zone(o)
-            if cards[1] then
-                for _,object in pairs(cards) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,object in pairs(citycontent) do
                     if object.hasTag("Bystander") then
                         object.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
-                        broadcastToAll("Bystander moved to escape pile (do not discard).")
+                        --broadcastToAll("Bystander moved to escape pile (do not discard).")
                     end
                 end
             end
         end
-        local vildeckshuffle = function(obj)
-            vildeck = get_decks_and_cards_from_zone("4bc134")[1]
-            vildeck.randomize()
+        local vildeckshuffle = function()
+            local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+            Wait.time(function() vildeck.randomize() end,1)
         end
-        local bsfound = false
+        chimichangafound = 0
+        local chimichangasAdded = function()
+            if chimichangafound == #Player.getPlayers() then 
+                return true 
+            else 
+                return false 
+            end
+        end
         for i,o in pairs(vpileguids) do
             if Player[i].seated == true then
-                local cards = get_decks_and_cards_from_zone(o)
+                local vpilecontent = get_decks_and_cards_from_zone(o)
                 local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
-                if cards[1] then
-                    if cards[1].tag == "Deck" then
-                        local bystanderguids = {}
-                        for _,object in pairs(cards[1].getObjects()) do
-                            for _,k in pairs(object.tags) do
-                                if k == "Bystander" then
-                                    table.insert(bystanderguids,object.guid)
-                                end
+                if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                    local bystanderguids = {}
+                    for _,object in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(object.tags) do
+                            if k == "Bystander" then
+                                table.insert(bystanderguids,object.guid)
                             end
                         end
-                        local bsguid = nil
-                        if bystanderguids[2] then
-                            bsguid = bystanderguids[math.random(#bystanderguids)]
-                        elseif bystanderguids[1] then
-                            bsguid = bystanderguids[1]
-                        end
-                        if bsguid then
-                            cards[1].takeObject({position = vildeck.getPosition(),
-                                guid = bsguid,flip=true})
-                            bsfound = true
-                        else
-                            click_get_wound(cards[1],i)
-                        end
-                    else
-                        if cards[1].hasTag("Bystander") then
-                            cards[1].flip()
-                            cards[1].setPositionSmooth(vildeck.getPosition())
-                            bsfound = true
-                        else
-                            click_get_wound(cards[1],i)
-                        end
                     end
+                    if bystanderguids[2] then
+                        local shuffleBS = function(obj)
+                            obj.flip()
+                            obj.setPositionSmooth(get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].getPosition())
+                            chimichangafound = chimichangafound + 1
+                        end
+                        offerCards(i,vpilecontent[1],bystanderguids,shuffleBS,"Shuffle this bystander into the villain deck.","Shuffle")
+                    elseif bystanderguids[1] then
+                        vpilecontent[1].takeObject({position = vildeck.getPosition(),
+                            guid = bystanderguids[1],flip=true})
+                        chimichangafound = chimichangafound + 1
+                    else
+                        click_get_wound(nil,i)
+                        chimichangafound = chimichangafound + 1
+                    end
+                elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
+                    vpilecontent[1].flip()
+                    vpilecontent[1].setPositionSmooth(vildeck.getPosition())
+                    chimichangafound = chimichangafound + 1
                 else
-                    click_get_wound(cards[1],i)
+                    click_get_wound(nil,i)
+                    chimichangafound = chimichangafound + 1
                 end
             end
         end
-        if bsfound == true then
-            Wait.time(vildeckshuffle,2)
-        end
+        Wait.condition(vildeckshuffle,chimichangasAdded)
         return twistsresolved
     end
     if schemeParts[1] == "Deadpool Writes a Scheme" then
@@ -9699,22 +9710,24 @@ function offerCards(color,pile,guids,resolvef,toolt,label,flip,n)
         return step,pos
     end
     local step = 0
+    local tot = pile.getQuantity()
     for _,o in pairs(pile.getObjects()) do
-        if not guids or #guids == pile.getQuantity() then
+        if not guids or #guids == tot then
             table.insert(cardsoffered[color],o.guid)
             pile.takeObject({position = pos,
                 guid = o.guid,
                 flip = flip,
                 smooth = true,
                 callback_function = lockAndButton})
+            local rema = pile.remainder
             step,pos = stepPos(step,pos,color,posini)
-            if pile.remainder and #guids ~= #cardsoffered[color] then
-                table.insert(cardsoffered[color],pile.remainder.guid)
-                pile.remainder.setPositionSmooth(pos)
+            if rema and #guids ~= #cardsoffered[color] then
+                table.insert(cardsoffered[color],rema.guid)
+                rema.setPositionSmooth(pos)
                 if flip then
-                    pile.remainder.flip()
+                    rema.flip()
                 end
-                lockAndButton(pile.remainder)
+                lockAndButton(rema)
                 break
             end
         else
