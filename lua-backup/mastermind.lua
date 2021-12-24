@@ -105,7 +105,11 @@ function click_update_tactics(obj)
             end
         end
     elseif mmdeck[1] then
-        obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity())-1 .. ")"})
+        if mmGetCards(mmdeck[1].getName()) == 4 or (hasTag2(mmdeck[1],"Tactic:") and mmGetCards(hasTag2(mmdeck[1],"Tactic:")) == 4) then
+            obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity()) .. ")"})
+        else
+            obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity())-1 .. ")"})
+        end
     else
         obj.editButton({index=index,label="(" .. 0 .. ")"})
     end
@@ -2511,7 +2515,7 @@ function fightMM(zoneguid,player_clicker_color)
                 end
             end
             content[1].takeObject({position = vppos,
-                flip = true,
+                flip = content[1].is_face_down,
                 smooth = true})
             return name
         else

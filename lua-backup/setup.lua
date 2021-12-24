@@ -1393,7 +1393,7 @@ function schemeSpecials ()
                 end
             end
             for i,o in pairs(Player.getPlayers()) do
-                local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+                local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
                 wndPile.takeObject({position=playerdeck.getPosition(),
                     flip=false,
                     smooth=false})

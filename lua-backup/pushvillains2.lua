@@ -2409,6 +2409,19 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist: Everybody draw 1 card. Wait, are these supposed to be bad?")
         elseif twistsresolved == 2 then
             broadcastToAll("Scheme Twist: Anyone without a Deadpool in hand is doing it wrong -- discard 2 cards.")
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                local deadpoolfound = false
+                for _,obj in pairs(hand) do
+                    if obj.getName():find("Deadpool") or obj.hasTag("Team:Deadpool") or obj.getName():find("Venompool") then
+                        deadpoolfound = true
+                        break
+                    end
+                end
+                if not deadpoolfound and hand[1] then 
+                    promptDiscard(o.color,hand,2)
+                end
+            end
         elseif twistsresolved == 3 then  
             playVillains(3)
             broadcastToAll("Scheme Twist: Play 3 cards from the Villain Deck. That sounds pretty bad, right?")
@@ -9305,7 +9318,7 @@ function nonTwistspecials(cards,schemeParts,city)
         end
     end
     if schemeParts[1] == "Devolve with Xerogen Crystals" then
-        if cards[1].getName() == schemeParts[9] then
+        if cards[1].getName() == schemeParts[9] or (hasTag2(cards[1],"Group:") and hasTag2(cards[1],"Group:") == schemeParts[9]) then
             cards[1].setName("Xerogen Experiments")
             if cards[1].getDescription() == "" then
                 cards[1].setDescription("ABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
