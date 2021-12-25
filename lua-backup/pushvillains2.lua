@@ -3266,20 +3266,20 @@ function twistSpecials(cards,city,schemeParts)
                 return false
             end
         end
-        local turnAgain = function()
-            if Turns.turn_color == color then
-                return true
-            else 
-                return false
-            end
-        end
-        local killButton = function()
-            for _,o in pairs(Player.getPlayers()) do
-                local playzone = getObjectFromGUID(playguids[o])
-                playzone.removeButton(0)
-            end
-        end
         local killButtonCallback = function()
+            local turnAgain = function()
+                if Turns.turn_color == color then
+                    return true
+                else 
+                    return false
+                end
+            end
+            local killButton = function()
+                for _,o in pairs(Player.getPlayers()) do
+                    local playzone = getObjectFromGUID(playguids[o.color])
+                    playzone.removeButton(0)
+                end
+            end
             Wait.condition(killButton,turnAgain)
         end
         Wait.condition(killButtonCallback,turnHasPassed)
