@@ -980,10 +980,11 @@ function import_setup()
             vilDeck.randomize()
             local subcount = vilDeck.getQuantity()
             subcount = subcount / 5
-            local topCityZones = table.clone(topBoardGUIDs)
-            table.remove(topCityZones)
-            table.remove(topCityZones,1)
-            table.remove(topCityZones,1)
+            local topCityZones = table.clone(allTopBoardGUIDS)
+            for i = 1,6 do
+                table.remove(topCityZones)
+                table.remove(topCityZones,1)
+            end
             for i=1,4 do
                 local hqZone = getObjectFromGUID(topCityZones[i])
                 for j=1,subcount do
@@ -995,7 +996,33 @@ function import_setup()
             local hqZone = getObjectFromGUID(topCityZones[5])
             vilDeck.flip()
             vilDeck.setPosition(hqZone.getPosition())
+            for i,o in pairs(topCityZones) do
+                getObjectFromGUID(o).createButton({click_function='click_draw_villain_call',
+                    function_owner=self,
+                    position={0,0,-0.5},
+                    rotation={0,180,0},
+                    label="Draw",
+                    tooltip="Draw a card from this villain deck dimension.",
+                    font_size=100,
+                    font_color="Black",
+                    color="White",
+                    width=375})
+            end
             print("Villain deck split in piles above the board!")
+        end
+        click_draw_villain_call = function(obj)
+            fiveFamiliesTargetZone = nil
+            for i,o in pairs(allTopBoardGUIDS) do
+                if o == obj.guid then
+                    fiveFamiliesTargetZone = city_zones_guids[-i+13]
+                    break
+                end
+            end
+            if not fiveFamiliesTargetZone then
+                log("city zone not found.")
+                return nil
+            end
+            getObjectFromGUID(pushvillainsguid).Call('playVillains',{vildeckguid = obj.guid})
         end
         for i = 3,7 do
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
@@ -1092,7 +1119,6 @@ function import_setup()
             table.remove(topCityZones)
         end
         local vilDeckSplit = function() 
-            log("Splitting villain deck in deck for each player")
             local vilDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
             vilDeck.randomize()
             local subcount = 1
@@ -1137,7 +1163,7 @@ function import_setup()
             end
         end
         click_draw_villain_call = function(obj)
-            getObjectFromGUID("f3c7e3").Call('click_draw_villain',obj)
+            getObjectFromGUID(pushvillainsguid).Call('playVillains',{vildeckguid = obj.guid})
         end
         Wait.condition(vilDeckSplit,vilDeckComplete)
         Wait.time(decksShuffle,2)
@@ -1906,7 +1932,7 @@ function schemeSpecials ()
 end
 
 function updateShards(guid)
-    if setupParts[1] == "Unite the Shards" then
+    if setupParts and setupParts[1] == "Unite the Shards" then
         if guid then
             local newshard = true
             for i,o in pairs(shards) do
@@ -2176,7 +2202,7 @@ function resolveHorror(obj)
         return nil
     end
     if obj.getName() == "Surprise Assault" then
-        getObjectFromGUID(pushvillainsguid).Call('playVillains',2)
+        getObjectFromGUID(pushvillainsguid).Call('playVillains',{n=2})
         broadcastToAll("The Horror! Two more cards are played from the villain deck in a surprise assault.")
         return nil
     end
@@ -2341,7 +2367,7 @@ function mojoVPUpdate(bsCount,epicness)
             mojopos2 = getObjectFromGUID(villainDeckZoneGUID).getPosition()
             bsflip = true
         elseif i <= mojo + bsCount then
-            mojopos2 = getObjectFromGUID(getStrikeloc("Mojo")).getPosition()
+            mojopos2 = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Mojo")).getPosition()
             bsflip = false
         else 
             mojopos2 = bsPile.getPosition()

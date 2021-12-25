@@ -464,9 +464,6 @@ function click_draw_villain(obj,vildeckguid)
                 end
             end
         end
-        if schemeParts[1] == "Breach Parallel Dimensions" then
-            vildeckguid = obj.guid
-        end
     end
     local villain_deck = get_decks_and_cards_from_zone(vildeckguid)[1]
     if villain_deck then
@@ -722,13 +719,13 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
     end
 end
 
-function click_push_villain_into_city()
+function click_push_villain_into_city(obj,player_clicker_color)
 -- when moving the villain deck buttons, change the first guid to a new scripting zone
     cityPushDelay = cityPushDelay + 1
-    checkCityContent()
+    checkCityContent(player_clicker_color)
 end
 
-function checkCityContent()
+function checkCityContent(player_clicker_color)
     if cityPushDelay > 1 then
         Wait.time(checkCityContent,cityPushDelay)
         cityPushDelay = cityPushDelay - 1
@@ -737,7 +734,7 @@ function checkCityContent()
         Wait.time(function() cityPushDelay = cityPushDelay - 1 end,1)
     end
     local city_topush = table.clone(current_city)
-    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+    local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
     if schemeParts then
         if schemeParts[1] == "Fragmented Realities" then
             for i,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
@@ -748,6 +745,14 @@ function checkCityContent()
                 end
             end
             city_topush = {"e6b0bc",city_zones_guids[6-villain_deck_zone+1]}
+        end
+        if schemeParts[1] == "Five Families of Crime" then
+            local targetguid = callGUID("fiveFamiliesTargetZone",1)
+            if not targetguid then
+                return nil
+            else
+                city_topush = {city_zones_guids[1],targetguid}
+            end
         end
     end
     local cardfound = false
@@ -1003,13 +1008,17 @@ function cityLowTides()
     table.insert(current_city,"bd3ef1")
 end
 
-function playVillains(n,condition_f,vildeckguid)
+function playVillains(options)
     --plays n cards from the villain deck (default n=1)
     --the first only if condition_f is met (optional)
+    if options then
+        n = options.n
+        vildeckguid = options.vildeckguid
+        condition_f = options.condition_f
+    end
     if not n then
         n = 1
     end
-    --you may specify a custom villain deck (scripting zone) guid for some schemes)
     if not vildeckguid then
         vildeckguid = villainDeckZoneGUID
     end
@@ -1093,6 +1102,12 @@ function playVillains(n,condition_f,vildeckguid)
                     --as soon as the twist or previous villain has left
                     Wait.condition(drawVillain,villainGone)
                 end
+            elseif vildeck then
+                if villainstoplay > 1 then
+                    broadcastToAll("Villain deck ran out, so " .. villainstoplay-1 .. " cards could not be played.")
+                    villainstoplay = 1
+                end
+                Wait.condition(drawVillain,villainGone)
             else
                 broadcastToAll("Villain deck ran out!!")
                 return nil
@@ -1473,6 +1488,26 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "Breach Parallel Dimensions" then
+        broadcastToAll("Scheme Twist: Choose a villain deck to draw two cards from.")
+        local decks = {}
+        for i,o in pairs(allTopBoardGUIDS) do
+            local deck = get_decks_and_cards_from_zone(o)
+            if deck[1] then
+                for _,b in pairs(getObjectFromGUID(o).getButtons()) do
+                    if b.click_function == "click_draw_villain_call" then
+                        table.insert(decks,getObjectFromGUID(o))
+                        break
+                    end
+                end
+            end
+        end
+        playTwoFamily = function(obj)
+            playVillains({n=2,vildeckguid = obj.guid})
+        end
+        promptDiscard(Turns.turn_color,decks,1,"Stay",nil,"Play","Play two cards from this villain deck.",playTwoFamily,"self","Red",true)
+        return twistsresolved
+    end
     if schemeParts[1] == "Build an Army of Annihilation" then
         stackTwist(cards[1])
         local annihilationZone = getObjectFromGUID(topBoardGUIDs[2])
@@ -1803,7 +1838,7 @@ function twistSpecials(cards,city,schemeParts)
                 return false
             end
         end
-        playVillains(2,vildeckLanded)
+        playVillains({n=2,condition_f=vildeckLanded})
         wwiiInvasion = false
         return nil
     end
@@ -1911,7 +1946,7 @@ function twistSpecials(cards,city,schemeParts)
                     end
                 end
             end
-            playVillains(2,nil,sidekickZoneGUID)
+            playVillains({n=2,vildeckguid=sidekickZoneGUID})
         elseif twistsresolved == 8 then
             broadcastToAll("Scheme Twist: All Sidekicks in the city escape!")
             for _,o in pairs(city) do
@@ -2423,7 +2458,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         elseif twistsresolved == 3 then  
-            playVillains(3)
+            playVillains({n=3})
             broadcastToAll("Scheme Twist: Play 3 cards from the Villain Deck. That sounds pretty bad, right?")
         elseif twistsresolved == 4 then
             for _,o in pairs(city) do
@@ -2566,7 +2601,7 @@ function twistSpecials(cards,city,schemeParts)
             end
             promptDiscard(Turns.turn_color,heroes,1,getObjectFromGUID(heroDeckZoneGUID).getPosition(),true,"Tuck","Put this hero on the bottom of the hero deck.",fillHQ)
         end
-        playVillains(2)
+        playVillains({n=2})
         return twistsresolved
     end
     if schemeParts[1] == "Distract the Hero" then
@@ -2612,10 +2647,13 @@ function twistSpecials(cards,city,schemeParts)
             if scheme[1] then
                 scheme[1].flip()
                 scheme[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[5]).getPosition())
-                table.remove(current_city)
-                table.remove(current_city)
-                table.remove(current_city)
-                table.remove(current_city)
+                for i = 1,4 do
+                    local guid = table.remove(current_city)
+                    local content = get_decks_and_cards_from_zone(guid)
+                    if content[1] then
+                        shift_to_next(content,getObjectFromGUID(escape_zone_guid),0,schemeParts)
+                    end
+                end
                 broadcastToAll("Scheme Twist: The tide rushes in and the city is now only three spaces.")
             else
                 broadcastToAll("Scheme card is missing from the Scheme zone?")
@@ -3047,9 +3085,27 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
-    if schemeParts[1] == "Find the Split Personality Killer" or schemeParts[1] == "Five Families of Crime" then
+    if schemeParts[1] == "Find the Split Personality Killer" then
         broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
         return nil
+    end
+    if schemeParts[1] == "Five Families of Crime" then
+        broadcastToAll("Scheme Twist: Choose a villain deck to draw two cards from.")
+        local decks = {}
+        for i,o in pairs(allTopBoardGUIDS) do
+            if i > 6 and i < 12 then
+                local deck = get_decks_and_cards_from_zone(o)
+                if deck[1] then
+                    table.insert(decks,getObjectFromGUID(o))
+                end
+            end
+        end
+        playTwoFamily = function(obj)
+            getObjectFromGUID(setupGUID).Call('click_draw_villain_call',obj)
+            getObjectFromGUID(setupGUID).Call('click_draw_villain_call',obj)
+        end
+        promptDiscard(Turns.turn_color,decks,1,"Stay",nil,"Play","Play two cards from this villain deck.",playTwoFamily,"self","Red",true)
+        return twistsresolved
     end
     if schemeParts[1] == "Flood the Planet with Melted Glaciers" then
         stackTwist(cards[1])
@@ -3071,24 +3127,24 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Forge the Infinity Gauntlet" then
         local gemfound = false
         local color = Turns.turn_color
-        function killInfinityGemButton(obj)
-            obj.clearButtons()
-            obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
-            Wait.time(click_push_villain_into_city,2)
-            local shardAllGems = function()
-                broadcastToAll("Scheme Twist: Shards added to all Infinity Gems in the city.")
-                for _,o in pairs(city) do
-                    local citycontent = get_decks_and_cards_from_zone(o)
-                    if citycontent[1] then
-                        for _,obj in pairs(citycontent) do
-                            if obj.hasTag("Group:Infinity Gems") then
-                                gainShard(nil,o)
-                                break
-                            end
+        function shardAllGems()
+            broadcastToAll("Scheme Twist: Shards added to all Infinity Gems in the city.")
+            for _,o in pairs(city) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.hasTag("Group:Infinity Gems") then
+                            gainShard(nil,o)
+                            break
                         end
                     end
                 end
             end
+        end
+        function killInfinityGemButton(obj)
+            obj.clearButtons()
+            obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+            Wait.time(click_push_villain_into_city,2)
             Wait.time(shardAllGems,4)
             for _,b in pairs(discardGemguids) do
                 if b ~= obj.guid then
@@ -3113,6 +3169,7 @@ function twistSpecials(cards,city,schemeParts)
         while gemfound == false do
             color = getNextColor(color)
             if color == Turns.turn_color then
+                shardAllGems()
                 gemfound = true
             end
             latestGemColor = color
@@ -3177,7 +3234,7 @@ function twistSpecials(cards,city,schemeParts)
                 break
             end
         end
-        playVillains(2,nil,villain_deck_zone)
+        playVillains({n=2,vildeckguid=villain_deck_zone})
         return nil
     end
     if schemeParts[1] == "Gladiator Pits of Sakaar" then
@@ -3920,7 +3977,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Negative Zone Prison Breakout" then
-        playVillains(2)
+        playVillains({n=2})
         return twistsresolved
     end
     if schemeParts[1] == "Nitro the Supervillain Threatens Crowds" then
@@ -4208,7 +4265,7 @@ function twistSpecials(cards,city,schemeParts)
                             end
                         end
                         local playCards = function()
-                            playVillains(villainsfound)
+                            playVillains({n=villainsfound})
                         end
                         Wait.condition(playCards,cardsLanded)
                     end
@@ -4227,7 +4284,7 @@ function twistSpecials(cards,city,schemeParts)
                             callback_function = callback_f})
                     end
                 elseif villainsfound == 3 then
-                    playVillains(3)
+                    playVillains({n=3})
                 end
             --still script for villain decks of size 3 and 2
             elseif vildeck.tag == "Card" and vildeck.hasTag("Villain") then
@@ -4557,7 +4614,7 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Scavenge Alien Weaponry" then
-        playVillains(2)
+        playVillains({n=2})
         return twistsresolved
     end
     if schemeParts[1] == "Secret Empire of Betrayal" then
@@ -4838,7 +4895,7 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         if twistsresolved < 6 then
             updatePower()
-            playVillains(1)
+            playVillains()
         elseif twistsresolved == 6 then
             koCard(cards[1])
             for _,o in pairs(city) do
@@ -4878,7 +4935,7 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setDescription("VILLAINOUS WEAPON: This plutonium gives +1. Shuffle it back into the villain deck if the villain holding it is defeated.")
         powerButton(cards[1],"+1")
         --these will often become stacks and that will kill the button...
-        playVillains(1)
+        playVillains()
         return twistsresolved
     end
     if schemeParts[1] == "Subjugate with Obedience Disks" then
@@ -5535,7 +5592,7 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "The Mark of Khonshu" then
-        playVillains(2)
+        playVillains({n=2})
         return twistsresolved
     end
     if schemeParts[1] == "The Unbreakable Enigma Code" then
@@ -5708,7 +5765,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Trap Heroes in the Microverse" then
-        playVillains(2)
+        playVillains({n=2})
         return twistsresolved
     end
     if schemeParts[1] == "Trapped in the Insane Asylum" then
@@ -5973,7 +6030,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             if giantsfound > 0 then
-                Wait.time(function() playVillains(giantsfound) end,2.5)
+                Wait.time(function() playVillains({n=giantsfound}) end,2.5)
                 broadcastToAll("Scheme Twist: " .. giantsfound .. " Frost Giant Invaders put on top of villain deck from player's victory piles. Please play them all!")
             end
         end
@@ -6301,7 +6358,7 @@ function resolveStrike(mmname,epicness,city,cards)
         end
         if epicness == true then
             if cardtype == "Villain" then
-                playVillains(2)
+                playVillains({n=2})
                 broadcastToAll("Master Strike: Epic Annihilus plays a villain and therefore another card from the villain deck as well!")
             else
                 playVillains()
@@ -9263,17 +9320,15 @@ function crossDimensionalRampage(name)
     local players = Player.getPlayers()
     --add pseudonyms for wolverine,hulk still
     for i,o in pairs(players) do
-        if o.seated == true then
-            local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
-            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
-                for _,k in pairs(vpilecontent[1].getObjects()) do
-                    if string.lower(k.name):find(name) then
-                        table.remove(players,i)
-                    end
+        local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
+        if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+            for _,k in pairs(vpilecontent[1].getObjects()) do
+                if string.lower(k.name):find(name) then
+                    table.remove(players,i)
                 end
-            elseif vpilecontent[1] and string.lower(vpilecontent[1].getName()):find(name) then
-                table.remove(players,i)
             end
+        elseif vpilecontent[1] and string.lower(vpilecontent[1].getName()):find(name) then
+            table.remove(players,i)
         end
     end
     for i,o in pairs(players) do
@@ -9286,7 +9341,16 @@ function crossDimensionalRampage(name)
             end
         end
     end
-    --does not check heroes in play yet
+    for i,o in pairs(players) do
+        local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
+        if playcontent[1] then
+            for _,h in pairs(playcontent) do
+                if string.lower(h.getName()):find(name) then
+                    table.remove(players,i)
+                end
+            end
+        end
+    end
     for _,o in pairs(players) do
         click_get_wound(nil,o.color)
     end
@@ -9358,7 +9422,7 @@ function nonTwistspecials(cards,schemeParts,city)
     end
     if schemeParts[1] == "Organized Crime Wave" then
         if cards[1].getName() == "Maggia Goons" then
-            playVillains(1)
+            playVillains()
         end
     end
     if schemeParts[1] == "Replace Earth's Leaders with Killbots" then
@@ -9402,7 +9466,7 @@ function nonTwistspecials(cards,schemeParts,city)
         if cards[1].getName() == "Jean Grey (DC)" then
             powerButton(cards[1],hasTag2(cards[1],"Cost:"))
             cards[1].addTag("Villain")
-            playVillains(1)
+            playVillains()
         end
     end
     if schemeParts[1] == "The Fountain of Eternal Life" then
@@ -9781,7 +9845,7 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
-function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,buttoncolor)
+function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,buttoncolor,isZone)
     if color[1] then
         handobjects = color[2]
         n = color[3]
@@ -9792,6 +9856,7 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
         triggerf = color[8]
         args = color[9]
         buttoncolor = color[10]
+        isZone = color[11]
         color = color[1]
     end
     if not handobjects then
@@ -9835,10 +9900,18 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
         for i,o in pairs(handobjects) do
             _G["discardCard" .. color .. o.guid] = function(obj)
                 n = n-1
-                obj.clearButtons()
+                for index,button in pairs(obj.getButtons()) do
+                    if button.click_function:find("discardCard") then
+                        obj.removeButton(index-1)
+                    end
+                end
                 if n == 0 then
                     for _,p in pairs(handobjects) do
-                        p.clearButtons()
+                        for index,button in pairs(p.getButtons()) do
+                            if button.click_function:find("discardCard") then
+                                p.removeButton(index-1)
+                            end
+                        end
                     end
                 end
                 if flip then
@@ -9859,15 +9932,28 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
                     triggerf()
                 end
             end
-            o.createButton({click_function="discardCard" .. color .. o.guid,
-                function_owner=self,
-                position={0,22,0},
-                label=label,
-                tooltip=tooltip,
-                font_size=250,
-                font_color="Black",
-                color=buttoncolor or {1,1,1},
-                width=750,height=450})
+            if not isZone then
+                o.createButton({click_function="discardCard" .. color .. o.guid,
+                    function_owner=self,
+                    position={0,22,0},
+                    label=label,
+                    tooltip=tooltip,
+                    font_size=250,
+                    font_color="Black",
+                    color=buttoncolor or {1,1,1},
+                    width=750,height=450})
+            else
+                o.createButton({click_function="discardCard" .. color .. o.guid,
+                    function_owner=self,
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label=label,
+                    tooltip=tooltip,
+                    font_size=100,
+                    font_color="Black",
+                    color=buttoncolor or {1,1,1},
+                    width=375})
+            end
         end
     end
 end
@@ -9904,7 +9990,13 @@ function gainShard(color,zoneGUID,n)
             end
         end
         local newshard = shard.clone({position = getObjectFromGUID(zoneGUID).getPosition()})
-        Wait.time(function() for i=1,n do newshard.Call('add_subtract') end end,0.2)
+        newshard.locked = false
+        Wait.time(function() 
+                newshard.Call('resetVal')                
+                for i=1,n-1 do 
+                    newshard.Call('add_subtract') 
+                end 
+            end,0.2)
         log("First shard added to zone with guid " .. zoneGUID)
     end
 end
