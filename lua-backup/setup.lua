@@ -1183,6 +1183,7 @@ function import_setup()
     for s in string.gmatch(setupParts[8],"[^|]+") do
         table.insert(heroParts, string.lower(s))
     end
+    local herodeckextracards = 0
     
     if setupParts[1] == "Divide and Conquer" then
         local dividedDeckGUIDs = {
@@ -1266,9 +1267,25 @@ function import_setup()
                 end
             end
         end
+        if setupParts[1] == "Invade the Daily Bugle News HQ" then
+            log("6 extra henchmen in hero deck.")
+            local bugleInvader = function(obj)
+                for i=1,6 do
+                    obj.takeObject({position=heroZone.getPosition(),
+                        flip=false,smooth=false})
+                end
+                local hmPile = getObjectFromGUID(hmPileGUID)
+                for i=1,4 do
+                    obj.takeObject({position=hmPile.getPosition(),
+                        flip=false,smooth=false})
+                end
+            end
+            herodeckextracards = 6
+            findInPile(setupParts[9],hmPileGUID,twistZoneGUID,bugleInvader)
+        end
         local heroDeckComplete = function()
             local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
-            if herodeck and herodeck.getQuantity() == #heroParts*14 then
+            if herodeck and herodeck.getQuantity() == #heroParts*14 + herodeckextracards then
                 return true
             else
                 return false
@@ -1537,6 +1554,50 @@ function schemeSpecials ()
         for i = 3,7 do
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
+        function onObjectEnterZone(zone,object)
+            if object.hasTag("Bystander") then
+                for i = 3,7 do
+                    local content = get_decks_and_cards_from_zone(topBoardGUIDs[i])
+                    local zone = getObjectFromGUID(topBoardGUIDs[i])
+                    if content[1] and not zone.getButtons() then
+                        zone.createButton({click_function='returnColor',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="2",
+                            tooltip="Fight this hypnotized bystander for 2 to rescue it.",
+                            font_size=350,
+                            font_color={1,0,0},
+                            color={0,0,0,0.75},
+                            width=250,height=250})
+                    elseif not content[1] and zone.getButtons() then
+                        zone.clearButtons()
+                    end
+                end
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if object.hasTag("Bystander") then
+                for i = 3,7 do
+                    local content = get_decks_and_cards_from_zone(topBoardGUIDs[i])
+                    local zone = getObjectFromGUID(topBoardGUIDs[i])
+                    if content[1] and not zone.getButtons() then
+                        zone.createButton({click_function='returnColor',
+                            function_owner=self,
+                            position={0,0,0},
+                            rotation={0,180,0},
+                            label="2",
+                            tooltip="Fight this hypnotized bystander for 2 to rescue it.",
+                            font_size=350,
+                            font_color={1,0,0},
+                            color={0,0,0,0.75},
+                            width=250,height=250})
+                    elseif not content[1] and zone.getButtons() then
+                        zone.clearButtons()
+                    end
+                end
+            end
+        end
     end
     if setupParts[1] == "Infiltrate the Lair with Spies" then
         log("21 bystanders next to scheme")
@@ -1552,26 +1613,17 @@ function schemeSpecials ()
                 flip=false,smooth=false})
         end
     end
-    if setupParts[1] == "Invade the Daily Bugle News HQ" then
-        log("6 extra henchmen in hero deck.")
-        local bugleInvader = function(obj)
-            for i=1,6 do
-                obj.takeObject({position=heroZone.getPosition(),
-                    flip=false,smooth=false})
-            end
-            local hmPile = getObjectFromGUID(hmPileGUID)
-            for i=1,4 do
-                obj.takeObject({position=hmPile.getPosition(),
-                    flip=false,smooth=false})
-            end
-        end
-        findInPile(setupParts[9],hmPileGUID,twistZoneGUID,bugleInvader)
-    end
     if setupParts[1] == "Mutating Gamma Rays" or setupParts[1] == "Shoot Hulk into Space" then
         log("Extra Hulk hero in mutation pile.")
         local hulkshuffle = function(obj)
-            obj.flip()
-            obj.randomize()
+            --obj.flip()
+            --obj.randomize()
+            local pos = obj.getPosition()
+            pos.y = pos.y + 0.5
+            for i=1,obj.getQuantity() do
+                obj.takeObject({position = pos})
+                pos.y = pos.y + 0.5*i
+            end
         end
         findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
     end

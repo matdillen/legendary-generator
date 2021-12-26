@@ -175,13 +175,19 @@ genFun = function(src,
     src$heroes %<>% filter(Hero!="Scarlet Witch")
   }
   
+  if (scheme=="Invade the Daily Bugle News HQ") {
+    src$henchmen %<>% filter(Name!="HYDRA Base")
+  }
+  
   if (scheme=="The Dark Phoenix Saga"|
       scheme=="Transform Citizens Into Demons") {
     src$heroes %<>% filter(Hero!="Jean Grey")
   }
+  
   if (scheme=="Turn the Soul of Adam Warlock") {
     src$heroes %<>% filter(Hero!="Adam Warlock")
   }
+  
   adapters = c("Hydra Super-Adaptoid",
                "Hydra High Council")
   if (scheme=="Hidden Heart of Darkness"|

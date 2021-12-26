@@ -1722,9 +1722,13 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             local bs = get_decks_and_cards_from_zone(strikeloc)
+            local boost = 0
+            if bs[1] then
+                boost = math.abs(bs[1].getQuantity())
+            end
             Wait.time(function() mmButtons(objname,
-                #bs,
-                "+" .. #bs,
+                boost,
+                "+" .. boost,
                 "Mr. Sinister gets +1 for each Bystander he has.",
                 'updateMMMrSinister') end,1)
         end
@@ -1853,9 +1857,13 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             local bs = get_decks_and_cards_from_zone(strikeloc)
+            local boost = 0
+            if bs[1] then
+                boost = math.abs(bs[1].getQuantity())
+            end
             Wait.time(function() mmButtons(objname,
-                #bs,
-                "+" .. #bs,
+                boost,
+                "+" .. boost,
                 "Professor X gets +1 for each of his telepathic pawns.",
                 'updateMMProfessorX') end,1)
         end
@@ -1883,9 +1891,13 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             local bs = get_decks_and_cards_from_zone(strikeloc)
+            local boost = 0
+            if bs[1] then
+                boost = math.abs(bs[1].getQuantity())
+            end
             Wait.time(function() mmButtons(objname,
-                #bs,
-                "+" .. #bs,
+                boost,
+                "+" .. boost,
                 "'92 Professor X gets +1 for each of his telepathic pawns.",
                 'updateMMProfessorX92') end,1)
         end
@@ -1958,9 +1970,13 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             local bs = get_decks_and_cards_from_zone(strikeloc)
+            local boost = 0
+            if bs[1] then
+                boost = math.abs(bs[1].getQuantity())
+            end
             Wait.time(function() mmButtons(objname,
-                #bs,
-                "+" .. #bs,
+                boost,
+                "+" .. boost,
                 "Shadow King gets +1 for each hero he dominates.",
                 'updateMMShadowKing') end,1)
         end

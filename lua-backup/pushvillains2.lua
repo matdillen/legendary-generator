@@ -814,7 +814,7 @@ function updatePower()
                             goblincount = 0
                         end
                         object.editButton({index = index-1,label = hasTag2(object,"Cost:") + goblincount})
-                    elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") then
+                    elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") or object.hasTag("Super Sentinel") then
                         object.editButton({index = index-1,label = "+" .. twistsstacked})
                     elseif object.getName() == "Graveyard" and object.hasTag("Location") then
                         for _,obj in pairs(cityobjects) do
@@ -3689,12 +3689,12 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Invincible Force Field" then
         stackTwist(cards[1])
         if twistsresolved == 1 then
-            local mmzone = getObjectFromGUID(mmZoneGUID)
+            local mmzone = getObjectFromGUID(twistZoneGUID)
             mmzone.createButton({click_function="updatePower",
                 function_owner=self,
                 position={0.5,0,0},
                 rotation={0,180,0},
-                label="+1",
+                label="+1/",
                 tooltip="Spend this much Recruit (or Attack) to fight the Mastermind.",
                 font_size=350,
                 font_color="Yellow",
@@ -3711,9 +3711,9 @@ function twistSpecials(cards,city,schemeParts)
                 color={0,0,0,0.75},
                 width=250,height=250})
         elseif twistsresolved < 7 then
-            local mmzone = getObjectFromGUID(mmZoneGUID)
+            local mmzone = getObjectFromGUID(twistZoneGUID)
             mmzone.editButton({index = 0,
-                label = "+" .. twistsresolved})
+                label = "+" .. twistsresolved .. "/"})
             mmzone.editButton({index = 1,
                 label = "+" .. twistsresolved})
         else
@@ -3734,7 +3734,7 @@ function twistSpecials(cards,city,schemeParts)
                 font_size=350,
                 font_color="Red",
                 color={0,0,0,0.75},
-                width=250,height=250})
+                width=250,height=200})
         else
             getObjectFromGUID(city_zones_guids[4]).editButton({index=0,
                 label="+" .. twistsresolved})
@@ -3744,6 +3744,22 @@ function twistSpecials(cards,city,schemeParts)
             for _,o in pairs(citycards) do
                 if o.hasTag("Villain") then
                     broadcastToAll("Scheme Twist: KO three Heroes from the HQ!",{1,0,0})
+                    local heroes = {}
+                    for _,obj in pairs(hqguids) do
+                        local hero = getObjectFromGUID(obj).Call('getHeroUp')
+                        if hero then
+                            table.insert(heroes,hero)
+                        end
+                    end
+                    local lastStandDrawNew = function(obj,index)
+                        for i,zone in pairs(hqguids) do
+                            if i == index then
+                                getObjectFromGUID(zone).Call('click_draw_hero')
+                                break
+                            end
+                        end
+                    end
+                    promptDiscard(Turns.turn_color,heroes,3,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this hero.",lastStandDrawNew,"self")
                     break
                 end
             end
@@ -3751,7 +3767,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Massive Earthquake Generator" then
-        local players = revealCardTrait("Green")
+        local players = revealCardTrait("Green",nil,nil,nil,true)
         for i,o in pairs(players) do
             local feastOn = function()
                 local deck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
@@ -3885,12 +3901,6 @@ function twistSpecials(cards,city,schemeParts)
             obj.addTag("Possessed")
             obj.addTag("Villain")
             obj.removeTag("Bystander") -- complicates vp count!!
-            local twistsstack = get_decks_and_cards_from_zone(twistZoneGUID)
-            if twistsstack[1] then
-                twistsstacked = math.abs(twistsstack[1].getQuantity())
-            else
-                twistsstacked = 0
-            end
             powerButton(obj,twistsstacked)
             updatePower()
         end
@@ -3916,65 +3926,130 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
         stackTwist(cards[1])
         local vildeckzone = getObjectFromGUID(villainDeckZoneGUID)
-        local vildeck = vildeckzone.getObjects()[2]
-        local vildeckcurrentcount = vildeck.getQuantity()
+        local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+        local vildeckcurrentcount = 0
+        if vildeck then
+            vildeckcurrentcount = math.abs(vildeck.getQuantity())
+        end
         local sentinelsfound = 0
-        for i,o in pairs(vpileguids) do
-            if Player[i].seated == true then
-                local vpilecontent = getObjectFromGUID(o).getObjects()[1]
-                local copguids = {}
-                if vpilecontent then
-                    if vpilecontent.getQuantity() > 1  then
-                        local vpileCards = vpilecontent.getObjects()
-                        for j = 1, vpilecontent.getQuantity() do
-                            if vpileCards[j].name == "Sentinel" then
-                                table.insert(copguids,vpileCards[j].guid)
-                                sentinelsfound = sentinelsfound + 1
-                            end
-                        end
-                        for j = 1,#copguids do
-                            if not vpilecontent.remainder then
-                                vpilecontent.takeObject({position=vildeckzone.getPosition(),
-                                    guid=copguids[j],flip=true})
-                            else
-                                vpilecontent.remainder.flip()
-                                vpilecontent.remainder.setPositionSmooth(vildeckzone.getPosition())
-                            end  
-                        end
+        for _,o in pairs(Player.getPlayers()) do
+            local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])[1]
+            local copguids = {}
+            if vpilecontent and vpilecontent.tag == "Deck" then
+                local vpileCards = vpilecontent.getObjects()
+                for j = 1, #vpileCards do
+                    if vpileCards[j].name == "Sentinel" then
+                        table.insert(copguids,vpileCards[j].guid)
+                        sentinelsfound = sentinelsfound + 1
                     end
-                    if vpilecontent.getQuantity() == -1 then
-                        if vpilecontent.getName() == "Sentinel" then
-                            vpilecontent.flip()
-                            vpilecontent.setPositionSmooth(vildeckzone.getPosition())
-                            sentinelsfound = sentinelsfound + 1
-                        end
-                    end
+                end
+                for j = 1,#copguids do
+                    if not vpilecontent.remainder then
+                        vpilecontent.takeObject({position=vildeckzone.getPosition(),
+                            guid=copguids[j],flip=true})
+                    else
+                        vpilecontent.remainder.flip()
+                        vpilecontent.remainder.setPositionSmooth(vildeckzone.getPosition())
+                    end  
+                end
+            elseif vpilecontent then
+                if vpilecontent.getName() == "Sentinel" then
+                    vpilecontent.flip()
+                    vpilecontent.setPositionSmooth(vildeckzone.getPosition())
+                    sentinelsfound = sentinelsfound + 1
                 end
             end
         end
         local sentinelsAdded = function()
-            local test = vildeckcurrentcount + sentinelsfound
-            if vildeckzone.getObjects()[2] then
-                if vildeckzone.getObjects()[2].getQuantity() == test then
-                    return true
-                else
-                    return false
-                end
+            local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+            if vildeck and vildeck.getQuantity() == vildeckcurrentcount + sentinelsfound then
+                return true
+            else
                 return false
             end
         end
         local sentinelsNext = function()
             if sentinelsfound > 0 then
-                vildeckzone.getObjects()[2].randomize()
+                get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].randomize()
             end
-            click_draw_villain()
+            playVillains()
+            updatePower()
         end
         Wait.condition(sentinelsNext,sentinelsAdded)
         return nil
     end
     if schemeParts[1] == "Mutating Gamma Rays" then
-        broadcastToAll("Scheme Twist: This scheme is not scripted yet.")
-        return nil
+        broadcastToAll("Scheme Twist: Each player in turn does the following: Put a non-grey Hero from your hand into the Mutation Pile. Then you may put a different card name with the same cost from the Mutation Pile into your discard pile.")
+        mutatingcolor = Turns.turn_color
+        mutateFromHand = function(color)
+            local hand = Player[color].getHandObjects()
+            local handi = table.clone(hand)
+            local iter = 0
+            for i,obj in ipairs(handi) do
+                if not hasTag2(obj,"HC:") then
+                    table.remove(hand,i-iter)
+                    iter = iter + 1
+                end
+            end
+            if hand[1] then
+                promptDiscard(mutatingcolor,hand,1,getObjectFromGUID(twistZoneGUID).getPosition(),nil,"Mutate","Put this card into the mutation pile. You'll get a different card with the same cost back, if any.",mutateIntoHand,"self")
+            else
+                mutatingcolor = getNextColor(mutatingcolor)
+                if mutatingcolor ~= Turns.turn_color then
+                    mutateFromHand(mutatingcolor)
+                end
+            end
+        end
+        mutateIntoHand = function(obj,index,color)
+            --obj.flip()
+            local mutatecontent = get_decks_and_cards_from_zone(twistZoneGUID)[1]
+            local keepguids = {}
+            for _,c in pairs(mutatecontent.getObjects()) do
+                for _,tag in pairs(c.tags) do
+                    if tag:find("Cost:") and tonumber((tag:gsub("Cost:",""))) == hasTag2(obj,"Cost:") then
+                        table.insert(keepguids,c.guid)
+                        --local json = k.getJSON()
+                        --local id = json:match("\"CardID\": %d+"):gsub("\"CardID\": ","")
+                        --can't get json from a card inside a container (?)
+                        break
+                    end
+                end
+            end
+            -- local temp = {}
+            -- local keepguids2 = {}
+            -- --doesn't work, guids are unique, cardids duplicated
+            -- for _,c in pairs(keepguids) do
+                -- if not temp[c] then
+                    -- keepguids2[#keepguids2+1] = c
+                    -- temp[c] = true
+                -- end
+            -- end
+            if keepguids[1] and keepguids[2] then
+                local mutateIntoDiscard = function(obj)
+                    obj.setPositionSmooth(getObjectFromGUID(playerBoards[mutatingcolor]).positionToWorld(pos_discard))
+                    mutatingcolor = getNextColor(mutatingcolor)
+                    if mutatingcolor ~= Turns.turn_color then
+                        mutateFromHand(mutatingcolor)
+                    end 
+                end
+                offerCards(mutatingcolor,mutatecontent,keepguids,mutateIntoDiscard,"Gain this card from the mutation pile.","Gain")
+            elseif keepguids[1] then
+                mutatecontent.takeObject({position = getObjectFromGUID(playerBoards[mutatingcolor]).positionToWorld(pos_discard),
+                    smooth = true,
+                    guid = keepguids[1]})
+                mutatingcolor = getNextColor(mutatingcolor)
+                if mutatingcolor ~= Turns.turn_color then
+                    mutateFromHand(mutatingcolor)
+                end 
+            else
+                mutatingcolor = getNextColor(mutatingcolor)
+                if mutatingcolor ~= Turns.turn_color then
+                    mutateFromHand(mutatingcolor)
+                end 
+            end
+        end
+        mutateFromHand(mutatingcolor)
+        return twistsresolved
     end
     if schemeParts[1] == "Negative Zone Prison Breakout" then
         playVillains({n=2})
@@ -9247,7 +9322,7 @@ function resolveStrike(mmname,epicness,city,cards)
     return nil
 end
 
-function revealCardTrait(trait,prefix,playercolors,what)
+function revealCardTrait(trait,prefix,playercolors,what,includePlay)
     -- trait is the card tag to look for, by default a color
     -- specify the tag prefix if another trait is needed
     -- specify players if not all are affected
@@ -9268,6 +9343,12 @@ function revealCardTrait(trait,prefix,playercolors,what)
     end
     for i,o in ipairs(players) do
         local hand = o.getHandObjects()
+        if includePlay then
+            local content = get_decks_and_cards_from_zone(playguids[o.color])
+            if content[1] then
+                hand = merge(hand,content)
+            end
+        end
         if hand[1] then
             for _,h in pairs(hand) do
                 if what == "Prefix" then
@@ -9418,6 +9499,12 @@ function nonTwistspecials(cards,schemeParts,city)
     if schemeParts[1] == "Mass Produce War Machine Armor" then
         if cards[1].getName() == "S.H.I.E.L.D. Assault Squad" then
             powerButton(cards[1],"+" .. twistsresolved)
+        end
+    end
+    if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
+        if cards[1].getName() == "Sentinel" then
+            cards[1].addTag("Super Sentinel")
+            powerButton(cards[1],"+" .. twistsstacked)
         end
     end
     if schemeParts[1] == "Organized Crime Wave" then
@@ -9731,15 +9818,13 @@ function offerCards(color,pile,guids,resolvef,toolt,label,flip,n)
         n = n - 1
         if n == 0 then
             for _,o in pairs(cardsoffered[color]) do
-                if o ~= obj.guid then
-                    local card = getObjectFromGUID(o)
-                    if card then
-                        card.locked = false
-                        card.clearButtons()
-                        card.setPosition(pilepos)
-                        if flip then
-                            card.flip()
-                        end
+                local card = getObjectFromGUID(o)
+                if card and card.guid ~= obj.guid then
+                    card.locked = false
+                    card.clearButtons()
+                    card.setPosition(pilepos)
+                    if flip then
+                        card.flip()
                     end
                 end
             end
@@ -9907,9 +9992,11 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
                 end
                 if n == 0 then
                     for _,p in pairs(handobjects) do
-                        for index,button in pairs(p.getButtons()) do
-                            if button.click_function:find("discardCard") then
-                                p.removeButton(index-1)
+                        if p and p.getButtons() then
+                            for index,button in pairs(p.getButtons()) do
+                                if button.click_function:find("discardCard") then
+                                    p.removeButton(index-1)
+                                end
                             end
                         end
                     end
