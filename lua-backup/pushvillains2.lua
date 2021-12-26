@@ -3813,7 +3813,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Massive Earthquake Generator" then
-        local players = revealCardTrait("Green",nil,nil,nil,true)
+        local players = revealCardTrait("Green")
         for i,o in pairs(players) do
             local feastOn = function()
                 local deck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
@@ -5499,6 +5499,7 @@ function twistSpecials(cards,city,schemeParts)
         if vildeck[1] then
             vildeckcount = vildeck[1].getQuantity()
         end
+        broadcastToAll("Scheme Twist: All Jean Grey hero cards in discard piles, hand or the KO pile are shuffled back into the Villain deck.")
         if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
             for _,o in pairs(kopilecontent[1].getObjects()) do
                 if o.name == "Jean Grey (DC)" then
@@ -5576,7 +5577,9 @@ function twistSpecials(cards,city,schemeParts)
             local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
             vildeck[1].randomize()
         end
-        Wait.condition(shufflejean,jeangreyadded)
+        if jeanfound > 0 then
+            Wait.condition(shufflejean,jeangreyadded)
+        end
         return twistsresolved
     end
     if schemeParts[1] == "The Demon Bear Saga" then
@@ -5714,7 +5717,35 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "The Fountain of Eternal Life" then
-        broadcastToAll("Scheme Twist: A villain from your victory pile enters the sewers. Please choose one! Twist card put on bottom of villain deck.")
+        broadcastToAll("Scheme Twist: A villain from your victory pile enters the sewers. Twist card is put on bottom of the villain deck.")
+        local vpile = get_decks_and_cards_from_zone(vpileguids[Turns.turn_color])[1]
+        local pos = getObjectFromGUID(city_zones_guids[1]).getPosition()
+        if vpile and vpile.tag == "Deck" then
+            local villainsfound = {}
+            for _,o in pairs(vpile.getObjects()) do
+                for _,tag in pairs(o.tags) do
+                    if tag == "Villain" then
+                        table.insert(villainsfound,o.guid)
+                        break
+                    end
+                end
+            end
+            if #villainsfound > 1 then
+                local thirstyVillain = function(obj)
+                    obj.setPositionSmooth(pos)
+                    Wait.time(click_push_villain_into_city,1)
+                end
+                offerCards(Turns.turn_color,vpile,villainsfound,thirstyVillain,"Push this villain card into the city.","Push")
+            elseif villainsfound[1] then
+                vpile.takeObject({position = pos,
+                    smooth = true,
+                    guid = villainsfound[1],
+                    callback_function = click_push_villain_into_city})
+            end
+        elseif vpile and vpile.hasTag("Villain") then
+            vpile.setPositionSmooth(pos)
+            Wait.time(click_push_villain_into_city,1)
+        end
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
         if vildeck[1] then
             local pos = vildeck[1].getPosition()
@@ -5862,9 +5893,24 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         elseif twistsresolved < 8 then
-            local players = revealCardTrait("Avengers","Team:")
-            for _,o in pairs(players) do
-                click_get_wound(nil,o.color)
+            for _,o in pairs(Player.getPlayers()) do
+                local hand = o.getHandObjects()
+                if hand[1] then
+                    local hand = o.getHandObjects()
+                    local avengers = {}
+                    for _,obj in pairs(hand) do
+                        if hasTag2(obj,"Team:") and hasTag2(obj,"Team:") == "Avengers" then
+                            table.insert(avengers,obj)
+                        end
+                    end
+                    if avengers[1] then
+                        promptDiscard(o.color,avengers)
+                    else
+                        click_get_wound(nil,o.color)
+                    end
+                else
+                    click_get_wound(nil,o.color)
+                end
             end
             local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
             scheme[1].flip()
@@ -6249,6 +6295,7 @@ function twistSpecials(cards,city,schemeParts)
                 for _,o in pairs(cardz) do
                     if o.hasTag("Villain") then
                         cards[1].setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[10]).getPosition())
+                        cards[1].setName("Western State Victory")
                         broadcastToAll("Scheme Twist! Western State Victory!")
                         return nil
                     end
@@ -6260,6 +6307,7 @@ function twistSpecials(cards,city,schemeParts)
             for _,o in pairs(cardz) do
                 if o.hasTag("Villain") then
                     cards[1].setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[11]).getPosition())
+                    cards[1].setName("Eastern State Victory")
                     broadcastToAll("Scheme Twist! Eastern State Victory!")
                     return nil
                 end
@@ -7198,7 +7246,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Deadpool" then
-        local towound = revealCardTrait(nil,"HC:",nil,"Odd")
+        local towound = revealCardTrait({prefix="Cost:",what="Odd"})
         for _,o in pairs(towound) do
             click_get_wound(nil,o.color)
             broadcastToAll("Master Strike: Player " .. o.color .. " had no odd heroes and was wounded.")
@@ -7797,7 +7845,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Immortal Emperor Zheng-Zhu" then
-        local players = revealCardTrait(6,"Cost:",nil,"Cost")
+        local players = revealCardTrait({trait=6,prefix="Cost:",what="Cost"})
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             if #hand > 3 then
@@ -7989,7 +8037,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return nil
     end
     if mmname == "Kingpin" then
-        local players = revealCardTrait("Marvel Knights","Team:")
+        local players = revealCardTrait({trait="Marvel Knights",prefix="Team:"})
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             promptDiscard(o.color,hand,#hand)
@@ -8091,7 +8139,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Magneto" or mmname == "Apocalyptic Magneto" then
-        local players = revealCardTrait("X-Men","Team:")
+        local players = revealCardTrait({trait="X-Men",prefix="Team:"})
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             if #hand > 4 then
@@ -8340,7 +8388,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Mephisto" then
-        local players = revealCardTrait("Marvel Knights","Team:")
+        local players = revealCardTrait({trait="Marvel Knights",prefix="Team:"})
         for _,o in pairs(players) do
             click_get_wound(nil,o.color)
             broadcastToAll("Master Strike: Player " .. o.color .. " had no MK hero and was wounded.")
@@ -9009,7 +9057,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 getObjectFromGUID(mmloc).editButton({label = "+" .. strikesstacked})
             end
         end
-        local todiscard= revealCardTrait("X-Force","Team:")
+        local todiscard= revealCardTrait({trait="X-Force",prefix="Team:"})
         if todiscard[1] then
                 for _,o in pairs(todiscard) do
                     local hand = o.getHandObjects()
@@ -9097,7 +9145,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         if epicness then
             beyond = 6
         end
-        local players = revealCardTrait(beyond,"Cost:",nil,"Cost")
+        local players = revealCardTrait({trait=beyond,prefix="Cost:",what="Cost"})
         for _,o in pairs(players) do
             click_get_wound(nil,o.color)
         end
@@ -9609,28 +9657,28 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     return nil
 end
 
-function revealCardTrait(trait,prefix,playercolors,what,includePlay)
-    -- trait is the card tag to look for, by default a color
-    -- specify the tag prefix if another trait is needed
-    -- specify players if not all are affected
+function revealCardTrait(params)
+    if params.prefix or params.trait then
+        trait = params.trait -- card tag to look for
+        prefix = params.prefix -- prefix of the tag
+        what = params.what -- other card properties to look for, cf. vocabulary
+        players = params.players -- if not all players are affected
+        excludePlay = params.excludePlay -- exclude cards in play
+    else
+        trait = params
+    end
     if not prefix then
         prefix = "HC:"
     end
     if not what then
         what = "Prefix"
     end
-    local players = nil
-    if not playercolors then
+    if not players then
         players = Player.getPlayers()
-    else
-        players = {}
-        for _,o in pairs(playercolors) do
-            table.insert(players,Player[o])
-        end
     end
     for i,o in ipairs(players) do
         local hand = o.getHandObjects()
-        if includePlay then
+        if not excludePlay then
             local content = get_decks_and_cards_from_zone(playguids[o.color])
             if content[1] then
                 hand = merge(hand,content)
@@ -9639,7 +9687,7 @@ function revealCardTrait(trait,prefix,playercolors,what,includePlay)
         if hand[1] then
             for _,h in pairs(hand) do
                 if what == "Prefix" then
-                    if hasTag2(h,prefix,#prefix+1) and hasTag2(h,prefix,#prefix+1) == trait then
+                    if hasTag2(h,prefix) and hasTag2(h,prefix) == trait then
                         players[i] = nil
                         break
                     end

@@ -786,7 +786,7 @@ function import_setup()
         local extractBear = function(obj)
             for _,o in pairs(obj.getObjects()) do
                 if o.name == "Demon Bear" then
-                    obj.takeObject({position=twistpile.getPosition(),
+                    obj.takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
                         flip=false,smooth=false,guid=o.guid})
                     obj.setPositionSmooth(vilDeckZone.getPosition())
                     break
