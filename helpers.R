@@ -286,7 +286,9 @@ genFun = function(src,
     xtra = xtraFilter(mmlist$Name[mmnumber])
     villnames = filter(src$masterminds,Name==xtra)$LeadsV[1]
     if (is.na(villnames)) {
-      villnames = filter(src$masterminds,Name==xtra)$LeadsH[1]
+      villnames = NULL
+    } else {
+      villainc = villainc + 1
     }
   }
   
@@ -327,6 +329,16 @@ genFun = function(src,
   else {
     henchnames = NULL
   }
+  
+  if (scheme=="Symbiotic Absorption") {
+    henchnames = filter(src$masterminds,Name==xtra)$LeadsH[1]
+    if (is.na(henchnames)) {
+      henchnames = NULL
+    } else {
+      henchc = henchc + 1
+    }
+  }
+  
   
   if (mmtraits$LeadsH[1]!=0) {
     henchnames = c(henchnames,mmtraits$LeadsH[1])

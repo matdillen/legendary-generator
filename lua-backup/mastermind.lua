@@ -98,7 +98,7 @@ function click_update_tactics(obj)
     end
     if mmdeck[1] and mmdeck[2] then
         for _,o in pairs(mmdeck) do
-            if o.is_face_down and (not o.hasTag("Mastermind") or hasTag2(o,"Tactic:")) then
+            if o.is_face_down and not o.hasTag("Bystander") and (not o.hasTag("Mastermind") or o.tag == "Deck") then
                 local c = math.abs(o.getQuantity())
                 obj.editButton({index=index,label="(" .. c .. ")"})
                 return nil

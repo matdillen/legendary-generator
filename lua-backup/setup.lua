@@ -933,7 +933,7 @@ function import_setup()
             obj.setDescription("When this Ambition villain escapes, do its Ambition effect.")
         end
         for i=1,10 do
-            pos.y = pos.y + i/2
+            pos.y = pos.y + i/7
             ambPile.takeObject({position=pos,
                 flip=false,
                 smooth=false,
@@ -971,6 +971,14 @@ function import_setup()
     local vilDeckFlip = function()
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
         vildeck.flip()
+        if setupParts[1] == "Smash Two Dimensions Together" then
+            for i = 7,9 do
+                mmZone.Call('lockTopZone',allTopBoardGUIDS[i])
+            end
+            vildeck.randomize()
+            vildeck.setPositionSmooth(getObjectFromGUID(city_zones_guids[3]).getPosition())
+            getObjectFromGUID(pushvillainsguid).Call('smashTwoDimensions')
+        end
     end
     
     if setupParts[1] == "Five Families of Crime" then 
@@ -1613,16 +1621,16 @@ function schemeSpecials ()
                 flip=false,smooth=false})
         end
     end
-    if setupParts[1] == "Mutating Gamma Rays" or setupParts[1] == "Shoot Hulk into Space" then
+    if setupParts[1] == "Mutating Gamma Rays" then
         log("Extra Hulk hero in mutation pile.")
         local hulkshuffle = function(obj)
             --obj.flip()
             --obj.randomize()
             local pos = obj.getPosition()
-            pos.y = pos.y + 0.5
+            pos.y = pos.y + 0.1
             for i=1,obj.getQuantity() do
                 obj.takeObject({position = pos})
-                pos.y = pos.y + 0.5*i
+                pos.y = pos.y + 0.1*i
             end
         end
         findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
@@ -1687,7 +1695,7 @@ function schemeSpecials ()
     if setupParts[1] == "Scavenge Alien Weaponry" or setupParts[1] == "Devolve with Xerogen Crystals" then
         log("Identify the smugglers/experiments group.")
         --annotation done in the push villain zone
-        print(setupParts[9] .. " is the Smugglers/experiments group.")
+        printToAll(setupParts[9] .. " is the Smugglers/experiments group.")
     end
     if setupParts[1] == "Secret Empire of Betrayal" then
         log("Extra hero in dark betrayal pile.")
@@ -1738,6 +1746,19 @@ function schemeSpecials ()
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
     end
+    if setupParts[1] == "Shoot Hulk into Space" then
+        log("Extra Hulk hero in mutation pile.")
+        local hulkshuffle = function(obj)
+            obj.randomize()
+            local pos = obj.getPosition()
+            pos.y = pos.y + 0.1
+            for i=1,obj.getQuantity() do
+                obj.takeObject({position = pos, flip = true})
+                pos.y = pos.y + 0.1*i
+            end
+        end
+        findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
+    end
     if setupParts[1] == "Sneak Attack the Heroes' Homes" then
         broadcastToAll("Add one hero of your choice to the hero deck! Take three different non-rare cards from that hero and add them to your starting deck.")
         wndPile.randomize()
@@ -1776,7 +1797,7 @@ function schemeSpecials ()
                 color={0,1,0,0.6}})
         end
     end
-    if setupParts[1] == "Superhuman Baseball Game" or setupParts[1] == "Smash Two Dimensions Together" then
+    if setupParts[1] == "Superhuman Baseball Game" then
         print("Not scripted yet!")
     end
     if setupParts[1] == "Symbiotic Absorption" then
