@@ -685,6 +685,28 @@ function setupMasterminds(objname,epicness,tactics,lurking)
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
     end
+    if objname == "Adrian Toomes" or objname == "Adrian Toomes - epic" then
+        updateMMAdrian = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local strikes = getObjectFromGUID(pushvillainsguid).Call('returnVar','strikesresolved')
+            local boost = strikes*2
+            if epicness then
+                boost = strikes*3
+            end
+            mmButtons(objname,
+                strikes,
+                "+" .. boost,
+                "Adrian Toomes is a double (or triple) striker and gets +" .. boost/strikes .. " for each Master Strike that has been played.",
+                'updateMMAdrian')
+        end
+        function onObjectEnterZone(zone,object)
+            if object.getName() == "Masterstrike" then
+                updateMMAdrian()
+            end
+        end
+    end
     if objname == "Apocalypse" then
         for i,o in pairs(city_zones_guids) do
             if i ~= 1 then
@@ -751,7 +773,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             bsPile = getObjectFromGUID(bystandersPileGUID)
         end
         for i=1,arc do
-            bsPile.takeObject({position=getObjectFromGUID(mmLocations[objname]).getPosition(),
+            bsPile.takeObject({position=getObjectFromGUID(getStrikeloc(objname)).getPosition(),
                 flip=false,
                 smooth=false})
         end
@@ -2595,7 +2617,7 @@ function resolveTactics(mmname,tacticname,color)
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
                 log(o.color)
-                getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{o.color,hand,#hand-val})
+                getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,n = #hand-val})
             end
         elseif tacticname == "Terrigen bomb" then
             bump(get_decks_and_cards_from_zone(heroDeckZoneGUID)[1])
@@ -2618,7 +2640,11 @@ function resolveTactics(mmname,tacticname,color)
                             iter = iter + 1
                         end
                     end
-                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card"})
+                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
+                        hand = hand,
+                        pos = getObjectFromGUID(kopile_guid).getPosition(),
+                        label = "KO",
+                        tooltip = "KO this card."})
                 end
             else
                 getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
@@ -2637,7 +2663,11 @@ function resolveTactics(mmname,tacticname,color)
                 if #hand == 0 then
                     getObjectFromGUID(pushvillainsguid).Call('getWound',o.color)
                 else
-                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card"})
+                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
+                        hand = hand,
+                        pos = getObjectFromGUID(kopile_guid).getPosition(),
+                        label = "KO",
+                        tooltip = "KO this card"})
                 end
             end
         elseif tacticname == "Sieve of secrets" then

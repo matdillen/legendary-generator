@@ -32,7 +32,8 @@ function onLoad()
        "topBoardGUIDs",
        "allTopBoardGUIDS",
        "pos_vp2",
-       "pos_discard"
+       "pos_discard",
+       "pos_draw"
     }
     
     for _,o in pairs(guids2) do
@@ -1265,15 +1266,13 @@ function twistSpecials(cards,city,schemeParts)
                 getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
                 Wait.time(click_push_villain_into_city,1)
             end
-            promptDiscard(Turns.turn_color,
-                candidate,
-                1,
-                pos,
-                nil,
-                "Push",
-                "Push this hero into the city as a Phalanx-Infected villain.",
-                processPhalanxInfected,
-                "self")
+            promptDiscard({color = Turns.turn_color,
+                hand = candidate,
+                pos = pos,
+                label = "Push",
+                tooltip = "Push this hero into the city as a Phalanx-Infected villain.",
+                trigger_function = processPhalanxInfected,
+                args = "self"})
         elseif candn == 1 then
             local zoneguid = nil
             local hero = nil
@@ -1454,7 +1453,14 @@ function twistSpecials(cards,city,schemeParts)
                 candn = candn + 1
             end
             if candn > 1 then
-                promptDiscard(color,heroes,1,dest,nil,"Gain","Gain this hero.",batheNextPlayer,"self",color)
+                promptDiscard({color = color,
+                    hand = heroes,
+                    pos = dest,
+                    label = "Gain",
+                    tooltip = "Gain this hero.",
+                    trigger_function = batheNextPlayer,
+                    args = "self",
+                    buttoncolor = color})
                 broadcastToColor("Choose a hero in the HQ to gain.",color,color)
             elseif candn == 1 then
                 local zoneguid = nil
@@ -1483,7 +1489,13 @@ function twistSpecials(cards,city,schemeParts)
             end
             if hand[1] then
                 broadcastToColor("KO a non-grey hero from your hand.",color,color)
-                promptDiscard(color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card.",pickNewHero,"self")
+                promptDiscard({color = color,
+                    hand = hand,
+                    pos = getObjectFromGUID(kopile_guid).getPosition(),
+                    label = "KO",
+                    tooltip = "KO this card.",
+                    trigger_function = pickNewHero,
+                    args = "self"})
             else
                 broadcastToColor("No non-grey heroes in your hand to KO.",color,color)
                 batheNextPlayer(nil,nil,color)
@@ -1551,7 +1563,15 @@ function twistSpecials(cards,city,schemeParts)
         playTwoFamily = function(obj)
             playVillains({n=2,vildeckguid = obj.guid})
         end
-        promptDiscard(Turns.turn_color,decks,1,"Stay",nil,"Play","Play two cards from this villain deck.",playTwoFamily,"self","Red",true)
+        promptDiscard({color = Turns.turn_color,
+            hand = decks,
+            pos = "Stay",
+            label = "Play",
+            tooltip = "Play two cards from this villain deck.",
+            trigger_function = playTwoFamily,
+            args = "self",
+            buttoncolor = "Red",
+            isZone = true})
         return twistsresolved
     end
     if schemeParts[1] == "Build an Army of Annihilation" then
@@ -1755,7 +1775,13 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                 end
-                promptDiscard(o.color,hand,1,getObjectFromGUID(playerBoards[o.color]).positionToWorld({2-2*copcount,4,3.7}),nil,"Lock","Lock up this card.",lockUp,"self")
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld({2-2*copcount,4,3.7}),
+                    label = "Lock",
+                    tooltip = "Lock up this card.",
+                    trigger_function = lockUp,
+                    args = "self"})
             end
         end
         broadcastToAll("Scheme Twist: Choose a non-grey hero from your hand to be locked up.")
@@ -2500,7 +2526,7 @@ function twistSpecials(cards,city,schemeParts)
                     end
                 end
                 if not deadpoolfound and hand[1] then 
-                    promptDiscard(o.color,hand,2)
+                    promptDiscard({color = o.color,hand = hand, n = 2})
                 end
             end
         elseif twistsresolved == 3 then  
@@ -2551,7 +2577,7 @@ function twistSpecials(cards,city,schemeParts)
                         smooth=true})
                     broadcastToAll("Scheme Twist: Officer KO'd from the officer stack.")
                 else
-                    promptDiscard(o.color,hand)
+                    promptDiscard({color = o.color, hand = hand})
                     broadcastToColor("Scheme Twist: Discard an Officer or a Nova hero. You gained a shard.",o.color,o.color)
                     gainShard(o.color)
                 end
@@ -2645,7 +2671,13 @@ function twistSpecials(cards,city,schemeParts)
                     end
                 end
             end
-            promptDiscard(Turns.turn_color,heroes,1,getObjectFromGUID(heroDeckZoneGUID).getPosition(),true,"Tuck","Put this hero on the bottom of the hero deck.",fillHQ)
+            promptDiscard({color = Turns.turn_color,
+                hand = heroes,
+                pos = getObjectFromGUID(heroDeckZoneGUID).getPosition(),
+                flip = true,
+                label = "Tuck",
+                tooltip = "Put this hero on the bottom of the hero deck.",
+                trigger_function = fillHQ})
         end
         playVillains({n=2})
         return twistsresolved
@@ -3069,15 +3101,13 @@ function twistSpecials(cards,city,schemeParts)
                 end
                 getObjectFromGUID(mmZoneGUID).Call('updateHQ',self.guid)
             end
-            promptDiscard(Turns.turn_color,
-                candidate,
-                1,
-                getObjectFromGUID(kopile_guid).getPosition(),
-                nil,
-                "KO",
-                "KO this hero.",
-                purgeHero,
-                "self")
+            promptDiscard({color = Turns.turn_color,
+                hand = candidate,
+                pos = getObjectFromGUID(kopile_guid).getPosition(),
+                label = "KO",
+                tooltip = "KO this hero.",
+                trigger_function = purgeHero,
+                args = "self"})
         else
             broadcastToAll("Scheme Twist: The Fear level is 0. Evil wins!")
         end
@@ -3150,7 +3180,15 @@ function twistSpecials(cards,city,schemeParts)
             getObjectFromGUID(setupGUID).Call('click_draw_villain_call',obj)
             getObjectFromGUID(setupGUID).Call('click_draw_villain_call',obj)
         end
-        promptDiscard(Turns.turn_color,decks,1,"Stay",nil,"Play","Play two cards from this villain deck.",playTwoFamily,"self","Red",true)
+        promptDiscard({color = Turns.turn_color,
+            hand = decks,
+            pos = "Stay",
+            label = "Play",
+            tooltip = "Play two cards from this villain deck.",
+            trigger_function = playTwoFamily,
+            args = "self",
+            buttoncolor = "Red",
+            isZone = true})
         return twistsresolved
     end
     if schemeParts[1] == "Flood the Planet with Melted Glaciers" then
@@ -3353,15 +3391,13 @@ function twistSpecials(cards,city,schemeParts)
             end
             getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
         end
-        promptDiscard(Turns.turn_color,
-            candidate,
-            1,
-            getObjectFromGUID(twistZoneGUID).getPosition(),
-            nil,
-            "Purge",
-            "Push this hero from the timestream!",
-            purgeHero,
-            "self")
+        promptDiscard({color = Turns.turn_color,
+            hand = candidate,
+            pos = getObjectFromGUID(twistZoneGUID).getPosition(),
+            label = "Purge",
+            tooltip = "Push this hero from the timestream!",
+            trigger_function = purgeHero,
+            args = "self"})
         return twistsresolved
     end
     if schemeParts[1] == "Graduation at Xavier's X-Academy" then
@@ -3805,7 +3841,14 @@ function twistSpecials(cards,city,schemeParts)
                             end
                         end
                     end
-                    promptDiscard(Turns.turn_color,heroes,3,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this hero.",lastStandDrawNew,"self")
+                    promptDiscard({color = Turns.turn_color,
+                        hand = heroes,
+                        n = 3,
+                        pos = getObjectFromGUID(kopile_guid).getPosition(),
+                        label = "KO",
+                        tooltip = "KO this hero.",
+                        trigger_function = lastStandDrawNew,
+                        args = "self"})
                     break
                 end
             end
@@ -4038,7 +4081,13 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             if hand[1] then
-                promptDiscard(mutatingcolor,hand,1,getObjectFromGUID(twistZoneGUID).getPosition(),nil,"Mutate","Put this card into the mutation pile. You'll get a different card with the same cost back, if any.",mutateIntoHand,"self")
+                promptDiscard({color = mutatingcolor,
+                    hand = hand,
+                    pos = getObjectFromGUID(twistZoneGUID).getPosition(),
+                    label = "Mutate",
+                    tooltip = "Put this card into the mutation pile. You'll get a different card with the same cost back, if any.",
+                    trigger_function = mutateIntoHand,
+                    args = "self"})
             else
                 mutatingcolor = getNextColor(mutatingcolor)
                 if mutatingcolor ~= Turns.turn_color then
@@ -4261,7 +4310,10 @@ function twistSpecials(cards,city,schemeParts)
                             end
                         end
                     end
-                    promptDiscard(o.color,hand,#hand-4,nil,nil,nil,nil,killBSButton)
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = #hand-4,
+                        trigger_function = killBSButton})
                     local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
                     local killHandButtons = function(obj)
                         obj.clearButtons()
@@ -4838,7 +4890,14 @@ function twistSpecials(cards,city,schemeParts)
                     aislehero.setPositionSmooth(getObjectFromGUID(allTopBoardGUIDS[4+twistsresolved]).getPosition())
                 end
             end
-            promptDiscard(Turns.turn_color,{aislehero,altarhero},1,"Stay",nil,"Gain","Gain a card from this wedding stack.",resolveTheRuinedWedding,"self",nil,nil,8)
+            promptDiscard({color = Turns.turn_color,
+                hand = {aislehero,altarhero},
+                pos = "Stay",
+                label = "Gain",
+                tooltip = "Gain a card from this wedding stack.",
+                trigger_function = resolveTheRuinedWedding,
+                args = "self",
+                buttonheight = 8})
             broadcastToAll("Scheme Twist: Gain the top card of one of the hero stacks. Two cards from each hero stack are KO'd if an enemy occupies the city space below it. Then the left stack is moved one space to the right.")
         elseif twistsresolved < 12 then
             local aislehero = get_decks_and_cards_from_zone(allTopBoardGUIDS[11])[1]
@@ -5024,7 +5083,13 @@ function twistSpecials(cards,city,schemeParts)
                 end
                 Wait.condition(click_push_villain_into_city,heroMoved)
             end
-            promptDiscard(Turns.turn_color,highestguid,1,pos,nil,"Push","Push this hero into the city as a Skrull Villain.",drawNew,"self")
+            promptDiscard({color = Turns.turn_color,
+                hand = highestguid,
+                pos = pos,
+                label = "Push",
+                tooltip = "Push this hero into the city as a Skrull Villain.",
+                trigger_function = drawNew,
+                args = "self"})
         else
             for i,o in pairs(highestguid) do
                 o.setPositionSmooth(pos)
@@ -5444,7 +5509,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             if clonecheck == false and #hand > 3 then
-                promptDiscard(o.color,nil,#hand-3)
+                promptDiscard({color = o.color, n = #hand-3})
                 broadcastToColor("Scheme Twist: Discard down to 3 cards!",o.color,o.color)
             end
         end
@@ -5839,7 +5904,11 @@ function twistSpecials(cards,city,schemeParts)
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
                 if # hand > 4 then
-                    promptDiscard(o.color,hand,#hand-4,nil,nil,nil,nil,killKoBystanderButton,o.color)
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = #hand-4,
+                        trigger_function = killKoBystanderButton,
+                        args = o.color})
                     local vpile = getObjectFromGUID(vpileguids[o.color])
                     _G["koBystander" .. o.color] = function(obj)
                         local vpilecontent = get_decks_and_cards_from_zone(obj.guid)
@@ -5904,7 +5973,7 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                     if avengers[1] then
-                        promptDiscard(o.color,avengers)
+                        promptDiscard({color = o.color,hand = avengers})
                     else
                         click_get_wound(nil,o.color)
                     end
@@ -6178,7 +6247,9 @@ function twistSpecials(cards,city,schemeParts)
         currentPsychoticBreak = cards[1]
         broadcastToAll("Scheme Twist: Discard a card and pass the break to the next player, or keep it!")
         promptPsychoticBreakChoice = function(color)
-            promptDiscard(color,nil,nil,nil,nil,nil,nil,shiftPsychoticBreak,color)
+            promptDiscard({color = color,
+                trigger_function = shiftPsychoticBreak,
+                args = color})
             keepPsychoticBreak = function(obj)
                 obj.clearButtons()
                 local color = nil
@@ -6682,7 +6753,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 end
             end
             if hand[1] then
-                promptDiscard(o.color,hand)
+                promptDiscard({color = o.color,hand = hand})
                 broadcastToColor("Master Strike: Discard a hero with cost " .. vp,o.color,o.color)
             end
         end
@@ -6782,7 +6853,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 Wait.time(click_push_villain_into_city,4)
                 broadcastToAll("Master Strike: Annihilus plays a villain, it captures a bystander and pushes the city forward!")
             elseif cardtype == "Bystander" then
-                local pos = getObjectFromGUID(mmLocations[mmname]).getPosition()
+                local pos = getObjectFromGUID(mmloc).getPosition()
                 pos.z = pos.z - 2
                 vildeck.takeObject({position = pos, 
                     flip = true, 
@@ -6797,16 +6868,25 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "Apocalypse" then
         local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
-        for i=1,#playercolors do
-            local hand = playercolors[i].getHandObjects()
-            if hand[1] then
-                for _,o in pairs(hand) do
-                    if hasTag2(o,"Cost:") and hasTag2(o,"Cost:") > 0 then
-                        o.flip()
-                        local dest = getObjectFromGUID(playerBoards[playercolors[i].color]).positionToWorld({0.957, 0.178, 0.222})
-                        o.setPosition(dest)
-                    end
+        for i,o in pairs(Player.getPlayers()) do
+            local hand = o.getHandObjects()
+            local toTop = {}
+            local dest = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_draw)
+            dest.y = dest.y + 2
+            for _,obj in pairs(hand) do
+                if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 0 then
+                    table.insert(toTop,obj)
                 end
+            end
+            if toTop[1] then
+                promptDiscard({color = o.color,
+                    hand = toTop,
+                    n = #toTop,
+                    pos = dest,
+                    flip = true,
+                    label = "Top",
+                    tooltip = "Put this card on top of your deck."})
+                broadcastToColor(#toTop .. " cards in your hand were put on top of your deck. You may still rearrange them if you like.",o.color,o.color)
             end
         end
         return strikesresolved
@@ -6840,11 +6920,17 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 elseif epicness == true and bsguids[2] then
                     bsadded = bsadded + 2
                     for i=1,2 do
-                        local guid = table.remove(bsguids,math.random(#bsguids)-1)
+                        local guid = table.remove(bsguids,math.random(#bsguids))
                         vpile[1].takeObject({position = getObjectFromGUID(strikeloc).getPosition(),
                             flip=true,
                             guid=guid,
                             smooth=true})
+                        if vpile[1].remainder then
+                            local temp = vpile[1].remainder
+                            temp.flip()
+                            temp.setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
+                            break
+                        end
                     end
                 else
                     click_get_wound(nil,playercolors[i].color)
@@ -7110,7 +7196,13 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     if epicness then
                         c = 2
                     end
-                    promptDiscard(o.color,hand,c,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","Waking Nightmare, but this card will be KO'd by Belasco.",drawCard)
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = c,
+                        pos = getObjectFromGUID(kopile_guid).getPosition(),
+                        label = "KO",
+                        tooltip = "Waking Nightmare, but this card will be KO'd by Belasco.",
+                        trigger_function = drawCard})
                 end
             end
         end
@@ -7291,8 +7383,14 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             local hand = o.getHandObjects()
             if hand[1] and #hand == 6 then
                 broadcastToAll("Master Strike: Player " .. o.color .. " puts two cards from their hand on top of their deck.")
-                local pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld({0.957, 1, 0.222})
-                promptDiscard(o.color,nil,2,pos,true,"Top","Put on top of deck.")
+                local pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_draw)
+                pos.y = pos.y + 2
+                promptDiscard({color = o.color,
+                    n = 2,
+                    pos = pos,
+                    flip = true,
+                    label = "Top",
+                    tooltip = "Put on top of deck."})
             end
         end
         return strikesresolved
@@ -7394,7 +7492,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 local drawCard = function()
                     getObjectFromGUID(playerBoards[o.color]).Call('click_draw_card')
                 end
-                promptDiscard(o.color,hand,c,nil,nil,nil,nil,drawCard)
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    n = c,
+                    trigger_function = drawCard})
             end
         end
         broadcastToAll("Master Strike: Each player has " .. c .. " Waking Nightmares.")
@@ -7440,7 +7541,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             if #o.getHandObjects() == 0 then
                 evilDeadpoolCounter = evilDeadpoolCounter +1
             else
-                promptDiscard(o.color,nil,nil,nil,nil,nil,nil,evildeadpool,"self")
+                promptDiscard({color = o.color,
+                    trigger_function = evildeadpool,
+                    args = "self"})
             end
         end
         return strikesresolved
@@ -7678,7 +7781,11 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         iter = iter + 1
                     end
                 end
-                promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition(),nil,"KO","KO this card.")
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    pos = getObjectFromGUID(kopile_guid).getPosition(),
+                    label = "KO",
+                    tooltip = "KO this card."})
             end
             broadcastToAll("Master Strike: Each player KOs a non-grey Hero. Select one from your hand or you may also exchange it with one you have in play.")
         elseif name == "Baron Helmut Zemo" then
@@ -7733,7 +7840,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         iter = iter + 1
                     end
                 end
-                promptDiscard(o.color,hand,2)
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    n = 2})
             end
             broadcastToAll("Master Strike: Each player discards two heroes with Fight icons.")
         end
@@ -7756,7 +7865,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             local players = revealCardTrait("Yellow")
             for _,o in pairs(players) do
                 local hand = o.getHandObjects()
-                promptDiscard(o.color,hand,#hand)
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    n = #hand})
                 local drawfour = function()
                     getObjectFromGUID(playerBoards[o.color]).Call('click_draw_cards',4)
                 end
@@ -7799,7 +7910,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             local players = revealCardTrait("Silver")
             for _,o in pairs(players) do
                 local hand = o.getHandObjects()
-                promptDiscard(o.color,hand,#hand-3)
+                promptDiscard({color = o.color,
+                    n = #hand-3})
             end
         end
         mmcontent[1].randomize()
@@ -7821,7 +7933,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     end
                 end
                 if hand[1] then
-                    promptDiscard(o.color,hand,2)
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = 2})
                 end
             end
             broadcastToAll("Master Strike: Each player reveals their hand and discards two cards that each cost between 1 and 4.")
@@ -7837,7 +7951,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     end
                 end
                 if hand[1] then
-                    promptDiscard(o.color,hand,2)
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = 2})
                 end
             end
             broadcastToAll("Master Strike: Each player reveals their hand and discards two cards that each cost between 5 and 8.")
@@ -7849,7 +7965,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             if #hand > 3 then
-                promptDiscard(o.color,hand,#hand-3)
+                promptDiscard({color = o.color,
+                    n = #hand-3})
                 broadcastToColor("Master Strike: Discard down to three cards.",o.color,o.color)
             end
         end
@@ -8040,7 +8157,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         local players = revealCardTrait({trait="Marvel Knights",prefix="Team:"})
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
-            promptDiscard(o.color,hand,#hand)
+            promptDiscard({color = o.color,
+                n = #hand})
             local drawfive = function()
                 getObjectFromGUID(playerBoards[o.color]).Call('click_draw_cards',5)
             end
@@ -8077,7 +8195,13 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     end
                 end
                 if hand[1] then
-                    promptDiscard(o.color,hand,1,"Stay",nil,"Reveal","Reveal this card for Mastermind's master strike.",ladymastermind,"self")
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        pos = "Stay",
+                        label = "Reveal",
+                        tooltip = "Reveal this card for Mastermind's master strike.",
+                        triggerf = ladymastermind,
+                        args = "self"})
                 else
                     ladymastermindCounter = ladymastermindCounter +1
                 end
@@ -8144,7 +8268,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             local hand = o.getHandObjects()
             if #hand > 4 then
                 broadcastToAll("Master Strike: Player " .. o.color .. " discards down to 4 cards.")
-                promptDiscard(o.color,hand,#hand-4)
+                promptDiscard({color = o.color,
+                    n = #hand-4})
             end
         end
         return strikesresolved
@@ -8303,7 +8428,13 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     end
                 end
                 if hand[1] then
-                    promptDiscard(o.color,hand,1,"Stay",nil,"Reveal","Reveal this card for Mastermind's master strike.",jasonmastermind,"self")
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        pos = "Stay",
+                        label = "Reveal",
+                        tooltip = "Reveal this card for Mastermind's master strike.",
+                        trigger_function = jasonmastermind,
+                        args = "self"})
                 else
                     jasonmastermindCounter = jasonmastermindCounter +1
                 end
@@ -8501,7 +8632,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             if epicness and #hand > 4 then
-                promptDiscard(o.color,nil,#hand-4)
+                promptDiscard({color = o.color,
+                    n = #hand-4})
                 broadcastToColor("Master Strike: Discard down to 4 cards.",o.color,o.color)
             else
                 if #hand > 0 then
@@ -8609,7 +8741,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
             if #hand == 6 then
-                promptDiscard(o.color,nil,sinisterbs)
+                promptDiscard({color = o.color,
+                    n = sinisterbs})
                 broadcastToColor("Master Strike: Discard " .. sinisterbs .. " cards.",o.color,o.color)
             end
         end
@@ -8787,10 +8920,15 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
             if hand[1] then
                 if epicness then
-                    promptDiscard(o.color,hand,2,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = 2,
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                     broadcastToColor("Master Strike: Two nongrey heroes from your hand become dominated by Onslaught.",o.color,o.color)
                 else
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                     broadcastToColor("Master Strike: A nongrey hero from your hand becomes dominated by Onslaught.",o.color,o.color)
                 end
             end
@@ -8823,10 +8961,15 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
             if hand[1] then
                 if epicness then
-                    promptDiscard(o.color,hand,#hand/2 + 0.5*(#hand % 2),getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        n = #hand/2 + 0.5*(#hand % 2),
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                     broadcastToColor("Master Strike: " .. #hand/2 + 0.5*(#hand % 2) .. " nongrey heroes from your hand become souls poisoned by Thanos.",o.color,o.color)
                 else
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                     broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul poisoned by Thanos.",o.color,o.color)
                 end
             end
@@ -8866,7 +9009,11 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     table.insert(otherguids,hero)
                 end
             end
-            promptDiscard(Turns.turn_color,otherguids,1,strikeZone.getPosition(),nil,"Dom","Professor X dominates this hero as a telepathic pawn.")
+            promptDiscard({color = Turns.turn_color,
+                hand = otherguids,
+                pos = strikeZone.getPosition(),
+                label = "Dom",
+                tooltip = "Professor X dominates this hero as a telepathic pawn."})
         elseif maxv[1] == maxv[2] then
             local otherguids = {}
             for i,o in pairs(costs) do
@@ -8875,7 +9022,12 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     table.insert(otherguids,hero)
                 end
             end
-            promptDiscard(Turns.turn_color,otherguids,2,strikeZone.getPosition(),nil,"Dom","Professor X dominates this hero as a telepathic pawn.")
+            promptDiscard({color = Turns.turn_color,
+                hand = otherguids,
+                n = 2,
+                pos = strikeZone.getPosition(),
+                label = "Dom",
+                tooltip = "Professor X dominates this hero as a telepathic pawn."})
         end
         return strikesresolved
     end
@@ -8886,7 +9038,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     end
     if mmname == "Red Skull" then
         for _,o in pairs(Player.getPlayers()) do
-            promptDiscard(o.color,nil,1,getObjectFromGUID(kopile_guid).getPosition())
+            promptDiscard({color = o.color,
+                pos = getObjectFromGUID(kopile_guid).getPosition(),
+                label = "KO",
+                tooltip = "KO this hero."})
         end
         broadcastToAll("Master Strike: Each player KOs a Hero from their hand.")
         return strikesresolved
@@ -9108,7 +9263,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 end
             end
             if hand[1] then
-                promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                 broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul bound by Thanos.",o.color,o.color)
             end
         end
@@ -9438,7 +9595,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                             iter = iter + 1
                         end
                     end
-                    promptDiscard(o.color,hand,1,getObjectFromGUID(getStrikeloc(mmname)).getPosition())
+                    promptDiscard({color = o.color,
+                        hand = hand,
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                     broadcastToColor("Master Strike: Put a non-grey Hero from your hand into a Threat Analysis pile next to Ultron.",o.color,o.color)
                 end
             else
@@ -9495,7 +9654,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                                     iter = iter + 1
                                 end
                             end
-                            promptDiscard(o.color,hand,1)
+                            promptDiscard({color = o.color,hand = hand})
                             broadcastToColor("Master Strike: Discard a card with a Recruit icon.",o.color,o.color)
                         end
                     end
@@ -9513,7 +9672,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         local players = revealCardTrait("Yellow")
         for _,o in pairs(players) do
             local hand = o.getHandObjects()
-            promptDiscard(o.color,hand,#hand)
+            promptDiscard({color = o.color,n = #hand})
             local drawfive = function()
                 getObjectFromGUID(playerBoards[o.color]).Call('click_draw_cards',5)
             end
@@ -9647,7 +9806,11 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 end
             end
             if hand[1] then
-                promptDiscard(o.color,hand,1,getObjectFromGUID(kopile_guid).getPosition())
+                promptDiscard({color = o.color,
+                    hand = hand,
+                    pos = getObjectFromGUID(kopile_guid).getPosition(),
+                    label = "KO",
+                    tooltip = "KO this hero."})
                 broadcastToColor("Master Strike: KO a nongrey hero from your hand.",o.color,o.color)
             end
         end
@@ -10049,7 +10212,10 @@ function demolish(colors,n,altsource,ko)
                         else
                             posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
                         end
-                        promptDiscard(o,hand,costs[i],posdiscard)
+                        promptDiscard({color = o,
+                            hand = hand,
+                            n = costs[i],
+                            pos = posdiscard})
                         broadcastToColor(name .. math.min(#hand,costs[i]) .. " cards from your hand with cost " .. i,o,o)
                     end
                 end
@@ -10265,20 +10431,25 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
-function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,buttoncolor,isZone,buttonheight)
-    if color[1] then
-        handobjects = color[2]
-        n = color[3]
-        pos = color[4]
-        flip = color[5]
-        label = color[6]
-        tooltip = color[7]
-        triggerf = color[8]
-        args = color[9]
-        buttoncolor = color[10]
-        isZone = color[11]
-        buttonheight = color[12]
-        color = color[1]
+function promptDiscard(params)
+    if params.color then
+        color = params.color
+        handobjects = params.hand
+        n = params.n
+        pos = params.pos
+        flip = params.flip
+        label = params.label
+        tooltip = params.tooltip
+        triggerf = params.trigger_function
+        args = params.args
+        buttoncolor = params.buttoncolor
+        isZone = params.isZone
+        buttonheight = params.buttonheight
+    else
+        color = params
+    end
+    if not color then
+        return nil
     end
     if not handobjects then
         handobjects = Player[color].getHandObjects()
@@ -10305,6 +10476,9 @@ function promptDiscard(color,handobjects,n,pos,flip,label,tooltip,triggerf,args,
     end
     if #handobjects == n then
         for i = 1,n do
+            if flip then
+                handobjects[i].flip()
+            end
             if pos ~= "Stay" then
                 handobjects[i].setPosition(pos)
             else
@@ -10475,7 +10649,10 @@ function contestOfChampions(color,n,winf,epicness)
         responses["Evil"] = responses["Evil"] + 2
     end
     for _,o in pairs(Player.getPlayers()) do
-        promptDiscard(o.color,nil,1,"Stay",nil,"Choose","Choose for Contest of Champions.")
+        promptDiscard({color = o.color,
+            pos = "Stay",
+            label = "Choose",
+            tooltip = "Choose for Contest of Champions."})
         _G["pickTopCard" .. o.color] = function(obj)
             local deck = obj.Call('returnDeck')
             if not deck[1] then
@@ -10654,7 +10831,10 @@ function resolveVillainEffect(cards,move,player_clicker_color)
                             table.insert(officers,o)
                         end
                     end
-                    promptDiscard(player_clicker_color,officers,1,nil,nil,"Gain","Gain this officer.")
+                    promptDiscard({color = player_clicker_color,
+                        hand = officers,
+                        label = "Gain",
+                        tooltip = "Gain this officer."})
                     --officers need to move from city to be clearly distinguishable
                     --not chosen officers need to be KO'd
                 end
