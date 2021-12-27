@@ -16,6 +16,7 @@ function onLoad()
        "topBoardGUIDs",
        "city_zones_guids",
        "hqguids",
+       "hqscriptguids",
        "pos_vp2",
        "pos_discard"
     }
@@ -105,7 +106,10 @@ function click_update_tactics(obj)
             end
         end
     elseif mmdeck[1] then
-        if mmGetCards(mmdeck[1].getName()) == 4 or (hasTag2(mmdeck[1],"Tactic:") and mmGetCards(hasTag2(mmdeck[1],"Tactic:")) == 4) then
+        if mmGetCards(mmdeck[1].getName()) == 4 or 
+            (hasTag2(mmdeck[1],"Tactic:") and mmGetCards(hasTag2(mmdeck[1],"Tactic:")) == 4) or
+            mmGetCards(mmdeck[1].getName(),nil,true) or
+            (hasTag2(mmdeck[1],"Tactic:") and mmGetCards(hasTag2(mmdeck[1],"Tactic:"),nil,true)) then
             obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity()) .. ")"})
         else
             obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity())-1 .. ")"})
@@ -222,7 +226,12 @@ function mmActive(mmname)
     return false
 end
 
-function mmGetCards(mmname,transf)
+function mmGetCards(mmname,transf,movingmm)
+    if movingmm and (mmname == "Authoritarian Iron Man" or mmname == "King Hyperion") then
+        return true
+    elseif movingmm then
+        return false
+    end
     if transf and (mmname == "General Ross" or mmname == "Illuminati, Secret Society" or mmname == "King Hulk, Sakaarson" or mmname == "M.O.D.O.K." or mmname == "The Red King" or mmname == "The Sentry") then
         return true
     elseif transf then
@@ -791,17 +800,25 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 power,
                 "+" .. power,
                 "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
-                'updateMMArnimZola') end,1)
+                'updateMMArnimZola')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMArnimZola,1)
+            for _,o in pairs(hqscriptguids) do
+                if o == zone.guid then
+                    updateMMArnimZola()
+                end
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMArnimZola,1)
+            for _,o in pairs(hqscriptguids) do
+                if o == zone.guid then
+                    updateMMArnimZola()
+                end
+            end
         end
     end
     if objname == "Baron Heinrich Zemo" then
@@ -825,21 +842,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            Wait.time(function() mmButtons(objname,
-                math.max(2-savior,0),
+            mmButtons(objname,
+                math.max(3-savior,0),
                 "+9",
                 "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
-                'updateMMBaronHein') end,1)
+                'updateMMBaronHein')
         end
         updateMMBaronHein()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Bystander") then
-                Wait.time(updateMMBaronHein,2)
+                updateMMBaronHein()
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Bystander") then
-                Wait.time(updateMMBaronHein,2)
+                updateMMBaronHein()
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -868,20 +885,20 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     savior = 1
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 savior,
                 "-" .. savior,
                 "The Baron gets -1 for each villain in your victory pile.",
-                'updateMMBaronHelm') end,1)
+                'updateMMBaronHelm')
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateMMBaronHelm,2)
+                updateMMBaronHelm()
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateMMBaronHelm,2)
+                updateMMBaronHelm()
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -2380,6 +2397,9 @@ function fightButton(zone)
                 local content = get_decks_and_cards_from_zone(obj.guid,false,false)
                 local finalblow = callGUID("finalblow",1)
                 if not content[1] or (not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2]) then
+                    if name == "Authoritarian Iron Man" and finalblow and getObjectFromGUID("92abf0") then
+                        return nil
+                    end
                     broadcastToAll(name .. " was defeated!")
                     local strikeloc = getStrikeloc(name)
                     if content[1] then
@@ -2460,6 +2480,8 @@ function fightButton(zone)
                     end
                 elseif transformed[name] ~= nil then
                     transformMM(getObjectFromGUID(mmLocations[name]))
+                elseif mmGetCards(name) == 4 then
+                    content[1].randomize()
                 end
             end
             Wait.time(killFightButton,1)

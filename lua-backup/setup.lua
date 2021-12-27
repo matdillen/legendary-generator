@@ -96,6 +96,14 @@ function loadGUIDs()
         "b8a776",
         "75241e"
     }
+    
+    hqscriptguids = {
+        "3e049c",
+        "745db7",
+        "84bb5f",
+        "7f27d3",
+        "ddadbc"
+    }
       
     topBoardGUIDs ={
         "1fa829",
@@ -158,6 +166,11 @@ function loadGUIDs()
     escape_zone_guid = "de2016"
     
     kopile_guid = "79d60b"
+    
+    shardspaceguid = "21e3f0"
+    bszoneguid = "2e5f2b"
+    woundszoneguid = "12d37a"
+    bindingszoneguid = "9509d4"
     
     shardGUID = "eff5ba"
     

@@ -12,45 +12,78 @@ function onLoad()
          font_size = 250
      })
 
-    --Local positions for each pile of cards
+    setupGUID = "912967"
     
-    playerBoards = {
-        ["Red"]="8a35bd",
-        ["Green"]="d7ee3e",
-        ["Yellow"]="ed0d43",
-        ["Blue"]="9d82f3",
-        ["White"]="206c9c"
+    local guids3 = {
+        "playerBoards"
     }
     
-    pos_discard = {-0.957, 0.178, 0.222}
-    pos_draw = {0.957, 0.178, 0.222}
-    pos_add2 = {-3.15, 0.178, 0.222}
+    for _,o in pairs(guids3) do
+        _G[o] = callGUID(o,3)
+    end
     
-    --drawbuyguids
-    drawbuyguids = {
-        ["Red"]="aabe45",
-        ["Green"]="bf3815",
-        ["Yellow"]="11b14c",
-        ["Blue"]="b8a776",
-        ["Silver"]="75241e"
+    local guids2 = {
+       "pos_add2",
+       "pos_discard",
+       "pos_draw",
+       "hqguids",
+       "hqscriptguids",
+       "allTopBoardGUIDS"
     }
     
-    dividedDeckGUIDs = {
-        ["Red"]="4c1868",
-        ["Green"]="8656c3",
-        ["Yellow"]="533311",
-        ["Blue"]="3d3ba7",
-        ["Silver"]="725c5d"
+    for _,o in pairs(guids2) do
+        _G[o] = callGUID(o,2)
+    end
+        
+    local guids1 = {
+        "heroDeckZoneGUID",
+        "kopile_guid",
+        "twistPileGUID"
     }
-    hero_deck_zone_guid = "0cd6a9"
-    twistpileGUID = "4f53f9"
-    kopile_guid = "79d60b"
-    for i,o in pairs(drawbuyguids) do
+    
+    for _,o in pairs(guids1) do
+        _G[o] = callGUID(o,1)
+    end
+    
+    for i,o in pairs(hqguids) do
         if o == self.guid then
-            divided_deck_guid = dividedDeckGUIDs[i]
+            divided_deck_guid = allTopBoardGUIDS[i+6]
+            scriptguid = hqscriptguids[i]
         end
     end
     
+end
+
+function callGUID(var,what)
+    if not var then
+        log("Error, can't fetch guid of object with name nil.")
+        return nil
+    elseif not what then
+        log("Error, can't fetch guid of object with missing type.")
+        return nil
+    end
+    if what == 1 then
+        return getObjectFromGUID(setupGUID).Call('returnVar',var)
+    elseif what == 2 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
+    elseif what == 3 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
+    else
+        log("Error, can't fetch guid of object with unknown type.")
+        return nil
+    end
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
 end
 
 function click_buy_hero(obj, player_clicker_color)
@@ -94,10 +127,7 @@ function click_buy_hero(obj, player_clicker_color)
 end
 
 function getHero(face,bs)
-    local objects = findObjectsAtPosition({0,0,0})
-    if not objects then 
-        return nil 
-    end
+    local objects = get_decks_and_cards_from_zone(scriptguid)
     local card = nil
     for _,item in pairs(objects) do
         if item.tag == "Card" and item.is_face_down == face and (not bs or item.hasTag(bs)) then
@@ -106,7 +136,6 @@ function getHero(face,bs)
             card = item
         end
     end
-    --log (card)
     if not card then 
         return nil
     end
@@ -130,7 +159,7 @@ function getWound()
 end
 
 function getCards()
-    local objects = findObjectsAtPosition({0,0,0})
+    local objects = get_decks_and_cards_from_zone(scriptguid)
     return objects
 end
 
@@ -144,7 +173,7 @@ function tuckHero()
     if schemeParts[1] == "Divide and Conquer" then
         deckToDrawGUID = divided_deck_guid
     else
-        deckToDrawGUID = hero_deck_zone_guid
+        deckToDrawGUID = heroDeckZoneGUID
     end
     if hero then
         hero.setPosition(getObjectFromGUID(deckToDrawGUID).getPosition())
@@ -161,12 +190,12 @@ function click_draw_hero()
     if schemeParts[1] == "Divide and Conquer" then
         deckToDrawGUID = divided_deck_guid
     else
-        deckToDrawGUID = hero_deck_zone_guid
+        deckToDrawGUID = heroDeckZoneGUID
     end
     hero_deck = get_decks_and_cards_from_zone(deckToDrawGUID)
     if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
         purge = function(obj)
-            local purgedheroes = get_decks_and_cards_from_zone(twistpileGUID)
+            local purgedheroes = get_decks_and_cards_from_zone(twistPileGUID)
             if purgedheroes[1] then
                 if purgedheroes[1].tag == "Deck" then
                     for _,o in pairs(purgedheroes[1].getObjects()) do
@@ -205,27 +234,6 @@ function click_draw_hero()
     else
         printToAll("No hero deck found")
     end
-
-end
-
-function findObjectsAtPosition(localPos)
-    local globalPos = self.positionToWorld(localPos)
-    local objList = Physics.cast({
-        origin=globalPos,
-        direction={0,1,0},
-        type=2,
-        size={2,2,2},
-        max_distance=1,
-        debug=false
-    })
-
-    local decksAndCards = {}
-    for _, obj in ipairs(objList) do
-        if obj.hit_object.tag == "Deck" or obj.hit_object.tag == "Card" then
-            table.insert(decksAndCards, obj.hit_object)
-        end
-    end
-    return decksAndCards
 end
 
 function get_decks_and_cards_from_zone(zoneGUID)
