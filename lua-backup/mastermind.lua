@@ -895,12 +895,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
-                updateMMBaronHelm()
+                Wait.time(updateMMBaronHelm,0.1)
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Villain") then
-                updateMMBaronHelm()
+                Wait.time(updateMMBaronHelm,0.1)
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -1071,17 +1071,25 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            local hand = Player[Turns.turn_color].getHandObjects()
+            if hand[1] then
+                for _,o in pairs(hand) do
+                    if o.hasTag("Starter") or o.getName() == "Sidekick" or o.getName() == "New Recruits" or (o.hasTag("Officer") and not hasTag2(o,"HC:")) then
+                        power = power + boost
+                    end
+                end
+            end
+            mmButtons(objname,
                 power,
                 "+" .. power,
                 "Emma Frost gets +" .. boost .. " for each grey hero you have.",
-                'updateMMEmma') end,1)
+                'updateMMEmma')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMEmma,1)
+            updateMMEmma()
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMEmma,1)
+            updateMMEmma()
         end
     end
     if objname == "Emperor Vulcan of the Shi'ar" or objname == "Emperor Vulcan of the Shi'ar  - epic" then

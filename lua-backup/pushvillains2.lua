@@ -7479,6 +7479,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         if vildeck and vildeck.tag == "Deck" then
             local pos = self.getPosition()
             local strangeguids = {}
+            local strangecount = 3
             pos.x = pos.x - 6
             pos.y = pos.y + 3
             local insertGuid = function(obj)
@@ -7495,9 +7496,22 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     flip=true,
                     smooth=true,
                     callback_function = insertGuid})
+                if vildeck.remainder then
+                    vildeck = vildeck.remainder
+                    if i < 3 then
+                        vildeck.flip()
+                        pos.x = pos.x + 2
+                        vildeck.setPositionSmooth(pos)
+                        insertGuid(vildeck)
+                        if i == 1 then
+                            strangecount = 2
+                        end
+                    end
+                    break
+                end
             end
             local strangeguidsEntered = function()
-                if strangeguids and #strangeguids == 3 then
+                if strangeguids and #strangeguids == strangecount then
                     return true
                 else
                     return false
@@ -7528,7 +7542,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         end
                     end
                 end
-                bump(vildeck,4)
+                if vildeck then
+                    bump(vildeck,4)
+                end
                 if powerguid then
                     local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
                     pos.y = pos.y + 6
@@ -7545,6 +7561,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 end
             end
             Wait.condition(strangeProcess,strangeguidsEntered)
+        elseif vildeck.getName() == "Scheme Twist" then
+            playVillains()
         end
         return strikesresolved
     end
