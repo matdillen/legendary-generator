@@ -880,6 +880,9 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         end
                     end
                 end
+                if vpilecontent[2] and vpilecontent[2].hasTag("Villain") then
+                    savior = savior + 1
+                end
             elseif vpilecontent[1] then
                 if vpilecontent[1].hasTag("Villain") then
                     savior = 1
@@ -923,20 +926,20 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             nongrey = nongrey/#Player.getPlayers() - 0.5*(nongrey % #Player.getPlayers())
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 nongrey,
                 "+" .. nongrey,
                 "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
-                'updateMMBelasco') end,1)
+                'updateMMBelasco')
         end
         function onObjectEnterZone(zone,object)
             if zone.guid == kopile_guid then
-                Wait.time(updateMMBelasco,2)
+                updateMMBelasco()
             end
         end
         function onObjectLeaveZone(zone,object)
             if zone.guid == kopile_guid then
-                Wait.time(updateMMBelasco,2)
+                updateMMBelasco()
             end
         end
     end
@@ -975,17 +978,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end   
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 bsfound,
                 "+" .. bsfound,
                 "Charles Xavier gets +1 for each Bystander in the city and HQ.",
-                'updateMMCharles') end,1)
+                'updateMMCharles')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMCharles,1.5)
+            if object.hasTag("Bystander") then
+                updateMMCharles()
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMCharles,1.5)
+            if object.hasTag("Bystander") then
+                updateMMCharles()
+            end
         end
     end
     if objname == "Deathbird" or objname == "Deathbird - epic" then

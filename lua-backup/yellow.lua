@@ -1,7 +1,8 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
     setupGUID = "912967"
-    global_deal=0
+    global_deal = 0
+    global_discarded = 0
     
     handsize_init = 6
     handsize = handsize_init
@@ -13,6 +14,9 @@ function onLoad()
     addguid = callGUID("addguids",3)[boardcolor]
     attackguid = callGUID("attackguids",3)[boardcolor]
     resourceguid = callGUID("resourceguids",3)[boardcolor]
+    drawguid = callGUID("drawguids",3)[boardcolor]
+    discardguid = callGUID("discardguids",3)[boardcolor]
+    handguid = callGUID("handguids",3)[boardcolor]
     
     pos_vp2 = callGUID("pos_vp2",2)
     pos_discard = callGUID("pos_discard",2)
@@ -321,32 +325,33 @@ function click_refillDeck()
 end
 
 function refillDeck()
-    local discardItemList = findObjectsAtPosition(pos_discard)
-    local pos = self.positionToWorld(pos_draw)
+    local discardItemList = get_decks_and_cards_from_zone(discardguid)
+    --log("discardpile:")
+    --log(discardItemList)
+    local pos = getObjectFromGUID(drawguid).getPosition()
     local rot = self.getRotation()
     rot.z = rot.z+180
-    for _, obj in ipairs(discardItemList) do
-        obj.setPosition(pos, false, true)
+    for _, obj in pairs(discardItemList) do
+        obj.setPosition(pos)
         obj.setRotation(rot)
     end
 
     if discardItemList[1] then
         Wait.condition(timer_shuffle,
             function()
-                local found = findObjectsAtPosition(pos_draw)
-                return #found == 1
-            end ,
-            5.0,
-            function()
-                print("auto-refill timeout")
-            end
-        )
+                local found = get_decks_and_cards_from_zone(drawguid)
+                if found[1] and found[1].getQuantity() == discardItemList[1].getQuantity() then
+                    return true
+                else
+                    return false
+                end
+            end)
     end
 end
 
 --Activated by a timer to shuffle deck
 function timer_shuffle()
-    local deck = findObjectsAtPosition(pos_draw)
+    local deck = get_decks_and_cards_from_zone(drawguid)
     if not deck[1] then
         printToAll("deck not found")
         return nil
@@ -358,7 +363,7 @@ function timer_shuffle()
     deck[1].randomize()
     local count=math.abs(deck[1].getQuantity())
     if count > 0 then
-        deck[1].deal(global_deal,boardcolor)
+        click_draw_cards(global_deal)
         global_deal=0
     end
 end
@@ -380,25 +385,37 @@ function click_discard_hand()
     if not cards then 
         cards = {} 
     end
-    local played_cards = get_decks_and_cards_from_zone(playguid)
+    local played_cards = get_decks_and_cards_from_zone(playguid,true)
+    local discard = get_decks_and_cards_from_zone(discardguid)
+    local discardcount = 0
+    if discard[1] then
+        discardcount = math.abs(discard[1].getQuantity())
+    end
     --log(played_cards)
     if played_cards then
         played_cards = tuckSidekicks(played_cards)
         cards_all = merge(cards,played_cards)
     end
     local pos = self.positionToWorld(pos_discard)
-    for _, card in ipairs(cards_all) do
-        card.setPosition(pos, false, true)
+    
+    global_discarded = #cards_all + discardcount
+    for _, card in pairs(cards_all) do
+        card.setPosition(pos)
     end
 end
 
 function click_deal_cards()
-    local decks = findObjectsAtPosition(pos_draw)
-    local toadd = get_decks_and_cards_from_zone(addguid)
+    local toadd = get_decks_and_cards_from_zone(addguid)[1]
     local todraw = handsize
-    if toadd[1] then
-        local count = math.abs(toadd[1].getQuantity())
-        toadd[1].deal(count,boardcolor)
+    local pos = getObjectFromGUID(handguid).getPosition()
+    if toadd and toadd.tag == "Deck" then
+        for i = 1,toadd.getQuantity()-1 do
+            toadd[1].takeObject({position = pos,
+                smooth = true})
+        end
+        toadd[1].remainder.setPositionSmooth(pos)
+    elseif toadd then
+        toadd[1].setPositionSmooth(pos)
     end
     if handsizef == false then
         if handsize ~= handsize_init then
@@ -406,55 +423,22 @@ function click_deal_cards()
             handsize = handsize_init
         end
     end
-    if not decks[1] then
-        global_deal = todraw
-        refillDeck()
-        return nil
-    end
-    local count = math.abs(decks[1].getQuantity())
-    decks[1].deal(math.min(todraw,count),boardcolor)
-    if count < todraw then
-        global_deal=todraw-count
-        refillDeck()
-    end
-end
-
-function click_draw_cards(n)
-    local cards = Player[boardcolor].getHandObjects()
-    local decks = findObjectsAtPosition(pos_draw)
-    if not decks[1] then
-        global_deal = n
-        refillDeck()
-        return nil
-    end
-    local count = math.abs(decks[1].getQuantity())
-    decks[1].deal(math.min(n,count),boardcolor)
-    if count < n then
-        global_deal = n-count
-        refillDeck()
-    end
+    click_draw_cards(todraw)
 end
 
 function isDiscardDone()
-    local cards = Player[boardcolor].getHandObjects()
-    if not cards then cards = {} end
-    local played_cards = get_decks_and_cards_from_zone(playguid)
-    if played_cards then
-        played_cards = tuckSidekicks(played_cards)
+    local discarded = get_decks_and_cards_from_zone(discardguid)[1]
+    if global_discarded == 0 or (discarded and math.abs(discarded.getQuantity()) == global_discarded) then
+        return true
+    else
+        return false
     end
-    return ((cards and #cards == 0) or (cards == nil)) and
-        ((played_cards and #played_cards == 0) or (played_cards == nil))
-end
-
-function isHandFull()
-    local cards = Player[boardcolor].getHandObjects()
-    return cards and ( #cards == handsize )
 end
 
 function click_end_turn()
     global_deal=0
     click_discard_hand()
-    Wait.condition(click_deal_cards,isDiscardDone,3,function() print("discard timeout") end)
+    Wait.condition(click_deal_cards,isDiscardDone)
     local autoplay = callGUID("autoplay",1)
     if boardcolor == Turns.turn_color then
         if autoplay == true then
@@ -467,33 +451,46 @@ function click_end_turn()
 end
 
 function click_draw_card()
-    local cards = Player[boardcolor].getHandObjects()
-    local decks = findObjectsAtPosition(pos_draw)
+    click_draw_cards(1)
+end
+
+function click_draw_cards(n)
+    if not n or n < 1 then
+        return nil
+    end
+    local decks = get_decks_and_cards_from_zone(drawguid)
     if not decks[1] then
-        global_deal = 1
+        global_deal = n
         refillDeck()
         return nil
     end
-    decks[1].deal(1,boardcolor)
-end
-
-function findObjectsAtPosition(localPos)
-    local globalPos = self.positionToWorld(localPos)
-    local objList = Physics.cast({
-        origin=globalPos, --Where the cast takes place
-        direction={0,1,0}, --Which direction it moves (up is shown)
-        type=2, --Type. 2 is "sphere"
-        size={2,2,2}, --How large that sphere is
-        max_distance=1, --How far it moves. Just a little bit
-        debug=false --If it displays the sphere when casting.
-    })
-    local decksAndCards = {}
-    for _, obj in ipairs(objList) do
-        if obj.hit_object.tag == "Deck" or obj.hit_object.tag == "Card" then
-            table.insert(decksAndCards, obj.hit_object)
+    local count = math.abs(decks[1].getQuantity())
+    local pos = getObjectFromGUID(handguid).getPosition()
+    if decks[1].tag == "Deck" then
+        for i = 1,math.min(n,count-1) do
+            decks[1].takeObject({position = pos,
+                flip = true,
+                smooth = true})
+        end
+        if decks[1].remainder then
+            decks[1] = decks[1].remainder
+        end
+        if count <= n then
+            decks[1].flip()
+            decks[1].setPositionSmooth(pos)
+            if count < n then
+                global_deal = n-count
+                refillDeck()
+            end
+        end
+    else
+        decks[1].flip()
+        decks[1].setPositionSmooth(pos)
+        if n > 1 then
+            global_deal = n-count
+            refillDeck()
         end
     end
-    return decksAndCards
 end
 
 function merge(t1, t2)
@@ -504,16 +501,16 @@ function merge(t1, t2)
 end
 
 function returnDiscardPile()
-    local discard = findObjectsAtPosition(pos_discard)
+    local discard = get_decks_and_cards_from_zone(discardguid)
     return discard
 end
 
 function returnDeck()
-    local deck = findObjectsAtPosition(pos_draw)
+    local deck = get_decks_and_cards_from_zone(drawguid)
     return deck
 end
 
-function get_decks_and_cards_from_zone(zoneGUID)
+function get_decks_and_cards_from_zone(zoneGUID,exclArtifact)
     local zone = getObjectFromGUID(zoneGUID)
     if zone then
         decks = zone.getObjects()
@@ -525,7 +522,7 @@ function get_decks_and_cards_from_zone(zoneGUID)
         for k, deck in pairs(decks) do
             if deck.type == "Deck" or deck.type == "Card" then
                 local desc = deck.getDescription()
-                if not desc:find("ARTIFACT") then
+                if not exclArtifact or not desc:find("ARTIFACT") then
                     table.insert(result, deck)
                 end
             end

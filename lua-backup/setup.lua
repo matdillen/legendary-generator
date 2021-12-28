@@ -65,6 +65,14 @@ function loadGUIDs()
         ["White"]="558e75"
     }
     
+    discardguids = {
+        ["Red"]="1f6a15",
+        ["Green"]="66abd3",
+        ["Yellow"]="63d26e",
+        ["Blue"]="2fd393",
+        ["White"]="fee1de"
+    }
+    
     drawguids = {
         ["Red"]="c6ca07",
         ["Green"]="4e2f26",
@@ -79,6 +87,14 @@ function loadGUIDs()
         ["Yellow"]="7f3bcd",
         ["Blue"]="f6396a",
         ["White"]="7732c7"
+    }
+    
+    handguids = {
+        ["Red"]="1737b5",
+        ["Green"]="c83e11",
+        ["Yellow"]="627472",
+        ["Blue"]="8c01fa",
+        ["White"]="bd8b5c"
     }
     
     city_zones_guids = {"e6b0bc",

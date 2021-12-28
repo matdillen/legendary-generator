@@ -7081,7 +7081,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
         elseif strikesresolved < 6 then
             mm = get_decks_and_cards_from_zone(current_city[#current_city-strikesresolved+2])
-            --what happens to iron man if his city space is destroyed?
+            --what happens to iron man if his city space is destroyed? nothing?
         else
             return strikesresolved
         end
@@ -7207,8 +7207,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                             end
                         end
                     end
-                    log("discardguids " .. o.color)
-                    log(discardguids)
+                    --log("discardguids " .. o.color)
+                    --log(discardguids)
                     if discardguids[1] and discardguids[2] then
                         if epicness == true then
                             offerCards({color = o.color,
@@ -7244,62 +7244,58 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         elseif light < 0 then
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
-                local handi = table.clone(hand)
-                local iter = 0
-                for i,obj in ipairs(handi) do
-                    if not hasTag2(obj,"HC:",4) then
-                        table.remove(hand,i-iter)
-                        iter = iter + 1
+                local nongrey = {}
+                for _,obj in pairs(hand) do
+                    if hasTag2(obj,"HC:") then
+                        table.insert(nongrey,obj)
                     end
                 end
-                if hand[1] then
-                    local drawCard = function()
-                        getObjectFromGUID(playerBoards[o.color]).Call('click_draw_card')
+                if nongrey[1] then
+                    local drawCard = function(color)
+                        getObjectFromGUID(playerBoards[color]).Call('click_draw_card')
                     end
                     local c = 1
                     if epicness then
                         c = 2
                     end
                     promptDiscard({color = o.color,
-                        hand = hand,
+                        hand = nongrey,
                         n = c,
                         pos = getObjectFromGUID(kopile_guid).getPosition(),
                         label = "KO",
                         tooltip = "Waking Nightmare, but this card will be KO'd by Belasco.",
-                        trigger_function = drawCard})
+                        trigger_function = drawCard,
+                        args = o.color})
                 end
             end
         end
         return strikesresolved
     end
     if mmname == "Carnage" then
-        local playercolors = Player.getPlayers()
         broadcastToAll("Master Strike: Carnage feasts on each player!")
-        for i=1,#playercolors do
-            local color = playercolors[i].color
+        for _,o in pairs(Player.getPlayers()) do
             local carnageWounds = function(obj)
                 local name = obj.getName()
                 if name == "" then
                     name = "an unnamed card"
                 end
-                broadcastToColor("Carnage feasted on " .. name .. "!",color,color)
+                broadcastToColor("Carnage feasted on " .. name .. "!",o.color,o.color)
                 if not hasTag2(obj,"Cost:") or hasTag2(obj,"Cost:") == 0 then
-                    click_get_wound(nil,color)
+                    click_get_wound(nil,o.color)
                 end
             end
             local feastOn = function()
-                local deck = getObjectFromGUID(playerBoards[color]).Call('returnDeck')
+                local deck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
                 if deck[1] and deck[1].tag == "Deck" then
-                local pos = getObjectFromGUID(kopile_guid).getPosition()
-                -- adjust pos to ensure the callback is triggered
-                pos.y = pos.y + i
+                    local pos = getObjectFromGUID(kopile_guid).getPosition()
                     deck[1].takeObject({position = pos,
                         flip=true,
+                        smooth = true,
                         callback_function = carnageWounds})
                     return true
                 elseif deck[1] then
                     deck[1].flip()
-                    koCard(deck[1])
+                    koCard(deck[1],true)
                     carnageWounds(deck[1])
                     return true
                 else
@@ -7308,10 +7304,18 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
             local feasted = feastOn()
             if feasted == false then
-                local discarded = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
+                local discarded = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
                 if discarded[1] then
-                    getObjectFromGUID(playerBoards[color]).Call('click_refillDeck')
-                    Wait.time(feastOn,2)
+                    getObjectFromGUID(playerBoards[o.color]).Call('click_refillDeck')
+                    local playerdeckpresent = function()
+                        local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+                        if playerdeck[1] then
+                            return true
+                        else
+                            return false
+                        end
+                    end
+                    Wait.condition(feastOn,playerdeckpresent)
                 end
             end
         end
@@ -7354,35 +7358,40 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         local kopilepos = getObjectFromGUID(kopile_guid).getPosition()
         if herodeck[1] and herodeck[1].tag == "Deck" then
             local phoenixDevours = function(obj)
-                broadcastToAll("Master Strike: Dark Phoenix purges the whole hero deck of hero class " .. hasTag2(obj,"HC:",4) .. "!")
+                broadcastToAll("Master Strike: Dark Phoenix purges the whole hero deck of hero class " .. hasTag2(obj,"HC:") .. "!")
                 local koguids = {}
-                for i,o in ipairs(herodeck[1].getObjects()) do
-                    for _,k in pairs(o.tags) do
-                        if k == "HC:" .. hasTag2(obj,"HC:",4) then
-                            table.insert(koguids,i)
-                            break
-                        end
-                    end
-                end
-                if koguids[1] then
-                    local remo = 0
-                    for i = 1,#koguids do
-                        herodeck[1].takeObject({position = kopilepos,
-                            flip=true,
-                            smooth=true,
-                            index = koguids[i]-1-remo})
-                        remo = remo + 1
-                        if herodeck[1].remainder then
-                            local remains = herodeck[1].remainder
-                            remains.flip()
-                            if hasTag2(remains,"HC:",4) == hasTag2(obj,"HC:",4) then
-                                koCard(remains)
+                local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
+                if herodeck[1] and herodeck[1].tag == "Deck" then
+                    for i,o in ipairs(herodeck[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k == "HC:" .. hasTag2(obj,"HC:") then
+                                table.insert(koguids,i)
+                                break
                             end
-                            break
                         end
                     end
+                    if koguids[1] then
+                        local remo = 0
+                        for i = 1,#koguids do
+                            herodeck[1].takeObject({position = kopilepos,
+                                flip=true,
+                                smooth=true,
+                                index = koguids[i]-1-remo})
+                            remo = remo + 1
+                            if herodeck[1].remainder then
+                                local remains = herodeck[1].remainder
+                                remains.flip()
+                                if hasTag2(remains,"HC:",4) == hasTag2(obj,"HC:",4) then
+                                    koCard(remains)
+                                end
+                                break
+                            end
+                        end
+                    end
+                elseif herodeck[1] and herodeck[1].hasTag("HC:" .. hasTag2(obj,"HC:")) then
+                    herodeck[1].flip()
+                    koCard(herodeck[1])
                 end
-                --neglect to shuffle as the hero deck was not searched by a player for this
             end
             herodeck[1].takeObject({position = kopilepos,
                 flip=true,
@@ -10372,14 +10381,14 @@ function demolish(colors,n,altsource,ko)
 end
 
 function offerCards(params)
-    color = params.color
-    pile = params.pile
-    guids = params.guids
-    resolve_function = params.resolve_function
-    tooltip = params.tooltip
-    label = params.label
-    flip = params.flip
-    n = params.n
+    local color = params.color
+    local pile = params.pile
+    local guids = params.guids
+    local resolve_function = params.resolve_function
+    local tooltip = params.tooltip
+    local label = params.label
+    local flip = params.flip
+    local n = params.n
     if not tooltip then
         tooltip = "Pick this card for the scheme twist, master strike or other effect."
     end
@@ -10552,47 +10561,32 @@ function hasTag2(obj,tag,index)
 end
 
 function promptDiscard(params)
-    if params.color then
-        color = params.color
-        handobjects = params.hand
-        n = params.n
-        pos = params.pos
-        flip = params.flip
-        label = params.label
-        tooltip = params.tooltip
-        triggerf = params.trigger_function
-        args = params.args
-        buttoncolor = params.buttoncolor
-        isZone = params.isZone
-        buttonheight = params.buttonheight
-    else
-        color = params
+    if not params.color then
+        params = {["color"] = params}
     end
+    
+    local color = params.color
     if not color then
         return nil
     end
-    if not handobjects then
-        handobjects = Player[color].getHandObjects()
-    end
-    if not n then
-        n = 1
-    elseif #handobjects > 0 then
+    
+    local handobjects = params.hand or Player[color].getHandObjects()
+    local n = params.n or 1
+    local pos = params.pos or getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
+    local flip = params.flip
+    local label = params.label or "Discard"
+    local tooltip = params.tooltip or "Discard this card."
+    local triggerf = params.trigger_function
+    local args = params.args
+    local buttoncolor = params.buttoncolor
+    local isZone = params.isZone
+    local buttonheight = params.buttonheight or 22
+    
+    if #handobjects > 0 then
         n = math.min(n,#handobjects)
     end
     if n < 1 then
         return nil
-    end
-    if not pos then
-        pos = getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
-    end
-    if not label then
-        label = "Discard"
-    end
-    if not tooltip then
-        tooltip = "Discard this card."
-    end
-    if not buttonheight then
-        buttonheight = 22
     end
     if #handobjects == n then
         for i = 1,n do
