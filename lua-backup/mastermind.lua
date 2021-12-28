@@ -1091,6 +1091,9 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMEmma()
         end
+        function onPlayerTurn(player,previous_player)
+            updateMMEmma()
+        end
     end
     if objname == "Emperor Vulcan of the Shi'ar" or objname == "Emperor Vulcan of the Shi'ar  - epic" then
         updateMMEmperorVulcan = function()
@@ -1124,32 +1127,96 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
             local tacticsfound = 0
-            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
-                for _,o in pairs(vpilecontent[1].getObjects()) do
-                    for _,k in pairs(o.tags) do
-                        if k:find("Tactic:") then
-                            tacticsfound = tacticsfound + 1
-                            break
+            for i = 1,2 do
+                if vpilecontent[i] and vpilecontent[i].tag == "Deck" then
+                    for _,o in pairs(vpilecontent[1].getObjects()) do
+                        for _,k in pairs(o.tags) do
+                            if k:find("Tactic:") then
+                                tacticsfound = tacticsfound + 1
+                                break
+                            end
                         end
                     end
+                elseif vpilecontent[i] and hasTag2(vpilecontent[i],"Tactic:",8) then
+                    tacticsfound = tacticsfound + 1
                 end
-            elseif vpilecontent[1] and hasTag2(vpilecontent[1],"Tactic:",8) then
-                tacticsfound = tacticsfound + 1
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 tacticsfound,
                 "+" .. tacticsfound,
                 "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
-                'updateMMDeadpool') end,1)
+                'updateMMDeadpool')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMDeadpool,1)
+            if hasTag2(object,"Tactic:") then
+                Wait.time(updateMMDeadpool,0.1)
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMDeadpool,1)
+            if hasTag2(object,"Tactic:") then
+                Wait.time(updateMMDeadpool,0.1)
+            end
         end
         function onPlayerTurn(player,previous_player)
             updateMMDeadpool()
+        end
+    end
+    if objname == "Fin Fang Foom" or objname == "Fin Fang Foom - epic" then
+        updateMMFinFang = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local hccolors = {
+                ["Red"] = 0,
+                ["Yellow"] = 0,
+                ["Green"] = 0,
+                ["Silver"] = 0,
+                ["Blue"] = 0
+            }
+            local playedcards = get_decks_and_cards_from_zone(playguids[Turns.turn_color])
+            if playedcards[1] then
+                for _,o in pairs(playedcards) do
+                    local tags = o.getTags()
+                    if tags then
+                        for _,tag in pairs(tags) do
+                            if tag:find("HC:") then
+                                hccolors[tag:gsub("HC:","")] = 2
+                            end
+                        end
+                    end
+                end
+            end
+            local hand = Player[Turns.turn_color].getHandObjects()
+            if hand[1] then
+                for _,o in pairs(hand) do
+                    local tags = o.getTags()
+                    if tags then
+                        for _,tag in pairs(tags) do
+                            if tag:find("HC:") then
+                                hccolors[tag:gsub("HC:","")] = 2
+                            end
+                        end
+                    end
+                end
+            end
+            local boost = 0
+            for _,o in pairs(hccolors) do
+                boost = boost + o
+            end
+            mmButtons(objname,
+                boost,
+                "-" .. boost,
+                "Fin Fang Foom gets -2 for each different Hero Class among heroes you have.",
+                'updateMMFinFang')
+        end
+        function onObjectEnterZone(zone,object)
+            updateMMFinFang()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMMFinFang()
+        end
+        function onPlayerTurn(player,previous_player)
+            updateMMFinFang()
         end
     end
     if objname == "Grim Reaper" or objname == "Grim Reaper - epic" then

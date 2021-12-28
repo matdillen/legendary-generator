@@ -7577,20 +7577,18 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
-            local handi = table.clone(hand)
-            local iter = 0
-            for i,obj in ipairs(handi) do
-                if not hasTag2(obj,"HC:",4) then
-                    table.remove(hand,i-iter)
-                    iter = iter + 1
+            local nongrey = {}
+            for _,obj in ipairs(hand) do
+                if hasTag2(obj,"HC:") then
+                    table.insert(nongrey,obj)
                 end
             end
-            if hand[1] then
+            if nongrey[1] then
                 local drawCard = function()
                     getObjectFromGUID(playerBoards[o.color]).Call('click_draw_card')
                 end
                 promptDiscard({color = o.color,
-                    hand = hand,
+                    hand = nongrey,
                     n = c,
                     trigger_function = drawCard})
             end
@@ -7615,6 +7613,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
         end
         getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar",true})
+        getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
         return strikesresolved
     end
     if mmname == "Evil Deadpool" then
@@ -7699,11 +7698,11 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     smooth = false})
             end
         end
-        Wait.time(setStrike,1)
+        Wait.time(setStrike,0.1)
         return nil
     end
     if mmname == "General Ross" then
-        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmLocations["General Ross"]))
+        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
             crossDimensionalRampage("hulk")
         elseif transformedPV == false then
@@ -8029,7 +8028,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved      
     end
     if mmname == "Illuminati, Secret Society" then
-        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmLocations["Illuminati, Secret Society"]))
+        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
@@ -8176,7 +8175,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "King Hulk, Sakaarson" then
-        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmLocations["King Hulk, Sakaarson"]))
+        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
             for i,o in pairs(vpileguids) do
                 if Player[i].seated == true then
@@ -8674,7 +8673,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "M.O.D.O.K." then
-        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmLocations["M.O.D.O.K."]))
+        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
             local players = Player.getPlayers()
             for _,o in pairs(players) do
@@ -9661,7 +9660,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "The Red King" then
-        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmLocations["The Red King"]))
+        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
             local towound = revealCardTrait("Silver")
             if towound[1] then
@@ -9676,7 +9675,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved 
     end
     if mmname == "The Sentry" then
-        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmLocations["The Sentry"]))
+        local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
             crossDimensionalRampage("void")
         elseif transformedPV == false then

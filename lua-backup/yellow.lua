@@ -3,10 +3,12 @@ function onLoad()
     setupGUID = "912967"
     global_deal = 0
     global_discarded = 0
+    drawqueue = 0
     
     handsize_init = 6
     handsize = handsize_init
     handsizef = false
+    
     
     boardcolor = self.getName()
     vpileguid = callGUID("vpileguids",3)[boardcolor]
@@ -335,7 +337,7 @@ function refillDeck()
         obj.setPosition(pos)
         obj.setRotation(rot)
     end
-
+    hardstop = nil
     if discardItemList[1] then
         Wait.condition(timer_shuffle,
             function()
@@ -350,14 +352,15 @@ function refillDeck()
 end
 
 --Activated by a timer to shuffle deck
-function timer_shuffle()
+function timer_shuffle(hardstop)
     local deck = get_decks_and_cards_from_zone(drawguid)
     if not deck[1] then
         printToAll("deck not found")
         return nil
     end
-    if deck[2] then
-        printToAll("More than one deck found?")
+    if deck[2] and not hardstop then
+        hardstop = true
+        Wait.time(timer_shuffle,0.5)
         return nil
     end
     deck[1].randomize()
@@ -451,6 +454,14 @@ function click_end_turn()
 end
 
 function click_draw_card()
+    drawqueue = drawqueue + 1
+    if drawqueue > 1 then
+        Wait.time(click_draw_card,drawqueue/5)
+        drawqueue = drawqueue - 1
+        return nil
+    else
+        Wait.time(function() drawqueue = drawqueue - 1 end,0.2)
+    end
     click_draw_cards(1)
 end
 
