@@ -871,21 +871,20 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             local color = Turns.turn_color
             local vpilecontent = get_decks_and_cards_from_zone(vpileguids[color])
             local savior = 0
-            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
-                for _,k in pairs(vpilecontent[1].getObjects()) do
-                    for _,l in pairs(k.tags) do
-                        if l == "Villain" then
-                            savior = savior + 1
-                            break
+            for i = 1,2 do
+                if vpilecontent[i] and vpilecontent[i].tag == "Deck" then
+                    for _,k in pairs(vpilecontent[i].getObjects()) do
+                        for _,l in pairs(k.tags) do
+                            if l == "Villain" then
+                                savior = savior + 1
+                                break
+                            end
                         end
                     end
-                end
-                if vpilecontent[2] and vpilecontent[2].hasTag("Villain") then
-                    savior = savior + 1
-                end
-            elseif vpilecontent[1] then
-                if vpilecontent[1].hasTag("Villain") then
-                    savior = 1
+                elseif vpilecontent[i] then
+                    if vpilecontent[i].hasTag("Villain") then
+                        savior = savior + 1
+                    end
                 end
             end
             mmButtons(objname,
@@ -1005,7 +1004,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 local citycontent = get_decks_and_cards_from_zone(city_zones_guids[i])
                 if citycontent[1] then
                     for _,o in pairs(citycontent) do
-                        if o.getName():find("Shi'ar") or o.hasTag("Shi'ar") then
+                        if o.getName():find("Shi'ar") or hasTag2(o,"Group:Shi'ar") then
                             shiarfound = shiarfound + 1
                             break
                         end
@@ -1013,39 +1012,45 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             local escapezonecontent = get_decks_and_cards_from_zone(escape_zone_guid)
-            if escapezonecontent[1] and escapezonecontent[1].tag == "Deck" then
-                for _,o in pairs(escapezonecontent[1].getObjects()) do
-                    if o.name:find("Shi'ar") then
-                        shiarfound = shiarfound + 1
-                    elseif next(o.tags) then
-                        for _,tag in pairs(o.tags) do
-                            if tag == "Shi'ar" then
-                                shiarfound = shiarfound + 1
-                                break
+            for i = 1,2 do
+                if escapezonecontent[i] and escapezonecontent[i].tag == "Deck" then
+                    for _,o in pairs(escapezonecontent[i].getObjects()) do
+                        if o.name:find("Shi'ar") then
+                            shiarfound = shiarfound + 1
+                        elseif next(o.tags) then
+                            for _,tag in pairs(o.tags) do
+                                if tag:find("Shi'ar") then
+                                    shiarfound = shiarfound + 1
+                                    break
+                                end
                             end
                         end
                     end
-                end
-            elseif escapezonecontent[1] then
-                if escapezonecontent[1].getName():find("Shi'ar") or escapezonecontent[1].hasTag("Shi'ar") then
-                    shiarfound = shiarfound + 1
+                elseif escapezonecontent[i] then
+                    if escapezonecontent[i].getName():find("Shi'ar") or hasTag2(escapezonecontent[i],"Group:Shi'ar") then
+                        shiarfound = shiarfound + 1
+                    end
                 end
             end
             local modifier = 1
             if epicness == true then
                 modifier = 2
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 shiarfound,
                 "+" .. shiarfound*modifier,
                 "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
-                'updateMMDeathbird') end,1)
+                'updateMMDeathbird')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMDeathbird,1)
+            if object.getName():find("Shi'ar") or object.hasTag("Group:Shi'ar Imperial Elite") or object.hasTag("Group:Shi'ar Imperial Guard") then
+                Wait.time(updateMMDeathbird,0.1)
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMDeathbird,1)
+            if object.getName():find("Shi'ar") or object.hasTag("Group:Shi'ar Imperial Elite") or object.hasTag("Group:Shi'ar Imperial Guard") then
+                Wait.time(updateMMDeathbird,0.1)
+            end
         end
     end
     if objname == "Emma Frost, The White Queen" or objname == "Emma Frost, The White Queen - epic" then

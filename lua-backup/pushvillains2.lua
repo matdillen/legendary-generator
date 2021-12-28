@@ -7419,9 +7419,30 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Deathbird" then
+        local shiarfound = false
+        for _,o in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(o)
+            if citycontent[1] then
+                for _,p in pairs(citycontent) do
+                    if p.getName():find("Shi'ar") or hasTag2(p,"Group:Shi'ar") then
+                        if epicness == true then
+                            getObjectFromGUID(setupGUID).Call('playHorror')
+                        else
+                            dealWounds()
+                        end
+                        shiarfound = true
+                        break
+                    end
+                end                 
+            end
+            if shiarfound then
+                break
+            end
+        end
         if cards[1] then
             cards[1].setName("Shi'ar Battlecruiser")
             local attack = 0
+            cards[1].addTag("Villain")
             if epicness == true then
                 cards[1].addTag("VP6")
                 attack = 9
@@ -7431,22 +7452,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
             cards[1].addTag("Power:" .. attack)
             powerButton(cards[1],attack)
-            push_all(current_city)
-        end
-        for _,o in pairs(city) do
-            local citycontent = get_decks_and_cards_from_zone(o)
-            if citycontent[1] then
-                for _,p in pairs(citycontent) do
-                    if p.name:find("Shi'ar") or p.hasTag("Shi'ar") then
-                        if epicness == true then
-                            getObjectFromGUID(setupGUID).Call('playHorror')
-                        else
-                            dealWounds()
-                        end
-                        return strikesresolved
-                    end
-                end  
-            end
+            click_push_villain_into_city()
         end
         return nil
     end
