@@ -38,7 +38,8 @@ function onLoad()
     local guids1 = {
         "heroDeckZoneGUID",
         "kopile_guid",
-        "twistPileGUID"
+        "twistZoneGUID",
+        "pushvillainsguid"
     }
     
     for _,o in pairs(guids1) do
@@ -195,7 +196,7 @@ function click_draw_hero()
     hero_deck = get_decks_and_cards_from_zone(deckToDrawGUID)
     if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
         purge = function(obj)
-            local purgedheroes = get_decks_and_cards_from_zone(twistPileGUID)
+            local purgedheroes = get_decks_and_cards_from_zone(twistZoneGUID)
             if purgedheroes[1] then
                 if purgedheroes[1].tag == "Deck" then
                     for _,o in pairs(purgedheroes[1].getObjects()) do

@@ -427,7 +427,8 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     checkvalue,
                     "X",
                     "You can't fight General Ross while he has any Helicopters.",
-                    'updateMMRoss')
+                    'updateMMRoss',
+                    "fightRoss")
             elseif transformed[mmname] == true then
                 if getObjectFromGUID(strikeloc).getButtons() then
                     getObjectFromGUID(strikeloc).editButton({label="X",
@@ -443,6 +444,12 @@ function setupTransformingMM(mmname,mmZone,lurking)
                             font_color="Red",
                             width=0})
                 end
+                mmButtons(mmname,
+                    0,
+                    "",
+                    "You can fight Red Hulk while he has any Helicopters.",
+                    'updateMMRoss',
+                    "fightRoss")
                 woundedFury(mmZone,Turns.turn_color)
             end
         end
@@ -1242,17 +1249,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 locationcount2 = locationcount*2
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 locationcount2,
                 "+" .. locationcount2,
                 "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
-                'updateMMReaper') end,1)
+                'updateMMReaper')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMReaper,1)
+            if object.getDescription():find("LOCATION") then
+                updateMMReaper()
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMReaper,1)
+            if object.getDescription():find("LOCATION") then
+                updateMMReaper()
+            end
         end
     end
     if objname == "Hela, Goddess of Death" or objname == "Hela, Goddess of Death - epic" then
@@ -1283,17 +1294,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 1
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 villaincount,
                 "+" .. villaincount*(5+boost),
                 "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
-                'updateMMHela') end,1)
+                'updateMMHela')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMHela,1)
+            if object.hasTag("Villain") then
+                updateMMHela()
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMHela,1)
+            if object.hasTag("Villain") then
+                updateMMHela()
+            end
         end
     end
     if objname == "Hydra High Council" then

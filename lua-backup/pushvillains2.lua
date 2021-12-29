@@ -833,7 +833,7 @@ function updatePower()
                                 return nil
                             end
                         end
-                        object.editButton({index = index-1,label = 7 + 2*reaperbonus})
+                        object.editButton({index = index-1,label = 7 + reaperbonus})
                     elseif object.getName() == "Evolved Ultron" then
                         local ultronpower = 4
                         local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
@@ -7052,7 +7052,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
         end
         broadcastToAll("Master Strike! Weak heroes in HQ replaced with new ones. Discard cards with the same cost as the heroes replaced in the HQ (Automatically, unless there are ties).")
-        demolish(nil,1,costs)
+        demolish({altsource = costs})
         return strikesresolved
     end
     if mmname == "Authoritarian Iron Man" then
@@ -7672,7 +7672,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 foomcount = foomcount + 1
             end
         end
-        demolish(nil,foomcount+1,nil,epicness)
+        demolish({n = foomcount+1,ko = epicness})
         broadcastToAll("Master Strike: Each player is demolished " .. foomcount+1 .. " times!")
         if epicness then
             broadcastToAll("KO all heroes demolished this way!")
@@ -7753,16 +7753,17 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     end
     if mmname == "Grim Reaper" then
         if cards[1] then
-            local reaperbonus = 0
+            reaperbonus = 0
             if epicness then
                 reaperbonus = 1
+                local locationcount = 0
                 for _,o in pairs(city) do
-                    local locationcount = 0
                     local citycontent = get_decks_and_cards_from_zone(o)
                     if citycontent[1] then
                         for _,p in pairs(citycontent) do
                             if p.getDescription():find("LOCATION") then
                                 locationcount = locationcount + 1
+                                break
                             end
                         end
                     end
@@ -7785,7 +7786,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     end
     if mmname == "Hela, Goddess of Death" then
         if cards[1] then
-            local helabonus = 0
+            helabonus = 0
             if epicness then
                 helabonus = 1
             end
@@ -7814,7 +7815,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     end
                 end
             end
-            log(vpilestrong)
+            --log(vpilestrong)
             if vpilestrong[1] and not vpilestrong[2] then
                 local pushDelayed = function()
                     Wait.time(click_push_villain_into_city,2)
@@ -8912,7 +8913,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
             strikesstacked = strikesstacked + 1
         end
-        demolish(nil,strikesstacked)
+        demolish({n = strikesstacked})
         return nil
     end
     if mmname == "Nimrod, Super Sentinel" then
@@ -10043,36 +10044,84 @@ function bump(obj,y)
 end
 
 function crossDimensionalRampage(name)
+    --rampages found so far:
+    --wolverine, colossus, hulk, void, thor, deadpool, illuminati
     local players = Player.getPlayers()
-    --add pseudonyms for wolverine,hulk still
+    local names = {name}
+    if name == "wolverine" then
+        table.insert(names,"old man logan")
+    elseif name == "hulk" then
+        table.insert(names,"nul, breaker of worlds")
+        table.insert(names,"maestro")
+    elseif name == "deadpool" then
+        table.insert(names,"venompool")
+    end
     for i,o in pairs(players) do
         local vpilecontent = get_decks_and_cards_from_zone(vpileguids[o.color])
-        if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
-            for _,k in pairs(vpilecontent[1].getObjects()) do
-                if string.lower(k.name):find(name) then
-                    table.remove(players,i)
+        for _,p in pairs(names) do
+            if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+                for _,k in pairs(vpilecontent[1].getObjects()) do
+                    if string.lower(k.name):find(p) then
+                        table.remove(players,i)
+                        break
+                    end
+                    for _,tag in pairs(k.tags) do
+                        if string.lower(tag):find(p) then
+                            table.remove(players,i)
+                            break
+                        end
+                    end
+                end
+            elseif vpilecontent[1] and string.lower(vpilecontent[1].getName()):find(p) then
+                table.remove(players,i)
+            elseif vpilecontent[1] and vpilecontent[1].getTags() then
+                for _,tag in pairs(vpilecontent[1].getTags()) do
+                    if string.lower(tag):find(p) then
+                        table.remove(players,i)
+                        break
+                    end
                 end
             end
-        elseif vpilecontent[1] and string.lower(vpilecontent[1].getName()):find(name) then
-            table.remove(players,i)
         end
     end
     for i,o in pairs(players) do
         local hand = o.getHandObjects()
-        if hand[1] then
-            for _,h in pairs(hand) do
-                if string.lower(h.getName()):find(name) then
-                    table.remove(players,i)
+        for _,p in pairs(names) do
+            if hand[1] then
+                for _,h in pairs(hand) do
+                    if string.lower(h.getName()):find(p) then
+                        table.remove(players,i)
+                        break
+                    end
+                    if h.getTags() then
+                        for _,tag in pairs(h.getTags()) do
+                            if string.lower(tag):find(p) then
+                                table.remove(players,i)
+                                break
+                            end
+                        end
+                    end
                 end
             end
         end
     end
     for i,o in pairs(players) do
         local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
-        if playcontent[1] then
-            for _,h in pairs(playcontent) do
-                if string.lower(h.getName()):find(name) then
-                    table.remove(players,i)
+        for _,p in pairs(names) do
+            if playcontent[1] then
+                for _,h in pairs(playcontent) do
+                    if string.lower(h.getName()):find(p) then
+                        table.remove(players,i)
+                        break
+                    end
+                    if h.getTags() then
+                        for _,tag in pairs(h.getTags()) do
+                            if string.lower(tag):find(p) then
+                                table.remove(players,i)
+                                break
+                            end
+                        end
+                    end
                 end
             end
         end
@@ -10323,26 +10372,30 @@ function nonTwistspecials(cards,schemeParts,city)
     return twistsresolved
 end
 
-function demolish(colors,n,altsource,ko)
-    if not colors then
-        colors = {}
-        for _,o in pairs(Player.getPlayers()) do
-            table.insert(colors,o.color)
-        end
+function demolish(params)
+    if not params then
+        params = "empty"
     end
-    if not n then
-        n = 1
-    end
+    local players = params.players or Player.getPlayers()
+    local n = params.n or 1
+    local altsource = params.altsource
+    local ko = params.ko
     local name = "Discard "
     if ko then
        name = "KO "    
     end
     local callbacksresolved = 0
     local demolishEffect = function()
-        for _,o in pairs(colors) do
+        for _,o in pairs(players) do
+            local posdiscard = nil
+            if ko == true then
+                posdiscard = getObjectFromGUID(kopile_guid).getPosition()
+            else
+                posdiscard = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard)
+            end
             for i=1,10 do
                 if costs[i] > 0 then
-                    local hand = Player[o].getHandObjects()
+                    local hand = o.getHandObjects()
                     if hand[1] then
                         local toDiscard = {}
                         for _,h in pairs(hand) do
@@ -10350,17 +10403,11 @@ function demolish(colors,n,altsource,ko)
                                 table.insert(toDiscard,h)
                             end
                         end
-                        local posdiscard = nil
-                        if ko == true then
-                            posdiscard = getObjectFromGUID(kopile_guid).getPosition()
-                        else
-                            posdiscard = getObjectFromGUID(playerBoards[o]).positionToWorld(pos_discard)
-                        end
-                        promptDiscard({color = o,
-                            hand = hand,
+                        promptDiscard({color = o.color,
+                            hand = toDiscard,
                             n = costs[i],
                             pos = posdiscard})
-                        broadcastToColor(name .. math.min(#hand,costs[i]) .. " cards from your hand with cost " .. i,o,o)
+                        broadcastToColor(name .. math.min(#hand,costs[i]) .. " cards from your hand with cost " .. i,o.color,o.color)
                     end
                 end
             end
@@ -10378,7 +10425,7 @@ function demolish(colors,n,altsource,ko)
         costs = callGUID("herocosts",3)
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         if herodeck[1].tag == "Deck" then
-            bump(herodeck[1],n+1)
+            bump(herodeck[1],n+2)
         end
         local pos = herodeck[1].getPosition()
         for i = 0,n-1 do
