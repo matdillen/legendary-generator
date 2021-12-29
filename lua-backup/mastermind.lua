@@ -1690,17 +1690,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 2
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 shardsfound,
                 "+" .. boost*shardsfound,
                 "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
-                'updateMMMagus') end,1)
+                'updateMMMagus')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMMagus,1)
+            updateMMMagus()
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMMagus,1)
+            updateMMMagus()
         end
     end
     if objname == "Mandarin" or objname == "Mandarin - epic" then
@@ -1745,17 +1745,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 modifier = 2
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 tacticsfound,
                 "-" .. tacticsfound*modifier,
                 "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
-                'updateMMMandarin') end,1)
+                'updateMMMandarin')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMMandarin,1)
+            Wait.time(updateMMMandarin,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMMandarin,1)
+            Wait.time(updateMMMandarin,0.1)
         end
     end
     if objname == "Maria Hill, Director of S.H.I.E.L.D." then

@@ -19,7 +19,8 @@ function onLoad()
         "playerBoards",
         "vpileguids",
         "playguids",
-        "shardguids"
+        "shardguids",
+        "discardguids"
     }
     
     for _,o in pairs(guids3) do
@@ -8342,7 +8343,16 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "Macho Gomez" then
         cards[1].setName("Bounty on your head")
         cards[1].setDescription("ARTIFACT: This is a bounty on your head. Macho will wound you with his master strikes for each bounty you have. Pay 1 recruit during your turn to pass this bounty to the player on your left.")
-        cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5,4,4}))
+        local playcontent = get_decks_and_cards_from_zone(playguids[Turns.turn_color])
+        local xshift = 0
+        if playcontent[1] then
+            for _,o in pairs(playcontent) do
+                if o.getName() == "Bounty on your head" then
+                    xshift = xshift + 0.5
+                end
+            end
+        end
+        cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5+xshift,4,4}))
         broadcastToAll("Master Strike: Each player gains a Wound for each Bounty on them.")
         for _,o in pairs(Player.getPlayers()) do
             local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
@@ -8453,8 +8463,112 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Malekith the Accursed" then
-        msno(mmname)
-        return nil
+        weaponguids = {}
+        weapons = {}
+        for _,o in pairs(Player.getPlayers()) do
+            local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
+            if playcontent[1] then
+                for _,obj in pairs(playcontent) do
+                    if obj.hasTag("Villainous Weapon") then
+                        table.insert(weapons,obj)
+                    end
+                end
+            end
+            local discarded = get_decks_and_cards_from_zone(discardguids[o.color])
+            if discarded[1] and discarded[1].tag == "Deck" then
+                local weaponguids2 = {}
+                for _,p in pairs(discarded[1].getObjects()) do
+                    for _,k in pairs(p.tags) do
+                        if k == "Villainous Weapon" then
+                            table.insert(weaponguids2,p.guid)
+                            break
+                        end
+                    end
+                end
+                local killHandButtons = function(obj)
+                    obj.clearButtons()
+                    local loc = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+                    local pos = getObjectFromGUID(loc["Malekith the Accursed"]).getPosition()
+                    pos.z = pos.z - 2
+                    obj.setPositionSmooth(pos)
+                    for _,h in pairs(weapons) do
+                        h.clearButtons()
+                    end
+                end
+                offerCards({color = o.color,
+                    pile = discarded[1],
+                    guids = weaponguids2,
+                    resolve_function = killHandButtons,
+                    tooltip = "Choose this villainous weapon to be captured by Malekith.",
+                    label = "Pick"})
+                weaponguids = merge(weaponguids,weaponguids2)
+            elseif discarded[1] and discarded[1].hasTag("Villainous Weapon") then
+                _G['killHandButtons' .. o.color] = function(obj)
+                    obj.clearButtons()
+                    local loc = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+                    local pos = getObjectFromGUID(loc["Malekith the Accursed"]).getPosition()
+                    pos.z = pos.z - 2
+                    obj.setPositionSmooth(pos)
+                    for _,h in pairs(weapons) do
+                        h.clearButtons()
+                    end
+                    for _,h in pairs(weaponguids) do
+                        local obj2 = getObjectFromGUID(h)
+                        if obj2 and h ~= obj.guid then
+                            obj2.clearButtons()
+                        end
+                    end
+                end
+                table.insert(weaponguids,discarded[1].guid)
+                discarded[1].createButton({click_function = 'killHandButtons' .. o.color,
+                    function_owner=self,
+                    position={0,22,0},
+                    label="Pick",
+                    tooltip="Choose this villainous weapon to be captured by Malekith.",
+                    font_size=250,
+                    font_color="Black",
+                    color={1,1,1},
+                    width=750,height=450})
+            end
+        end
+        for _,c in pairs(city) do
+            local citycontent = get_decks_and_cards_from_zone(c)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Villainous Weapon") then
+                        table.insert(weapons,obj)
+                    end
+                end
+            end
+        end
+        local killBSButton = function(obj)
+            local loc = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+            local pos = getObjectFromGUID(loc["Malekith the Accursed"]).getPosition()
+            pos.z = pos.z - 2
+            obj.setPositionSmooth(pos)
+            for _,b in pairs(weaponguids) do
+                local obj2 = getObjectFromGUID(b)
+                if obj2 then
+                    local color = nil
+                    for _,butt in pairs(obj2.getButtons()) do
+                        if butt.click_function:find("resolveOfferCardsEffect") then
+                            color = butt.click_function:gsub("resolveOfferCardsEffect","")
+                        end
+                    end
+                    obj2.clearButtons()
+                    obj2.locked = false
+                    obj2.setPosition(getObjectFromGUID(discardguids[color]).getPosition())
+                end
+            end
+        end
+        promptDiscard({color = Turns.turn_color,
+            hand = weapons,
+            label = "Pick",
+            tooltip = "Choose this villainous weapon to be captured by Malekith.",
+            trigger_function = killBSButton})
+        --enter darkspear after everything else resolved
+        --script epic effect
+        return strikesresolved
     end
     if mmname == "Mandarin" then
         local top = nil
