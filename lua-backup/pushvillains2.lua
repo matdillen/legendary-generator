@@ -264,6 +264,10 @@ function getWound(color)
     click_get_wound(nil,color)
 end
 
+function gainBystander(color)
+    click_rescue_bystander(nil,color)
+end
+
 function dealWounds(top)
     for i,_ in pairs(playerBoards) do
         if Player[i].seated == true then
@@ -7846,7 +7850,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return nil
     end
     if mmname == "Hydra High Council" then
-        local mmcontent = get_decks_and_cards_from_zone(mmLocations[mmname])
+        local mmcontent = get_decks_and_cards_from_zone(mmloc)
         local name = nil
         if mmcontent[1] and mmcontent[1].tag == "Deck" then
             name = mmcontent[1].getObjects()[mmcontent[1].getQuantity()].name
@@ -7955,7 +7959,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved      
     end
     if mmname == "Hydra Super-Adaptoid" then
-        local mmcontent = get_decks_and_cards_from_zone(mmLocations[mmname])
+        local mmcontent = get_decks_and_cards_from_zone(mmloc)
         local name = nil
         if mmcontent[1] and mmcontent[1].tag == "Deck" then
             name = mmcontent[1].getObjects()[mmcontent[1].getQuantity()].name
@@ -7995,12 +7999,12 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         end
                         if  #vpilewarbound > 2 then
                             offerCards({color = i,
-                            pile = vpilecontent[1],
-                            guids = vpilewarbound,
-                            resolve_function = koCard,
-                            tooltip = "KO this bystander.",
-                            label = "KO",
-                            n = 2})
+                                pile = vpilecontent[1],
+                                guids = vpilewarbound,
+                                resolve_function = koCard,
+                                tooltip = "KO this bystander.",
+                                label = "KO",
+                                n = 2})
                             broadcastToColor("Master Strike: KO 2 of the " .. #vpilewarbound .. " bystanders that were put into play from your victory pile.",i,i)
                         else
                             click_get_wound(nil,i)
@@ -8033,19 +8037,15 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         if transformedPV == true then
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
-                local handi = table.clone(hand)
-                local iter = 0
-                for i,obj in ipairs(handi) do
-                    if not hasTag2(obj,"COST:") or hasTag2(obj,"COST:") < 1 or hasTag2(obj,"COST:") > 4 then
-                        if not obj.hasTag("Officer") and not obj.hasTag("Sidekick") then
-                            table.remove(hand,i-iter)
-                            iter = iter + 1
-                        end
+                local toDiscard = {}
+                for _,obj in pairs(hand) do
+                    if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 1 and hasTag2(obj,"Cost:") < 4 then
+                        table.insert(toDiscard,obj)
                     end
                 end
                 if hand[1] then
                     promptDiscard({color = o.color,
-                        hand = hand,
+                        hand = toDiscard,
                         n = 2})
                 end
             end
@@ -8053,17 +8053,15 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         elseif transformedPV == false then
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
-                local handi = table.clone(hand)
-                local iter = 0
-                for i,obj in ipairs(handi) do
-                    if not hasTag2(obj,"COST:") or hasTag2(obj,"COST:") < 5 or hasTag2(obj,"COST:") > 8 then
-                        table.remove(hand,i-iter)
-                        iter = iter + 1
+                local toDiscard = {}
+                for _,obj in pairs(hand) do
+                    if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 5 and hasTag2(obj,"Cost:") < 8 then
+                        table.insert(toDiscard,obj)
                     end
                 end
                 if hand[1] then
                     promptDiscard({color = o.color,
-                        hand = hand,
+                        hand = toDiscard,
                         n = 2})
                 end
             end
@@ -8253,8 +8251,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                             end
                             broadcastToAll("Charging...",{1,0,0})
                             for i=1,stop do
-                                Wait.time(pushKing,i*2)
-                                Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,i*2)
+                                Wait.time(pushKing,1.5*i)
+                                Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,1.5*i)
                             end
                             return strikesresolved
                         end
@@ -8270,8 +8268,8 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         kinghyperion.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
         broadcastToAll("Charging...",{1,0,0})
         for i=1,4 do
-            Wait.time(click_push_villain_into_city,i*2)
-            Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,i*2)
+            Wait.time(click_push_villain_into_city,1.5*i)
+            Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,1.5*i)
         end
         return nil
     end
@@ -8676,65 +8674,40 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "M.O.D.O.K." then
         local transformedPV = getObjectFromGUID(mmZoneGUID).Call('transformMM',getObjectFromGUID(mmloc))
         if transformedPV == true then
-            local players = Player.getPlayers()
-            for _,o in pairs(players) do
-                local hand = o.getHandObjects()
-                if hand[1] then
-                    local outwitcount = callGUID("herocosts",3)
-                    for _,p in pairs(hand) do
-                        --breaks with bystander-heroes, some villain-heroes
-                        if hasTag2(p,"Cost:") then
-                            outwitcount[hasTag2(p,"Cost:")+1] = outwitcount[hasTag2(p,"Cost:")+1] + 1
-                        elseif p.hasTag("Officer") then
-                            outwitcount[4] = outwitcount[4] + 1
-                        elseif p.hasTag("Sidekick") then
-                            outwitcount[3] = outwitcount[3] + 1
-                        else
-                            outwitcount[1] = outwitcount[1] + 1
-                        end
-                    end
-                    local totaloutwitcount = 0
-                    for _,p in pairs(outwitcount) do
-                        if p > 0 then
-                            totaloutwitcount = totaloutwitcount + 1
-                        end
-                    end
-                    if totaloutwitcount < 4 then
-                        click_get_wound(nil,o.color)
-                    end
-                else
+            for _,o in pairs(Player.getPlayers()) do
+                if not outwitPlayer({color = o.color, n = 4}) then
                     click_get_wound(nil,o.color)
                 end
             end
         elseif transformedPV == false then
-            local players = Player.getPlayers()
-            for _,o in pairs(players) do
-                local hand = o.getHandObjects()
-                if hand[1] then
-                    local outwitcount = callGUID("herocosts",3)
-                    for _,p in pairs(hand) do
-                        --breaks with bystander-heroes, some villain-heroes
-                        if hasTag2(p,"Cost:") then
-                            outwitcount[hasTag2(p,"Cost:")+1] = outwitcount[hasTag2(p,"Cost:")+1] + 1
-                        elseif p.hasTag("Officer") then
-                            outwitcount[4] = outwitcount[4] + 1
-                        elseif p.hasTag("Sidekick") then
-                            outwitcount[3] = outwitcount[3] + 1
-                        else
-                            outwitcount[1] = outwitcount[1] + 1
+            for _,o in pairs(Player.getPlayers()) do
+                if not outwitPlayer({color = o.color, n = 3}) then
+                    local discardguids = {}
+                    local discarded = getObjectFromGUID(playerBoards[o.color]).Call('returnDiscardPile')
+                    if discarded[1] and discarded[1].tag == "Deck" then
+                        for _,c in pairs(discarded[1].getObjects()) do
+                            for _,tag in pairs(c.tags) do
+                                if tag:find("HC:") then
+                                    table.insert(discardguids,c.guid)
+                                    break
+                                end
+                            end
+                        end
+                        if discardguids[1] then
+                            offerCards({color = o.color,
+                                pile = discarded[1],
+                                guids = discardguids,
+                                resolve_function = koCard,
+                                tooltip = "KO this hero.",
+                                label = "KO"})
+                            broadcastToColor("Master Strike: You failed to outwit M.O.D.O.K., so KO a non-grey hero from your discard pile.",o.color,o.color)
+                        end
+                    elseif discarded[1] then
+                        if hasTag2(discarded[1],"HC:",4) then
+                            koCard(discarded[1])
+                            broadcastToColor("Master Strike: You failed to outwit M.O.D.O.K., so the only non-grey hero from your discard pile was KO'd.",o.color,o.color)
                         end
                     end
-                    local totaloutwitcount = 0
-                    for _,p in pairs(outwitcount) do
-                        if p > 0 then
-                            totaloutwitcount = totaloutwitcount + 1
-                        end
-                    end
-                    if totaloutwitcount < 3 then
-                        broadcastToColor("Master Strike: KO a nongrey hero from your discard pile.",o.color,o.color)
-                    end
-                else
-                    broadcastToColor("Master Strike: KO a nongrey hero from your discard pile.",o.color,o.color)
                 end
             end
         end
@@ -9969,13 +9942,12 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
 end
 
 function revealCardTrait(params)
-    if params.prefix or params.trait then
-        trait = params.trait -- card tag to look for
-        prefix = params.prefix -- prefix of the tag
-        what = params.what -- other card properties to look for, cf. vocabulary
-        players = params.players -- if not all players are affected
-        excludePlay = params.excludePlay -- exclude cards in play
-    else
+    local trait = params.trait -- card tag to look for
+    local prefix = params.prefix -- prefix of the tag
+    local what = params.what -- other card properties to look for, cf. vocabulary
+    local players = params.players -- if not all players are affected
+    local excludePlay = params.excludePlay -- exclude cards in play
+    if not trait and not prefix then
         trait = params
     end
     if not prefix then
@@ -10991,6 +10963,40 @@ function returnTimeIncursions()
         return timeIncursions
     else
         return {}
+    end
+end
+
+function outwitPlayer(params)
+    local color = params.color
+    local n = params.n or 3
+    
+    local tf = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"transformed"),true)
+    if not params.n and tf["M.O.D.O.K."] ~= nil and tf["M.O.D.O.K."] == false then
+        n = 4
+    end
+    local costs = callGUID("herocosts",2)
+    
+    local playcontent = get_decks_and_cards_from_zone(playguids[color])
+    local hand = Player[color].getHandObjects()
+    local allcards = merge(playcontent,hand)
+    local zerocost = 0
+    for _,obj in pairs(allcards) do
+        if hasTag2(obj,"Cost:") then
+            costs[hasTag2(obj,"Cost:")] = costs[hasTag2(obj,"Cost:")] + 1
+        elseif obj.hasTag("Starter") then
+            zerocost = 1
+        end
+    end
+    local outwit = zerocost
+    for _,o in pairs(costs) do
+        if o > 0 then
+            outwit = outwit + 1
+        end
+    end
+    if outwit >= n then
+        return true
+    else
+        return false
     end
 end
 

@@ -4,7 +4,8 @@ function onLoad()
     local guids3 = {
         "playerBoards",
         "vpileguids",
-        "playguids"
+        "playguids",
+        "resourceguids"
     }
     
     for _,o in pairs(guids3) do
@@ -474,12 +475,33 @@ function setupTransformingMM(mmname,mmZone,lurking)
             if not mmActive(mmname) then
                 return nil
             end
-            if transformed["Illuminati, Secret Society"] == true then
-                local notes = getNotes()
-                setNotes(notes .. "\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.")
-            elseif transformed["Illuminati, Secret Society"] == false then   
+            local boost = 0
+            if transformed["Illuminati, Secret Society"] == false then
                 local notes = getNotes()
                 setNotes(notes:gsub("\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.",""))
+                boost = 4
+                if getObjectFromGUID(pushvillainsguid).Call('outwitPlayer',{color = Turns.turn_color}) then
+                    boost = 0
+                end
+            elseif transformed["Illuminati, Secret Society"] == true then
+                local notes = getNotes()
+                setNotes(notes .. "\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.")
+            end
+            mmButtons(mmname,
+                boost,
+                "+" .. boost,
+                "The Illuminati get +4 unless you Outwit them.",
+                'updateMMIlluminatiSS')
+        end
+        updateMMIlluminatiSS()
+        function onObjectEnterZone(zone,object)
+            if transformed["Illuminati, Secret Society"] == false then
+                updateMMIlluminatiSS()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if transformed["Illuminati, Secret Society"] == false then
+                updateMMIlluminatiSS()
             end
         end
     end
@@ -1344,11 +1366,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         savior = 1
                     end
                 end
-                Wait.time(function() mmButtons(objname,
+                mmButtons(objname,
                     savior,
                     "-" .. savior,
                     "The Baron gets -1 for each villain in your victory pile.",
-                    'updateMMHydraHigh') end,1)
+                    'updateMMHydraHigh')
             elseif name == "Viper" then
                 local shiarfound = 0
                 for i=2,#city_zones_guids do
@@ -1362,11 +1384,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         end
                     end
                 end
-                Wait.time(function() mmButtons(objname,
+                mmButtons(objname,
                     shiarfound,
                     "+" .. shiarfound,
                     "Viper gets +1 for each HYDRA Villain in the city.",
-                    'updateMMHydraHigh') end,1)
+                    'updateMMHydraHigh')
             elseif name == "Red Skull" then
                 local shiarfound = 0
                 local escapezonecontent = get_decks_and_cards_from_zone(escape_zone_guid)
@@ -1392,11 +1414,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
                 shiarfound = shiarfound/2 - 0.5*(shiarfound % 2)
-                Wait.time(function() mmButtons(objname,
+                mmButtons(objname,
                     shiarfound,
                     "+" .. shiarfound,
                     "Red Skull gets +1 for each two HYDRA levels.",
-                    'updateMMHydraHigh') end,1)
+                    'updateMMHydraHigh')
             elseif name == "Arnim Zola" then
                 local power = 0
                 for _,o in pairs(hqguids) do
@@ -1409,21 +1431,48 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         end
                     end
                 end
-                Wait.time(function() mmButtons(objname,
+                mmButtons(objname,
                     power,
                     "+" .. power,
                     "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
-                    'updateMMHydraHigh') end,1)
+                    'updateMMHydraHigh')
             end
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMHydraHigh,2)
+            Wait.time(updateMMHydraHigh,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMHydraHigh,2)
+            Wait.time(updateMMHydraHigh,0.1)
         end
         function onPlayerTurn(player,previous_player)
             updateMMHydraHigh()
+        end
+    end
+    if objname == "Immortal Emperor Zheng-Zhu" then
+        updateMMImmortalEmperor = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait = 6,what = "Cost", prefix = "Cost:", players = {Player[Turns.turn_color]}})
+            local boost = 0
+            if players[1] then
+                boost = 7
+            end
+            mmButtons(objname,
+                boost,
+                "+" .. boost,
+                "Immortal Emperor Zheng-Zhu is in the 7th Circle of Kung Fu and gets +7 unless you have a hero with at least that cost.",
+                'updateMMImmortalEmperor')
+        end
+        updateMMImmortalEmperor()
+        function onObjectEnterZone(zone,object)
+            updateMMImmortalEmperor()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMMImmortalEmperor()
+        end
+        function onPlayerTurn(player,previous_player)
+            updateMMImmortalEmperor()
         end
     end
     if objname == "J. Jonah Jameson" or objname == "J. Jonah Jameson - epic" then
@@ -1437,6 +1486,48 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             soPile.takeObject({position = getObjectFromGUID(getStrikeloc(objname)).getPosition(),
                 flip=false,
                 smooth=false})
+        end
+        updateMMJonah = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local angrymob = 4
+            if epicness then
+                angrymob = 5
+            end
+            local strikeloc = getStrikeloc(objname)
+            local checkvalue = 1
+            if not get_decks_and_cards_from_zone(strikeloc)[1] then
+                getObjectFromGUID(strikeloc).clearButtons()
+                checkvalue = 0
+            else
+                if not getObjectFromGUID(strikeloc).getButtons() then
+                    getObjectFromGUID(strikeloc).createButton({click_function='updateMMJonah',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label=angrymob,
+                        tooltip="You can pacify these Angry Mobs for " .. angrymob .. " to have any player gain them.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                end
+            end
+            mmButtons(objname,
+                checkvalue,
+                "X",
+                "You can't fight J. Jonah while he has any Angry Mobs.",
+                'updateMMJonah')
+        end
+        function onObjectEnterZone(zone,object)
+            if zone.guid == getStrikeloc(objname) then
+                updateMMJonah()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if zone.guid == getStrikeloc(objname) then
+                updateMMJonah()
+            end
         end
     end
     if objname == "Kang the Conqueror" or objname == "Kang the Conqueror - epic" then
@@ -1461,17 +1552,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 1
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 villaincount,
                 "+" .. villaincount*(2+boost),
                 "Kang gets +" .. 2+boost .. " for each Villain in the city zones under a time incursion.",
-                'updateMMKang') end,1)
+                'updateMMKang')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMKang,1)
+            updateMMKang()
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMKang,1)
+            updateMMKang()
         end
     end
     if objname == "Kingpin" then
@@ -1947,11 +2038,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             local poisoned = get_decks_and_cards_from_zone(strikeloc)
             local poisoncount = 0
             if poisoned[1] and poisoned[1].tag == "Deck" then
-                local costs = table.clone(herocosts)
+                local costs = callGUID("herocosts",2)
                 for _,o in pairs(poisoned[1].getObjects()) do
                     for _,k in pairs(o.tags) do
                         if k:find("Cost:") then
-                            herocosts[tonumber(k:match("%d+"))] = herocosts[tonumber(k:match("%d+"))] + 1
+                            costs[tonumber(k:match("%d+"))] = costs[tonumber(k:match("%d+"))] + 1
                             break
                         end
                     end
@@ -2400,8 +2491,10 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
         else
             tooltip = toolt_orig .. "\n - Unidentified bonus [" .. id .. ":" .. label .. "]"
         end
-    else
+    elseif not tooltip then
         tooltip = toolt_orig
+    elseif tooltip then
+        tooltip = toolt_orig:gsub("- .+%[" .. id .. ":","- " .. tooltip .. "[" .. id .. ":")
     end
     if checkvalue == 0 then
         label = ""
@@ -2518,6 +2611,9 @@ function fightButton(zone)
                     end
                     addMMGUIDS[mmLocations[name]] = false
                     mmLocations[name] = nil
+                    if transformed[name] then
+                        transformed[name] = nil
+                    end
                     for i,o in ipairs(obj.getButtons()) do
                         if o.click_function:find("fightEffect") or o.click_function == "transformMM" then
                             obj.removeButton(i-1)
@@ -2635,6 +2731,31 @@ function fightMM(zoneguid,player_clicker_color)
             break
         end
     end
+    local thetacticstays = false
+    if name == "King Hyperion" then
+        for i,o in pairs(city_zones_guids) do
+            if i > 1 then
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,obj in pairs(citycontent) do
+                        if obj.getName() == "King Hyperion" then
+                            obj.setPositionSmooth(getObjectFromGUID(zoneguid).getPosition())
+                            thetacticstays = true
+                            for _,obj2 in pairs(citycontent) do
+                                if obj2.getName() ~= "King Hyperion" and not obj2.getDescription():find("LOCATION") then
+                                    koCard(obj2)
+                                end
+                            end
+                            break
+                        end
+                    end
+                    if thetacticstays == true then
+                        break
+                    end
+                end
+            end
+        end
+    end
     if content[1] and content[2] then
         for i,o in pairs(content) do
             if o.tag == "Deck" then
@@ -2643,16 +2764,27 @@ function fightMM(zoneguid,player_clicker_color)
                 else
                     bump(content[1])
                 end
-                o.takeObject({position = vppos,
-                    flip = o.is_face_down,
-                    smooth = true})
-                return name
-            elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
-                o.setPositionSmooth(vppos)
-                if o.is_face_down then
-                    Wait.time(function() o.flip() end,0.8)
+                if thetacticstays == true then
+                    resolveTactics(name,o.getObjects()[1].name,player_clicker_color,true)
+                    o.randomize()
+                    return nil
+                else
+                    o.takeObject({position = vppos,
+                        flip = o.is_face_down,
+                        smooth = true})
+                    return name
                 end
-                return name
+            elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
+                if thetacticstays == true then
+                    resolveTactics(name,o.getName(),player_clicker_color,true)
+                    return nil
+                else
+                    o.setPositionSmooth(vppos)
+                    if o.is_face_down then
+                        Wait.time(function() o.flip() end,0.8)
+                    end
+                    return name
+                end
             end
         end
     elseif content[1] then
@@ -2666,26 +2798,52 @@ function fightMM(zoneguid,player_clicker_color)
                     end
                 end
                 if tacticFound == false then
-                    content[1].takeObject({position = vppos,
-                        index = i,
-                        flip = content[1].is_face_down,
-                        smooth = true})
-                    if content[1].remainder then
-                        content[1] = content[1].remainder
+                    if thetacticstays == true then
+                        resolveTactics(name,content[1].getObjects()[i+1].name,player_clicker_color,true)
+                        local pos = content[1].getPosition()
+                        pos.y = pos.y + 2
+                        local shufflethetactics = function()
+                            if content[1] then
+                                content[1].randomize()
+                            end
+                        end
+                        content[1].takeObject({position = pos,
+                            smooth = true,
+                            callback_function = shufflethetactics})
+                        return nil
+                    else
+                        content[1].takeObject({position = vppos,
+                            index = i,
+                            flip = content[1].is_face_down,
+                            smooth = true})
+                        if content[1].remainder then
+                            content[1] = content[1].remainder
+                        end
+                        return name
                     end
-                    return name
                 end
             end
-            content[1].takeObject({position = vppos,
-                flip = content[1].is_face_down,
-                smooth = true})
-            return name
-        else
-            content[1].setPositionSmooth(vppos)
-            if content[1].is_face_down then
-                Wait.time(function() content[1].flip() end,0.8)
+            if thetacticstays == true then
+                resolveTactics(name,content[1].getObjects()[1].name,player_clicker_color,true)
+                content[1].randomize()
+                return nil
+            else
+                content[1].takeObject({position = vppos,
+                    flip = content[1].is_face_down,
+                    smooth = true})
+                return name
             end
-            return name
+        else
+            if thetacticstays == true then
+                resolveTactics(name,o.getName(),player_clicker_color,true)
+                return nil
+            else
+                content[1].setPositionSmooth(vppos)
+                if content[1].is_face_down then
+                    Wait.time(function() content[1].flip() end,0.8)
+                end
+                return name
+            end
         end
     end
     return nil
@@ -2722,11 +2880,31 @@ function getNextMMLoc()
     return nil
 end
 
-function resolveTactics(mmname,tacticname,color)
+function resolveTactics(mmname,tacticname,color,stays)
     if mmname[1] then
         tacticname = mmname[2]
         color = mmname[3]
+        stays = mmname[4]
         mmname = mmname[1]
+    end
+    if mmname == "King Hyperion" and stays then
+        if tacticname == "Monarch of Utopolis" then
+            for i = 1,3 do
+                getObjectFromGUID(playerBoards[color]).Call('handsizeplus')
+            end
+            broadcastToColor("No tactic earned, as the King was in the city, but you'll draw three extra cards next turn.",color,color)
+        elseif tacticname == "Rule with an iron fist" then
+            broadcastToColor("No tactic earned, as the King was in the city, but you may defeat a villain the city for free (unscripted).",color,color)
+        elseif tacticname == "Worshipped by millions" then
+            for i = 1,6 do
+                getObjectFromGUID(pushvillainsguid).Call('gainBystander',color)
+            end
+            broadcastToColor("No tactic earned, as the King was in the city, but you rescue six bystanders.",color,color)
+        elseif tacticname == "Royal treasury" then
+            getObjectFromGUID(resourceguids[color]).Call('addValue',5)
+            broadcastToColor("No tactic earned, as the King was in the city, but you gained 5 Recruit.",color,color)
+        end
+        return nil
     end
     if mmname == "Maximus the Mad" then
         if tacticname == "Seize the inhuman throne" then
