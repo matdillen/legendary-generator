@@ -1962,17 +1962,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 boost,
                 "+" .. boost,
                 "Mr. Sinister gets +1 for each Bystander he has.",
-                'updateMMMrSinister') end,1)
+                'updateMMMrSinister')
         end
         function onObjectEnterZone(zone,object)
-            updateMMMrSinister()
+            if object.hasTag("Bystander") then
+                Wait.time(updateMMMrSinister,0.1)
+            end
         end
         function onObjectLeaveZone(zone,object)
-            updateMMMrSinister()
+            if object.hasTag("Bystander") then
+                Wait.time(updateMMMrSinister,0.1)
+            end
         end
     end
     if objname == "Odin" then

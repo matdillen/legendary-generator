@@ -8978,12 +8978,12 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 elseif kodguids[1] and kodguids[2] then
                     local gainCrapCard = function(obj)
                         obj.setPositionSmooth(dest)
-                        local nextcolor = getNextColor(color)
-                        if nextcolor and nextcolor ~= players[1].color then
+                        if players[1] then
+                            local player = table.remove(players,1)
                             Wait.time(
                                 function() 
-                                    morganWounds(nextcolor,players)
-                                    broadcastToColor("Choose a starter hero or wound to gain from the KO pile.",nextcolor,nextcolor)
+                                    morganWounds(player.color,players)
+                                    broadcastToColor("Choose a starter hero or wound to gain from the KO pile.",player.color,player.color)
                                 end,1)
                         end
                     end
@@ -9001,8 +9001,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
         end
         if players[1] then
-            morganWounds(players[1].color,players)
-            broadcastToColor("Choose a starter hero or wound to gain from the KO pile.",players[1].color,players[1].color)
+            local player = table.remove(players,1)
+            morganWounds(player.color,players)
+            broadcastToColor("Choose a starter hero or wound to gain from the KO pile.",player.color,player.color)
         end
         return strikesresolved
     end
@@ -9043,6 +9044,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
             cards[1].setPositionSmooth(getObjectFromGUID(mmloc).getPosition())
             local mysterioShuffle = function()
+                getObjectFromGUID(mmZoneGUID).Call('click_update_tactics',getObjectFromGUID(mmloc))
                 for _,o in pairs(mm) do
                     if o.is_face_down == true and o.tag == "Deck" then
                         o.randomize()
@@ -10175,7 +10177,13 @@ function revealCardTrait(params)
             end
         end
     end
-    return players
+    local result = {}
+    for _,p in pairs(players) do
+        if p then
+            table.insert(result,p)
+        end
+    end
+    return result
 end
 
 function bump(obj,y)
