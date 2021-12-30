@@ -1777,17 +1777,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 shieldfound,
                 "X",
                 "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
-                'updateMMMaria') end,1)
+                'updateMMMaria')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMMaria,1)
+            if object.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
+                updateMMMaria()
+            end
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMMaria,1)
+            if object.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
+                updateMMMaria()
+            end
         end
     end
     if objname == "Maximus the Mad" or objname == "Maximus the Mad - epic" then
@@ -1811,17 +1815,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 power = power*2
                 boost = " twice "
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 power,
                 "+" .. power,
                 "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
-                'updateMMMaximus') end,1)
+                'updateMMMaximus')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMMaximus,1)
+            updateMMMaximus()
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMMaximus,1)
+            updateMMMaximus()
         end
     end
     if objname == "Misty Knight" then
@@ -1911,17 +1915,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             elseif escaped[1] and escaped[1].hasTag("Group:Subterranea") then
                 bscount = bscount + 1
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 bscount,
                 "+" .. bscount,
                 "Mole Man gets +1 for each Subterranea Villain that has escaped.",
-                'updateMMMoleMan') end,1)
+                'updateMMMoleMan')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMMoleMan,2)
+            Wait.time(updateMMMoleMan,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMMoleMan,2)
+            Wait.time(updateMMMoleMan,0.1)
         end
     end
     if objname == "Morgan Le Fay" then
@@ -2911,16 +2915,15 @@ function resolveTactics(mmname,tacticname,color,stays)
             local thronesfavor = callGUID("thronesfavor",1)
             local val = 4
             if thronesfavor == "mmMaximus the Mad" then
-                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","none"})
                 val = 3
-            else
-                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
             end
+            getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
                 log(o.color)
                 getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,n = #hand-val})
             end
+            broadcastToAll("Maximus Fight effect: Maximus seizes the inhuman throne! Each player discards down to " .. val .. " cards.")
         elseif tacticname == "Terrigen bomb" then
             bump(get_decks_and_cards_from_zone(heroDeckZoneGUID)[1])
             for _,o in pairs(hqguids) do
@@ -2931,47 +2934,54 @@ function resolveTactics(mmname,tacticname,color,stays)
             end
             local thronesfavor = callGUID("thronesfavor",1)
             if thronesfavor == "mmMaximus the Mad" then
-                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","none"})
                 for _,o in pairs(Player.getPlayers()) do
                     local hand = o.getHandObjects()
-                    local handi = table.clone(hand)
-                    local iter = 0
-                    for i,obj in ipairs(handi) do
-                        if not hasTag2(obj,"Attack:") or not hasTag2(obj,"HC:") then
-                            table.remove(hand,i-iter)
-                            iter = iter + 1
+                    local toKO = {}
+                    for _,obj in pairs(hand) do
+                        if hasTag2(obj,"Attack:") and hasTag2(obj,"HC:") then
+                            table.insert(toKO,obj)
                         end
                     end
                     getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
-                        hand = hand,
+                        hand = toKO,
                         pos = getObjectFromGUID(kopile_guid).getPosition(),
                         label = "KO",
                         tooltip = "KO this card."})
                 end
+                broadcastToAll("Maximus Fight effect: Maximus deploys the Terrigen Bomb! Weak heroes with attack less than 2 are blown away from the HQ. As he had the Throne's Favor, each player KO's a non-grey hero with an attack symbol.")
             else
-                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
+                broadcastToAll("Maximus Fight effect: Maximus deploys the Terrigen Bomb! Weak heroes with attack less than 2 are blown away from the HQ.")
             end
+            getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
+            
         elseif tacticname == "Echo-tech chorus sentries" then
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
-                local handi = table.clone(hand)
-                local iter = 0
-                for i,obj in ipairs(handi) do
-                    if (not hasTag2(obj,"HC:") or hasTag2(obj,"HC:") ~= "Silver") and (not hasTag2(obj,"Team:") or hasTag2(obj,"Team:") ~= "Inhumans") then
-                        table.remove(hand,i-iter)
-                        iter = iter + 1
+                local toKO = {}
+                for _,obj in pairs(hand) do
+                    if (hasTag2(obj,"HC:") and hasTag2(obj,"HC:") == "Silver") or (hasTag2(obj,"Team:") and hasTag2(obj,"Team:") == "Inhumans") then
+                        table.insert(toKO,obj)
                     end
                 end
-                if #hand == 0 then
+                local play = get_decks_and_cards_from_zone(playguids[o.color])
+                if play[1] then
+                    for _,obj in pairs(play) do
+                        if (hasTag2(obj,"HC:") and hasTag2(obj,"HC:") == "Silver") or (hasTag2(obj,"Team:") and hasTag2(obj,"Team:") == "Inhumans") then
+                            table.insert(toKO,obj)
+                        end
+                    end
+                end
+                if #toKO == 0 then
                     getObjectFromGUID(pushvillainsguid).Call('getWound',o.color)
                 else
                     getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
-                        hand = hand,
+                        hand = toKO,
                         pos = getObjectFromGUID(kopile_guid).getPosition(),
                         label = "KO",
                         tooltip = "KO this card"})
                 end
             end
+            broadcastToAll("Maximus Fight effect: Maximus deploys the Echo-Tech Chorus Sentries. Each player KOs a silver or Inhumans hero or gains a wound.")
         elseif tacticname == "Sieve of secrets" then
             for _,o in pairs(Player.getPlayers()) do
                 local playerBoard = getObjectFromGUID(playerBoards[o.color])
@@ -3012,6 +3022,7 @@ function resolveTactics(mmname,tacticname,color,stays)
                     Wait.time(hoodDiscards,2)
                 end
            end
+           broadcastToAll("Maximus Fight effect: Maximus deploys the Sieve of Secrets. Each player discards all non-grey heroes from the top 6 cards of their deck.")
         else
             printToAll("Unknown tactic found? (" .. tacticname[1] .. ").")
         end

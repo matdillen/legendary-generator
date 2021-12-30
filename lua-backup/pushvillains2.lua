@@ -669,32 +669,25 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
             end
         
             --bystanders and weapons go to the first villain in the city
-            if (bs == true or vw == true) then
-                local cityspaces = city
-                local cardfound = false
-                while cardfound == false do
-                    local citycontent = get_decks_and_cards_from_zone(cityspaces[1])
-                    --locations don't count as villains, so they get skipped
-                    --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
-                    local locationfound = false
-                    if citycontent[1] and not citycontent[2] then
-                        if citycontent[1].getDescription():find("LOCATION") then
-                            locationfound = true
+            if bs == true or vw == true then
+                local villainfound = false
+                while villainfound == false do
+                    local citycontent = get_decks_and_cards_from_zone(city[1])
+                    if citycontent[1] then
+                        for _,o in pairs(citycontent) do
+                            if o.hasTag("Villain") or o.hasTag("Mastermind") then
+                                villainfound = true
+                                targetZone = getObjectFromGUID(city[1])
+                                break
+                            end
                         end
                     end
-                    
-                    --if no cards or only a location, check next city space
-                    if not next(citycontent) or locationfound == true then
-                        table.remove(cityspaces,1)
-                    else
-                        --villain found, so put bystander here
-                        --this will break if something other than a villain or location is on its own in the city
-                        cardfound = true
-                        targetZone = getObjectFromGUID(cityspaces[1])
+                    if villainfound == false then
+                        table.remove(city,1)
                     end
-                    if not cityspaces[1] then
+                    if not city[1] then
                         --if the city is empty:
-                        cardfound = true
+                        villainfound = true
                         if bs == true then
                             --bystanders go to the mastermind
                             targetZone = getObjectFromGUID(mmZoneGUID)
@@ -8465,6 +8458,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "Malekith the Accursed" then
         weaponguids = {}
         weapons = {}
+        darkspearcango = false
         for _,o in pairs(Player.getPlayers()) do
             local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
             if playcontent[1] then
@@ -8492,8 +8486,17 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     pos.z = pos.z - 2
                     obj.setPositionSmooth(pos)
                     for _,h in pairs(weapons) do
-                        h.clearButtons()
+                        local butt = h.getButtons()
+                        if butt then
+                            for i,b in pairs(butt) do
+                                if b.click_function:find("discardCard") then
+                                    h.removeButton(i-1)
+                                    break
+                                end
+                            end
+                        end
                     end
+                    darkspearcango = true
                 end
                 offerCards({color = o.color,
                     pile = discarded[1],
@@ -8510,7 +8513,15 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     pos.z = pos.z - 2
                     obj.setPositionSmooth(pos)
                     for _,h in pairs(weapons) do
-                        h.clearButtons()
+                        local butt = h.getButtons()
+                        if butt then
+                            for i,b in pairs(butt) do
+                                if b.click_function:find("discardCard") then
+                                    h.removeButton(i-1)
+                                    break
+                                end
+                            end
+                        end
                     end
                     for _,h in pairs(weaponguids) do
                         local obj2 = getObjectFromGUID(h)
@@ -8518,6 +8529,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                             obj2.clearButtons()
                         end
                     end
+                    darkspearcango = true
                 end
                 table.insert(weaponguids,discarded[1].guid)
                 discarded[1].createButton({click_function = 'killHandButtons' .. o.color,
@@ -8531,21 +8543,24 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     width=750,height=450})
             end
         end
+        if epicness then
+            epicweapons = {}
+        end
         for _,c in pairs(city) do
             local citycontent = get_decks_and_cards_from_zone(c)
             if citycontent[1] then
                 for _,obj in pairs(citycontent) do
                     if obj.hasTag("Villainous Weapon") then
-                        table.insert(weapons,obj)
+                        if epicness then
+                            table.insert(epicweapons,obj)
+                        else
+                            table.insert(weapons,obj)
+                        end
                     end
                 end
             end
         end
-        local killBSButton = function(obj)
-            local loc = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
-            local pos = getObjectFromGUID(loc["Malekith the Accursed"]).getPosition()
-            pos.z = pos.z - 2
-            obj.setPositionSmooth(pos)
+        local killBSButton = function()
             for _,b in pairs(weaponguids) do
                 local obj2 = getObjectFromGUID(b)
                 if obj2 then
@@ -8560,15 +8575,55 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     obj2.setPosition(getObjectFromGUID(discardguids[color]).getPosition())
                 end
             end
+            darkspearcango = true
+        end
+        local loc = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
+        local pos = getObjectFromGUID(loc["Malekith the Accursed"]).getPosition()
+        pos.z = pos.z - 2
+        if epicness then
+            local launchDarkspear = function()
+                if #weapons == 0 and #weaponguids == 0 then
+                    darkspearcango = true
+                end
+            end
+            promptDiscard({color = Turns.turn_color,
+            hand = epicweapons,
+            label = "Pick",
+            tooltip = "Choose this villainous weapon to be captured by Malekith.",
+            pos = pos,
+            trigger_function = launchDarkspear})
         end
         promptDiscard({color = Turns.turn_color,
             hand = weapons,
             label = "Pick",
             tooltip = "Choose this villainous weapon to be captured by Malekith.",
+            pos = pos,
             trigger_function = killBSButton})
-        --enter darkspear after everything else resolved
-        --script epic effect
-        return strikesresolved
+        cards[1].setName("Darkspear")
+        cards[1].addTag("Villainous Weapon")
+        cards[1].setDescription("VILLAINOUS WEAPON: These are not Villains. Instead, they are captured by the Villain closest " .. 
+        "to the Villain deck or KO'd if the city is empty. The Villain gets the extra Power from the Weapon. When a Villain escapes " .. 
+        "with a Weapon, the Mastermind captures that Weapon. When fighting a card with a Weapon, gain the Weapon as an artifact.\n" ..
+        "THROWN ARTIFACT:This card remains in play. During your turn, you may put it on the bottom of your deck to use its Throw effect and gain 2 Attack.")
+        if #weapons == 0 and #weaponguids == 0 then
+            if epicness and #epicweapons == 0 then
+                darkspearcango = true
+            end
+        end
+        if epicness then
+            powerButton(cards[1],"+3")
+        else
+            powerButton(cards[1],"+2")
+        end
+        local findingWeaponResolved = function()
+            if darkspearcango == true then
+                return true
+            else
+                return false
+            end
+        end
+        Wait.condition(click_push_villain_into_city,findingWeaponResolved)
+        return nil
     end
     if mmname == "Mandarin" then
         local top = nil
@@ -8626,6 +8681,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         local officerdeck = getObjectFromGUID(officerDeckGUID)
         local pushOfficer = function(obj)
             powerButton(obj,3)
+            obj.addTag("Villain")
             click_push_villain_into_city()
         end
         local takeOfficer = function()
@@ -8691,7 +8747,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Maximus the Mad" then
-        local content = get_decks_and_cards_from_zone(mmLocations["Maximus the Mad"],true,false)
+        local content = get_decks_and_cards_from_zone(mmloc,true,false)
         local tacticname = {}
         if content[1] and content[2] then
             for i,o in pairs(content) do
@@ -8769,16 +8825,18 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
             local recruitcount = 0
-            if hand[1] and hand[4] then
-                for _,h in pairs(hand) do
-                    if hasTag2(h,"Recruit:") then
-                        recruitcount = recruitcount + 1
-                    end
+            for _,h in pairs(hand) do
+                if hasTag2(h,"Recruit:") then
+                    recruitcount = recruitcount + 1
                 end
-                if recruitcount < 4 then
-                    click_get_wound(nil,o.color)
+            end
+            local play = get_decks_and_cards_from_zone(playguids[o.color])
+            for _,h in pairs(play) do
+                if hasTag2(h,"Recruit:") then
+                    recruitcount = recruitcount + 1
                 end
-            else
+            end
+            if recruitcount < 4 then
                 click_get_wound(nil,o.color)
             end
         end
@@ -8834,7 +8892,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 local citycontent = get_decks_and_cards_from_zone(o)
                 if citycontent[1] then
                     for _,p in pairs(citycontent) do
-                        if hasTag2(p,"Group:",7) and hasTag2(p,"Group:",7) == "Mojoverse" then
+                        if p.hasTag("Group:Mojoverse") then
                             addBystanders(o,false)
                             break
                         end
@@ -10321,6 +10379,8 @@ function nonTwistspecials(cards,schemeParts,city)
     end
     if schemeParts[1] == "Sinister Ambitions" then
         if cards[1].hasTag("Ambition") then
+            cards[1].addTag("Villain")
+            cards[1].addTag("VP4")
             powerButton(cards[1],"+" .. twistsstacked)
         end
     end
