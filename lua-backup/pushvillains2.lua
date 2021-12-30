@@ -9189,28 +9189,33 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
-            local handi = table.clone(hand)
-            local iter = 0
-            for i,obj in ipairs(handi) do
-                if not hasTag2(obj,"HC:",4) then
-                    table.remove(hand,i-iter)
-                    iter = iter + 1
+            local toKO = {}
+            for _,obj in pairs(hand) do
+                if hasTag2(obj,"HC:") then
+                    table.insert(toKO,obj)
                 end
             end
-            if hand[1] then
+            if toKO[1] then
                 if epicness then
                     promptDiscard({color = o.color,
                         hand = hand,
                         n = 2,
-                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
+                        label = "Dominate",
+                        tooltip = "Onslaught dominates this hero."})
                     broadcastToColor("Master Strike: Two nongrey heroes from your hand become dominated by Onslaught.",o.color,o.color)
                 else
                     promptDiscard({color = o.color,
                         hand = hand,
-                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
+                        pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
+                        label = "Dominate",
+                        tooltip = "Onslaught dominates this hero."})
                     broadcastToColor("Master Strike: A nongrey hero from your hand becomes dominated by Onslaught.",o.color,o.color)
                 end
             end
+        end
+        if epicness then
+            getObjectFromGUID(setupGUID).Call('playHorror')
         end
         return strikesresolved
     end
@@ -9312,7 +9317,65 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     end
     if mmname == "Ragnarok" then
         broadcastToAll("Master Strike: Each player says \"zero\" or \"not zero.\" Then, each player discards all their cards with that cost.")
-        -- could be done more automatically by spawning buttons for each player's hand?
+        for _,p in pairs(Player.getPlayers()) do
+            local playerboard = getObjectFromGUID(playerBoards[p.color])
+            _G["RagnarokDiscardZero" .. p.color] = function(obj)
+                local butt = obj.getButtons()
+                for i,o in pairs(butt) do
+                    if o.click_function:find("RagnarokDiscard") then
+                        obj.removeButton(i-1)
+                    end
+                end
+                for i,o in pairs(playerBoards) do
+                    if o == obj.guid then
+                        local hand = Player[i].getHandObjects()
+                        for _,card in pairs(hand) do
+                            if not hasTag2(card,"Cost:") or hasTag2(card,"Cost:") < 1 then
+                                card.setPosition(getObjectFromGUID(o).positionToWorld(pos_discard))
+                            end
+                        end
+                        break
+                    end
+                end
+            end
+            _G["RagnarokDiscardNonZero" .. p.color] = function(obj)
+                local butt = obj.getButtons()
+                for i,o in pairs(butt) do
+                    if o.click_function:find("RagnarokDiscard") then
+                        obj.removeButton(i-1)
+                    end
+                end
+                for i,o in pairs(playerBoards) do
+                    if o == obj.guid then
+                        local hand = Player[i].getHandObjects()
+                        for _,card in pairs(hand) do
+                            if hasTag2(card,"Cost:") and hasTag2(card,"Cost:") > 0 then
+                                card.setPosition(getObjectFromGUID(o).positionToWorld(pos_discard))
+                            end
+                        end
+                        break
+                    end
+                end
+            end
+            playerboard.createButton({click_function="RagnarokDiscardZero" .. p.color,
+                function_owner=self,
+                position={0,3,5},
+                label="Zero",
+                tooltip="Discard all cards with a cost of 0.",
+                font_size=250,
+                font_color="Black",
+                color={1,1,0},
+                width=750,height=450})
+            playerboard.createButton({click_function="RagnarokDiscardNonZero" .. p.color,
+                function_owner=self,
+                position={0,3,6},
+                label="Non-Zero",
+                tooltip="Discard all cards that don't cost 0.",
+                font_size=250,
+                font_color="Black",
+                color={1,0,0},
+                width=750,height=450})
+        end
         return strikesresolved
     end
     if mmname == "Red Skull" then
@@ -9488,19 +9551,6 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         if cards[1] then
             strikesstacked = strikesstacked + 1
             cards[1].setPositionSmooth(getObjectFromGUID(strikeloc).getPosition())
-            if strikesstacked == 1 then
-                getObjectFromGUID(mmloc).createButton({click_function='updatePower',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="+" .. strikesstacked,
-                    tooltip="Stryfe gets +1 for each Master Strike stacked next to him.",
-                    font_size=250,
-                    font_color="Red",
-                    width=0})
-            else
-                getObjectFromGUID(mmloc).editButton({label = "+" .. strikesstacked})
-            end
         end
         local todiscard= revealCardTrait({trait="X-Force",prefix="Team:"})
         if todiscard[1] then
@@ -9516,7 +9566,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return nil
     end
     if mmname == "Supreme Intelligence of the Kree" then
-        local mmcontent = get_decks_and_cards_from_zone(mmLocations[mmname])
+        local mmcontent = get_decks_and_cards_from_zone(mmloc)
         local shards = 0
         for _,o in pairs(mmcontent) do
             if o.getName() == "Shard" then
@@ -9525,7 +9575,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
         end
         shards = shards + 1
-        gainShard(nil,mmLocations[mmname])
+        gainShard(nil,mmloc)
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
             local posdiscard = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard)
@@ -9544,18 +9594,18 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "Thanos" then
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
-            local handi = table.clone(hand)
-            local iter = 0
-            for i,obj in ipairs(handi) do
-                if not hasTag2(obj,"HC:",4) then
-                    table.remove(hand,i-iter)
-                    iter = iter + 1
+            local toBound = {}
+            for _,obj in pairs(hand) do
+                if hasTag2(obj,"HC:") then
+                    table.insert(toBound,obj)
                 end
             end
-            if hand[1] then
+            if toBound[1] then
                 promptDiscard({color = o.color,
-                    hand = hand,
-                    pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
+                    hand = toBound,
+                    pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
+                    label = "Bind",
+                    tooltip = "Thanos binds this soul. You're unlikely to ever see it back again."})
                 broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul bound by Thanos.",o.color,o.color)
             end
         end

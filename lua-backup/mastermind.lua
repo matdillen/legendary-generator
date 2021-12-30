@@ -2008,17 +2008,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     shiarfound = shiarfound + 1
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 shiarfound,
                 "+" .. shiarfound,
                 "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
-                'updateMMOdin') end,1)
+                'updateMMOdin')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMOdin,1)
+            Wait.time(updateMMOdin,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMOdin,1)
+            Wait.time(updateMMOdin,0.1)
         end
     end
     if objname == "Onslaught" or objname == "Onslaught - epic" then
@@ -2026,6 +2026,38 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain')
         end
         broadcastToAll("Hand size reduced by 1 because of Onslaught. Good luck! You're going to need it.")
+        function updateMMOnslaught()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(allTopBoardGUIDS) do
+                    if o == mmLocations[objname] then
+                        strikeloc = allTopBoardGUIDS[i-1]
+                        break
+                    end
+                end
+            end
+            local bs = get_decks_and_cards_from_zone(strikeloc)
+            local boost = 0
+            if bs[1] then
+                boost = math.abs(bs[1].getQuantity())
+            end
+            mmButtons(objname,
+                boost,
+                "+" .. boost,
+                "Onslaught gets +1 for each hero he dominates.",
+                'updateMMOnslaught')
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMOnslaught,0.1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMOnslaught,0.1)
+        end
     end
     if objname == "Poison Thanos" or objname == "Poison Thanos - epic" then
         updateMMPoisonThanos = function()
@@ -2067,20 +2099,65 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 2
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 poisoncount,
                 "+" .. poisoncount*boost,
                 "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
-                'updateMMPoisonThanos') end,1)
+                'updateMMPoisonThanos')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMPoisonThanos,2)
+            Wait.time(updateMMPoisonThanos,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMPoisonThanos,2)
+            Wait.time(updateMMPoisonThanos,0.1)
         end
     end
     if objname == "Professor X" then
+        if mmLocations[objname] == mmZoneGUID then
+            strikeloc = strikeZoneGUID
+        else
+            for i,o in pairs(allTopBoardGUIDS) do
+                if o == mmLocations[objname] then
+                    strikeloc = allTopBoardGUIDS[i-1]
+                    break
+                end
+            end
+        end
+        function click_buy_pawn(obj,player_clicker_color)
+            local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+            if not hulkdeck then
+                return nil
+            end
+            local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+            local dest = playerBoard.positionToWorld(pos_discard)
+            dest.y = dest.y + 3
+            if player_clicker_color == "White" then
+                angle = 90
+            elseif player_clicker_color == "Blue" then
+                angle = -90
+            else
+                angle = 180
+            end
+            local brot = {x=0, y=angle, z=0}
+            if hulkdeck.tag == "Card" then
+                hulkdeck.setRotationSmooth(brot)
+                hulkdeck.setPositionSmooth(dest)
+            else
+                hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+            end
+        end
+        getObjectFromGUID(strikeloc).createButton({
+             click_function="click_buy_pawn", 
+             function_owner=self,
+             position={0,0,-0.75},
+             rotation={0,180,0},
+             label="Buy Pawn",
+             tooltip="Buy the top card of Professor X's telepathic pawns.",
+             color={1,1,1,1},
+             width=800,
+             height=200,
+             font_size = 100
+        })
         function updateMMProfessorX()
             if not mmActive(objname) then
                 return nil
@@ -2101,20 +2178,65 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 boost,
                 "+" .. boost,
                 "Professor X gets +1 for each of his telepathic pawns.",
-                'updateMMProfessorX') end,1)
+                'updateMMProfessorX')
         end
         function onObjectEnterZone(zone,object)
-            updateMMProfessorX()
+            Wait.time(updateMMProfessorX,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            updateMMProfessorX()
+            Wait.time(updateMMProfessorX,0.1)
         end
     end
     if objname == "'92 Professor X" then
+        if mmLocations[objname] == mmZoneGUID then
+            strikeloc = strikeZoneGUID
+        else
+            for i,o in pairs(allTopBoardGUIDS) do
+                if o == mmLocations[objname] then
+                    strikeloc = allTopBoardGUIDS[i-1]
+                    break
+                end
+            end
+        end
+        function click_buy_pawn92(obj,player_clicker_color)
+            local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+            if not hulkdeck then
+                return nil
+            end
+            local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+            local dest = playerBoard.positionToWorld(pos_discard)
+            dest.y = dest.y + 3
+            if player_clicker_color == "White" then
+                angle = 90
+            elseif player_clicker_color == "Blue" then
+                angle = -90
+            else
+                angle = 180
+            end
+            local brot = {x=0, y=angle, z=0}
+            if hulkdeck.tag == "Card" then
+                hulkdeck.setRotationSmooth(brot)
+                hulkdeck.setPositionSmooth(dest)
+            else
+                hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+            end
+        end
+        getObjectFromGUID(strikeloc).createButton({
+             click_function="click_buy_pawn92", 
+             function_owner=self,
+             position={0,0,-0.75},
+             rotation={0,180,0},
+             label="Buy Pawn",
+             tooltip="Buy the top card of '92 Professor X's telepathic pawns.",
+             color={1,1,1,1},
+             width=800,
+             height=200,
+             font_size = 100
+        })
         function updateMMProfessorX92()
             if not mmActive(objname) then
                 return nil
@@ -2135,17 +2257,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 boost,
                 "+" .. boost,
                 "'92 Professor X gets +1 for each of his telepathic pawns.",
-                'updateMMProfessorX92') end,1)
+                'updateMMProfessorX92')
         end
         function onObjectEnterZone(zone,object)
-            updateMMProfessorX92()
+            Wait.time(updateMMProfessorX92,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            updateMMProfessorX92()
+            Wait.time(updateMMProfessorX92,0.1)
         end
     end
     if objname == "Ragnarok" then
@@ -2174,24 +2296,23 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             for _,o in pairs(hccolors) do
                 boost = boost + o
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 boost,
                 "+" .. boost,
                 "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
-                'updateMMRagnarok') end,1)
+                'updateMMRagnarok')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMRagnarok,2)
+            updateMMRagnarok()
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMRagnarok,2)
+            updateMMRagnarok()
         end
     end
     if objname == "Shadow King" or objname == "Shadow King - epic" then
         if epicness then
             getObjectFromGUID(setupGUID).Call('playHorror')
             getObjectFromGUID(setupGUID).Call('playHorror')
-            -- these will stack
             broadcastToAll("Shadow King played two horrors. Please read each of them")
         end
         function updateMMShadowKing()
@@ -2214,17 +2335,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 boost,
                 "+" .. boost,
                 "Shadow King gets +1 for each hero he dominates.",
-                'updateMMShadowKing') end,1)
+                'updateMMShadowKing')
         end
         function onObjectEnterZone(zone,object)
-            updateMMShadowKing()
+            Wait.time(updateMMShadowKing,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            updateMMShadowKing()
+            Wait.time(updateMMShadowKing,0.1)
         end
     end
     if objname == "Spider-Queen" then
@@ -2246,17 +2367,51 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             elseif escaped[1] and escaped[1].hasTag("Bystander") then
                 bscount = bscount + 1
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 bscount,
                 "+" .. bscount,
                 "Spider-Queen gets +1 for each Bystander in the Escape pile.",
-                'updateMMSpiderQueen') end,1)
+                'updateMMSpiderQueen')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMSpiderQueen,2)
+            Wait.time(updateMMSpiderQueen,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMSpiderQueen,2)
+            Wait.time(updateMMSpiderQueen,0.1)
+        end
+    end
+    if objname == "Stryfe" then
+        updateMMStryfe = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local mmzone = getObjectFromGUID(mmLocations[objname])
+            if mmLocations[objname] == mmZoneGUID then
+                strikeloc = strikeZoneGUID
+            else
+                for i,o in pairs(allTopBoardGUIDS) do
+                    if o == mmLocations[objname] then
+                        strikeloc = allTopBoardGUIDS[i-1]
+                        break
+                    end
+                end
+            end
+            local bs = get_decks_and_cards_from_zone(strikeloc)
+            local boost = 0
+            if bs[1] then
+                boost = math.abs(bs[1].getQuantity())
+            end
+            mmButtons(objname,
+                boost,
+                "+" .. boost,
+                "Stryfe gets +1 for each Master Strike stacked next to him.",
+                'updateMMStryfe')
+        end
+        function onObjectEnterZone(zone,object)
+            Wait.time(updateMMStryfe,0.1)
+        end
+        function onObjectLeaveZone(zone,object)
+            Wait.time(updateMMStryfe,0.1)
         end
     end
     if objname == "Thanos" then
@@ -2275,20 +2430,20 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 gemfound,
                 "-" .. gemfound*2,
                 "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
-                'updateMMThanos') end,1)
+                'updateMMThanos')
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Group:Infinity Gems") then
-                Wait.time(updateMMThanos,2)
+                updateMMThanos()
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Group:Infinity Gems") then
-                Wait.time(updateMMThanos,2)
+                updateMMThanos()
             end
         end
     end
