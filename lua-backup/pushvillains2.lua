@@ -5615,7 +5615,10 @@ function twistSpecials(cards,city,schemeParts)
         elseif twistsresolved < 12 then 
             contestn = 6
         end
-        contestOfChampions(color,contestn,championContest,epicgrandmaster)
+        contestOfChampions({color = color,
+            n = contestn,
+            winf = championContest,
+            epicness = epicgrandmaster})
     end
     if schemeParts[1] == "The Dark Phoenix Saga" then
         local kopilecontent = get_decks_and_cards_from_zone(kopile_guid)
@@ -9745,18 +9748,32 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "The Grandmaster" then
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         local color = nil
+        local cost = 0
         if not herodeck[1] then
             broadcastToAll("No hero deck found")
             return nil
         elseif herodeck[1].tag == "Deck" then
             for _,o in pairs(herodeck[1].getObjects()[1].tags) do
                 if o:find("HC:") then
-                    color = o:gsub("HC:","")
-                    break
+                    if color then
+                        color = {color}
+                        table.insert(color,(o:gsub("HC:","")))
+                    else
+                        color = o:gsub("HC:","")
+                    end
+                end
+                if o:find("Cost:") then
+                    cost = o:gsub("Cost:","")
                 end
             end
+            if color[1] then
+                broadcastToAll("Master Strike: " .. color[1] .. " and " .. color[2] .. " hero revealed from the hero deck with cost " .. cost .. ".")
+            else
+                broadcastToAll("Master Strike: " .. color .. " hero revealed from the hero deck with cost " .. cost .. ".")
+            end
         else
-            color = hasTag2(herodeck[1],"HC:",4)
+            color = hasTag2(herodeck[1],"HC:")
+            broadcastToAll("Master Strike: " .. color .. " hero revealed from the hero deck with cost " .. hasTag2(herodeck[1],"Cost:") .. ".")
         end
         local grandmasterContest = function(obj)
             for i,o in pairs(obj) do
@@ -9768,13 +9785,15 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     else
                         broadcastToAll("Master Strike: Evil won, so the mastermind gains a shard!")
                     end
-                    gainShard(nil,mmLocations["The Grandmaster"],shardn)
+                    gainShard(nil,mmloc,shardn)
                 elseif not o and i ~= "Evil" then
                     click_get_wound(nil,i)
                 end
             end
         end
-        contestOfChampions(color,2,grandmasterContest,epicness)
+        contestOfChampions({color = color,
+            winf = grandmasterContest,
+            epicness = epicness})
         return strikesresolved
     end
     if mmname == "The Hood" then
@@ -10135,6 +10154,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 end
             end
             broadcastToAll("Master Strike! Each player discards " .. todiscard .. " cards.")
+            for _,o in pairs(Player.getPlayers()) do
+                promptDiscard({color = o.color,
+                    n = todiscard})
+            end
         end
         Wait.time(goblinDiscards,2)
         return strikesresolved
@@ -10264,7 +10287,7 @@ function crossDimensionalRampage(name)
             if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
                 for _,k in pairs(vpilecontent[1].getObjects()) do
                     if string.lower(k.name):find(p) then
-                        table.remove(players,i)
+                        players[i] = nil
                         break
                     end
                     for _,tag in pairs(k.tags) do
@@ -10279,7 +10302,7 @@ function crossDimensionalRampage(name)
             elseif vpilecontent[1] and vpilecontent[1].getTags() then
                 for _,tag in pairs(vpilecontent[1].getTags()) do
                     if string.lower(tag):find(p) then
-                        table.remove(players,i)
+                        players[i] = nil
                         break
                     end
                 end
@@ -10292,13 +10315,13 @@ function crossDimensionalRampage(name)
             if hand[1] then
                 for _,h in pairs(hand) do
                     if string.lower(h.getName()):find(p) then
-                        table.remove(players,i)
+                        players[i] = nil
                         break
                     end
                     if h.getTags() then
                         for _,tag in pairs(h.getTags()) do
                             if string.lower(tag):find(p) then
-                                table.remove(players,i)
+                                players[i] = nil
                                 break
                             end
                         end
@@ -10313,13 +10336,13 @@ function crossDimensionalRampage(name)
             if playcontent[1] then
                 for _,h in pairs(playcontent) do
                     if string.lower(h.getName()):find(p) then
-                        table.remove(players,i)
+                        players[i] = nil
                         break
                     end
                     if h.getTags() then
                         for _,tag in pairs(h.getTags()) do
                             if string.lower(tag):find(p) then
-                                table.remove(players,i)
+                                players[i] = nil
                                 break
                             end
                         end
@@ -10328,7 +10351,13 @@ function crossDimensionalRampage(name)
             end
         end
     end
-    for _,o in pairs(players) do
+    local result = {}
+    for _,p in pairs(players) do
+        if p then
+            table.insert(result,p)
+        end
+    end
+    for _,o in pairs(result) do
         click_get_wound(nil,o.color)
     end
 end
@@ -10989,10 +11018,19 @@ function gainShard(color,zoneGUID,n)
     end
 end
 
-function contestOfChampions(color,n,winf,epicness)
-    broadcastToAll("Contest of Champions for " .. color .. "!")
-    if not n then
-        n = 2
+function contestOfChampions(params)
+    local color = params.color
+    local n = params.n or 2
+    local winf = params.winf
+    local epicness = params.epicness
+    if color[1] then
+        broadcastToAll("Contest of Champions for " .. color[1] .. " and " .. color[2] .. "!")
+    elseif color then
+        broadcastToAll("Contest of Champions for " .. color .. "!")
+        color = {color}
+    else
+        printToAll("No color found for the contest.")
+        return nil
     end
     local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
     local highscore = 0
@@ -11006,7 +11044,7 @@ function contestOfChampions(color,n,winf,epicness)
             local score = 0
             local doubled = false
             for _,k in pairs(herodeckcards[i].tags) do
-                if k:find("HC:") and k:gsub("HC:","") == color then
+                if k:find("HC:") and (k:gsub("HC:","") == color[1] or (color[2] and k:gsub("HC:","") == color[2])) then
                     doubled = true
                 end
                 if k:find("Cost:") then
@@ -11023,7 +11061,7 @@ function contestOfChampions(color,n,winf,epicness)
         end
     else
         highscore = hasTag2(herodeck[1],"Cost:") or 0
-        if hasTag2(herodeck[1],"HC:") and hasTag2(herodeck[1],"HC:") == color then
+        if hasTag2(herodeck[1],"HC:") and (hasTag2(herodeck[1],"HC:") == color[1] or (color[2] and hasTag2(herodeck[1],"HC:") == color[2])) then
             highscore = highscore*2
         end
     end
@@ -11037,10 +11075,22 @@ function contestOfChampions(color,n,winf,epicness)
         responses["Evil"] = responses["Evil"] + 2
     end
     for _,o in pairs(Player.getPlayers()) do
+        local killTopCardbutton = function(obj,index,color)
+            local playerBoard = getObjectFromGUID(playerBoards[color])
+            local butt = playerBoard.getButtons()
+            for i,b in pairs(butt) do
+                if b.click_function:find("pickTopCard") then
+                    playerBoard.removeButton(i-1)
+                    break
+                end
+            end
+        end
         promptDiscard({color = o.color,
             pos = "Stay",
             label = "Choose",
-            tooltip = "Choose for Contest of Champions."})
+            tooltip = "Choose for Contest of Champions.",
+            trigger_function = killTopCardbutton,
+            args = "self"})
         _G["pickTopCard" .. o.color] = function(obj)
             local deck = obj.Call('returnDeck')
             if not deck[1] then
@@ -11051,9 +11101,8 @@ function contestOfChampions(color,n,winf,epicness)
                 for _,k in pairs(deck[1].getObjects()[1].tags) do
                     if k:find("Cost:") then
                        responses[obj.getName()] = tonumber(k:match("%d+"))
-                       break
                     end
-                    if k:find("HC:") and k:gsub("HC:","") == color then
+                    if k:find("HC:") and (k:gsub("HC:","") == color[1] or (color[2] and k:gsub("HC:","") == color[2])) then
                         doubled = true
                     end
                 end
@@ -11065,7 +11114,7 @@ function contestOfChampions(color,n,winf,epicness)
             else
                 if hasTag2(deck[1],"Cost:") then
                     responses[obj.getName()] = hasTag2(deck[1],"Cost:")
-                    if hasTag2(deck[1],"HC:",4) and hasTag2(deck[1],"HC:",4)  == color then
+                    if hasTag2(deck[1],"HC:") and (hasTag2(deck[1],"HC:") == color[1] or (color[2] and hasTag2(deck[1],"HC:") == color[2])) then
                         responses[obj.getName()] = responses[obj.getName()]*2
                     end
                 else
@@ -11110,7 +11159,7 @@ function contestOfChampions(color,n,winf,epicness)
         for i,o in pairs(responses) do
             if not tonumber(o) then
                 local score = hasTag2(o,"Cost:") or 0
-                if hasTag2(o,"HC:",4) and hasTag2(o,"HC:",4) == color then
+                if hasTag2(o,"HC:") and (hasTag2(o,"HC:") == color[1] or (color[2] and hasTag2(o,"HC:") == color[2])) then
                     score = score*2
                 end
                 responses[i] = score
@@ -11125,6 +11174,13 @@ function contestOfChampions(color,n,winf,epicness)
             if responses[i] == maxscore then
                 contestResult[i] = true
             end
+            local printcolor = nil
+            if i == "Evil" then
+                printcolor = "Black"
+            else
+                printcolor = i
+            end
+            printToAll(i .. " revealed a hero with Contest Score " .. responses[i] .. "!",printcolor)
         end
         for _,o in pairs(Player.getPlayers()) do
             local playerBoard = getObjectFromGUID(playerBoards[o.color])

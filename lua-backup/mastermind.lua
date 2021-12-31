@@ -946,7 +946,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
                 for _,k in pairs(kopilecontent[1].getObjects()) do
                     for _,l in pairs(k.tags) do
-                        if l:find("Cost:") then
+                        if l:find("HC:") then
                             nongrey = nongrey + 1
                             break
                         end
@@ -2471,14 +2471,14 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 boost = 2
             end
             local darkmemories = 0
+            local hccolors = {
+                ["Red"] = 0,
+                ["Yellow"] = 0,
+                ["Green"] = 0,
+                ["Silver"] = 0,
+                ["Blue"] = 0
+            }
             if discard and discard.tag == "Deck" then
-                local hccolors = {
-                    ["Red"] = 0,
-                    ["Yellow"] = 0,
-                    ["Green"] = 0,
-                    ["Silver"] = 0,
-                    ["Blue"] = 0
-                }
                 for _,o in pairs(discard.getObjects()) do
                     for _,k in pairs(o.tags) do
                         if k:find("HC:") then
@@ -2486,28 +2486,31 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         end
                     end
                 end
-                for _,o in pairs(hccolors) do
-                    darkmemories = darkmemories + o
-                end
+                
             elseif discard then
-                if hasTag2(discard,"HC:",4) then
-                    darkmemories = boost
+                for _,k in pairs(discard.getTags()) do
+                    if k:find("HC:") then
+                        hccolors[k:gsub("HC:","")] = boost
+                    end
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            for _,o in pairs(hccolors) do
+                darkmemories = darkmemories + o
+            end
+            mmButtons(objname,
                 darkmemories,
                 "+" .. darkmemories,
                 "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
-                'updateMMHood') end,1)
+                'updateMMHood')
         end
         function onPlayerTurn(player,previous_player)
             updateMMHood()
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMHood,2)
+            Wait.time(updateMMHood,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMHood,2)
+            Wait.time(updateMMHood,0.1)
         end
     end
     if objname == "Ultron" or objname == "Ultron - epic" then
@@ -2562,17 +2565,35 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 empowerment,
                 "+" .. empowerment,
                 "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
-                'updateMMUltron') end,1)
+                'updateMMUltron')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMUltron,2)
+            Wait.time(updateMMUltron,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMUltron,2)
+            Wait.time(updateMMUltron,0.1)
+        end
+    end
+    if objname == "Vulture" or objname == "Vulture - epic" then
+        updateMMVulture = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local strikes = getObjectFromGUID(pushvillainsguid).Call('returnVar','strikesresolved')
+            mmButtons(objname,
+                strikes,
+                "+" .. strikes,
+                "Vulture is a striker and gets +1 for each Master Strike that has been played.",
+                'updateMMVulture')
+        end
+        function onObjectEnterZone(zone,object)
+            if object.getName() == "Masterstrike" then
+                updateMMVulture()
+            end
         end
     end
     if objname == "Wasteland Hulk" then
@@ -2596,17 +2617,51 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     tacticsfound = tacticsfound + 1
                 end
             end
-            Wait.time(function() mmButtons(objname,
+            mmButtons(objname,
                 tacticsfound,
                 "+" .. tacticsfound*3,
                 "Wasteland Hulk gets +3 for each of his Mastermind Tactics among all players' Victory Piles.",
-                'updateMMWastelandHulk') end,1)
+                'updateMMWastelandHulk')
         end
         function onObjectEnterZone(zone,object)
-            Wait.time(updateMMWastelandHulk,1)
+            Wait.time(updateMMWastelandHulk,0.1)
         end
         function onObjectLeaveZone(zone,object)
-            Wait.time(updateMMWastelandHulk,1)
+            Wait.time(updateMMWastelandHulk,0.1)
+        end
+    end
+    if objname == "Zombie Green Goblin" then
+        updateMMZombieGoblin = function()
+            if not mmActive(objname) then
+                return nil
+            end
+            local kopilecontent = get_decks_and_cards_from_zone(kopile_guid)
+            local nongrey = 0
+            if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
+                for _,k in pairs(kopilecontent[1].getObjects()) do
+                    for _,l in pairs(k.tags) do
+                        if l:find("Cost:") and tonumber((l:gsub("Cost:",""))) > 6 then
+                            nongrey = nongrey + 1
+                            break
+                        end
+                    end
+                end
+            end
+            mmButtons(objname,
+                nongrey,
+                "+" .. nongrey,
+                "Zombie Green Goblin gets +1 for each hero that costs 7 or more in the KO pile.",
+                'updateMMZombieGoblin')
+        end
+        function onObjectEnterZone(zone,object)
+            if zone.guid == kopile_guid then
+                updateMMZombieGoblin()
+            end
+        end
+        function onObjectLeaveZone(zone,object)
+            if zone.guid == kopile_guid then
+                updateMMZombieGoblin()
+            end
         end
     end
 end

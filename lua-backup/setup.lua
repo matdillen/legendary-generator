@@ -712,6 +712,10 @@ function import_setup()
                     flip=false,
                     index=0})
             end
+            mmZone.Call('setupMasterminds',{obj.getName(),epicness})
+            if epicness then
+                Wait.time(function() mm.flip() end,0.5)
+            end
             return mm
         end
         
