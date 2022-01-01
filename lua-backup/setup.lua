@@ -463,10 +463,12 @@ function click_shuffle()
     end
     
     for _,o in pairs(Player.getPlayers()) do
-        local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')
+        local playerBoard = getObjectFromGUID(playerBoards[o.color])
+        local playerdeck = playerBoard.Call('returnDeck')
         if playerdeck[1] then 
             playerdeck[1].randomize()
             log("Shuffling " .. o.color .. " Player's deck!")
+            playerBoard.Call('click_deal_cards')
             --print("Shuffling " .. Player.getPlayers()[i].color .. " Player's deck!")
         else
             log("No player deck found for player " .. o.color)

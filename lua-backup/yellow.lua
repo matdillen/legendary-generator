@@ -449,6 +449,7 @@ function click_end_turn()
         if autoplay == true then
             getObjectFromGUID("8280ca").Call('click_draw_villain')
             broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
+            Turns.turn_color = Turns.getNextTurnColor()
         end
     getObjectFromGUID(resourceguid).Call('reset_val')
     getObjectFromGUID(attackguid).Call('reset_val')
