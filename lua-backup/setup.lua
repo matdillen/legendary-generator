@@ -1069,6 +1069,7 @@ function import_setup()
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
         Wait.condition(vilDeckSplit,vilDeckComplete)
+        autoplay = false
     elseif setupParts[1] == "Fragmented Realities" then
         local topCityZones = table.clone(topBoardGUIDs)
         table.remove(topCityZones)

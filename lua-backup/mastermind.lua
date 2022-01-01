@@ -368,7 +368,7 @@ function addTransformButton(zone)
         font_color={0,0,0},
         color="Green",
         width=600,
-        height=350})
+        height=150})
 end
 
 function setupTransformingMM(mmname,mmZone,lurking)
@@ -814,6 +814,47 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             bsPile.takeObject({position=getObjectFromGUID(getStrikeloc(objname)).getPosition(),
                 flip=false,
                 smooth=false})
+        end
+        arcadebasepower = 3
+        if epicness then
+            arcadebasepower = 4
+        end
+        function updateMMArcade()
+            if not mmActive(objname) then
+                return nil
+            end
+            local strikeloc = getStrikeloc(objname)
+            local checkvalue = 1
+            if not get_decks_and_cards_from_zone(strikeloc)[1] then
+                getObjectFromGUID(strikeloc).clearButtons()
+                checkvalue = 0
+            else
+                if not getObjectFromGUID(strikeloc).getButtons() then
+                    getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label=arcadebasepower,
+                        tooltip="You can fight these Human Shields for " .. arcadebasepower .. " to rescue them as Bystanders.",
+                        font_size=250,
+                        font_color="Red",
+                        width=0})
+                else
+                    getObjectFromGUID(strikeloc).editButton({label=arcadebasepower,
+                        tooltip="You can fight these Human Shields for " .. arcadebasepower .. " to rescue them as Bystanders."})
+                end
+            end
+            mmButtons(objname,
+                    checkvalue,
+                    "X",
+                    "You can't fight Arcade while he has any Human Shields.",
+                    'updateMMArcade')
+        end
+        function onObjectEnterZone(zone,object)
+            updateMMArcade()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMMArcade()
         end
     end
     if objname == "Arnim Zola" then
@@ -1482,11 +1523,50 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         if epicness == true then
             jonah = 3
         end
+        local strikeZone = getObjectFromGUID(getStrikeloc(objname))
         for i=1,jonah*#Player.getPlayers() do
-            soPile.takeObject({position = getObjectFromGUID(getStrikeloc(objname)).getPosition(),
+            soPile.takeObject({position = strikeZone.getPosition(),
                 flip=false,
                 smooth=false})
         end
+        function click_pacify_angry_mob(obj,player_clicker_color)
+                local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+                if not hulkdeck then
+                    return nil
+                end
+                local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+                local dest = playerBoard.positionToWorld(pos_discard)
+                dest.y = dest.y + 3
+                if player_clicker_color == "White" then
+                    angle = 90
+                elseif player_clicker_color == "Blue" then
+                    angle = -90
+                else
+                    angle = 180
+                end
+                local brot = {x=0, y=angle, z=0}
+                if hulkdeck.tag == "Card" then
+                    hulkdeck.flip()
+                    hulkdeck.setRotationSmooth(brot)
+                    hulkdeck.setPositionSmooth(dest)
+                else
+                    hulkdeck.takeObject({position = dest,
+                        flip = true,
+                        smooth = true,
+                        index = math.random(hulkdeck.getQuantity())})
+                end
+            end
+        strikeZone.createButton({click_function="click_pacify_angry_mob", 
+                 function_owner=self,
+                 position={0,0,0.5},
+                 rotation={0,180,0},
+                 label="Pacify",
+                 tooltip="Pacify this Angry Mob by fighting it and gain a random hero from it.",
+                 color={0,0,0,1},
+                 font_color = {1,0,0},
+                 width=500,
+                 height=200,
+                 font_size = 100})
         updateMMJonah = function()
             if not mmActive(objname) then
                 return nil
@@ -1511,6 +1591,17 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         font_size=250,
                         font_color="Red",
                         width=0})
+                    strikeZone.createButton({click_function="click_pacify_angry_mob", 
+                         function_owner=self,
+                         position={0,0,0.5},
+                         rotation={0,180,0},
+                         label="Pacify",
+                         tooltip="Pacify this Angry Mob by fighting it and gain a random hero from it.",
+                         color={0,0,0,1},
+                         font_color = {1,0,0},
+                         width=500,
+                         height=200,
+                         font_size = 100})
                 end
             end
             mmButtons(objname,
@@ -1853,14 +1944,6 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function updateMMMojo()
             if not mmActive(objname) then
                 return nil
-            end
-            local mmzone = getObjectFromGUID(mmLocations[objname])
-            local buttonindex = nil
-            for i,o in pairs(mmzone.getButtons()) do
-                if o.click_function == "updateMMMojo" then
-                    buttonindex = i-1
-                    break
-                end
             end
             local strikeloc = getStrikeloc(objname)
             local checkvalue = 1

@@ -1574,6 +1574,44 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Build an Army of Annihilation" then
         stackTwist(cards[1])
+        if twistsresolved == 1 then
+            function click_buy_annihilation(obj,player_clicker_color)
+                local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+                if not hulkdeck then
+                    return nil
+                end
+                local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+                local dest = playerBoard.positionToWorld(pos_vp2)
+                dest.y = dest.y + 3
+                if player_clicker_color == "White" then
+                    angle = 90
+                elseif player_clicker_color == "Blue" then
+                    angle = -90
+                else
+                    angle = 180
+                end
+                local brot = {x=0, y=angle, z=0}
+                if hulkdeck.tag == "Card" then
+                    hulkdeck.setRotationSmooth(brot)
+                    hulkdeck.setPositionSmooth(dest)
+                else
+                    hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+                end
+            end
+            getObjectFromGUID(topBoardGUIDs[1]).createButton({
+                 click_function="click_buy_annihilation", 
+                 function_owner=self,
+                 position={0,0,0.5},
+                 rotation={0,180,0},
+                 label="Fight",
+                 tooltip="Fight one of the Annihilation Wave henchmen.",
+                 color={0,0,0,1},
+                 font_color = {1,0,0},
+                 width=500,
+                 height=200,
+                 font_size = 100
+            })
+        end
         local annihilationZone = getObjectFromGUID(topBoardGUIDs[2])
         local annihilationdeck = get_decks_and_cards_from_zone(topBoardGUIDs[2])
         local henchpresent = 0
@@ -2378,6 +2416,72 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Dark Reign of H.A.M.M.E.R. Officers" then
         stackTwist(cards[1])
+        if twistsresolved == 1 then
+            function click_buy_hammer(obj,player_clicker_color)
+                local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+                if not hulkdeck then
+                    return nil
+                end
+                local hand = Player[player_clicker_color].getHandObjects()
+                local shield = {}
+                for _,h in pairs(hand) do
+                    if h.hasTag("Starter") or h.hasTag("Team:SHIELD") or h.hasTag("Team:HYDRA") then
+                        table.insert(shield,h)
+                    end
+                end
+                local gainShield = function()
+                    local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+                    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+                    local dest = playerBoard.positionToWorld(pos_discard)
+                    dest.y = dest.y + 3
+                    if player_clicker_color == "White" then
+                        angle = 90
+                    elseif player_clicker_color == "Blue" then
+                        angle = -90
+                    else
+                        angle = 180
+                    end
+                    local brot = {x=0, y=angle, z=0}
+                    if hulkdeck.tag == "Card" then
+                        hulkdeck.setRotationSmooth(brot)
+                        hulkdeck.setPositionSmooth(dest)
+                    else
+                        local gainShieldChoice = function(obj2)
+                            obj2.setPositionSmooth(dest)
+                            obj2.setRotationSmooth(brot)
+                        end
+                        broadcastToColor("Choose an Officer to gain.",player_clicker_color,player_clicker_color)
+                        offerCards({color = player_clicker_color,
+                            pile = hulkdeck,
+                            resolve_function = gainShieldChoice,
+                            label = "Gain",
+                            tooltip = "Gain this Officer."})
+                    end
+                end
+                if shield[1] then
+                    broadcastToColor("Discard a SHIELD or HYDRA hero to get SHIELD clearance!",player_clicker_color,player_clicker_color)
+                    promptDiscard({color = player_clicker_color,
+                        hand = shield,
+                        trigger_function = gainShield})
+                else
+                    broadcastToColor("You need a SHIELD or HYDRA hero to discard for SHIELD clearance!",player_clicker_color,player_clicker_color)
+                    return nil
+                end
+            end
+            getObjectFromGUID(topBoardGUIDs[2]).createButton({
+                 click_function="click_buy_hammer", 
+                 function_owner=self,
+                 position={0,0,0.5},
+                 rotation={0,180,0},
+                 label="Fight",
+                 tooltip="Fight one of the officers to gain it as a hero.",
+                 color={0,0,0,1},
+                 font_color = {1,0,0},
+                 width=500,
+                 height=200,
+                 font_size = 100
+            })
+        end
         local sostack = getObjectFromGUID(officerDeckGUID)
         for i = 1,twistsresolved do
             sostack.takeObject({position=getObjectFromGUID(topBoardGUIDs[2]).getPosition(),
@@ -2571,27 +2675,25 @@ function twistSpecials(cards,city,schemeParts)
         if twistsresolved < 6 then
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
-                local handi = table.clone(hand)
-                local iter = 0
-                for i,obj in ipairs(handi) do
-                    if not obj.hasTag("Officer") and not obj.getName():find("Nova %(") then
-                        table.remove(hand,i-iter)
-                        iter = iter + 1
+                local centurions = {}
+                for _,obj in ipairs(hand) do
+                    if obj.hasTag("Officer") or obj.getName():find("Nova %(") then
+                        table.insert(centurions,obj)
                     end
                 end
-                if not hand[1] then
+                if not centurions[1] then
                     getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
                         flip=true,
                         smooth=true})
                     broadcastToAll("Scheme Twist: Officer KO'd from the officer stack.")
                 else
-                    promptDiscard({color = o.color, hand = hand})
+                    promptDiscard({color = o.color, hand = centurions})
                     broadcastToColor("Scheme Twist: Discard an Officer or a Nova hero. You gained a shard.",o.color,o.color)
                     gainShard(o.color)
                 end
             end
         elseif twistsresolved < 10 then
-            broadcastToAll("Scheme Twist: Each player KO's an Officer from the Officer stack or from their hand or discard pile.")
+            broadcastToAll("Scheme Twist: Each player KO's an Officer from the Officer stack or an Officer/Nova hero from their hand or discard pile.")
         end
         return twistsresolved
     end
@@ -2724,6 +2826,26 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist: All heroes in HQ KO'd!")
         else
             broadcastToAll("Scheme Twist: KO one of the hero decks!!",{1,0,0})
+            local divdeckzones = {}
+            for i=7,11 do
+                local deck = get_decks_and_cards_from_zone(allTopBoardGUIDS[i])[1]
+                if deck then
+                    table.insert(divdeckzones,getObjectFromGUID(allTopBoardGUIDS[i]))
+                end
+            end
+            local koThisHeroDeck = function(obj)
+                local content = get_decks_and_cards_from_zone(obj.guid)[1]
+                content.flip()
+                koCard(content)
+            end
+            promptDiscard({color = Turns.turn_color,
+                hand = divdeckzones,
+                pos = "Stay",
+                label = "KO",
+                tooltip = "KO this hero deck.",
+                trigger_function = koThisHeroDeck,
+                args = "self",
+                isZone = true})
         end
         return twistsresolved
     end
