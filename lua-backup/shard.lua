@@ -11,7 +11,6 @@ function onload()
       tooltip="Add or remove a shard.",
       function_owner=self,
       position={0,1,0},
-      rotation={0,180,0},
       height=1400,
       width=1600,
       font_size = 1200, 

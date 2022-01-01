@@ -375,7 +375,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         if targetZone.guid == escape_zone_guid and not desc:find("LOCATION") then
             if obj.getName() == "Shard" then
                 --first shard moves to the mastermind
-                gainShard(nil,getObjectFromGUID(mmZoneGUID))
+                gainShard(nil,mmZoneGUID)
                 broadcastToAll("A Shard from an escaping villain was moved to the mastermind!",{r=1,g=0,b=0})
                 obj.Call('resetVal')
                 obj.destruct()

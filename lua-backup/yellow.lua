@@ -31,8 +31,8 @@ function onLoad()
     objectsentering_attack = {}
     
     playpos = {
-        ["Red"]={-0.7,2,7.5},
-        ["Green"]={0,2,7.5},
+        ["Red"]={-0.7,2,7.3},
+        ["Green"]={0,2,7.3},
         ["Yellow"]={1.15 , 2, 7.3},
         ["Blue"]={1.15,2,7.45},
         ["White"]={1.35,2,7.8}
@@ -372,14 +372,16 @@ function timer_shuffle(hardstop)
 end
 
 function tuckSidekicks(cardtable)
-    for i,o in pairs(cardtable) do
+    local newcardtable = {}
+    for _,o in pairs(cardtable) do
         if o.hasTag("Sidekick") then
             o.flip()
             o.setPositionSmooth(getObjectFromGUID(sidekickDeckGUID).getPosition())
-            table.remove(cardtable,i)
+        else
+            table.insert(newcardtable,o)
         end
     end
-    return cardtable
+    return newcardtable
 end
 
 -- discard all card in hand and played
