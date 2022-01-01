@@ -650,6 +650,61 @@ function import_setup()
     self.removeButton(rand)
     self.removeButton(imp)
     self.removeInput(0)
+    
+    local statevars = {
+        ["twistsresolved"] = 0,
+        ["twistsstacked"] = 0,
+        ["strikesresolved"] = 0,
+        ["strikesstacked"] = 0,
+        --["masterminds"] = "{}",
+    }
+    
+    local label = ""
+    local step = 0
+    for i,o in pairs(statevars) do
+        step = step + 1
+        label = label .. i .. "=" .. o
+        if step ~= #statevars then
+            label = label .. "\n"
+        end
+    end
+    
+    statevars_text = ""
+    
+    input_statevars = function(obj, color, input, stillEditing)
+        if not stillEditing then
+            statevars_text = input
+        end
+    end
+    
+    update_statevars = function()
+        local statevar_parts = {}
+        for s in string.gmatch(statevars_text,"[^\n]+") do
+            table.insert(statevar_parts, s)
+        end
+        for _,o in pairs(statevar_parts) do
+            getObjectFromGUID(pushvillainsguid).Call('updateVar',{varname = (o:gsub("=.*","")),varvalue = (o:gsub(".*=",""))})
+        end
+        broadcastToAll("State variables were updated! Check logs if inappropriate.")
+    end
+    
+    self.createInput({
+        input_function = "input_statevars",
+        function_owner = self,
+        label          = label,
+        value = label,
+        font_size      = 150,
+        validation     = 1,
+        position={-60.5,0.1,7},
+        width=2000,
+        height=3000
+    })
+    
+    self.createButton({
+        click_function="update_statevars", function_owner=self,
+        position={-60,0.1,11}, height=300, width=500, color={0,0,0,1}, font_color = {1,0,0},
+        label = "Update",tooltip="Change the state variables. Only in case of emergency or testing!"
+    })
 
     -- SCHEME
     log("Scheme: " .. setupParts[1])

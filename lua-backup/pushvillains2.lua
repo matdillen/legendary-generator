@@ -34,7 +34,8 @@ function onLoad()
        "pos_vp2",
        "pos_discard",
        "pos_draw",
-       "hqguids"
+       "hqguids",
+       "hqscriptguids"
     }
     
     for _,o in pairs(guids2) do
@@ -166,6 +167,12 @@ end
 
 function returnVar(var)
     return _G[var]
+end
+
+function updateVar(params)
+    log(params.varname)
+    log(params.varvalue)
+    _G[params.varname] = params.varvalue
 end
 
 function click_rescue_bystander(obj, player_clicker_color) 
@@ -6871,7 +6878,7 @@ function strikeSpecials(cards,city)
         return nil
     elseif masterminds[2] then
         broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
-        local mmpromptzone = getObjectFromGUID(city_zones_guids[4])
+        local mmpromptzone = getObjectFromGUID(hqscriptguids[3])
         local zshift = 0
         local resolvingStrikes = {}
         for i,o in ipairs(masterminds) do
