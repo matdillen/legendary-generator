@@ -1727,6 +1727,34 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         end
     end
     if objname == "Madelyne Pryor, Goblin Queen" then
+        function click_buy_goblin(obj,player_clicker_color)
+            local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+            if not hulkdeck then
+                return nil
+            end
+            local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+            local dest = playerBoard.positionToWorld(pos_vp2)
+            dest.y = dest.y + 3
+            if player_clicker_color == "White" then
+                angle = 90
+            elseif player_clicker_color == "Blue" then
+                angle = -90
+            else
+                angle = 180
+            end
+            local brot = {x=0, y=angle, z=0}
+            if hulkdeck.tag == "Card" then
+                hulkdeck.setRotationSmooth(brot)
+                hulkdeck.setPositionSmooth(dest)
+            else
+                broadcastToColor("Choose a Bystander to rescue.",player_clicker_color,player_clicker_color)
+                getObjectFromGUID(pushvillainsguid).Call('offerCards',{color = player_clicker_color,
+                    pile = hulkdeck,
+                    targetpos = pos_vp2,
+                    label = "Rescue",
+                    tooltip = "Rescue this bystander."})
+            end
+        end
         function updateMMMadelyne()
             if not mmActive(objname) then
                 return nil
@@ -1755,6 +1783,19 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         font_size=250,
                         font_color="Red",
                         width=0})
+                    getObjectFromGUID(strikeloc).createButton({
+                        click_function="click_buy_goblin", 
+                        function_owner=self,
+                        position={0,0,0.5},
+                        rotation={0,180,0},
+                        label="Fight",
+                        tooltip="Fight one of the officers to gain it as a hero.",
+                        color={0,0,0,1},
+                        font_color = {1,0,0},
+                        width=500,
+                        height=200,
+                        font_size = 100
+                    })
                 else
                     getObjectFromGUID(strikeloc).editButton({label="2",
                         tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders."})

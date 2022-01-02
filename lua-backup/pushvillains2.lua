@@ -10861,6 +10861,7 @@ function demolish(params)
 end
 
 function offerCards(params)
+    --log(params)
     local color = params.color
     local pile = params.pile
     local guids = params.guids
@@ -10869,6 +10870,7 @@ function offerCards(params)
     local label = params.label
     local flip = params.flip
     local n = params.n
+    local targetpos = params.targetpos
     if not tooltip then
         tooltip = "Pick this card for the scheme twist, master strike or other effect."
     end
@@ -10943,7 +10945,13 @@ function offerCards(params)
         obj.locked = false
         obj.clearButtons()
         obj.setRotation(brot)
-        resolve_function(obj)
+        if resolve_function then
+            resolve_function(obj)
+        elseif targetpos then
+            local playerBoard = getObjectFromGUID(playerBoards[color])
+            local dest = playerBoard.positionToWorld(targetpos)
+            obj.setPosition(dest)
+        end
     end
     function lockAndButton(obj)
         obj.locked = true
