@@ -739,6 +739,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Adrian Toomes is a double (or triple) striker and gets +" .. boost/strikes .. " for each Master Strike that has been played.",
                 'updateMMAdrian')
         end
+        updateMMAdrian()
         function onObjectEnterZone(zone,object)
             if object.getName() == "Masterstrike" then
                 updateMMAdrian()
@@ -850,6 +851,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     "You can't fight Arcade while he has any Human Shields.",
                     'updateMMArcade')
         end
+        updateMMArcade()
         function onObjectEnterZone(zone,object)
             updateMMArcade()
         end
@@ -876,6 +878,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
                 'updateMMArnimZola')
         end
+        updateMMArnimZola()
         function onObjectEnterZone(zone,object)
             for _,o in pairs(hqscriptguids) do
                 if o == zone.guid then
@@ -963,6 +966,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "The Baron gets -1 for each villain in your victory pile.",
                 'updateMMBaronHelm')
         end
+        updateMMBaronHelm()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
                 Wait.time(updateMMBaronHelm,0.1)
@@ -1001,6 +1005,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
                 'updateMMBelasco')
         end
+        updateMMBelasco()
         function onObjectEnterZone(zone,object)
             if zone.guid == kopile_guid then
                 updateMMBelasco()
@@ -1053,6 +1058,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Charles Xavier gets +1 for each Bystander in the city and HQ.",
                 'updateMMCharles')
         end
+        updateMMCharles()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Bystander") then
                 updateMMCharles()
@@ -1112,6 +1118,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
                 'updateMMDeathbird')
         end
+        updateMMDeathbird()
         function onObjectEnterZone(zone,object)
             if object.getName():find("Shi'ar") or object.hasTag("Group:Shi'ar Imperial Elite") or object.hasTag("Group:Shi'ar Imperial Guard") then
                 Wait.time(updateMMDeathbird,0.1)
@@ -1155,6 +1162,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Emma Frost gets +" .. boost .. " for each grey hero you have.",
                 'updateMMEmma')
         end
+        updateMMEmma()
         function onObjectEnterZone(zone,object)
             updateMMEmma()
         end
@@ -1217,6 +1225,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
                 'updateMMDeadpool')
         end
+        updateMMDeadpool()
         function onObjectEnterZone(zone,object)
             if hasTag2(object,"Tactic:") then
                 Wait.time(updateMMDeadpool,0.1)
@@ -1279,6 +1288,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Fin Fang Foom gets -2 for each different Hero Class among heroes you have.",
                 'updateMMFinFang')
         end
+        updateMMFinFang()
         function onObjectEnterZone(zone,object)
             updateMMFinFang()
         end
@@ -1318,6 +1328,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
                 'updateMMReaper')
         end
+        updateMMReaper()
         function onObjectEnterZone(zone,object)
             if object.getDescription():find("LOCATION") then
                 updateMMReaper()
@@ -1363,6 +1374,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
                 'updateMMHela')
         end
+        updateMMHela()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
                 updateMMHela()
@@ -1479,6 +1491,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     'updateMMHydraHigh')
             end
         end
+        updateMMHydraHigh()
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMHydraHigh,0.1)
         end
@@ -1610,6 +1623,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "You can't fight J. Jonah while he has any Angry Mobs.",
                 'updateMMJonah')
         end
+        updateMMJonah()
         function onObjectEnterZone(zone,object)
             if zone.guid == getStrikeloc(objname) then
                 updateMMJonah()
@@ -1697,6 +1711,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
                 'updateMMMacho') end,1)
         end
+        updateMMMacho()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
                 Wait.time(updateMMMacho,2)
@@ -1751,6 +1766,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "You can't fight Madelyne Pryor while she has any Demon Goblins.",
                 'updateMMMadelyne')
         end
+        updateMMMadelyne()
         function onObjectEnterZone(zone,object)
             updateMMMadelyne()
         end
@@ -1787,6 +1803,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
                 'updateMMMagus')
         end
+        updateMMMagus()
         function onObjectEnterZone(zone,object)
             updateMMMagus()
         end
@@ -1842,6 +1859,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
                 'updateMMMandarin')
         end
+        updateMMMandarin()
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMMandarin,0.1)
         end
@@ -1874,6 +1892,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
                 'updateMMMaria')
         end
+        updateMMMaria()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
                 updateMMMaria()
@@ -1912,6 +1931,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
                 'updateMMMaximus')
         end
+        updateMMMaximus()
         function onObjectEnterZone(zone,object)
             updateMMMaximus()
         end
@@ -1972,6 +1992,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     "You can't fight Mojo while he has any Human Shields.",
                     'updateMMMojo')
         end
+        updateMMMojo()()
         function onObjectEnterZone(zone,object)
             updateMMMojo()
         end
@@ -2004,6 +2025,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Mole Man gets +1 for each Subterranea Villain that has escaped.",
                 'updateMMMoleMan')
         end
+        updateMMMoleMan()
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMMoleMan,0.1)
         end
@@ -2097,6 +2119,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
                 'updateMMOdin')
         end
+        updateMMOdin()
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMOdin,0.1)
         end
@@ -2385,6 +2408,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
                 'updateMMRagnarok')
         end
+        updateMMRagnarok()
         function onObjectEnterZone(zone,object)
             updateMMRagnarok()
         end
@@ -2456,6 +2480,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Spider-Queen gets +1 for each Bystander in the Escape pile.",
                 'updateMMSpiderQueen')
         end
+        updateMMSpiderQueen()
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMSpiderQueen,0.1)
         end
@@ -2519,6 +2544,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
                 'updateMMThanos')
         end
+        updateMMThanos()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Group:Infinity Gems") then
                 updateMMThanos()
@@ -2586,6 +2612,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
                 'updateMMHood')
         end
+        updateMMHood()
         function onPlayerTurn(player,previous_player)
             updateMMHood()
         end
@@ -2673,6 +2700,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Vulture is a striker and gets +1 for each Master Strike that has been played.",
                 'updateMMVulture')
         end
+        updateMMVulture()
         function onObjectEnterZone(zone,object)
             if object.getName() == "Masterstrike" then
                 updateMMVulture()
@@ -2736,6 +2764,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 "Zombie Green Goblin gets +1 for each hero that costs 7 or more in the KO pile.",
                 'updateMMZombieGoblin')
         end
+        updateMMZombieGoblin()
         function onObjectEnterZone(zone,object)
             if zone.guid == kopile_guid then
                 updateMMZombieGoblin()

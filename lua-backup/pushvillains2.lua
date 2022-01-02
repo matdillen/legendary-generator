@@ -2355,20 +2355,22 @@ function twistSpecials(cards,city,schemeParts)
                 end
                 local tacticsPile = getObjectFromGUID(topBoardGUIDs[2])
                 for i = 1,4 do
-                    if i ~= keep then
+                    if i ~= keep and obj then
                         obj.takeObject({position = tacticsPile.getPosition(),
                             guid = tacguids[i],
                             flip = true})
                     end
                 end
-                local flipTactics = function()
-                    local pos = obj.getPosition()
-                    pos.y = pos.y + 3
-                    obj.takeObject({position = pos,
-                        index = obj.getQuantity()-1,
-                        flip=true})
+                if obj then
+                    local flipTactics = function()
+                        local pos = obj.getPosition()
+                        pos.y = pos.y + 3
+                        obj.takeObject({position = pos,
+                            index = obj.getQuantity()-1,
+                            flip=true})
+                    end
+                    Wait.time(flipTactics,1)
                 end
-                Wait.time(flipTactics,1)
             end
             mmPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[4]).getPosition(),callback_function = stripTactics})
         elseif twistsresolved < 5 then
@@ -2376,6 +2378,22 @@ function twistSpecials(cards,city,schemeParts)
             local mmcard = nil
             if allianceMM[1] then
                 for _,o in pairs(allianceMM) do
+                    if o.hasTag("Tactic:Hydra High Council") or o.hasTag("Tactic:Hydra Super Adaptoid") then
+                        local tacticsPile = get_decks_and_cards_from_zone(topBoardGUIDs[2])
+                        local tacticShuffle = function(obj)
+                            get_decks_and_cards_from_zone(topBoardGUIDs[4])[1].randomize()
+                        end
+                        if tacticsPile[1].getQuantity() > 1 then
+                            tacticsPile[1].takeObject({position = allianceMM[1].getPosition(),
+                                flip=true,
+                                smooth=false,
+                                callback_function = tacticShuffle})
+                        else
+                            local ann = tacticsPile[1].setPosition(allianceMM[1].getPosition())
+                            tacticShuffle(ann)
+                        end
+                        return twistsresolved
+                    end
                     for _,k in pairs(table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))) do
                         if k:find(o.getName(),1,true) and o.tag == "Card" then
                             mmcard = o
@@ -6884,17 +6902,23 @@ function strikeSpecials(cards,city)
         for i,o in ipairs(masterminds) do
             resolvingStrikes[i] = i-1
             _G["resolveStrike" .. i] = function()
-                --log("buttonpress:" .. resolvingStrikes[i])
                 mmpromptzone.removeButton(resolvingStrikes[i])
                 for i2,o2 in pairs(resolvingStrikes) do
                     if i2 > i then
                         resolvingStrikes[i2] = o2-1
                     end
                 end
-                local proceed = resolveStrike(o,epicness,city,cards)
+                local epicness = false
+                local mmname = o
+                if mmname:find(" %- epic") then
+                    mmname = mmname:gsub(" %- epic","")
+                    epicness = true
+                end
+                local proceed = resolveStrike(mmname,epicness,city,cards)
+                local butt = mmpromptzone.getButtons()
                 if not proceed then
                     cards[1] = nil
-                elseif cards[1] and not mmpromptzone.getButtons() then
+                elseif cards[1] and (not butt or (not butt[2] and butt[1].label == o)) then
                     koCard(cards[1])
                 end
             end
@@ -8390,14 +8414,26 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             broadcastToAll("King Hyperion not found?")
             return nil
         end
-        koCard(cards[1],true)
+        --koCard(cards[1],true)
         kinghyperion.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+        if cards[1] then
+            local pos = cards[1].getPosition()
+            pos.x = pos.x + 5
+            kinghyperstrike = cards[1]
+            kinghyperstrike.setPosition(pos)
+            pos.x = pos.x - 5
+            local moveStrikeBack = function()
+                kinghyperstrike.setPosition(pos)
+                kinghyperstrike = nil
+            end
+            Wait.time(moveStrikeBack,6.5)
+        end
         broadcastToAll("Charging...",{1,0,0})
         for i=1,4 do
             Wait.time(click_push_villain_into_city,1.5*i)
             Wait.time(function() broadcastToAll("Still charging...",{1,0,0}) end,1.5*i)
         end
-        return nil
+        return strikesresolved
     end
     if mmname == "Kingpin" then
         local players = revealCardTrait({trait="Marvel Knights",prefix="Team:"})
@@ -8466,18 +8502,21 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Macho Gomez" then
-        cards[1].setName("Bounty on your head")
-        cards[1].setDescription("ARTIFACT: This is a bounty on your head. Macho will wound you with his master strikes for each bounty you have. Pay 1 recruit during your turn to pass this bounty to the player on your left.")
-        local playcontent = get_decks_and_cards_from_zone(playguids[Turns.turn_color])
-        local xshift = 0
-        if playcontent[1] then
-            for _,o in pairs(playcontent) do
-                if o.getName() == "Bounty on your head" then
-                    xshift = xshift + 0.5
+        if cards[1] then
+            cards[1].setName("Bounty on your head")
+            cards[1].setDescription("ARTIFACT: This is a bounty on your head. Macho will wound" ..
+            " you with his master strikes for each bounty you have. Pay 1 recruit during your turn to pass this bounty to the player on your left.")
+            local playcontent = get_decks_and_cards_from_zone(playguids[Turns.turn_color])
+            local xshift = 0
+            if playcontent[1] then
+                for _,o in pairs(playcontent) do
+                    if o.getName() == "Bounty on your head" then
+                        xshift = xshift + 0.5
+                    end
                 end
             end
+            cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5+xshift,4,4}))
         end
-        cards[1].setPositionSmooth(getObjectFromGUID(playerBoards[Turns.turn_color]).positionToWorld({-1.5+xshift,4,4}))
         broadcastToAll("Master Strike: Each player gains a Wound for each Bounty on them.")
         for _,o in pairs(Player.getPlayers()) do
             local playcontent = get_decks_and_cards_from_zone(playguids[o.color])
@@ -8731,30 +8770,32 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             tooltip = "Choose this villainous weapon to be captured by Malekith.",
             pos = pos,
             trigger_function = killBSButton})
-        cards[1].setName("Darkspear")
-        cards[1].addTag("Villainous Weapon")
-        cards[1].setDescription("VILLAINOUS WEAPON: These are not Villains. Instead, they are captured by the Villain closest " .. 
-        "to the Villain deck or KO'd if the city is empty. The Villain gets the extra Power from the Weapon. When a Villain escapes " .. 
-        "with a Weapon, the Mastermind captures that Weapon. When fighting a card with a Weapon, gain the Weapon as an artifact.\n" ..
-        "THROWN ARTIFACT:This card remains in play. During your turn, you may put it on the bottom of your deck to use its Throw effect and gain 2 Attack.")
-        if #weapons == 0 and #weaponguids == 0 then
-            if epicness and #epicweapons == 0 then
-                darkspearcango = true
+        if cards[1] then
+            cards[1].setName("Darkspear")
+            cards[1].addTag("Villainous Weapon")
+            cards[1].setDescription("VILLAINOUS WEAPON: These are not Villains. Instead, they are captured by the Villain closest " .. 
+            "to the Villain deck or KO'd if the city is empty. The Villain gets the extra Power from the Weapon. When a Villain escapes " .. 
+            "with a Weapon, the Mastermind captures that Weapon. When fighting a card with a Weapon, gain the Weapon as an artifact.\n" ..
+            "THROWN ARTIFACT:This card remains in play. During your turn, you may put it on the bottom of your deck to use its Throw effect and gain 2 Attack.")
+            if #weapons == 0 and #weaponguids == 0 then
+                if epicness and #epicweapons == 0 then
+                    darkspearcango = true
+                end
             end
-        end
-        if epicness then
-            powerButton(cards[1],"+3")
-        else
-            powerButton(cards[1],"+2")
-        end
-        local findingWeaponResolved = function()
-            if darkspearcango == true then
-                return true
+            if epicness then
+                powerButton(cards[1],"+3")
             else
-                return false
+                powerButton(cards[1],"+2")
             end
+            local findingWeaponResolved = function()
+                if darkspearcango == true then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(click_push_villain_into_city,findingWeaponResolved)
         end
-        Wait.condition(click_push_villain_into_city,findingWeaponResolved)
         return nil
     end
     if mmname == "Mandarin" then
@@ -8930,6 +8971,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     obj.clearButtons()
                     koCard(obj)
                     getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[2]})
+                end
+                if not cards[1] then
+                    cards[1] = getObjectFromGUID(strikePileGUID).takeObject({position = self.getPosition(),
+                        smooth = false})
                 end
                 cards[1].createButton({click_function="epicMaxTactic",
                     function_owner=self,
@@ -10740,6 +10785,9 @@ function demolish(params)
     end
     local players = params.players or Player.getPlayers()
     local n = params.n or 1
+    if n < 1 then
+        return nil
+    end
     local altsource = params.altsource
     local ko = params.ko
     local name = "Discard "
