@@ -250,16 +250,10 @@ function isTransformed(mmname)
     return mmGetCards(mmname,true)
 end
 
-function woundedFury(obj,color)
+function woundedFury(color)
     local discardpile = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
     local wounds = 0
     local buttonindex = nil
-    for i,o in pairs(obj.getButtons()) do
-        if o.click_function == "Wounded Fury" then
-            buttonindex = i-1
-            break
-        end
-    end
     if discardpile[1] and discardpile[1].tag == "Deck" then
         for _,o in pairs(discardpile[1].getObjects()) do
             if o.tags[1] == "Wound" then
@@ -271,33 +265,7 @@ function woundedFury(obj,color)
             wounds = wounds + 1
         end
     end
-    local mmname = nil
-    for i,o in pairs(mmLocations) do
-        if o == obj.guid then
-            mmname = i
-            break
-        end
-    end
-    if mmname then
-        mmButtons({mmname,wounds,"+" .. wounds,"Wounded fury.","mm","woundedfury"})
-    elseif wounds > 0 then
-        if buttonindex then
-            obj.editButton({index=buttonindex,label="+" .. wounds,
-                tooltip="Wounded Fury."})
-        else
-            obj.createButton({click_function='woundedFury',
-                function_owner=self,
-                position={0,0,0},
-                rotation={0,180,0},
-                label="+" .. wounds,
-                tooltip="Wounded Fury.",
-                font_size=250,
-                font_color="Red",
-                width=0})
-        end
-    elseif buttonindex then
-        obj.removeButton(buttonindex)
-    end
+    return wounds
 end
 
 function transformMM(obj)
@@ -424,12 +392,18 @@ function setupTransformingMM(mmname,mmZone,lurking)
                             tooltip="You can fight these Helicopter Villains for 2 to rescue them as Bystanders."})
                     end
                 end
-                mmButtons(mmname,
-                    checkvalue,
-                    "X",
-                    "You can't fight General Ross while he has any Helicopters.",
-                    'updateMMRoss',
-                    "fightRoss")
+                mmButtons({mmname = mmname,
+                    checkvalue = 0,
+                    label = 0,
+                    tooltip = "Red Hulk no longer gets +1 for each Wound in your discard pile.",
+                    f = 'updateMMRoss',
+                    id = "woundedFury"})
+                mmButtons({mmname = mmname,
+                    checkvalue = checkvalue,
+                    label = "X",
+                    tooltip = "You can't fight General Ross while he has any Helicopters.",
+                    f = 'updateMMRoss',
+                    id = "fightRoss"})
             elseif transformed[mmname] == true then
                 if getObjectFromGUID(strikeloc).getButtons() then
                     getObjectFromGUID(strikeloc).editButton({label="X",
@@ -445,13 +419,19 @@ function setupTransformingMM(mmname,mmZone,lurking)
                             font_color="Red",
                             width=0})
                 end
-                mmButtons(mmname,
-                    0,
-                    "",
-                    "You can fight Red Hulk while he has any Helicopters.",
-                    'updateMMRoss',
-                    "fightRoss")
-                woundedFury(mmZone,Turns.turn_color)
+                mmButtons({mmname = mmname,
+                    checkvalue = 0,
+                    label = "",
+                    tooltip = "You can fight Red Hulk while he has any Helicopters.",
+                    f = 'updateMMRoss',
+                    id = "fightRoss"})
+                local wounds = woundedFury(Turns.turn_color)
+                mmButtons({mmname = mmname,
+                    checkvalue = wounds,
+                    label = "+" .. wounds,
+                    tooltip = "Red Hulk gets +1 for each Wound in your discard pile.",
+                    f = 'updateMMRoss',
+                    id = "woundedFury"})
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -476,10 +456,12 @@ function setupTransformingMM(mmname,mmZone,lurking)
                 return nil
             end
             local boost = 0
+            local tooltip = "The Illuminati no longer get +4 unless you Outwit them."
             if transformed["Illuminati, Secret Society"] == false then
                 local notes = getNotes()
                 setNotes(notes:gsub("\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.",""))
                 boost = 4
+                tooltip = "The Illuminati get +4 unless you Outwit them."
                 if getObjectFromGUID(pushvillainsguid).Call('outwitPlayer',{color = Turns.turn_color}) then
                     boost = 0
                 end
@@ -487,11 +469,11 @@ function setupTransformingMM(mmname,mmZone,lurking)
                 local notes = getNotes()
                 setNotes(notes .. "\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.")
             end
-            mmButtons(mmname,
-                boost,
-                "+" .. boost,
-                "The Illuminati get +4 unless you Outwit them.",
-                'updateMMIlluminatiSS')
+            mmButtons({mmname = mmname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = tooltip,
+                f = 'updateMMIlluminatiSS'})
         end
         updateMMIlluminatiSS()
         function onObjectEnterZone(zone,object)
@@ -509,14 +491,6 @@ function setupTransformingMM(mmname,mmZone,lurking)
         function updateMMHulk()
             if not mmActive(mmname) then
                 return nil
-            end
-            local mmZone = getObjectFromGUID(mmLocations[mmname])
-            local buttonindex = nil
-            for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateMMHulk" then
-                    buttonindex = i-1
-                    break
-                end
             end
             if transformed[mmname] == false then
                 local warbound = 0
@@ -548,13 +522,30 @@ function setupTransformingMM(mmname,mmZone,lurking)
                         warbound = warbound + 1
                     end
                 end
-                mmButtons(mmname,
-                    warbound,
-                    "+" .. warbound,
-                    "King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
-                    "updateMMHulk")
+                mmButtons({mmname = mmname,
+                    checkvalue = 0,
+                    label = 0,
+                    tooltip = "King Hulk no longer gets +1 for each Wound in your discard pile.",
+                    f = 'updateMMHulk',
+                    id = "woundedFury"})
+                mmButtons({mmname = mmname,
+                    checkvalue = warbound,
+                    label = "+" .. warbound,
+                    tooltip = "King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
+                    f = 'updateMMHulk'})
             elseif transformed["King Hulk, Sakaarson"] == true then
-                woundedFury(mmZone,Turns.turn_color)
+                mmButtons({mmname = mmname,
+                    checkvalue = 0,
+                    label = 0,
+                    tooltip = "King Hulk no longer gets +1 for each Warbound Villain in the city and in the Escape Pile.",
+                    f = 'updateMMHulk'})
+                local wounds = woundedFury(Turns.turn_color)
+                mmButtons({mmname = mmname,
+                    checkvalue = wounds,
+                    label = "+" .. wounds,
+                    tooltip = "King Hulk gets +1 for each Wound in your discard pile.",
+                    f = 'updateMMHulk',
+                    id = "woundedFury"})
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -580,32 +571,22 @@ function setupTransformingMM(mmname,mmZone,lurking)
             if not mmActive(mmname) then
                 return nil
             end
-            local buttonindex = nil
-            local mmZone = getObjectFromGUID(mmLocations[mmname])
-            for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateMMMODOK" then
-                    buttonindex = i-1
-                    break
-                end
-            end
             if transformed["M.O.D.O.K."] == false then
-                if buttonindex then
-                    mmZone.removeButton(buttonindex)
-                end
+                mmButtons({mmname = mmname,
+                    checkvalue = 0,
+                    label = "*",
+                    tooltip = "You can fight M.O.D.O.K normally.",
+                    f = 'updateMMMODOK'})
                 local notes = getNotes()
                 setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
             elseif transformed["M.O.D.O.K."] == true then   
                 local notes = getNotes()
                 setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
-                mmZone.createButton({click_function='updateMMMODOK',
-                    function_owner=self,
-                    position={0,0,1},
-                    rotation={0,180,0},
-                    label="*",
-                    tooltip="You can only fight M.O.D.O.K with Recruit, not Attack.",
-                    font_size=250,
-                    font_color="Yellow",
-                    width=0})
+                mmButtons({mmname = mmname,
+                    checkvalue = 1,
+                    label = "*",
+                    tooltip = "You can only fight M.O.D.O.K with Recruit, not Attack.",
+                    f = 'updateMMMODOK'})
             end
         end
     end
@@ -614,16 +595,10 @@ function setupTransformingMM(mmname,mmZone,lurking)
             if not mmActive(mmname) then
                 return nil
             end
-            local buttonindex = nil
-            local mmZone = getObjectFromGUID(mmLocations[mmname])
-            for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateMMRedKing" then
-                    buttonindex = i-1
-                    break
-                end
-            end
             local villainfound = 0
+            local tooltip = "You can fight the Red King normally even if there any Villains are in the city."
             if transformed["The Red King"] == false then
+                tooltip = "You can't fight the Red King while any Villains are in the city."
                 for _,o in pairs(city_zones_guids) do
                     if o ~= city_zones_guids[1] then
                         local citycontent = get_decks_and_cards_from_zone(o)
@@ -641,11 +616,11 @@ function setupTransformingMM(mmname,mmZone,lurking)
                     end
                 end
             end
-            mmButtons(mmname,
-                villainfound,
-                "X",
-                "You can't fight the Red King while any Villains are in the city.",
-                'updateMMRedKing')
+            mmButtons({mmname = mmname,
+                checkvalue = villainfound,
+                label = "X",
+                tooltip = tooltip,
+                f = 'updateMMRedKing'})
         end
         function onObjectEnterZone(zone,object)
             if transformed["The Red King"] == false then
@@ -663,23 +638,21 @@ function setupTransformingMM(mmname,mmZone,lurking)
             if not mmActive(mmname) then
                 return nil
             end
-            local buttonindex = nil
-            local mmZone = getObjectFromGUID(mmLocations[mmname])
-            for i,o in pairs(mmZone.getButtons()) do
-                if o.click_function == "updateMMSentry" then
-                    buttonindex = i-1
-                    break
-                end
-            end
             if transformed["The Sentry"] == true then
-                woundedFury(mmZone,Turns.turn_color)
+                local wounds = woundedFury(Turns.turn_color)
+                mmButtons({mmname = mmname,
+                    checkvalue = wounds,
+                    label = "+" .. wounds,
+                    tooltip = "The Sentry gets +1 for each Wound in your discard pile.",
+                    f = 'updateMMSentry',
+                    id = "woundedfury"})
             elseif transformed["The Sentry"] == false then
-                mmButtons(mmname,
-                    0,
-                    "",
-                    "",
-                    'updateMMSentry',
-                    "woundedfury")
+                mmButtons({mmname = mmname,
+                    checkvalue = 0,
+                    label = "",
+                    tooltip = "The Sentry no longer gets +1 for each Wound in your discard pile.",
+                    f = 'updateMMSentry',
+                    id = "woundedfury"})
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -733,11 +706,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = strikes*3
             end
-            mmButtons(objname,
-                strikes,
-                "+" .. boost,
-                "Adrian Toomes is a double (or triple) striker and gets +" .. boost/strikes .. " for each Master Strike that has been played.",
-                'updateMMAdrian')
+            mmButtons({mmname = objname,
+                checkvalue = strikes,
+                label = "+" .. boost,
+                tooltip = "Adrian Toomes is a double (or triple) striker and gets +" .. boost/strikes .. " for each Master Strike that has been played.",
+                f = 'updateMMAdrian'})
         end
         updateMMAdrian()
         function onObjectEnterZone(zone,object)
@@ -772,11 +745,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if not mmActive(objname) then
                 return nil
             end
-            mmButtons(objname,
-                annihilusmomentumcounter,
-                "+" .. annihilusmomentumcounter,
-                "Annihilus has Mass Momentum and gets +" .. annihilusmomentumboost .. " for each villain that entered a new city space this turn.",
-                'updateMMAnnihilus')
+            mmButtons({mmname = objname,
+                checkvalue = annihilusmomentumcounter,
+                label = "+" .. annihilusmomentumcounter,
+                tooltip = "Annihilus has Mass Momentum and gets +" .. annihilusmomentumboost .. " for each villain that entered a new city space this turn.",
+                f = 'updateMMAnnihilus'})
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
@@ -845,11 +818,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         tooltip="You can fight these Human Shields for " .. arcadebasepower .. " to rescue them as Bystanders."})
                 end
             end
-            mmButtons(objname,
-                    checkvalue,
-                    "X",
-                    "You can't fight Arcade while he has any Human Shields.",
-                    'updateMMArcade')
+            mmButtons({mmname = objname,
+                    checkvalue = checkvalue,
+                    label = "X",
+                    tooltip = "You can't fight Arcade while he has any Human Shields.",
+                    f = 'updateMMArcade'})
         end
         updateMMArcade()
         function onObjectEnterZone(zone,object)
@@ -872,11 +845,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                power,
-                "+" .. power,
-                "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
-                'updateMMArnimZola')
+            mmButtons({mmname = objname,
+                checkvalue = power,
+                label = "+" .. power,
+                tooltip = "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
+                f = 'updateMMArnimZola'})
         end
         updateMMArnimZola()
         function onObjectEnterZone(zone,object)
@@ -885,6 +858,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     updateMMArnimZola()
                 end
             end
+
         end
         function onObjectLeaveZone(zone,object)
             for _,o in pairs(hqscriptguids) do
@@ -915,11 +889,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                math.max(3-savior,0),
-                "+9",
-                "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
-                'updateMMBaronHein')
+            mmButtons({mmname = objname,
+                checkvalue = math.max(3-savior,0),
+                label = "+9",
+                tooltip = "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
+                f = 'updateMMBaronHein'})
         end
         updateMMBaronHein()
         function onObjectEnterZone(zone,object)
@@ -960,11 +934,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                savior,
-                "-" .. savior,
-                "The Baron gets -1 for each villain in your victory pile.",
-                'updateMMBaronHelm')
+            mmButtons({mmname = objname,
+                checkvalue = savior,
+                label = "-" .. savior,
+                tooltip = "The Baron gets -1 for each villain in your victory pile.",
+                f = 'updateMMBaronHelm'})
         end
         updateMMBaronHelm()
         function onObjectEnterZone(zone,object)
@@ -999,11 +973,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
             nongrey = nongrey/#Player.getPlayers() - 0.5*(nongrey % #Player.getPlayers())
-            mmButtons(objname,
-                nongrey,
-                "+" .. nongrey,
-                "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
-                'updateMMBelasco')
+            mmButtons({mmname = objname,
+                checkvalue = nongrey,
+                label = "+" .. nongrey,
+                tooltip = "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
+                f = 'updateMMBelasco'})
         end
         updateMMBelasco()
         function onObjectEnterZone(zone,object)
@@ -1052,11 +1026,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end   
             end
-            mmButtons(objname,
-                bsfound,
-                "+" .. bsfound,
-                "Charles Xavier gets +1 for each Bystander in the city and HQ.",
-                'updateMMCharles')
+            mmButtons({mmname = objname,
+                checkvalue = bsfound,
+                label = "+" .. bsfound,
+                tooltip = "Charles Xavier gets +1 for each Bystander in the city and HQ.",
+                f = 'updateMMCharles'})
         end
         updateMMCharles()
         function onObjectEnterZone(zone,object)
@@ -1112,11 +1086,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness == true then
                 modifier = 2
             end
-            mmButtons(objname,
-                shiarfound,
-                "+" .. shiarfound*modifier,
-                "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
-                'updateMMDeathbird')
+            mmButtons({mmname = objname,
+                checkvalue = shiarfound,
+                label = "+" .. shiarfound*modifier,
+                tooltip = "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
+                f = 'updateMMDeathbird'})
         end
         updateMMDeathbird()
         function onObjectEnterZone(zone,object)
@@ -1156,11 +1130,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                power,
-                "+" .. power,
-                "Emma Frost gets +" .. boost .. " for each grey hero you have.",
-                'updateMMEmma')
+            mmButtons({mmname = objname,
+                checkvalue = power,
+                label = "+" .. power,
+                tooltip = "Emma Frost gets +" .. boost .. " for each grey hero you have.",
+                f = 'updateMMEmma'})
         end
         updateMMEmma()
         function onObjectEnterZone(zone,object)
@@ -1186,11 +1160,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     power = 5
                 end
             end
-            mmButtons(objname,
-                power,
-                "+" .. power,
-                "Emperor Vulcan gets +" .. power .. " if he has the Throne's Favor.",
-                'updateMMEmperorVulcan')
+            mmButtons({mmname = objname,
+                checkvalue = power,
+                label = "+" .. power,
+                tooltip = "Emperor Vulcan gets +" .. power .. " if he has the Throne's Favor.",
+                f = 'updateMMEmperorVulcan'})
         end
         if epicness then
             getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar"})
@@ -1219,11 +1193,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     tacticsfound = tacticsfound + 1
                 end
             end
-            mmButtons(objname,
-                tacticsfound,
-                "+" .. tacticsfound,
-                "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
-                'updateMMDeadpool')
+            mmButtons({mmname = objname,
+                checkvalue = tacticsfound,
+                label = "+" .. tacticsfound,
+                tooltip = "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
+                f = 'updateMMDeadpool'})
         end
         updateMMDeadpool()
         function onObjectEnterZone(zone,object)
@@ -1282,11 +1256,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             for _,o in pairs(hccolors) do
                 boost = boost + o
             end
-            mmButtons(objname,
-                boost,
-                "-" .. boost,
-                "Fin Fang Foom gets -2 for each different Hero Class among heroes you have.",
-                'updateMMFinFang')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "-" .. boost,
+                tooltip = "Fin Fang Foom gets -2 for each different Hero Class among heroes you have.",
+                f = 'updateMMFinFang'})
         end
         updateMMFinFang()
         function onObjectEnterZone(zone,object)
@@ -1322,11 +1296,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 locationcount2 = locationcount*2
             end
-            mmButtons(objname,
-                locationcount2,
-                "+" .. locationcount2,
-                "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
-                'updateMMReaper')
+            mmButtons({mmname = objname,
+                checkvalue = locationcount2,
+                label = "+" .. locationcount2,
+                tooltip = "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
+                f = 'updateMMReaper'})
         end
         updateMMReaper()
         function onObjectEnterZone(zone,object)
@@ -1368,11 +1342,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 1
             end
-            mmButtons(objname,
-                villaincount,
-                "+" .. villaincount*(5+boost),
-                "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
-                'updateMMHela')
+            mmButtons({mmname = objname,
+                checkvalue = villaincount,
+                label = "+" .. villaincount*(5+boost),
+                tooltip = "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
+                f = 'updateMMHela'})
         end
         updateMMHela()
         function onObjectEnterZone(zone,object)
@@ -1419,11 +1393,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         savior = 1
                     end
                 end
-                mmButtons(objname,
-                    savior,
-                    "-" .. savior,
-                    "The Baron gets -1 for each villain in your victory pile.",
-                    'updateMMHydraHigh')
+                mmButtons({mmname = objname,
+                    checkvalue = savior,
+                    label = "-" .. savior,
+                    tooltip = "The Baron gets -1 for each villain in your victory pile.",
+                    f = 'updateMMHydraHigh'})
             elseif name == "Viper" then
                 local shiarfound = 0
                 for i=2,#city_zones_guids do
@@ -1437,11 +1411,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         end
                     end
                 end
-                mmButtons(objname,
-                    shiarfound,
-                    "+" .. shiarfound,
-                    "Viper gets +1 for each HYDRA Villain in the city.",
-                    'updateMMHydraHigh')
+                mmButtons({mmname = objname,
+                    checkvalue = shiarfound,
+                    label = "+" .. shiarfound,
+                    tooltip = "Viper gets +1 for each HYDRA Villain in the city.",
+                    f = 'updateMMHydraHigh'})
             elseif name == "Red Skull" then
                 local shiarfound = 0
                 local escapezonecontent = get_decks_and_cards_from_zone(escape_zone_guid)
@@ -1467,11 +1441,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
                 shiarfound = shiarfound/2 - 0.5*(shiarfound % 2)
-                mmButtons(objname,
-                    shiarfound,
-                    "+" .. shiarfound,
-                    "Red Skull gets +1 for each two HYDRA levels.",
-                    'updateMMHydraHigh')
+                mmButtons({mmname = objname,
+                    checkvalue = shiarfound,
+                    label = "+" .. shiarfound,
+                    tooltip = "Red Skull gets +1 for each two HYDRA levels.",
+                    f = 'updateMMHydraHigh'})
             elseif name == "Arnim Zola" then
                 local power = 0
                 for _,o in pairs(hqguids) do
@@ -1484,11 +1458,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         end
                     end
                 end
-                mmButtons(objname,
-                    power,
-                    "+" .. power,
-                    "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
-                    'updateMMHydraHigh')
+                mmButtons({mmname = objname,
+                    checkvalue = power,
+                    label = "+" .. power,
+                    tooltip = "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
+                    f = 'updateMMHydraHigh'})
             end
         end
         updateMMHydraHigh()
@@ -1512,11 +1486,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if players[1] then
                 boost = 7
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Immortal Emperor Zheng-Zhu is in the 7th Circle of Kung Fu and gets +7 unless you have a hero with at least that cost.",
-                'updateMMImmortalEmperor')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Immortal Emperor Zheng-Zhu is in the 7th Circle of Kung Fu and gets +7 unless you have a hero with at least that cost.",
+                f = 'updateMMImmortalEmperor'})
         end
         updateMMImmortalEmperor()
         function onObjectEnterZone(zone,object)
@@ -1617,11 +1591,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                          font_size = 100})
                 end
             end
-            mmButtons(objname,
-                checkvalue,
-                "X",
-                "You can't fight J. Jonah while he has any Angry Mobs.",
-                'updateMMJonah')
+            mmButtons({mmname = objname,
+                checkvalue = checkvalue,
+                label = "X",
+                tooltip = "You can't fight J. Jonah while he has any Angry Mobs.",
+                f = 'updateMMJonah'})
         end
         updateMMJonah()
         function onObjectEnterZone(zone,object)
@@ -1657,11 +1631,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 1
             end
-            mmButtons(objname,
-                villaincount,
-                "+" .. villaincount*(2+boost),
-                "Kang gets +" .. 2+boost .. " for each Villain in the city zones under a time incursion.",
-                'updateMMKang')
+            mmButtons({mmname = objname,
+                checkvalue = villaincount,
+                label = "+" .. villaincount*(2+boost),
+                tooltip = "Kang gets +" .. 2+boost .. " for each Villain in the city zones under a time incursion.",
+                f = 'updateMMKang'})
         end
         function onObjectEnterZone(zone,object)
             updateMMKang()
@@ -1671,17 +1645,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         end
     end
     if objname == "Kingpin" then
-        local mmzone = getObjectFromGUID(mmLocations[objname])
-        mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="Bribe",
-                    tooltip="Kingpin can be fought using Recruit as well as Attack.",
-                    font_size=250,
-                    font_color="Yellow",
-                    color={0,0,0,0.75},
-                    width=250,height=250})
+        mmButtons({mmname = objname,
+            checkvalue = 1,
+            label = "*",
+            tooltip="Kingpin can be fought using Recruit as well as Attack.",
+            f = 'updatePower',
+            id = "bribe"})
     end
     if objname == "Macho Gomez" then
         updateMMMacho = function()
@@ -1705,21 +1674,21 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     savior = 1
                 end
             end
-            Wait.time(function() mmButtons(objname,
-                savior,
-                "+" .. savior,
-                "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
-                'updateMMMacho') end,1)
+            mmButtons({mmname = objname,
+                checkvalue = savior,
+                label = "+" .. savior,
+                tooltip = "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
+                f = 'updateMMMacho'})
         end
         updateMMMacho()
         function onObjectEnterZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateMMMacho,2)
+                Wait.time(updateMMMacho,0.1)
             end
         end
         function onObjectLeaveZone(zone,object)
             if object.hasTag("Villain") then
-                Wait.time(updateMMMacho,2)
+                Wait.time(updateMMMacho,0.1)
             end
         end
         function onPlayerTurn(player,previous_player)
@@ -1801,11 +1770,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         tooltip="You can fight these Demon Goblins for 2 to rescue them as Bystanders."})
                 end
             end
-            mmButtons(objname,
-                checkvalue,
-                "X",
-                "You can't fight Madelyne Pryor while she has any Demon Goblins.",
-                'updateMMMadelyne')
+            mmButtons({mmname = objname,
+                checkvalue = checkvalue,
+                label = "X",
+                tooltip = "You can't fight Madelyne Pryor while she has any Demon Goblins.",
+                f = 'updateMMMadelyne'})
         end
         updateMMMadelyne()
         function onObjectEnterZone(zone,object)
@@ -1838,11 +1807,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 2
             end
-            mmButtons(objname,
-                shardsfound,
-                "+" .. boost*shardsfound,
-                "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
-                'updateMMMagus')
+            mmButtons({mmname = objname,
+                checkvalue = shardsfound,
+                label = "+" .. boost*shardsfound,
+                tooltip = "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
+                f = 'updateMMMagus'})
         end
         updateMMMagus()
         function onObjectEnterZone(zone,object)
@@ -1894,11 +1863,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 modifier = 2
             end
-            mmButtons(objname,
-                tacticsfound,
-                "-" .. tacticsfound*modifier,
-                "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
-                'updateMMMandarin')
+            mmButtons({mmname = objname,
+                checkvalue = tacticsfound,
+                label = "-" .. tacticsfound*modifier,
+                tooltip = "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
+                f = 'updateMMMandarin'})
         end
         updateMMMandarin()
         function onObjectEnterZone(zone,object)
@@ -1927,11 +1896,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                shieldfound,
-                "X",
-                "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
-                'updateMMMaria')
+            mmButtons({mmname = objname,
+                checkvalue = shieldfound,
+                label = "X",
+                tooltip = "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
+                f = 'updateMMMaria'})
         end
         updateMMMaria()
         function onObjectEnterZone(zone,object)
@@ -1966,11 +1935,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 power = power*2
                 boost = " twice "
             end
-            mmButtons(objname,
-                power,
-                "+" .. power,
-                "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
-                'updateMMMaximus')
+            mmButtons({mmname = objname,
+                checkvalue = power,
+                label = "+" .. power,
+                tooltip = "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
+                f = 'updateMMMaximus'})
         end
         updateMMMaximus()
         function onObjectEnterZone(zone,object)
@@ -1981,17 +1950,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         end
     end
     if objname == "Misty Knight" then
-        local mmzone = getObjectFromGUID(mmLocations[objname])
-        mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="Bribe",
-                    tooltip="Misty Knight can be fought using Recruit as well as Attack.",
-                    font_size=250,
-                    font_color="Yellow",
-                    color={0,0,0,0.75},
-                    width=250,height=250})
+        mmButtons({mmname = objname,
+            checkvalue = 1,
+            label = "*",
+            tooltip="Misty Knight can be fought using Recruit as well as Attack.",
+            f = 'updatePower',
+            id = "bribe"})
     end
     if objname == "Mojo" or objname == "Mojo - epic" then
         if mmLocations["Mojo"] ~= mmZoneGUID then
@@ -2027,11 +1991,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         tooltip="You can fight these Human Shields for " .. mojobasepower .. " to rescue them as Bystanders."})
                 end
             end
-            mmButtons(objname,
-                    checkvalue,
-                    "X",
-                    "You can't fight Mojo while he has any Human Shields.",
-                    'updateMMMojo')
+            mmButtons({mmname = objname,
+                    checkvalue = checkvalue,
+                    label = "X",
+                    tooltip = "You can't fight Mojo while he has any Human Shields.",
+                    f = 'updateMMMojo'})
         end
         updateMMMojo()()
         function onObjectEnterZone(zone,object)
@@ -2060,11 +2024,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             elseif escaped[1] and escaped[1].hasTag("Group:Subterranea") then
                 bscount = bscount + 1
             end
-            mmButtons(objname,
-                bscount,
-                "+" .. bscount,
-                "Mole Man gets +1 for each Subterranea Villain that has escaped.",
-                'updateMMMoleMan')
+            mmButtons({mmname = objname,
+                checkvalue = bscount,
+                label = "+" .. bscount,
+                tooltip = "Mole Man gets +1 for each Subterranea Villain that has escaped.",
+                f = 'updateMMMoleMan'})
         end
         updateMMMoleMan()
         function onObjectEnterZone(zone,object)
@@ -2075,17 +2039,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         end
     end
     if objname == "Morgan Le Fay" then
-        local mmzone = getObjectFromGUID(mmLocations[objname])
-        mmzone.createButton({click_function='returnColor',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    label="!",
-                    tooltip="Chivalrous Duel: Attack Morgan only with the power of a single hero.",
-                    font_size=250,
-                    font_color="Blue",
-                    color={0,0,0,0.75},
-                    width=250,height=250})
+        mmButtons({mmname = objname,
+            checkvalue = 1,
+            label = "*",
+            tooltip="Chivalrous Duel: Attack Morgan only with the power of a single hero.",
+            f = 'updatePower'})
     end
     if objname == "Mr. Sinister" then
         function updateMMMrSinister()
@@ -2108,11 +2066,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Mr. Sinister gets +1 for each Bystander he has.",
-                'updateMMMrSinister')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Mr. Sinister gets +1 for each Bystander he has.",
+                f = 'updateMMMrSinister'})
         end
         function onObjectEnterZone(zone,object)
             if object.hasTag("Bystander") then
@@ -2154,11 +2112,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     shiarfound = shiarfound + 1
                 end
             end
-            mmButtons(objname,
-                shiarfound,
-                "+" .. shiarfound,
-                "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
-                'updateMMOdin')
+            mmButtons({mmname = objname,
+                checkvalue = shiarfound,
+                label = "+" .. shiarfound,
+                tooltip = "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
+                f = 'updateMMOdin'})
         end
         updateMMOdin()
         function onObjectEnterZone(zone,object)
@@ -2193,11 +2151,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Onslaught gets +1 for each hero he dominates.",
-                'updateMMOnslaught')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Onslaught gets +1 for each hero he dominates.",
+                f = 'updateMMOnslaught'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMOnslaught,0.1)
@@ -2246,11 +2204,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if epicness then
                 boost = 2
             end
-            mmButtons(objname,
-                poisoncount,
-                "+" .. poisoncount*boost,
-                "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
-                'updateMMPoisonThanos')
+            mmButtons({mmname = objname,
+                checkvalue = poisoncount,
+                label = "+" .. poisoncount*boost,
+                tooltip = "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
+                f = 'updateMMPoisonThanos'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMPoisonThanos,0.1)
@@ -2325,11 +2283,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Professor X gets +1 for each of his telepathic pawns.",
-                'updateMMProfessorX')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Professor X gets +1 for each of his telepathic pawns.",
+                f = 'updateMMProfessorX'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMProfessorX,0.1)
@@ -2404,11 +2362,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "'92 Professor X gets +1 for each of his telepathic pawns.",
-                'updateMMProfessorX92')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "'92 Professor X gets +1 for each of his telepathic pawns.",
+                f = 'updateMMProfessorX92'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMProfessorX92,0.1)
@@ -2443,11 +2401,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             for _,o in pairs(hccolors) do
                 boost = boost + o
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
-                'updateMMRagnarok')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
+                f = 'updateMMRagnarok'})
         end
         updateMMRagnarok()
         function onObjectEnterZone(zone,object)
@@ -2483,11 +2441,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Shadow King gets +1 for each hero he dominates.",
-                'updateMMShadowKing')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Shadow King gets +1 for each hero he dominates.",
+                f = 'updateMMShadowKing'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMShadowKing,0.1)
@@ -2515,11 +2473,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             elseif escaped[1] and escaped[1].hasTag("Bystander") then
                 bscount = bscount + 1
             end
-            mmButtons(objname,
-                bscount,
-                "+" .. bscount,
-                "Spider-Queen gets +1 for each Bystander in the Escape pile.",
-                'updateMMSpiderQueen')
+            mmButtons({mmname = objname,
+                checkvalue = bscount,
+                label = "+" .. bscount,
+                tooltip = "Spider-Queen gets +1 for each Bystander in the Escape pile.",
+                f = 'updateMMSpiderQueen'})
         end
         updateMMSpiderQueen()
         function onObjectEnterZone(zone,object)
@@ -2550,11 +2508,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if bs[1] then
                 boost = math.abs(bs[1].getQuantity())
             end
-            mmButtons(objname,
-                boost,
-                "+" .. boost,
-                "Stryfe gets +1 for each Master Strike stacked next to him.",
-                'updateMMStryfe')
+            mmButtons({mmname = objname,
+                checkvalue = boost,
+                label = "+" .. boost,
+                tooltip = "Stryfe gets +1 for each Master Strike stacked next to him.",
+                f = 'updateMMStryfe'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMStryfe,0.1)
@@ -2579,11 +2537,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                gemfound,
-                "-" .. gemfound*2,
-                "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
-                'updateMMThanos')
+            mmButtons({mmname = objname,
+                checkvalue = gemfound,
+                label = "-" .. gemfound*2,
+                tooltip = "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
+                f = 'updateMMThanos'})
         end
         updateMMThanos()
         function onObjectEnterZone(zone,object)
@@ -2647,11 +2605,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             for _,o in pairs(hccolors) do
                 darkmemories = darkmemories + o
             end
-            mmButtons(objname,
-                darkmemories,
-                "+" .. darkmemories,
-                "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
-                'updateMMHood')
+            mmButtons({mmname = objname,
+                checkvalue = darkmemories,
+                label = "+" .. darkmemories,
+                tooltip = "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
+                f = 'updateMMHood'})
         end
         updateMMHood()
         function onPlayerTurn(player,previous_player)
@@ -2716,11 +2674,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                empowerment,
-                "+" .. empowerment,
-                "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
-                'updateMMUltron')
+            mmButtons({mmname = objname,
+                checkvalue = empowerment,
+                label = "+" .. empowerment,
+                tooltip = "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
+                f = 'updateMMUltron'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMUltron,0.1)
@@ -2735,11 +2693,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 return nil
             end
             local strikes = getObjectFromGUID(pushvillainsguid).Call('returnVar','strikesresolved')
-            mmButtons(objname,
-                strikes,
-                "+" .. strikes,
-                "Vulture is a striker and gets +1 for each Master Strike that has been played.",
-                'updateMMVulture')
+            mmButtons({mmname = objname,
+                checkvalue = strikes,
+                label = "+" .. strikes,
+                tooltip = "Vulture is a striker and gets +1 for each Master Strike that has been played.",
+                f = 'updateMMVulture'})
         end
         updateMMVulture()
         function onObjectEnterZone(zone,object)
@@ -2769,11 +2727,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     tacticsfound = tacticsfound + 1
                 end
             end
-            mmButtons(objname,
-                tacticsfound,
-                "+" .. tacticsfound*3,
-                "Wasteland Hulk gets +3 for each of his Mastermind Tactics among all players' Victory Piles.",
-                'updateMMWastelandHulk')
+            mmButtons({mmname = objname,
+                checkvalue = tacticsfound,
+                label = "+" .. tacticsfound*3,
+                tooltip = "Wasteland Hulk gets +3 for each of his Mastermind Tactics among all players' Victory Piles.",
+                f = 'updateMMWastelandHulk'})
         end
         function onObjectEnterZone(zone,object)
             Wait.time(updateMMWastelandHulk,0.1)
@@ -2799,11 +2757,11 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     end
                 end
             end
-            mmButtons(objname,
-                nongrey,
-                "+" .. nongrey,
-                "Zombie Green Goblin gets +1 for each hero that costs 7 or more in the KO pile.",
-                'updateMMZombieGoblin')
+            mmButtons({mmname = objname,
+                checkvalue = nongrey,
+                label = "+" .. nongrey,
+                tooltip = "Zombie Green Goblin gets +1 for each hero that costs 7 or more in the KO pile.",
+                f = 'updateMMZombieGoblin'})
         end
         updateMMZombieGoblin()
         function onObjectEnterZone(zone,object)
@@ -2823,28 +2781,36 @@ function updatePower()
     getObjectFromGUID(pushvillainsguid).Call('updatePower')
 end
 
-function mmButtons(objname,checkvalue,label,tooltip,f,id)
-    if objname[1] then
-        checkvalue = objname[2]
-        label = objname[3]
-        tooltip = objname[4]
-        f = objname[5]
-        id = objname[6]
-        objname = objname[1]
-    end
-    local mmzone = getObjectFromGUID(mmLocations[objname])
+function mmButtons(params)
+    local mmname = params.mmname
+    local checkvalue = params.checkvalue
+    local label = params.label
+    local tooltip = params.tooltip
+    local f = params.f
+    local id = params.id or "base"
+    
+    local mmzone = getObjectFromGUID(mmLocations[mmname])
     if not mmzone then
         return nil
     end
     local buttonindex = nil
-    local toolt_orig = nil
-    if not id then
-        id = "base"
-    end
+    local toolt_orig = {}
     for i,o in pairs(mmzone.getButtons()) do
         if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) or o.click_function == "updatePower" then
             buttonindex = i-1
-            toolt_orig = o.tooltip
+            if o.tooltip:find("\n") then
+                for t in string.gmatch(o.tooltip,"[^\n]+") do
+                    local tip = (t:gsub("%[.*",""))
+                    local box = (t:gsub(".*%[",""))
+                    box = (box:gsub("%]",""))
+                    toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                end
+            else
+                local tip = (o.tooltip:gsub("%[.*",""))
+                local box = (o.tooltip:gsub(".*%[",""))
+                box = (box:gsub("%]",""))
+                toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+            end
             if f == "mm" then
                 f = o.click_function
             end
@@ -2854,94 +2820,68 @@ function mmButtons(objname,checkvalue,label,tooltip,f,id)
     if f == "mm" then
         f = 'updatePower'
     end
-    if not toolt_orig then
-        tooltip = "- " .. tooltip ..  " [" .. id .. ":" .. label .. "]"
-    elseif not toolt_orig:find("%[" .. id .. ":") then
-        if tooltip then
-            tooltip = toolt_orig .. "\n - " .. tooltip .. " [" .. id .. ":" .. label .. "]"
-        else
-            tooltip = toolt_orig .. "\n - Unidentified bonus [" .. id .. ":" .. label .. "]"
-        end
-    elseif not tooltip then
-        tooltip = toolt_orig
-    elseif tooltip then
-        tooltip = toolt_orig:gsub("- .+%[" .. id .. ":","- " .. tooltip .. "[" .. id .. ":")
-    end
     if checkvalue == 0 then
         label = ""
     end
+    if not toolt_orig then
+        toolt_orig = {[id] = {label,tooltip}}
+    else
+        toolt_orig[id] = {label,tooltip}
+    end
+    local lab,tool = updateLabel(toolt_orig)
     if not buttonindex then
         mmzone.createButton({click_function=f,
             function_owner=self,
             position={0,0,0},
             rotation={0,180,0},
-            label=label,
-            tooltip=tooltip,
+            label=lab,
+            tooltip=tool,
             font_size=350,
             font_color={1,0,0},
             color={0,0,0,0.75},
             width=250,height=250})
     else
-        local lab,tool = updateLabel(mmzone,buttonindex+1,label,id,tooltip)
         mmzone.editButton({index=buttonindex,label = lab,tooltip = tool})
     end
 end
 
-function updateLabel(obj,index,label,id,tooltip)
-    if obj.locked == nil and obj[1] then
-        index = obj[2]
-        label = obj[3]
-        id = obj[4]
-        tooltip = obj[5]
-        obj = obj[1]
+function updateLabel(tooltip)
+    local sum = 0
+    local aster = false
+    local plus = true
+    for i,o in pairs(tooltip) do
+        if not o[1]:find("+") and o[1] ~= "" and not o[1]:find("*") then
+            plus = false
+        end
+        if o[1]:find("-") then
+            sum = sum - tonumber(o[1]:match("%d+"))
+        elseif o[1]:find("X") then
+            sum = "X"
+            break
+        elseif o[1]:find("*") then
+            aster = true
+        elseif o[1] and o[1] ~= "" then
+            sum = sum + tonumber(o[1]:match("%d+"))
+        end
     end
-    --log(obj)
-    --log(index)
-    local button = obj.getButtons()[index]
-    local bonuses = {}
-    local step = 1
-    for s in string.gmatch(tooltip,"[^%[%]]+") do
-        if step % 2 == 0 then
-            bonuses[s:gsub(":.*","")] = s:gsub(".*:","")
-        end
-        step = step + 1
+    if sum == 0 then
+        sum = ""
     end
-    if step > 3 or not bonuses[id] then
-        local sum = 0
-        local aster = false
-        local plus = true
-        for i,o in pairs(bonuses) do
-            if i == id then
-                tooltip = tooltip:gsub("%[" .. id .. ":.*%]","[" .. id .. ":" .. label .. "]")
-            end
-            if not o:find("+") then
-                plus = false
-            end
-            if o:find("-") then
-                sum = sum - tonumber(o:match("%d+"))
-            elseif o:find("X") then
-                sum = "X"
-                break
-            elseif o:find("*") then
-                aster = true
-            elseif o and o ~= "" then
-                sum = sum + tonumber(o:match("%d+"))
-            end
-        end
-        label = sum
-        if label == 0 then
-            label = ""
-        end
-        if aster and label ~= "X" then
-            label = label .. "*"
-        end
-        if plus and label ~= "X" then
-            label = "+" .. label
-        end
-    else
-        tooltip = tooltip:gsub("%[.*%]","[" .. id .. ":"  .. label .. "]")
+    if aster and sum ~= "X" then
+        sum = sum .. "*"
     end
-    return label,tooltip
+    if plus and sum ~= "X" and sum ~= "" then
+        sum = "+" .. sum
+    end
+    local newtooltip = ""
+    for i,o in pairs(tooltip) do
+        if newtooltip ~= "" then
+            newtooltip = newtooltip .. "\n" .. o[2] .. "[" .. i .. ":" .. o[1] .. "]"
+        else
+            newtooltip = o[2] .. "[" .. i .. ":" .. o[1] .. "]"
+        end
+    end
+    return sum,newtooltip
 end
 
 function fightButton(zone)

@@ -2193,7 +2193,13 @@ function resolveHorror(obj)
             broadcastToAll("Mastermind defeated? Horror does not apply.")
             return nil
         end
-        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname,2,"+2","The Mastermind is enraged and gets +2.","mm","enragedmm"})
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',
+            {mmname = mmname,
+            checkvalue = 2,
+            label = "+2",
+            tooltip = "The Mastermind is enraged and gets +2.",
+            f = "mm",
+            id = "enragedmm"})
         return nil
     end
     if obj.getName() == "Fight to the End" then
@@ -2240,7 +2246,12 @@ function resolveHorror(obj)
                 Wait.time(
                     function() 
                     getObjectFromGUID(mmZoneGUID).Call('mmButtons',
-                        {mmname,tacticsfound,"+" .. tacticsfound,"The mastermind gets +1 for each tactic in all victory piles.","mm","growingthreat"})
+                        {mmname = mmname,
+                        checkvalue = tacticsfound,
+                        label = "+" .. tacticsfound,
+                        tooltip = "The mastermind gets +1 for each tactic in all victory piles.",
+                        f = "mm",
+                        id = "growingthreat"})
                     end,
                     1)
             end
@@ -2275,7 +2286,13 @@ function resolveHorror(obj)
             broadcastToAll("Mastermind defeated? Horror does not apply.")
             return nil
         end
-        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname,1,"+1","The Mastermind becomes maniacal and gets +1.","mm","maniacalmm"})
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',
+            {mmname = mmname,
+            checkvalue = 1,
+            label = "+1",
+            tooltip = "The Mastermind becomes maniacal and gets +1.",
+            f = "mm",
+            id = "maniacalmm"})
         return nil
     end
     if obj.getName() == "Misery Upon Misery" then
@@ -2439,7 +2456,13 @@ function resolveHorror(obj)
             broadcastToAll("Mastermind defeated? Horror does not apply.")
             return nil
         end
-        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname,3,"+3","The Mastermind is a merciless tyrant and gets +3.","mm","tyrantmm"})
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',
+            {mmname = mmname,
+            checkvalue = 3,
+            label = "+3",
+            tooltip = "The Mastermind is a merciless tyrant and gets +3.",
+            f = "mm",
+            id = "tyrantmm"})
         return nil
     end
     if obj.getName() == "Viral Infection" then

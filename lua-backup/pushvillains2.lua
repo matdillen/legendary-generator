@@ -4550,11 +4550,7 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Portals to the Dark Dimension" then
         if twistsresolved == 1 then
             local mmZone = getObjectFromGUID(mmZoneGUID)
-            local mmpos = mmZone.getPosition()
-            mmpos.z = mmpos.z + 2
-            mmpos.y = mmpos.y + 2
-            cards[1].setPositionSmooth(mmpos)
-            cards[1].setName("Dark Portal")
+            koCard(cards[1])
             local mmname = nil
             for i,o in pairs(table.clone(mmZone.Call('returnVar',"mmLocations"),true)) do
                 if o == mmZoneGUID then
@@ -4562,7 +4558,13 @@ function twistSpecials(cards,city,schemeParts)
                     break
                 end
             end
-            getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname,1,"+1","A dark portal gives the mastermind + 1.","mm","darkportal" .. twistsresolved})
+            getObjectFromGUID(mmZoneGUID).Call('mmButtons',
+                {mmname = mmname,
+                checkvalue = 1,
+                label = "+1",
+                tooltip = "A dark portal gives the mastermind + 1.",
+                f = "mm",
+                id = "darkportal" .. twistsresolved})
             broadcastToAll("Scheme Twist: A dark portal reinforces the mastermind!")
         elseif twistsresolved < 7 then
             if city[7-twistsresolved] then

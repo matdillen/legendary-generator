@@ -26,6 +26,7 @@ function onLoad()
     pos_add2 = callGUID("pos_add2",2)
     
     sidekickDeckGUID = callGUID("sidekickDeckGUID",1)
+    pushvillainsguid = callGUID("pushvillainsguid",1)
     
     objectsentering_recruit = {}
     objectsentering_attack = {}
@@ -373,6 +374,7 @@ end
 
 function tuckSidekicks(cardtable)
     local newcardtable = {}
+    getObjectFromGUID(pushvillainsguid).Call('bump',getObjectFromGUID(sidekickDeckGUID))
     for _,o in pairs(cardtable) do
         if o.hasTag("Sidekick") then
             o.flip()
