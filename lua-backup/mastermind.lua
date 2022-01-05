@@ -2938,16 +2938,17 @@ function updateLabel(tooltip)
         if o[1] == "" then
             tooltip[i] = nil
         else
-            if not o[1]:find("+") and not o[1]:find("*") then
+            if not o[1]:find("+") and o[1] ~= "*" then
                 plus = false
+            end
+            if o[1]:find("*") then
+                aster = true
             end
             if o[1]:find("-") then
                 sum = sum - tonumber(o[1]:match("%d+"))
             elseif o[1]:find("X") then
                 sum = "X"
                 break
-            elseif o[1]:find("*") then
-                aster = true
             elseif o[1] then
                 sum = sum + tonumber(o[1]:match("%d+"))
             end

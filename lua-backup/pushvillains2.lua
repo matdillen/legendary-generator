@@ -45,6 +45,7 @@ function onLoad()
     local guids1 = {
         "escape_zone_guid",
         "kopile_guid",
+        "bszoneguid",
         "bystandersPileGUID",
         "woundsDeckGUID",
         "sidekickDeckGUID",
@@ -941,6 +942,7 @@ function powerButton(params,label_simple)
     local id = params.id or "base"
     local click_f = params.click_f or 'updatePower'
     local otherposition = params.otherposition
+    local color = params.color or "Red"
 
     local pos = otherposition
     if not otherposition then
@@ -982,7 +984,7 @@ function powerButton(params,label_simple)
             label=lab,
             tooltip=tool,
             font_size=500,
-            font_color={1,0,0},
+            font_color=color,
             color={0,0,0,0.75},
             width=250,height=250})
     else
@@ -3267,7 +3269,7 @@ function twistSpecials(cards,city,schemeParts)
             table.remove(ferryzones,1)
             local bspile = getObjectFromGUID(bystandersPileGUID)
             bspile.setPositionSmooth(getObjectFromGUID(ferryzones[1]).getPosition())
-            local citycards = get_decks_and_cards_from_zone(city_zones_guids[#ferryzones+1])
+            local citycards = get_decks_and_cards_from_zone(city_zones_guids[#ferryzones])
             if citycards[1] then
                 for _,o in pairs(citycards) do
                     if o.hasTag("Villain") then
@@ -3753,7 +3755,7 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Hypnotize Every Human" then
         if twistsresolved < 7 then
-            local bspile = getObjectFromGUID(bystandersPileGUID)
+            local bspile = get_decks_and_cards_from_zone(bszoneguid)[1]
             for i,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
                 local topzone = getObjectFromGUID(o)
                 bspile.takeObject({position = topzone.getPosition(),
@@ -3819,7 +3821,7 @@ function twistSpecials(cards,city,schemeParts)
             if citycards[1] then
                 for _,o in pairs(citycards) do
                     if o.hasTag("Villain") then
-                        getObjectFromGUID(bystandersPileGUID).takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
+                        get_decks_and_cards_from_zone(bszoneguid)[1].takeObject({position=getObjectFromGUID(kopile_guid).getPosition(),
                             flip=true})
                         broadcastToAll("Scheme Twist: Bystander KO'd!")
                         break
@@ -4131,7 +4133,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
         end
-        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        local bsPile = get_decks_and_cards_from_zone(bszoneguid)[1]
         local possessedPsychotic = function(obj)
             obj.addTag("Possessed")
             obj.addTag("Villain")
@@ -6359,7 +6361,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Transform Citizens Into Demons" then
-        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        local bsPile = get_decks_and_cards_from_zone(bszoneguid)[1]
         if twistsresolved == 1 then
             getObjectFromGUID(twistZoneGUID).createButton({click_function="updatePower",
                 function_owner=self,
@@ -6758,6 +6760,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         powerButton({obj = cards[1],
             label = "2*",
+            color = "Yellow",
             tooltip = "Pay two Recruit by end of turn to shuffle this toxin back.",
             click_f = "moveToxin"})
         local pcolor = Turns.turn_color

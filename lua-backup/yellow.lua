@@ -20,7 +20,7 @@ function onLoad()
     discardguid = callGUID("discardguids",3)[boardcolor]
     handguid = callGUID("handguids",3)[boardcolor]
     
-    sidekickDeckGUID = callGUID("sidekickDeckGUID",1)
+    sidekickZoneGUID = callGUID("sidekickZoneGUID",1)
     pushvillainsguid = callGUID("pushvillainsguid",1)
     
     objectsentering_recruit = {}
@@ -64,57 +64,56 @@ function onObjectEnterZone(zone,object)
     --log(object.held_by_color)
     if zone.guid == playguid and not object.isSmoothMoving() and (not object.held_by_color or object.held_by_color == boardcolor) then
         if hasTag2(object,"Recruit:") then
-            if not objectsentering_recruit[object.guid] then
-                objectsentering_recruit[object.guid] = true
-                local addRecruit = function()
-                    local content = get_decks_and_cards_from_zone(playguid)
-                    if content[1] then
-                        for _,o in pairs(content) do
-                            if o.guid == object.guid then
+            local addRecruit = function()
+                local content = get_decks_and_cards_from_zone(playguid)
+                if content[1] then
+                    for _,o in pairs(content) do
+                        if o.guid == object.guid then
+                            if not objectsentering_recruit[object.guid] then
+                                objectsentering_recruit[object.guid] = true
                                 getObjectFromGUID(resourceguid).Call('addValue',hasTag2(object,"Recruit:"))
                                 log("Player " .. boardcolor .. "'s recruit increased by " .. hasTag2(object,"Recruit:") .. ".")
-                                objectsentering_recruit[object.guid] = false
-                                break
+                                --objectsentering_recruit[object.guid] = false
                             end
-                        end  
-                    end
+                            break
+                        end
+                    end  
                 end
-                local cardLoose = function()
-                    if not object.held_by_color then
-                        return true
-                    else
-                        return false
-                    end
-                end
-                Wait.condition(addRecruit,cardLoose)
             end
+            local cardLoose = function()
+                if not object.held_by_color then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(addRecruit,cardLoose)
         end
         if hasTag2(object,"Attack:") then
-            if not objectsentering_attack[object.guid] then
-                objectsentering_attack[object.guid] = true
-                local addRecruit = function()
-                    local content = get_decks_and_cards_from_zone(playguid)
-                    if content[1] then
-                        for _,o in pairs(content) do
-                            if o.guid == object.guid then
+            local addRecruit = function()
+                local content = get_decks_and_cards_from_zone(playguid)
+                if content[1] then
+                    for _,o in pairs(content) do
+                        if o.guid == object.guid then
+                            if not objectsentering_attack[object.guid] then
+                                objectsentering_attack[object.guid] = true
                                 getObjectFromGUID(attackguid).Call('addValue',hasTag2(object,"Attack:"))
                                 log("Player " .. boardcolor .. "'s attack increased by " .. hasTag2(object,"Attack:") .. ".")
-                                objectsentering_attack[object.guid] = false
-                                break
+                                --objectsentering_attack[object.guid] = false
                             end
-                        end  
-                    end
-                    
+                            break
+                        end
+                    end  
                 end
-                local cardLoose = function()
-                    if not object.held_by_color then
-                        return true
-                    else
-                        return false
-                    end
+            end    
+            local cardLoose = function()
+                if not object.held_by_color then
+                    return true
+                else
+                    return false
                 end
-                Wait.condition(addRecruit,cardLoose)
             end
+            Wait.condition(addRecruit,cardLoose)
         end
     end
 end
@@ -212,7 +211,7 @@ function onslaughtpain(defeated)
         handsize_init = handsize_init - 1
     end
     handsize = handsize_init
-    broadcastToAll("Handsize permanently reduced by 1!",{1,0,0})
+    broadcastToColor("Your handsize was permanently reduced by 1!",boardcolor,boardcolor)
 end
 
 function calculate_vp()
@@ -378,11 +377,12 @@ end
 
 function tuckSidekicks(cardtable)
     local newcardtable = {}
-    getObjectFromGUID(pushvillainsguid).Call('bump',getObjectFromGUID(sidekickDeckGUID))
+    local sidekickdeck = get_decks_and_cards_from_zone(sidekickZoneGUID)[1]
+    getObjectFromGUID(pushvillainsguid).Call('bump',sidekickdeck)
     for _,o in pairs(cardtable) do
         if o.hasTag("Sidekick") then
             o.flip()
-            o.setPositionSmooth(getObjectFromGUID(sidekickDeckGUID).getPosition())
+            o.setPositionSmooth(getObjectFromGUID(sidekickZoneGUID).getPosition())
         else
             table.insert(newcardtable,o)
         end
@@ -401,6 +401,9 @@ function click_discard_hand()
     local discardcount = 0
     if discard[1] then
         discardcount = math.abs(discard[1].getQuantity())
+    end
+    if discard[2] then
+        log(discard[2])
     end
     --log(played_cards)
     if played_cards then
@@ -421,12 +424,12 @@ function click_deal_cards()
     local pos = getObjectFromGUID(handguid).getPosition()
     if toadd and toadd.tag == "Deck" then
         for i = 1,toadd.getQuantity()-1 do
-            toadd[1].takeObject({position = pos,
+            toadd.takeObject({position = pos,
                 smooth = true})
         end
-        toadd[1].remainder.setPositionSmooth(pos)
+        toadd.remainder.setPositionSmooth(pos)
     elseif toadd then
-        toadd[1].setPositionSmooth(pos)
+        toadd.setPositionSmooth(pos)
     end
     if handsizef == false then
         if handsize ~= handsize_init then
@@ -459,6 +462,8 @@ function click_end_turn()
         end
     getObjectFromGUID(resourceguid).Call('reset_val')
     getObjectFromGUID(attackguid).Call('reset_val')
+    objectsentering_attack = {}
+    objectsentering_recruit = {}
     end
 end
 
