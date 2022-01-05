@@ -2159,7 +2159,7 @@ function resolveHorror(obj)
                 if citycontent[1] then
                     for _,obj in pairs(citycontent) do
                         if obj.hasTag("Villain") and not obj.hasTag("Henchmen") then
-                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"+1","All non-henchmen villains get +1","Army of Evil Horror"})
+                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = "+1",tooltip = "All non-henchmen villains get +1",id = "ArmyofEvilHorror"})
                             break
                         end
                     end
@@ -2375,7 +2375,7 @@ function resolveHorror(obj)
         obj.setPosition(getObjectFromGUID(mmloc).getPosition())
         obj.setName("Master Plan")
         obj.addTag("VP5")
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"9","Master Plan","masterplan"})
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = "9",tooltip = "Master Plan",id = "masterplan"})
         mmZone.Call('updateMasterminds',obj.getName())
         mmZone.Call('updateMastermindsLocation',{obj.getName(),mmloc})
         mmZone.Call('setupMasterminds',{obj.getName(),false,0})

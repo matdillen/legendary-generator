@@ -929,92 +929,66 @@ function obedienceDisk(obj,player_clicker_color)
     return nil
 end
 
-function powerButton(obj,label,toolt,id,click_f,otherposition)
-    if obj.locked == nil then
-        label = obj[2]
-        toolt = obj[3]
-        id = obj[4]
-        click_f = obj[5]
-        otherposition = obj[6]
-        obj = obj[1]
-    end
+function powerButton(params,label_simple)
+    local obj = params.obj or params
+    local label = params.label or label_simple
     if not obj or not label then
         broadcastToAll("Error: Missing argument to card boost.")
         return nil
     end
+    
+    local tooltip = params.tooltip or "Unidentified bonus."
+    local id = params.id or "base"
+    local click_f = params.click_f or 'updatePower'
+    local otherposition = params.otherposition
+
     local pos = otherposition
     if not otherposition then
         pos = {0,22,0}
     end
-    if not click_f then
-        click_f = 'updatePower'
-    end
-    if not id then
-        id = "base"
-    end
-    local index = nil
-    local toolt_orig = nil
+    local buttonindex = nil
+    local toolt_orig = {}
     if obj.getButtons() then
         for i,o in pairs(obj.getButtons()) do
             if o.click_function == click_f then
-                index = i
-                toolt_orig = o.tooltip
+                buttonindex = i - 1
+                if o.tooltip:find("\n") then
+                    for t in string.gmatch(o.tooltip,"[^\n]+") do
+                        local tip = (t:gsub("%[.*",""))
+                        local box = (t:gsub(".*%[",""))
+                        box = (box:gsub("%]",""))
+                        toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                    end
+                else
+                    local tip = (o.tooltip:gsub("%[.*",""))
+                    local box = (o.tooltip:gsub(".*%[",""))
+                    box = (box:gsub("%]",""))
+                    toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                end
                 break
             end
         end
     end
     if not toolt_orig then
-        toolt = "Click to update villain's power!\n - Base power boost of this card [" .. id .. ":" .. label .. "]"
-    elseif not toolt_orig:find("%[" .. id .. ":") then
-        if toolt then
-            toolt = toolt_orig .. "\n - " .. toolt .. " [" .. id .. ":" .. label .. "]"
-        else
-            toolt = toolt_orig .. "\n - Unidentified bonus [" .. id .. ":" .. label .. "]"
-        end
+        toolt_orig = {[id] = {label,tooltip}}
+    else
+        toolt_orig[id] = {label,tooltip}
     end
-    if otherposition or not index then
+    local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',toolt_orig)
+    if otherposition or not buttonindex then
         obj.createButton({click_function=click_f,
             function_owner=self,
             position=pos,
-            label=label,
-            tooltip=toolt,
+            label=lab,
+            tooltip=tool,
             font_size=500,
             font_color={1,0,0},
             color={0,0,0,0.75},
             width=250,height=250})
     else
-        local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',{obj,index,label,id,toolt})
-        obj.editButton({index = index - 1,
+        obj.editButton({index = buttonindex,
             label = lab,
             tooltip = tool})
-    end
-end
-
-function killBonus(obj,id,click_f)
-    if obj.locked == nil and obj[1] then
-        id = obj[2]
-        click_f = obj[3]
-        obj = obj[1]
-    end
-    if not click_f then
-        click_f = "updatePower"
-    end
-    --log(obj)
-    if obj.getButtons() then
-        for i,o in pairs(obj.getButtons()) do
-            if o.click_function == click_f then
-                if o.tooltip:find("%[" .. id .. ":") then
-                    local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',{obj,i,0,id,o.tooltip:gsub("\n.+%[" .. id .. ":.+\n","\n")})
-                    if lab == 0 then
-                        lab = ""
-                    end
-                    obj.editButton({index = i - 1,
-                        label = lab,
-                        tooltip = tool})
-                end
-                break
-            end
-        end
     end
 end
 
@@ -4110,7 +4084,10 @@ function twistSpecials(cards,city,schemeParts)
     if schemeParts[1] == "Master of Tyrants" then
         if twistsresolved < 8 then
             broadcastToAll("Scheme Twist: Put this twist under a tyrant as a Dark Power!")
-            powerButton(cards[1],"+2","This tyrant gets +2 because of a Dark Power.","darkpower" .. twistsresolved)
+            powerButton({obj = cards[1],
+                label = "+2",
+                tooltip = "This tyrant gets +2 because of a Dark Power.",
+                id = "darkpower" .. twistsresolved})
             cards[1].setName("Dark Power")
             return nil
         elseif twistsresolved == 8 then
@@ -5671,7 +5648,10 @@ function twistSpecials(cards,city,schemeParts)
         end
         local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
         if scheme[1] then
-            powerButton(scheme[1],twistsstacked,"Resolve the deathtraps by spending this much Attack.",nil,"resolveDeathtraps")
+            powerButton({obj = scheme[1],
+                label = twistsstacked,
+                tooltip = "Resolve the deathtraps by spending this much Attack.",
+                click_f = "resolveDeathtraps"})
             local pcolor = Turns.turn_color
             local turnChanged = function()
                 if Turns.turn_color == pcolor then
@@ -6776,7 +6756,10 @@ function twistSpecials(cards,city,schemeParts)
             end
             Wait.time(shuffleToxin,1.5)
         end
-        powerButton(cards[1],"2*","Pay two Recruit by end of turn to shuffle this toxin back.",nil,"moveToxin")
+        powerButton({obj = cards[1],
+            label = "2*",
+            tooltip = "Pay two Recruit by end of turn to shuffle this toxin back.",
+            click_f = "moveToxin"})
         local pcolor = Turns.turn_color
         local guid = cards[1].guid
         local turnChanged = function()
@@ -7226,7 +7209,11 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             if mm[1] then
                 for _,o in pairs(mm) do
                     if o.getName() == "Authoritarian Iron Man" and o.tag == "Card" then
-                        powerButton(o,"+3","Villains in the fortified city space get +3.","fortifying",nil,{0,22,1.8})
+                        powerButton({obj = o,
+                            label = "+3",
+                            tooltip = "Villains in the fortified city space get +3.",
+                            id = "fortifying",
+                            otherposition = {0,22,1.8}})
                         o.setDescription(o.getDescription() .. "\r\nLOCATION: Keyword to indicate he's only fortifying this space.")
                         break
                     end
@@ -7732,22 +7719,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             c = strikesstacked + 1
         end
         for _,o in pairs(Player.getPlayers()) do
-            local hand = o.getHandObjects()
-            local nongrey = {}
-            for _,obj in ipairs(hand) do
-                if hasTag2(obj,"HC:") then
-                    table.insert(nongrey,obj)
-                end
-            end
-            if nongrey[1] then
-                local drawCard = function()
-                    getObjectFromGUID(playerBoards[o.color]).Call('click_draw_card')
-                end
-                promptDiscard({color = o.color,
-                    hand = nongrey,
-                    n = c,
-                    trigger_function = drawCard})
-            end
+            wakingNightmare({n = c,color = o.color})
         end
         broadcastToAll("Master Strike: Each player has " .. c .. " Waking Nightmares.")
         return nil
@@ -10712,7 +10684,10 @@ function nonTwistspecials(cards,schemeParts,city)
     local horrors = callGUID("horrors",2)
     for _,o in pairs(horrors) do
         if o == "Army of Evil" and cards[1].hasTag("Villain") and not cards[1].hasTag("Henchmen") then
-            powerButton(cards[1],"+1","All non-henchmen villains get +1","Army of Evil Horror")
+            powerButton({obj = cards[1],
+                label = "+1",
+                tooltip = "All non-henchmen villains get +1",
+                id = "ArmyofEvilHorror"})
         end
         if o == "Endless Hatred" and cards[1].getName() == "Scheme Twist" then
             local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
@@ -10753,9 +10728,15 @@ function nonTwistspecials(cards,schemeParts,city)
         local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
         for _,o in pairs(masterminds) do
             if o == "Mandarin" then
-                powerButton(cards[1],"+1","Bonus of the Mandarin","mandarin")
+                powerButton({obj = cards[1],
+                    label = "+1",
+                    tooltip = "Bonus of the Mandarin",
+                    id = "mandarin"})
             elseif o == "Mandarin - epic" then
-                powerButton(cards[1],"+2","Bonus of the Mandarin","mandarin")
+                powerButton({obj = cards[1],
+                    label = "+2",
+                    tooltip = "Bonus of the Mandarin",
+                    id = "mandarin"})
             end
         end
     end
@@ -10763,7 +10744,10 @@ function nonTwistspecials(cards,schemeParts,city)
         local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
         for _,o in pairs(masterminds) do
             if o == "Apocalypse" then
-                powerButton(cards[1],"+2","Bonus of Apocalypse","apocalypse")
+                powerButton({obj = cards[1],
+                    label = "+2",
+                    tooltip = "Bonus of Apocalypse",
+                    id = "apocalypse"})
             end
         end
     end
@@ -10860,6 +10844,42 @@ function demolish(params)
         costs = altsource
         demolishEffect()
     end
+end
+
+function wakingNightmare(params)
+    local n = params.n or 1
+    local color = params.color
+    if n < 1 or not color then
+        return nil
+    end
+    if not waking_nightmares then
+        waking_nightmares = {}
+    end
+    waking_nightmares[color] = n
+    haveanightmare = function(obj,index,color)
+        broadcastToColor("Waking Nightmare " .. params.n - waking_nightmares[color] + 1 .. " out of " .. params.n .. ".",color,color)
+        local hand = Player[color].getHandObjects()
+        local nongrey = {}
+        for _,h in pairs(hand) do
+            if hasTag2(h,"HC:") then
+                table.insert(nongrey,h)
+            end
+        end
+        if nongrey[1] then
+            local drawCard = function()
+                getObjectFromGUID(playerBoards[color]).Call('click_draw_card')
+                waking_nightmares[color] = waking_nightmares[color] - 1
+                if waking_nightmares[color] > 0 then
+                    Wait.time(function() haveanightmare(nil,nil,color) end,0.5)
+                end
+            end
+            promptDiscard({color = color,
+                hand = nongrey,
+                trigger_function = drawCard,
+                args = "self"})
+        end
+    end
+    haveanightmare(nil,nil,color)
 end
 
 function offerCards(params)
@@ -11062,7 +11082,7 @@ function promptDiscard(params)
     
     local handobjects = params.hand or Player[color].getHandObjects()
     local n = params.n or 1
-    local pos = params.pos or getObjectFromGUID(playerBoards[color]).positionToWorld(pos_discard)
+    local pos = params.pos or getObjectFromGUID(discardguids[color]).getPosition()
     local flip = params.flip
     local label = params.label or "Discard"
     local tooltip = params.tooltip or "Discard this card."

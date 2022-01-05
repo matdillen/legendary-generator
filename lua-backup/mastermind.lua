@@ -726,7 +726,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 if content[1] then
                     for _,obj in pairs(content) do
                         if obj.hasTag("Group:Four Horsemen") then
-                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,"+2","Bonus of Apocalypse","apocalypse"})
+                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = "+2",tooltip = "Bonus of Apocalypse",id = "apocalypse"})
                             break
                         end
                     end
@@ -1832,7 +1832,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 if content[1] then
                     for _,obj in pairs(content) do
                         if obj.hasTag("Group:Mandarin's Rings") then
-                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj,boost,"Bonus of the Mandarin","mandarin"})
+                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = boost,tooltip = "Bonus of the Mandarin",id = "mandarin"})
                             break
                         end
                     end
@@ -2566,6 +2566,91 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 flip=false,
                 smooth=false})
         end
+        local strikeZone = getObjectFromGUID(getStrikeloc(objname))
+        function click_save_goblin_hw(obj,player_clicker_color)
+            local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+            if not hulkdeck then
+                return nil
+            end
+            local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+            local dest = playerBoard.positionToWorld(pos_vp2)
+            dest.y = dest.y + 3
+            if player_clicker_color == "White" then
+                angle = 90
+            elseif player_clicker_color == "Blue" then
+                angle = -90
+            else
+                angle = 180
+            end
+            local brot = {x=0, y=angle, z=0}
+            if hulkdeck.tag == "Card" then
+                hulkdeck.flip()
+                hulkdeck.setRotationSmooth(brot)
+                hulkdeck.setPositionSmooth(dest)
+            else
+                hulkdeck.takeObject({position = dest,
+                    flip = true,
+                    smooth = true,
+                    index = math.random(hulkdeck.getQuantity())})
+            end
+        end
+        strikeZone.createButton({click_function='click_save_goblin_hw', 
+                 function_owner=self,
+                 position={0,0,0.5},
+                 rotation={0,180,0},
+                 label="Save",
+                 tooltip="Save a Hidden Witness by paying 2 recruit and rescue it as a bystander.",
+                 color={0,0,0,1},
+                 font_color = {1,0,0},
+                 width=500,
+                 height=200,
+                 font_size = 100})
+        function updateMMTheGoblin()
+            if not mmActive(objname) then
+                return nil
+            end
+            local strikeloc = getStrikeloc(objname)
+            local checkvalue = 1
+            if not get_decks_and_cards_from_zone(strikeloc)[1] then
+                getObjectFromGUID(strikeloc).clearButtons()
+                checkvalue = 0
+            else
+                if not getObjectFromGUID(strikeloc).getButtons() then
+                    getObjectFromGUID(strikeloc).createButton({click_function='returnColor',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label=2,
+                        tooltip="You can save these Hidden Witnesses for 2 Recruit to rescue them as Bystanders.",
+                        font_size=250,
+                        font_color="Yellow",
+                        width=0})
+                    getObjectFromGUID(strikeloc).createButton({click_function='click_save_goblin_hw', 
+                         function_owner=self,
+                         position={0,0,0.5},
+                         rotation={0,180,0},
+                         label="Save",
+                         tooltip="Save a Hidden Witness by paying 2 recruit and rescue it as a bystander.",
+                         color={0,0,0,1},
+                         font_color = {1,0,0},
+                         width=500,
+                         height=200,
+                         font_size = 100})
+                end
+            end
+            mmButtons({mmname = objname,
+                    checkvalue = checkvalue,
+                    label = "X",
+                    tooltip = "You can't fight The Goblin while he has any Hidden Witnesses.",
+                    f = 'updateMMTheGoblin'})
+        end
+        updateMMTheGoblin()
+        function onObjectEnterZone(zone,object)
+            updateMMTheGoblin()
+        end
+        function onObjectLeaveZone(zone,object)
+            updateMMTheGoblin()
+        end
     end
     if objname == "The Hood" or objname == "The Hood - epic" then
         updateMMHood = function()
@@ -2850,18 +2935,22 @@ function updateLabel(tooltip)
     local aster = false
     local plus = true
     for i,o in pairs(tooltip) do
-        if not o[1]:find("+") and o[1] ~= "" and not o[1]:find("*") then
-            plus = false
-        end
-        if o[1]:find("-") then
-            sum = sum - tonumber(o[1]:match("%d+"))
-        elseif o[1]:find("X") then
-            sum = "X"
-            break
-        elseif o[1]:find("*") then
-            aster = true
-        elseif o[1] and o[1] ~= "" then
-            sum = sum + tonumber(o[1]:match("%d+"))
+        if o[1] == "" then
+            tooltip[i] = nil
+        else
+            if not o[1]:find("+") and not o[1]:find("*") then
+                plus = false
+            end
+            if o[1]:find("-") then
+                sum = sum - tonumber(o[1]:match("%d+"))
+            elseif o[1]:find("X") then
+                sum = "X"
+                break
+            elseif o[1]:find("*") then
+                aster = true
+            elseif o[1] then
+                sum = sum + tonumber(o[1]:match("%d+"))
+            end
         end
     end
     if sum == 0 then
@@ -2875,11 +2964,16 @@ function updateLabel(tooltip)
     end
     local newtooltip = ""
     for i,o in pairs(tooltip) do
-        if newtooltip ~= "" then
-            newtooltip = newtooltip .. "\n" .. o[2] .. "[" .. i .. ":" .. o[1] .. "]"
-        else
-            newtooltip = o[2] .. "[" .. i .. ":" .. o[1] .. "]"
+        if o then
+            if newtooltip ~= "" then
+                newtooltip = newtooltip .. "\n" .. o[2] .. "[" .. i .. ":" .. o[1] .. "]"
+            else
+                newtooltip = o[2] .. "[" .. i .. ":" .. o[1] .. "]"
+            end
         end
+    end
+    if not newtooltip then
+        newtooltip = ""
     end
     return sum,newtooltip
 end
@@ -2962,7 +3056,7 @@ function fightButton(zone)
                                 if content[1] then
                                     for _,c in pairs(content) do
                                         if c.hasTag("Group:Mandarin's Rings") then
-                                            getObjectFromGUID(pushvillainsguid).Call('killBonus',{c,"mandarin"})
+                                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = c, label = "", id = "mandarin"})
                                             break
                                         end
                                     end
@@ -2976,7 +3070,7 @@ function fightButton(zone)
                                 if content[1] then
                                     for _,c in pairs(content) do
                                         if c.hasTag("Group:Four Horsemen") then
-                                            getObjectFromGUID(pushvillainsguid).Call('killBonus',{c,"apocalypse"})
+                                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = c, label = "", id = "apocalypse"})
                                             break
                                         end
                                     end

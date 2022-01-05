@@ -20,11 +20,6 @@ function onLoad()
     discardguid = callGUID("discardguids",3)[boardcolor]
     handguid = callGUID("handguids",3)[boardcolor]
     
-    pos_vp2 = callGUID("pos_vp2",2)
-    pos_discard = callGUID("pos_discard",2)
-    pos_draw = callGUID("pos_draw",2)
-    pos_add2 = callGUID("pos_add2",2)
-    
     sidekickDeckGUID = callGUID("sidekickDeckGUID",1)
     pushvillainsguid = callGUID("pushvillainsguid",1)
     
@@ -372,6 +367,15 @@ function timer_shuffle(hardstop)
     end
 end
 
+function bump(obj,y)
+    if not y then
+        y = 2
+    end
+    local pos = obj.getPosition()
+    pos.y = pos.y + y
+    obj.setPositionSmooth(pos)
+end
+
 function tuckSidekicks(cardtable)
     local newcardtable = {}
     getObjectFromGUID(pushvillainsguid).Call('bump',getObjectFromGUID(sidekickDeckGUID))
@@ -403,7 +407,7 @@ function click_discard_hand()
         played_cards = tuckSidekicks(played_cards)
         cards_all = merge(cards,played_cards)
     end
-    local pos = self.positionToWorld(pos_discard)
+    local pos = getObjectFromGUID(discardguid).getPosition()
     
     global_discarded = #cards_all + discardcount
     for _, card in pairs(cards_all) do
