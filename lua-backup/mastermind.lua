@@ -2591,7 +2591,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 hulkdeck.takeObject({position = dest,
                     flip = true,
                     smooth = true,
-                    index = math.random(hulkdeck.getQuantity())})
+                    index = math.random(hulkdeck.getQuantity())-1})
             end
         end
         strikeZone.createButton({click_function='click_save_goblin_hw', 

@@ -5422,21 +5422,64 @@ function twistSpecials(cards,city,schemeParts)
         return twistsresolved
     end
     if schemeParts[1] == "Silence the Witnesses" then
-        local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
-        if not scheme[1] then
-            broadcastToAll("Scheme card missing?")
-            return nil
-        elseif scheme[1] and scheme[2] then
-            for _,o in pairs(scheme) do
-                if string.lower(o.getName()) ~= string.lower(schemeParts[1]) then
-                    o.flip()
-                    o.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+        if twistsresolved == 1 then
+            function click_save_silent_witness(obj,player_clicker_color)
+                local hulkdeck = get_decks_and_cards_from_zone(obj.guid)[1]
+                if not hulkdeck then
+                    return nil
+                end
+                local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+                local dest = playerBoard.positionToWorld(pos_vp2)
+                dest.y = dest.y + 3
+                if player_clicker_color == "White" then
+                    angle = 90
+                elseif player_clicker_color == "Blue" then
+                    angle = -90
+                else
+                    angle = 180
+                end
+                local brot = {x=0, y=angle, z=0}
+                if hulkdeck.tag == "Card" then
+                    hulkdeck.flip()
+                    hulkdeck.setRotationSmooth(brot)
+                    hulkdeck.setPositionSmooth(dest)
+                else
+                    hulkdeck.takeObject({position = dest,
+                        flip = true,
+                        smooth = true,
+                        index = math.random(hulkdeck.getQuantity())-1})
                 end
             end
+            getObjectFromGUID(twistZoneGUID).createButton({click_function='click_save_silent_witness', 
+                     function_owner=self,
+                     position={0,0,0.5},
+                     rotation={0,180,0},
+                     label="Save",
+                     tooltip="Save a Hidden Witness by paying 2 recruit and rescue it as a bystander.",
+                     color={0,0,0,1},
+                     font_color = {1,0,0},
+                     width=500,
+                     height=200,
+                     font_size = 100})
+            getObjectFromGUID(twistZoneGUID).createButton({click_function='updatePower',
+                        function_owner=self,
+                        position={0,0,0},
+                        rotation={0,180,0},
+                        label=2,
+                        tooltip="You can save these Hidden Witnesses for 2 Recruit to rescue them as Bystanders.",
+                        font_size=250,
+                        font_color="Yellow",
+                        width=0})
         end
-        addBystanders(schemeZoneGUID,false)
-        addBystanders(schemeZoneGUID,false)
-        addBystanders(schemeZoneGUID,false)
+        local witnesses = get_decks_and_cards_from_zone(twistZoneGUID)
+        broadcastToAll("Scheme Twist: All Silent Witnesses escape and three new ones are added.")
+        for _,o in pairs(witnesses) do
+            o.flip()
+            o.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
+        end
+        for i = 1,3 do
+            addBystanders(twistZoneGUID,false,true)
+        end
         return twistsresolved
     end
     if schemeParts[1] == "Sinister Ambitions" then
@@ -6113,39 +6156,47 @@ function twistSpecials(cards,city,schemeParts)
                     local vpile = getObjectFromGUID(vpileguids[o.color])
                     _G["koBystander" .. o.color] = function(obj)
                         local vpilecontent = get_decks_and_cards_from_zone(obj.guid)
+                        local bsguids = {}
                         if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
                             for _,c in pairs(vpilecontent[1].getObjects()) do
                                 for _,t in pairs(c.tags) do
                                     if t == "Bystander" then
-                                        bsfound = true
-                                        vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
-                                            guid = c.guid})
+                                        table.insert(bsguids,c.guid)
                                         break
                                     end
                                 end
-                                if bsfound == true then
-                                    break
-                                end
                             end
                         elseif vpilecontent[1] and vpilecontent[1].hasTag("Bystander") then
-                            vpilecontent[1].setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
-                            bsfound = true
+                            koCard(vpilecontent[1])
+                            table.insert(bsguids,"ko")
                         end
-                        if bsfound then
-                            local color = nil
-                            for c,g in pairs(vpileguids) do
-                                if g == obj.guid then
-                                    color = c
-                                    break
-                                end
+                        local color = nil
+                        for c,g in pairs(vpileguids) do
+                            if g == obj.guid then
+                                color = c
+                                break
                             end
+                        end
+                        if bsguids[1] then
                             killKoBystanderButton(color)
                             local hand = Player[color].getHandObjects()
                             for _,h in pairs(hand) do
                                 h.clearButtons()
                             end
+                            if bsguids[1] ~= "ko" and bsguids[2] then
+                                offerCards({color = color,
+                                    pile = vpilecontent[1],
+                                    guids = bsguids,
+                                    resolve_function = koCard,
+                                    tooltip = "KO this Bystander.",
+                                    label = "KO"})
+                            elseif bsguids[1] ~= "ko" then
+                                vpilecontent[1].takeObject({position = getObjectFromGUID(kopile_guid).getPosition(),
+                                    smooth = true,
+                                    guid = bsguids[1]})
+                            end
                         else
-                            broadcastToAll("Can't KO a bystander, none found!")
+                            broadcastToColor("Can't KO a bystander, none found!",color,color)
                         end
                     end
                     vpile.createButton({click_function="koBystander" .. o.color,
