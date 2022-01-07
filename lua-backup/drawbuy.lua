@@ -87,8 +87,29 @@ function table.clone(org,key)
     end
 end
 
+function hasTag2(obj,tag,index)
+    if not obj or not tag then
+        return nil
+    end
+    for _,o in pairs(obj.getTags()) do
+        if o:find(tag) then
+            if index then
+                return o:sub(index,-1)
+            else 
+                local res = tonumber(o:match("%d+"))
+                if res then
+                    return res
+                else
+                    return o:sub(#tag+1,-1)
+                end
+            end
+        end
+    end
+    return nil
+end
+
 function click_buy_hero(obj, player_clicker_color)
-    local card = getHero(false)
+    local card = getHero(false,nil,true)
     if not card then
         return nil
     end
@@ -127,10 +148,14 @@ function click_buy_hero(obj, player_clicker_color)
     click_draw_hero()
 end
 
-function getHero(face,bs)
+function getHero(face,bs,hero)
     local objects = get_decks_and_cards_from_zone(scriptguid)
     local card = nil
     for _,item in pairs(objects) do
+        if hero and hasTag2(item,"HC:") then
+            card = item
+            break
+        end
         if item.tag == "Card" and item.is_face_down == face and (not bs or item.hasTag(bs)) then
             card = item
         elseif item.tag == "Deck" and item.is_face_down == true and face == true and (not bs or item.hasTag(bs)) then
@@ -144,7 +169,7 @@ function getHero(face,bs)
 end
 
 function getHeroUp()
-    return getHero(false)
+    return getHero(false,nil,true)
 end
 
 function getHeroDown()

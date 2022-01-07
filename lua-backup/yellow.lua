@@ -334,6 +334,13 @@ function refillDeck()
     end
     hardstop = nil
     if discardItemList[1] then
+        for _,o in pairs(discardItemList[1].getObjects()) do
+            if objectsentering_attack[o.guid] then
+                objectsentering_attack[o.guid] = nil
+            elseif objectsentering_recruit[o.guid] then
+                objectsentering_recruit[o.guid] = nil
+            end
+        end
         Wait.condition(timer_shuffle,
             function()
                 local found = get_decks_and_cards_from_zone(drawguid)

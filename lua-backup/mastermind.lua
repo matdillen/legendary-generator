@@ -1904,12 +1904,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         end
         updateMMMaria()
         function onObjectEnterZone(zone,object)
-            if object.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
+            if object.hasTag("Officer") or obj.hasTag("Group:S.H.I.E.L.D. Elite") then
                 updateMMMaria()
             end
         end
         function onObjectLeaveZone(zone,object)
-            if object.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
+            if object.hasTag("Officer") or obj.hasTag("Group:S.H.I.E.L.D. Elite") then
                 updateMMMaria()
             end
         end
