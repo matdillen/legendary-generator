@@ -304,11 +304,13 @@ end
 function play_hand()
     local hand = Player[boardcolor].getHandObjects()
     local zshift = 0
+    local xshift = 0
     if boardcolor == "White" or boardcolor == "Blue" then
         zshift = -0.5
+    elseif boardcolor == "Yellow" then
+        xshift = -4
     end
     if hand[1] then
-        local xshift = 0
         for _,o in pairs(hand) do
             o.setPosition(self.positionToWorld({xshift-3+zshift,0.1,6}))
             xshift = xshift + 1

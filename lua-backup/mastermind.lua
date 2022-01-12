@@ -1540,7 +1540,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     hulkdeck.takeObject({position = dest,
                         flip = true,
                         smooth = true,
-                        index = math.random(hulkdeck.getQuantity())})
+                        index = math.random(hulkdeck.getQuantity())-1})
                 end
             end
         strikeZone.createButton({click_function="click_pacify_angry_mob", 
@@ -2869,7 +2869,7 @@ end
 function mmButtons(params)
     local mmname = params.mmname
     local checkvalue = params.checkvalue
-    local label = params.label
+    local label = tostring(params.label)
     local tooltip = params.tooltip
     local f = params.f
     local id = params.id or "base"
@@ -2949,7 +2949,7 @@ function updateLabel(tooltip)
             elseif o[1]:find("X") then
                 sum = "X"
                 break
-            elseif o[1] then
+            elseif o[1] and o[1]:match("%d+") then
                 sum = sum + tonumber(o[1]:match("%d+"))
             end
         end
@@ -2960,7 +2960,7 @@ function updateLabel(tooltip)
     if aster and sum ~= "X" then
         sum = sum .. "*"
     end
-    if plus and sum ~= "X" and sum ~= "" then
+    if plus and sum ~= "X" and sum ~= "" and sum ~= "*" then
         sum = "+" .. sum
     end
     local newtooltip = ""

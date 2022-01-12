@@ -808,38 +808,38 @@ function updatePower()
                 end
                 if index then
                     if object.hasTag("Corrupted") then
-                        object.editButton({index = index-1,label=twistsstacked+2})
+                        powerButton({obj= object, label = twistsstacked+2})
                     elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
-                        object.editButton({index = index-1,label=twistsstacked})
+                        powerButton({obj= object, label = twistsstacked})
                     elseif object.hasTag("Brainwashed") then
-                        object.editButton({index = index-1,label=twistsstacked+3})
+                        powerButton({obj= object, label = twistsstacked+3})
                     elseif object.hasTag("Phalanx-Infected") then
-                        object.editButton({index = index-1,label=math.floor(twistsstacked/2)+hasTag2(object,"Cost:")})
+                        powerButton({obj= object, label = math.floor(twistsstacked/2)+hasTag2(object,"Cost:")})
                     elseif object.getName() == "Smugglers" then
-                        object.editButton({index = index-1,label = "+" .. strikesresolved})
+                        powerButton({obj= object, label = "+" .. strikesresolved,id="striker"})
                     elseif object.hasTag("Khonshu Guardian") then
                         if i % 2 == 0 then
-                            object.editButton({index = index-1,label = hasTag2(object,"Cost:")*2})
+                            powerButton({obj= object, label = hasTag2(object,"Cost:")*2})
                         else
-                            object.editButton({index = index-1,label = hasTag2(object,"Cost:")})
+                            powerButton({obj= object, label = hasTag2(object,"Cost:")})
                         end
                     elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
-                        object.editButton({index = index-1,label = hasTag2(object,"Cost:") + 4})
+                        powerButton({obj= object, label = hasTag2(object,"Cost:") + 4})
                     elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
                         if not goblincount then
                             goblincount = 0
                         end
-                        object.editButton({index = index-1,label = hasTag2(object,"Cost:") + goblincount})
+                        powerButton({obj= object, label = hasTag2(object,"Cost:") + goblincount})
                     elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") or object.hasTag("Super Sentinel") then
-                        object.editButton({index = index-1,label = "+" .. twistsstacked})
+                        powerButton({obj= object, label = "+" .. twistsstacked,id="twistsStacked"})
                     elseif object.getName() == "Graveyard" and object.hasTag("Location") then
                         for _,obj in pairs(cityobjects) do
                             if obj.hasTag("Villain") then
-                                object.editButton({index = index-1,label = 7 + 2*reaperbonus + 2})
+                                powerButton({obj= object, label = "+" .. 2, id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there."})
                                 return nil
                             end
                         end
-                        object.editButton({index = index-1,label = 7 + reaperbonus})
+                        powerButton({obj= object, label = "",id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there."})
                     elseif object.getName() == "Evolved Ultron" then
                         local ultronpower = 4
                         local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
@@ -890,7 +890,7 @@ function updatePower()
                                 broadcastToAll("Hero in hq space " .. i2 .. " is missing?")
                             end
                         end
-                        object.editButton({index = index-1,label=ultronpower})
+                        powerButton({obj= object, label = ultronpower})
                     end
                 end
             end
@@ -930,20 +930,19 @@ function obedienceDisk(obj,player_clicker_color)
     return nil
 end
 
-function powerButton(params,label_simple)
-    local obj = params.obj or params
-    local label = params.label or label_simple
-    if not obj or not label then
-        broadcastToAll("Error: Missing argument to card boost.")
-        return nil
-    end
-    
+function powerButton(params)
+    local obj = params.obj
+    local label = tostring(params.label)
     local tooltip = params.tooltip or "Unidentified bonus."
     local id = params.id or "base"
     local click_f = params.click_f or 'updatePower'
     local otherposition = params.otherposition
     local color = params.color or "Red"
-
+    if not obj or not label then
+        broadcastToAll("Error: Missing argument to card boost.")
+        return nil
+    end
+    
     local pos = otherposition
     if not otherposition then
         pos = {0,22,0}
@@ -974,6 +973,9 @@ function powerButton(params,label_simple)
     if not toolt_orig then
         toolt_orig = {[id] = {label,tooltip}}
     else
+        if toolt_orig[id] and tooltip == "Unidentified bonus." then
+            tooltip = toolt_orig[id][2]
+        end
         toolt_orig[id] = {label,tooltip}
     end
     local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',toolt_orig)
@@ -1209,7 +1211,9 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setName("Evolved Ultron")
         cards[1].setTags({"VP6"})
         cards[1].setDescription("EMPOWERED: This card gets extra Power for each Hero with the listed Hero Class in the Evolution Pile.")
-        powerButton(cards[1],ultronpower)
+        powerButton({obj = cards[1], 
+            label = ultronpower,
+            tooltip = "Evolved Ultron gets extra Power for each Hero with the listed Hero Class in the Evolution Pile."})
         return twistsresolved
     end
     if schemeParts[1] == "Annihilation: Conquest" then
@@ -1241,7 +1245,9 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist: Choose one of the tied highest cost heroes in the HQ to enter the city as a villain.")
             local processPhalanxInfected = function(obj,index) 
                 obj.setPositionSmooth(pos)
-                powerButton(obj,hasTag2(obj,"Cost:")+math.floor(twistsstacked/2))
+                powerButton({obj = obj,
+                    label = hasTag2(obj,"Cost:")+math.floor(twistsstacked/2),
+                    tooltip = "Phalanx-Infected villain has power equal to its cost plus each two twists stacked next to the scheme."})
                 obj.addTag("Villain")
                 obj.addTag("Phalanx-Infected")
                 getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
@@ -1262,7 +1268,9 @@ function twistSpecials(cards,city,schemeParts)
                 hero = o
             end
             hero.setPositionSmooth(pos)
-            powerButton(hero,hasTag2(hero,"Cost:")+math.floor(twistsstacked/2))
+            powerButton({obj = hero,
+                label = hasTag2(hero,"Cost:")+math.floor(twistsstacked/2),
+                tooltip = "Phalanx-Infected villain has power equal to its cost plus each two twists stacked next to the scheme."})
             hero.addTag("Villain")
             hero.addTag("Phalanx-Infected")
             Wait.time(click_push_villain_into_city,1.5)
@@ -2936,7 +2944,9 @@ function twistSpecials(cards,city,schemeParts)
                     local annotateNewMM = function(obj)
                         local mmZone = getObjectFromGUID(mmZoneGUID)
                         obj.addTag("Ascended")
-                        powerButton(obj,hasTag2(obj,"Power:")+2)
+                        powerButton({obj = obj,
+                            label = hasTag2(obj,"Power:")+2,
+                            tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
                         mmZone.Call('fightButton',mmpos)
                         local vp = hasTag2(obj,"VP") or 0
                         mmZone.Call('updateMasterminds',"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
@@ -2958,7 +2968,9 @@ function twistSpecials(cards,city,schemeParts)
                         end
                     end
                     local mmZone = getObjectFromGUID(mmZoneGUID)
-                    powerButton(ascendCard,power+2)
+                    powerButton({obj = ascendCard,
+                        label = power+2,
+                        tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
                     mmZone.Call('fightButton',mmpos)
                     local vp = hasTag2(ascendCard,"VP") or 0
                     mmZone.Call('updateMasterminds',"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
@@ -3000,7 +3012,9 @@ function twistSpecials(cards,city,schemeParts)
                                 local annotateNewMM = function(obj)
                                     local mmZone = getObjectFromGUID(mmZoneGUID)
                                     obj.addTag("Ascended")
-                                    powerButton(obj,hasTag2(obj,"Power:")+2)
+                                    powerButton({obj = obj,
+                                        label = hasTag2(obj,"Power:")+2,
+                                        tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
                                     mmZone.Call('fightButton',mmpos)
                                     local vp = hasTag2(obj,"VP") or 0
                                     mmZone.Call('updateMasterminds',"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
@@ -3011,7 +3025,9 @@ function twistSpecials(cards,city,schemeParts)
                                     callback_function = annotateNewMM})
                             else
                                 vpilecontent[1].addTag("Ascended")
-                                powerButton(vpilecontent[1],hasTag2(vpilecontent[1],"Power:")+2)
+                                powerButton({obj = vpilecontent[1],
+                                    label = hasTag2(vpilecontent[1],"Power:")+2,
+                                    tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
                                 vpilecontent[1].setPositionSmooth(getObjectFromGUID(mmpos).getPosition())
                                 local mmZone = getObjectFromGUID(mmZoneGUID)
                                 mmZone.Call('fightButton',mmpos)
@@ -4112,7 +4128,9 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)[1]
         if twistsresolved == 1 then
-            powerButton(scheme,"Kung Fu: " .. twistsstacked)
+            powerButton({obj = scheme,
+                label = "Kung Fu: " .. twistsstacked,
+                tooltip = "All villains and masterminds have Circle of Kung Fu equal to the number of twists stacked here."})
             setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Circle of Kung-Fu:[/b][-] 1")
         else
             scheme.editButton({index=0,label="Kung Fu: " .. twistsstacked})
@@ -4138,7 +4156,9 @@ function twistSpecials(cards,city,schemeParts)
             obj.addTag("Possessed")
             obj.addTag("Villain")
             obj.removeTag("Bystander") -- complicates vp count!!
-            powerButton(obj,twistsstacked)
+            powerButton({obj = obj,
+                label = twistsstacked,
+                tooltip = "This bystander has become possessed psychotic and is a villain with power equal to the number of stacked twists."})
             updatePower()
         end
         bsPile.takeObject({position = getObjectFromGUID(city_zones_guids[5]).getPosition(),
@@ -4552,7 +4572,9 @@ function twistSpecials(cards,city,schemeParts)
         elseif twistsresolved < 7 then
             if city[7-twistsresolved] then
                 cards[1].setName("Dark Portal")
-                powerButton(cards[1],"+1")
+                powerButton({obj = cards[1],
+                    label = "+1",
+                    tooltip = "The Dark Portal gives the villain in this city space +1."})
                 cards[1].setDescription("LOCATION: this isn't actually a location, but the scripts treat it as one and leave it alone.")
                 local citypos = getObjectFromGUID(city[7-twistsresolved]).getPosition()
                 citypos.z = citypos.z + 2
@@ -5583,7 +5605,9 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Steal the Weaponized Plutonium" then
         cards[1].setDescription("VILLAINOUS WEAPON: This plutonium gives +1. Shuffle it back into the villain deck if the villain holding it is defeated.")
-        powerButton(cards[1],"+1")
+        powerButton({obj = cards[1],
+            label = "+1",
+            tooltip = "This plutonium gives +1. Shuffle it back into the villain deck if the villain holding it is defeated."})
         --these will often become stacks and that will kill the button...
         playVillains()
         return twistsresolved
@@ -6074,7 +6098,9 @@ function twistSpecials(cards,city,schemeParts)
             local scheme = get_decks_and_cards_from_zone(schemeZoneGUID)
             if scheme[1] then
                 broadcastToAll("Scheme Twist: The scheme ascended to be a Mastermind!")
-                powerButton(scheme[1],9)
+                powerButton({obj = scheme[1],
+                    label = 9,
+                    tooltip = "This scheme is now a mastermind named God-Emperor."})
                 scheme[1].addTag("Mastermind")
                 scheme[1].addTag("VP9")
                 scheme[1].setName("God-Emperor")
@@ -6737,7 +6763,9 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].addTag("VP6")
         cards[1].addTag("Villain")
         cards[1].setDescription("If you are not Worthy (reveal a Hero that costs 5 or more), Frost Giant Invader gets +4.")
-        powerButton(cards[1],"6+")
+        powerButton({obj = cards[1],
+            label = "6+",
+            tooltip = "This twist is a Frost Giant Invader villain that gets +4 if you are not Worthy."})
         broadcastToAll("Scheme Twist: The twist cards enters the city as a Frost Giant Invader!")
         if twistsresolved == 8 or twistsresolved == 9 then
             local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
@@ -7652,7 +7680,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 attack = 7
             end
             cards[1].addTag("Power:" .. attack)
-            powerButton(cards[1],attack)
+            powerButton({obj = cards[1],
+                label = attack,
+                tooltip = "This strike is a Shi'ar Battlecruiser villain."})
             click_push_villain_into_city()
         end
         return nil
@@ -7963,7 +7993,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             cards[1].addTag("VP" .. 5 + reaperbonus)
             cards[1].addTag("Attack:" .. 7 + reaperbonus)
             cards[1].addTag("Location")
-            powerButton(cards[1],7 + reaperbonus)
+            powerButton({obj = cards[1],
+                label = 7 + reaperbonus,
+                tooltip = "This strike is a Graveyard Location."})
             push_all(table.clone(current_city))
         else
             broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")
@@ -7980,7 +8012,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             cards[1].addTag("VP" .. 3 + helabonus)
             cards[1].addTag("Attack:" .. 5 + helabonus)
             cards[1].addTag("Villain")
-            powerButton(cards[1],5 + helabonus)
+            powerButton({obj = cards[1],
+                label = 5 + helabonus,
+                tooltip = "This strike is an Army of the Dead villain."})
             push_all(table.clone(current_city))
         else
             broadcastToAll("No Master Strike found, so Hela failed to muster an Army of the Dead.")
@@ -8630,7 +8664,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             cards[1].addTag("VP" .. boost)
             cards[1].addTag("Power:" .. boost)
             cards[1].addTag("Villain")
-            powerButton(cards[1],boost)
+            powerButton({obj = cards[1],
+                label = boost,
+                tooltip = "This strike is a Cosmic Wraith villain."})
             click_push_villain_into_city()
             local addshard = function()
                 for _,o in pairs(city) do
@@ -8815,9 +8851,13 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 end
             end
             if epicness then
-                powerButton(cards[1],"+3")
+                powerButton({obj = cards[1],
+                    label = "+3",
+                    tooltip = "This strike is a Darkspear Villainous Weapon."})
             else
-                powerButton(cards[1],"+2")
+                powerButton({obj = cards[1],
+                    label = "+2",
+                    tooltip = "This strike is a Darkspear Villainous Weapon."})
             end
             local findingWeaponResolved = function()
                 if darkspearcango == true then
@@ -8885,7 +8925,9 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
     if mmname == "Maria Hill, Director of S.H.I.E.L.D." then
         local officerdeck = getObjectFromGUID(officerDeckGUID)
         local pushOfficer = function(obj)
-            powerButton(obj,3)
+            powerButton({obj = obj,
+                label = 3,
+                tooltip = "This Officer is a villain. Gain it if you fight it."})
             obj.addTag("Villain")
             click_push_villain_into_city()
         end
@@ -10573,7 +10615,9 @@ function nonTwistspecials(cards,schemeParts,city)
         if cards[1].hasTag("Officer") then
             cards[1].addTag("Brainwashed")
             cards[1].addTag("Villain")
-            powerButton(cards[1],twistsstacked+3)
+            powerButton({obj = cards[1],
+                label = twistsstacked+3,
+                tooltip = "This Officer is Brainwashed and therefore a villain. Gain it if you fight it."})
         end
     end
     if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
@@ -10585,7 +10629,9 @@ function nonTwistspecials(cards,schemeParts,city)
             else
                 cards[1].setDescription(cards[1].getDescription() .. "\nWALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
             end
-            powerButton(cards[1],twistsstacked+2)
+            powerButton({obj = cards[1],
+                label = twistsstacked+2,
+                tooltip = "This sidekick is corrupted and therefore a villain. If you fight it, gain it to the top of your deck."})
         end
     end
     if schemeParts[1] == "Deadpool Wants A Chimichanga" then
@@ -10618,7 +10664,9 @@ function nonTwistspecials(cards,schemeParts,city)
             if noMoreMutants then
                 boost = 4
             end
-            powerButton(cards[1],boost + hasTag2(cards[1],"Cost:"))
+            powerButton({obj = cards[1],
+                label = boost + hasTag2(cards[1],"Cost:"),
+                tooltip = "This Scarlet Witch card is a villain."})
         end
     end
     if schemeParts[1] == "Master of Tyrants" then
@@ -10629,13 +10677,19 @@ function nonTwistspecials(cards,schemeParts,city)
     end
     if schemeParts[1] == "Mass Produce War Machine Armor" then
         if cards[1].getName() == "S.H.I.E.L.D. Assault Squad" then
-            powerButton(cards[1],"+" .. twistsresolved)
+            powerButton({obj = cards[1],
+                label = "+" .. twistsstacked,
+                tooltip = "Assault squads have War Machine Armor and get +1 for each twist that has been played.",
+                id = "twistsStacked"})
         end
     end
     if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
         if cards[1].getName() == "Sentinel" then
             cards[1].addTag("Super Sentinel")
-            powerButton(cards[1],"+" .. twistsstacked)
+            powerButton({obj = cards[1],
+                label = "+" .. twistsstacked,
+                tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
+                id = "twistsStacked"})
         end
     end
     if schemeParts[1] == "Organized Crime Wave" then
@@ -10650,7 +10704,9 @@ function nonTwistspecials(cards,schemeParts,city)
         if cards[1].hasTag("Bystander") then
             cards[1].addTag("Villain")
             cards[1].addTag("Killbot")
-            powerButton(cards[1],twistsstacked)
+            powerButton({obj = cards[1],
+                label = twistsstacked,
+                tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
         end
     end
     if schemeParts[1] == "Scavenge Alien Weaponry" then
@@ -10661,12 +10717,17 @@ function nonTwistspecials(cards,schemeParts,city)
             else
                 cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
             end
-            powerButton(cards[1],"+" .. strikesresolved)
+            powerButton({obj = cards[1],
+                label = "+" .. strikesresolved,
+                tooltip = "Smuggler villains have striker and thus get +1 for each master strike resolved.",
+                id = "striker"})
         end
     end
     if schemeParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
         if hasTag2(cards[1],"Cost:") then
-            powerButton(cards[1],hasTag2(cards[1],"Cost:")+2)
+            powerButton({obj = cards[1],
+                label = hasTag2(cards[1],"Cost:")+2,
+                tooltip = "This hero is a Skrull Shapeshifter and has power equal to its cost +2. Gain it if you fight it."})
             cards[1].addTag("Villain")
         end
     end
@@ -10674,17 +10735,24 @@ function nonTwistspecials(cards,schemeParts,city)
         if cards[1].hasTag("Ambition") then
             cards[1].addTag("Villain")
             cards[1].addTag("VP4")
-            powerButton(cards[1],"+" .. twistsstacked)
+            powerButton({obj = cards[1],
+                label = "+" .. twistsstacked,
+                tooltip = "This ambition card is a villain with power equal to its ambition value + the number of twists stacked next to the scheme. Resolve its ambition effect if it escapes.",
+                id = "twistsStacked"})
         end
     end
     if schemeParts[1] == "Splice Humans with Spider DNA" then
         if cards[1].hasTag("Group:Sinister Six") then
-            powerButton(cards[1],"+3")
+            powerButton({obj = cards[1],
+                label = "+3",
+                tooltip = "Sinister Six villains get +3."})
         end
     end
     if schemeParts[1] == "The Dark Phoenix Saga" then
         if cards[1].getName() == "Jean Grey (DC)" then
-            powerButton(cards[1],hasTag2(cards[1],"Cost:"))
+            powerButton({obj = cards[1],
+                label = hasTag2(cards[1],"Cost:"),
+                tooltip = "Jean Grey heroes are villains with power equal to their cost. Gain them if you fight them."})
             cards[1].addTag("Villain")
             playVillains()
         end
@@ -10702,7 +10770,9 @@ function nonTwistspecials(cards,schemeParts,city)
         if hasTag2(cards[1],"Cost:") then
             cards[1].addTag("Villain")
             cards[1].addTag("Khonshu Guardian")
-            powerButton(cards[1],hasTag2(cards[1],"Cost:")*2)
+            powerButton({obj = cards[1],
+                label = hasTag2(cards[1],"Cost:")*2,
+                tooltip = "This hero is a Khonshu Guardian villain. Its power is equal to its cost, or twice its cost when in Wolf form."})
         end
     end
     if schemeParts[1] == "Transform Citizens Into Demons" then
@@ -10710,14 +10780,18 @@ function nonTwistspecials(cards,schemeParts,city)
             if not goblincount then
                 goblincount = 0
             end
-            powerButton(cards[1],hasTag2(cards[1],"Cost:")+goblincount)
+            powerButton({obj = cards[1],
+                label = hasTag2(cards[1],"Cost:")+goblincount,
+                tooltip = "Jean Grey heroes are villains with power equal to their cost + the number of goblin villains next to the scheme. They are worth VP, not gained as heroes when fought."})
             cards[1].addTag("Villain")
             cards[1].addTag("VP4")
         end
     end
     if schemeParts[1] == "Trap Heroes in the Microverse" then
         if hasTag2(cards[1],"Team:",6) then
-            powerButton(cards[1],hasTag2(cards[1],"Cost:") .. "*")
+            powerButton({obj = cards[1],
+                label = hasTag2(cards[1],"Cost:") .. "*",
+                tooltip = "This hero is a villain with power equal to its cost and Size-Changing for its colors. Gain it if you fight it."})
             if cards[1].getDescription() == "" then
                 cards[1].setDescription("SIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
             else
@@ -10727,7 +10801,9 @@ function nonTwistspecials(cards,schemeParts,city)
     end
     if schemeParts[1] == "War of the Frost Giants" then
         if cards[1].getName() == "Frost Giant Invader" then
-            powerButton(cards[1],"6+")
+            powerButton({obj = cards[1],
+                label = "6+",
+                tooltip = "This twist is a Frost Giant Invader villain that gets +4 if you are not Worthy."})
         end
     end
     if schemeParts[1] == "X-Cutioner's Song" then
