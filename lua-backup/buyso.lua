@@ -1,70 +1,124 @@
---Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
-    --[[
-   self.createButton({
-        click_function="click_draw_hero", function_owner=self,
-        position={0,0,0}, label="draw hero", color={1,1,1,0}, width=2000, height=3000
-    })
-    ]]
-
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
          position={0,0.01,4}, label="Buy SHIELD Officer", color={1,1,1,1}, width=2000, height=1000,
          font_size = 250, tooltip = "Buy a S.HI.E.L.D. Officer (or Madame HYDRA)"
      })
+     
+    setupGUID = "912967" 
+    
+    local guids3 = {
+        "playerBoards",
+        "resourceguids"
+    }
+    
+    for _,o in pairs(guids3) do
+        _G[o] = callGUID(o,3)
+    end
+    
+    local guids2 = {
+       "pos_discard",
+       "pos_draw"
+    }
+    
+    for _,o in pairs(guids2) do
+        _G[o] = callGUID(o,2)
+    end
+    
+    local guids1 = {
+        "officerZoneGUID"
+    }
+    
+    for _,o in pairs(guids1) do
+        _G[o] = callGUID(o,1)
+    end
 
-    --This is how I found the positions to check for cards
-    --That GUID was a card I put on it
-    --local pos = self.positionToLocal(getObjectFromGUID("61b186").getPosition())
-    --log(pos.x)
-    --log(pos.y)
-    --log(pos.z)
-
-    --Local positions for each pile of cards
-    pos_discard = {-0.957, 0.178, 0.222}
-    pos_draw = {0.957, 0.178, 0.222}
-
-    --This is which way is face down for a card or deck relative to the tool
     rot_offset = {x=0, y=0, z=180}
-	
+end
+
+function callGUID(var,what)
+    if not var then
+        log("Error, can't fetch guid of object with name nil.")
+        return nil
+    elseif not what then
+        log("Error, can't fetch guid of object with missing type.")
+        return nil
+    end
+    if what == 1 then
+        return getObjectFromGUID(setupGUID).Call('returnVar',var)
+    elseif what == 2 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
+    elseif what == 3 then
+        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
+    else
+        log("Error, can't fetch guid of object with unknown type.")
+        return nil
+    end
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
+end
+
+function hasTag2(obj,tag,index)
+    if not obj or not tag then
+        return nil
+    end
+    for _,o in pairs(obj.getTags()) do
+        if o:find(tag) then
+            if index then
+                return o:sub(index,-1)
+            else 
+                local res = tonumber(o:match("%d+"))
+                if res then
+                    return res
+                else
+                    return o:sub(#tag+1,-1)
+                end
+            end
+        end
+    end
+    return nil
 end
 
 function click_buy_hero(obj, player_clicker_color, alt_click)
-    local objects =findObjectsAtPosition({0,0,0})
-
-    if not objects then return nil end
+    local objects = get_decks_and_cards_from_zone(officerZoneGUID)
+    if not objects[1] then
+        return nil
+    end
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+    if recruit < 3 then
+        broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-3)
     local card = nil
     local deck = nil
     for _,item in pairs(objects) do
         if item.tag == "Card" then
             card = item
+            break
         end
         if item.tag == "Deck" then
             deck = item
+            break
         end
     end
-
-    if not card and not deck then return nil end
-
-
-    local playerBoards = {
-        ["Red"]="8a35bd",
-        ["Green"]="d7ee3e",
-        ["Yellow"]="ed0d43",
-        ["Blue"]="9d82f3",
-        ["White"]="206c9c"
-
-    }
-    pos_discard = {-0.957, 0.178, 0.222}
-
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-
-	local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+	local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
     if not schemeParts then
         printToAll("No scheme specified!")
         schemeParts = {"no scheme"}
     end
-	toflip = deck.is_face_down
+	local toflip = deck.is_face_down
 	if schemeParts[1] == "Splice Humans with Spider DNA" then
 		pos = pos_draw
 		if card then
@@ -77,83 +131,31 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
 		pos = pos_discard
 	end
     local dest = playerBoard.positionToWorld(pos)
+    dest.y = dest.y + 3
     if card then
-    card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
+        card.setPositionSmooth(dest)
     elseif deck then
-        deck.takeObject({
-            position          = {x=dest.x,y=dest.y+3,z=dest.z},
-            smooth            = true,
-            flip              = toflip
-        })
+        deck.takeObject({position = dest,
+            smooth = true,
+            flip = toflip})
     end
-    --click_draw_hero(obj, player_clicker_color, alt_click)
-
 end
 
-function click_draw_hero(obj, player_clicker_color, alt_click)
-    --log("start")
-    hero_deck_zone = getObjectFromGUID("0cd6a9")
-    --log("hero_deck_zone:")
-    --log(hero_deck_zone.guid)
-    hero_decks   = hero_deck_zone.getObjects()
-    --log("hero_decks")
-    --log(hero_decks)
-    --log("hero_decks[1]")
-    --log(hero_decks[1])
-    if hero_decks then
-        for k, deck in pairs(hero_decks) do
-          --log(deck)
-          if deck.tag == "Deck" then
-            hero_deck=deck
-          end
-        end
-
-    end
-
-    if hero_deck then
-        --log("hero_deck")
-        --log(hero_deck)
-        takeParams = {
-            position = {self.getPosition().x,self.getPosition().y+5,self.getPosition().z},
-            flip = hero_deck.is_face_down
-        }
-        hero_deck.takeObject(takeParams)
+function get_decks_and_cards_from_zone(zoneGUID)
+    local zone = getObjectFromGUID(zoneGUID)
+    if zone then
+        decks = zone.getObjects()
     else
-        --log("no hero deck found")
+        return nil
     end
-
-end
-
---This is used by another function to locate information on what is in an area
-function findObjectsAtPosition(localPos)
-    --log ("findObjectsAtPosition start")
-    --We convert that local position to a global table position
-    local globalPos = self.positionToWorld(localPos)
-    --We then do a raycast of a sphere on that position to find objects there
-    --It returns a list of hits which includes references to what it hit
-    local objList = Physics.cast({
-        origin=globalPos, --Where the cast takes place
-        direction={0,1,0}, --Which direction it moves (up is shown)
-        type=2, --Type. 2 is "sphere"
-        size={2,2,2}, --How large that sphere is
-        max_distance=1, --How far it moves. Just a little bit
-        debug=false --If it displays the sphere when casting.
-    })
-
-    --Now we have objList which contains any and all objects in that area.
-    --But we only want decks and cards. So we will create a new list
-    local decksAndCards = {}
-    --Then go through objList adding any decks/cards to our new list
-    for _, obj in ipairs(objList) do
-        if obj.hit_object.tag == "Deck" or obj.hit_object.tag == "Card" then
-            --log("findObjectsAtPosition: found")
-            --log(obj.hit_object)
-            --log(obj.hit_object.tag)
-            table.insert(decksAndCards, obj.hit_object)
+    local result = {}
+    if decks then
+        for k, deck in pairs(decks) do
+            local desc = deck.getDescription()
+            if deck.tag == "Deck" or deck.tag == "Card" then
+                table.insert(result, deck)
+            end
         end
     end
-
-    --Now we return this to where it was called with the information
-    --log ("findObjectsAtPosition end")
-    return decksAndCards
+    return result
 end
