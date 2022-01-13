@@ -15,7 +15,8 @@ function onLoad()
     setupGUID = "912967"
     
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "resourceguids"
     }
     
     for _,o in pairs(guids3) do
@@ -114,38 +115,46 @@ function click_buy_hero(obj, player_clicker_color)
         return nil
     end
     
-    local desc = card.getDescription()
-    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
-    if not schemeParts then
-        printToAll("No scheme specified!")
-        schemeParts = {"no scheme"}
-    end
-    
-    if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans with Spider DNA" then
-        pos = pos_draw
-        card.flip()
-    elseif desc:find("SOARING FLIGHT") then
-        pos = pos_add2
-    else 
-        pos = pos_discard
-    end
-    
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos)
-    
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+    local cost = hasTag2(card,"Cost:") or 0
+    if recruit < cost then
+        broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
+        return nil
     else
-        angle = 180
+        getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
+        local desc = card.getDescription()
+        local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
+        if not schemeParts then
+            printToAll("No scheme specified!")
+            schemeParts = {"no scheme"}
+        end
+        
+        if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans with Spider DNA" then
+            pos = pos_draw
+            card.flip()
+        elseif desc:find("SOARING FLIGHT") then
+            pos = pos_add2
+        else 
+            pos = pos_discard
+        end
+        
+        local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
+        local dest = playerBoard.positionToWorld(pos)
+        
+        if player_clicker_color == "White" then
+            angle = 90
+        elseif player_clicker_color == "Blue" then
+            angle = -90
+        else
+            angle = 180
+        end
+        local brot = {x=0, y=angle, z=0}
+        
+        card.setRotationSmooth(brot)
+        card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
+        
+        click_draw_hero()
     end
-    local brot = {x=0, y=angle, z=0}
-    
-    card.setRotationSmooth(brot)
-    card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
-    
-    click_draw_hero()
 end
 
 function getHero(face,bs,hero)

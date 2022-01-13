@@ -214,6 +214,10 @@ function click_rescue_bystander(obj, player_clicker_color)
     end
 end
 
+function getBystander(color)
+    click_rescue_bystander(nil,color)
+end
+
 function click_get_wound(obj, player_clicker_color, alt_click,top)
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local woundsDeck=getObjectFromGUID(woundsDeckGUID)

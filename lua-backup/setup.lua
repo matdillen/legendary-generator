@@ -105,6 +105,12 @@ function loadGUIDs()
         "82ccd7"
     }
     
+    local citynames = {"Sewers","Bank","Rooftops","Streets","Bridge"}
+    cityguids = {}
+    for i = 1,5 do
+        cityguids[citynames[i]] = city_zones_guids[i+1]
+    end
+    
     hqguids = {
         "aabe45",
         "bf3815",

@@ -86,3 +86,7 @@ function reset_val()
     val = 0
     updateVal()
 end
+
+function returnVal()
+    return val
+end
