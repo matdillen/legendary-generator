@@ -20,7 +20,8 @@ function onLoad()
         "vpileguids",
         "playguids",
         "shardguids",
-        "discardguids"
+        "discardguids",
+        "handguids"
     }
     
     for _,o in pairs(guids3) do
@@ -365,97 +366,107 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         if targetZone.guid == escape_zone_guid or isEnteringCity == 1 then
             zPos = targetZone.getPosition().z
         end
-        local desc = obj.getDescription()
-        --is the object a bystander or a villainous weapon?
-        if (obj.hasTag("Bystander") and obj.hasTag("Killbot") == false) or desc:find("VILLAINOUS WEAPON") then
-            bs = true
+        if targetZone.guid == escape_zone_guid and schemeParts and schemeParts[1] == "Alien Brood Encounters" and obj.hasTag("Alien Brood") then
+            obj.removeTag("Alien Brood")
+            obj.flip()
+            local result = resolve_alien_brood_scan(obj,true)
+            if not result then
+                obj = nil
+            end
         end
-        if obj.tag == "Deck" and bs == false then
-            for _,o in pairs(obj.getObjects()) do
-                for _,tag in pairs(o.tags) do
-                    if tag == "Bystander" then
-                        bs = true
+        if obj then
+            local desc = obj.getDescription()
+            --is the object a bystander or a villainous weapon?
+            if (obj.hasTag("Bystander") and obj.hasTag("Killbot") == false) or desc:find("VILLAINOUS WEAPON") then
+                bs = true
+            end
+            if obj.tag == "Deck" and bs == false then
+                for _,o in pairs(obj.getObjects()) do
+                    for _,tag in pairs(o.tags) do
+                        if tag == "Bystander" then
+                            bs = true
+                            break
+                        end
+                    end
+                    if bs == true then
                         break
                     end
                 end
-                if bs == true then
-                    break
-                end
             end
-        end
-        --is the object leaving the city?
-        if targetZone.guid == escape_zone_guid and not desc:find("LOCATION") then
-            if obj.getName() == "Shard" then
-                --first shard moves to the mastermind
-                gainShard(nil,mmZoneGUID)
-                broadcastToAll("A Shard from an escaping villain was moved to the mastermind!",{r=1,g=0,b=0})
-                obj.Call('resetVal')
-                obj.destruct()
-                shard = true
-            elseif desc:find("VILLAINOUS WEAPON") and not hasTag2(obj,"Cost:") then
-                -- weapons move to mastermind upon escaping
-                -- extra cost tag condition if it's not a true villainous weapon, just a captured hero
-                broadcastToAll("Villainous Weapon Escaped", {r=1,g=0,b=0})
-                targetZone_final = getObjectFromGUID(mmZoneGUID)
-                zPos = targetZone_final.getPosition().z - 1.5
-            elseif bs == true then
-                broadcastToAll("Bystander(s) Escaped", {r=1,g=0,b=0})
-                for _,o in pairs(Player.getPlayers()) do
-                    promptDiscard(o.color)
-                end
-                --if multiple bystanders escape, they're often stacked as a deck
-                --only one notice will be given
-            elseif hasTag2(obj,"Group:") and ascendVillain(obj.getName(),hasTag2(obj,"Group:")) then
-                local mmZone = getObjectFromGUID(mmZoneGUID)
-                targetZone_final = getObjectFromGUID(mmZone.Call('getNextMMLoc'))
-                zPos = targetZone_final.getPosition().z
-                mmZone.Call('updateMasterminds',obj.getName())
-                mmZone.Call('updateMastermindsLocation',{obj.getName(),targetZone_final.guid})
-                mmZone.Call('setupMasterminds',{obj.getName(),false,0})
-            elseif obj.getName() == "Baby Hope Token" and schemeParts and schemeParts[1] == "Capture Baby Hope" then
-                broadcastToAll("Baby Hope was taken away by a villain!", {r=1,g=0,b=0})
-                getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition()})
-                targetZone_final = getObjectFromGUID(schemeZoneGUID)
-            else
-                broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
-                if obj.getName() == "King Hyperion" then
+            --is the object leaving the city?
+            if targetZone.guid == escape_zone_guid and not desc:find("LOCATION") then
+                if obj.getName() == "Shard" then
+                    --first shard moves to the mastermind
+                    gainShard(nil,mmZoneGUID)
+                    broadcastToAll("A Shard from an escaping villain was moved to the mastermind!",{r=1,g=0,b=0})
+                    obj.Call('resetVal')
+                    obj.destruct()
+                    shard = true
+                elseif desc:find("VILLAINOUS WEAPON") and not hasTag2(obj,"Cost:") then
+                    -- weapons move to mastermind upon escaping
+                    -- extra cost tag condition if it's not a true villainous weapon, just a captured hero
+                    broadcastToAll("Villainous Weapon Escaped", {r=1,g=0,b=0})
                     targetZone_final = getObjectFromGUID(mmZoneGUID)
-                    dealWounds()
-                    broadcastToAll("King Hyperion escaped! Everyone gains a wound!")
-                elseif obj.getName() == "Thor" and schemeParts and schemeParts[1] == "Crown Thor King of Asgard" then
-                    getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
-                        smooth=false})
-                        --this should be from the KO pile, but that is still a mess to sort out
-                        --take them from the scheme twist pile for now
-                    broadcastToAll("Thor escaped! Triumph of Asgard!")
-                elseif obj.getName() == "Demon Bear" and schemeParts and schemeParts[1] == "The Demon Bear Saga" then
-                    getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
-                        smooth=false})
-                        --this should be from the KO pile, but that is still a mess to sort out
-                        --take them from the scheme twist pile for now
-                    broadcastToAll("The Demon Bear escaped! Dream Horror!")
-                end
-                if schemeParts and schemeParts[1] == "Change the Outcome of WWII" and (not wwiiInvasion or wwiiInvasion == false) then
-                    wwiiInvasion = true
-                    getObjectFromGUID(twistPileGUID).takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
-                        smooth=false})
-                    broadcastToAll("The Axis successfully conquered this country!")
+                    zPos = targetZone_final.getPosition().z - 1.5
+                elseif bs == true then
+                    broadcastToAll("Bystander(s) Escaped", {r=1,g=0,b=0})
+                    for _,o in pairs(Player.getPlayers()) do
+                        promptDiscard(o.color)
+                    end
+                    --if multiple bystanders escape, they're often stacked as a deck
+                    --only one notice will be given
+                elseif hasTag2(obj,"Group:") and ascendVillain(obj.getName(),hasTag2(obj,"Group:")) then
+                    local mmZone = getObjectFromGUID(mmZoneGUID)
+                    targetZone_final = getObjectFromGUID(mmZone.Call('getNextMMLoc'))
+                    zPos = targetZone_final.getPosition().z
+                    mmZone.Call('updateMasterminds',obj.getName())
+                    mmZone.Call('updateMastermindsLocation',{obj.getName(),targetZone_final.guid})
+                    mmZone.Call('setupMasterminds',{obj.getName(),false,0})
+                elseif obj.getName() == "Baby Hope Token" and schemeParts and schemeParts[1] == "Capture Baby Hope" then
+                    broadcastToAll("Baby Hope was taken away by a villain!", {r=1,g=0,b=0})
+                    getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition()})
+                    targetZone_final = getObjectFromGUID(schemeZoneGUID)
+                else
+                    broadcastToAll("Villain Escaped", {r=1,g=0,b=0})
+                    if obj.getName() == "King Hyperion" then
+                        targetZone_final = getObjectFromGUID(mmZoneGUID)
+                        dealWounds()
+                        broadcastToAll("King Hyperion escaped! Everyone gains a wound!")
+                    elseif obj.getName() == "Thor" and schemeParts and schemeParts[1] == "Crown Thor King of Asgard" then
+                        getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                            smooth=false})
+                            --this should be from the KO pile, but that is still a mess to sort out
+                            --take them from the scheme twist pile for now
+                        broadcastToAll("Thor escaped! Triumph of Asgard!")
+                    elseif obj.getName() == "Demon Bear" and schemeParts and schemeParts[1] == "The Demon Bear Saga" then
+                        getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                            smooth=false})
+                            --this should be from the KO pile, but that is still a mess to sort out
+                            --take them from the scheme twist pile for now
+                        broadcastToAll("The Demon Bear escaped! Dream Horror!")
+                    end
+                    if schemeParts and schemeParts[1] == "Change the Outcome of WWII" and (not wwiiInvasion or wwiiInvasion == false) then
+                        wwiiInvasion = true
+                        getObjectFromGUID(twistPileGUID).takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
+                            smooth=false})
+                        broadcastToAll("The Axis successfully conquered this country!")
+                    end
                 end
             end
-        end
-        if desc:find("LOCATION") then
-            --locations will be nudged a bit upwards to distinguish from villains
-            zPos = zPos + 1.5
-        end
-        if isEnteringCity == 1 and bs == true and targetZone.guid ~= kopile_guid then
-            --bystanders (when entering) will be nudged downwards to distinguish
-            zPos = targetZone.getPosition().z - 2
-        end
-        if not shard and (isEnteringCity == 1 or not desc:find("LOCATION")) then
-            --locations don't move unless they are entering
-            obj.setPositionSmooth({targetZone_final.getPosition().x+xshift,
-                targetZone_final.getPosition().y + 3,
-                zPos})
+            if desc:find("LOCATION") then
+                --locations will be nudged a bit upwards to distinguish from villains
+                zPos = zPos + 1.5
+            end
+            if isEnteringCity == 1 and bs == true and targetZone.guid ~= kopile_guid then
+                --bystanders (when entering) will be nudged downwards to distinguish
+                zPos = targetZone.getPosition().z - 2
+            end
+            if not shard and (isEnteringCity == 1 or not desc:find("LOCATION")) then
+                --locations don't move unless they are entering
+                obj.setPositionSmooth({targetZone_final.getPosition().x+xshift,
+                    targetZone_final.getPosition().y + 3,
+                    zPos})
+            end
         end
     end
     Wait.time(updatePower,1.5)
@@ -580,10 +591,21 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         --special scheme: all cards enter the city face down
         --so no special card behavior
         if schemeParts[1] == "Alien Brood Encounters" then
+            if cityEntering then
+                cards[1].addTag("Alien Brood")
+            end
             if city then
                 push_all(city)
             end
-            return shift_to_next(cards,targetZone,cityEntering)
+            for _,o in pairs(cards) do
+                if o.hasTag("Alien Brood") and targetZone.guid ~= escape_zone_guid then
+                    targetZone.editButton({index = 0,
+                        label = "Scan",
+                        click_function = 'scan_villain',
+                        tooltip = "Scan the face down card in this city space for 1 attack."})
+                end
+            end
+            return shift_to_next(cards,targetZone,cityEntering,schemeParts)
         end
         if cityEntering == 1 then
             --special events in certain schemes not related to twists
@@ -11630,6 +11652,52 @@ function outwitPlayer(params)
         return true
     else
         return false
+    end
+end
+
+function resolve_alien_brood_scan(obj,escaping)
+    if obj.getName() == "Masterstrike" then
+        obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+        Wait.time(click_push_villain_into_city,1)
+        broadcastToAll("A master strike was scanned in the city!")
+        return nil
+    elseif obj.getDescription():find("TRAP") then
+        obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+        broadcastToAll("A Trap was scanned in the city! Resolve it by end of turn or suffer the consequences.")
+        return nil
+    elseif obj.hasTag("Villain") or obj.hasTag("Villainous Weapon") and escaping then
+        nonTwistspecials({obj},{""},{})
+        return obj
+    elseif obj.hasTag("Location") then
+        if escaping then
+            koCard(obj)
+            broadcastToAll("Locations can't normally escape, so it was KO'd instead.")
+            return nil
+        else
+            pos = obj.getPosition()
+            pos.z = pos.z + 1.5
+            obj.setPosition(pos)
+            return nil
+        end
+    elseif obj.getName() == "Scheme Twist" then
+        local color = getNextColor(Turns.turn_color)
+        obj.setName("Brood Infection")
+        obj.setPositionSmooth(getObjectFromGUID(discardguids[color]).getPosition())
+        broadcastToAll("Player " .. color .. " got a Brood Infection!")
+        function onObjectEnterZone(zone,object)
+            if object.getName() == "Brood Infection" then
+                for i,o in pairs(handguids) do
+                    if zone.guid == o then
+                        object.setName("Scheme Twist")
+                        Wait.time(function() koCard(object) end,0.1)
+                        getWound(i)
+                        getWound(i)
+                        broadcastToColor("You drew a Brood Infection! It was KO'd but gave you two wounds.",i,i)
+                    end
+                end
+            end
+        end
+        return nil
     end
 end
 

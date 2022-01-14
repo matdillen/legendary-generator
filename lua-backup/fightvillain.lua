@@ -24,6 +24,7 @@ function onLoad()
         
     local guids1 = {
         "heroDeckZoneGUID",
+        "pushvillainsguid"
     }
     
     for _,o in pairs(guids1) do
@@ -161,6 +162,27 @@ function click_fight_villain(obj, player_clicker_color)
                     end
                 end
             end
+        end
+    end
+end
+
+function scan_villain(obj,player_clicker_color)
+    local cards = get_decks_and_cards_from_zone(self.guid)
+    if not cards[1] then
+        return nil
+    end
+    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+    if attack < 1 then
+        broadcastToColor("You don't have enough attack to scan this city space!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-1)
+    for _,obj in pairs(cards) do
+        if obj.hasTag("Alien Brood") then
+            obj.removeTag("Alien Brood")
+            obj.flip()
+            getObjectFromGUID(pushvillainsguid).Call('resolve_alien_brood_scan',obj)
+            self.editButton({index = 0,label = zoneName, tooltip = "Fight the villain in this city space!", click_function = 'click_fight_villain'})
         end
     end
 end

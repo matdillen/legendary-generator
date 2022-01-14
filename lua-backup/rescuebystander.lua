@@ -18,7 +18,8 @@ function onLoad()
     end
     
     local guids2 = {
-       "hqguids"
+       "hqguids",
+       "city_zones_guids"
     }
     
     for _,o in pairs(guids2) do
@@ -131,16 +132,12 @@ function rescue_bystander(obj,color)
     -- Stan Lee
     -- Tourist Couple
     -- Animal Trainer
-    -- Shapeshifted Copycat
     -- Board Gamer
     -- Comic Shop Keeper
-    -- News Reporter
     -- Triage Nurse
     -- Photographer
-    -- Computer Hacker
     -- Damage Control
     -- Forklift Driver
-    -- Legendary Game Designer
     -- Lawyer
     -- Pizza Delivery Guy
     -- Double Agent of S.H.I.E.L.D.
@@ -198,6 +195,11 @@ function rescue_bystander(obj,color)
         broadcastToColor(name .. " rescued! You may move a villain to an adjacent city space (not scripted).",color,color)
         return name
     end
+    if name == "Computer Hacker" then
+        getObjectFromGUID(playerBoards[color]).Call('handsizeplus')
+        broadcastToColor(name .. " rescued! You will draw an extra card at the end of your next turn.",color,color)
+        return name
+    end
     if name == "Engineer" then
         engineerKOs = function(fcolor,stoploop)
             local deck = get_decks_and_cards_from_zone(drawguids[fcolor])[1]
@@ -231,6 +233,16 @@ function rescue_bystander(obj,color)
         broadcastToColor(name .. " rescued! Choose zero or nonzero and draw the top card of your deck if it has that cost (not scripted).",color,color)
         return name
     end
+    if name == "Legendary Game Designer" then
+        getObjectFromGUID(shardguids[color]).Call('add_subtract')
+        broadcastToColor(name .. " rescued! You gained a shard.",color,color)
+        return name
+    end
+    if name == "News Reporter" then
+        getObjectFromGUID(playerBoards[color]).Call('click_draw_card')
+        broadcastToColor(name .. " rescued! You drew a card.",color,color)
+        return name
+    end
     if name == "Paramedic" then
         broadcastToColor(name .. " rescued! You may KO a wound from your hand or any discard pile (not scripted").",color,color)
         return name
@@ -251,6 +263,15 @@ function rescue_bystander(obj,color)
     end
     if name == "Rocket Test Pilot" then
         broadcastToColor(name .. " rescued! Hyperspeed 3 for recruit or attack (not scripted).",color,color)
+        return name
+    end
+    if name == "Shapeshifted Copycat" then
+        obj.removeTag("Bystander")
+        obj.addTag("Villain")
+        obj.setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = 3,tooltip = "This bystander is now a villain."})
+        Wait.time(function getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city') end,1)
+        broadcastToColor(name .. " rescued, but it enters the city as a villain!",color,color)
         return name
     end
     if name == "Undercover Agent" then

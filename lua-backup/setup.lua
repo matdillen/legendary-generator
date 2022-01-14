@@ -1436,6 +1436,14 @@ function schemeSpecials ()
     local stPile = getObjectFromGUID(twistPileGUID)
     local heroZone = getObjectFromGUID(heroDeckZoneGUID)
 
+    if setupParts[1] == "Alien Brood Encounters" then
+        for i,guid in pairs(cityguids) do
+            getObjectFromGUID(guid).editButton({index = 0,
+                label = "Scan",
+                click_function = 'scan_villain',
+                tooltip = "Scan the face down card in this city space for 1 attack."})
+        end 
+    end
     if setupParts[1] == "Build an Army of Annihilation" then
         log("Add extra annihilation group.")
         local renameHenchmen = function(obj)
