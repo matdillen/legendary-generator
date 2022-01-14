@@ -21,7 +21,9 @@ function onLoad()
         "playguids",
         "shardguids",
         "discardguids",
-        "handguids"
+        "handguids",
+        "cityguids",
+        "drawguids"
     }
     
     for _,o in pairs(guids3) do
@@ -576,7 +578,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
     --any cards found:
     if cards[1] and targetZone then
         --retrieve setup information
-        local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
+        local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
         local bspile = getObjectFromGUID(bystandersPileGUID)
         if not bspile then
             bystandersPileGUID = callGUID("bystandersPileGUID",1)
@@ -1699,7 +1701,7 @@ function twistSpecials(cards,city,schemeParts)
         return nil
     end
     if schemeParts[1] == "Build an Underground MegaVault Prison" then
-        local sewersCards = get_decks_and_cards_from_zone(city_zones_guids[2])
+        local sewersCards = get_decks_and_cards_from_zone(city_zones_guids[6])
         if sewersCards[1] then
             for i,o in pairs(sewersCards) do
                 if o.hasTag("Villain") then
@@ -1711,7 +1713,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
         if vildeck[1] then
-            local pos = getObjectFromGUID(city_zones_guids[2]).getPosition()
+            local pos = getObjectFromGUID(city_zones_guids[6]).getPosition()
             pos.y = pos.y + 3
             if vildeck[1].tag == "Deck" then
                 for _,o in pairs(vildeck[1].getObjects()[1].tags) do
@@ -11042,6 +11044,54 @@ function wakingNightmare(params)
     haveanightmare(nil,nil,color)
 end
 
+function dealCard(params)
+    local obj = params.obj
+    local options = params.options
+    local color = params.color or Turns.turn_color
+    --local targetpos = params.targetpos
+    if not options then
+        options = {}
+        for _,p in pairs(Player.getPlayers()) do
+            table.insert(options,p.color)
+        end
+    end
+    local pos = getObjectFromGUID(playerBoards[color]).getPosition()
+    pos.y = pos.y + 8
+    local angle = 180
+    if color == "White" then
+        pos.z = pos.z - 6
+        angle = 90
+    elseif color == "Blue" then
+        pos.z = pos.z + 6
+        angle = -90
+    else
+        pos.x = pos.x - 6
+    end
+	local brot = {x=0, y=angle, z=0}
+    obj.clearButtons()
+    obj.setPositionSmooth(pos)
+    obj.locked = true
+    local objpos = {x=0, y=2, z=-1.5} 
+    for _,opt in pairs(options) do
+        _G['dealTheCard' .. color .. "to" .. opt] = function(object)
+            object.locked = false
+            object.clearButtons()
+            local targetpos = getObjectFromGUID(discardguids[opt]).getPosition()
+            object.setPosition(targetpos)
+        end
+        obj.createButton({position = objpos,
+            click_function = 'dealTheCard' .. color .. "to" .. opt,
+            function_owner=self,
+            label=opt,
+            tooltip="Choose " .. opt .. " for the card to be dealt to.",
+            font_size=200,
+            font_color={0,0,0},
+            color=opt,
+            width=650,height=650})
+        objpos.z = objpos.z + 1.5
+    end
+end
+
 function offerCards(params)
     --log(params)
     local color = params.color
@@ -11701,9 +11751,31 @@ function resolve_alien_brood_scan(obj,escaping)
     end
 end
 
-function resolveVillainEffect(cards,move,player_clicker_color)
-    local name = cards[1].getName()
-    local group = hasTag2(cards[1],"Group:")
+function resolveVillainEffect(params)
+    local obj = params.obj
+    local move = params.move or "Fight"
+    local color = params.color or Turns.turn_color
+    local schemeParts = params.schemeParts or getObjectFromGUID(setupGUID).Call('returnSetupParts') or {""}
+    
+    if schemeParts[1] == "Annihilation: Conquest" and obj.hasTag("Phalanx-Infected") then
+        obj.removeTag("Phalanx-Infected")
+        obj.removeTag("Villain")
+        dealCard({obj = obj})
+        return nil
+    end
+    if schemeParts[1] == "Corrupt the Next Generation of Heroes" and obj.hasTag("Corrupted") then
+        obj.removeTag("Corrupted")
+        obj.removeTag("Villain")
+        obj.setDescription(obj.getDescription():gsub("WALL%-CRAWL.*%.",""))
+        obj.clearButtons()
+        obj.flip()
+        local pos = getObjectFromGUID(drawguids[color]).getPosition()
+        pos.y = pos.y + 3
+        obj.setPositionSmooth(pos)
+        return nil
+    end
+    local name = obj.getName()
+    local group = nil--hasTag2(obj,"Group:")
     --for henchmen, check for Henchmen tag
     if group then
         if group == "A.I.M., Hydra Offshoot" then
@@ -11817,4 +11889,5 @@ function resolveVillainEffect(cards,move,player_clicker_color)
             end
         end
     end
+    return obj
 end

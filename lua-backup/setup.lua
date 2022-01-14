@@ -334,6 +334,17 @@ function toggle_finalblow()
     end
 end
 
+function invertCity()
+    local step = 0
+    for i,o in pairs(cityguids) do
+        cityguids[i] = city_zones_guids[6-step]
+        step = step + 1
+    end
+    for i,o in pairs(cityguids) do
+        getObjectFromGUID(cityguids[i]).Call('updateCityZone')
+    end
+end
+
 function thrones_favor(obj,player_clicker_color,notspend)
     if obj.locked == nil and obj[1] then
         player_clicker_color = obj[2]
@@ -1457,6 +1468,9 @@ function schemeSpecials ()
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
         print("Annihilation group " .. setupParts[9] .. " moved next to the scheme.")
+    end
+    if setupParts[1] == "Build an Underground MegaVault Prison" then
+        invertCity()
     end
     if setupParts[1] == "Cage Villains in Power-Suppressing Cells" then
         log("Add extra cops henchmen.")

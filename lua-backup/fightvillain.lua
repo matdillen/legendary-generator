@@ -96,6 +96,17 @@ function hasTag2(obj,tag,index)
     return nil
 end
 
+function updateCityZone()
+    cityguids = callGUID("cityguids",3)
+    for i,o in pairs(cityguids) do
+        if o == self.guid then
+            zoneName = i
+        end
+    end
+    self.editButton({index = 0,
+        label = zoneName})
+end
+
 function click_fight_villain(obj, player_clicker_color)
     local cards = get_decks_and_cards_from_zone(self.guid)
     if not cards[1] then
@@ -124,15 +135,32 @@ function click_fight_villain(obj, player_clicker_color)
         if obj.hasTag("Villain") then
             local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
             local power = hasTag2(obj,"Power:") or 0
+            if obj.getButtons() then
+                for _,b in pairs(obj.getButtons()) do
+                    if b.click_function == "updatePower" then
+                        if b.label:match("%d+") and not b.label:find("-") then
+                            power = power + tonumber(b.label:match("%d+"))
+                        elseif b.label:match("%d+") then
+                            power = power - tonumber(b.label:match("%d+"))
+                        elseif b.label == "X" then
+                            broadcastToColor("You can't fight this villain right now due to some restriction!",player_clicker_color,player_clicker_color)
+                            return nil
+                        end
+                    end
+                end
+            end
             if attack < power then
                 broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
                 return nil
             else
                 getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
-                obj.setRotationSmooth(brot)
-                obj.setPositionSmooth(dest)
+                local result = getObjectFromGUID(pushvillainsguid).Call('resolveVillainEffect',{obj = obj,color = player_clicker_color})
+                if result then
+                    obj.setRotationSmooth(brot)
+                    obj.setPositionSmooth(dest)
+                    broadcastToColor("You defeated the Villain " .. obj.getName() .. " and it was put into your victory pile.",player_clicker_color,player_clicker_color)
+                end
                 cards[i] = nil
-                broadcastToColor("You defeated the Villain " .. obj.getName() .. " and it was put into your victory pile.",player_clicker_color,player_clicker_color)
                 for _,obj2 in pairs(cards) do
                     if obj2 and not obj2.hasTag("Location") then
                         if obj2.hasTag("Bystander") and obj2.getName() ~= "" then
