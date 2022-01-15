@@ -1025,8 +1025,20 @@ function powerButton(params)
 end
 
 function cityLowTides()
-    table.insert(current_city,"d30aa1")
-    table.insert(current_city,"bd3ef1")
+    lowtideguids = {"d30aa1","bd3ef1"}
+    for i = 1,2 do
+        table.insert(current_city,lowtideguids[i])
+        _G["click_fight_lowtide" .. i] = function(obj,color)
+            getObjectFromGUID(city_zones_guids[2]).Call('click_fight_villain_call',{obj = obj, color = color, otherguid = lowtideguids[i]})
+        end
+        getObjectFromGUID(lowtideguids[i]).createButton({
+            click_function="click_fight_lowtide1", function_owner=self,
+            position={0,-0.4,-0.4}, rotation = {0,180,0}, label="Low Tide", 
+            tooltip = "Fight the villain in this city space!", color={1,1,1,1}, 
+            font_color = {1,0,0}, width=750, height=150,
+            font_size = 85
+        })
+    end
 end
 
 function smashTwoDimensions()
@@ -2142,29 +2154,27 @@ function twistSpecials(cards,city,schemeParts)
         --or his starting spot
         local cityobjects = get_decks_and_cards_from_zone(twistZoneGUID)
         if cityobjects[1] and cityobjects[1].tag == "Card" and cityobjects[1].getName() == "Thor" then
-            local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-            if bridgeobjects[1] then
-                shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-            end
-            cityobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[6]).getPosition())
-            addBystanders(city_zones_guids[6])
-            addBystanders(city_zones_guids[6])
-            addBystanders(city_zones_guids[6])
+            cityobjects[1].setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
+            Wait.time(click_push_villain_into_city,1)
+            Wait.time(function()
+                for i=1,3 do
+                    addBystanders(city_zones_guids[2])
+                end
+            end,1.5)
             broadcastToAll("Scheme Twist! Thor entered the city.",{1,0,0})
             return twistsresolved
         elseif cityobjects[1] and cityobjects[1].tag == "Deck" then
             for _,o in pairs(cityobjects[1].getObjects()) do
                 if o.name == "Thor" then
-                    local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                    if bridgeobjects[1] then
-                        shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                    end
-                    cityobjects[1].takeObject({position = getObjectFromGUID(city_zones_guids[6]).getPosition(),
+                    cityobjects[1].takeObject({position = getObjectFromGUID(city_zones_guids[1]).getPosition(),
                         guid = o.guid,
                         smooth = true})
-                    addBystanders(city_zones_guids[6])
-                    addBystanders(city_zones_guids[6])
-                    addBystanders(city_zones_guids[6])
+                    Wait.time(click_push_villain_into_city,1)
+                    Wait.time(function()
+                        for i=1,3 do
+                            addBystanders(city_zones_guids[2])
+                        end
+                    end,1.5)
                     broadcastToAll("Scheme Twist! Thor entered the city.",{1,0,0})
                     return twistsresolved
                 end
@@ -2175,30 +2185,28 @@ function twistSpecials(cards,city,schemeParts)
         if escapedobjects[1] and escapedobjects[1].tag == "Deck" then
             for _,object in pairs(escapedobjects[1].getObjects()) do
                 if object.name == "Thor" then
-                    local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                    if bridgeobjects[1] then
-                        shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                    end
                     escapedobjects[1].takeObject({guid=object.guid,
-                        position=getObjectFromGUID(city_zones_guids[6]).getPosition(),
+                        position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
                         smooth=true})
-                    addBystanders(city_zones_guids[6])
-                    addBystanders(city_zones_guids[6])
-                    addBystanders(city_zones_guids[6])
+                    Wait.time(click_push_villain_into_city,1)
+                    Wait.time(function()
+                        for i=1,3 do
+                            addBystanders(city_zones_guids[2])
+                        end
+                    end,1.5)
                     broadcastToAll("Scheme Twist! Thor re-entered the city from the escape pile.",{1,0,0})
                     return twistsresolved
                 end
             end
         elseif escapedobjects[1] and escapedobjects[1].tag == "Card" then
             if escapedobjects[1].getName() == "Thor" then
-                local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                if bridgeobjects[1] then
-                    shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                end
-                escapedobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[6]).getPosition())
-                addBystanders(city_zones_guids[6])
-                addBystanders(city_zones_guids[6])
-                addBystanders(city_zones_guids[6])
+                escapedobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                Wait.time(click_push_villain_into_city,1)
+                Wait.time(function()
+                    for i=1,3 do
+                        addBystanders(city_zones_guids[2])
+                    end
+                end,1.5)
                 broadcastToAll("Scheme Twist! Thor re-entered the city from the escape pile.",{1,0,0})
                 return twistsresolved
             end
@@ -2210,30 +2218,28 @@ function twistSpecials(cards,city,schemeParts)
                 if vpobjects[1] and vpobjects[1].tag == "Deck" then
                     for _,object in pairs(vpobjects[1].getObjects()) do
                         if object.name == "Thor" then
-                            local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                            if bridgeobjects[1] then
-                                shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                            end
                             vpobjects[1].takeObject({guid=object.guid,
-                                position=getObjectFromGUID(city_zones_guids[6]).getPosition(),
+                                position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
                                 smooth=true})
-                            addBystanders(city_zones_guids[6])
-                            addBystanders(city_zones_guids[6])
-                            addBystanders(city_zones_guids[6])
+                            Wait.time(click_push_villain_into_city,1)
+                            Wait.time(function()
+                                for i=1,3 do
+                                    addBystanders(city_zones_guids[2])
+                                end
+                            end,1.5)
                             broadcastToAll("Scheme Twist! Thor re-entered the city from ".. i .. " player's victory pile.",{1,0,0})
                             return twistsresolved
                         end
                     end
                 elseif vpobjects[1] and vpobjects[1].tag == "Card" then
                     if vpobjects[1].getName() == "Thor" then
-                        local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                        if bridgeobjects[1] then
-                            shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                        end
-                        vpobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[6]).getPosition())
-                        addBystanders(city_zones_guids[6])
-                        addBystanders(city_zones_guids[6])
-                        addBystanders(city_zones_guids[6])
+                        vpobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                        Wait.time(click_push_villain_into_city,1)
+                        Wait.time(function()
+                            for i=1,3 do
+                                addBystanders(city_zones_guids[2])
+                            end
+                        end,1.5)
                         broadcastToAll("Scheme Twist! Thor re-entered the city from ".. i .. " player's victory pile.",{1,0,0})
                         return twistsresolved
                     end
@@ -2244,30 +2250,28 @@ function twistSpecials(cards,city,schemeParts)
         if kodobjects[1] and kodobjects[1].tag == "Deck" then
             for _,object in pairs(kodobjects[1].getObjects()) do
                 if object.name == "Thor" then
-                    local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                    if bridgeobjects[1] then
-                        shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                    end
                     kodobjects[1].takeObject({guid=object.guid,
-                        position=getObjectFromGUID(city_zones_guids[6]).getPosition(),
+                        position=getObjectFromGUID(city_zones_guids[1]).getPosition(),
                         smooth=true})
-                    addBystanders(city_zones_guids[6])
-                    addBystanders(city_zones_guids[6])
-                    addBystanders(city_zones_guids[6])
+                    Wait.time(click_push_villain_into_city,1)
+                    Wait.time(function()
+                        for i=1,3 do
+                            addBystanders(city_zones_guids[2])
+                        end
+                    end,1.5)
                     broadcastToAll("Scheme Twist! Thor re-entered the city from the KO pile.",{1,0,0})
                     return twistsresolved
                 end
             end
         elseif kodobjects[1] and kodobjects[1].tag == "Card" then
             if kodobjects[1].getName() == "Thor" then
-                local bridgeobjects = get_decks_and_cards_from_zone(city_zones_guids[6])
-                if bridgeobjects[1] then
-                    shift_to_next(bridgeobjects,getObjectFromGUID(escape_zone_guid),0,schemeParts)
-                end
-                kodobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[6]).getPosition())
-                addBystanders(city_zones_guids[6])
-                addBystanders(city_zones_guids[6])
-                addBystanders(city_zones_guids[6])
+                kodobjects[1].setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
+                Wait.time(click_push_villain_into_city,1)
+                Wait.time(function()
+                    for i=1,3 do
+                        addBystanders(city_zones_guids[2])
+                    end
+                end,1.5)
                 broadcastToAll("Scheme Twist! Thor re-entered the city from the KO pile.",{1,0,0})
                 return twistsresolved
             end
@@ -2898,10 +2902,16 @@ function twistSpecials(cards,city,schemeParts)
                     if content[1] then
                         shift_to_next(content,getObjectFromGUID(escape_zone_guid),0,schemeParts)
                     end
+                    if i > 2 then
+                        getObjectFromGUID(guid).Call('toggleButton')
+                    else
+                        getObjectFromGUID(guid).clearButtons()
+                    end
                 end
                 broadcastToAll("Scheme Twist: The tide rushes in and the city is now only three spaces.")
             else
                 broadcastToAll("Scheme card is missing from the Scheme zone?")
+                return nil
             end
         else
             local scheme = get_decks_and_cards_from_zone(city_zones_guids[5])
@@ -2909,12 +2919,15 @@ function twistSpecials(cards,city,schemeParts)
                 scheme[1].flip()
                 scheme[1].setPositionSmooth(getObjectFromGUID(schemeZoneGUID).getPosition())
                 current_city = table.clone(city_zones_guids)
-                table.insert(current_city,"d30aa1")
-                table.insert(current_city,"bd3ef1")
+                cityLowTides()
+                for i = 5,6 do
+                    getObjectFromGUID(current_city[i]).Call('toggleButton')
+                end
                 broadcastToAll("Scheme Twist: The tide rushes out and the city is now seven spaces.")
                 click_draw_villain()
             else
                 broadcastToAll("Scheme card is missing from the Streets?")
+                return nil
             end
         end
         return twistsresolved

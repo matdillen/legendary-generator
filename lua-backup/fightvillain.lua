@@ -36,11 +36,21 @@ function onLoad()
             zoneName = i
         end
     end
-    self.createButton({
-         click_function="click_fight_villain", function_owner=self,
-         position={0,-0.4,-0.4}, rotation = {0,180,0}, label=zoneName, tooltip = "Fight the villain in this city space!", color={1,1,1,1}, font_color = {1,0,0}, width=750, height=150,
-         font_size = 85
-     })
+    toggleButton()
+end
+
+function toggleButton()
+    if self.getButtons() then
+        self.clearButtons()
+    else
+        self.createButton({
+            click_function="click_fight_villain", function_owner=self,
+            position={0,-0.4,-0.4}, rotation = {0,180,0}, label=zoneName, 
+            tooltip = "Fight the villain in this city space!", color={1,1,1,1}, 
+            font_color = {1,0,0}, width=750, height=150,
+            font_size = 85
+        })
+    end
 end
 
 function callGUID(var,what)
@@ -107,8 +117,13 @@ function updateCityZone()
         label = zoneName})
 end
 
-function click_fight_villain(obj, player_clicker_color)
-    local cards = get_decks_and_cards_from_zone(self.guid)
+function click_fight_villain_call(params)
+    click_fight_villain(params.obj,params.color,params.otherguid)
+end
+
+function click_fight_villain(obj, player_clicker_color,otherguid)
+    local guid = otherguid or self.guid
+    local cards = get_decks_and_cards_from_zone(guid)
     if not cards[1] then
         return nil
     end

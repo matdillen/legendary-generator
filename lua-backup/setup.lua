@@ -1469,7 +1469,7 @@ function schemeSpecials ()
         end
         print("Annihilation group " .. setupParts[9] .. " moved next to the scheme.")
     end
-    if setupParts[1] == "Build an Underground MegaVault Prison" then
+    if setupParts[1] == "Build an Underground MegaVault Prison" or setupParts[1] == "Crown Thor King of Asgard" or setupParts[1] == "Mass Produce War Machine Armor" then
         invertCity()
     end
     if setupParts[1] == "Cage Villains in Power-Suppressing Cells" then
@@ -1601,7 +1601,7 @@ function schemeSpecials ()
         Wait.condition(novaShuffle,novaMoved)
     end
     if setupParts[1] == "Earthquake Drains the Ocean" then
-        getObjectFromGUID("f3c7e3").Call('cityLowTides')
+        getObjectFromGUID(pushvillainsguid).Call('cityLowTides')
     end
     if setupParts[1] == "Explosion at the Washington Monument" then
         log("Set up the Washington Monument stacks...")
