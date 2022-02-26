@@ -1,5 +1,7 @@
 
-tooltext = read_tsv("data/tooltext.txt")
+tooltext = read_tsv("tooltext.txt")
+tooltext$text = gsub(" Attack"," <img src=\"Attack.jpg\" width=\"16\">",tooltext$text)
+tooltext$text = gsub(" Recruit"," <img src=\"Recruit.jpg\" width=\"16\">",tooltext$text)
 herotext = filter(tooltext,type=="Heroes")
 heroes=read_csv2('data/heroes.csv')
 
@@ -48,6 +50,8 @@ for (i in 1:dim(herotext)[1]) {
   herotext$summ[i] = cards
 }
 
+herotext$id[98] = "Terrible Jean Grey (SW2)"
+
 herotext2 = herotext %>%
   separate_rows(summ,sep="\\|") %>%
   filter(summ!="")
@@ -68,9 +72,22 @@ herotext2$recruit2 = gsub("Recruit=|\\}","",herotext2$recruit)
 
 heroes$uni = paste0(heroes$Hero," (",heroes$Set,")")
 
+herotext2$name = NA
+herotext2$team = NA
+for (i in 1:dim(herotext2)[1]) {
+  if (grepl(":",herotext2$copies[i])) {
+    herotext2$name[i] = gsub(":.*","",herotext2$copies[i])
+    herotext2$team[i] = gsub(".*: ","",herotext2$copies[i])
+  }
+  if (grepl("/",herotext2$textname[i])) {
+    herotext2$copies2[i+1] = herotext2$copies2[i]
+    herotext2$copies2[i+2] = herotext2$copies2[i]
+  }
+}
+
 data = filter(herotext2,id==herotext$id[1])
 data2 = filter(heroes,uni==herotext$id[1])
-data = arrange(data,copies2,textname)
+data = arrange(data,as.numeric(copies2),textname)
 data2 = arrange(data2,Ct,Name)
 data2$attack = data$attack2
 data2$recruit = data$recruit2
@@ -81,21 +98,59 @@ for (i in 2:dim(herotext)[1]) {
   data = filter(herotext2,id==herotext$id[i])
   data2 = filter(heroes,uni==herotext$id[i])
   if (dim(data)[1]<5) {
-    data = arrange(data,copies2,textname)
+    data = arrange(data,as.numeric(copies2),textname)
     data2 = arrange(data2,Ct,Name)
     data2$attack = data$attack2
     data2$recruit = data$recruit2
     data2$verbatimName = data$textname
   } else {
-    data = arrange(data,copies2,textname)
-    data2 = arrange(data2,Ct,Name)
+    data = arrange(data,as.numeric(copies2),textname)
+    data2 = arrange(data2,Ct,Split,Name)
     data %<>% filter(!grepl("/",textname,fixed=T))
     data2$attack = data$attack2
     data2$recruit = data$recruit2
     data2$verbatimName = data$textname
+    data2$Team = ifelse(!is.na(data$team),data$team,data2$Team)
+    data2$Hero = ifelse(!is.na(data$name),data$name,data2$Hero)
   }
   alldata = rbind(alldata,data2)
 }
+
+alldata %<>% select(Team,Hero,Name,Set,Split,Name_S,T0,C,Ct,R,B,G,Y,S,
+                    file,loc,description,uni,attack,recruit,verbatimName)
+
+heroes_tags = alldata %>%
+  mutate(Attack = gsub("\\$|\\s","",attack),
+         Recruit = gsub("\\$|\\s","",recruit),
+         HC = paste(R,G,B,Y,S,sep="|"),
+         Cost = C)
+
+heroes_tags$Attack1 = NA
+heroes_tags$Attack2 = NA
+heroes_tags$Recruit1 = NA
+heroes_tags$Recruit2 = NA
+heroes_tags$HC1 = NA
+heroes_tags$HC2 = NA
+heroes_tags$Team1 = NA
+heroes_tags$Team2 = NA
+heroes_tags$Name1 = NA
+heroes_tags$Name2 = NA
+for (i in 1:dim(heroes_tags)[1]) {
+  if (!is.na(heroes_tags$Split[i])&!grepl("T",heroes_tags$Split[i])) {
+    heroes_tags$Attack1[i] = heroes_tags$Attack[i]
+    heroes_tags$Attack2[i] = heroes_tags$Attack[i+1]
+    heroes_tags$Recruit1[i] = heroes_tags$Recruit[i]
+    heroes_tags$Recruit2[i] = heroes_tags$Recruit[i+1]
+    heroes_tags$HC1[i] = heroes_tags$HC[i]
+    heroes_tags$HC2[i] = heroes_tags$HC[i+1]
+    heroes_tags$Team1[i] = heroes_tags$Team[i]
+    heroes_tags$Team2[i] = heroes_tags$Team[i+1]
+    heroes_tags$Name1[i] = heroes_tags$Name_S[i]
+    heroes_tags$Name2[i] = heroes_tags$Name_S[i+1]
+  }
+}
+
+heroes_tags %<>% filter(is.na(Split)|(!duplicated(Split)&!grepl("T",Split)))
 
 a = fromJSON("../lua/TS_Save_82.json",
              simplifyVector = F)

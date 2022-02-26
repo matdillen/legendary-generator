@@ -6,7 +6,7 @@ library(magrittr)
 #login and select edit, then copy the raw wiki markdown content into a txt file
 
 #herotext=readLines("heroes raw.txt")
-wikitext=readLines("wikitext.txt")
+wikitext=readLines("wikiraw.txt")
 wiki = tibble(wikitext)
 
 names = filter(wiki,grepl("== '''",wikitext,fixed=T))

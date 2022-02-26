@@ -8,6 +8,7 @@ genFun = function(src,
                   fixedVIL="",
                   fixedXtra="",
                   dropset="",
+                  onlyset=NULL,
                   solo=T,
                   xtra=NULL) {
   
@@ -56,6 +57,10 @@ genFun = function(src,
   ##############################################################
   ##Generate a scheme
   src$schemes %<>% filter(!Set%in%dropset)
+  
+  if (!is.null(onlyset)) {
+    src$schemes %<>% filter(Set%in%onlyset)
+  }
   
   if (solo) {
     src$schemes %<>% filter(is.na(solobad))
@@ -209,6 +214,10 @@ genFun = function(src,
                 is.na(T),
                 !Set%in%dropset)
   
+  if (!is.null(onlyset)) {
+    mmlist %<>% filter(Set%in%onlyset)
+  }
+  
   #Fixed mm given?
   if (fixedMM!="") {
     mm = fixedMM
@@ -258,6 +267,11 @@ genFun = function(src,
   ##############################################################
   ##Generate villain groups
   src$villains %<>% filter(!Set%in%dropset)
+  
+  if (!is.null(onlyset)) {
+    src$villains %<>% filter(Set%in%onlyset)
+  }
+  
   villist=distinct(src$villains,Group) #check on group, not individual card
   
   #Villain group required by scheme?
@@ -321,6 +335,11 @@ genFun = function(src,
   ##Generate henchmen groups
   #only distinct group names due to the Mandarin and his rings
   src$henchmen %<>% filter(!Set%in%dropset)
+  
+  if (!is.null(onlyset)) {
+    src$henchmen %<>% filter(Set%in%onlyset)
+  }
+  
   hmlist=distinct(src$henchmen,Name)
   
   if (schemtraits$HM_Inc[1]!=0) {
@@ -392,6 +411,11 @@ genFun = function(src,
   heronames = NULL
   
   src$heroes %<>% filter(!Set%in%dropset)
+  
+  if (!is.null(onlyset)) {
+    src$heroes %<>% filter(Set%in%onlyset)
+  }
+  
   src$heroes$uni = paste0(src$heroes$Hero," (",src$heroes$Set,")")
   
   #A few schemes have such specific needs their hero requirements are hardcoded here separately

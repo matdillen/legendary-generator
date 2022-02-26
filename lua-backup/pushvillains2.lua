@@ -1034,9 +1034,9 @@ function cityLowTides()
         getObjectFromGUID(lowtideguids[i]).createButton({
             click_function="click_fight_lowtide1", function_owner=self,
             position={0,-0.4,-0.4}, rotation = {0,180,0}, label="Low Tide", 
-            tooltip = "Fight the villain in this city space!", color={1,1,1,1}, 
-            font_color = {1,0,0}, width=750, height=150,
-            font_size = 85
+            tooltip = "Fight the villain in this city space!", color={1,0,0,0.9}, 
+            font_color = {0,0,0}, width=750, height=150,
+            font_size = 75
         })
     end
 end
@@ -2742,7 +2742,7 @@ function twistSpecials(cards,city,schemeParts)
         stackTwist(cards[1])
         local heroboom = 0
         local hq = hqguids
-        broadcastToAll("Scheme Twist: " .. twistsresolved .. " heroes will be KO'd from the HQ!")
+        broadcastToAll("Scheme Twist: " .. twistsstacked .. " heroes will be KO'd from the HQ!")
         local explode_heroes = function(zone,n)
             local currenthero = nil
             local explode_hero = function()
@@ -2777,7 +2777,7 @@ function twistSpecials(cards,city,schemeParts)
                 Wait.condition(explode_hero,hero_drawn)
             end
         end
-        while heroboom < twistsresolved do
+        while heroboom < twistsstacked do
             local boomstack = nil
             local hq_cards = getObjectFromGUID(hq[1]).Call('getHeroDown')
             if hq_cards then
@@ -4612,15 +4612,19 @@ function twistSpecials(cards,city,schemeParts)
             broadcastToAll("Scheme Twist: A dark portal reinforces the mastermind!")
         elseif twistsresolved < 7 then
             if city[7-twistsresolved] then
-                cards[1].setName("Dark Portal")
-                powerButton({obj = cards[1],
-                    label = "+1",
-                    tooltip = "The Dark Portal gives the villain in this city space +1."})
-                cards[1].setDescription("LOCATION: this isn't actually a location, but the scripts treat it as one and leave it alone.")
-                local citypos = getObjectFromGUID(city[7-twistsresolved]).getPosition()
-                citypos.z = citypos.z + 2
-                citypos.y = citypos.y + 2
-                cards[1].setPositionSmooth(citypos)
+                --cards[1].setName("Dark Portal")
+                koCard(cards[1])
+                getObjectFromGUID(city[7-twistsresolved]).Call('updateZonePower',{label = "+1",
+                    tooltip = "The Dark Portal gives the villain in this city space +1.",
+                    id = "darkportal"})
+                -- powerButton({obj = cards[1],
+                    -- label = "+1",
+                    -- tooltip = "The Dark Portal gives the villain in this city space +1."})
+                -- cards[1].setDescription("LOCATION: this isn't actually a location, but the scripts treat it as one and leave it alone.")
+                -- local citypos = getObjectFromGUID(city[7-twistsresolved]).getPosition()
+                -- citypos.z = citypos.z + 2
+                -- citypos.y = citypos.y + 2
+                -- cards[1].setPositionSmooth(citypos)
                 broadcastToAll("Scheme Twist: A dark portal reinforces a city space!")
             else
                 koCard(cards[1])
@@ -9490,7 +9494,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             if toKO[1] then
                 if epicness then
                     promptDiscard({color = o.color,
-                        hand = hand,
+                        hand = toKO,
                         n = 2,
                         pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
                         label = "Dominate",
@@ -9498,7 +9502,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     broadcastToColor("Master Strike: Two nongrey heroes from your hand become dominated by Onslaught.",o.color,o.color)
                 else
                     promptDiscard({color = o.color,
-                        hand = hand,
+                        hand = toKO,
                         pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition(),
                         label = "Dominate",
                         tooltip = "Onslaught dominates this hero."})

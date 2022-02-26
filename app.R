@@ -167,6 +167,9 @@ ui <- fluidPage(
     bsTooltip("dropset",
               "Select the sets that are to be fully excluded from the random generator.",
               placement="right"),
+    bsTooltip("onlyset",
+              "Select the only sets that are to be included by the random generator.",
+              placement="right"),
     bsTooltip("epic",
               "Tick this box to potentially select epic masterminds. If you do, there\\'s a 50% chance."),
     bsTooltip("solo",
@@ -332,8 +335,14 @@ ui <- fluidPage(
                                      value=T),
                        width=4)),
             fluidRow(
+                column(selectizeInput("onlyset",
+                                      "Sets included",
+                                      choices=setaslist,
+                                      multiple=T),
+                       width=9)),
+            fluidRow(
                 column(selectizeInput("incset",
-                               "Sets included",
+                               "Sets preferred",
                                choices=setaslist,
                                multiple=T),
                        width=9),
@@ -530,6 +539,7 @@ server <- function(input, output, session) {
                             fixedXtra = input$fixedXtra,
                             epic = input$epic,
                             dropset=input$dropset,
+                            onlyset=input$onlyset,
                             solo=input$solo,
                             xtra=NULL)
             incProgress(1/input$gamecount,detail = paste("Setup",i))

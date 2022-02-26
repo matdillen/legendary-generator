@@ -24,7 +24,8 @@ function onLoad()
         
     local guids1 = {
         "heroDeckZoneGUID",
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
     }
     
     for _,o in pairs(guids1) do
@@ -37,6 +38,9 @@ function onLoad()
         end
     end
     toggleButton()
+    
+    zoneBonuses = {}
+    objectsInside = {}
 end
 
 function toggleButton()
@@ -46,9 +50,9 @@ function toggleButton()
         self.createButton({
             click_function="click_fight_villain", function_owner=self,
             position={0,-0.4,-0.4}, rotation = {0,180,0}, label=zoneName, 
-            tooltip = "Fight the villain in this city space!", color={1,1,1,1}, 
-            font_color = {1,0,0}, width=750, height=150,
-            font_size = 85
+            tooltip = "Fight the villain in this city space!", color={1,0,0,0.9}, 
+            font_color = {0,0,0}, width=750, height=150,
+            font_size = 75
         })
     end
 end
@@ -82,6 +86,119 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function onObjectEnterZone(zone,object)
+    if zone.guid == self.guid and not objectsInside[object.guid] then
+        objectsInside[object.guid] = true
+        Wait.condition(setZonePower,function()
+            if object.isSmoothMoving() or object.held_by_color then
+                return false
+            else
+                return true
+            end
+        end)
+    end
+end
+
+function onObjectLeaveZone(zone,object)
+    if zone.guid == self.guid and objectsInside[object.guid] then
+        objectsInside[object.guid] = nil
+        if object.hasTag("Villain") then
+            if zoneBonuses["base"] then 
+                getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = object,label = zoneBonuses["base"][1],tooltip = zoneBonuses["base"][2]})
+            end
+            for i,_ in pairs(zoneBonuses) do
+                if i ~= "local" then
+                    zoneBonuses[i] = nil
+                end
+            end
+        end
+        Wait.time(setZonePower,0.2)
+    end
+end
+
+function updateZonePower(params)
+    local label = params.label
+    local tooltip = params.tooltip
+    local id = params.id
+    if not zoneBonuses["local"] then
+        zoneBonuses["local"] = {}
+    end
+    zoneBonuses["local"][id] = {label,tooltip}
+    --log(zoneBonuses)
+    setZonePower()
+end
+
+function setZonePower()
+    local cards = get_decks_and_cards_from_zone(self.guid)
+    local villainfound = 0
+    for _,obj in pairs(cards) do
+        if obj.getName() == "Shard" then
+            local val = obj.Call('returnVal')
+            zoneBonuses["shard"] = {"+" .. val,"Power bonus from shards here."}
+        elseif obj.hasTag("Villain") then
+            villainfound = 1
+            local val = tostring(hasTag2(obj,"Power:"))
+            zoneBonuses["card"] = {val,"Base power as written on the card."}
+            local butt = obj.getButtons()
+            if butt then
+                local tip = (butt[1].tooltip:gsub("%[.*",""))
+                local box = (butt[1].tooltip:gsub(".*%[",""))
+                box = (box:gsub("%]",""))
+                zoneBonuses[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                obj.clearButtons()
+            else
+                zoneBonuses["base"] = nil
+            end
+        end
+    end
+    if villainfound == 0 then
+        for i,_ in pairs(zoneBonuses) do
+            if i ~= "local" then
+                zoneBonuses[i] = nil
+            end
+        end
+    end
+    --log(zoneBonuses)
+    local bonusesToUpdate = table.clone(zoneBonuses,true)
+    if zoneBonuses["local"] then
+        bonusesToUpdate["local"] = nil
+        if villainfound > 0 then
+            for i,o in pairs(zoneBonuses["local"]) do
+                bonusesToUpdate[i] = o
+            end
+        end
+    end
+    local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',bonusesToUpdate)
+    --log("lab: " .. lab or "nil")
+    --log("tool: " .. tool or "nil")
+    local butt = self.getButtons()
+    local buttonindex = nil
+    if butt then
+        for i,b in pairs(butt) do
+            if b.click_function ~= "click_fight_villain" and b.click_function ~= "scan_villain" then
+                buttonindex = i -1
+                break
+            end
+        end
+    end
+    if lab == "" and buttonindex then
+        self.removeButton(buttonindex)
+    elseif buttonindex then
+        self.editButton({index = buttonindex, label = lab, tooltip = tool})
+    else
+        self.createButton({click_function='setZonePower',
+            function_owner=self,
+            position={0,0,0},
+            rotation={0,180,0},
+            label=lab,
+            tooltip=tool,
+            font_size=300,
+            font_color={1,0,0},
+            color={0,0,0,0.75},
+            width=250,height=150})
     end
 end
 
