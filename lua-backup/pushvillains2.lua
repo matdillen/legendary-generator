@@ -70,7 +70,8 @@ function onLoad()
         "horrorZoneGUID",
         "twistZoneGUID",
         "shardGUID",
-        "sidekickZoneGUID"
+        "sidekickZoneGUID",
+        "officerZoneGUID"
     }
     
     for _,o in pairs(guids1) do
@@ -1202,7 +1203,9 @@ function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
 end
 
-
+function unveilScheme()
+    broadcastToAll("Unveiling a random scheme is not scripted yet!!!")
+end
 
 function nonCityZoneShade(guid)
     getObjectFromGUID(guid).createButton({
@@ -1981,6 +1984,35 @@ function twistSpecials(cards,city,schemeParts)
         wwiiInvasion = false
         return nil
     end
+    if schemeParts[1] == "Claim Souls for Demons" then
+        if twistsresolved < 4 then
+            tormentedSoulBargain = function(color,wounds)
+                if wounds == true then
+                    local bspile = get_decks_and_cards_from_zone(bszoneguid)[1]
+                    bspile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                        flip=true})
+                else
+                    click_rescue_bystander(nil,color)
+                end
+            end  
+        elseif twistsresolved == 5 then
+            tormentedSoulBargain = function(color,wounds)
+                if wounds == true then
+                    local officerpile = getObjectFromGUID(officerDeckGUID)
+                    officerpile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                        flip=true})
+                else
+                    getObjectFromGUID(officerZoneGUID).Call('gainOfficer',color)
+                end
+            end 
+        end
+        if twistsresolved < 9 then
+            for _,o in pairs(Player.getPlayers()) do
+                demonicBargain({color = o.color,triggerf = tormentedSoulBargain})
+            end
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Clash of the Monsters Unleashed" then
         if twistsresolved > 2 and twistsresolved < 11 then
             koCard(cards[1])
@@ -2321,6 +2353,10 @@ function twistSpecials(cards,city,schemeParts)
         cards[1].setName("Masterstrike")
         broadcastToAll("Scheme Twist: This Scheme Twist is a Master Strike!")
         click_push_villain_into_city()
+        return nil
+    end
+    if schemeParts[1] == "Cursed Pages of the Darkhold Tome" then
+        broadcastToAll("This scheme twist is not scripted yet.")
         return nil
     end
     if schemeParts[1] == "Cytoplasm Spike Invasion" then
@@ -2887,6 +2923,80 @@ function twistSpecials(cards,city,schemeParts)
                 trigger_function = koThisHeroDeck,
                 args = "self",
                 isZone = true})
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Drain Mutants' Powers to…" then
+        local kidnappedmutants = get_decks_and_cards_from_zone(twistZoneGUID)
+        local sidekickdeck = get_decks_and_cards_from_zone(sidekickZoneGUID)[1]
+        if twistsresolved < 7 then
+            for i = 1,2 do
+                sidekickdeck.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                    flip = false,
+                    smooth = true})
+            end
+            if kidnappedmutants[1] then
+                bump(sidekickdeck)
+                kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(sidekickZoneGUID).getPosition())
+                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                return nil
+            end
+        elseif twistsresolved == 7 then
+            if kidnappedmutants[1] then
+                bump(sidekickdeck)
+                kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(sidekickZoneGUID).getPosition())
+            end
+            unveilScheme()
+            return nil
+        end
+        return twistsresolved
+    end
+    if schemeParts[1] == "Duels of Science and Magic" then
+        if twistsresolved == 1 or twistsresolved == 3 or twistsresolved == 5 then
+            local players = revealCardTrait("Silver|Blue")
+            for _,o in pairs(players) do
+                local hand = getHandObjects(o.color)
+                promptDiscard({color = o.color, n = #hand - 4})
+            end
+            if #players <= #Player.getPlayers()/2 then
+                stackTwist(cards[1])
+                return nil
+            end
+        elseif twistsresolved == 2 or twistsresolved == 4 or twistsresolved == 6 then
+            local players = revealCardTrait("Yellow|Red")
+            for _,o in pairs(players) do
+                local hand = getHandObjects(o.color)
+                promptDiscard({color = o.color, n = #hand - 4})
+            end
+            if #players <= #Player.getPlayers()/2 then
+                stackTwist(cards[1])
+                return nil
+            end
+        elseif twistsresolved > 6 and twistsresolved < 12 then
+            local players = Player.getPlayers()
+            for _,o in pairs(players) do
+                local hand = getHandObjects(o)
+                local colorsfound = 0
+                for _,h in pairs(hand) do
+                    if hasTag2(h,"HC:") and hasTag2(h,"HC:") ~= "Green" then
+                        colorsfound = colorsfound + 1
+                        if colorsfound > 2 then
+                            break
+                        end
+                    end
+                end
+                if colorsfound > 2 then
+                    players[o] = nil
+                end
+            end
+            for _,o in pairs(players) do
+                local hand = getHandObjects(o.color)
+                promptDiscard({color = o.color, n = #hand - 4})
+            end
+            if #players <= #Player.getPlayers()/2 then
+                stackTwist(cards[1])
+                return nil
+            end
         end
         return twistsresolved
     end
@@ -3606,6 +3716,39 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
+    if schemeParts[1] == "Hack Cerebro Servers to..." then
+        local kidnappedmutants = get_decks_and_cards_from_zone(twistZoneGUID)
+        local bsdeck = getObjectFromGUID(bystandersPileGUID)
+        if twistsresolved < 6 then
+            bsdeck.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+                flip = false,
+                smooth = true})
+            local hq_cards = {}
+            for _,o in pairs(hqguids) do
+                local hero = getObjectFromGUID(o).Call('getHeroUp')
+                if hero and hasTag2(hero,"Cost:") and hasTag2(hero,"Cost:") == #kidnappedmutants[1]+1 then
+                    table.insert(hq_cards,hero)
+                end
+            end
+            if hq_cards[1] then
+                promptDiscard({color = Turns.turn_color,
+                    hand = hq_cards,
+                    pos = getObjectFromGUID(kopile_guid).getPosition(),
+                    label = "KO",
+                    tooltip = "KO this hero."})
+                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                return nil
+            end
+        elseif twistsresolved == 7 then
+            if kidnappedmutants[1] then
+                bump(bsdeck)
+                kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(bszoneguid).getPosition())
+            end
+            unveilScheme()
+            return nil
+        end
+        return twistsresolved
+    end
     if schemeParts[1] == "Hail Hydra" then
         broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
         return nil
@@ -3689,6 +3832,40 @@ function twistSpecials(cards,city,schemeParts)
             end
         end
         Wait.condition(tacticsFollowup,tacticsAdded)
+    end
+    if schemeParts[1] == "Hire Singularity Investigations to…" then
+        local bsdeck = getObjectFromGUID(bystandersPileGUID)
+        if twistsresolved < 5 then
+            local bystanders = bsdeck.getObjects()
+            local singularityInvestigatorEnters = function(obj)
+                obj.removeTag("Bystander")
+                obj.addTag("Power:6")
+                obj.addTag("Singularity Investigator")
+                obj.setPosition(self.getPosition())
+                Wait.time(click_push_villain_into_city,1)
+                broadcastToColor("KO one of your heroes and investigate for a card with Recruit.",Turns.turn_color,Turns.turn_color)
+            end
+            offerCards({color = Turns.turn_color,
+                pile = bsdeck,
+                guids = {bystanders[1].guid,bystanders[2].guid},
+                resolve_function = singularityInvestigatorEnters,
+                tooltip = "This bystander will enter the city as a Singularity Investigator Villain.",
+                label = "Push",
+                flip = true})
+            for _,o in pairs(city) do
+                local citycontent = get_decks_and_cards_from_zone(o)
+                for _,c in pairs(citycontent) do
+                    if c.hasTag("Singularity Investigator") then
+                        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                        return nil
+                    end
+                end
+            end
+        elseif twistsresolved == 5 then
+            unveilScheme()
+            return nil
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Horror of Horrors" then
         if twistsresolved < 6 then
@@ -4894,6 +5071,22 @@ function twistSpecials(cards,city,schemeParts)
                 " (" .. ragnarokGuardians[8][2] .. ") then you can move the last twist from next to the scheme to the KO pile.")
         end
         return nil
+    end
+    if schemeParts[1] == "Raid Gene Banks to…" then
+        if twistsresolved < 4 then
+            local bankcontent = get_decks_and_cards_from_zone(city_zones_guids[3])
+            for _,c in pairs(bankcontent) do
+                if c.hasTag("Villain") then
+                    cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                    return nil
+                end
+            end
+            broadcastToColor("Move a villain to the bank, if any!",Turns.turn_color,Turns.turn_color)
+        elseif twistsresolved == 4 then
+            unveilScheme()
+            return nil
+        end
+        return twistsresolved
     end
     if schemeParts[1] == "Replace Earth's Leaders with Killbots" then
         stackTwist(cards[1])
@@ -6726,6 +6919,10 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
+    if schemeParts[1] == "War for the Dream Dimension" then
+        broadcastToAll("This twist is not scripted yet.")
+        return nil
+    end
     if schemeParts[1] == "War of Kings" then
         stackTwist(cards[1])
         broadcastToAll("Scheme Twist: Pay the battlefront tax or lose a battle.")
@@ -7449,6 +7646,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         return strikesresolved
     end
+    if mmname == "Bastion, Fused Sentinel" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Belasco, Demon Lord of Limbo" then
         local sunlight = 0
         local moonlight = 0
@@ -7731,6 +7932,48 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             click_push_villain_into_city()
         end
         return nil
+    end
+    if mmname == "Dormammu" then
+        local delay = 0
+        if epicness then
+            for _,p in pairs(Player.getPlayers()) do
+                local playerBoard = getObjectFromGUID(playerBoards[p.color])
+                local posdiscard = playerBoard.positionToWorld(pos_discard)
+                local deck = playerBoard.Call('returnDeck')[1]
+                local performDemonicBargain = function()
+                    if not deck then
+                        deck = playerBoard.Call('returnDeck')[1]
+                    end
+                    if deck and deck.tag == "Deck" then
+                        for _,tag in pairs(deck.getObjects()[1].tags) do
+                            if not tag:find("Cost:") or (tag:find("Cost:") and tonumber(tag:match("%d+")) == 0) then
+                                deck.takeObject({position = posdiscard,
+                                    flip = true,
+                                    smooth = true})
+                                break
+                            end
+                        end
+                    elseif deck then
+                        if not hasTag2(deck,"Cost:") or hasTag2(deck,"Cost:") == 0 then
+                            deck.setPosition(posdiscard)
+                        end
+                    end
+                end
+                if deck and deck.getQuantity() > 1 then
+                    performDemonicBargain()
+                else
+                    playerBoard.Call('click_refillDeck')
+                    deck = nil
+                    Wait.time(performDemonicBargain,2)
+                end
+            end
+            delay = 1
+        end
+        for _,p in pairs(Player.getPlayers()) do
+            local hand = p.getHandObjects()
+            Wait.time(function() demonicBargain({color = p.color,triggerf = function() promptDiscard({color = p.color,n = #hand - 4 + delay end})}) end,delay)
+        end
+        return strikesresolved        
     end
     if mmname == "Dr. Doom" or mmname == "God-Emperor" then
         local players = revealCardTrait("Silver")
@@ -10499,6 +10742,15 @@ function revealCardTrait(params)
     if not players then
         players = Player.getPlayers()
     end
+    if trait:find("|") then
+        local traitlist = {}
+        for s in string.gmatch(trait,"[^|]+") do
+            table.insert(traitlist, s)
+        end
+        trait = traitlist
+    else
+        trait = {trait}
+    end
     for i,o in ipairs(players) do
         local hand = o.getHandObjects()
         if not excludePlay then
@@ -10509,35 +10761,37 @@ function revealCardTrait(params)
         end
         if hand[1] then
             for _,h in pairs(hand) do
-                if what == "Prefix" then
-                    if hasTag2(h,prefix) and hasTag2(h,prefix) == trait then
-                        players[i] = nil
-                        break
-                    end
-                elseif what == "Tag" then
-                    if h.hasTag(trait) then
-                        players[i] = nil
-                        break
-                    end
-                elseif what == "Namepart" then
-                    if h.getName():find(trait) then
-                        players[i] = nil
-                        break
-                    end
-                elseif what == "Name" then
-                    if h.getName() == trait then
-                        players[i] = nil
-                        break
-                    end
-                elseif what == "Cost" then
-                    if hasTag2(h,prefix) and hasTag2(h,prefix) > trait then
-                        players[i] = nil
-                        break
-                    end
-                elseif what == "Odd" then
-                    if hasTag2(h,prefix) and hasTag2(h,prefix) % 2 ~= 0 then
-                        players[i] = nil
-                        break
+                for _,value in pairs(trait) do
+                    if what == "Prefix" then
+                        if hasTag2(h,prefix) and hasTag2(h,prefix) == value then
+                            players[i] = nil
+                            break
+                        end
+                    elseif what == "Tag" then
+                        if h.hasTag(value) then
+                            players[i] = nil
+                            break
+                        end
+                    elseif what == "Namepart" then
+                        if h.getName():find(value) then
+                            players[i] = nil
+                            break
+                        end
+                    elseif what == "Name" then
+                        if h.getName() == value then
+                            players[i] = nil
+                            break
+                        end
+                    elseif what == "Cost" then
+                        if hasTag2(h,prefix) and hasTag2(h,prefix) > value then
+                            players[i] = nil
+                            break
+                        end
+                    elseif what == "Odd" then
+                        if hasTag2(h,prefix) and hasTag2(h,prefix) % 2 ~= 0 then
+                            players[i] = nil
+                            break
+                        end
                     end
                 end
             end
@@ -11295,6 +11549,48 @@ function hasTag2(obj,tag,index)
         end
     end
     return nil
+end
+
+function demonicBargain(params)
+    local color = params.color
+    local triggerf = params.triggerf
+    local giveWound = params.giveWound or true
+    
+    local playerBoard = getObjectFromGUID(playerBoards[color])
+    local posdiscard = playerBoard.positionToWorld(pos_discard)
+    local deck = playerBoard.Call('returnDeck')[1]
+    local performDemonicBargain = function()
+        local demonicBargainFulfilled = function(obj)
+            if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 0 then
+                triggerf(color,true)
+                if giveWound then
+                    click_get_wound(nil,color)
+                    broadcastToColor("You failed the Demonic Bargain and got a wound!",color,color)
+                end
+            else
+                triggerf(color,false)
+            end
+        end
+        if not deck then
+            deck = playerBoard.Call('returnDeck')[1]
+        end
+        if deck and deck.tag == "Deck" then
+            deck.takeObject({position = posdiscard,
+                flip = true,
+                smooth = true,
+                callback_function = demonicBargainFulfilled})
+        elseif deck then
+            deck.setPosition(posdiscard)
+            demonicBargainFulfilled(deck)
+        end
+    end
+    if deck and deck.getQuantity() > 1 then
+        performDemonicBargain()
+    else
+        playerBoard.Call('click_refillDeck')
+        deck = nil
+        Wait.time(performDemonicBargain,2)
+    end
 end
 
 function promptDiscard(params)

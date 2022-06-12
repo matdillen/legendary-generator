@@ -1032,16 +1032,21 @@ imgPopupGen <- function(id,cardtype,src,imgsize) {
           mod2 = 397 + 397*(1-sze$rel[1])
           
           bg = 1000
-          if (vals$file[i]!="anni.jpg") {
+          if (vals$file[i]!="anni.jpg"&vals$file[i]!="strangexp.jpg") {
             mod = 16.67 - 16.67*(1-sze$rel[1])/7
             vals$sz1[i] = (as.numeric(loc[1])-1)*11.11
             vals$sz2[i] = (as.numeric(loc[2])-1)*mod
             bg = 1000
-          } else {
+          } else if (vals$file[i]=="anni.jpg") {
             mod = 25 - 25*(1-sze$rel[1])/5
             vals$sz1[i] = (as.numeric(loc[1])-1)*12.5
             vals$sz2[i] = (as.numeric(loc[2])-1)*mod
             bg = 900
+          } else if (vals$file[i]=="strangexp.jpg") {
+            mod = 20 - 20*(1-sze$rel[1])/6
+            vals$sz1[i] = (as.numeric(loc[1])-1)*16.67
+            vals$sz2[i] = (as.numeric(loc[2])-1)*mod
+            bg = 700
           }
         }
         if (!is.na(vals$file[i])) {

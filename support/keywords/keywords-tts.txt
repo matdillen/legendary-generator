@@ -1,6 +1,7 @@
 Abomination	Villain gets extra printed Power from hero below it in the HQ.
 Adapt	Shuffle all of this Mastermind's tactics, so a random one ends up on top.
 Artifact	This card remains in play and typically has an effect that can be used once per turn.
+Astral Plane	This is a one-space special zone where enemies can only be fought with Recruit, not Attack. They can escape from it causing the usual effects.
 Berserk	Discard the top card of your deck and get its printed Power.
 Bribe	Both Power and Recruit can be used to fight this.
 Burrow	If the Streets were empty, put this villain there after fighting.
@@ -9,6 +10,7 @@ Cheering Crowds	When playing this card, you may return a Bystander from your Vic
 Chivalrous Duel	This card can only be fought with Power gained from cards with a common Hero name.
 Circle of Kung Fu	This card gets the listed extra Power unless you reveal a Hero that costs at least the listed number.
 Celestial Boon	You gain this permament bonus as long as the card granting it is in your Victory Pile.
+Clone	Gain a hero with the same card name from the HQ or, if none are available, search one up from the hero deck and shuffle it.
 Conqueror	This gets the listed extra Power if there's a Villain in the named city space.
 Contest of Champions	Each player reveals a Hero card from their hand or the top card of their deck. The Mastermind reveals the top 2 cards of the Hero Deck. Whoever revealed a Hero with the highest cost, wins. Costs of heroes with the listed Class count double.
 Coordinate	During another player's turn, you may discard this and draw a card. If you do, that player may use this card's effects. A player may only Coordinate once each turn.
@@ -17,6 +19,7 @@ Cross-Dimensional Rampage	Each player reveals a Hero or a card in their Victory 
 Danger Sense	Reveal the listed number of cards from the Villain Deck. Get 1 Power for each Villain revealed and put cards back in any order.
 Dark Memories	Get +1 Power for each Hero Class in your discard pile.
 Demolish	Reveal the top card of the Hero deck and put it on bottom. Demolished players reveal their hand and discard a card with the same cost.
+Demonic Bargain	Discard top card of your deck. If it costs more than 0, gain a wound. Either way, gain the Bargain effect.
 Digest	Digest triggers if there are at least the listed number of cards in your Victory Pile. Indigestion triggers if not.
 Dodge	Instead of playing, you may discard this card to draw a card.
 Dominate	Put dominated heroes under this card. This card gets +1 Power for each dominated Hero. When fought, put 1 dominated hero in each player's discard pile and KO the rest.
@@ -36,15 +39,18 @@ Last Stand	Gets +1 Power for each empty City Space.
 Lightshow	Once per turn, if you played at least two cards with Lightshow, you may activate a Lightshow effect from one card.
 Location	Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.
 Man out of Time	When you play this card from your hand, set it aside after using its effects. When set aside, play it again at the beginning of your next turn. At the end of that turn, it will be discarded.
-Momentum    This Villain gets the listed extra Power if it entered another city space this turn.
+Momentum	This Villain gets the listed extra Power if it entered another city space this turn.
 Moonlight	Majority of heroes in the HQ have odd-numbered costs.
 Outwit	Reveal heroes with 3 different costs.
 Patrol	Check whether the listed zone is empty or not.
 Phasing	Instead of playing, you may swap this with the top card of your deck.
 Piercing Energy	You may use this special resource to fight Villains or Masterminds, ignoring their Power and comparing with their Victory Points instead. Also ignore any special conditions that may restrict fighting them. Can't be used on Villains without Victory Points.
+Prey	Players with the fewest such cards in hand is preyed upon by the enemy. Put the enemy card in front of that player (it can still be fought). At end of preyed player's turn, if the enemy is still preying, do the finish the prey effect and have it enter the Sewers without its Ambush effect.
 Revenge	This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.
 Rise of the Living Dead	The top card of each player's Victory Pile enters the city if it has this ability and is not a Mastermind Tactic.
+Ritual Artifact	This card remains in play. You may discard it for its effect any time if its condition was fulfilled this turn, even if it wasn't in play at the time.
 Savior	Have at least three Bystanders in your Victory Pile.
+Shatter	Half an enemy's Power rounded up for one fight. Can stack if used multiple times, applies to cost if used on heroes.
 SHIELD Clearance	To fight this, you must discard a SHIELD Hero.
 SHIELD Level	The number of HYDRA and SHIELD cards in your Victory Pile.
 Shard	Take a Shard disk and place it in front of you. Shards stay with you between turns. During your turn, you may spend shards to get 1 Power for each Shard. You may also spend Shards to burn them for some effects.
@@ -56,6 +62,7 @@ Sunlight	Majority of heroes in the HQ have even-numbered costs.
 Switcheroo	Instead of playing, you may put this on the bottom of the Hero deck and put a Hero card in the HQ that has the listed cost into your hand.
 Symbiote Bond	Two villains bond into one with all text and stats of both combined. When fought, defeat only one of the two and only do that one's fight effect.
 Striker	Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.
+Tactical Formation	Use this ability if you have a set of heroes with the listed costs.
 Teleport	Instead of playing, you may set this card aside and add it to your next hand.
 Throne's Favor	There is one Throne's Favor token in the game. If you gain it, take it from whoever has it. If you spend it, put it somewhere neutral.
 Thrown Artifact	This card remains in play. During your turn, you may put it on the bottom of your deck to use its Throw effect.

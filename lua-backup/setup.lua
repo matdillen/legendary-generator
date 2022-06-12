@@ -1600,6 +1600,9 @@ function schemeSpecials ()
         end
         Wait.condition(novaShuffle,novaMoved)
     end
+    if setupParts[1] == "Drain Mutants' Powers to…" or setupParts[1] == "Hack Cerebro Servers to..." or setupParts[1] == "Hire Singularity Investigations to…" or setupParts[1] == "Raid Gene Banks to…" then
+        mmZone.Call('lockTopZone',topBoardGUIDs[1])
+    end
     if setupParts[1] == "Earthquake Drains the Ocean" then
         getObjectFromGUID(pushvillainsguid).Call('cityLowTides')
     end

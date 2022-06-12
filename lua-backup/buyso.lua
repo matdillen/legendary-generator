@@ -141,6 +141,10 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
     end
 end
 
+function gainOfficer(color)
+    click_buy_hero(nil,color)
+end
+
 function get_decks_and_cards_from_zone(zoneGUID)
     local zone = getObjectFromGUID(zoneGUID)
     if zone then

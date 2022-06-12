@@ -407,7 +407,6 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-    
     #make preset forms visible or not
     observeEvent(input$presets, {
         toggle("fixedSCH")

@@ -14,12 +14,14 @@ Build an Underground MegaVault Prison;V;8;;;;;;;;2;;;;;WO;;;;;;;;;;5*;;;;villain
 Cage Villains in Power-Suppressing Cells;V;8;;;;;;;;;;;;;O;;Also requires a few cops.;;;;;;;;;;;Put cops next to scheme;villains2,jpg;9 4;;
 Capture Baby Hope;DC;8;;;;;;;;;;;1;;VE;;;;;;;;;;;;;baby hope token;darkcity,jpg;8 5;;
 Change the Outcome of WWII;C75;7;;;;;;;;;;;2;;VE;;;;1;;;;;;;;;;c75,jpg;10 4;;
+Claim Souls for Demons;DRS;8;;;;;;;;;;;;;O;;;;;;;;;;;;;;strangexp,jpg;2 5;;
 Clash of the Monsters Unleashed;CH;10;;;;;;;;2;;;;;WO;;;;;;;;;;6*;;;put monsters unleashed villains in separate pile;champions,jpg;3 3;;
 Corrupt the Next Generation of Heroes;SW1;8;;;;;;;;;;;2;;SE;Sidekick;Might be a 2 for CRWD?;;;;;;;;;;;add sidekicks to villain deck;sw1,jpg;5 5;;
 Crash the Moon into the Sun;NM;11;;;;;;;;;;;;;O;;Benefits from HQ filtering;;;;;;;;;;;;nmschemes,png;1 1;;
 Crown Thor King of Asgard;V;8;;;;;;;;;;;1;;SE;Thor;;;;;;;;;;;;Add Thor villian;villains2,jpg;5 4;;
 Crush HYDRA;V;8;;;;;;;;;;;1;;SE;Heroes;;;;;;;;;;;;;villains2,jpg;8 4;;
 Crush Them With My Bare Hands;SW1;5;;;;;;;;;;;;;LT;;Can be broken with certain MM, e.g. Dark Phoenix;;;;;;;;;;;;sw1,jpg;4 5;;
+Cursed Pages of the Darkhold Tome;DRS;11;;;;;;;;;;;;;O;;;;1;;;;;;;;;;strangexp,jpg;3 5;;
 Cytoplasm Spike Invasion;WW;10;;;;;;;;;;1;1;;SE;Bystander;Include Cytoplasm spike henchmen;;;;;;;;;;;Shuffle 20 bystanders and 10 cytoplasm in separate pile;hulk,jpg;9 3;;
 Dark Alliance;SW1;8;;;;;;;;;;;;;LT;;;;;;;;;;;;;;sw1,jpg;2 5;;
 Dark Reign of H.A.M.M.E.R. Officers;CW;7;;;;;;;;;;;;;LT;;Interacts strongly with shield officers;;;;;;;;;;;;civilwar,jpg;9 2;;
@@ -32,6 +34,8 @@ Detonate the Helicarrier;DC;8;;;;;;;;;2;;;;HK;;;"2:1;5:0";;;;;;;;;;;darkcity,jpg
 Devolve with Xerogen Crystals;ROK;"2:5;3:6;4:7;5:8";;;;;;;;;;;2;;VE;;;;;1;;;;;;;;Extra henchmen group that has abomination;roksch,jpg;SW;;
 Distract the Hero;HC;8;;;;;;;;;;;;;O;;Problematic with villains gained as heroes;;;;;;;;;;;Not specific hero, but team;homecoming,jpg;3 3;;
 Divide and Conquer;CH;8;1;1;1;1;1;;;;1;;;;HK;;;"2:2;5:1";;;;;;;;;;;champions,jpg;4 3;;
+Drain Mutants' Powers to...;MC;11;;;;;;;;;;;;;O;;;;;;;;;;;;;;mc2,jpg;1 6;;
+Duels of Science and Magic;DRS;"2:9;3:11;4:10;5:11";;;;;;;;;;;;;O;;;;;;;;;;;;;;strangexp,jpg;4 5;;
 Earthquake Drains the Ocean;R;11;;;;;;;;;;;2;;VE;;;;1;;;;;;;;;;earthquake.png;1;tsunami.png;1
 Enthrone the Barons of Battleworld;SW2;8;;;;;;;;;;;;;O;Masterminds;Slightly harder with villains that can ascend;;;;;;;;;;;;sw2,jpg;1 7;;
 Epic Super Hero Civil War;CW;"2:9;4:6";;;;;;;;;1;;;;HK;;;;;;;;;;;;;;civilwar,jpg;7 2;;
@@ -48,8 +52,10 @@ Fragmented Realities;SW1;2*;;;;;;;;;;;2;;HK;;Combines terribly with city space h
 Gladiator Pits of Sakaar;WW;6;;;;;;;;;;;1;;VE;;Harder with high team diversity;;;;;;;;;;;;hulk,jpg;6 3;;
 Go Back in Time to Slay Heroes' Ancestors;C75;9;;;;;;;;;;;;;LT;;;"2:3;5:2";;;;;;;;;;;c75,jpg;1 5;;
 Graduation at Xavier's X-Academy;V;8;;;;;;;;;;;;;LT;;Also when enough bystanders escape;;;;;;;;;;;Put 8 bystanders next to scheme;villains2,jpg;10 4;;
+Hack Cerebro Servers to...;MC;10;;;;;;;;;;;;;O;;;;;;;;;;;;;;mc2,jpg;2 6;;
 Hail Hydra;AOS;11;;;;;;;;;;;;;LT;;;;;;;;;;;;;;officers,png;7 3;;
 Hidden Heart of Darkness;N;8;;;;;;;;;;;1;;SE;Tactics;;;;;;;;;;;;tactics in villain deck;noir,jpg;4 5;;
+Hire Singularity Investigations to...;MC;9;;;;;;;;;;;;;O;;;;;;;;;;;;;;mc2,jpg;3 6;;
 Horror of Horrors;XM;6;;;;;;;;;;;;;LT;;;;;;;;;;;;;;xmen,jpg;1 3;;
 House of M;R;8;;;;;;X-men;2;;2;;;;HK;;Requires 4 X-men and 2 non-X-men.;;;;;;;;;;;Scarlet Witch in villain deck;houseofm,png;1;nomore,png;1
 Hydra Helicarriers Hunt Heroes;AOS;8;;;;;;;;;2;;;;HK;;;1;;;;;;;;;;;officers,png;6 3;;
@@ -82,6 +88,7 @@ Pull Reality Into the Negative Zone;FF;8;;;;;;;;;;;;;LT;;;;;;;;;;;;;;pttr,jpg;3 
 Pulse Waves from the Negative Zone;ANH;9;;;;;;;;;;;;;LT;;;;;;;;;;;;;;anni,jpg;7 4;;
 Put Humanity on Trial;ANH;11;;;;;;;;;;;;;O;;;;;;;;;;;;;;anni,jpg;8 4;;
 Ragnarok, Twilight of the Gods;HOA;11;;;;;;;;;;;1;;O;;;;;;;;;;;;;;hoa,png;2 1;;
+Raid Gene Banks to...;MC;8;;;;;;;;;;;;;O;;;;;;;;;;;;;;mc2,jpg;5 6;;
 Replace Earth's Leaders with Killbots;B;5;;;;;;;;;;;;1;SE;Bystander;;;;;;;;18;;;;3 twists next to scheme;base2,jpg;8 3;;
 Resurrect Heroes with Norn Stones;V;8;;;;;;;;;;;2;;VE;;;;;;;;;;;;;;villains2,jpg;1 5;;
 Reveal Heroes' Secret Identities;CW;6;;;;;;;;;;;;;LT;;;"2:2;5:1";;;;;;;;;;;civilwar,jpg;3 2;;
@@ -128,6 +135,7 @@ Turn the Soul of Adam Warlock;ITC;14;;;;;;;;;;;;;O;;;;;;;;;;;;;;itc,png;7 4;;
 Unite the Shards;GG;"2:7;3:8;4:9;5:10";;;;;;;;;;;;;O;;Interacts poorly with a lot of shards heroes;;;;;;;;;;;;gotg,jpg;10 2;;
 United States Split by Civil War;CW;10;;;;;;;;;;;;;O;;City manipulation;;;;;;;;;;;;civilwar,jpg;2 2;;
 Unleash the Power of the Cosmic Cube;B;8;;;;;;;;;;;;;LT;;;;;;;;;;;;;;base2,jpg;7 3;;
+War for the Dream Dimension;DRS;7;;;;;;;;;;;;;VE;;;;1;;;;;;;;;;strangexp,jpg;5 5;;
 War of Kings;ROK;11;;;;;;;;;;;;;O;;Can't pay war's wage;;;;;;;;;;;;roksch,jpg;NW;;
 War of the Frost Giants;HOA;9;;;;;;;;;;;2;;SE;Scheme Twist;;;;;;;;;;;;;hoa,png;1 1;;
 Weave a Web of Lies;PTT;7;;;;;;;;;;;;;LT;;;;;;;;;;;;;;pttr,jpg;3 3;;
