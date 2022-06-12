@@ -2926,7 +2926,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         return twistsresolved
     end
-    if schemeParts[1] == "Drain Mutants' Powers to…" then
+    if schemeParts[1] == "Drain Mutants' Powers to..." then
         local kidnappedmutants = get_decks_and_cards_from_zone(twistZoneGUID)
         local sidekickdeck = get_decks_and_cards_from_zone(sidekickZoneGUID)[1]
         if twistsresolved < 7 then
@@ -2938,7 +2938,7 @@ function twistSpecials(cards,city,schemeParts)
             if kidnappedmutants[1] then
                 bump(sidekickdeck)
                 kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(sidekickZoneGUID).getPosition())
-                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
                 return nil
             end
         elseif twistsresolved == 7 then
@@ -2955,7 +2955,7 @@ function twistSpecials(cards,city,schemeParts)
         if twistsresolved == 1 or twistsresolved == 3 or twistsresolved == 5 then
             local players = revealCardTrait("Silver|Blue")
             for _,o in pairs(players) do
-                local hand = getHandObjects(o.color)
+                local hand = o.getHandObjects()
                 promptDiscard({color = o.color, n = #hand - 4})
             end
             if #players <= #Player.getPlayers()/2 then
@@ -2965,7 +2965,7 @@ function twistSpecials(cards,city,schemeParts)
         elseif twistsresolved == 2 or twistsresolved == 4 or twistsresolved == 6 then
             local players = revealCardTrait("Yellow|Red")
             for _,o in pairs(players) do
-                local hand = getHandObjects(o.color)
+                local hand = o.getHandObjects()
                 promptDiscard({color = o.color, n = #hand - 4})
             end
             if #players <= #Player.getPlayers()/2 then
@@ -2975,7 +2975,7 @@ function twistSpecials(cards,city,schemeParts)
         elseif twistsresolved > 6 and twistsresolved < 12 then
             local players = Player.getPlayers()
             for _,o in pairs(players) do
-                local hand = getHandObjects(o)
+                local hand = o.getHandObjects()
                 local colorsfound = 0
                 for _,h in pairs(hand) do
                     if hasTag2(h,"HC:") and hasTag2(h,"HC:") ~= "Green" then
@@ -2990,7 +2990,7 @@ function twistSpecials(cards,city,schemeParts)
                 end
             end
             for _,o in pairs(players) do
-                local hand = getHandObjects(o.color)
+                local hand = o.getHandObjects()
                 promptDiscard({color = o.color, n = #hand - 4})
             end
             if #players <= #Player.getPlayers()/2 then
@@ -3718,6 +3718,10 @@ function twistSpecials(cards,city,schemeParts)
     end
     if schemeParts[1] == "Hack Cerebro Servers to..." then
         local kidnappedmutants = get_decks_and_cards_from_zone(twistZoneGUID)
+        local hackers = 0
+        if kidnappedmutants[1] then
+            hackers = math.abs(kidnappedmutants[1].getQuantity())
+        end
         local bsdeck = getObjectFromGUID(bystandersPileGUID)
         if twistsresolved < 6 then
             bsdeck.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
@@ -3726,7 +3730,7 @@ function twistSpecials(cards,city,schemeParts)
             local hq_cards = {}
             for _,o in pairs(hqguids) do
                 local hero = getObjectFromGUID(o).Call('getHeroUp')
-                if hero and hasTag2(hero,"Cost:") and hasTag2(hero,"Cost:") == #kidnappedmutants[1]+1 then
+                if hero and hasTag2(hero,"Cost:") and hasTag2(hero,"Cost:") == hackers+1 then
                     table.insert(hq_cards,hero)
                 end
             end
@@ -3735,11 +3739,13 @@ function twistSpecials(cards,city,schemeParts)
                     hand = hq_cards,
                     pos = getObjectFromGUID(kopile_guid).getPosition(),
                     label = "KO",
-                    tooltip = "KO this hero."})
-                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                    tooltip = "KO this hero.",
+                    trigger_function = function(obj,i) getObjectFromGUID(hqguids[i]).Call('click_draw_hero') end,
+                    args = "self"})
+                cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
                 return nil
             end
-        elseif twistsresolved == 7 then
+        elseif twistsresolved == 6 then
             if kidnappedmutants[1] then
                 bump(bsdeck)
                 kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(bszoneguid).getPosition())
@@ -3833,7 +3839,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         Wait.condition(tacticsFollowup,tacticsAdded)
     end
-    if schemeParts[1] == "Hire Singularity Investigations to…" then
+    if schemeParts[1] == "Hire Singularity Investigations to..." then
         local bsdeck = getObjectFromGUID(bystandersPileGUID)
         if twistsresolved < 5 then
             local bystanders = bsdeck.getObjects()
@@ -3856,7 +3862,7 @@ function twistSpecials(cards,city,schemeParts)
                 local citycontent = get_decks_and_cards_from_zone(o)
                 for _,c in pairs(citycontent) do
                     if c.hasTag("Singularity Investigator") then
-                        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
                         return nil
                     end
                 end
@@ -5077,7 +5083,7 @@ function twistSpecials(cards,city,schemeParts)
             local bankcontent = get_decks_and_cards_from_zone(city_zones_guids[3])
             for _,c in pairs(bankcontent) do
                 if c.hasTag("Villain") then
-                    cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDS[1]).getPosition())
+                    cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
                     return nil
                 end
             end
@@ -7971,7 +7977,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         for _,p in pairs(Player.getPlayers()) do
             local hand = p.getHandObjects()
-            Wait.time(function() demonicBargain({color = p.color,triggerf = function() promptDiscard({color = p.color,n = #hand - 4 + delay end})}) end,delay)
+            Wait.time(function() demonicBargain({color = p.color,triggerf = function() promptDiscard({color = p.color,n = #hand - 4 + delay}) end}) end,delay)
         end
         return strikesresolved        
     end
