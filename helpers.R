@@ -375,6 +375,14 @@ genFun = function(src,
                    shiar[pick])
   }
   
+  if (mm[1]=="Bastion, Fused Sentinel") {
+    shiar = c("Sentinel",
+              "Sentinel Squad O*N*E*")
+    pick = sample(0:1,1) + 1
+    henchnames = c(henchnames,
+                   shiar[pick])
+  }
+  
   henchnames = c(henchnames,fixedHM)
   henchnames = henchnames[!duplicated(henchnames)]
   

@@ -203,24 +203,7 @@ function setZonePower()
 end
 
 function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
-                else
-                    return o:sub(#tag+1,-1)
-                end
-            end
-        end
-    end
-    return nil
+    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function updateCityZone()

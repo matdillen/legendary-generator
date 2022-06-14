@@ -895,12 +895,18 @@ function updatePower()
                                     if k:find("HC:") then
                                         evolutionColors[k] = true
                                     end
+                                    if k:find("HC1:") or k:find("HC2:") then
+                                        evolutionColors["HC:".. k:sub(k:len()+2,-1)] = true
+                                    end
                                 end
                             end
                         else
                             for _,o2 in pairs(evolutionPile[1].getTags()) do
                                 if o2:find("HC:") then
                                     evolutionColors[o2] = true
+                                end
+                                if o2:find("HC1:") or o2:find("HC2:") then
+                                    evolutionColors["HC:".. o2:sub(o2:len()+2,-1)] = true
                                 end
                             end
                         end
@@ -910,6 +916,12 @@ function updatePower()
                                 for _,tag in pairs(herocard.getTags()) do
                                     if tag:find("HC:") then
                                         if evolutionColors[tag] == true then
+                                            ultronpower = ultronpower + 1
+                                            break
+                                        end
+                                    end
+                                    if tag:find("HC1:") or tag:find("HC2:") then
+                                        if evolutionColors["HC:".. tag:sub(tag:len()+2,-1)] == true then
                                             ultronpower = ultronpower + 1
                                             break
                                         end
@@ -1204,7 +1216,46 @@ function nonCityZone(obj,player_clicker_color)
 end
 
 function unveilScheme()
-    broadcastToAll("Unveiling a random scheme is not scripted yet!!!")
+    --broadcastToAll("Unveiling a random scheme is not scripted yet!!!")
+    local unveiledschemes = {
+        "...Control the Mutant Messiah",
+        "...Open Rifts to Future Timelines",
+        "...Reveal the Heroes' Evil Clones",
+        "...Unleash an Anti-Mutant Bioweapon"}
+    local unveiled = table.remove(unveiledschemes,math.random(#unveiledschemes))
+    local schemePile = getObjectFromGUID(schemePileGUID)
+    local schemeZone = getObjectFromGUID(schemeZoneGUID)
+    local pos = schemeZone.getPosition()
+    pos.y = pos.y + 2
+    for _,o in pairs(schemePile.getObjects()) do
+        if string.lower(o.name) == string.lower(unveiled) then
+            schemePile.takeObject({position=pos,
+                guid=o.guid,
+                smooth=false,
+                flip=true})
+        end
+    end
+    getObjectFromGUID(setupGUID).Call('unveiledScheme',unveiled)
+    if unveiled == "...Control the Mutant Messiah" then
+        local heroPile = getObjectFromGUID(heroPileGUID)
+        heroPile.randomize()
+        heroPile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+            flip = true,
+            smooth = false,
+            callback_function = function(obj) obj.randomize() end})
+            broadcastToAll("Random hero shuffled into a Mutant Messiah stack!")
+    end
+    if unveiled == "...Open Rifts to Future Timelines" then
+        local villainPile = getObjectFromGUID(villainPileGUID)
+        villainPile.randomize()
+        villainPile.takeObject({position = getObjectFromGUID(villainDeckZoneGUID).getPosition(),
+            flip = true,
+            smooth = false})
+        Wait.time(function() get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].randomize() end,1)
+        broadcastToAll("Random villain group shuffled into the Villain deck!")
+    end
+    twistsresolved = twistsresolved - 1
+    Wait.time(click_push_villain_into_city,1)
 end
 
 function nonCityZoneShade(guid)
@@ -1231,7 +1282,71 @@ function stackTwist(obj)
 end
 
 function twistSpecials(cards,city,schemeParts)
-    --log("special" .. schemename)
+    if schemeParts[1] == "...Control the Mutant Messiah" then
+        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
+        -- local messiahstack = get_decks_and_cards_from_zone(twistZoneGUID)[1]
+        -- local toptwo = {
+            -- messiahstack.getObjects()[1].guid,
+            -- messiahstack.getObjects()[2].guid
+            -- }
+        -- offerCards({color = Turns.turn_color,
+            -- pile = get_decks_and_cards_from_zone(twistZoneGUID)[1],
+            -- guids = toptwo,
+            -- })
+        broadcastToAll("Unscripted scheme twist!")
+        return nil
+    end
+    if schemeParts[1] == "...Open Rifts to Future Timelines" then
+        --local rifts = math.abs(get_decks_and_cards_from_zone(topBoardGUIDs[1])[1].getQuantity()) + 1
+        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
+        -- local villaindeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+        -- if villaindeck.tag == "Card" then
+        
+        -- else
+            -- local villaindeckcontent = villaindeck.getObjects()
+            -- local vp = 0
+            -- local villains = {}
+            -- local hench = {}
+            -- local localvp = 0
+            -- local localvillain = nil
+            -- for i = 1,rifts do
+                -- localvp = 0
+                -- localvillain = nil
+                -- for _,tag in pairs(villaindeckcontent[i].tags) do
+                    -- if tag == "Henchmen" then
+                        -- table.insert(hench,villaindeckcontent[i].guid)
+                    -- end
+                    -- if tag == "Villain" then
+                        -- localvillain = villaindeckcontent[i].guid
+                    -- end
+                    -- if tag:find("VP") then
+                        -- localvp = tonumber(tag:match("%d+"))
+                    -- end
+                -- end
+                -- if localvillain and localvp == vp then
+                    -- table.insert(villains,localvillain)
+                -- elseif localvillain and localvp > vp then
+                    -- villains = {localvillain}
+                    -- vp = localvp
+                -- end
+                -- if i == #villaindeckcontent then
+                    -- break
+                -- end
+            -- end
+        -- end
+        broadcastToAll("Unscripted scheme twist!")
+        return nil
+    end
+    if schemeParts[1] == "...Reveal the Heroes' Evil Clones" then
+        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
+        broadcastToAll("Unscripted scheme twist!")
+        return nil
+    end
+    if schemeParts[1] == "...Unleash an Anti-Mutant Bioweapon" then
+        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
+        broadcastToAll("Unscripted scheme twist!")
+        return nil
+    end
     if schemeParts[1] == "Age of Ultron" then
         if twistsresolved == 1 then
             ultronpower = 4
@@ -2958,7 +3073,7 @@ function twistSpecials(cards,city,schemeParts)
                 local hand = o.getHandObjects()
                 promptDiscard({color = o.color, n = #hand - 4})
             end
-            if #players <= #Player.getPlayers()/2 then
+            if #players >= #Player.getPlayers()/2 then
                 stackTwist(cards[1])
                 return nil
             end
@@ -2968,7 +3083,7 @@ function twistSpecials(cards,city,schemeParts)
                 local hand = o.getHandObjects()
                 promptDiscard({color = o.color, n = #hand - 4})
             end
-            if #players <= #Player.getPlayers()/2 then
+            if #players >= #Player.getPlayers()/2 then
                 stackTwist(cards[1])
                 return nil
             end
@@ -2993,7 +3108,7 @@ function twistSpecials(cards,city,schemeParts)
                 local hand = o.getHandObjects()
                 promptDiscard({color = o.color, n = #hand - 4})
             end
-            if #players <= #Player.getPlayers()/2 then
+            if #players >= #Player.getPlayers()/2 then
                 stackTwist(cards[1])
                 return nil
             end
@@ -5078,7 +5193,7 @@ function twistSpecials(cards,city,schemeParts)
         end
         return nil
     end
-    if schemeParts[1] == "Raid Gene Banks to…" then
+    if schemeParts[1] == "Raid Gene Banks to..." then
         if twistsresolved < 4 then
             local bankcontent = get_decks_and_cards_from_zone(city_zones_guids[3])
             for _,c in pairs(bankcontent) do
@@ -7682,7 +7797,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                 if discarded[1] and discarded[1].tag == "Deck" then
                     for _,c in pairs(discarded[1].getObjects()) do
                         for _,tag in pairs(c.tags) do
-                            if tag:find("HC:") then
+                            if tag:find("HC:") or tag == "Split" then
                                 table.insert(discardguids,c.guid)
                                 break
                             end
@@ -7839,13 +7954,23 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         local kopilepos = getObjectFromGUID(kopile_guid).getPosition()
         if herodeck[1] and herodeck[1].tag == "Deck" then
             local phoenixDevours = function(obj)
-                broadcastToAll("Master Strike: Dark Phoenix purges the whole hero deck of hero class " .. hasTag2(obj,"HC:") .. "!")
+                if not hasTag2(obj,"HC:")[1] then
+                    broadcastToAll("Master Strike: Dark Phoenix purges the whole hero deck of hero class " .. hasTag2(obj,"HC:") .. "!")
+                else
+                    broadcastToAll("Master Strike: Dark Phoenix purges the whole hero deck of hero class " .. hasTag2(obj,"HC:")[1] .. " and " .. hasTag2(obj,"HC:")[2] .. "!")
+                end
                 local koguids = {}
                 local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
                 if herodeck[1] and herodeck[1].tag == "Deck" then
                     for i,o in ipairs(herodeck[1].getObjects()) do
                         for _,k in pairs(o.tags) do
-                            if k == "HC:" .. hasTag2(obj,"HC:") then
+                            local tag = k
+                            if k:find("HC1:") or k:find("HC2:") then
+                                tag = k:gsub("HC.:","HC:")
+                            end
+                            if (not hasTag2(obj,"HC:")[1] and tag == "HC:" .. hasTag2(obj,"HC:")) or 
+                                (hasTag2(obj,"HC:")[1] and (tag == "HC:" .. hasTag2(obj,"HC:")[1] or 
+                                    tag == "HC:" .. hasTag2(obj,"HC:")[2])) then
                                 table.insert(koguids,i)
                                 break
                             end
@@ -7862,14 +7987,32 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                             if herodeck[1].remainder then
                                 local remains = herodeck[1].remainder
                                 remains.flip()
-                                if hasTag2(remains,"HC:",4) == hasTag2(obj,"HC:",4) then
+                                if hasTag2(remains,"HC:") == hasTag2(obj,"HC:") then
                                     koCard(remains)
+                                end
+                                if hasTag2(remains,"HC:")[1] or hasTag2(obj,"HC:")[1] then
+                                    for _,h1 in pairs(hasTag2(remains,"HC:")) do
+                                        for _,h2 in pairs(hasTag2(obj,"HC:")) do
+                                            if h1 == h2 then
+                                                koCard(remains)
+                                                remo = -1
+                                                break
+                                            end
+                                        end
+                                        if remo == -1 then
+                                            break
+                                        end
+                                    end
                                 end
                                 break
                             end
                         end
                     end
-                elseif herodeck[1] and herodeck[1].hasTag("HC:" .. hasTag2(obj,"HC:")) then
+                elseif herodeck[1] and 
+                    (not hasTag2(obj,"HC:")[1] and herodeck[1].hasTag("HC:" .. hasTag2(obj,"HC:"))) or 
+                        (hasTag2(obj,"HC:")[1] and 
+                        (herodeck[1].hasTag("HC:" .. hasTag2(obj,"HC:")[1]) or 
+                            herodeck[1].hasTag("HC:" .. hasTag2(obj,"HC:")[2]))) then
                     herodeck[1].flip()
                     koCard(herodeck[1])
                 end
@@ -8154,6 +8297,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         return strikesresolved
     end
+    if mmname == "Exodus" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Fin Fang Foom" then
         local foomcount = 0
         for _,o in pairs(city) do
@@ -8285,7 +8432,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             cards[1].setName("Graveyard")
             cards[1].setDescription("LOCATION: Put this above the City Space closest to the Villain Deck and without a Location already. Can be fought, but does not count as a Villain. KO the weakest Location if the City is already full of Locations.")
             cards[1].addTag("VP" .. 5 + reaperbonus)
-            cards[1].addTag("Attack:" .. 7 + reaperbonus)
+            cards[1].addTag("Power:" .. 7 + reaperbonus)
             cards[1].addTag("Location")
             powerButton({obj = cards[1],
                 label = 7 + reaperbonus,
@@ -8304,7 +8451,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             end
             cards[1].setName("Army of the Dead")
             cards[1].addTag("VP" .. 3 + helabonus)
-            cards[1].addTag("Attack:" .. 5 + helabonus)
+            cards[1].addTag("Power:" .. 5 + helabonus)
             cards[1].addTag("Villain")
             powerButton({obj = cards[1],
                 label = 5 + helabonus,
@@ -8807,6 +8954,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             Wait.time(drawfive,1)
         end
         return strikesresolved
+    end
+    if mmname == "Lady Deathstrike" then
+        msno(mmname)
+        return nil
     end
     if mmname =="Lady Mastermind" then
         ladymastermindStrike = {}
@@ -9404,7 +9555,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     if discarded[1] and discarded[1].tag == "Deck" then
                         for _,c in pairs(discarded[1].getObjects()) do
                             for _,tag in pairs(c.tags) do
-                                if tag:find("HC:") then
+                                if tag:find("HC:") or tag == "Split" then
                                     table.insert(discardguids,c.guid)
                                     break
                                 end
@@ -9606,6 +9757,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             strikesstacked = strikesstacked + 1
         end
         demolish({n = strikesstacked})
+        return nil
+    end
+    if mmname == "Nightmare" then
+        msno(mmname)
         return nil
     end
     if mmname == "Nimrod, Super Sentinel" then
@@ -9948,7 +10103,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             if discarded[1] and discarded[1].tag == "Deck" then
                 for _,c in pairs(discarded[1].getObjects()) do
                     for _,tag in pairs(c.tags) do
-                        if tag:find("HC:") then
+                        if tag:find("HC:") or tag == "Split" then
                             table.insert(discardguids,c.guid)
                             break
                         end
@@ -10304,6 +10459,22 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         color = o:gsub("HC:","")
                     end
                 end
+                if o:find("HC1:") then
+                    if color then
+                        color = {color}
+                        table.insert(color,(o:gsub("HC1:","")))
+                    else
+                        color = o:gsub("HC1:","")
+                    end
+                end
+                if o:find("HC2:") then
+                    if color then
+                        color = {color}
+                        table.insert(color,(o:gsub("HC2:","")))
+                    else
+                        color = o:gsub("HC2:","")
+                    end
+                end
                 if o:find("Cost:") then
                     cost = o:gsub("Cost:","")
                 end
@@ -10355,7 +10526,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     for _,obj in pairs(discard.getObjects()) do
                         local colored = false
                         for _,k in pairs(obj.tags) do
-                            if k:find("HC:") then
+                            if k:find("HC:") or k == "Split" then
                                 colored = true
                                 break
                             end
@@ -10388,7 +10559,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     local todiscard = {}
                     for i=1,6 do
                         for _,k in pairs(deckcards[i].tags) do
-                            if k:find("HC:") then
+                            if k:find("HC:") or k == "Split" then
                                 table.insert(todiscard,deckcards[i].guid)
                                 break
                             end
@@ -10510,7 +10681,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                     if discarded[1] and discarded[1].tag == "Deck" then
                         for _,c in pairs(discarded[1].getObjects()) do
                             for _,tag in pairs(c.tags) do
-                                if tag:find("HC:") then
+                                if tag:find("HC:") or tag == "Split" then
                                     table.insert(discardguids,c.guid)
                                     break
                                 end
@@ -11537,24 +11708,7 @@ function offerCards(params)
 end
 
 function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
-                else
-                    return o:sub(#tag+1,-1)
-                end
-            end
-        end
-    end
-    return nil
+    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function demonicBargain(params)
@@ -11783,6 +11937,12 @@ function contestOfChampions(params)
                 if k:find("HC:") and (k:gsub("HC:","") == color[1] or (color[2] and k:gsub("HC:","") == color[2])) then
                     doubled = true
                 end
+                if k:find("HC1:") and (k:gsub("HC1:","") == color[1] or (color[2] and k:gsub("HC1:","") == color[2])) then
+                    doubled = true
+                end
+                if k:find("HC2:") and (k:gsub("HC2:","") == color[1] or (color[2] and k:gsub("HC2:","") == color[2])) then
+                    doubled = true
+                end
                 if k:find("Cost:") then
                     score = k:gsub("Cost:","")
                     score = tonumber(score)
@@ -11839,6 +11999,12 @@ function contestOfChampions(params)
                        responses[obj.getName()] = tonumber(k:match("%d+"))
                     end
                     if k:find("HC:") and (k:gsub("HC:","") == color[1] or (color[2] and k:gsub("HC:","") == color[2])) then
+                        doubled = true
+                    end
+                    if k:find("HC1:") and (k:gsub("HC1:","") == color[1] or (color[2] and k:gsub("HC1:","") == color[2])) then
+                        doubled = true
+                    end
+                    if k:find("HC2:") and (k:gsub("HC2:","") == color[1] or (color[2] and k:gsub("HC2:","") == color[2])) then
                         doubled = true
                     end
                 end

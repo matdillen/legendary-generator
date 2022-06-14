@@ -5,7 +5,8 @@ function onLoad()
         "playerBoards",
         "vpileguids",
         "playguids",
-        "resourceguids"
+        "resourceguids",
+        "attackguids"
     }
     
     for _,o in pairs(guids3) do
@@ -121,24 +122,7 @@ function click_update_tactics(obj)
 end
 
 function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
-                else
-                    return o:sub(#tag+1,-1)
-                end
-            end
-        end
-    end
-    return nil
+    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function callGUID(var,what)
@@ -693,8 +677,45 @@ function setupMasterminds(objname,epicness,tactics,lurking)
     if not lurking then
         fightButton(mmLocations[objname])
     end
+    local mmzone = get_decks_and_cards_from_zone(mmLocations[objname])
+    local baselabel = 0
+    for _,o in pairs(mmzone) do
+        if o.tag == "Deck" then
+            for _,p in pairs(o.getObjects()) do
+                local mmfound = false
+                local tacticfound = false
+                baselabel = 0
+                for _,t in pairs(p.tags) do
+                    if t == "Mastermind" then
+                        mmfound = true
+                    end
+                    if t:find("Tactic:") then
+                        tacticfound = true
+                    end
+                    if t:find("Power:") then
+                        baselabel = tonumber(t:match("%d+")) or ""
+                    end
+                end
+                if mmfound and not tacticfound then
+                    break
+                end
+            end
+        else
+            if o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
+                baselabel = hasTag2(o,"Power:") or ""
+                break
+            end
+        end
+    end
+    mmButtons({mmname = objname,
+        checkvalue = 1,
+        label = baselabel,
+        tooltip = "Base power as written on the card.",
+        f = 'updatePower',
+        id = 'card'})
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
+        return nil
     end
     if objname == "Adrian Toomes" or objname == "Adrian Toomes - epic" then
         updateMMAdrian = function()
@@ -718,6 +739,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMAdrian()
             end
         end
+        return nil
     end
     if objname == "Apocalypse" then
         for i,o in pairs(city_zones_guids) do
@@ -772,6 +794,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             annihilusmomentumvillains = {}
             updateMMAnnihilus()
         end
+        return nil
     end
     if objname == "Arcade" or objname == "Arcade - epic" then
         local arc = 5
@@ -831,6 +854,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMArcade()
         end
+        return nil
     end
     if objname == "Arnim Zola" then
         updateMMArnimZola = function()
@@ -839,7 +863,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 local hero = getObjectFromGUID(o).Call('getHeroUp')
                 if hero then
                     for _,k in pairs(hero.getTags()) do
-                        if k:find("Attack:") then
+                        if k:find("Attack:") or k:find("Attack1:") or k:find("Attack2:") then
                             power = power + tonumber(k:match("%d+"))
                         end
                     end
@@ -867,6 +891,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 end
             end
         end
+        return nil
     end
     if objname == "Baron Heinrich Zemo" then
         updateMMBaronHein = function()
@@ -909,6 +934,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMBaronHein()
         end
+        return nil
     end
     if objname == "Baron Helmut Zemo" then
         updateMMBaronHelm = function()
@@ -954,6 +980,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMBaronHelm()
         end
+        return nil
     end
     if objname == "Belasco, Demon Lord of Limbo" or objname == "Belasco, Demon Lord of Limbo - epic" then
         updateMMBelasco = function()
@@ -965,7 +992,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
                 for _,k in pairs(kopilecontent[1].getObjects()) do
                     for _,l in pairs(k.tags) do
-                        if l:find("HC:") then
+                        if l:find("HC:") or l:find("Split") then
                             nongrey = nongrey + 1
                             break
                         end
@@ -990,6 +1017,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMBelasco()
             end
         end
+        return nil
     end
     if objname == "Charles Xavier, Professor of Crime" then
         updateMMCharles = function()
@@ -1043,6 +1071,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMCharles()
             end
         end
+        return nil
     end
     if objname == "Deathbird" or objname == "Deathbird - epic" then
         updateMMDeathbird = function()
@@ -1103,6 +1132,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 Wait.time(updateMMDeathbird,0.1)
             end
         end
+        return nil
     end
     if objname == "Emma Frost, The White Queen" or objname == "Emma Frost, The White Queen - epic" then
         updateMMEmma = function()
@@ -1146,6 +1176,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMEmma()
         end
+        return nil
     end
     if objname == "Emperor Vulcan of the Shi'ar" or objname == "Emperor Vulcan of the Shi'ar  - epic" then
         updateMMEmperorVulcan = function()
@@ -1170,6 +1201,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar"})
             updateMMEmperorVulcan()
         end
+        return nil
     end
     if objname == "Evil Deadpool" then
         if not mmActive(objname) then
@@ -1213,6 +1245,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMDeadpool()
         end
+        return nil
     end
     if objname == "Fin Fang Foom" or objname == "Fin Fang Foom - epic" then
         updateMMFinFang = function()
@@ -1235,6 +1268,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                             if tag:find("HC:") then
                                 hccolors[tag:gsub("HC:","")] = 2
                             end
+                            if tag:find("HC1:") then
+                                hccolors[tag:gsub("HC1:","")] = 2
+                            end
+                            if tag:find("HC2:") then
+                                hccolors[tag:gsub("HC2:","")] = 2
+                            end
                         end
                     end
                 end
@@ -1247,6 +1286,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         for _,tag in pairs(tags) do
                             if tag:find("HC:") then
                                 hccolors[tag:gsub("HC:","")] = 2
+                            end
+                            if tag:find("HC1:") then
+                                hccolors[tag:gsub("HC1:","")] = 2
+                            end
+                            if tag:find("HC2:") then
+                                hccolors[tag:gsub("HC2:","")] = 2
                             end
                         end
                     end
@@ -1272,6 +1317,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMFinFang()
         end
+        return nil
     end
     if objname == "Grim Reaper" or objname == "Grim Reaper - epic" then
         updateMMReaper = function()
@@ -1313,6 +1359,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMReaper()
             end
         end
+        return nil
     end
     if objname == "Hela, Goddess of Death" or objname == "Hela, Goddess of Death - epic" then
         helacitycheck = table.clone(city_zones_guids)
@@ -1359,6 +1406,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMHela()
             end
         end
+        return nil
     end
     if objname == "Hydra High Council" then
         updateMMHydraHigh = function()
@@ -1452,7 +1500,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     local hero = getObjectFromGUID(o).Call('getHeroUp')
                     if hero then
                         for _,k in pairs(hero.getTags()) do
-                            if k:find("Attack:") then
+                            if k:find("Attack:") or k:find("Attack1:") or k:find("Attack2:") then
                                 power = power + tonumber(k:match("%d+"))
                             end
                         end
@@ -1475,6 +1523,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMHydraHigh()
         end
+        return nil
     end
     if objname == "Immortal Emperor Zheng-Zhu" then
         updateMMImmortalEmperor = function()
@@ -1502,6 +1551,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMImmortalEmperor()
         end
+        return nil
     end
     if objname == "J. Jonah Jameson" or objname == "J. Jonah Jameson - epic" then
         local soPile = getObjectFromGUID(officerDeckGUID)
@@ -1608,6 +1658,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMJonah()
             end
         end
+        return nil
     end
     if objname == "Kang the Conqueror" or objname == "Kang the Conqueror - epic" then
         updateMMKang = function()
@@ -1643,6 +1694,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMKang()
         end
+        return nil
     end
     if objname == "Kingpin" then
         mmButtons({mmname = objname,
@@ -1651,6 +1703,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
             tooltip="Kingpin can be fought using Recruit as well as Attack.",
             f = 'updatePower',
             id = "bribe"})
+        return nil
     end
     if objname == "Macho Gomez" then
         updateMMMacho = function()
@@ -1694,6 +1747,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onPlayerTurn(player,previous_player)
             updateMMMacho()
         end
+        return nil
     end
     if objname == "Madelyne Pryor, Goblin Queen" then
         function click_buy_goblin(obj,player_clicker_color)
@@ -1783,6 +1837,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMMadelyne()
         end
+        return nil
     end
     if objname == "Magus" or objname == "Magus - epic" then
         updateMMMagus = function()
@@ -1820,6 +1875,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMMagus()
         end
+        return nil
     end
     if objname == "Mandarin" or objname == "Mandarin - epic" then
         local boost = "+1"
@@ -1876,6 +1932,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMMandarin,0.1)
         end
+        return nil
     end
     if objname == "Maria Hill, Director of S.H.I.E.L.D." then
         updateMMMaria = function()
@@ -1913,6 +1970,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMMaria()
             end
         end
+        return nil
     end
     if objname == "Maximus the Mad" or objname == "Maximus the Mad - epic" then
         updateMMMaximus = function()
@@ -1925,6 +1983,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 if hero then
                     for _,k in pairs(hero.getTags()) do
                         if k:find("Attack:") then
+                            power = math.max(power,tonumber(k:match("%d+")))
+                        end
+                        if k:find("Attack1:") then
+                            power = math.max(power,tonumber(k:match("%d+")))
+                        end
+                        if k:find("Attack2:") then
                             power = math.max(power,tonumber(k:match("%d+")))
                         end
                     end
@@ -1948,6 +2012,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMMaximus()
         end
+        return nil
     end
     if objname == "Misty Knight" then
         mmButtons({mmname = objname,
@@ -2004,6 +2069,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMMojo()
         end
+        return nil
     end
     if objname == "Mole Man" then
         updateMMMoleMan = function()
@@ -2037,6 +2103,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMMoleMan,0.1)
         end
+        return nil
     end
     if objname == "Morgan Le Fay" then
         mmButtons({mmname = objname,
@@ -2082,6 +2149,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 Wait.time(updateMMMrSinister,0.1)
             end
         end
+        return nil
     end
     if objname == "Odin" then
         updateMMOdin = function()
@@ -2125,6 +2193,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMOdin,0.1)
         end
+        return nil
     end
     if objname == "Onslaught" or objname == "Onslaught - epic" then
         for _,o in pairs(Player.getPlayers()) do
@@ -2163,6 +2232,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMOnslaught,0.1)
         end
+        return nil
     end
     if objname == "Poison Thanos" or objname == "Poison Thanos - epic" then
         updateMMPoisonThanos = function()
@@ -2216,6 +2286,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMPoisonThanos,0.1)
         end
+        return nil
     end
     if objname == "Professor X" then
         if mmLocations[objname] == mmZoneGUID then
@@ -2295,6 +2366,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMProfessorX,0.1)
         end
+        return nil
     end
     if objname == "'92 Professor X" then
         if mmLocations[objname] == mmZoneGUID then
@@ -2374,6 +2446,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMProfessorX92,0.1)
         end
+        return nil
     end
     if objname == "Ragnarok" then
         updateMMRagnarok = function()
@@ -2393,6 +2466,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                     for _,k in pairs(hero.getTags()) do
                         if k:find("HC:") then
                             hccolors[k:gsub("HC:","")] = 2
+                        end
+                        if k:find("HC1:") then
+                            hccolors[k:gsub("HC1:","")] = 2
+                        end
+                        if k:find("HC2:") then
+                            hccolors[k:gsub("HC2:","")] = 2
                         end
                     end
                 end
@@ -2414,6 +2493,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMRagnarok()
         end
+        return nil
     end
     if objname == "Shadow King" or objname == "Shadow King - epic" then
         if epicness then
@@ -2453,6 +2533,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMShadowKing,0.1)
         end
+        return nil
     end
     if objname == "Spider-Queen" then
         updateMMSpiderQueen = function()
@@ -2486,6 +2567,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMSpiderQueen,0.1)
         end
+        return nil
     end
     if objname == "Stryfe" then
         updateMMStryfe = function()
@@ -2520,6 +2602,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMStryfe,0.1)
         end
+        return nil
     end
     if objname == "Thanos" then
         updateMMThanos = function()
@@ -2554,6 +2637,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMThanos()
             end
         end
+        return nil
     end
     if objname == "The Goblin, Underworld Boss" then
         local bsPile = getObjectFromGUID(bystandersPileGUID)
@@ -2651,6 +2735,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             updateMMTheGoblin()
         end
+        return nil
     end
     if objname == "The Hood" or objname == "The Hood - epic" then
         updateMMHood = function()
@@ -2677,6 +2762,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         if k:find("HC:") then
                             hccolors[k:gsub("HC:","")] = boost
                         end
+                        if k:find("HC1:") then
+                            hccolors[k:gsub("HC1:","")] = boost
+                        end
+                        if k:find("HC2:") then
+                            hccolors[k:gsub("HC2:","")] = boost
+                        end
                     end
                 end
                 
@@ -2684,6 +2775,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 for _,k in pairs(discard.getTags()) do
                     if k:find("HC:") then
                         hccolors[k:gsub("HC:","")] = boost
+                    end
+                    if k:find("HC1:") then
+                        hccolors[k:gsub("HC1:","")] = boost
+                    end
+                    if k:find("HC2:") then
+                        hccolors[k:gsub("HC2:","")] = boost
                     end
                 end
             end
@@ -2706,6 +2803,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMHood,0.1)
         end
+        return nil
     end
     if objname == "Ultron" or objname == "Ultron - epic" then
         updateMMUltron = function()
@@ -2744,6 +2842,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                         if k:find("HC:") then
                             hccolors[k:gsub("HC:","")] = true
                         end
+                        if k:find("HC1:") then
+                            hccolors[k:gsub("HC1:","")] = true
+                        end
+                        if k:find("HC2:") then
+                            hccolors[k:gsub("HC2:","")] = true
+                        end
                     end
                 end
             elseif threatanalysis[1] then
@@ -2754,6 +2858,12 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 if hero and hero.getTags() then
                     for _,tag in pairs(hero.getTags()) do
                         if tag:find("HC:") and hccolors[tag:gsub("HC:","")] then
+                            empowerment = empowerment + boost
+                        end
+                        if tag:find("HC1:") and hccolors[tag:gsub("HC1:","")] then
+                            empowerment = empowerment + boost
+                        end
+                        if tag:find("HC2:") and hccolors[tag:gsub("HC2:","")] then
                             empowerment = empowerment + boost
                         end
                     end
@@ -2771,6 +2881,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMUltron,0.1)
         end
+        return nil
     end
     if objname == "Vulture" or objname == "Vulture - epic" then
         updateMMVulture = function()
@@ -2790,6 +2901,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMVulture()
             end
         end
+        return nil
     end
     if objname == "Wasteland Hulk" then
         if not mmActive(objname) then
@@ -2824,6 +2936,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
         function onObjectLeaveZone(zone,object)
             Wait.time(updateMMWastelandHulk,0.1)
         end
+        return nil
     end
     if objname == "Zombie Green Goblin" then
         updateMMZombieGoblin = function()
@@ -2859,6 +2972,7 @@ function setupMasterminds(objname,epicness,tactics,lurking)
                 updateMMZombieGoblin()
             end
         end
+        return nil
     end
 end
 
@@ -2989,6 +3103,57 @@ function fightButton(zone)
         end
     end
     _G["fightEffect" .. zone] = function(obj,player_clicker_color)
+        local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+        local power = 0
+        for _,o in pairs(get_decks_and_cards_from_zone(obj.guid)) do
+            if o.tag == "Deck" then
+                for _,p in pairs(o.getObjects()) do
+                    local mmfound = false
+                    local tacticfound = false
+                    power = 0
+                    for _,t in pairs(p.tags) do
+                        if t == "Mastermind" then
+                            mmfound = true
+                        end
+                        if t:find("Tactic:") then
+                            tacticfound = true
+                        end
+                        if t:find("Power:") then
+                            power = tonumber(t:match("%d+")) or 0
+                        end
+                    end
+                    if mmfound and not tacticfound then
+                        break
+                    end
+                end
+            else
+                if o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
+                    power = hasTag2(o,"Power:") or 0
+                    break
+                end
+            end
+        end
+        if obj.getButtons() then
+            for _,b in pairs(obj.getButtons()) do
+                if b.click_function == "updatePower" then
+                    if b.label:match("%d+") and b.label:find("+") then
+                        power = power + tonumber(b.label:match("%d+"))
+                    elseif b.label:match("%d+") and not b.label:find("-") then
+                        power = tonumber(b.label:match("%d+"))
+                    elseif b.label:match("%d+") then
+                        power = power - tonumber(b.label:match("%d+"))
+                    elseif b.label == "X" then
+                        broadcastToColor("You can't fight this villain right now due to some restriction!",player_clicker_color,player_clicker_color)
+                        return nil
+                    end
+                end
+            end
+        end
+        if attack < power then
+            broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
+            return nil
+        end
+        getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
         local name = fightMM(obj.guid,player_clicker_color)
         Wait.time(function() click_update_tactics(obj) end,1)
         --log("name:")
@@ -3397,7 +3562,7 @@ function resolveTactics(mmname,tacticname,color,stays)
                     local todiscard = {}
                     for i=1,6 do
                         for _,k in pairs(deckcards[i].tags) do
-                            if k:find("HC:") then
+                            if k:find("HC:") or k == "Split" then
                                 table.insert(todiscard,deckcards[i].guid)
                                 break
                             end

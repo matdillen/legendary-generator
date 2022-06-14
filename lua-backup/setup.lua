@@ -272,25 +272,45 @@ function table.clone(org,key)
     end
 end
 
-function hasTag2(obj,tag,index)
+function hasTag2(params)
+    local obj = params.obj
+    local tag = params.tag
+    local index = params.index
     if not obj or not tag then
         return nil
     end
-    for _,o in pairs(obj.getTags()) do
+    local tags = obj.getTags()
+    if obj.hasTag("Split") then
+        local altag1 = tag:sub(1,-2) .. 1 .. ":"
+        local altag2 = tag:sub(1,-2) .. 2 .. ":"
+        for i,t in pairs(tags) do
+            if t:find(altag1) or t:find(altag2) then
+                tags[i] = tag .. t:sub(tag:len()+2,-1)
+            end
+        end
+    end
+    local res = {}
+    for _,o in pairs(tags) do
         if o:find(tag) then
             if index then
-                return o:sub(index,-1)
+                table.insert(res,o:sub(index,-1))
             else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
+                local num = tonumber(o:match("%d+"))
+                if num then
+                    table.insert(res,num)
                 else
-                    return o:sub(#tag+1,-1)
+                    table.insert(res,o:sub(#tag+1,-1))
                 end
             end
         end
     end
-    return nil
+    if res[1] and res[2] then
+        return res
+    elseif res[1] then
+        return res[1]
+    else
+        return nil
+    end
 end
 
 function toggle_autoplay()
@@ -633,6 +653,10 @@ function returnSetupParts()
         -- ["Extra"]=9
     -- }
     return setupParts
+end
+
+function unveiledScheme(scheme)
+    setupParts[1] = scheme
 end
 
 function returnColor()
@@ -1327,6 +1351,9 @@ function import_setup()
             for i,o in ipairs(obj.getObjects()) do
                 local colors = {}
                 for _,tag in pairs(o.tags) do
+                    if tag:find("HC1:") or tag:find("HC2") then
+                        table.insert(colors,"HC:" .. tag:sub(5,-1))
+                    end
                     if tag:find("HC:") then
                         table.insert(colors,tag)
                     end
@@ -1346,6 +1373,9 @@ function import_setup()
                     temp.flip()
                     colors = {}
                     for _,tag in pairs(temp.getTags()) do
+                        if tag:find("HC1:") or tag:find("HC2") then
+                            table.insert(colors,"HC:" .. tag:sub(5,-1))
+                        end
                         if tag:find("HC:") then
                             table.insert(colors,tag)
                         end
@@ -1600,7 +1630,7 @@ function schemeSpecials ()
         end
         Wait.condition(novaShuffle,novaMoved)
     end
-    if setupParts[1] == "Drain Mutants' Powers to…" or setupParts[1] == "Hack Cerebro Servers to..." or setupParts[1] == "Hire Singularity Investigations to…" or setupParts[1] == "Raid Gene Banks to…" then
+    if setupParts[1] == "Drain Mutants' Powers to..." or setupParts[1] == "Hack Cerebro Servers to..." or setupParts[1] == "Hire Singularity Investigations to..." or setupParts[1] == "Raid Gene Banks to..." then
         mmZone.Call('lockTopZone',topBoardGUIDs[1])
     end
     if setupParts[1] == "Earthquake Drains the Ocean" then

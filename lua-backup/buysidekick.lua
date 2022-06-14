@@ -68,27 +68,6 @@ function table.clone(org,key)
     end
 end
 
-function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
-                else
-                    return o:sub(#tag+1,-1)
-                end
-            end
-        end
-    end
-    return nil
-end
-
 function click_buy_hero(obj, player_clicker_color, alt_click)
     local objects = get_decks_and_cards_from_zone(sidekickZoneGUID)
     if not objects[1] then

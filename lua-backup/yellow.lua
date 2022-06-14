@@ -63,7 +63,7 @@ end
 function onObjectEnterZone(zone,object)
     --log(object.held_by_color)
     if zone.guid == playguid and not object.isSmoothMoving() and (not object.held_by_color or object.held_by_color == boardcolor) then
-        if hasTag2(object,"Recruit:") then
+        if not object.hasTag("Split") and hasTag2(object,"Recruit:") then
             local addRecruit = function()
                 local content = get_decks_and_cards_from_zone(playguid)
                 if content[1] then
@@ -89,7 +89,7 @@ function onObjectEnterZone(zone,object)
             end
             Wait.condition(addRecruit,cardLoose)
         end
-        if hasTag2(object,"Attack:") then
+        if not object.hasTag("Split") and hasTag2(object,"Attack:") then
             local addRecruit = function()
                 local content = get_decks_and_cards_from_zone(playguid)
                 if content[1] then
@@ -119,24 +119,7 @@ function onObjectEnterZone(zone,object)
 end
 
 function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
-                else
-                    return o:sub(#tag+1,-1)
-                end
-            end
-        end
-    end
-    return nil
+    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function table.clone(org,key)

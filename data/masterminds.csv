@@ -267,7 +267,7 @@ Creative assassin;Pagliacci;;;CH;;;;;;;;;;;;;;;;;;Versatile 3;;;champions,jpg;1 
 Jester of a twisted opera;Pagliacci;;;CH;;;;;;;;;;;;;1;;;;;Other players may KO hero of cost 1 or more from discard. Demolish if not.;;;champions,jpg;8 2
 Commedia dell' Morte;Pagliacci;;;CH;;;;;;;;;;;;1;;;;;;Other players may gain 2 wounds. Demolish if not.;;;champions,jpg;10 2
 The Red King;;;;WW;Sakaar Imperial Guard;;6;7;;;;;1;;;1;;;;;;Transform, then wound unless S hero.;Can't be fought if there are villains in the citY.;;hulk2,jpg;9 7
-The Red King, Power Armored;The Red King;;1;WW;;;;;;;;;;;;;;;1;;;Transform, then play another card from villain deck.;;;hulk,jpg;5 1
+The Red King, Power Armored;The Red King;;1;WW;;;6;10;;;;;;;;;;;1;;;Transform, then play another card from villain deck.;;;hulk,jpg;5 1
 Vast armies of Sakaar;The Red King;;;WW;;;;;;;;;;;;;;;1;;;If not final tactic, play all villains in top 3 of villain deck, rest back. Transform;;;hulk,jpg;4 1
 Treasury of Sakaar;The Red King;;;WW;;;;;;;;;;;;;;;;;;Get MO for each Sakaar and Red king in your VP, then transform.;;;hulk,jpg;3 1
 Haughty spite;The Red King;;;WW;;;;;;;;;;;;1;;;;;;Players without tactic get wound, transform.;;;hulk,jpg;1 1
@@ -426,8 +426,8 @@ Cybernetic Healing Factor;Lady Deathstrike;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;6 5
 Prey on the Weak;Lady Deathstrike;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;7 5
 Relentless Assassin;Lady Deathstrike;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;8 5
 Stretching Adamantium Claws;Lady Deathstrike;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;9 5
-Bastion, Fused Sentinel;;;;MC;Purifiers;Sentinel;6;4;;;;;;;;;;;;1;;;;;bastion,jpg;1
-Bastion, Fused Sentinel;;1;;MC;Purifiers;Sentinel;6;6;;;;;;;;;1;;;1;;;;;ebastion,jpg;1
+Bastion, Fused Sentinel;;;;MC;Purifiers;;6;4;;;;;;;;;;;;1;;;;;bastion,jpg;1
+Bastion, Fused Sentinel;;1;;MC;Purifiers;;6;6;;;;;;;;;1;;;1;;;;;ebastion,jpg;1
 Machine Man, Sentinel Supreme;Bastion, Fused Sentinel;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;8 4
 Master Mold, Sentinel Factory;Bastion, Fused Sentinel;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;9 4
 Nimrod, Future Sentinel;Bastion, Fused Sentinel;;;MC;;;;;;;;;;;;;;;;;;;;;mc2,jpg;10 4
