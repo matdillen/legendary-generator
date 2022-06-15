@@ -827,112 +827,119 @@ function updatePower()
     for i,o in pairs(city_zones_guids) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for _,object in pairs(cityobjects) do
+            local index = nil
             if object.getButtons() then
-                local index = nil
                 for i2,b in pairs(object.getButtons()) do
                     if b.click_function == "updatePower" then
                         index = i2
                         break
                     end
                 end
-                if index then
-                    if object.hasTag("Corrupted") then
-                        powerButton({obj= object, label = twistsstacked+2})
-                    elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
-                        powerButton({obj= object, label = twistsstacked})
-                    elseif object.hasTag("Brainwashed") then
-                        powerButton({obj= object, label = twistsstacked+3})
-                    elseif object.hasTag("Phalanx-Infected") then
-                        powerButton({obj= object, label = math.floor(twistsstacked/2)+hasTag2(object,"Cost:")})
-                    elseif object.getName() == "Smugglers" then
-                        powerButton({obj= object, label = "+" .. strikesresolved,id="striker"})
-                    elseif object.hasTag("Khonshu Guardian") then
-                        if i % 2 == 0 then
-                            powerButton({obj= object, label = hasTag2(object,"Cost:")*2})
-                        else
-                            powerButton({obj= object, label = hasTag2(object,"Cost:")})
-                        end
-                    elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
-                        powerButton({obj= object, label = hasTag2(object,"Cost:") + 4})
-                    elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
-                        if not goblincount then
-                            goblincount = 0
-                        end
-                        powerButton({obj= object, label = hasTag2(object,"Cost:") + goblincount})
-                    elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") or object.hasTag("Super Sentinel") then
-                        powerButton({obj= object, label = "+" .. twistsstacked,id="twistsStacked"})
-                    elseif object.getName() == "Graveyard" and object.hasTag("Location") then
-                        for _,obj in pairs(cityobjects) do
-                            if obj.hasTag("Villain") then
-                                powerButton({obj= object, label = "+" .. 2, id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there."})
-                                return nil
-                            end
-                        end
-                        powerButton({obj= object, label = "",id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there."})
-                    elseif object.getName() == "Evolved Ultron" then
-                        local ultronpower = 4
-                        local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
-                        local evolutionPileSize = 0
-                        if evolutionPile[1] then
-                            if evolutionPile[1].tag == "Deck" then
-                                evolutionPileSize = #evolutionPile[1].getObjects()
-                            elseif evolutionPile[1] then
-                                evolutionPileSize = 1
-                            end
-                        else
+            elseif getObjectFromGUID(o).getButtons() then
+                for i2,b in pairs(getObjectFromGUID(o).getButtons()) do
+                    if b.click_function == "updatePower" then
+                        index = i2
+                        break
+                    end
+                end
+            end
+            if index then
+                if object.hasTag("Corrupted") then
+                    powerButton({obj= object, label = twistsstacked+2,zoneguid = o})
+                elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
+                    powerButton({obj= object, label = twistsstacked,zoneguid = o, tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
+                elseif object.hasTag("Brainwashed") then
+                    powerButton({obj= object, label = twistsstacked+3,zoneguid = o})
+                elseif object.hasTag("Phalanx-Infected") then
+                    powerButton({obj= object, label = math.floor(twistsstacked/2)+hasTag2(object,"Cost:"),zoneguid = o})
+                elseif object.getName() == "Smugglers" then
+                    powerButton({obj= object, label = "+" .. strikesresolved,id="striker",zoneguid = o})
+                elseif object.hasTag("Khonshu Guardian") then
+                    if i % 2 == 0 then
+                        powerButton({obj= object, label = hasTag2(object,"Cost:")*2,zoneguid = o})
+                    else
+                        powerButton({obj= object, label = hasTag2(object,"Cost:"),zoneguid = o})
+                    end
+                elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
+                    powerButton({obj= object, label = hasTag2(object,"Cost:") + 4,zoneguid = o})
+                elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
+                    if not goblincount then
+                        goblincount = 0
+                    end
+                    powerButton({obj= object, label = hasTag2(object,"Cost:") + goblincount,zoneguid = o})
+                elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") or object.hasTag("Super Sentinel") then
+                    powerButton({obj= object, label = "+" .. twistsstacked,id="twistsStacked",zoneguid = o})
+                elseif object.getName() == "Graveyard" and object.hasTag("Location") then
+                    for _,obj in pairs(cityobjects) do
+                        if obj.hasTag("Villain") then
+                            powerButton({obj= object, label = "+" .. 2, id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there.",zoneguid = o})
                             return nil
                         end
-                        local evolutionColors = {
-                                ["HC:Red"]=false,
-                                ["HC:Green"]=false,
-                                ["HC:Yellow"]=false,
-                                ["HC:Blue"]=false,
-                                ["HC:Silver"]=false
-                        }
-                        if evolutionPileSize > 1 then
-                            for _,o2 in pairs(evolutionPile[1].getObjects()) do
-                                for _,k in pairs(o2.tags) do
-                                    if k:find("HC:") then
-                                        evolutionColors[k] = true
+                    end
+                    powerButton({obj= object, label = "",id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there.",zoneguid = o})
+                elseif object.getName() == "Evolved Ultron" then
+                    local ultronpower = 4
+                    local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
+                    local evolutionPileSize = 0
+                    if evolutionPile[1] then
+                        if evolutionPile[1].tag == "Deck" then
+                            evolutionPileSize = #evolutionPile[1].getObjects()
+                        elseif evolutionPile[1] then
+                            evolutionPileSize = 1
+                        end
+                    else
+                        return nil
+                    end
+                    local evolutionColors = {
+                            ["HC:Red"]=false,
+                            ["HC:Green"]=false,
+                            ["HC:Yellow"]=false,
+                            ["HC:Blue"]=false,
+                            ["HC:Silver"]=false
+                    }
+                    if evolutionPileSize > 1 then
+                        for _,o2 in pairs(evolutionPile[1].getObjects()) do
+                            for _,k in pairs(o2.tags) do
+                                if k:find("HC:") then
+                                    evolutionColors[k] = true
+                                end
+                                if k:find("HC1:") or k:find("HC2:") then
+                                    evolutionColors["HC:".. k:sub(k:len()+2,-1)] = true
+                                end
+                            end
+                        end
+                    else
+                        for _,o2 in pairs(evolutionPile[1].getTags()) do
+                            if o2:find("HC:") then
+                                evolutionColors[o2] = true
+                            end
+                            if o2:find("HC1:") or o2:find("HC2:") then
+                                evolutionColors["HC:".. o2:sub(o2:len()+2,-1)] = true
+                            end
+                        end
+                    end
+                    for i2,o2 in pairs(hqguids) do
+                        local herocard = getObjectFromGUID(o2).Call('getHeroUp')
+                        if herocard then
+                            for _,tag in pairs(herocard.getTags()) do
+                                if tag:find("HC:") then
+                                    if evolutionColors[tag] == true then
+                                        ultronpower = ultronpower + 1
+                                        break
                                     end
-                                    if k:find("HC1:") or k:find("HC2:") then
-                                        evolutionColors["HC:".. k:sub(k:len()+2,-1)] = true
+                                end
+                                if tag:find("HC1:") or tag:find("HC2:") then
+                                    if evolutionColors["HC:".. tag:sub(tag:len()+2,-1)] == true then
+                                        ultronpower = ultronpower + 1
+                                        break
                                     end
                                 end
                             end
                         else
-                            for _,o2 in pairs(evolutionPile[1].getTags()) do
-                                if o2:find("HC:") then
-                                    evolutionColors[o2] = true
-                                end
-                                if o2:find("HC1:") or o2:find("HC2:") then
-                                    evolutionColors["HC:".. o2:sub(o2:len()+2,-1)] = true
-                                end
-                            end
+                            broadcastToAll("Hero in hq space " .. i2 .. " is missing?")
                         end
-                        for i2,o2 in pairs(hqguids) do
-                            local herocard = getObjectFromGUID(o2).Call('getHeroUp')
-                            if herocard then
-                                for _,tag in pairs(herocard.getTags()) do
-                                    if tag:find("HC:") then
-                                        if evolutionColors[tag] == true then
-                                            ultronpower = ultronpower + 1
-                                            break
-                                        end
-                                    end
-                                    if tag:find("HC1:") or tag:find("HC2:") then
-                                        if evolutionColors["HC:".. tag:sub(tag:len()+2,-1)] == true then
-                                            ultronpower = ultronpower + 1
-                                            break
-                                        end
-                                    end
-                                end
-                            else
-                                broadcastToAll("Hero in hq space " .. i2 .. " is missing?")
-                            end
-                        end
-                        powerButton({obj= object, label = ultronpower})
                     end
+                    powerButton({obj= object, label = ultronpower,zoneguid = o})
                 end
             end
         end
@@ -979,6 +986,10 @@ function powerButton(params)
     local click_f = params.click_f or 'updatePower'
     local otherposition = params.otherposition
     local color = params.color or "Red"
+    local zoneguid = params.zoneguid
+    if zoneguid and zoneguid == city_zones_guids[1] then
+        zoneguid = nil
+    end
     if not obj or not label then
         broadcastToAll("Error: Missing argument to card boost.")
         return nil
@@ -1010,7 +1021,29 @@ function powerButton(params)
                 break
             end
         end
+    elseif zoneguid then
+        local butt = getObjectFromGUID(zoneguid).getButtons()
+        for i,o in pairs(butt) do
+            if o.click_function ~= "click_fight_villain" and o.click_function ~= "scan_villain" then
+                buttonindex = i - 1
+                if o.tooltip:find("\n") then
+                    for t in string.gmatch(o.tooltip,"[^\n]+") do
+                        local tip = (t:gsub("%[.*",""))
+                        local box = (t:gsub(".*%[",""))
+                        box = (box:gsub("%]",""))
+                        toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                    end
+                else
+                    local tip = (o.tooltip:gsub("%[.*",""))
+                    local box = (o.tooltip:gsub(".*%[",""))
+                    box = (box:gsub("%]",""))
+                    toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                end
+                break
+            end
+        end
     end
+    --log(toolt_orig)
     if not toolt_orig then
         toolt_orig = {[id] = {label,tooltip}}
     else
@@ -1020,7 +1053,26 @@ function powerButton(params)
         toolt_orig[id] = {label,tooltip}
     end
     local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',toolt_orig)
-    if otherposition or not buttonindex then
+    if zoneguid then
+        getObjectFromGUID(zoneguid).Call('updateZoneBonuses',toolt_orig)
+        if lab == "" and buttonindex then
+            getObjectFromGUID(zoneguid).removeButton(buttonindex)
+        elseif buttonindex then
+            getObjectFromGUID(zoneguid).editButton({index = buttonindex, label = lab, tooltip = tool})
+        else
+            getObjectFromGUID(zoneguid).createButton({click_function='updatePower',
+                function_owner=getObjectFromGUID(zoneguid),
+                position={0,0,0},
+                rotation={0,180,0},
+                scale = {1,1,0.5},
+                label=lab,
+                tooltip=tool,
+                font_size=300,
+                font_color={1,0,0},
+                color={0,0,0,0.75},
+                width=250,height=150})
+        end
+    elseif otherposition or not buttonindex then
         obj.createButton({click_function=click_f,
             function_owner=self,
             position=pos,
@@ -11180,6 +11232,7 @@ function nonTwistspecials(cards,schemeParts,city)
         if cards[1].hasTag("Bystander") then
             cards[1].addTag("Villain")
             cards[1].addTag("Killbot")
+            cards[1].removeTag("Bystander")
             powerButton({obj = cards[1],
                 label = twistsstacked,
                 tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})

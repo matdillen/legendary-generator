@@ -90,7 +90,7 @@ function table.clone(org,key)
 end
 
 function onObjectEnterZone(zone,object)
-    if zone.guid == self.guid and not objectsInside[object.guid] then
+    if zone.guid == self.guid and not objectsInside[object.guid] and (object.hasTag("Villain") or object.getName() == "Shard") then
         objectsInside[object.guid] = true
         Wait.condition(setZonePower,function()
             if object.isSmoothMoving() or object.held_by_color then
@@ -103,7 +103,7 @@ function onObjectEnterZone(zone,object)
 end
 
 function onObjectLeaveZone(zone,object)
-    if zone.guid == self.guid and objectsInside[object.guid] then
+    if zone.guid == self.guid and objectsInside[object.guid] and (object.hasTag("Villain") or object.getName() == "Shard") then
         objectsInside[object.guid] = nil
         if object.hasTag("Villain") then
             if zoneBonuses["base"] then 
@@ -116,6 +116,14 @@ function onObjectLeaveZone(zone,object)
             end
         end
         Wait.time(setZonePower,0.2)
+    end
+end
+
+function updateZoneBonuses(toolt)
+    for _,o in pairs(zoneBonuses) do
+        if toolt[o] then
+            zoneBonuses[o][1] = toolt[o][1]
+        end
     end
 end
 
@@ -172,8 +180,6 @@ function setZonePower()
         end
     end
     local lab,tool = getObjectFromGUID(mmZoneGUID).Call('updateLabel',bonusesToUpdate)
-    --log("lab: " .. lab or "nil")
-    --log("tool: " .. tool or "nil")
     local butt = self.getButtons()
     local buttonindex = nil
     if butt then
@@ -189,10 +195,11 @@ function setZonePower()
     elseif buttonindex then
         self.editButton({index = buttonindex, label = lab, tooltip = tool})
     else
-        self.createButton({click_function='setZonePower',
+        self.createButton({click_function='updatePower',
             function_owner=self,
             position={0,0,0},
             rotation={0,180,0},
+            scale = {1,1,0.5},
             label=lab,
             tooltip=tool,
             font_size=300,
@@ -200,6 +207,10 @@ function setZonePower()
             color={0,0,0,0.75},
             width=250,height=150})
     end
+end
+
+function updatePower()
+    getObjectFromGUID(pushvillainsguid).Call('updatePower')
 end
 
 function hasTag2(obj,tag,index)
