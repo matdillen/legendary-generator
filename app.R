@@ -699,7 +699,7 @@ server <- function(input, output, session) {
                                              "https://marveldbg.wordpress.com/gameplay-mechanics\"",
                                              ">Keyword text adapted from marveldbg blog.</a></p>"))))
         }
-    })
+    },ignoreInit = T)
     
     #render the metrics for a setup
     #changes if setup changes

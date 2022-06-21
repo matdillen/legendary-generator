@@ -129,7 +129,7 @@ function callGUID(var,what)
     end
 end
 
-function fetchHQ(guid)
+function fetchHQ()
     hqguids_ori = table.clone(hqguids)
     hqguids = merge(hqguids,callGUID("extrahq",2))
 end
@@ -175,8 +175,8 @@ function returnVar(var)
 end
 
 function updateVar(params)
-    log(params.varname)
-    log(params.varvalue)
+    --log(params.varname)
+    --log(params.varvalue)
     _G[params.varname] = params.varvalue
 end
 
@@ -294,31 +294,7 @@ function dealWounds(top)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    --this function returns cards, decks and shards in a city space (or the start zone)
-    --returns a table of objects
-    local zone = getObjectFromGUID(zoneGUID)
-    if zone then
-        decks = zone.getObjects()
-    else
-        return nil
-    end
-    local shardname = "Shard"
-    local hopename = "Baby Hope Token"
-    if shardinc == false then
-        shardname = "notShardName"
-        hopename = "notBaby Hope Token"
-    end
-    local result = {}
-    if decks then
-        for k, deck in pairs(decks) do
-            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == shardname or deck.getName() == hopename then
-                if bsinc == nil or not deck.hasTag("Bystander") then
-                    table.insert(result, deck)
-                end
-            end
-        end
-    end
-    return result
+    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end
 
 function ascendVillain(name,group,ambush)
@@ -7820,8 +7796,25 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         return strikesresolved
     end
     if mmname == "Bastion, Fused Sentinel" then
-        msno(mmname)
-        return nil
+        local mmZone = getObjectFromGUID(mmZoneGUID)
+        local zoneguid = mmZone.Call('getNextMMLoc')
+        local power = 3
+        if epicness then
+            power = 4
+        end
+        if zoneguid then
+            getObjectFromGUID(bystandersPileGUID).takeObject({position = getObjectFromGUID(zoneguid).getPosition(),
+                flip = true,
+                smooth = true,
+                callback_function = function(obj) obj.addTag("Power:" .. power) obj.addTag("Mastermind") end})
+            mmZone.Call('updateMasterminds',"Prime Sentinel " .. strikesresolved)
+            mmZone.Call('updateMastermindsLocation',{"Prime Sentinel " .. strikesresolved,zoneguid})
+            Wait.time(function() mmZone.Call('setupMasterminds',{"Prime Sentinel " .. strikesresolved,false,0}) end,0.5)
+        else
+            broadcastToAll("No additional locations for masterminds found. Sort the extra Prime Sentinel out yourself.")
+            return nil
+        end
+        return strikesresolved
     end
     if mmname == "Belasco, Demon Lord of Limbo" then
         local sunlight = 0
@@ -8160,7 +8153,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         end
                     end
                 end
-                if deck and deck.getQuantity() > 1 then
+                if deck then
                     performDemonicBargain()
                 else
                     playerBoard.Call('click_refillDeck')
@@ -9064,6 +9057,14 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         return strikesresolved
     end
+    if mmname == "Machine Man, Sentinel Supreme" then
+        local towound = revealCardTrait("Silver")
+        for _,o in pairs(towound) do
+            click_get_wound(nil,o.color)
+            broadcastToAll("Master Strike: Player " .. o.color .. " had no silver heroes and was wounded.")
+        end
+        return strikesresolved
+    end
     if mmname == "Macho Gomez" then
         if cards[1] then
             cards[1].setName("Bounty on your head")
@@ -9483,6 +9484,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         return strikesresolved
     end
+    if mmname == "Master Mold, Sentinel Factory" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Master Plan" then
         local players = revealCardTrait("Silver")
         for _,o in pairs(players) do
@@ -9815,6 +9820,10 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         msno(mmname)
         return nil
     end
+    if mmname == "Nimrod, Future Sentinel" then
+        msno(mmname)
+        return nil
+    end
     if mmname == "Nimrod, Super Sentinel" then
         local players = revealCardTrait("Silver")
         broadcastToAll("Master Strike: Each player with no silver hero discards all hero cards with a Recruit or all cards with an Attack symbol.")
@@ -10008,6 +10017,43 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         pos = getObjectFromGUID(getStrikeloc(mmname)).getPosition()})
                     broadcastToColor("Master Strike: A nongrey hero from your hand becomes a soul poisoned by Thanos.",o.color,o.color)
                 end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname:find("Prime Sentinel") then
+        for _,p in pairs(Player.getPlayers()) do
+            local playerBoard = getObjectFromGUID(playerBoards[p.color])
+            local posdiscard = playerBoard.positionToWorld(pos_discard)
+            if callGUID("setupParts",2)[5] == "Bastion, Fused Sentinel - epic" then
+                posdiscard = getObjectFromGUID(kopile_guid).getPosition()
+            end
+            local deck = playerBoard.Call('returnDeck')[1]
+            local primeSentinelDiscard = function()
+                if not deck then
+                    deck = playerBoard.Call('returnDeck')[1]
+                end
+                if deck and deck.tag == "Deck" then
+                    for _,tag in pairs(deck.getObjects()[1].tags) do
+                        if tag:find("Cost:") and tonumber(tag:match("%d+")) > 0 then
+                            deck.takeObject({position = posdiscard,
+                                flip = true,
+                                smooth = true})
+                            break
+                        end
+                    end
+                elseif deck then
+                    if hasTag2(deck,"Cost:") and hasTag2(deck,"Cost:") > 0 then
+                        deck.setPosition(posdiscard)
+                    end
+                end
+            end
+            if deck then
+                primeSentinelDiscard()
+            else
+                playerBoard.Call('click_refillDeck')
+                deck = nil
+                Wait.time(primeSentinelDiscard,1)
             end
         end
         return strikesresolved
@@ -10339,6 +10385,25 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
                         broadcastToColor("Master Strike: " .. obj.getName() .. " discarded.",o.color,o.color)
                     end
                 end
+            end
+        end
+        return strikesresolved
+    end
+    if mmname == "Template, Infected Sentinel" then
+        local players = revealCardTrait("Red")
+        broadcastToAll("Master Strike: Each player reveals a red hero or discards a non-grey hero.")
+        for i,o in pairs(players) do
+            local hand = o.getHandObjects()
+            local toTop = {}
+            for _,obj in pairs(hand) do
+                if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 0 then
+                    table.insert(toTop,obj)
+                end
+            end
+            if toTop[1] then
+                promptDiscard({color = o.color,
+                    hand = toTop})
+                broadcastToColor("You had no red heroes so discard a non-grey Hero card.",o.color,o.color)
             end
         end
         return strikesresolved

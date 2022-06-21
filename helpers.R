@@ -83,7 +83,9 @@ genFun = function(src,
   
   #set NA's to 0 (can be important for metrics)
   schemtraits %<>%
-    mutate(across(everything(),~replace_na(.,0)))
+    mutate(across(where(is.numeric),~replace_na(.,0))) %>%
+    mutate(across(where(is.character),~replace_na(.,"0")))
+    
   
   convertVarstats <- function(value,pc) {
     if (grepl(":",
@@ -236,7 +238,8 @@ genFun = function(src,
   
   #set NA's to 0 (can be important for metrics)
   mmtraits %<>%
-    mutate(across(everything(),~replace_na(.,0)))
+    mutate(across(where(is.numeric),~replace_na(.,0))) %>%
+    mutate(across(where(is.character),~replace_na(.,"0")))
   
   #Epic Annihilus extra villain group
   if (mm == "Annihilus"&
@@ -328,7 +331,8 @@ genFun = function(src,
   #save scores
   viltraits = filter(src$villains,Group%in%villnames)
   viltraits %<>%
-    mutate(across(everything(),~replace_na(.,0)))
+    mutate(across(where(is.numeric),~replace_na(.,0))) %>%
+    mutate(across(where(is.character),~replace_na(.,"0")))
   
   
   ##############################################################
@@ -399,7 +403,8 @@ genFun = function(src,
 
   henchtraits = filter(src$henchmen,Name%in%henchnames)
   henchtraits %<>%
-    mutate(across(everything(),~replace_na(.,0)))
+    mutate(across(where(is.numeric),~replace_na(.,0))) %>%
+    mutate(across(where(is.character),~replace_na(.,"0")))
   
   if (scheme=="Build an Army of Annihilation"|
       scheme=="Invade the Daily Bugle News HQ") {
@@ -529,7 +534,8 @@ genFun = function(src,
   #save scores
   herotraits = filter(src$heroes,uni%in%heronames)
   herotraits %<>%
-    mutate(across(everything(),~replace_na(.,0)))
+    mutate(across(where(is.numeric),~replace_na(.,0))) %>%
+    mutate(across(where(is.character),~replace_na(.,"0")))
   
   
   #list sets

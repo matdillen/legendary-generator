@@ -640,6 +640,10 @@ function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
     return result
 end
 
+function get_decks_and_cards_from_zone2(params)
+    return get_decks_and_cards_from_zone(params.zoneGUID,params.shardinc,params.bsinc)
+end
+
 function returnSetupParts()
     -- setupElements = {
         -- ["Scheme"]=1,
@@ -821,7 +825,7 @@ function import_setup()
             if epicness == true then
                 obj.hide_when_face_down = false
             end
-            mmZone.Call('setupMasterminds',{obj.getName(),epicness})
+            Wait.time(function() mmZone.Call('setupMasterminds',{obj.getName(),epicness}) end,0.2)
             mm.flip()
             mm.randomize()
             log("Mastermind tactics shuffled")
@@ -1692,7 +1696,7 @@ function schemeSpecials ()
         pos3.x = pos3.x + 4.4
         local zone3 = zone.clone({position = pos3})
         table.insert(extrahq,zone3.guid)
-        getObjectFromGUID(pushvillainsguid).Call('fetchHQ',self.guid)
+        getObjectFromGUID(pushvillainsguid).Call('fetchHQ')
         getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
         print("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
     end
@@ -2291,7 +2295,7 @@ function resolveHorror(obj)
                             end
                         end
                     end
-                elseif vpilecontent[1] and hasTag2(vpilecontent[1],"Tactic:") then
+                elseif vpilecontent[1] and hasTag2({obj=vpilecontent[1],tag="Tactic:"}) then
                     tacticsfound = tacticsfound + 1
                 end
             end
@@ -2318,12 +2322,12 @@ function resolveHorror(obj)
             end
         end
         function onObjectEnterZone(zone,object)
-            if hasTag2(object,"Tactic:") then
+            if hasTag2({obj=object,tag="Tactic:"}) then
                 growingThreat()
             end
         end
         function onObjectLeaveZone(zone,object)
-            if hasTag2(object,"Tactic:") then
+            if hasTag2({obj = object,tag="Tactic:"}) then
                 growingThreat()
             end
         end

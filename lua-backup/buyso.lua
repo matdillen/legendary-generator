@@ -124,21 +124,6 @@ function gainOfficer(color)
     click_buy_hero(nil,color)
 end
 
-function get_decks_and_cards_from_zone(zoneGUID)
-    local zone = getObjectFromGUID(zoneGUID)
-    if zone then
-        decks = zone.getObjects()
-    else
-        return nil
-    end
-    local result = {}
-    if decks then
-        for k, deck in pairs(decks) do
-            local desc = deck.getDescription()
-            if deck.tag == "Deck" or deck.tag == "Card" then
-                table.insert(result, deck)
-            end
-        end
-    end
-    return result
+function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
+    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end

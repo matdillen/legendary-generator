@@ -342,29 +342,5 @@ function scan_villain(obj,player_clicker_color)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    --this function returns cards, decks and shards in a city space (or the start zone)
-    --returns a table of objects
-    local zone = getObjectFromGUID(zoneGUID)
-    if zone then
-        decks = zone.getObjects()
-    else
-        return nil
-    end
-    local shardname = "Shard"
-    local hopename = "Baby Hope Token"
-    if shardinc == false then
-        shardname = "notShardName"
-        hopename = "notBaby Hope Token"
-    end
-    local result = {}
-    if decks then
-        for k, deck in pairs(decks) do
-            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == shardname or deck.getName() == hopename then
-                if bsinc == nil or not deck.hasTag("Bystander") then
-                    table.insert(result, deck)
-                end
-            end
-        end
-    end
-    return result
+    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end
