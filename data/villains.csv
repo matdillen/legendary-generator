@@ -51,10 +51,10 @@ Dark Descendants;Random;2;XM;3;4;;;;;;;;1;;;;;;;;;;Dominates a bunch of heroes;;
 Dark Descendants;Fatale;2;XM;3;5;;;;;;;1;;;;;1;;;;;;;;xmen,jpg;7 5
 Dark Descendants;Nemesis;1;XM;5;5;;;;;;;;1;;;;;;;;;;Dominates a bunch of heroes;;xmen,jpg;6 5
 Dark Descendants;Psychic Subjugation;1;XM;3;-1;;;;;;;;;;;;;;1;;;;Recruit some heroes;;xmen,jpg;5 5
-"Deadpool's ""Friends""";Taskmaster;2;DP;4;3;;;;;;;;1;;;;;;;1;;;Gets plus for the most expensive hero played;;dp,jpg;3 4
-"Deadpool's ""Friends""";Blind Al and Deuce;2;DP;3;2;;;;;;;1;;;;;;;;;;;Revenge, discard a card;;dp,jpg;4 4
-"Deadpool's ""Friends""";Sluggo;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;;dp,jpg;1 4
-"Deadpool's ""Friends""";Weasel;2;DP;3;4;;;;;;;;1;;;;;;;;;;Revenge;;dp,jpg;2 4
+Deadpool's "Friends";Taskmaster;2;DP;4;3;;;;;;;;1;;;;;;;1;;;Gets plus for the most expensive hero played;;dp,jpg;3 4
+Deadpool's "Friends";Blind Al and Deuce;2;DP;3;2;;;;;;;1;;;;;;;;;;;Revenge, discard a card;;dp,jpg;4 4
+Deadpool's "Friends";Sluggo;2;DP;4;5;;;;;;;1;;;;;;;;;;;Revenge;;dp,jpg;1 4
+Deadpool's "Friends";Weasel;2;DP;3;4;;;;;;;;1;;;;;;;;;;Revenge;;dp,jpg;2 4
 Deadpool's Secret Secret Wars;Pink Sphinx;3;SW2;2;4;;;;;;1;;;;;;1;;;;;;;;sw2,jpg;5 4
 Deadpool's Secret Secret Wars;Doop;2;SW2;2;2;;;;;;;;;;;;;;2;;;;;;sw2,jpg;3 4
 Deadpool's Secret Secret Wars;Howard the Duck;2;SW2;4;1;;;;;;;;1;;;;;;;1;;;7th circle;;sw2,jpg;4 4
@@ -258,9 +258,9 @@ X-Men '92;92 Jubilee;3;SW2;0;4;;;;;;1;;;;;;;;;;;;;;sw2,jpg;7 6
 X-Men '92;92 Professor X;1;SW2;6;8;;;;;;;1;;;;;;;;;1;;;;sw2,jpg;8 6
 X-Men Noir;Comrade Rasputin;2;N;3;5;;;;;;;;;;;;1;;;;;;;;noir,jpg;5 3
 X-Men Noir;Jean Grey Noir;1;N;3;5;;;;;;;;;;;;;;;;;;;;noir,jpg;3 3
-X-Men Noir;"Scott ""Cyclops"" Summer";1;N;4;6;;;;;;;1;;;;;2;;;;;;;;noir,jpg;7 3
-X-Men Noir;"Henry ""Beast"" McCoy";1;N;3;5;;;1;;1;;;;;;;;;;;;;;;noir,jpg;2 3
-X-Men Noir;"Bobby ""Iceman"" Drake";1;N;2;4;;;;;;;;;;;;;;;;;;;;noir,jpg;6 3
+X-Men Noir;Scott "Cyclops" Summer;1;N;4;6;;;;;;;1;;;;;2;;;;;;;;noir,jpg;7 3
+X-Men Noir;Henry "Beast" McCoy;1;N;3;5;;;1;;1;;;;;;;;;;;;;;;noir,jpg;2 3
+X-Men Noir;Bobby "Iceman" Drake;1;N;2;4;;;;;;;;;;;;;;;;;;;;noir,jpg;6 3
 X-Men Noir;Warden Emma Frost;1;N;4;6;;;;;;;1;;;;;;;;;;;;;noir,jpg;4 3
 X-Men Noir;Ororo Munroe, Storm-tossed;1;N;2;4;;;;;;;;;;;;2;;;;;;;;noir,jpg;1 3
 Zola's Creations;Man-Fish;2;C75;4;5;;;;;;;1;;;;1;;;;;;-1;;;c75,jpg;8 3
@@ -361,7 +361,7 @@ Hood's Gang;The Dark Dimension;1;R;5;9;;;;;;;;;;;;;;1;;;;Dark Memories;Location;
 Lethal Legion;Swordsman;1;R;3;4;;;;;;;;;;;;;;;1;;;Locations;;revelations,png;5 3
 Lethal Legion;Carnival of Wonders;1;R;3;5;;;;;;;;;;;;;;;1;;;;Location;revelations,png;6 3
 Lethal Legion;Power Man (Erik Josten);1;R;4;5;;;;;;;1;;;;;;;1;;;;Locations;;revelations,png;7 3
-Lethal Legion;"""The Raft"" Prison";1;R;4;6;;;;;;;;;;;;;;1;;;;;Location;revelations,png;8 3
+Lethal Legion;"The Raft" Prison;1;R;4;6;;;;;;;;;;;;;;1;;;;;Location;revelations,png;8 3
 Lethal Legion;M'Baku;1;R;4;5;;;;;1;;1;;;;;;;;;;;Locations;;revelations,png;9 3
 Lethal Legion;White Gorilla Cult;1;R;4;6;;;;;1;;;;;;;;;;;;;;Location;revelations,png;10 3
 Lethal Legion;Living Laser;1;R;5;6;1;;;;;;1;;;;1;;;;;;;Locations;;revelations,png;1 4
@@ -473,3 +473,18 @@ Lords of the Netherworld;Mindless Ones;2;DRS;2;4;;;;;;;;;;;;;;;;;;;;strangexp,jp
 Lords of the Netherworld;Satana Hellstrom;2;DRS;3;5;;;;;;;;;;;;;;;;;;;;strangexp,jpg;2 4
 Lords of the Netherworld;Satannish;1;DRS;4;6;;;;;;;;;;;;;;;;;;;;strangexp,jpg;3 4
 Lords of the Netherworld;Umar;1;DRS;5;7;;;;;;;;;;;;;;;;;;;;strangexp,jpg;4 4
+Followers of Ronan;Exolon Attendants;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Followers of Ronan;;1;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Children of Thanos;;8;GOTG2;;;;;;;;;;;;;;;;;;;;;;;
+Infinity Stones;;8;IS;;;;;;;;;;;;;;;;;;;;;;;
+Ravagers;;8;IS;;;;;;;;;;;;;;;;;;;;;;;
+Elite Assassins;;8;BW;;;;;;;;;;;;;;;;;;;;;;;
+Taskmaster’s Thunderbolts;;8;BW;;;;;;;;;;;;;;;;;;;;;;;
+Enemies of Wakanda;;8;BP;;;;;;;;;;;;;;;;;;;;;;;
+Killmonger’s League;;8;BP;;;;;;;;;;;;;;;;;;;;;;;

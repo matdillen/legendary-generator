@@ -247,6 +247,14 @@ genFun = function(src,
     villainc = villainc + 1
   }
   
+  #ego's extra villain groups
+  if (mm == "Ego, the Living Planet") {
+    villainc = villainc + 1
+    if (epic == 1) {
+      villainc = villainc + 1
+    }
+  }
+  
   #modify the scores for epic or not; add epic label to mm name
   if (epic!=1) {
     mmtraits = filter(mmtraits,Epic==0)
@@ -470,22 +478,31 @@ genFun = function(src,
   
   #hero required by scheme?
   if (schemtraits$Hero_Inc[1]!=0) {
-    if (grepl(";",schemtraits$Hero_Inc[1])) {
-      heroincs = strsplit(schemtraits$Hero_Inc[1],split=";")[[1]]
-      fixn = 2
-    } else if (grepl("|",schemtraits$Hero_Inc[1],fixed=T)) {
-      pick = sample(0:1,1) + 1
-      heroincs = strsplit(schemtraits$Hero_Inc[1],split="|",fixed=T)[[1]][pick]
-      fixn = 1
+    #for the mix-tape scheme, ad hoc
+    if (schemtraits$Hero_Inc[1] == "Guardians") {
+      herolist = filter(src$heroes,
+                        Team == "Guardians")
+      herolist = distinct(herolist,uni)
+      heroid = sample(1:nrow(herolist),1)
+      heronames = herolist$uni[heroid]
     } else {
-      heroincs = schemtraits$Hero_Inc[1]
-      fixn = 1
+      if (grepl(";",schemtraits$Hero_Inc[1])) {
+        heroincs = strsplit(schemtraits$Hero_Inc[1],split=";")[[1]]
+        fixn = 2
+      } else if (grepl("|",schemtraits$Hero_Inc[1],fixed=T)) {
+        pick = sample(0:1,1) + 1
+        heroincs = strsplit(schemtraits$Hero_Inc[1],split="|",fixed=T)[[1]][pick]
+        fixn = 1
+      } else {
+        heroincs = schemtraits$Hero_Inc[1]
+        fixn = 1
+      }
+      herolist = filter(src$heroes,
+                        Name_S%in%heroincs)
+      herolist = distinct(herolist,uni)
+      heroid = sample(1:nrow(herolist),fixn,replace=F)
+      heronames = herolist$uni[heroid]
     }
-    herolist = filter(src$heroes,
-                      Name_S%in%heroincs)
-    herolist = distinct(herolist,uni)
-    heroid = sample(1:nrow(herolist),fixn,replace=F)
-    heronames = herolist$uni[heroid]
   }
   
   #join both the scheme hero and the fixed provided (if any)

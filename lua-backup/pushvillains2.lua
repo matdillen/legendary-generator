@@ -950,7 +950,7 @@ function updateHQTags()
 end
 
 function obedienceDisk(obj,player_clicker_color)
-    printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
+    broadcastToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color,player_clicker_color)
     return nil
 end
 
@@ -1044,7 +1044,7 @@ function powerButton(params)
                 label=lab,
                 tooltip=tool,
                 font_size=300,
-                font_color={1,0,0},
+                font_color=color,
                 color={0,0,0,0.75},
                 width=250,height=150})
         end

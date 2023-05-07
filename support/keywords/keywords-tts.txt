@@ -1,5 +1,6 @@
 Abomination	Villain gets extra printed Power from hero below it in the HQ.
 Adapt	Shuffle all of this Mastermind's tactics, so a random one ends up on top.
+Ambush	A hero's ambush effect can be used when it enters the city during your turn and you reveal a hero that fulfills the condition.
 Artifact	This card remains in play and typically has an effect that can be used once per turn.
 Astral Plane	This is a one-space special zone where enemies can only be fought with Recruit, not Attack. They can escape from it causing the usual effects.
 Berserk	Discard the top card of your deck and get its printed Power.
@@ -11,6 +12,7 @@ Chivalrous Duel	This card can only be fought with Power gained from cards with a
 Circle of Kung Fu	This card gets the listed extra Power unless you reveal a Hero that costs at least the listed number.
 Celestial Boon	You gain this permament bonus as long as the card granting it is in your Victory Pile.
 Clone	Gain a hero with the same card name from the HQ or, if none are available, search one up from the hero deck and shuffle it.
+Commands	A villain commands a group if it's the leftmost villain of that group in the city.
 Conqueror	This gets the listed extra Power if there's a Villain in the named city space.
 Contest of Champions	Each player reveals a Hero card from their hand or the top card of their deck. The Mastermind reveals the top 2 cards of the Hero Deck. Whoever revealed a Hero with the highest cost, wins. Costs of heroes with the listed Class count double.
 Coordinate	During another player's turn, you may discard this and draw a card. If you do, that player may use this card's effects. A player may only Coordinate once each turn.
@@ -25,7 +27,9 @@ Dodge	Instead of playing, you may discard this card to draw a card.
 Dominate	Put dominated heroes under this card. This card gets +1 Power for each dominated Hero. When fought, put 1 dominated hero in each player's discard pile and KO the rest.
 Elusive	This card can only be fought if you made the listed amount of Recruit this turn.
 Empowered	This card gets extra Power for each Hero with the listed Hero Class in the HQ.
+Endgame	It is the endgame if one of the villain decks has 8 cards per player or less.
 Excessive Violence	Once per turn, you may attack for 1 more Power more to trigger all cards played with Excessive Violence.
+Excessive Kindness	Once per turn, you may recruit for 1 more Recruit to trigger all cards played with Excessive Kindness.
 Fateful Resurrection	Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.
 Feast	Fight: KO the top card of your deck.
 Focus	As often as you like during this turn, you may pay the listed amount of Recruit to get the Focus effect.
@@ -49,6 +53,7 @@ Prey	Players with the fewest such cards in hand is preyed upon by the enemy. Put
 Revenge	This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.
 Rise of the Living Dead	The top card of each player's Victory Pile enters the city if it has this ability and is not a Mastermind Tactic.
 Ritual Artifact	This card remains in play. You may discard it for its effect any time if its condition was fulfilled this turn, even if it wasn't in play at the time.
+Sacrifice	As you play this card, you may KO it if you played a hero with that color this turn to gain its sacrifice effect.
 Savior	Have at least three Bystanders in your Victory Pile.
 Shatter	Half an enemy's Power rounded up for one fight. Can stack if used multiple times, applies to cost if used on heroes.
 SHIELD Clearance	To fight this, you must discard a SHIELD Hero.
@@ -67,13 +72,15 @@ Teleport	Instead of playing, you may set this card aside and add it to your next
 Throne's Favor	There is one Throne's Favor token in the game. If you gain it, take it from whoever has it. If you spend it, put it somewhere neutral.
 Thrown Artifact	This card remains in play. During your turn, you may put it on the bottom of your deck to use its Throw effect.
 Trap	This is not a Villain and it does not enter the City. Gain it in your Victory Pile if you fulfill the condition. KO it otherwise.
-Undercover	Put the listed card into your Victory Pile. It's worth 1 Victory Point.
+Triggered Artifact	This card remains in play. You get its triggered effect whenever its condition is met.
+Undercover	Put the listed card into your Victory Pile. It's worth 1 Victory Point. Unleashing a hero from undercover means returning it from your victory pile to your hand.
 Uru-Enchanted Weapon	Fight: Reveal 1 card or the listed number of cards from the villain deck, then put them on the bottom. This card gets extra Power equal to the total Victory Points from the revealed cards. You lose all your Power if you can't beat a strengthened villain this way.
 Versatile	When you play this card, choose whether it provides the listed number of Power or Recruit.
 Villainous Weapon	These are not Villains. Instead, they are captured by the Villain closest to the Villain deck or KO'd if the city is empty. The Villain gets the extra Power from the Weapon. When a Villain escapes with a Weapon, the Mastermind captures that Weapon. When fighting a card with a Weapon, gain the Weapon as an artifact.
 Waking Nightmare	Discard a non-grey Hero Card. If you do, draw a card.
 Wall-Crawl	When buying this card, put it on top of your deck instead of your discard pile.
 Worthy	Reveal a Hero that costs 5 or more.
+Wound	To wound a villain or mastermind, put a wound on it. It gets -1 for each wound on it. Wounds go back to the wound stack if it is fought or escapes.
 Wounded Fury	Gets +1 Power for each wound in your discard pile.
 X-Gene	Reveal a card with the listed trait in your discard pile.
 X-Treme Attack	Gets +1 Power for each other Villain with this ability.
