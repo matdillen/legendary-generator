@@ -633,13 +633,17 @@ function setupTransformingMM(mmname,mmZone,lurking)
     end
 end
 
-function setupMasterminds(objname,epicness,tactics,lurking)
-    if objname[1] then
-        epicness = objname[2]
-        tactics = objname[3]
-        lurking = objname[4]
-        objname = objname[1]
-    end
+function setupMasterminds(params)
+    local obj = params.obj
+    local epicness = params.epicness
+    local tactics = params.tactics
+    local lurking = params.lurking
+    
+    local objname = obj.getName()
+    local strikezone = getObjectFromGUID(getStrikeloc(objname))
+    local script = obj.getLuaScript()
+    strikezone.setLuaScript(script)
+    strikezone.reload()
     if not tactics then
         tactics = 4
     end
@@ -3185,6 +3189,7 @@ function fightButton(zone)
                             end
                         end
                     end
+                    strikeZone.setLuaScript("")
                     --obj.clearButtons()
                     if name == "Onslaught" then
                         for _,o in pairs(Player.getPlayers()) do

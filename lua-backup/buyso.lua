@@ -68,17 +68,19 @@ function table.clone(org,key)
     end
 end
 
-function click_buy_hero(obj, player_clicker_color, alt_click)
+function click_buy_hero(obj, player_clicker_color, alt_click,free)
     local objects = get_decks_and_cards_from_zone(officerZoneGUID)
     if not objects[1] then
         return nil
     end
-    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
-    if recruit < 3 then
-        broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
-        return nil
+    if not free then
+        local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+        if recruit < 3 then
+            broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
+            return nil
+        end
+        getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-3)
     end
-    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-3)
     local card = nil
     local deck = nil
     for _,item in pairs(objects) do
@@ -121,7 +123,7 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
 end
 
 function gainOfficer(color)
-    click_buy_hero(nil,color)
+    click_buy_hero(nil,color,nil,true)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)

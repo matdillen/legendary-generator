@@ -671,6 +671,13 @@ function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
 end
 
+function lockCard(obj,delay)
+    if not delay then
+        delay = 1
+    end
+    Wait.time(function() obj.locked = true end,delay)
+end
+
 function import_setup()
     log("Generating imported setup...")
     playercount = #Player.getPlayers()
@@ -760,10 +767,11 @@ function import_setup()
     for _,o in pairs(schemePile.getObjects()) do
         if string.lower(o.name) == string.lower(setupParts[1]) then
             log ("Found scheme: " .. o.name)
-            schemePile.takeObject({position=schemeZone.getPosition(),
+            scheme = schemePile.takeObject({position=schemeZone.getPosition(),
                 guid=o.guid,
                 smooth=false,
-                flip=true})
+                flip=true,
+                callback_function = lockCard})
         end
     end
     
@@ -801,7 +809,7 @@ function import_setup()
                 mm.takeObject().destruct()
                 mm.takeObject().destruct()
             end
-            mmZone.Call('setupMasterminds',obj.getName())
+            mmZone.Call('setupMasterminds',{obj = obj,epicness=epicness})
             return mm
         end
         
@@ -814,7 +822,7 @@ function import_setup()
                     flip=false,
                     index=0})
             end
-            mmZone.Call('setupMasterminds',{obj.getName(),epicness})
+            mmZone.Call('setupMasterminds',{obj = obj,epicness = epicness})
             if epicness then
                 Wait.time(function() mm.flip() end,0.5)
             end
@@ -825,7 +833,7 @@ function import_setup()
             if epicness == true then
                 obj.hide_when_face_down = false
             end
-            Wait.time(function() mmZone.Call('setupMasterminds',{obj.getName(),epicness}) end,0.2)
+            Wait.time(function() mmZone.Call('setupMasterminds',{obj = mm,epicness = epicness}) end,0.2)
             mm.flip()
             mm.randomize()
             log("Mastermind tactics shuffled")
@@ -2125,7 +2133,7 @@ function schemeSpecials ()
                 if lurkingMasterminds[i] == obj.getName() then
                     local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
                     mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[i*2]})
-                    mmZone.Call('setupMasterminds',{obj.getName(),false,2,true})
+                    mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 2,lurking = true})
                     for j,o in pairs(zonetokill.getObjects()) do
                         if o.name == "Deck" then
                             decktokill = zonetokill.getObjects()[j]
@@ -2443,7 +2451,7 @@ function resolveHorror(obj)
         getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = "9",tooltip = "Master Plan",id = "masterplan"})
         mmZone.Call('updateMasterminds',obj.getName())
         mmZone.Call('updateMastermindsLocation',{obj.getName(),mmloc})
-        mmZone.Call('setupMasterminds',{obj.getName(),false,0})
+        mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 0})
         broadcastToAll("The Horror! A master plan was added to the game as an extra mastermind.")
         return nil
     end
@@ -2462,7 +2470,7 @@ function resolveHorror(obj)
             broadcastToAll("The Horror! " .. obj.getName() .. " was added to the game as an apprentice mastermind with one tactic.")
             mmZone.Call('updateMasterminds',obj.getName())
             mmZone.Call('updateMastermindsLocation',{obj.getName(),mmloc})
-            mmZone.Call('setupMasterminds',{obj.getName(),false,1})
+            mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 1})
             local keep = math.random(4)
             local tacguids = {}
             for i = 1,4 do
