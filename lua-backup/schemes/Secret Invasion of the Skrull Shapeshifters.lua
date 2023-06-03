@@ -33,6 +33,18 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function nonTwist(params)
+    local obj = params.obj
+    
+    if hasTag2(obj,"Cost:") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
+            label = hasTag2(obj,"Cost:")+2,
+            tooltip = "This hero is a Skrull Shapeshifter and has power equal to its cost +2. Gain it if you fight it."})
+        obj.addTag("Villain")
+    end
+    return 1
+end
+
 function click_push_villain_into_city()
     getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
 end

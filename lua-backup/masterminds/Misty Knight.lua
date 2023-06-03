@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Misty Knight"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -30,6 +33,15 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupMM()
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = 1,
+        label = "*",
+        tooltip="Misty Knight can be fought using Recruit as well as Attack.",
+        f = 'updatePower',
+        id = "bribe"})
 end
 
 function resolveStrike(params)

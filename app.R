@@ -687,8 +687,8 @@ server <- function(input, output, session) {
     #render keyword text popup
     observeEvent(input$keywords,{
         text = filter(keywords,id==input$keywords)
-        if (dim(text)[1]>0&
-            text$id!="") {
+        if (dim(text)[1]>0) {
+          if (text$id!="") {
             text %<>% mutate(text = gsub("\n","<br>",text))
             showModal(modalDialog(title = text$id,
                                   HTML(paste(text$text,collapse="<br>")),
@@ -698,7 +698,7 @@ server <- function(input, output, session) {
                                              "<a href=\"",
                                              "https://marveldbg.wordpress.com/gameplay-mechanics\"",
                                              ">Keyword text adapted from marveldbg blog.</a></p>"))))
-        }
+        }}
     },ignoreInit = T)
     
     #render the metrics for a setup

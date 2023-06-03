@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Adrian Toomes"
+    
     local guids1 = {
         "pushvillainsguid",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -39,6 +42,32 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMAdrian()
+    local strikes = getObjectFromGUID(pushvillainsguid).Call('returnVar','strikesresolved')
+    local boost = strikes*2
+    if epicness then
+        boost = strikes*3
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = strikes,
+        label = "+" .. boost,
+        tooltip = "Adrian Toomes is a double (or triple) striker and gets +" .. boost/strikes .. " for each Master Strike that has been played.",
+        f = 'updateMMAdrian',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    updateMMAdrian()
+    
+    function onObjectEnterZone(zone,object)
+        if object.getName() == "Masterstrike" then
+            updateMMAdrian()
+        end
+    end
 end
 
 function click_push_villain_into_city()

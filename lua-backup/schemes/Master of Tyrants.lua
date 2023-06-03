@@ -9,6 +9,13 @@ function onLoad()
     end
 end
 
+function nonTwist(params)
+    if params.obj.getName() == "Dark Power" then
+        broadcastToAll("Scheme Twist: Put this twist under a tyrant as a Dark Power!")
+        return nil
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

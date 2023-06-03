@@ -1,11 +1,24 @@
 function onLoad()
+    mmname = "Hydra High Council"
+    
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+    
+    local guids2 = {
+        "city_zones_guids",
+        "hqguids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
     
     local guids3 = {
@@ -31,6 +44,127 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMHydraHigh()
+    local mm = Global.Call('get_decks_and_cards_from_zone',mmloc.guid)
+    local name = nil
+    if mm[1] and mm[1].tag == "Deck" then
+        name = mm[1].getObjects()[mm[1].getQuantity()].name
+    elseif mm[1] then
+        name = mm[1].getName()
+    end
+    if not name then
+        return nil
+    end
+    if name == "Baron Helmut Zemo" then
+        local color = Turns.turn_color
+        local vpilecontent = Global.Call('get_decks_and_cards_from_zone',vpileguids[color])
+        local savior = 0
+        if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+            for _,k in pairs(vpilecontent[1].getObjects()) do
+                for _,l in pairs(k.tags) do
+                    if l == "Villain" then
+                        savior = savior + 1
+                        break
+                    end
+                end
+            end
+        elseif vpilecontent[1] then
+            if vpilecontent[1].hasTag("Villain") then
+                savior = 1
+            end
+        end
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = savior,
+            label = "-" .. savior,
+            tooltip = "The Baron gets -1 for each villain in your victory pile.",
+            f = 'updateMMHydraHigh',
+            f_owner = self})
+    elseif name == "Viper" then
+        local shiarfound = 0
+        for i=2,#city_zones_guids do
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[i])
+            if citycontent[1] then
+                for _,o in pairs(citycontent) do
+                    if o.getName():upper():find("HYDRA") or (hasTag2(o,"Group:") and hasTag2(o,"Group:"):upper():find("HYDRA")) then
+                        shiarfound = shiarfound + 1
+                        break
+                    end
+                end
+            end
+        end
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = shiarfound,
+            label = "+" .. shiarfound,
+            tooltip = "Viper gets +1 for each HYDRA Villain in the city.",
+            f = 'updateMMHydraHigh',
+            f_owner = self})
+    elseif name == "Red Skull" then
+        local shiarfound = 0
+        local escapezonecontent = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escapezonecontent[1] and escapezonecontent[1].tag == "Deck" then
+            for _,o in pairs(escapezonecontent[1].getObjects()) do
+                if o.name:upper():find("HYDRA") then
+                    shiarfound = shiarfound + 1
+                elseif next(o.tags) then
+                    for _,tag in pairs(o.tags) do
+                        if tag:upper():find("HYDRA") or tag == "Starter" or tag == "Officer" then
+                            shiarfound = shiarfound + 1
+                            break
+                        end
+                    end
+                end
+            end
+        elseif escapezonecontent[1] then
+            if escapezonecontent[1].getName():upper():find("HYDRA") or 
+                (hasTag2(escapezonecontent[1],"Group:") and hasTag2(escapezonecontent[1],"Group:"):upper():find("HYDRA")) or 
+                escapezonecontent[1].hasTag("Starter") or 
+                escapezonecontent[1].hasTag("Officer") then
+                shiarfound = shiarfound + 1
+            end
+        end
+        shiarfound = shiarfound/2 - 0.5*(shiarfound % 2)
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = shiarfound,
+            label = "+" .. shiarfound,
+            tooltip = "Red Skull gets +1 for each two HYDRA levels.",
+            f = 'updateMMHydraHigh',
+            f_owner = self})
+    elseif name == "Arnim Zola" then
+        local power = 0
+        for _,o in pairs(hqguids) do
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
+            if hero then
+                for _,k in pairs(hero.getTags()) do
+                    if k:find("Attack:") or k:find("Attack1:") or k:find("Attack2:") then
+                        power = power + tonumber(k:match("%d+"))
+                    end
+                end
+            end
+        end
+        getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = power,
+            label = "+" .. power,
+            tooltip = "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
+            f = 'updateMMHydraHigh',
+            f_owner = self})
+    end
+end
+
+function setupMM()
+    mmloc = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('returnMMLocation',mmname))
+    
+    updateMMHydraHigh()
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMHydraHigh,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMHydraHigh,0.1)
+    end
+    function onPlayerTurn(player,previous_player)
+        updateMMHydraHigh()
+    end
 end
 
 function resolveStrike(params)

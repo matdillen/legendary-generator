@@ -30,6 +30,13 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    if params.obj.hasTag("Bystander") then
+        getObjectFromGUID(pushvillainsguid).Call('playVillains')
+    end
+    return 1
+end
+
 function shuffleBS(obj)
     obj.flip()
     obj.setPositionSmooth(Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1].getPosition())

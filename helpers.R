@@ -83,9 +83,10 @@ genFun = function(src,
   
   #set NA's to 0 (can be important for metrics)
   schemtraits %<>%
-    mutate(across(where(is.numeric),~replace_na(.,0))) %>%
-    mutate(across(where(is.character),~replace_na(.,"0")))
-    
+    mutate(across(where(is.logical),as.character),
+           across(where(is.numeric),~replace_na(.,0)),
+           across(where(is.character),~replace_na(.,"0")))
+  
   
   convertVarstats <- function(value,pc) {
     if (grepl(":",

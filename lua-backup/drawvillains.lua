@@ -4,7 +4,7 @@ function onLoad()
         position={0,0,0}, label="Draw villain", color={1,1,1,0}, width=2000, height=3000,
 		tooltip = "Draw card from villain deck."
     })
-    pushvillainsguid = "f3c7e3"
+    pushvillainsguid = Global.Call('returnVar',"pushvillainsguid")
 end
 
 function click_draw_villain()

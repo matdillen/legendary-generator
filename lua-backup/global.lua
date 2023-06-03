@@ -1,5 +1,7 @@
 function onLoad()
     loadGUIDs()
+    
+    --Turns.enable = true
 end
 
 function loadGUIDs()
@@ -197,6 +199,9 @@ function loadGUIDs()
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}
     pos_add2 = {-2.871, 0.178, 0.222}
+    
+    getObjectFromGUID(strikeZoneGUID).setLuaScript("")
+    getObjectFromGUID(strikeZoneGUID).reload()
 end
 
 function returnVar(var)
@@ -304,4 +309,23 @@ function merge(params)
       table.insert(params.t1, v)
    end
    return params.t1
+end
+
+function waitForMove(params)
+    local waiting = function()
+        local content = get_decks_and_cards_from_zone(params.zone)
+        if content[1] and content[1].guid == params.card then
+            return true
+        else
+            return false
+        end
+    end
+    local resolving = function()
+        if params.fsourceguid then
+            getObjectFromGUID(params.fsourceguid).Call(params.triggerf)
+        else
+            params.triggerf()
+        end
+    end
+    Wait.condition(resolving,waiting)
 end

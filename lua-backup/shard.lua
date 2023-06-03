@@ -3,7 +3,7 @@ MAX_VALUE = 999
 val = 0
 
 function onload()
-    setupGUID = "912967"
+    setupGUID = Global.Call('returnVar',"setupGUID")
     
     self.createButton({
       label=val,

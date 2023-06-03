@@ -1,6 +1,10 @@
 function onLoad()
+    mmname = "Mojo"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -33,6 +37,53 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMMojo()
+    local checkvalue = 1
+    if not Global.Call('get_decks_and_cards_from_zone',self.guid)[1] then
+        self.clearButtons()
+        checkvalue = 0
+    else
+        if not self.getButtons() then
+            self.createButton({click_function='updateMMMojo',
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label=mojobasepower,
+                tooltip="You can fight these Human Shields for " .. mojobasepower .. " to rescue them as Bystanders.",
+                font_size=250,
+                font_color="Red",
+                width=0})
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = checkvalue,
+            label = "X",
+            tooltip = "You can't fight Mojo while he has any Human Shields.",
+            f = 'updateMMMojo',
+            f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
+    if schemeParts[5] ~= "Mojo" and schemeParts[5] ~= "Mojo - epic" then
+        getObjectFromGUID(setupGUID).Call('mojoVPUpdate',0)
+    end
+    mojobasepower = 6
+    if epicness then
+        getObjectFromGUID(setupGUID).Call('playHorror')
+        mojobasepower = 7
+    end
+    
+    updateMMMojo()
+    function onObjectEnterZone(zone,object)
+        updateMMMojo()
+    end
+    function onObjectLeaveZone(zone,object)
+        updateMMMojo()
     end
 end
 

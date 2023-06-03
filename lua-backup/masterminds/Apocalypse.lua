@@ -1,6 +1,7 @@
 function onLoad()
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -8,7 +9,8 @@ function onLoad()
     end
     
     local guids2 = {
-        "pos_draw"
+        "pos_draw",
+        "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
@@ -38,6 +40,49 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupMM()
+    for i,o in pairs(city_zones_guids) do
+        if i ~= 1 then
+            local content = Global.Call('get_decks_and_cards_from_zone',o)
+            if content[1] then
+                for _,obj in pairs(content) do
+                    if obj.hasTag("Group:Four Horsemen") then
+                        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = "+2",tooltip = "Bonus of Apocalypse",id = "apocalypse"})
+                        break
+                    end
+                end
+            end
+        end
+    end
+    
+    function onObjectEnterZone(zone,object)
+        if zone.guid == escape_zone_guid then
+            local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+            if escaped[1] and escaped[1].tag == "Deck" then
+                local horsemen = {["Pestilence"] = 0,
+                    ["War"] = 0,
+                    ["Famine"] = 0,
+                    ["Death"] = 0}
+                for _,o in pairs(escaped[1].getObjects()) do
+                    for _,tag in pairs(o.tags) do
+                        if tag == "Group:Four Horsemen" then
+                            horsemen[o.name] = 1
+                            break
+                        end
+                    end
+                end
+                local c = 0
+                for _,h in pairs(horsemen) do
+                    c = c + h
+                end
+                if c == 4 then
+                    broadcastToAll("The Four Horsemen have escaped! Evil Wins!")
+                end
+            end
+        end
+    end
 end
 
 function resolveStrike(params)

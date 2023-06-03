@@ -1,11 +1,23 @@
 function onLoad()
+    mmname = "Ultron"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+    
+    local guids2 = {
+        "hqguids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+    
     
     local guids3 = {
         "playerBoards"
@@ -30,6 +42,74 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMUltron()
+    local threatanalysis = Global.Call('get_decks_and_cards_from_zone',self.guid)
+    local hccolors = {
+        ["Red"] = false,
+        ["Yellow"] = false,
+        ["Green"] = false,
+        ["Silver"] = false,
+        ["Blue"] = false
+    }
+    local boost = 1
+    local epicboost = ""
+    if epicness then
+        epicboost = "Triple "
+        boost = 3
+    end
+    local empowerment = 0
+    if threatanalysis[1] and threatanalysis[1].tag == "Deck" then
+        for _,o in pairs(threatanalysis[1].getObjects()) do
+            for _,k in pairs(o.tags) do
+                if k:find("HC:") then
+                    hccolors[k:gsub("HC:","")] = true
+                end
+                if k:find("HC1:") then
+                    hccolors[k:gsub("HC1:","")] = true
+                end
+                if k:find("HC2:") then
+                    hccolors[k:gsub("HC2:","")] = true
+                end
+            end
+        end
+    elseif threatanalysis[1] then
+        hccolors[hasTag2(threatanalysis[1],"HC:",4)] = true
+    end
+    for _,o in pairs(hqguids) do
+        local hero = getObjectFromGUID(o).Call('getHeroUp')
+        if hero and hero.getTags() then
+            for _,tag in pairs(hero.getTags()) do
+                if tag:find("HC:") and hccolors[tag:gsub("HC:","")] then
+                    empowerment = empowerment + boost
+                end
+                if tag:find("HC1:") and hccolors[tag:gsub("HC1:","")] then
+                    empowerment = empowerment + boost
+                end
+                if tag:find("HC2:") and hccolors[tag:gsub("HC2:","")] then
+                    empowerment = empowerment + boost
+                end
+            end
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = empowerment,
+        label = "+" .. empowerment,
+        tooltip = "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
+        f = 'updateMMUltron',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMUltron,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMUltron,0.1)
+    end
 end
 
 function threatAnalysis(params)

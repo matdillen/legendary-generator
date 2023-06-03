@@ -1,11 +1,24 @@
 function onLoad()
+    mmname = "Odin"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+    
+    local guids2 = {
+        "city_zones_guids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+    
     
     local guids3 = {
         "vpileguids"
@@ -25,6 +38,49 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMOdin()
+    local shiarfound = 0
+    for i=2,#city_zones_guids do
+        local citycontent = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[i])
+        if citycontent[1] then
+            for _,o in pairs(citycontent) do
+                if o.getName():find("Asgardian Warriors") then
+                    shiarfound = shiarfound + 1
+                    break
+                end
+            end
+        end
+    end
+    local escapezonecontent = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+    if escapezonecontent[1] and escapezonecontent[1].tag == "Deck" then
+        for _,o in pairs(escapezonecontent[1].getObjects()) do
+            if o.name == "Asgardian Warriors" then
+                shiarfound = shiarfound + 1
+            end
+        end
+    elseif escapezonecontent[1] then
+        if escapezonecontent[1].getName() == "Asgardian Warriors" then
+            shiarfound = shiarfound + 1
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = shiarfound,
+        label = "+" .. shiarfound,
+        tooltip = "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
+        f = 'updateMMOdin',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMOdin()
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMOdin,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMOdin,0.1)
     end
 end
 

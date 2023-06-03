@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Hela, Goddess of Death"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +41,54 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMHela()
+    local villaincount = 0
+    for _,o in pairs(helacitycheck) do
+        local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+        if citycontent[1] then
+            for _,obj in pairs(citycontent) do
+                if obj.hasTag("Villain") then
+                    villaincount = villaincount + 1
+                    break
+                end
+            end
+        end
+    end
+    local boost = 0
+    if epicness then
+        boost = 1
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = villaincount,
+        label = "+" .. villaincount*(5+boost),
+        tooltip = "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
+        f = 'updateMMHela',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    helacitycheck = table.clone(city_zones_guids)
+    table.remove(helacitycheck,1)
+    table.remove(helacitycheck,1)
+    table.remove(helacitycheck,1)
+    if not epicness then
+        table.remove(helacitycheck,1)
+    end
+    updateMMHela()
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Villain") then
+            updateMMHela()
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.hasTag("Villain") then
+            updateMMHela()
+        end
+    end
 end
 
 function click_push_villain_into_city()

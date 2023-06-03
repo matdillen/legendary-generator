@@ -1,4 +1,6 @@
 function onLoad()
+    mmname = "M.O.D.O.K."
+    
     local guids1 = {
         "pushvillainsguid",
         "mmZoneGUID"
@@ -7,6 +9,8 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+    
+    mmZone = getObjectFromGUID(mmZoneGUID)
     
     local guids3 = {
         "playerBoards"
@@ -31,6 +35,37 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupMM()
+    local notes = getNotes()
+    setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
+end
+
+function updateMMMODOK()
+    local transformed = mmZone.Call('returnTransformed',mmname)
+    if transformed == nil then
+        return nil
+    end
+    if transformed == false then
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 0,
+            label = "*",
+            tooltip = "You can fight M.O.D.O.K normally.",
+            f = 'updateMMMODOK',
+            f_owner = self})
+        local notes = getNotes()
+        setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
+    elseif transformed == true then   
+        local notes = getNotes()
+        setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = "*",
+            tooltip = "You can only fight M.O.D.O.K with Recruit, not Attack.",
+            f = 'updateMMMODOK',
+            f_owner = self})
+    end
 end
 
 function resolveStrike(params)

@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Stryfe"
+    
     strikesstacked = 0
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -34,6 +37,29 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMStryfe()
+    local bs = Global.Call('get_decks_and_cards_from_zone',self.guid)
+    local boost = 0
+    if bs[1] then
+        boost = math.abs(bs[1].getQuantity())
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = boost,
+        label = "+" .. boost,
+        tooltip = "Stryfe gets +1 for each Master Strike stacked next to him.",
+        f = 'updateMMStryfe',
+        f_owner = self})
+end
+
+function setupMM()
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMStryfe,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMStryfe,0.1)
     end
 end
 

@@ -33,7 +33,7 @@ function resolveStrike(params)
     if escapees[1] then
         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = escapees,
             targetZone = getObjectFromGUID(escape_zone_guid),
-            enterscity = 0)
+            enterscity = 0})
         for _,o in pairs(escapees) do
             if o.getDescription():find("LOCATION") then
                 getObjectFromGUID(pushvillainsguid).Call('koCard',o)

@@ -1,7 +1,11 @@
 function onLoad()
+    mmname = "Spider-Queen"
+    
     local guids1 = {
         "pushvillainsguid",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "mmZoneGUID",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -26,6 +30,39 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMSpiderQueen()
+    local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+    local bscount = 0
+    if escaped[1] and escaped[1].tag == "Deck" then
+        for _,o in pairs(escaped[1].getObjects()) do
+            for _,k in pairs(o.tags) do
+                if k == "Bystander" then
+                    bscount = bscount + 1
+                    break
+                end
+            end
+        end
+    elseif escaped[1] and escaped[1].hasTag("Bystander") then
+        bscount = bscount + 1
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = bscount,
+        label = "+" .. bscount,
+        tooltip = "Spider-Queen gets +1 for each Bystander in the Escape pile.",
+        f = 'updateMMSpiderQueen',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMSpiderQueen()
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMSpiderQueen,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMSpiderQueen,0.1)
     end
 end
 

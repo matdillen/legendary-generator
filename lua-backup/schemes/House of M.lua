@@ -21,6 +21,19 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function nonTwist(params)
+    if params.obj.getName() == "Scarlet Witch (R)" then
+        local boost = 3
+        if noMoreMutants then
+            boost = 4
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.obj,
+            label = boost + hasTag2(params.obj,"Cost:"),
+            tooltip = "This Scarlet Witch card is a villain."})
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local city = params.city

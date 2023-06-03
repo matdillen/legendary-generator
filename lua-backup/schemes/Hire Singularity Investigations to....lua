@@ -35,7 +35,7 @@ function singularityInvestigatorEnters(params)
     obj.addTag("Power:6")
     obj.addTag("Singularity Investigator")
     obj.setPosition(getObjectFromGUID(pushvillainsguid).getPosition())
-    Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city'),1)
+    Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city') end,1)
     broadcastToColor("KO one of your heroes and investigate for a card with Recruit.",Turns.turn_color,Turns.turn_color)
 end
 
@@ -65,7 +65,7 @@ function resolveTwist(params)
             end
         end
     elseif twistsresolved == 5 then
-        getObjectFromGUID(pushvillainsguid).Call('unveilScheme')
+        getObjectFromGUID(pushvillainsguid).Call('unveilScheme',self)
         return nil
     end
     return twistsresolved

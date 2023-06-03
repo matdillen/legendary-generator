@@ -1,7 +1,5 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
-    setupGUID = "912967"
-    
     local guids3 = {
         "discardguids",
         "cityguids",
@@ -14,7 +12,7 @@ function onLoad()
     }
     
     for _,o in pairs(guids3) do
-        _G[o] = callGUID(o,3)
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
     
     local guids2 = {
@@ -23,7 +21,7 @@ function onLoad()
     }
     
     for _,o in pairs(guids2) do
-        _G[o] = callGUID(o,2)
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
         
     local guids1 = {
@@ -34,7 +32,7 @@ function onLoad()
     }
     
     for _,o in pairs(guids1) do
-        _G[o] = callGUID(o,1)
+        _G[o] = Global.Call('returnVar',o)
     end
     
     as_heroes = {"Mirage",
@@ -50,26 +48,6 @@ function onLoad()
     
 end
 
-function callGUID(var,what)
-    if not var then
-        log("Error, can't fetch guid of object with name nil.")
-        return nil
-    elseif not what then
-        log("Error, can't fetch guid of object with missing type.")
-        return nil
-    end
-    if what == 1 then
-        return getObjectFromGUID(setupGUID).Call('returnVar',var)
-    elseif what == 2 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
-    elseif what == 3 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
-    else
-        log("Error, can't fetch guid of object with unknown type.")
-        return nil
-    end
-end
-
 function table.clone(org,key)
     if key then
         local new = {}
@@ -83,24 +61,7 @@ function table.clone(org,key)
 end
 
 function hasTag2(obj,tag,index)
-    if not obj or not tag then
-        return nil
-    end
-    for _,o in pairs(obj.getTags()) do
-        if o:find(tag) then
-            if index then
-                return o:sub(index,-1)
-            else 
-                local res = tonumber(o:match("%d+"))
-                if res then
-                    return res
-                else
-                    return o:sub(#tag+1,-1)
-                end
-            end
-        end
-    end
-    return nil
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function rescue_bystander(obj,color)
@@ -108,21 +69,12 @@ function rescue_bystander(obj,color)
     if name == "" then
         return name
     end
-    
-    if color == "White" then
-        angle = 90
-    elseif color == "Blue" then
-        angle = -90
-    else
-        angle = 180
-    end
-    local brot = {x=0, y=angle, z=0}
+
     local pos = getObjectFromGUID(discardguids[color]).getPosition()
     pos.y = pos.y + 2
     
     for _,o in pairs(as_heroes) do
         if o == name then
-            obj.setRotationSmooth(brot)
             obj.setPositionSmooth(pos)
             return nil
         end
@@ -222,7 +174,7 @@ function rescue_bystander(obj,color)
                 broadcastToColor("The top card of your deck cost 0 and was KO'd.",fcolor,fcolor)
             elseif not stoploop then
                 getObjectFromGUID(playerBoards[fcolor]).Call('click_refillDeck')
-                Wait.time(function engineerKOs(fcolor,true) end,1.5)
+                Wait.time(function() engineerKOs(fcolor,true) end,1.5)
             end
         end
         engineerKOs(color)
@@ -244,7 +196,7 @@ function rescue_bystander(obj,color)
         return name
     end
     if name == "Paramedic" then
-        broadcastToColor(name .. " rescued! You may KO a wound from your hand or any discard pile (not scripted").",color,color)
+        broadcastToColor(name .. " rescued! You may KO a wound from your hand or any discard pile (not scripted).",color,color)
         return name
     end
     if name == "Public Speaker" then
@@ -253,7 +205,7 @@ function rescue_bystander(obj,color)
         return name
     end
     if name == "Radiation Scientist" then
-        broadcastToColor(name .. " rescued! You may KO a hero from your hand or discard pile (not scripted").",color,color)
+        broadcastToColor(name .. " rescued! You may KO a hero from your hand or discard pile (not scripted).",color,color)
         return name
     end
     if name == "Rock Star" then
@@ -270,7 +222,7 @@ function rescue_bystander(obj,color)
         obj.addTag("Villain")
         obj.setPositionSmooth(getObjectFromGUID(city_zones_guids[1]).getPosition())
         getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,label = 3,tooltip = "This bystander is now a villain."})
-        Wait.time(function getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city') end,1)
+        Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city') end,1)
         broadcastToColor(name .. " rescued, but it enters the city as a villain!",color,color)
         return name
     end
@@ -284,5 +236,5 @@ function rescue_bystander(obj,color)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
+    return Global.Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end

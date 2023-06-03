@@ -124,7 +124,7 @@ function resolveTwist(params)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(vilgroup),
                     targetZone = getObjectFromGUID(mmpos),
                     enterscity = 1,
-                    schemeParts = {self.getName()})
+                    schemeParts = {self.getName()}})
                 broadcastToAll("Scheme Twist: Villain in city ascended to become a mastermind!")
             end
         else

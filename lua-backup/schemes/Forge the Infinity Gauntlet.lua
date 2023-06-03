@@ -65,7 +65,7 @@ end
 
 function shardAllGems()
     broadcastToAll("Scheme Twist: Shards added to all Infinity Gems in the city.")
-    local city = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city")
+    local city = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city"))
     table.remove(city,1)
     for _,o in pairs(city) do
         local citycontent = Global.Call('get_decks_and_cards_from_zone',o)

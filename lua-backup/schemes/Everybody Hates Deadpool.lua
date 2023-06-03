@@ -32,6 +32,19 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function nonTwist(params)
+    local obj = params.obj
+    
+    if obj.hasTag("Villain") then
+        if obj.getDescription() == "" then
+            obj.setDescription("REVENGE: This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.")
+        else
+            obj.setDescription(obj.getDescription() .. "\r\nREVENGE: This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.")
+        end
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
 

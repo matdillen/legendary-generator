@@ -5,15 +5,13 @@ function onLoad()
          tooltip="Buy a sidekick", font_size = 250
      })
      
-    setupGUID = "912967" 
-    
     local guids3 = {
         "playerBoards",
         "resourceguids"
     }
     
     for _,o in pairs(guids3) do
-        _G[o] = callGUID(o,3)
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
     
     local guids2 = {
@@ -22,38 +20,19 @@ function onLoad()
     }
     
     for _,o in pairs(guids2) do
-        _G[o] = callGUID(o,2)
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
     
     local guids1 = {
-        "sidekickZoneGUID"
+        "sidekickZoneGUID",
+        "setupGUID"
     }
     
     for _,o in pairs(guids1) do
-        _G[o] = callGUID(o,1)
+        _G[o] = Global.Call('returnVar',o)
     end
 
     rot_offset = {x=0, y=0, z=180}
-end
-
-function callGUID(var,what)
-    if not var then
-        log("Error, can't fetch guid of object with name nil.")
-        return nil
-    elseif not what then
-        log("Error, can't fetch guid of object with missing type.")
-        return nil
-    end
-    if what == 1 then
-        return getObjectFromGUID(setupGUID).Call('returnVar',var)
-    elseif what == 2 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
-    elseif what == 3 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
-    else
-        log("Error, can't fetch guid of object with unknown type.")
-        return nil
-    end
 end
 
 function table.clone(org,key)
@@ -121,5 +100,5 @@ function click_buy_hero(obj, player_clicker_color, alt_click)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
+    return Global.Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end

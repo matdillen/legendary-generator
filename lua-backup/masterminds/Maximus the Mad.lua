@@ -1,4 +1,6 @@
 function onLoad()
+    mmname = "Maximus the Mad"
+    
     local guids1 = {
         "pushvillainsguid",
         "villainDeckZoneGUID",
@@ -9,6 +11,15 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+    
+    local guids2 = {
+        "hqguids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+    
 end
 
 function table.clone(org,key)
@@ -27,10 +38,52 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function updateMMMaximus()
+    local power = 0
+    for _,o in pairs(hqguids) do
+        local hero = getObjectFromGUID(o).Call('getHeroUp')
+        if hero then
+            for _,k in pairs(hero.getTags()) do
+                if k:find("Attack:") then
+                    power = math.max(power,tonumber(k:match("%d+")))
+                end
+                if k:find("Attack1:") then
+                    power = math.max(power,tonumber(k:match("%d+")))
+                end
+                if k:find("Attack2:") then
+                    power = math.max(power,tonumber(k:match("%d+")))
+                end
+            end
+        end
+    end
+    local boost = ""
+    if epicness then
+        power = power*2
+        boost = " twice "
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = power,
+        label = "+" .. power,
+        tooltip = "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
+        f = 'updateMMMaximus',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    updateMMMaximus()
+    function onObjectEnterZone(zone,object)
+        updateMMMaximus()
+    end
+    function onObjectLeaveZone(zone,object)
+        updateMMMaximus()
+    end
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     local cards = params.cards
-    local epicness = params.epicness
     local mmloc = params.mmloc
 
     local content = Global.Call('get_decks_and_cards_from_zone2',{zoneGUID = mmloc,bsinc = false})

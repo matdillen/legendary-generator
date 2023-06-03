@@ -1,12 +1,22 @@
 function onLoad()
     reaperbonus = 0
+    mmname = "Grim Reaper"
     
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+    
+    local guids2 = {
+        "city_zones_guids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
 end
 
@@ -24,6 +34,49 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMReaper()
+    local locationcount = 0
+    for _,o in pairs(city_zones_guids) do
+        if o ~= city_zones_guids[1] then
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.getDescription():find("LOCATION") then
+                        locationcount = locationcount + 1
+                        break
+                    end
+                end
+            end
+        end
+    end
+    local locationcount2 = locationcount
+    if epicness then
+        locationcount2 = locationcount*2
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = locationcount2,
+        label = "+" .. locationcount2,
+        tooltip = "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
+        f = 'updateMMReaper',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    updateMMReaper()
+    function onObjectEnterZone(zone,object)
+        if object.getDescription():find("LOCATION") then
+            updateMMReaper()
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.getDescription():find("LOCATION") then
+            updateMMReaper()
+        end
+    end
 end
 
 function resolveStrike(params)

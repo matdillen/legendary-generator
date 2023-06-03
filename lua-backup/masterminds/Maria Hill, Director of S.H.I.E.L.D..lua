@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Maria Hill, Director of S.H.I.E.L.D."
+    
     local guids1 = {
         "pushvillainsguid",
-        "officerDeckGUID"
+        "officerDeckGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -14,6 +17,43 @@ function onLoad()
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function updateMMMaria()
+    local shieldfound = 0
+    for _,o in pairs(city_zones_guids) do
+        if o ~= city_zones_guids[1] then
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Officer") or obj.HasTag("Group:S.H.I.E.L.D. Elite") then
+                        shieldfound = shieldfound + 1
+                        break
+                    end
+                end
+            end
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = shieldfound,
+        label = "X",
+        tooltip = "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
+        f = 'updateMMMaria',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMMaria()
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Officer") or obj.hasTag("Group:S.H.I.E.L.D. Elite") then
+            updateMMMaria()
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.hasTag("Officer") or obj.hasTag("Group:S.H.I.E.L.D. Elite") then
+            updateMMMaria()
+        end
     end
 end
 

@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Ragnarok"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -8,7 +11,8 @@ function onLoad()
     end
     
     local guids2 = {
-        "pos_discard"
+        "pos_discard",
+        "hqguids"
         }
         
     for _,o in pairs(guids2) do
@@ -38,6 +42,52 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMRagnarok()
+    local hccolors = {
+        ["Red"] = 0,
+        ["Yellow"] = 0,
+        ["Green"] = 0,
+        ["Silver"] = 0,
+        ["Blue"] = 0
+    }
+    for _,o in pairs(hqguids) do
+        local hero = getObjectFromGUID(o).Call('getHeroUp')
+        if hero then
+            for _,k in pairs(hero.getTags()) do
+                if k:find("HC:") then
+                    hccolors[k:gsub("HC:","")] = 2
+                end
+                if k:find("HC1:") then
+                    hccolors[k:gsub("HC1:","")] = 2
+                end
+                if k:find("HC2:") then
+                    hccolors[k:gsub("HC2:","")] = 2
+                end
+            end
+        end
+    end
+    local boost = 0
+    for _,o in pairs(hccolors) do
+        boost = boost + o
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = boost,
+        label = "+" .. boost,
+        tooltip = "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
+        f = 'updateMMRagnarok',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMRagnarok()
+    function onObjectEnterZone(zone,object)
+        updateMMRagnarok()
+    end
+    function onObjectLeaveZone(zone,object)
+        updateMMRagnarok()
+    end
 end
 
 function resolveStrike(params)

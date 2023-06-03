@@ -3,7 +3,8 @@ function onLoad()
         "pushvillainsguid",
         "twistZoneGUID",
         "bystandersPileGUID",
-        "bszoneguid"
+        "bszoneguid",
+        "kopile_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -41,7 +42,8 @@ function refreshHQ(params)
 end
 
 function resolveTwist(params)
-    local twistsresolved = params.twistsresolved 
+    local twistsresolved = params.twistsresolved
+    local cards = params.cards
 
     local kidnappedmutants = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)
     local hackers = 0
@@ -54,10 +56,11 @@ function resolveTwist(params)
             flip = false,
             smooth = true})
         local hq_cards = {}
-        for _,o in pairs(hqguids) do
+        for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
-            if hero and hasTag2(hero,"Cost:") and hasTag2(hero,"Cost:") == hackers+1 then
-                table.insert(hq_cards,hero)
+            table.insert(hq_cards,hero)
+            if not hasTag2(hero,"Cost:") or hasTag2(hero,"Cost:") ~= hackers + 1 then
+                hq_cards[i] = nil
             end
         end
         if hq_cards[1] then
@@ -74,10 +77,10 @@ function resolveTwist(params)
         end
     elseif twistsresolved == 6 then
         if kidnappedmutants[1] then
-            Global.Call('bump',bsdeck)
+            Global.Call('bump',{obj = bsdeck})
             kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(bszoneguid).getPosition())
         end
-        getObjectFromGUID(pushvillainsguid).Call('unveilScheme')
+        getObjectFromGUID(pushvillainsguid).Call('unveilScheme',self)
         return nil
     end
     return twistsresolved

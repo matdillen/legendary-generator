@@ -1,7 +1,5 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
-    setupGUID = "912967"
-    
     local guids3 = {
         "discardguids",
         "cityguids",
@@ -11,7 +9,7 @@ function onLoad()
     }
     
     for _,o in pairs(guids3) do
-        _G[o] = callGUID(o,3)
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
     
     local guids2 = {
@@ -19,17 +17,18 @@ function onLoad()
     }
     
     for _,o in pairs(guids2) do
-        _G[o] = callGUID(o,2)
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
         
     local guids1 = {
         "heroDeckZoneGUID",
         "pushvillainsguid",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "setupGUID"
     }
     
     for _,o in pairs(guids1) do
-        _G[o] = callGUID(o,1)
+        _G[o] = Global.Call('returnVar',o)
     end
     
     for i,o in pairs(cityguids) do
@@ -54,26 +53,6 @@ function toggleButton()
             font_color = {0,0,0}, width=750, height=150,
             font_size = 75
         })
-    end
-end
-
-function callGUID(var,what)
-    if not var then
-        log("Error, can't fetch guid of object with name nil.")
-        return nil
-    elseif not what then
-        log("Error, can't fetch guid of object with missing type.")
-        return nil
-    end
-    if what == 1 then
-        return getObjectFromGUID(setupGUID).Call('returnVar',var)
-    elseif what == 2 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
-    elseif what == 3 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
-    else
-        log("Error, can't fetch guid of object with unknown type.")
-        return nil
     end
 end
 
@@ -150,6 +129,13 @@ function setZonePower()
             villainfound = 1
             local val = tostring(hasTag2(obj,"Power:"))
             zoneBonuses["card"] = {val,"Base power as written on the card."}
+            
+            if obj.getVar("bonusPower") then
+                local cardbonus = obj.Call('bonusPower')
+                if cardbonus then
+                    zoneBonuses[cardbonus[1]] = {cardbonus[2],cardbonus[3]}
+                end
+            end
             local butt = obj.getButtons()
             if butt then
                 local tip = (butt[1].tooltip:gsub("%[.*",""))
@@ -214,11 +200,11 @@ function updatePower()
 end
 
 function hasTag2(obj,tag,index)
-    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function updateCityZone()
-    cityguids = callGUID("cityguids",3)
+    cityguids = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"cityguids"),true)
     for i,o in pairs(cityguids) do
         if o == self.guid then
             zoneName = i
@@ -239,23 +225,11 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
         return nil
     end
     
-    local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
-    if not schemeParts then
-        printToAll("No scheme specified!")
-        schemeParts = {"no scheme"}
+    if not scheme then
+        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
     end
-    
     local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
-    
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
-    end
-    local brot = {x=0, y=angle, z=0}
     
     for i,obj in pairs(cards) do
         if obj.hasTag("Villain") then
@@ -280,9 +254,15 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
                 return nil
             else
                 getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
+                if getObjectFromGUID(mmZoneGUID).Call('mmActive',"Baron Heinrich Zemo") then
+                    local strikeloc = getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Baron Heinrich Zemo")
+                    getObjectFromGUID(strikeloc).Call('offerBystander',player_clicker_color)
+                end
+                if scheme.getVar("fightEffect") then
+                    scheme.Call('fightEffect',{obj = obj,color = player_clicker_color})
+                end
                 local result = getObjectFromGUID(pushvillainsguid).Call('resolveVillainEffect',{obj = obj,color = player_clicker_color})
                 if result then
-                    obj.setRotationSmooth(brot)
                     obj.setPositionSmooth(dest)
                     broadcastToColor("You defeated the Villain " .. obj.getName() .. " and it was put into your victory pile.",player_clicker_color,player_clicker_color)
                 end

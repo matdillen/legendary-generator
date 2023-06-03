@@ -11,8 +11,6 @@ function onLoad()
          position={0,0.01,4}, label="Buy hero", color={1,1,1,1}, width=2000, height=1000,
          font_size = 250
      })
-
-    setupGUID = "912967"
     
     local guids3 = {
         "playerBoards",
@@ -20,7 +18,7 @@ function onLoad()
     }
     
     for _,o in pairs(guids3) do
-        _G[o] = callGUID(o,3)
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
     
     local guids2 = {
@@ -33,18 +31,19 @@ function onLoad()
     }
     
     for _,o in pairs(guids2) do
-        _G[o] = callGUID(o,2)
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
         
     local guids1 = {
         "heroDeckZoneGUID",
         "kopile_guid",
         "twistZoneGUID",
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "setupGUID"
     }
     
     for _,o in pairs(guids1) do
-        _G[o] = callGUID(o,1)
+        _G[o] = Global.Call('returnVar',o)
     end
     
     for i,o in pairs(hqguids) do
@@ -54,26 +53,6 @@ function onLoad()
         end
     end
     
-end
-
-function callGUID(var,what)
-    if not var then
-        log("Error, can't fetch guid of object with name nil.")
-        return nil
-    elseif not what then
-        log("Error, can't fetch guid of object with missing type.")
-        return nil
-    end
-    if what == 1 then
-        return getObjectFromGUID(setupGUID).Call('returnVar',var)
-    elseif what == 2 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
-    elseif what == 3 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
-    else
-        log("Error, can't fetch guid of object with unknown type.")
-        return nil
-    end
 end
 
 function table.clone(org,key)
@@ -89,7 +68,7 @@ function table.clone(org,key)
 end
 
 function hasTag2(obj,tag,index)
-    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function click_buy_hero(obj, player_clicker_color)
@@ -123,17 +102,6 @@ function click_buy_hero(obj, player_clicker_color)
         
         local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
         local dest = playerBoard.positionToWorld(pos)
-        
-        if player_clicker_color == "White" then
-            angle = 90
-        elseif player_clicker_color == "Blue" then
-            angle = -90
-        else
-            angle = 180
-        end
-        local brot = {x=0, y=angle, z=0}
-        
-        card.setRotationSmooth(brot)
         card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
         
         click_draw_hero()
@@ -200,18 +168,21 @@ function tuckHero()
 end
 
 function click_draw_hero()
-    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
-    if not schemeParts then
-        printToAll("No scheme specified!")
-        schemeParts = {"no scheme"}
+    if not scheme then
+        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
     end
-    if schemeParts[1] == "Divide and Conquer" then
+    if scheme.getName() == "Divide and Conquer" then
         deckToDrawGUID = divided_deck_guid
     else
         deckToDrawGUID = heroDeckZoneGUID
     end
     hero_deck = get_decks_and_cards_from_zone(deckToDrawGUID)
-    if schemeParts[1] == "Go Back in Time to Slay Heroes' Ancestors" then
+    
+    local flip = hero_deck[1].is_face_down
+    if scheme.getName() == "Inescapable Kyln Space Prison" then
+        flip = not flip
+    end
+    if scheme.getName() == "Go Back in Time to Slay Heroes' Ancestors" then
         purge = function(obj)
             local purgedheroes = get_decks_and_cards_from_zone(twistZoneGUID)
             if purgedheroes[1] then
@@ -232,6 +203,10 @@ function click_draw_hero()
                     end
                 end
             end
+        end
+    elseif scheme.getName() == "Inescapable Kyln Space Prison" then
+        purge = function()
+            scheme.Call('imprison')
         end
     else
         purge = nil
@@ -255,5 +230,5 @@ function click_draw_hero()
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
+    return Global.Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end

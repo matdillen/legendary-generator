@@ -3,10 +3,11 @@ function onLoad()
     
     local guids1 = {
         "pushvillainsguid",
-        "bszoneguid",
         "twistZoneGUID",
         "officerDeckGUID",
-        "officerBuyGUID"
+        "officerBuyGUID",
+        "setupGUID",
+        "bystandersPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -16,11 +17,15 @@ end
 
 function tormentedSoulBargainBS(params)
     if params.wounds == true then
-        local bspile = Global.Call('get_decks_and_cards_from_zone',bszoneguid)[1]
-        bspile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        if not bsPile then
+            bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
+            bsPile = getObjectFromGUID(bystandersPileGUID)
+        end
+        bsPile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
             flip=true})
     else
-        getObjectFromGUID(pushvillainsguid).Call('gainBystander',params.color)
+        getObjectFromGUID(pushvillainsguid).Call('getBystander',params.color)
     end
 end 
 
@@ -36,6 +41,7 @@ end
 
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
+    
     if twistsresolved == 5 then
          soulbargain = "tormentedSoulBargainOfficer"
     end

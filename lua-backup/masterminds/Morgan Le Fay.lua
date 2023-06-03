@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Morgan Le Fay"
+    
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -35,6 +38,14 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupMM()
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = 1,
+        label = "*",
+        tooltip="Chivalrous Duel: Attack Morgan only with the power of a single hero.",
+        f = 'updatePower'})
 end
 
 function gainCrapCard(params)

@@ -38,6 +38,24 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    local obj = params.obj
+    
+    if obj.hasTag("Sidekick") then
+        obj.addTag("Corrupted")
+        obj.addTag("Villain")
+        if obj.getDescription() == "" then
+            obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
+        else
+            obj.setDescription(obj.getDescription() .. "\nWALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
+            label = params.twistsstacked+2,
+            tooltip = "This sidekick is corrupted and therefore a villain. If you fight it, gain it to the top of your deck."})
+    end
+    return 1
+end
+
 function tuckSidekick(obj)
     obj.flip()
     local skpile = getObjectFromGUID(sidekickDeckGUID)
@@ -50,6 +68,7 @@ function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
     local city = params.city
+    
     getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
     if twistsresolved < 8 then
         local skpile = getObjectFromGUID(sidekickDeckGUID)

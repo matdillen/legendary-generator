@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "heroDeckZoneGUID"
+        "heroDeckZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -17,8 +18,36 @@ function onLoad()
     end
 end
 
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
+end
+
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function nonTwist(params)
+    local obj = params.obj
+    
+    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
+    
+    if obj.getName() == schemeParts[9] or (hasTag2(obj,"Group:") and hasTag2(obj,"Group:") == schemeParts[9]) then
+        obj.setName("Xerogen Experiments")
+        if obj.getDescription() == "" then
+            obj.setDescription("ABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
+        else
+            obj.setDescription(obj.getDescription() .. "\r\nABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
+        end
+    end
+    return 1
 end
 
 function fillHQ()

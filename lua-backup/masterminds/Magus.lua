@@ -1,10 +1,61 @@
 function onLoad()
+    mmname = "Magus"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+    
+    local guids2 = {
+        "city_zones_guids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+    
+end
+
+function updateMMMagus()
+    local shardsfound = 0
+    for _,o in pairs(city_zones_guids) do
+        if o ~= city_zones_guids[1] then
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.getName() == "Shard" then
+                        shardsfound = shardsfound + 1
+                        break
+                    end
+                end
+            end
+        end
+    end
+    local boost = 1
+    if epicness then
+        boost = 2
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = shardsfound,
+        label = "+" .. boost*shardsfound,
+        tooltip = "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
+        f = 'updateMMMagus',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    updateMMMagus()
+    function onObjectEnterZone(zone,object)
+        updateMMMagus()
+    end
+    function onObjectLeaveZone(zone,object)
+        updateMMMagus()
     end
 end
 
@@ -12,7 +63,6 @@ function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     local cards = params.cards
     local city = params.city
-    local epicness = params.epicness
 
     local shardfound = false
     for _,o in pairs(city) do

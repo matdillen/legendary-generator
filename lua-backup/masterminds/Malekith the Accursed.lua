@@ -73,7 +73,7 @@ function killBSButton()
     darkspearcango = true
 end
 
-function launchDarkspear = function()
+function launchDarkspear()
     if #weapons == 0 and #weaponguids == 0 then
         darkspearcango = true
     end

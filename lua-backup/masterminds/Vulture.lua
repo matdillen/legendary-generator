@@ -1,8 +1,11 @@
 function onLoad()
+    mmname = "Vulture"
+    
     local guids1 = {
         "pushvillainsguid",
         "kopile_guid",
-        "woundsDeckGUID"
+        "woundsDeckGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +18,25 @@ function onLoad()
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function updateMMVulture()
+    local strikes = getObjectFromGUID(pushvillainsguid).Call('returnVar','strikesresolved')
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = strikes,
+        label = "+" .. strikes,
+        tooltip = "Vulture is a striker and gets +1 for each Master Strike that has been played.",
+        f = 'updateMMVulture',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMVulture()
+    function onObjectEnterZone(zone,object)
+        if object.getName() == "Masterstrike" then
+            updateMMVulture()
+        end
     end
 end
 

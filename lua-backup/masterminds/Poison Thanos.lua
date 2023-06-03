@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Poison Thanos"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -22,6 +25,50 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMPoisonThanos()
+    local poisoned = Global.Call('get_decks_and_cards_from_zone',self.guid)
+    local poisoncount = 0
+    if poisoned[1] and poisoned[1].tag == "Deck" then
+        local costs = table.clone(Global.Call('returnVar',"herocosts"))
+        for _,o in pairs(poisoned[1].getObjects()) do
+            for _,k in pairs(o.tags) do
+                if k:find("Cost:") then
+                    costs[tonumber(k:match("%d+"))] = costs[tonumber(k:match("%d+"))] + 1
+                    break
+                end
+            end
+        end
+        for _,o in pairs(costs) do
+            if o > 0 then
+                poisoncount = poisoncount + 1
+            end
+        end
+    elseif poisoned[1] then
+        poisoncount = 1
+    end
+    local boost = 1
+    if epicness then
+        boost = 2
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = poisoncount,
+        label = "+" .. poisoncount*boost,
+        tooltip = "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
+        f = 'updateMMPoisonThanos',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMPoisonThanos,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMPoisonThanos,0.1)
+    end
 end
 
 function resolveStrike(params)

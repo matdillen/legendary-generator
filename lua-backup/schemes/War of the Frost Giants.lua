@@ -29,6 +29,15 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    if params.obj.getName() == "Frost Giant Invader" then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.obj,
+            label = "6+",
+            tooltip = "This twist is a Frost Giant Invader villain that gets +4 if you are not Worthy."})
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

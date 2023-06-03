@@ -89,7 +89,7 @@ function resolveTwist(params)
             end
             local pos = getObjectFromGUID(vpileguids[o.color]).getPosition()
             pos.y = pos.y + 2
-            if h[1] then
+            if nongrey[1] then
                 getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
                     hand = nongrey,
                     pos = pos,

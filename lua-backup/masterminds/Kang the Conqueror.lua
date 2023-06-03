@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Kang the Conqueror"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -20,10 +23,46 @@ function table.clone(org,key)
     end
 end
 
+function updateMMKang()
+    local kangcitycheck = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnTimeIncursions'))
+    local villaincount = 0
+    for _,o in pairs(kangcitycheck) do
+        local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+        if citycontent[1] then
+            for _,obj in pairs(citycontent) do
+                if obj.hasTag("Villain") then
+                    villaincount = villaincount + 1
+                    break
+                end
+            end
+        end
+    end
+    local boost = 0
+    if epicness then
+        boost = 1
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = villaincount,
+        label = "+" .. villaincount*(2+boost),
+        tooltip = "Kang gets +" .. 2+boost .. " for each Villain in the city zones under a time incursion.",
+        f = 'updateMMKang',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    function onObjectEnterZone(zone,object)
+        updateMMKang()
+    end
+    function onObjectLeaveZone(zone,object)
+        updateMMKang()
+    end
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
-    local epicness = params.epicness
-
+    
     local kanglabel = "⌛+2"
     if epicness == true then
         kanglabel = "⌛+3"

@@ -1,10 +1,40 @@
 function onLoad()
+    mmname = "Mr. Sinister"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+end
+
+function updateMMMrSinister()
+    local bs = Global.Call('get_decks_and_cards_from_zone',self.guid)
+    local boost = 0
+    if bs[1] then
+        boost = math.abs(bs[1].getQuantity())
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = boost,
+        label = "+" .. boost,
+        tooltip = "Mr. Sinister gets +1 for each Bystander he has.",
+        f = 'updateMMMrSinister',
+        f_owner = self})
+end
+
+function setupMM()
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Bystander") then
+            Wait.time(updateMMMrSinister,0.1)
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.hasTag("Bystander") then
+            Wait.time(updateMMMrSinister,0.1)
+        end
     end
 end
 

@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Kingpin"
+    
     local guids1 = {
         "pushvillainsguid",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -29,6 +32,14 @@ function table.clone(org,key)
     end
 end
 
+function setupMM()
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = 1,
+        label = "*",
+        tooltip="Kingpin can be fought using Recruit as well as Attack.",
+        f = 'updatePower',
+        id = "bribe"})
+end
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
 

@@ -1,0 +1,18 @@
+{
+    "Lua.diagnostics.globals": [
+        "getObjectFromGUID",
+        "self",
+        "Turns",
+        "Global",
+        "Player",
+        "Wait",
+        "broadcastToAll",
+        "log",
+        "broadcastToColor",
+        "printToAll",
+        "getNotes",
+        "setNotes",
+        "spawnObject",
+        "printToColor"
+    ]
+}

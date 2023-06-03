@@ -11,53 +11,41 @@ function onLoad()
     
     
     boardcolor = self.getName()
-    vpileguid = callGUID("vpileguids",3)[boardcolor]
-    playguid = callGUID("playguids",3)[boardcolor]
-    addguid = callGUID("addguids",3)[boardcolor]
-    attackguid = callGUID("attackguids",3)[boardcolor]
-    resourceguid = callGUID("resourceguids",3)[boardcolor]
-    drawguid = callGUID("drawguids",3)[boardcolor]
-    discardguid = callGUID("discardguids",3)[boardcolor]
-    handguid = callGUID("handguids",3)[boardcolor]
     
-    sidekickZoneGUID = callGUID("sidekickZoneGUID",1)
-    pushvillainsguid = callGUID("pushvillainsguid",1)
+    local guids3 = {
+        "vpileguids",
+        "playguids",
+        "addguids",
+        "drawguids",
+        "discardguids",
+        "handguids",
+        "resourceguids",
+        "attackguids"
+    }
+    
+    for _,o in pairs(guids3) do
+        _G[o:sub(1,-2)] = table.clone(Global.Call('returnVar',o),true)[boardcolor]
+    end
+    
+    local guids1 = {
+       "pushvillainsguid",
+       "sidekickZoneGUID",
+       "setupGUID"
+    }
+    
+    for _,o in pairs(guids1) do
+        _G[o] = Global.Call('returnVar',o)
+    end
     
     objectsentering_recruit = {}
     objectsentering_attack = {}
     
-    playpos = {
-        ["Red"]={-0.7,2,7.3},
-        ["Green"]={0,2,7.3},
-        ["Yellow"]={1.15 , 2, 7.3},
-        ["Blue"]={1.15,2,7.45},
-        ["White"]={1.35,2,7.8}
-        }
+    playpos = {1.4 , 2, 7.3}
     
     createButtons()
 end
 
 function colorDummy()
-end
-
-function callGUID(var,what)
-    if not var then
-        log("Error, can't fetch guid of object with name nil.")
-        return nil
-    elseif not what then
-        log("Error, can't fetch guid of object with missing type.")
-        return nil
-    end
-    if what == 1 then
-        return getObjectFromGUID(setupGUID).Call('returnVar',var)
-    elseif what == 2 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
-    elseif what == 3 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
-    else
-        log("Error, can't fetch guid of object with unknown type.")
-        return nil
-    end
 end
 
 function onObjectEnterZone(zone,object)
@@ -119,7 +107,7 @@ function onObjectEnterZone(zone,object)
 end
 
 function hasTag2(obj,tag,index)
-    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function table.clone(org,key)
@@ -181,7 +169,7 @@ function createButtons()
     
     self.createButton({
         click_function="play_hand", function_owner=self,
-        position=playpos[boardcolor], height=350,
+        position=playpos, height=350,
         width=400, label="Play", tooltip="Play all cards from your hand.", color=boardcolor
     })
 
@@ -286,16 +274,11 @@ end
 
 function play_hand()
     local hand = Player[boardcolor].getHandObjects()
-    local zshift = 0
-    local xshift = 0
-    if boardcolor == "White" or boardcolor == "Blue" then
-        zshift = -0.5
-    elseif boardcolor == "Yellow" then
-        xshift = -4
-    end
+    local xshift = -4
+
     if hand[1] then
         for _,o in pairs(hand) do
-            o.setPosition(self.positionToWorld({xshift-3+zshift,0.1,6}))
+            o.setPosition(self.positionToWorld({xshift-3,0.1,6}))
             xshift = xshift + 1
         end
     end
@@ -358,19 +341,10 @@ function timer_shuffle(hardstop)
     end
 end
 
-function bump(obj,y)
-    if not y then
-        y = 2
-    end
-    local pos = obj.getPosition()
-    pos.y = pos.y + y
-    obj.setPositionSmooth(pos)
-end
-
 function tuckSidekicks(cardtable)
     local newcardtable = {}
     local sidekickdeck = get_decks_and_cards_from_zone(sidekickZoneGUID)[1]
-    getObjectFromGUID(pushvillainsguid).Call('bump',sidekickdeck)
+    Global.Call('bump',{obj = sidekickdeck})
     for _,o in pairs(cardtable) do
         if o.hasTag("Sidekick") then
             o.flip()
@@ -445,10 +419,10 @@ function click_end_turn()
     global_deal=0
     click_discard_hand()
     Wait.condition(click_deal_cards,isDiscardDone)
-    local autoplay = callGUID("autoplay",1)
+    local autoplay = getObjectFromGUID(setupGUID).Call('returnVar',"autoplay")
     if boardcolor == Turns.turn_color then
         if autoplay == true then
-            getObjectFromGUID("8280ca").Call('click_draw_villain')
+            getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')
             broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
             Turns.turn_color = Turns.getNextTurnColor()
         end

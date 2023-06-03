@@ -73,7 +73,7 @@ function resolveTwist(params)
                 cardfound = true
                 local targetZone = getObjectFromGUID(cityspaces[1])
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
-                    objects = {babyhope},
+                    objects = {babyHope},
                     targetZone = targetZone,
                     enterscity = 1})
             end

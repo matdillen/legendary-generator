@@ -29,6 +29,15 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    if params.obj.hasTag("Group:Sinister Six") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.obj,
+            label = "+3",
+            tooltip = "Sinister Six villains get +3."})
+    end
+    return 1
+end
+
 function sinisterSixReturns(params)
     params.obj.flip()
     local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()

@@ -1,19 +1,14 @@
 function onLoad()
+    mmname = "Baron Helmut Zemo"
+    
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
-    end
-    
-    local guids2 = {
-        "city_zones_guids"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
     
     local guids3 = {
@@ -37,8 +32,50 @@ function table.clone(org,key)
     end
 end
 
-function hasTag2(obj,tag,index)
-    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+function updateMMBaronHelm()
+    local color = Turns.turn_color
+    local vpilecontent = Global.Call('get_decks_and_cards_from_zone',vpileguids[color])
+    local savior = 0
+    for i = 1,2 do
+        if vpilecontent[i] and vpilecontent[i].tag == "Deck" then
+            for _,k in pairs(vpilecontent[i].getObjects()) do
+                for _,l in pairs(k.tags) do
+                    if l == "Villain" then
+                        savior = savior + 1
+                        break
+                    end
+                end
+            end
+        elseif vpilecontent[i] then
+            if vpilecontent[i].hasTag("Villain") then
+                savior = savior + 1
+            end
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = savior,
+        label = "-" .. savior,
+        tooltip = "The Baron gets -1 for each villain in your victory pile.",
+        f = 'updateMMBaronHelm',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMBaronHelm()
+    
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Villain") then
+            Wait.time(updateMMBaronHelm,0.1)
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.hasTag("Villain") then
+            Wait.time(updateMMBaronHelm,0.1)
+        end
+    end
+    function onPlayerTurn(player,previous_player)
+        updateMMBaronHelm()
+    end
 end
 
 function resolveStrike(params)
@@ -47,7 +84,7 @@ function resolveStrike(params)
     for i,o in pairs(vpileguids) do
         if Player[i].seated == true then
             broadcastToColor("Master Strike: KO a villain from your victory pile or gain a wound.",i,i)
-            local vpilecontent = Global.Call('get_decks_and_cards_from_zone',(o)
+            local vpilecontent = Global.Call('get_decks_and_cards_from_zone',o)
             if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
                 local bsguids = {}
                 for _,k in pairs(vpilecontent[1].getObjects()) do

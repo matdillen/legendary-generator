@@ -1,4 +1,6 @@
 function onLoad()
+    mmname = "The Sentry"
+    
     local guids1 = {
         "pushvillainsguid",
         "mmZoneGUID",
@@ -8,6 +10,8 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+    
+    mmZone = getObjectFromGUID(mmZoneGUID)
 
     local guids3 = {
         "playerBoards"
@@ -32,6 +36,54 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMSentry()
+    local transformed = mmZone.Call('returnTransformed',mmname)
+    if transformed == nil then
+        return nil
+    end
+    if transformed == true then
+        local wounds = mmZone.Call('woundedFury')
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = wounds,
+            label = "+" .. wounds,
+            tooltip = "The Sentry gets +1 for each Wound in your discard pile.",
+            f = 'updateMMSentry',
+            id = "woundedfury",
+            f_owner = self})
+    elseif transformed == false then
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 0,
+            label = "",
+            tooltip = "The Sentry no longer gets +1 for each Wound in your discard pile.",
+            f = 'updateMMSentry',
+            id = "woundedfury",
+            f_owner = self})
+    end
+end
+
+function setupMM()
+    function onPlayerTurn(player,previous_player)
+        local transformed = mmZone.Call('returnTransformed',mmname)
+        if transformed and transformed == true then
+            updateMMSentry()
+        end
+    end
+
+    function onObjectEnterZone(zone,object)
+        local transformed = mmZone.Call('returnTransformed',mmname)
+        if transformed and transformed == true then
+            updateMMSentry()
+        end
+    end
+
+    function onObjectLeaveZone(zone,object)
+        local transformed = mmZone.Call('returnTransformed',mmname)
+        if transformed and transformed == true then
+            updateMMSentry()
+        end
+    end
 end
 
 function resolveStrike(params)

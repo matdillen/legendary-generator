@@ -30,6 +30,23 @@ function table.clone(org,key)
     end
 end
 
+function hasTag2(obj,tag,index)
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function nonTwist(params)
+    local obj = params.obj
+    
+    if obj.getName() == "Jean Grey (DC)" then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
+            label = hasTag2(obj,"Cost:"),
+            tooltip = "Jean Grey heroes are villains with power equal to their cost. Gain them if you fight them."})
+        obj.addTag("Villain")
+        getObjectFromGUID(pushvillainsguid).Call('playVillains')
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
 

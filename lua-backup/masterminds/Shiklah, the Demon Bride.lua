@@ -41,7 +41,7 @@ function resolveStrike(params)
             end
         end
         local strangeProcess = function()
-            bump(vildeck,4)
+            Global.Call('bump',{obj = vildeck,y = 4})
             for _,o in pairs(strangeguids) do
                 local object = getObjectFromGUID(o)
                 if object.getName() == "Scheme Twist" then

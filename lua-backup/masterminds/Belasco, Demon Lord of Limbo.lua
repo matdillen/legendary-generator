@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Belasco, Demon Lord of Limbo"
+    
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -39,6 +42,42 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMBelasco()
+    local kopilecontent = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
+    local nongrey = 0
+    if kopilecontent[1] and kopilecontent[1].tag == "Deck" then
+        for _,k in pairs(kopilecontent[1].getObjects()) do
+            for _,l in pairs(k.tags) do
+                if l:find("HC:") or l:find("Split") then
+                    nongrey = nongrey + 1
+                    break
+                end
+            end
+        end
+    end
+    nongrey = nongrey/#Player.getPlayers() - 0.5*(nongrey % #Player.getPlayers())
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = nongrey,
+        label = "+" .. nongrey,
+        tooltip = "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
+        f = 'updateMMBelasco',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMBelasco()
+    function onObjectEnterZone(zone,object)
+        if zone.guid == kopile_guid then
+            updateMMBelasco()
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if zone.guid == kopile_guid then
+            updateMMBelasco()
+        end
+    end
 end
 
 function drawCard(color)

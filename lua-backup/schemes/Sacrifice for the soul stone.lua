@@ -120,7 +120,7 @@ function resolveTwist(params)
     
     local hand = Player[color].getHandObjects()
     for _,o in pairs(hand) do
-        if not hasTag2(o,"HC:") and (o.hasTag("Hero") or o.hasTag("Starter") then
+        if not hasTag2(o,"HC:") and (o.hasTag("Hero") or o.hasTag("Starter")) then
             table.insert(grey,o)
         elseif hasTag2(o,"HC:") then
             table.insert(nongrey,o)
@@ -129,7 +129,7 @@ function resolveTwist(params)
     local playcontent = Global.Call('get_decks_and_cards_from_zone',playguids[color])
     if playcontent[1] then
         for _,o in pairs(playcontent) do
-            if not hasTag2(o,"HC:") and (o.hasTag("Hero") or o.hasTag("Starter") then
+            if not hasTag2(o,"HC:") and (o.hasTag("Hero") or o.hasTag("Starter")) then
                 table.insert(grey,o)
             elseif hasTag2(o,"HC:") then
                 table.insert(nongrey,o)

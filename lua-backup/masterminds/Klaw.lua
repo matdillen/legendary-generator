@@ -34,7 +34,7 @@ function resolveStrike(params)
     frequencies.flip()
     local herodeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)
     if herodeck[1] then
-        Global.Call('bump',herodeck[1])           
+        Global.Call('bump',{obj = herodeck[1]})           
     end
     frequencies.setPositionSmooth(getObjectFromGUID(heroDeckZoneGUID).getPosition())
     local klawDiscard = function(obj,index,color)

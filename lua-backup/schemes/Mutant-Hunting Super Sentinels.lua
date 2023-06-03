@@ -29,6 +29,19 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    local obj = params.obj
+    
+    if obj.getName() == "Sentinel" then
+        obj.addTag("Super Sentinel")
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
+            label = "+" .. params.twistsstacked,
+            tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
+            id = "twistsStacked"})
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
@@ -82,7 +95,7 @@ function resolveTwist(params)
             Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1].randomize()
         end
         getObjectFromGUID(pushvillainsguid).Call('playVillains')
-        etObjectFromGUID(pushvillainsguid).Call('updatePower')
+        getObjectFromGUID(pushvillainsguid).Call('updatePower')
     end
     Wait.condition(sentinelsNext,sentinelsAdded)
     return nil

@@ -37,6 +37,16 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    if params.obj.getName() == "S.H.I.E.L.D. Assault Squad" then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.obj,
+            label = "+" .. params.twistsstacked,
+            tooltip = "Assault squads have War Machine Armor and get +1 for each twist that has been played.",
+            id = "twistsStacked"})
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

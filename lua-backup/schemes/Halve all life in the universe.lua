@@ -1,7 +1,7 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "ko_pileguid",
+        "kopile_guid",
         "heroDeckZoneGUID"
         }
         
@@ -37,7 +37,7 @@ end
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     
-    local pos = getObjectFromGUID(ko_pileguid).getPosition()
+    local pos = getObjectFromGUID(kopile_guid).getPosition()
     pos.y = pos.y + 2
     if twistsresolved == 1 or twistsresolved == 3 or twistsresolved == 5 then
         local herosnap = {}

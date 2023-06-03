@@ -37,6 +37,19 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    local obj = params.obj
+    
+    if obj.hasTag("Villain") and not obj.getDescription():find("FATEFUL RESURRECTION") then
+        if obj.getDescription() == "" then
+            obj.setDescription("FATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
+        else
+            obj.setDescription(obj.getDescription() .. "\r\nFATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
+        end
+    end
+    return 1
+end
+
 function click_push_villain_into_city()
     getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
 end

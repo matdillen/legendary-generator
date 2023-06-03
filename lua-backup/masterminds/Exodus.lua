@@ -41,10 +41,6 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
-function click_push_villain_into_city()
-    getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
-end
-
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     local cards = params.cards

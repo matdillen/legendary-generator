@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Arnim Zola"
+    
     local guids1 = {
         "pushvillainsguid",
-        "heroDeckZoneGUID"
+        "heroDeckZoneGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -9,7 +12,8 @@ function onLoad()
     end
     
     local guids2 = {
-        "hqguids"
+        "hqguids",
+        "hqscriptguids"
         }
         
     for _,o in pairs(guids2) do
@@ -19,6 +23,47 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMArnimZola()
+    local power = 0
+    for _,o in pairs(hqguids) do
+        local hero = getObjectFromGUID(o).Call('getHeroUp')
+        if hero then
+            for _,k in pairs(hero.getTags()) do
+                if k:find("Attack:") or k:find("Attack1:") or k:find("Attack2:") then
+                    power = power + tonumber(k:match("%d+"))
+                end
+            end
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = power,
+        label = "+" .. power,
+        tooltip = "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
+        f = 'updateMMArnimZola',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMArnimZola()
+
+    function onObjectEnterZone(zone,object)
+        for _,o in pairs(hqscriptguids) do
+            if o == zone.guid then
+                updateMMArnimZola()
+            end
+        end
+
+    end
+
+    function onObjectLeaveZone(zone,object)
+        for _,o in pairs(hqscriptguids) do
+            if o == zone.guid then
+                updateMMArnimZola()
+            end
+        end
+    end
 end
 
 function resolveStrike(params)

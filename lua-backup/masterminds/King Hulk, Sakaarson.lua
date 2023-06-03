@@ -1,12 +1,25 @@
 function onLoad()
+    mmname = "King Hulk, Sakaarson"
+    
     local guids1 = {
         "pushvillainsguid",
         "mmZoneGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+    
+    mmZone = getObjectFromGUID(mmZoneGUID)
+    
+    local guids2 = {
+        "city_zones_guids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
     
     local guids3 = {
@@ -32,6 +45,95 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMHulk()
+    local transformed = mmZone.Call('returnTransformed',mmname)
+    if transformed == nil then
+        return nil
+    end
+    if transformed == false then
+        local warbound = 0
+        for _,o in pairs(city_zones_guids) do
+            if o ~= city_zones_guids[1] then
+                local citycontent = get_decks_and_cards_from_zone(o)
+                if citycontent[1] then
+                    for _,k in pairs(citycontent) do
+                        if k.hasTag("Group:Warbound") then
+                            warbound = warbound + 1
+                            break
+                        end
+                    end
+                end
+            end
+        end
+        local escapedcards = get_decks_and_cards_from_zone(escape_zone_guid)
+        if escapedcards[1] and escapedcards[1].tag == "Deck" then
+            for _,o in pairs(escapedcards[1].getObjects()) do
+                for _,k in pairs(o.tags) do
+                    if k == "Group:Warbound" then
+                        warbound = warbound + 1
+                        break
+                    end
+                end
+            end
+        elseif escapedcards[1] and escapedcards[1].tag == "Card" then
+            if escapedcards[1].hasTag("Group:Warbound") then
+                warbound = warbound + 1
+            end
+        end
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 0,
+            label = 0,
+            tooltip = "King Hulk no longer gets +1 for each Wound in your discard pile.",
+            f = 'updateMMHulk',
+            id = "woundedFury",
+            f_owner = self})
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = warbound,
+            label = "+" .. warbound,
+            tooltip = "King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
+            f = 'updateMMHulk',
+            f_owner = self})
+    elseif transformed == true then
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 0,
+            label = 0,
+            tooltip = "King Hulk no longer gets +1 for each Warbound Villain in the city and in the Escape Pile.",
+            f = 'updateMMHulk',
+            f_owner = self})
+        local wounds = mmZone.Call('woundedFury')
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = wounds,
+            label = "+" .. wounds,
+            tooltip = "King Hulk gets +1 for each Wound in your discard pile.",
+            f = 'updateMMHulk',
+            id = "woundedFury",
+            f_owner = self})
+    end
+end
+
+function setupMM()
+    function onPlayerTurn(player,previous_player)
+        local transformed = mmZone.Call('returnTransformed',mmname)
+        if transformed and transformed == true then
+            updateMMHulk()
+        end
+    end
+
+    function onObjectEnterZone(zone,object)
+        local transformed = mmZone.Call('returnTransformed',mmname)
+        if transformed ~= nil then
+            updateMMHulk()
+        end
+    end
+
+    function onObjectLeaveZone(zone,object)
+        local transformed = mmZone.Call('returnTransformed',mmname)
+        if transformed ~= nil then
+            updateMMHulk()
+        end
+    end
 end
 
 function resolveStrike(params)

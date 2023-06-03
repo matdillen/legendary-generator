@@ -45,7 +45,6 @@ function click_ko(obj)
 end
 
 function resolveTwist(params)
-    local twistsresolved = params.twistsresolved 
     local cards = params.cards
     
     getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
@@ -66,7 +65,7 @@ function resolveTwist(params)
             function_owner = getObjectFromGUID(pushvillainsguid),
             position={0,3,0},
             rotation={0,180,0},
-            label="(" .. toko .. ")",
+            label="(" .. twistsstacked .. ")",
             tooltip="Heroes to KO.",
             width=0,
             font_size = 250,

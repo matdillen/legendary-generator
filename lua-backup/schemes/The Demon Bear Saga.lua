@@ -59,7 +59,7 @@ function resolveTwist(params)
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
                         targetZone = getObjectFromGUID(escape_zone_guid),
                         enterscity = 0,
-                        schemeParts = schemeParts)
+                        schemeParts = schemeParts})
                     broadcastToAll("Scheme Twist! Demon Bear escapes!",{1,0,0})
                     return nil
                 end

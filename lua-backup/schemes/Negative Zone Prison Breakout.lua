@@ -11,6 +11,6 @@ end
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
 
-    getObjectFromGuid("pushvillainsguid").Call('playVillains',{n=2})
+    getObjectFromGUID("pushvillainsguid").Call('playVillains',{n=2})
     return twistsresolved
 end

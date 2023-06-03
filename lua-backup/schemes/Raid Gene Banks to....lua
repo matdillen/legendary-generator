@@ -31,7 +31,7 @@ function resolveTwist(params)
         end
         broadcastToColor("Move a villain to the bank, if any!",Turns.turn_color,Turns.turn_color)
     elseif twistsresolved == 4 then
-        getObjectFromGUID(pushvillainsguid).Call('unveilScheme')
+        getObjectFromGUID(pushvillainsguid).Call('unveilScheme',self)
         return nil
     end
     return twistsresolved

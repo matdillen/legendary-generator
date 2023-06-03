@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "The Hood"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -33,6 +36,75 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMHood()
+    local playerBoard = getObjectFromGUID(playerBoards[Turns.turn_color])
+    local discard = playerBoard.Call('returnDiscardPile')[1]
+    local boost = 1
+    if epicness then
+        boost = 2
+    end
+    local darkmemories = 0
+    local hccolors = {
+        ["Red"] = 0,
+        ["Yellow"] = 0,
+        ["Green"] = 0,
+        ["Silver"] = 0,
+        ["Blue"] = 0
+    }
+    if discard and discard.tag == "Deck" then
+        for _,o in pairs(discard.getObjects()) do
+            for _,k in pairs(o.tags) do
+                if k:find("HC:") then
+                    hccolors[k:gsub("HC:","")] = boost
+                end
+                if k:find("HC1:") then
+                    hccolors[k:gsub("HC1:","")] = boost
+                end
+                if k:find("HC2:") then
+                    hccolors[k:gsub("HC2:","")] = boost
+                end
+            end
+        end
+        
+    elseif discard then
+        for _,k in pairs(discard.getTags()) do
+            if k:find("HC:") then
+                hccolors[k:gsub("HC:","")] = boost
+            end
+            if k:find("HC1:") then
+                hccolors[k:gsub("HC1:","")] = boost
+            end
+            if k:find("HC2:") then
+                hccolors[k:gsub("HC2:","")] = boost
+            end
+        end
+    end
+    for _,o in pairs(hccolors) do
+        darkmemories = darkmemories + o
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = darkmemories,
+        label = "+" .. darkmemories,
+        tooltip = "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
+        f = 'updateMMHood',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    updateMMHood()
+    function onPlayerTurn(player,previous_player)
+        updateMMHood()
+    end
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMHood,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMHood,0.1)
     end
 end
 

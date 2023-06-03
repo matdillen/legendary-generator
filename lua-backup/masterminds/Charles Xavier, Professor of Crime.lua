@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Charles Xavier, Professor of Crime"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -8,13 +11,67 @@ function onLoad()
     end
     
     local guids2 = {
-        "hqguids"
+        "hqguids",
+        "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+end
+
+function updateMMCharles()
+    local bsfound = 0
+    for i=2,#city_zones_guids do
+        local citycontent = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[i])
+        if citycontent[1] then
+            for _,o in pairs(citycontent) do
+                if o.hasTag("Bystander") then
+                    bsfound = bsfound + 1
+                end
+            end
+        end
+    end
+    for _,o in pairs(hqguids) do
+        local hqcontent = getObjectFromGUID(o).Call('getCards')
+        if hqcontent[1] then
+            for _,o in pairs(hqcontent) do
+                if o.tag == "Card" and o.hasTag("Bystander") then
+                    bsfound = bsfound + 1
+                elseif o.tag == "Deck" then
+                    for _,c in pairs(o.getObjects()) do
+                        for _,tag in pairs(c.tags) do
+                            if tag == "Bystander" then
+                                bsfound = bsfound + 1
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end   
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = bsfound,
+        label = "+" .. bsfound,
+        tooltip = "Charles Xavier gets +1 for each Bystander in the city and HQ.",
+        f = 'updateMMCharles',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMCharles()
     
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Bystander") then
+            updateMMCharles()
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.hasTag("Bystander") then
+            updateMMCharles()
+        end
+    end
 end
 
 function noWitness(obj)

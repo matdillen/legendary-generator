@@ -16,9 +16,6 @@ function onLoad()
 end
 
 function loadGUIDs()    
-    --import guids
-    setupGUID = "912967"
-    
     local guids3 = {
         "playerBoards",
         "vpileguids",
@@ -76,32 +73,13 @@ function loadGUIDs()
         "twistZoneGUID",
         "shardGUID",
         "sidekickZoneGUID",
-        "officerZoneGUID"
+        "officerZoneGUID",
+        "setupGUID"
     }
     
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end    
-end
-
-function callGUID(var,what)
-    if not var then
-        log("Error, can't fetch guid of object with name nil.")
-        return nil
-    elseif not what then
-        log("Error, can't fetch guid of object with missing type.")
-        return nil
-    end
-    if what == 1 then
-        return getObjectFromGUID(setupGUID).Call('returnVar',var)
-    elseif what == 2 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var))
-    elseif what == 3 then
-        return table.clone(getObjectFromGUID(setupGUID).Call('returnVar',var),true)
-    else
-        log("Error, can't fetch guid of object with unknown type.")
-        return nil
-    end
 end
 
 function createButtons()
@@ -116,14 +94,14 @@ function createButtons()
     --buttons above bystander and wound deck
     self.createButton({
         click_function="click_rescue_bystander", function_owner=self,
-        position={0,2.7,-15}, label="Rescue Bystander", color={0.6,0.4,0.8,1}, width=2000, height=1000,
+        position={-12.5,2.7,-9}, label="Rescue Bystander", color={0.6,0.4,0.8,1}, width=2000, height=1000,
         tooltip = "Rescue a bystander",
         font_size = 250
     })
     
     self.createButton({
         click_function="click_get_wound", function_owner=self,
-        position={0,2.7,-22}, label="Gain wound", color={1,0.2,0.1,1}, width=2000, height=1000,
+        position={-12.5,2.7,-16}, label="Gain wound", color={1,0.2,0.1,1}, width=2000, height=1000,
         tooltip = "Gain a wound",
         font_size = 250
     })
@@ -185,24 +163,15 @@ function click_rescue_bystander(obj, player_clicker_color)
     local bspile = getObjectFromGUID(bystandersPileGUID)
     --following is a fix if mojo changes the bspile guid
     if not bspile then
-        bystandersPileGUID = callGUID("bystandersPileGUID",1)
+        bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
         log(bystandersPileGUID)
         bspile = getObjectFromGUID(bystandersPileGUID)
     end
     local dest = playerBoard.positionToWorld(pos_vp2)
     dest.y = dest.y + 3
-	if player_clicker_color == "White" then
-		angle = 90
-	elseif player_clicker_color == "Blue" then
-		angle = -90
-	else
-		angle = 180
-	end
-	local brot = {x=0, y=angle, z=0}
     if bspile then
         if bspile.tag == "Deck" then
             bspile.takeObject({position=dest,
-                rotation=brot,
                 flip=true,
                 smooth=true})
             if bspile.remainder then
@@ -254,18 +223,9 @@ function click_get_wound(obj, player_clicker_color, alt_click,top)
             end
         end
     end
-	if player_clicker_color == "White" then
-		angle = 90
-	elseif player_clicker_color == "Blue" then
-		angle = -90
-	else
-		angle = 180
-	end
-	local brot = {x=0, y=angle, z=0}
     if woundsDeck then
         if woundsDeck.tag == "Deck" then
             woundsDeck.takeObject({position=dest,
-                rotation = brot,
                 flip = false,
                 smooth = true,
                 callback_function = toflip})
@@ -288,10 +248,6 @@ function getWound(color)
     click_get_wound(nil,color)
 end
 
-function gainBystander(color)
-    click_rescue_bystander(nil,color)
-end
-
 function dealWounds(top)
     for i,_ in pairs(playerBoards) do
         if Player[i].seated == true then
@@ -301,7 +257,7 @@ function dealWounds(top)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    return getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
+    return Global.Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end
 
 function ascendVillain(name,group,ambush)
@@ -526,11 +482,11 @@ function addBystanders(cityspace,face,posabsolute,pos)
     end
     local bspile = getObjectFromGUID(bystandersPileGUID)
     if not bspile then
-        bystandersPileGUID = callGUID("bystandersPileGUID",1)
+        bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
         bspile = getObjectFromGUID(bystandersPileGUID)
     end
     bspile.takeObject({position=targetZone,
-        smooth=smooth,
+        smooth=false,
         flip=face})
 end
 
@@ -592,13 +548,13 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
         local bspile = getObjectFromGUID(bystandersPileGUID)
         if not bspile then
-            bystandersPileGUID = callGUID("bystandersPileGUID",1)
+            bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
         end
         if not schemeParts then
             printToAll("No scheme specified!")
             return nil
         end
-        if schemeParts[1] == "Tornado of Terrigen Mists" and twistsresolved > 5 and targetZoneGUID == escape_zone_guid then
+        if schemeParts[1] == "Tornado of Terrigen Mists" and twistsresolved > 5 and targetZone.guid == escape_zone_guid then
             return nil
         end
         --special scheme: all cards enter the city face down
@@ -654,7 +610,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
                 local notes = getNotes()
                 notes = notes:gsub("Strikes resolved:%[/b%]%[%-%] %d+","Strikes resolved:[/b][-] " .. strikesresolved,1)
                 setNotes(notes)
-                local proceed = strikeSpecials(cards,city,schemeParts)
+                local proceed = strikeSpecials(cards,city)
                 if not proceed then
                     return nil
                 else
@@ -796,7 +752,7 @@ function checkCityContent(player_clicker_color,altcity)
             city_topush = {"e6b0bc",city_zones_guids[6-villain_deck_zone+1]}
         end
         if schemeParts[1] == "Five Families of Crime" then
-            local targetguid = callGUID("fiveFamiliesTargetZone",1)
+            local targetguid = getObjectFromGUID(setupGUID).Call('returnVar',"fiveFamiliesTargetZone")
             if not targetguid then
                 return nil
             else
@@ -1254,8 +1210,12 @@ function playVillains(options)
     end
 end
 
-function unveilScheme()
+function unveilScheme(scheme)
     --broadcastToAll("Unveiling a random scheme is not scripted yet!!!")
+    scheme.locked = false
+    scheme.clearButtons()
+    getObjectFromGUID(twistZoneGUID).clearButtons()
+    koCard(scheme)
     local unveiledschemes = {
         "...Control the Mutant Messiah",
         "...Open Rifts to Future Timelines",
@@ -1271,30 +1231,27 @@ function unveilScheme()
             schemePile.takeObject({position=pos,
                 guid=o.guid,
                 smooth=false,
-                flip=true})
+                flip=true,
+                callback_function = function(obj)
+                    getObjectFromGUID(setupGUID).Call('lockCard',obj)
+                    getObjectFromGUID(setupGUID).Call('unveiledScheme',obj)
+                    Wait.condition(function() 
+                            if obj.getVar("revealScheme") then
+                                obj.Call("revealScheme")
+                            end
+                        end,function()
+                            if obj.getVar("onLoad") then
+                                return true
+                            else
+                                return false
+                            end
+                        end)
+                    Wait.time(click_push_villain_into_city,1)
+                end})
+            break
         end
     end
-    getObjectFromGUID(setupGUID).Call('unveiledScheme',unveiled)
-    if unveiled == "...Control the Mutant Messiah" then
-        local heroPile = getObjectFromGUID(heroPileGUID)
-        heroPile.randomize()
-        heroPile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
-            flip = true,
-            smooth = false,
-            callback_function = function(obj) obj.randomize() end})
-            broadcastToAll("Random hero shuffled into a Mutant Messiah stack!")
-    end
-    if unveiled == "...Open Rifts to Future Timelines" then
-        local villainPile = getObjectFromGUID(villainPileGUID)
-        villainPile.randomize()
-        villainPile.takeObject({position = getObjectFromGUID(villainDeckZoneGUID).getPosition(),
-            flip = true,
-            smooth = false})
-        Wait.time(function() get_decks_and_cards_from_zone(villainDeckZoneGUID)[1].randomize() end,1)
-        broadcastToAll("Random villain group shuffled into the Villain deck!")
-    end
     twistsresolved = twistsresolved - 1
-    Wait.time(click_push_villain_into_city,1)
 end
 
 function koCard(obj,smooth)
@@ -1311,121 +1268,12 @@ function stackTwist(obj)
     return twistsstacked
 end
 
-function scriptedSchemes(name)
-    local scripted = {"Age of Ultron",
-        "Annihilation: Conquest",
-        "Anti-Mutant Hatred",
-        "Asgardian Test of Worth",
-        "Avengers vs. X-Men",
-        "Bathe Earth In Cosmic Rays",
-        "Brainwash the Military",
-        "Break the Planet Asunder",
-        "Breach Parallel Dimensions",
-        "Build an Army of Annihilation",
-        "Build an Underground MegaVault Prison",
-        "Cage Villains in Power-Suppressing Cells",
-        "Capture Baby Hope",
-        "Change the Outcome of WWII",
-        "Claim Souls for Demons",
-        "Clash of the Monsters Unleashed",
-        "Corrupt the Next Generation of Heroes",
-        "Crash the Moon into the Sun",
-        "Crown Thor King of Asgard",
-        "Crush HYDRA",
-        "Cytoplasm Spike Invasion",
-        "Crush Them With My Bare Hands",
-        "Dark Alliance",
-        "Dark Reign of H.A.M.M.E.R. Officers"}
-    for _,o in pairs(scripted) do
-        if name == o then
-            return true
-        end
-    end
-    return false
-end
-
 function twistSpecials(cards,city,schemeParts)
-    local resp = callGUID("scheme",1).Call('resolveTwist',{twistsresolved = twistsresolved,
+    local resp = getObjectFromGUID(setupGUID).Call('returnVar',"scheme").Call('resolveTwist',{twistsresolved = twistsresolved,
         cards = table.clone(cards),
         city = table.clone(city),
         schemeParts = table.clone(schemeParts)})
     return resp
-end
-
-function schemeUnfinished()
-    if schemeParts[1] == "...Control the Mutant Messiah" then
-        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
-        -- local messiahstack = get_decks_and_cards_from_zone(twistZoneGUID)[1]
-        -- local toptwo = {
-            -- messiahstack.getObjects()[1].guid,
-            -- messiahstack.getObjects()[2].guid
-            -- }
-        -- offerCards({color = Turns.turn_color,
-            -- pile = get_decks_and_cards_from_zone(twistZoneGUID)[1],
-            -- guids = toptwo,
-            -- })
-        broadcastToAll("Unscripted scheme twist!")
-        return nil
-    end
-    if schemeParts[1] == "...Open Rifts to Future Timelines" then
-        --local rifts = math.abs(get_decks_and_cards_from_zone(topBoardGUIDs[1])[1].getQuantity()) + 1
-        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
-        -- local villaindeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
-        -- if villaindeck.tag == "Card" then
-        
-        -- else
-            -- local villaindeckcontent = villaindeck.getObjects()
-            -- local vp = 0
-            -- local villains = {}
-            -- local hench = {}
-            -- local localvp = 0
-            -- local localvillain = nil
-            -- for i = 1,rifts do
-                -- localvp = 0
-                -- localvillain = nil
-                -- for _,tag in pairs(villaindeckcontent[i].tags) do
-                    -- if tag == "Henchmen" then
-                        -- table.insert(hench,villaindeckcontent[i].guid)
-                    -- end
-                    -- if tag == "Villain" then
-                        -- localvillain = villaindeckcontent[i].guid
-                    -- end
-                    -- if tag:find("VP") then
-                        -- localvp = tonumber(tag:match("%d+"))
-                    -- end
-                -- end
-                -- if localvillain and localvp == vp then
-                    -- table.insert(villains,localvillain)
-                -- elseif localvillain and localvp > vp then
-                    -- villains = {localvillain}
-                    -- vp = localvp
-                -- end
-                -- if i == #villaindeckcontent then
-                    -- break
-                -- end
-            -- end
-        -- end
-        broadcastToAll("Unscripted scheme twist!")
-        return nil
-    end
-    if schemeParts[1] == "...Reveal the Heroes' Evil Clones" then
-        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
-        broadcastToAll("Unscripted scheme twist!")
-        return nil
-    end
-    if schemeParts[1] == "...Unleash an Anti-Mutant Bioweapon" then
-        cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
-        broadcastToAll("Unscripted scheme twist!")
-        return nil
-    end
-    if schemeParts[1] == "Cursed Pages of the Darkhold Tome" then
-        broadcastToAll("This scheme twist is not scripted yet.")
-        return nil
-    end
-    if schemeParts[1] == "Find the Split Personality Killer" then
-        broadcastToAll("Scheme Twist: This Scheme is not scripted yet.")
-        return nil
-    end
 end
 
 function strikeSpecials(cards,city)
@@ -1687,7 +1535,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         for _,p in pairs(Player.getPlayers()) do
             local playerBoard = getObjectFromGUID(playerBoards[p.color])
             local posdiscard = playerBoard.positionToWorld(pos_discard)
-            if callGUID("setupParts",2)[5] == "Bastion, Fused Sentinel - epic" then
+            if table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))[5] == "Bastion, Fused Sentinel - epic" then
                 posdiscard = getObjectFromGUID(kopile_guid).getPosition()
             end
             local deck = playerBoard.Call('returnDeck')[1]
@@ -2026,15 +1874,6 @@ function revealCardTrait(params)
     return result
 end
 
-function bump(obj,y)
-    if not y then
-        y = 2
-    end
-    local pos = obj.getPosition()
-    pos.y = pos.y + y
-    obj.setPositionSmooth(pos)
-end
-
 function crossDimensionalRampage(name)
     --rampages found so far:
     --wolverine, colossus, hulk, void, thor, deadpool, illuminati
@@ -2130,212 +1969,16 @@ function crossDimensionalRampage(name)
 end
 
 function nonTwistspecials(cards,schemeParts,city)
-    if schemeParts[1] == "Brainwash the Military" then
-        if cards[1].hasTag("Officer") then
-            cards[1].addTag("Brainwashed")
-            cards[1].addTag("Villain")
-            powerButton({obj = cards[1],
-                label = twistsstacked+3,
-                tooltip = "This Officer is Brainwashed and therefore a villain. Gain it if you fight it."})
+    local scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+    if scheme.getVar("nonTwist") then
+        local resp = scheme.Call('nonTwist',{obj = cards[1],
+            twistsstacked = twistsstacked,
+            strikesresolved = strikesresolved})
+        if not resp then
+            return resp
         end
     end
-    if schemeParts[1] == "Corrupt the Next Generation of Heroes" then
-        if cards[1].hasTag("Sidekick") then
-            cards[1].addTag("Corrupted")
-            cards[1].addTag("Villain")
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\nWALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
-            end
-            powerButton({obj = cards[1],
-                label = twistsstacked+2,
-                tooltip = "This sidekick is corrupted and therefore a villain. If you fight it, gain it to the top of your deck."})
-        end
-    end
-    if schemeParts[1] == "Deadpool Wants A Chimichanga" then
-        if cards[1].hasTag("Bystander") then
-            playVillains()
-        end
-    end
-    if schemeParts[1] == "Devolve with Xerogen Crystals" then
-        if cards[1].getName() == schemeParts[9] or (hasTag2(cards[1],"Group:") and hasTag2(cards[1],"Group:") == schemeParts[9]) then
-            cards[1].setName("Xerogen Experiments")
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("ABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\r\nABOMINATION: Villain gets extra printed Power from hero below it in the HQ.")
-            end
-        end
-    end
-    if schemeParts[1] == "Everybody Hates Deadpool" then
-        if cards[1].hasTag("Villain") then
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("REVENGE: This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\r\nREVENGE: This villain gets +1 Power for each card of the listed group in the attacking player's Victory Pile.")
-            end
-        end
-    end
-    if schemeParts[1] == "House of M" then
-        if cards[1].getName() == "Scarlet Witch (R)" then
-            local boost = 3
-            if noMoreMutants then
-                boost = 4
-            end
-            powerButton({obj = cards[1],
-                label = boost + hasTag2(cards[1],"Cost:"),
-                tooltip = "This Scarlet Witch card is a villain."})
-        end
-    end
-    if schemeParts[1] == "Master of Tyrants" then
-        if cards[1].getName() == "Dark Power" then
-            broadcastToAll("Scheme Twist: Put this twist under a tyrant as a Dark Power!")
-            return nil
-        end
-    end
-    if schemeParts[1] == "Mass Produce War Machine Armor" then
-        if cards[1].getName() == "S.H.I.E.L.D. Assault Squad" then
-            powerButton({obj = cards[1],
-                label = "+" .. twistsstacked,
-                tooltip = "Assault squads have War Machine Armor and get +1 for each twist that has been played.",
-                id = "twistsStacked"})
-        end
-    end
-    if schemeParts[1] == "Mutant-Hunting Super Sentinels" then
-        if cards[1].getName() == "Sentinel" then
-            cards[1].addTag("Super Sentinel")
-            powerButton({obj = cards[1],
-                label = "+" .. twistsstacked,
-                tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
-                id = "twistsStacked"})
-        end
-    end
-    if schemeParts[1] == "Organized Crime Wave" then
-        if cards[1].getName() == "Maggia Goons" then
-            playVillains()
-        end
-    end
-    if schemeParts[1] == "Replace Earth's Leaders with Killbots" then
-        if twistsstacked == 0 then
-            twistsstacked = 3
-        end
-        if cards[1].hasTag("Bystander") then
-            cards[1].addTag("Villain")
-            cards[1].addTag("Killbot")
-            cards[1].removeTag("Bystander")
-            powerButton({obj = cards[1],
-                label = twistsstacked,
-                tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
-        end
-    end
-    if schemeParts[1] == "Scavenge Alien Weaponry" then
-        if cards[1].getName() == schemeParts[9] then
-            cards[1].setName("Smugglers")
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("STRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
-            end
-            powerButton({obj = cards[1],
-                label = "+" .. strikesresolved,
-                tooltip = "Smuggler villains have striker and thus get +1 for each master strike resolved.",
-                id = "striker"})
-        end
-    end
-    if schemeParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
-        if hasTag2(cards[1],"Cost:") then
-            powerButton({obj = cards[1],
-                label = hasTag2(cards[1],"Cost:")+2,
-                tooltip = "This hero is a Skrull Shapeshifter and has power equal to its cost +2. Gain it if you fight it."})
-            cards[1].addTag("Villain")
-        end
-    end
-    if schemeParts[1] == "Sinister Ambitions" then
-        if cards[1].hasTag("Ambition") then
-            cards[1].addTag("Villain")
-            cards[1].addTag("VP4")
-            powerButton({obj = cards[1],
-                label = "+" .. twistsstacked,
-                tooltip = "This ambition card is a villain with power equal to its ambition value + the number of twists stacked next to the scheme. Resolve its ambition effect if it escapes.",
-                id = "twistsStacked"})
-        end
-    end
-    if schemeParts[1] == "Splice Humans with Spider DNA" then
-        if cards[1].hasTag("Group:Sinister Six") then
-            powerButton({obj = cards[1],
-                label = "+3",
-                tooltip = "Sinister Six villains get +3."})
-        end
-    end
-    if schemeParts[1] == "The Dark Phoenix Saga" then
-        if cards[1].getName() == "Jean Grey (DC)" then
-            powerButton({obj = cards[1],
-                label = hasTag2(cards[1],"Cost:"),
-                tooltip = "Jean Grey heroes are villains with power equal to their cost. Gain them if you fight them."})
-            cards[1].addTag("Villain")
-            playVillains()
-        end
-    end
-    if schemeParts[1] == "The Fountain of Eternal Life" then
-        if cards[1].hasTag("Villain") and not cards[1].getDescription():find("FATEFUL RESURRECTION") then
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("FATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\r\nFATEFUL RESURRECTION: Reveal the top card of the Villain Deck. If it's a Scheme Twist or Master Strike, this card goes back to where it was when fought.")
-            end
-        end
-    end
-    if schemeParts[1] == "The Mark of Khonshu" then
-        if hasTag2(cards[1],"Cost:") then
-            cards[1].addTag("Villain")
-            cards[1].addTag("Khonshu Guardian")
-            powerButton({obj = cards[1],
-                label = hasTag2(cards[1],"Cost:")*2,
-                tooltip = "This hero is a Khonshu Guardian villain. Its power is equal to its cost, or twice its cost when in Wolf form."})
-        end
-    end
-    if schemeParts[1] == "Transform Citizens Into Demons" then
-        if cards[1].getName() == "Jean Grey (DC)" then
-            if not goblincount then
-                goblincount = 0
-            end
-            powerButton({obj = cards[1],
-                label = hasTag2(cards[1],"Cost:")+goblincount,
-                tooltip = "Jean Grey heroes are villains with power equal to their cost + the number of goblin villains next to the scheme. They are worth VP, not gained as heroes when fought."})
-            cards[1].addTag("Villain")
-            cards[1].addTag("VP4")
-        end
-    end
-    if schemeParts[1] == "Trap Heroes in the Microverse" then
-        if hasTag2(cards[1],"Team:",6) then
-            powerButton({obj = cards[1],
-                label = hasTag2(cards[1],"Cost:") .. "*",
-                tooltip = "This hero is a villain with power equal to its cost and Size-Changing for its colors. Gain it if you fight it."})
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("SIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\r\nSIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
-            end
-        end
-    end
-    if schemeParts[1] == "War of the Frost Giants" then
-        if cards[1].getName() == "Frost Giant Invader" then
-            powerButton({obj = cards[1],
-                label = "6+",
-                tooltip = "This twist is a Frost Giant Invader villain that gets +4 if you are not Worthy."})
-        end
-    end
-    if schemeParts[1] == "X-Cutioner's Song" then
-        if hasTag2(cards[1],"Cost:") then
-            if cards[1].getDescription() == "" then
-                cards[1].setDescription("VILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
-            else
-                cards[1].setDescription(cards[1].getDescription() .. "\r\nVILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
-            end
-        end
-    end
-    local horrors = callGUID("horrors",2)
+    local horrors = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"horrors"))
     for _,o in pairs(horrors) do
         if o == "Army of Evil" and cards[1].hasTag("Villain") and not cards[1].hasTag("Henchmen") then
             powerButton({obj = cards[1],
@@ -2475,7 +2118,7 @@ function demolish(params)
         costs = table.clone(herocosts,3)
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         if herodeck[1].tag == "Deck" then
-            bump(herodeck[1],n+2)
+            Global.Call('bump',{obj = herodeck[1],y = n+2})
         end
         local pos = herodeck[1].getPosition()
         for i = 0,n-1 do
@@ -2549,17 +2192,7 @@ function dealCard(params)
     end
     local pos = getObjectFromGUID(playerBoards[color]).getPosition()
     pos.y = pos.y + 8
-    local angle = 180
-    if color == "White" then
-        pos.z = pos.z - 6
-        angle = 90
-    elseif color == "Blue" then
-        pos.z = pos.z + 6
-        angle = -90
-    else
-        pos.x = pos.x - 6
-    end
-	local brot = {x=0, y=angle, z=0}
+    pos.x = pos.x - 6
     obj.clearButtons()
     obj.setPositionSmooth(pos)
     obj.locked = true
@@ -2619,20 +2252,9 @@ function offerCards(params)
     end
     local pos = getObjectFromGUID(playerBoards[color]).getPosition()
     pos.y = pos.y + 8
-    local posini = nil
     local angle = 180
-    if color == "White" then
-        pos.z = pos.z - 6
-        posini = pos.z
-        angle = 90
-    elseif color == "Blue" then
-        pos.z = pos.z + 6
-        posini = pos.z
-        angle = -90
-    else
-        pos.x = pos.x - 6
-        posini = pos.x
-    end
+    pos.x = pos.x - 6
+    local posini = pos.x
 	local brot = {x=0, y=angle, z=0}
     if not cardsoffered then 
         cardsoffered = {}
@@ -2697,26 +2319,12 @@ function offerCards(params)
             width=650,height=650})
     end
     local stepPos = function(step,pos,color,posini)
-        if color == "White" then
-            pos.z = pos.z + 4
-        elseif color == "Blue" then
-            pos.z = pos.z - 4
-        else
-            pos.x = pos.x + 4
-        end
+        pos.x = pos.x + 4
         step = step + 1
         if step > 6 then
             step = 0
-            if color == "White" then
-                pos.z = posini
-                pos.x = pos.x + 6
-            elseif color == "Blue" then
-                pos.z = posini
-                pos.x = pos.x - 6
-            else
-                pos.x = posini
-                pos.z = pos.z - 6
-            end
+            pos.x = posini
+            pos.z = pos.z - 6
         end
         return step,pos
     end
@@ -2759,7 +2367,7 @@ function offerCards(params)
 end
 
 function hasTag2(obj,tag,index)
-    return getObjectFromGUID(setupGUID).Call('hasTag2',{obj = obj,tag = tag,index = index})
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function demonicBargain(params)
@@ -3188,7 +2796,7 @@ function contestOfChampions(params)
         end
         local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
         if herodeck[1].tag == "Deck" then
-            bump(herodeck[1],n+2)
+            Global.Call('bump',{obj = herodeck[1], y = n+2})
             local pos = herodeck[1].getPosition()
             local logCard = function(obj)
                 local cost = hasTag2(obj,"Cost:") or 0
@@ -3256,6 +2864,8 @@ end
 function outwitPlayer(params)
     local color = params.color
     local n = params.n or 3
+    local what = params.what or "Cost:"
+    local grey = params.grey
     
     local tf = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"transformed"),true)
     if not params.n and tf["M.O.D.O.K."] ~= nil and tf["M.O.D.O.K."] == false then
@@ -3263,14 +2873,26 @@ function outwitPlayer(params)
     end
     local costs = table.clone(herocosts)
     
+    if what == "HC:" then
+        costs = {
+            ["Red"] = 0,
+            ["Yellow"] = 0,
+            ["Green"] = 0,
+            ["Silver"] = 0,
+            ["Blue"] = 0
+        }
+    end
+    
     local playcontent = get_decks_and_cards_from_zone(playguids[color])
     local hand = Player[color].getHandObjects()
     local allcards = merge(playcontent,hand)
     local zerocost = 0
     for _,obj in pairs(allcards) do
-        if hasTag2(obj,"Cost:") then
-            costs[hasTag2(obj,"Cost:")] = costs[hasTag2(obj,"Cost:")] + 1
-        elseif obj.hasTag("Starter") then
+        if hasTag2(obj,what) then
+            costs[hasTag2(obj,what)] = costs[hasTag2(obj,what)] + 1
+        elseif obj.hasTag("Starter") and what == "Cost:" then
+            zerocost = 1
+        elseif obj.hasTag("Hero") and not hasTag2(obj,"HC:") and what == "HC:" and grey then
             zerocost = 1
         end
     end
@@ -3285,6 +2907,113 @@ function outwitPlayer(params)
     else
         return false
     end
+end
+
+function koHero(params)
+    local color = params.color
+    local nongrey = params.nongrey
+    
+    local toOffer = {}
+    local playcontent = get_decks_and_cards_from_zone(playerBoards[color])
+    for _,o in pairs(playcontent) do
+        if o.hasTag("Hero") and (not nongrey or hasTag2(o,"HC:")) then
+            table.insert(toOffer,o)
+        end
+    end
+    local hand = Player[color].getHandObjects()
+    for _,o in pairs(hand) do
+        if o.hasTag("Hero") and (not nongrey or hasTag2(o,"HC:")) then
+            table.insert(toOffer,o)
+        end
+    end
+    if #toOffer > 0 then
+        local pos = getObjectFromGUID(kopile_guid).getPosition()
+        pos.y = pos.y + 2
+        promptDiscard({color = color,
+            hand = hand,
+            pos = pos,
+            label = "KO",
+            tooltip = "KO this hero.",
+            buttoncolor = "Red"})
+        return true
+    else
+        return false
+    end
+end
+
+function feast(params)
+    local color = params.color
+    local triggerf = params.triggerf
+    local fsourceguid = params.fsourceguid
+    
+    local feastResult = function(obj)
+        if fsourceguid then
+            getObjectFromGUID(fsourceguid).Call(triggerf,{obj = obj,
+                color = color})
+        elseif triggerf then
+            triggerf({obj = obj,
+                color = color})
+        end
+    end
+    local feastOn = function(color)
+        local deck = getObjectFromGUID(playerBoards[color]).Call('returnDeck')
+        if deck[1] and deck[1].tag == "Deck" then
+            local pos = getObjectFromGUID(kopile_guid).getPosition()
+            deck[1].takeObject({position = pos,
+                flip=true,
+                smooth = true,
+                callback_function = feastResult})
+            return true
+        elseif deck[1] then
+            deck[1].flip()
+            koCard(deck[1]) --was smooth before
+            feastResult(deck[1])
+            return true
+        else
+            return false
+        end
+    end
+    local feasted = feastOn(color)
+    if feasted == false then
+        local discarded = getObjectFromGUID(playerBoards[color]).Call('returnDiscardPile')
+        if discarded[1] then
+            getObjectFromGUID(playerBoards[color]).Call('click_refillDeck')
+            local playerdeckpresent = function()
+                local playerdeck = getObjectFromGUID(playerBoards[color]).Call('returnDeck')
+                if playerdeck[1] then
+                    return true
+                else
+                    return false
+                end
+            end
+            Wait.condition(feastOn,playerdeckpresent)
+        end
+    end
+end
+
+function shieldClearance(params)
+    local color = params.color
+    local n = params.n or 1
+    local f = params.f
+    local fsourceguid = params.fsourceguid
+    
+    local hand = Player[color].getHandObjects()
+    if #hand < n then
+        broadcastToColor("You don't have enough cards to gain SHIELD Clearance and fight this adversary!",color,color)
+        return nil
+    end
+    local clearance = {}
+    for _,o in pairs(hand) do
+        if o.hasTag("Starter") or o.hasTag("Team:SHIELD") or o.hasTag("Team:HYDRA") then
+            table.insert(clearance,o)
+        end
+    end
+    promptDiscard({color = color,
+        n = n,
+        hand = clearance,
+        trigger_function = f,
+        fsourceguid = fsourceguid})
+        ---how do these trigger functions work and make a fight go through???
 end
 
 function resolve_alien_brood_scan(obj,escaping)
@@ -3356,120 +3085,21 @@ function resolveVillainEffect(params)
         obj.setPositionSmooth(pos)
         return nil
     end
-    local name = obj.getName()
-    local group = nil--hasTag2(obj,"Group:")
-    --for henchmen, check for Henchmen tag
-    if group then
-        if group == "A.I.M., Hydra Offshoot" then
-            if name == "Mentallo" then
-                if move == "Ambush" then
-                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
-                        flip = true,
-                        smooth = true})
-                    broadcastToAll("Mentallo captures an officer for each two HYDRA levels. Unscripted yet.")
-                    --script hydra levels properly, somewhere else
-                elseif move == "Fight" then
-                    local citycontent = get_decks_and_cards_from_zone(getVillainsCityZone(cards[1]))
-                    local officers = {}
-                    for _,o in pairs(citycontent) do
-                        if o.hasTag("Officer") then
-                            table.insert(officers,o)
-                        end
-                    end
-                    promptDiscard({color = player_clicker_color,
-                        hand = officers,
-                        label = "Gain",
-                        tooltip = "Gain this officer."})
-                    --officers need to move from city to be clearly distinguishable
-                    --not chosen officers need to be KO'd
-                end
-            elseif name == "Graviton" then
-                if move == "Ambush" then
-                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
-                        flip = true,
-                        smooth = true})
-                    --hero cost increase for hydra levels
-                end
-            elseif name == "Superia" then
-                if move == "Ambush" then
-                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
-                        flip = true,
-                        smooth = true})
-                    local hydralevel = twistsresolved --wrong, dummy value for now
-                    for _,o in pairs(Player.getPlayers()) do
-                        local hand = o.getHandObjects()
-                        if hand[2] then
-                            local rand = math.random(#hand)
-                            if not hasTag2(rand,"Cost:") or hasTag2(rand,"Cost:") < hydralevel then
-                                rand.setPosition(getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard))
-                            end
-                        elseif hand[1] and (not hasTag2(hand[1],"Cost:") or hasTag2(hand[1],"Cost:") < hydralevel) then
-                            hand[1].setPosition(getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_discard))
-                        end
-                    end
-                end
-            elseif name == "Taskmaster" then
-                if move == "Ambush" then
-                    getObjectFromGUID(officerDeckGUID).takeObject({position = getObjectFromGUID(escape_zone_guid).getPosition(),
-                        flip = true,
-                        smooth = true})
-                elseif move == "Fight" or move == "Escape" then
-                    broadcastToAll("Each player must reveal as many colors (incl grey) as the hydra level or gain a wound. Unscripted.")
-                end
-            end
+    if move == "Fight" then
+        if obj.getVar("resolveFight") then
+            obj.Call('resolveFight',{color = color})
         end
-        if group == "Army of Evil" then
-            if name == "Blackout" then
-                if move == "Ambush" then
-                    for _,o in pairs(revealCardTrait("Blue")) do
-                        promptDiscard(o.color)
-                    end
-                elseif move == "Fight" then
-                    getObjectFromGUID(playerBoards[player_clicker_color]).Call('click_draw_cards',2)
-                end
-            elseif name == "Klaw" then
-                if move == "Ambush" then
-                    --capture hero
-                elseif move == "Fight" then
-                    --gain hero
-                end
-            elseif name == "Mister Hyde" then
-                if move == "Fight" then
-                    --ko one of your heroes (incl in play, but only heroes)
-                end
-            elseif name == "Count Nefaria" then
-                if move == "Ambush" or move == "Escape" then
-                    local hccolors = {
-                        ["Red"] = 0,
-                        ["Yellow"] = 0,
-                        ["Green"] = 0,
-                        ["Silver"] = 0,
-                        ["Blue"] = 0
-                    }
-                    for _,o in pairs(Player.getPlayers()) do
-                        local hand = o.getHandObjects()
-                        if hand[1] then
-                            for _,obj in pairs(hand) do
-                                if hasTag2(obj,"HC:") then
-                                    hccolors[hasTag2(obj,"HC:")] = 1
-                                end
-                            end
-                        end
-                    end
-                    local spectrum = 0
-                    for _,o in pairs(hccolors) do
-                        spectrum = spectrum + o
-                    end
-                    if spectrum < 5 then
-                        dealWounds()
-                    end
-                end
-            elseif name == "Dome of Darkforce" then
-                if move == "Fight" then
-                    getObjectFromGUID(playerBoards[player_clicker_color]).Call('click_draw_cards',2)
-                end
-            end
+    elseif move == "Ambush" then
+        if obj.getVar("resolveAmbush") then
+            obj.Call('resolveAmbush',{color = color})
         end
+    elseif move == "Escape" then
+        if obj.getVar("resolveEscape") then
+            obj.Call('resolveEscape',{color = color})
+        end
+    else
+        broadcastToAll("ERROR: Missing hero effect qualifier?")
+        return nil
     end
     return obj
 end

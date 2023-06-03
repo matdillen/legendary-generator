@@ -1,6 +1,10 @@
 function onLoad()
+    mmname = "Shadow King"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -30,6 +34,37 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMShadowKing()
+    local bs = Global.Call('get_decks_and_cards_from_zone',self.guid)
+    local boost = 0
+    if bs[1] then
+        boost = math.abs(bs[1].getQuantity())
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = boost,
+        label = "+" .. boost,
+        tooltip = "Shadow King gets +1 for each hero he dominates.",
+        f = 'updateMMShadowKing',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    if epicness then
+        getObjectFromGUID(setupGUID).Call('playHorror')
+        getObjectFromGUID(setupGUID).Call('playHorror')
+        broadcastToAll("Shadow King played two horrors. Please read each of them")
+    end
+    
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMShadowKing,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMShadowKing,0.1)
+    end
 end
 
 function dominate(params)

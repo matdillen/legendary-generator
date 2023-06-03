@@ -1,7 +1,10 @@
 function onLoad()
+    mmname = "Annihilus"
+    
     local guids1 = {
         "pushvillainsguid",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +18,47 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+end
+
+function setupMM(params)
+    annihilusmomentumcounter = 0
+    annihilusmomentumboost = 2
+    annihilusmomentumvillains = {}
+    if params.epicness then
+        annihilusmomentumboost = 4
+    end
+    
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Villain") then
+            for _,o in pairs(annihilusmomentumvillains) do
+                if o == object.guid then
+                    return nil
+                end
+            end
+            for i,o in ipairs(city_zones_guids) do
+                if i > 1 and zone.guid == o then
+                    table.insert(annihilusmomentumvillains,object.guid)
+                    annihilusmomentumcounter = annihilusmomentumcounter + annihilusmomentumboost
+                end
+            end
+            updateMMAnnihilus()
+        end
+    end
+
+    function onPlayerTurn(player,previous_player)
+        annihilusmomentumcounter = 0
+        annihilusmomentumvillains = {}
+        updateMMAnnihilus()
+    end
+end
+
+function updateMMAnnihilus()
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = annihilusmomentumcounter,
+        label = "+" .. annihilusmomentumcounter,
+        tooltip = "Annihilus has Mass Momentum and gets +" .. annihilusmomentumboost .. " for each villain that entered a new city space this turn.",
+        f = 'updateMMAnnihilus',
+        f_owner = self})
 end
 
 function click_push_villain_into_city()

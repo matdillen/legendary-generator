@@ -7,200 +7,62 @@ function onLoad()
     autoplay = true
     finalblow = true
     finalblowfixed = false
-    Turns.enable = true
+    
     thronesfavor = "none"
 end
 
 function loadGUIDs()
-    herocosts = {}
-    for i=0,9 do
-        table.insert(herocosts,0)
+    local guids3 = {
+        "playerBoards",
+        "vpileguids",
+        "cityguids"
+    }
+    
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
     
-    addguids = {
-        ["Red"]="d833a0",
-        ["Green"]="9ee1fd",
-        ["Yellow"]="c3dfd7",
-        ["Blue"]="03ad58",
-        ["White"]="8a2ca3"
+    local guids2 = {
+       "allTopBoardGUIDS",
+       "city_zones_guids",
+       "topBoardGUIDs",
+       "allTopBoardGUIDS",
+       "hqguids",
+       "pos_discard"
     }
     
-    resourceguids = {
-        ["Red"]="437bab",
-        ["Green"]="be2dca",
-        ["Yellow"]="e12656",
-        ["Blue"]="2a97f0",
-        ["White"]="e1c2bd"
-    }
-    
-    shardguids = {
-        ["Red"]="16ea02",
-        ["Green"]="f06e6c",
-        ["Yellow"]="5ecac6",
-        ["Blue"]="188433",
-        ["White"]="18da9e"
-    }
-    
-    attackguids = {
-        ["Red"]="789e5f",
-        ["Green"]="d58330",
-        ["Yellow"]="bdd497",
-        ["Blue"]="e56ef6",
-        ["White"]="3892b5"
-    }
-    
-    playerBoards = {
-        ["Red"]="8a35bd",
-        ["Green"]="d7ee3e",
-        ["Yellow"]="ed0d43",
-        ["Blue"]="9d82f3",
-        ["White"]="206c9c"
-    }
-    
-    playguids = {
-        ["Red"]="157bfe",
-        ["Green"]="0818c2",
-        ["Yellow"]="7149d2",
-        ["Blue"]="2b36c3",
-        ["White"]="558e75"
-    }
-    
-    discardguids = {
-        ["Red"]="1f6a15",
-        ["Green"]="66abd3",
-        ["Yellow"]="63d26e",
-        ["Blue"]="2fd393",
-        ["White"]="fee1de"
-    }
-    
-    drawguids = {
-        ["Red"]="c6ca07",
-        ["Green"]="4e2f26",
-        ["Yellow"]="c68179",
-        ["Blue"]="862e3c",
-        ["White"]="5d9596"
-    }
-    
-    vpileguids = {
-        ["Red"]="fac743",
-        ["Green"]="a42b83",
-        ["Yellow"]="7f3bcd",
-        ["Blue"]="f6396a",
-        ["White"]="7732c7"
-    }
-    
-    handguids = {
-        ["Red"]="1737b5",
-        ["Green"]="c83e11",
-        ["Yellow"]="627472",
-        ["Blue"]="8c01fa",
-        ["White"]="bd8b5c"
-    }
-    
-    city_zones_guids = {"e6b0bc",
-        "40b47d",
-        "5a74e7",
-        "07423f",
-        "5bc848",
-        "82ccd7"
-    }
-    
-    local citynames = {"Sewers","Bank","Rooftops","Streets","Bridge"}
-    cityguids = {}
-    for i = 1,5 do
-        cityguids[citynames[i]] = city_zones_guids[i+1]
+    for _,o in pairs(guids2) do
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
-    
-    hqguids = {
-        "aabe45",
-        "bf3815",
-        "11b14c",
-        "b8a776",
-        "75241e"
+        
+    local guids1 = {
+        "woundsDeckGUID",
+        "mmZoneGUID",
+        "strikePileGUID",
+        "twistPileGUID",
+        "twistZoneGUID",
+        "strikeZoneGUID",
+        "mmPileGUID",
+        "sidekickDeckGUID",
+        "bystandersPileGUID",
+        "officerDeckGUID",
+        "heroDeckZoneGUID",
+        "hmPileGUID",
+        "heroPileGUID",
+        "villainDeckZoneGUID",
+        "villainPileGUID",
+        "pushvillainsguid",
+        "schemePileGUID",
+        "schemeZoneGUID",
+        "ambPileGUID",
+        "kopile_guid",
+        "horrorPileGUID",
+        "bszoneguid"
     }
     
-    hqscriptguids = {
-        "3e049c",
-        "745db7",
-        "84bb5f",
-        "7f27d3",
-        "ddadbc"
-    }
-      
-    topBoardGUIDs ={
-        "1fa829",
-        "bf7e87",
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d",
-        "4e3b7e"
-    }
-    
-    allTopBoardGUIDS = {
-        "7f622a",
-        "000e0c",
-        "3e45a0",
-        "705f8c",
-        "1fa829",
-        "bf7e87",
-        "4c1868",
-        "8656c3",
-        "533311",
-        "3d3ba7",
-        "725c5d",
-        "4e3b7e",
-        "f394e1",
-        "0559f8",
-        "39e3d7",
-        "6b1c18",
-        "57df40"
-    }
-    
-    pushvillainsguid = "f3c7e3"
-      
-    bystandersPileGUID = "0b48dd"
-    woundsDeckGUID = "653663"
-    sidekickDeckGUID = "d40734"
-    officerDeckGUID = "aed7cd"
-    
-    schemePileGUID = "0716a4"
-    mmPileGUID = "c7e1d5"
-    strikePileGUID = "aff2e5"
-    horrorPileGUID = "82f3dc"
-    twistPileGUID = "c82082"
-    villainPileGUID = "375566"
-    hmPileGUID = "de8160"
-    ambPileGUID = "cf8452"
-    heroPileGUID = "16594d"
-    
-    heroDeckZoneGUID = "0cd6a9"
-    villainDeckZoneGUID = "4bc134"
-    schemeZoneGUID = "c39f60"
-    mmZoneGUID = "a91fe7"
-    strikeZoneGUID = "be6070"
-    horrorZoneGUID = strikeZoneGUID
-    twistZoneGUID = "4f53f9"
-    officerZoneGUID = "791799"
-    sidekickZoneGUID = "656a39"
-    
-    escape_zone_guid = "de2016"
-    
-    kopile_guid = "79d60b"
-    
-    shardspaceguid = "21e3f0"
-    bszoneguid = "2e5f2b"
-    woundszoneguid = "12d37a"
-    bindingszoneguid = "9509d4"
-    
-    shardGUID = "eff5ba"
-    
-    --Local positions for each pile of cards
-    pos_vp2 = {-5, 0.178, 0.222}
-    pos_discard = {-0.957, 0.178, 0.222}
-    pos_draw = {0.957, 0.178, 0.222}
-    pos_add2 = {-2.871, 0.178, 0.222}
+    for _,o in pairs(guids1) do
+        _G[o] = Global.Call('returnVar',o)
+    end
 end
 
 function returnVar(var)
@@ -210,43 +72,46 @@ end
 function createButtons()
     self.createButton({
         click_function="click_shuffle", function_owner=self,
-        position={-60,0.1,12}, height=500, width=1500, color={1,1,1,1},
+        position={-65,0.1,1}, height=500, width=1500,
         label = "Shuffle!", color={r=0, g=0, b=1},tooltip="Shuffle: heroes, villains, bystanders, wounds, sidekicks, player decks."
     })
     
     self.createButton({
         click_function="import_setup", function_owner=self,
-        position={-60,0.1,11}, height=500, width=1500, color={1,1,1,1},
+        position={-65,0.1,0}, height=500, width=1500, color={1,1,1,1},
         label = "Import Setup",tooltip="Import a setup. Paste text in proper format in textbox below first."
     })
     
     self.createButton({
         click_function="random_setup", function_owner=self,
-        position={-60,0.1,3}, height=500, width=1500, color={1,1,0,1},
+        position={-65,0.1,-11}, height=500, width=1500, color={1,1,0,1},
         label = "Random Setup",tooltip="Fetch a random setup. Requires web access!"
     })
     
     self.createButton({
         click_function="toggle_autoplay", function_owner=self,
-        position={-60,0.1,16},
+        position={-65,0.1,2},
         width=1500, height=500, label="Autoplay from villain deck", tooltip="Set autoplay from villain deck when player draws new hand!", 
         color={0,1,0}
     })
     
     self.createButton({
         click_function="toggle_finalblow", function_owner=self,
-        position={-60,0.1,15},
+        position={-65,0.1,3},
         width=1500, height=500, label="Final Blow", tooltip="Final Blow enabled", 
         color={0,1,0}
     })
     
+    thronesfavorpos = {-65,0.1,4}
+    
     self.createButton({
         click_function="thrones_favor", function_owner=self,
-        position={-60,0.1,14},
+        position=thronesfavorpos,
         width=750, height=500, label="Throne's Favor", tooltip="Gain the Throne's Favor.", 
         color={0.62,0.16,0.16}
     })
     
+    inputpos = {-65.5,0.1,-5}
     -- create text input to paste setup parameters
     self.createInput({
         input_function = "input_print",
@@ -254,7 +119,7 @@ function createButtons()
         label          = "CTRL + V the Setup here",
         font_size      = 223,
         validation     = 1,
-        position={-60.5,0.1,7},
+        position=inputpos,
         width=2000,
         height=3000
     })
@@ -272,45 +137,8 @@ function table.clone(org,key)
     end
 end
 
-function hasTag2(params)
-    local obj = params.obj
-    local tag = params.tag
-    local index = params.index
-    if not obj or not tag then
-        return nil
-    end
-    local tags = obj.getTags()
-    if obj.hasTag("Split") then
-        local altag1 = tag:sub(1,-2) .. 1 .. ":"
-        local altag2 = tag:sub(1,-2) .. 2 .. ":"
-        for i,t in pairs(tags) do
-            if t:find(altag1) or t:find(altag2) then
-                tags[i] = tag .. t:sub(tag:len()+2,-1)
-            end
-        end
-    end
-    local res = {}
-    for _,o in pairs(tags) do
-        if o:find(tag) then
-            if index then
-                table.insert(res,o:sub(index,-1))
-            else 
-                local num = tonumber(o:match("%d+"))
-                if num then
-                    table.insert(res,num)
-                else
-                    table.insert(res,o:sub(#tag+1,-1))
-                end
-            end
-        end
-    end
-    if res[1] and res[2] then
-        return res
-    elseif res[1] then
-        return res[1]
-    else
-        return nil
-    end
+function hasTag2(obj,tag,index)
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function toggle_autoplay()
@@ -408,7 +236,7 @@ function thrones_favor(obj,player_clicker_color,notspend)
     if color and (player_clicker_color == color or (color:find("mm") and player_clicker_color == color)) then
         self.createButton({
             click_function="thrones_favor", function_owner=self,
-            position={-60,0.1,14},
+            position=thronesfavorpos,
             width=750, height=500, label="Throne's Favor", tooltip="Gain the Throne's Favor.", 
             color={0.62,0.16,0.16}
         })
@@ -457,11 +285,6 @@ function random_setup()
     import_setup()
 end
 
-function obedienceDisk(obj,player_clicker_color)
-    printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
-    return nil
-end
-
 function click_shuffle()
     log("Shuffle: heroes, villains, bystanders, wounds, sidekicks, shield officers, player decks")
     print("Shuffling decks! Only before startup!")
@@ -481,18 +304,18 @@ function click_shuffle()
     if officerDeck  then officerDeck.randomize() end
     log("Shuffling SHIELD officer stack!")
 
-    local heroDeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
-    if heroDeck[1] then
-        heroDeck[1].randomize()
+    local heroDeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
+    if heroDeck then
+        heroDeck.randomize()
         log("Shuffling the hero deck!")
     else
         log("No Hero deck to shuffle")
         broadcastToAll("No Hero deck to shuffle")
     end
 
-    local villainDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)
-    if villainDeck[1] then
-        villainDeck[1].randomize()
+    local villainDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
+    if villainDeck then
+        villainDeck.randomize()
         log("Shuffling the villain deck!")
     else
         log("No Villain deck to shuffle")
@@ -522,9 +345,9 @@ function click_shuffle()
             ["HC:Silver"]="725c5d"
         }
         for _,o in pairs(dividedDeckGUIDs) do
-            local dividedDeck = get_decks_and_cards_from_zone(o)
-            if dividedDeck[1] then
-                dividedDeck[1].randomize()
+            local dividedDeck = get_decks_and_cards_from_zone(o)[1]
+            if dividedDeck then
+                dividedDeck.randomize()
             end
         end
     elseif setupParts and setupParts[1] == "Fear Itself" then
@@ -543,30 +366,6 @@ function click_shuffle()
             self.removeButton(i-1)
         end
     end
-end
-
-function findObjectsAtPosition(pos,where)
-    --set where to something to make pos global, otherwise its local to the setup object
-    local globalPos = pos
-    if not where then
-        globalPos = self.positionToWorld(pos)
-    end
-    local objList = Physics.cast({
-        origin=globalPos,
-        direction={0,1,0},
-        type=2,
-        size={2,2,2},
-        max_distance=1,
-        debug=false
-    })
-
-    local decksAndCards = {}
-    for _,obj in ipairs(objList) do
-        if obj.hit_object.tag == "Deck" or obj.hit_object.tag == "Card" then
-            table.insert(decksAndCards, obj.hit_object)
-        end
-    end
-    return decksAndCards
 end
 
 function reduceStack(count,stackGUID)
@@ -613,34 +412,10 @@ function findInPile(deckName,pileGUID,destGUID,callbackf)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
-    --this function returns cards, decks and shards in a city space (or the start zone)
-    --returns a table of objects
-    local zone = getObjectFromGUID(zoneGUID)
-    if zone then
-        decks = zone.getObjects()
-    else
-        return nil
-    end
-    local shardname = "Shard"
-    local hopename = "Baby Hope Token"
-    if shardinc == false then
-        shardname = "notShardName"
-        hopename = "notBaby Hope Token"
-    end
-    local result = {}
-    if decks then
-        for k, deck in pairs(decks) do
-            if deck.tag == "Deck" or deck.tag == "Card" or deck.getName() == shardname or deck.getName() == hopename then
-                if bsinc == nil or not deck.hasTag("Bystander") then
-                    table.insert(result, deck)
-                end
-            end
-        end
-    end
-    return result
+    return Global.Call('get_decks_and_cards_from_zone2',{zoneGUID=zoneGUID,shardinc=shardinc,bsinc=bsinc})
 end
 
-function get_decks_and_cards_from_zone2(params)
+function get_decks_and_cards_from_zone2(params) --should be deprecated
     return get_decks_and_cards_from_zone(params.zoneGUID,params.shardinc,params.bsinc)
 end
 
@@ -659,16 +434,13 @@ function returnSetupParts()
     return setupParts
 end
 
-function unveiledScheme(scheme)
-    setupParts[1] = scheme
+function unveiledScheme(newscheme)
+    scheme = newscheme
+    setupParts[1] = scheme.getName()
 end
 
 function returnColor()
     --print("this is a dummy function for button clicks")
-end
-
-function nonCityZone(obj,player_clicker_color)
-    broadcastToColor("This city zone does not currently exist!",player_clicker_color)
 end
 
 function lockCard(obj,delay)
@@ -747,14 +519,14 @@ function import_setup()
         value = label,
         font_size      = 150,
         validation     = 1,
-        position={-60.5,0.1,7},
+        position=inputpos,
         width=2000,
         height=3000
     })
     
     self.createButton({
         click_function="update_statevars", function_owner=self,
-        position={-60,0.1,11}, height=300, width=500, color={0,0,0,1}, font_color = {1,0,0},
+        position={-65,0.1,-1}, height=300, width=500, color={0,0,0,1}, font_color = {1,0,0},
         label = "Update",tooltip="Change the state variables. Only in case of emergency or testing!"
     })
 
@@ -777,7 +549,7 @@ function import_setup()
     
     -- WOUNDS
     
-    if setupParts[4] != "0" then
+    if setupParts[4] ~= "0" then
         log("Wound stack reduced to " .. setupParts[4])
         reduceStack(tonumber(setupParts[4]),woundsDeckGUID)
     end
@@ -1199,6 +971,9 @@ function import_setup()
             stPile.takeObject({position=deckZone.getPosition(),
                 flip=true,smooth=false})
         end 
+        nonCityZone = function(obj,player_clicker_color)
+            broadcastToColor("This city zone does not currently exist!",player_clicker_color)
+        end
         local vilDeckSplit = function() 
             log("Splitting villain deck in deck for each player")
             local vilDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
@@ -1947,6 +1722,10 @@ function schemeSpecials ()
             ["HC:Blue"]="3d3ba7",
             ["HC:Silver"]="725c5d"
         }
+        obedienceDisk = function(obj,player_clicker_color)
+            printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
+            return nil
+        end
         for i = 3,7 do
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
@@ -2202,14 +1981,6 @@ function returnShardLimit()
     end
 end
 
-function koCard(obj,smooth)
-    if smooth then
-        obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
-    else
-        obj.setPosition(getObjectFromGUID(kopile_guid).getPosition())
-    end
-end
-
 function playHorror()
     local horrorPile = getObjectFromGUID(horrorPileGUID)
     local horrorpos = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getNextMMLoc')).getPosition()
@@ -2390,16 +2161,6 @@ function resolveHorror(obj)
         local playerBoard = getObjectFromGUID(playerBoards[color])
         local dest = playerBoard.positionToWorld(pos_discard)
         dest.y = dest.y + 3
-        if color == "White" then
-            angle = 90
-        elseif color == "Blue" then
-            angle = -90
-        else
-            angle = 180
-        end
-        local brot = {x=0, y=angle, z=0}
-        obj.addTag("Horror")
-        obj.setRotationSmooth(brot)
         obj.setPositionSmooth(dest)
         broadcastToAll("The Horror! " .. color .. " player received a psychic infection!")
         function onPlayerTurn(player)
@@ -2422,15 +2183,6 @@ function resolveHorror(obj)
                         local playerBoard = getObjectFromGUID(playerBoards[nextcolor])
                         local dest = playerBoard.positionToWorld(pos_discard)
                         dest.y = dest.y + 3
-                        if nextcolor == "White" then
-                            angle = 90
-                        elseif nextcolor == "Blue" then
-                            angle = -90
-                        else
-                            angle = 180
-                        end
-                        local brot = {x=0, y=angle, z=0}
-                        obj.setRotation(brot)
                         obj.setPosition(dest)
                         for _,o in pairs(Player.getPlayers()) do
                             getObjectFromGUID(pushvillainsguid).Call('promptDiscard',o.color)
@@ -2543,16 +2295,7 @@ function resolveHorror(obj)
         local playerBoard = getObjectFromGUID(playerBoards[color])
         local dest = playerBoard.positionToWorld(pos_discard)
         dest.y = dest.y + 3
-        if color == "White" then
-            angle = 90
-        elseif color == "Blue" then
-            angle = -90
-        else
-            angle = 180
-        end
-        local brot = {x=0, y=angle, z=0}
         obj.addTag("Horror")
-        obj.setRotationSmooth(brot)
         obj.setPositionSmooth(dest)
         broadcastToAll("The Horror! " .. color .. " player received a viral infection!")
         function onPlayerTurn(player,previous_player)
@@ -2575,15 +2318,6 @@ function resolveHorror(obj)
                         local playerBoard = getObjectFromGUID(playerBoards[nextcolor])
                         local dest = playerBoard.positionToWorld(pos_discard)
                         dest.y = dest.y + 3
-                        if nextcolor == "White" then
-                            angle = 90
-                        elseif nextcolor == "Blue" then
-                            angle = -90
-                        else
-                            angle = 180
-                        end
-                        local brot = {x=0, y=angle, z=0}
-                        obj.setRotation(brot)
                         obj.setPosition(dest)
                         getObjectFromGUID(pushvillainsguid).Call('getWound',previous_player.color)
                         break
@@ -2593,15 +2327,6 @@ function resolveHorror(obj)
         end
         return nil
     end
-end
-
-function bump(obj,y)
-    if not y then
-        y = 2
-    end
-    local pos = obj.getPosition()
-    pos.y = pos.y + y
-    obj.setPositionSmooth(pos)
 end
 
 function mojoVPUpdate(bsCount,epicness)
@@ -2620,21 +2345,20 @@ function mojoVPUpdate(bsCount,epicness)
     local bsPile = getObjectFromGUID(bystandersPileGUID)
     local bspilecount = bsPile.getQuantity()
     local mojopos = bsPile.getPosition()
-    local mojopos2 = nil
     local bsflip = true
     for i=1,bspilecount do
         if i <= bsCount then
-            mojopos2 = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+            mojopos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
             bsflip = true
         elseif i <= mojo + bsCount then
-            mojopos2 = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Mojo")).getPosition()
+            mojopos = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Mojo")).getPosition()
             bsflip = false
         else 
-            mojopos2 = bsPile.getPosition()
-            mojopos2.y = mojopos2.y +2
+            mojopos = bsPile.getPosition()
+            mojopos.y = mojopos.y +2
             bsflip = false
         end
-        bsPile.takeObject({position = mojopos2,
+        bsPile.takeObject({position = mojopos,
             smooth = false,
             flip = bsflip,
             callback_function = mojotagf})
@@ -2644,7 +2368,7 @@ function mojoVPUpdate(bsCount,epicness)
         end
     end
     local bsTagged = function()
-        local bsdeck = findObjectsAtPosition(mojopos,true)
+        local bsdeck = get_decks_and_cards_from_zone(bszoneguid)
         if bsdeck[1] and bsdeck[1].getQuantity() == bspilecount - bsCount - mojo then
             return true
         else
@@ -2652,7 +2376,7 @@ function mojoVPUpdate(bsCount,epicness)
         end
     end
     local setNewBSGUID = function()
-        local bsDeck = findObjectsAtPosition(mojopos,true)
+        local bsDeck = get_decks_and_cards_from_zone(bszoneguid)
         bystandersPileGUID = bsDeck[1].guid
         log("bs pile guid = ")
         log(bystandersPileGUID)

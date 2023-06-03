@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Mandarin"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -33,6 +36,68 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMMandarin()
+    local tacticsfound = 0
+    for _,o in pairs(Player.getPlayers()) do
+        local vpilecontent = Global.Call('get_decks_and_cards_from_zone',vpileguids[o.color])
+        if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+            for _,o in pairs(vpilecontent[1].getObjects()) do
+                for _,k in pairs(o.tags) do
+                    if k == "Group:Mandarin's Rings" then
+                        tacticsfound = tacticsfound + 1
+                        break
+                    end
+                end
+            end
+        elseif vpilecontent[1] and vpilecontent[1].hasTag("Group:Mandarin's Rings") then
+            tacticsfound = tacticsfound + 1
+        end
+    end
+    local modifier = 1
+    if epicness then
+        modifier = 2
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = tacticsfound,
+        label = "-" .. tacticsfound*modifier,
+        tooltip = "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
+        f = 'updateMMMandarin',
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    local boost = "+1"
+    if epicness then
+        boost = "+2"
+    end
+    for i,o in pairs(city_zones_guids) do
+        if i ~= 1 then
+            local content = Global.Call('get_decks_and_cards_from_zone',o)
+            if content[1] then
+                for _,obj in pairs(content) do
+                    if obj.hasTag("Group:Mandarin's Rings") then
+                        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
+                            label = boost,
+                            tooltip = "Bonus of the Mandarin",
+                            id = "mandarin"})
+                        break
+                    end
+                end
+            end
+        end
+    end
+    
+    updateMMMandarin()
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMMandarin,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMMandarin,0.1)
     end
 end
 

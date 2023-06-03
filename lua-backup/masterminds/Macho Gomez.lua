@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Macho Gomez"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -9,7 +12,8 @@ function onLoad()
     
     local guids3 = {
         "playguids",
-        "playerBoards"
+        "playerBoards",
+        "vpileguids"
         }
         
     for _,o in pairs(guids3) do
@@ -26,6 +30,49 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function updateMMMacho()
+    local color = Turns.turn_color
+    local vpilecontent = Global.Call('get_decks_and_cards_from_zone',vpileguids[color])
+    local savior = 0
+    if vpilecontent[1] and vpilecontent[1].tag == "Deck" then
+        for _,k in pairs(vpilecontent[1].getObjects()) do
+            for _,l in pairs(k.tags) do
+                if l == "Group:Deadpool's \"Friends\"" then
+                    savior = savior + 1
+                    break
+                end
+            end
+        end
+    elseif vpilecontent[1] then
+        if vpilecontent[1].hasTag("Group:Deadpool's \"Friends\"") then
+            savior = 1
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = savior,
+        label = "+" .. savior,
+        tooltip = "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
+        f = 'updateMMMacho',
+        f_owner = self})
+end
+
+function setupMM()
+    updateMMMacho()
+    function onObjectEnterZone(zone,object)
+        if object.hasTag("Villain") then
+            Wait.time(updateMMMacho,0.1)
+        end
+    end
+    function onObjectLeaveZone(zone,object)
+        if object.hasTag("Villain") then
+            Wait.time(updateMMMacho,0.1)
+        end
+    end
+    function onPlayerTurn(player,previous_player)
+        updateMMMacho()
     end
 end
 

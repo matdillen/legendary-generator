@@ -30,6 +30,13 @@ function table.clone(org,key)
     end
 end
 
+function nonTwist(params)
+    if params.obj.getName() == "Maggia Goons" then
+        getObjectFromGUID(pushvillainsguid).Call('playVillains')
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local city = params.city
@@ -65,7 +72,7 @@ function resolveTwist(params)
                     end
                     goonsfound = goonsfound + #goonguids
                     if vpilecontent[1].getQuantity() ~= #goonguids then
-                        for j = 1,#copguids do
+                        for j = 1,#goonguids do
                             vpilecontent[1].takeObject({position=vildeckzone.getPosition(),
                                 guid=goonguids[j],
                                 flip=true})

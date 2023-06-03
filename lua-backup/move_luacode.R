@@ -9,6 +9,14 @@ file = list.files("currentmod",
 js = fromJSON(file[1],
               simplifyVector = F)
 
+# for (i in 1:length(js$ObjectStates)) {
+#   if (i == 1) {
+#     allg = js$ObjectStates[[i]]$GUID
+#   } else {
+#     allg = c(allg,js$ObjectStates[[i]]$GUID)
+#   }
+# }
+
 info = read_csv("obj_guids_info.txt") %>%
   filter(!duplicated(guid))
 
@@ -27,8 +35,12 @@ scrip = readLines("global.lua") %>%
 js$LuaScript = scrip
 
 #schemes scripts
-luas = list.files("schemes")
+luas = list.files("schemes",
+                  all.files=T,
+                  pattern=".lua")
 lual = list()
+
+scheme_id = grep("schemePileGUID",info$name)
 
 for (i in 1:length(luas)) {
   lual[[i]] = readLines(paste0("schemes/",luas[i]))
@@ -40,13 +52,13 @@ luas = luas %>%
   gsub("[^a-z]","",.)
 names(lual) = luas
 
-for (i in 1:length(js$ObjectStates[[69]]$ContainedObjects)) {
-  name = js$ObjectStates[[69]]$ContainedObjects[[i]]$Nickname %>%
+for (i in 1:length(js$ObjectStates[[scheme_id]]$ContainedObjects)) {
+  name = js$ObjectStates[[scheme_id]]$ContainedObjects[[i]]$Nickname %>%
     tolower() %>%
     gsub("[^a-z]","",.)
   
   if (!is.null(lual[[name]])) {
-    js$ObjectStates[[69]]$ContainedObjects[[i]]$LuaScript = 
+    js$ObjectStates[[scheme_id]]$ContainedObjects[[i]]$LuaScript = 
       paste(lual[[name]],
             collapse="\r\n")
   }
@@ -54,8 +66,11 @@ for (i in 1:length(js$ObjectStates[[69]]$ContainedObjects)) {
 
 #mm
 
-luam = list.files("masterminds")
+luam = list.files("masterminds",
+                  all.files = T,
+                  pattern=".lua")
 lual = list()
+mm_id = grep("mmPileGUID",info$name)
 
 for (i in 1:length(luam)) {
   lual[[i]] = readLines(paste0("masterminds/",luam[i]))
@@ -67,13 +82,13 @@ luam = luam %>%
   gsub("[^a-z]","",.)
 names(lual) = luam
 
-for (i in 1:length(js$ObjectStates[[12]]$ContainedObjects)) {
-  name = js$ObjectStates[[12]]$ContainedObjects[[i]]$Nickname %>%
+for (i in 1:length(js$ObjectStates[[mm_id]]$ContainedObjects)) {
+  name = js$ObjectStates[[mm_id]]$ContainedObjects[[i]]$Nickname %>%
     tolower() %>%
     gsub("[^a-z]","",.)
   
   if (!is.null(lual[[name]])) {
-    js$ObjectStates[[12]]$ContainedObjects[[i]]$LuaScript = 
+    js$ObjectStates[[mm_id]]$ContainedObjects[[i]]$LuaScript = 
       paste(lual[[name]],
             collapse="\r\n")
   }

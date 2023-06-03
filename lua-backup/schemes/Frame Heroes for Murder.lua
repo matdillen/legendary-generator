@@ -47,7 +47,7 @@ function resolveTwist(params)
             for _,o in pairs(costs[1].getObjects()) do
                 for _,t in pairs(o.tags) do
                     if t:find("Cost:") then
-                        table.insert(incriminating,t)
+                        table.insert(incriminating,tonumber(t:sub(6)))
                         break
                     end
                 end
@@ -57,13 +57,13 @@ function resolveTwist(params)
         end
         local herotooffer = {}
         for _,o in pairs(hqguids) do
-            local hero = getObjectFromGUID(o).Call('getHero')
+            local hero = getObjectFromGUID(o).Call('getHeroUp')
             if not hero then
                 return nil
             end
             local addthishero = true
             for _,c in pairs(incriminating) do
-                if hasTag2(hero,"Cost:") == c:sub("Cost:") then
+                if hasTag2(hero,"Cost:") == c then
                     addthishero = false
                     break
                 end
@@ -79,15 +79,15 @@ function resolveTwist(params)
                 label = "Frame",
                 tooltip = "Frame this hero for murder.",
                 trigger_function = 'refreshHQ',
-                args = "self"
+                args = "self",
                 fsourceguid = self.guid})
-        elseif #herotoffer > 0 then
+        elseif #herotooffer > 0 then
             herotooffer[1].setPosition(getObjectFromGUID(twistZoneGUID).getPosition())
         end
     elseif twistsresolved == 7 then
         local herotooffer = {}
         for _,o in pairs(hqguids) do
-            table.insert(herotooffer,getObjectFromGUID(o).Call('getHero'))
+            table.insert(herotooffer,getObjectFromGUID(o).Call('getHeroUp'))
         end
         getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = Turns.turn_color,
             hand = herotooffer,
@@ -95,7 +95,7 @@ function resolveTwist(params)
             label = "Frame",
             tooltip = "Frame this hero for murder.",
             trigger_function = 'refreshHQ',
-            args = "self"
+            args = "self",
             fsourceguid = self.guid})
     end
     return twistsresolved

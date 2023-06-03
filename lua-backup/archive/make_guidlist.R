@@ -3,7 +3,7 @@ allg = readLines("objguids.txt")
 
 all = tibble(guid = allg)
 
-guidn = readLines("guidnames.txt")
+guidn = readLines("archive/guidnames.txt")
 
 guidn2 = tibble(raw = guidn,
                 guid = NA,
@@ -41,4 +41,4 @@ guidn2 = guidn2 %>%
 all2 = left_join(all,guidn2,by=c("guid"="guid")) %>%
   select(-raw)
 
-write_csv(all2,"obj_guids_info.txt",na="")
+write_csv(all2,"obj_guids_info2.txt",na="")

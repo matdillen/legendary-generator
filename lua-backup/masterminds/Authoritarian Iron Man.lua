@@ -42,7 +42,7 @@ function resolveStrike(params)
             return nil
         end
     elseif strikesresolved < 6 then
-        mm = Global.Call('get_decks_and_cards_from_zone',(current_city[#current_city-strikesresolved+2])
+        mm = Global.Call('get_decks_and_cards_from_zone',current_city[#current_city-strikesresolved+2])
         --what happens to iron man if his city space is destroyed? nothing?
     else
         return strikesresolved

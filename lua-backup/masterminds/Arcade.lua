@@ -1,6 +1,11 @@
 function onLoad()
+    mmname = "Arcade"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "setupGUID",
+        "bystandersPileGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -26,6 +31,68 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupMM(params)
+    local arc = 5
+    if params.epicness then
+        arc = 8
+        getObjectFromGUID(setupGUID).Call('playHorror')
+    end
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    if not bsPile then
+        bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
+        bsPile = getObjectFromGUID(bystandersPileGUID)
+    end
+    for i=1,arc do
+        bsPile.takeObject({position=self.getPosition(),
+            flip=false,
+            smooth=false})
+    end
+    arcadebasepower = 3
+    if params.epicness then
+        arcadebasepower = 4
+    end
+    
+    updateMMArcade()
+    
+    function onObjectEnterZone(zone,object)
+        updateMMArcade()
+    end
+    
+    function onObjectLeaveZone(zone,object)
+        updateMMArcade()
+    end
+end
+    
+function updateMMArcade()
+    local strikeloc = self.guid
+    local checkvalue = 1
+    if not Global.Call('get_decks_and_cards_from_zone',strikeloc)[1] then
+        getObjectFromGUID(strikeloc).clearButtons()
+        checkvalue = 0
+    else
+        if not getObjectFromGUID(strikeloc).getButtons() then
+            getObjectFromGUID(strikeloc).createButton({click_function='updateMMArcade',
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                label=arcadebasepower,
+                tooltip="You can fight these Human Shields for " .. arcadebasepower .. " to rescue them as Bystanders.",
+                font_size=250,
+                font_color="Red",
+                width=0})
+        else
+            getObjectFromGUID(strikeloc).editButton({label=arcadebasepower,
+                tooltip="You can fight these Human Shields for " .. arcadebasepower .. " to rescue them as Bystanders."})
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = checkvalue,
+            label = "X",
+            tooltip = "You can't fight Arcade while he has any Human Shields.",
+            f = 'updateMMArcade',
+            f_owner = self})
 end
 
 function resolveStrike(params)

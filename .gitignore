@@ -2,3 +2,6 @@
 run.r.Rout
 www/img/**
 run.bat
+lua-backup/villains
+lua-backup/archive/*.json
+lua-backup/output

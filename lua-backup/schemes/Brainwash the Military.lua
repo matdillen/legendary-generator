@@ -9,6 +9,19 @@ function onLoad()
     end
 end
 
+function nonTwist(params)
+    local obj = params.obj
+    
+    if obj.hasTag("Officer") then
+        obj.addTag("Brainwashed")
+        obj.addTag("Villain")
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
+            label = params.twistsstacked+3,
+            tooltip = "This Officer is Brainwashed and therefore a villain. Gain it if you fight it."})
+    end
+    return 1
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards

@@ -68,7 +68,7 @@ function keepPsychoticBreak(obj)
     end
 end
 
-function promptPsychoticBreakChoice = function(color)
+function promptPsychoticBreakChoice(color)
     getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = color,
         trigger_function = 'shiftPsychoticBreak',
         args = color,
