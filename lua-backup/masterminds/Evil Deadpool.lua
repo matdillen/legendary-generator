@@ -79,9 +79,9 @@ function setupMM()
 end
 
 function evildeadpool(params)
-    evilDeadpoolStrike[params.color] = hasTag2(params.obj,"Cost:") or 0
+    evilDeadpoolStrike[params.player_clicker_color] = hasTag2(params.obj,"Cost:") or 0
     evilDeadpoolCounter = evilDeadpoolCounter + 1
-    evilDeadpoolValue = math.min(evilDeadpoolValue,evilDeadpoolStrike[params.color])
+    evilDeadpoolValue = math.min(evilDeadpoolValue,evilDeadpoolStrike[params.player_clicker_color])
     if evilDeadpoolCounter == #Player.getPlayers() then
         for i,p in pairs(evilDeadpoolStrike) do
             if p == evilDeadpoolValue then

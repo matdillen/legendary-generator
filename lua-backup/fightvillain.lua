@@ -122,7 +122,9 @@ function setZonePower()
     local cards = get_decks_and_cards_from_zone(self.guid)
     local villainfound = 0
     for _,obj in pairs(cards) do
-        if obj.getName() == "Shard" then
+        if obj.hasTag("Alien Brood") then
+            return nil
+        elseif obj.getName() == "Shard" then
             local val = obj.Call('returnVal')
             zoneBonuses["shard"] = {"+" .. val,"Power bonus from shards here."}
         elseif obj.hasTag("Villain") then
@@ -311,11 +313,11 @@ function scan_villain(obj,player_clicker_color)
         return nil
     end
     getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-1)
-    for _,obj in pairs(cards) do
-        if obj.hasTag("Alien Brood") then
-            obj.removeTag("Alien Brood")
-            obj.flip()
-            getObjectFromGUID(pushvillainsguid).Call('resolve_alien_brood_scan',obj)
+    for _,o in pairs(cards) do
+        if o.hasTag("Alien Brood") then
+            o.removeTag("Alien Brood")
+            o.flip()
+            getObjectFromGUID(pushvillainsguid).Call('resolve_alien_brood_scan',{obj = o,zone = self})
             self.editButton({index = 0,label = zoneName, tooltip = "Fight the villain in this city space!", click_function = 'click_fight_villain'})
         end
     end

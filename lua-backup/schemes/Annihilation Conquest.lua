@@ -26,11 +26,10 @@ end
 function processPhalanxInfected(params) 
     local obj = params.obj
     local index = params.index
-    getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-        label = hasTag2(obj,"Cost:")+math.floor(twistsstacked/2),
-        tooltip = "Phalanx-Infected villain has power equal to its cost plus each two twists stacked next to the scheme."})
+    
     obj.addTag("Villain")
     obj.addTag("Phalanx-Infected")
+    obj.addTag("Power:" .. hasTag2(obj,"Cost:"))
     getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
     Wait.condition(
         function() 
@@ -49,6 +48,7 @@ end
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards
+    
     twistsstacked = getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
     local candidate = {}
     local cost = 0

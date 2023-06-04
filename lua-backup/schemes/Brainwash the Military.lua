@@ -15,9 +15,7 @@ function nonTwist(params)
     if obj.hasTag("Officer") then
         obj.addTag("Brainwashed")
         obj.addTag("Villain")
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = params.twistsstacked+3,
-            tooltip = "This Officer is Brainwashed and therefore a villain. Gain it if you fight it."})
+        obj.addTag("Power:3")
     end
     return 1
 end

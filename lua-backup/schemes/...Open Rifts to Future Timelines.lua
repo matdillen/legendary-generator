@@ -39,18 +39,20 @@ function hasTag2(obj,tag,index)
 end
 
 function juggle(obj)
-    local content = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)
-    if content[1] then
+    obj.flip()
+    
+    Wait.time(function()
+        local content = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)
         content[1].randomize()
-    end
+        end,1)
 end
 
 function revealScheme()
     local villainpile = getObjectFromGUID(villainPileGUID)
     villainpile.randomize()
     villainpile.takeObject({position = getObjectFromGUID(villainDeckZoneGUID).getPosition(),
-        flip = true,
-        callback_function = 'juggle'})
+        smooth = false,
+        callback_function = juggle})
     local manipulations = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])[1]
     if manipulations then
         manipulations_stacked = math.abs(manipulations.getQuantity())
@@ -58,6 +60,11 @@ function revealScheme()
 end
 
 function pushHench(obj,player_clicker_color)
+    for i,o in pairs(vils) do
+        if o == obj.guid then
+            table.remove(vils,i)
+        end
+    end
     local henchisthere = function()
         local content = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[1])
         if content[1] and content[1].guid == obj.guid then
@@ -85,7 +92,7 @@ function pushVil(obj,player_clicker_color)
     local vilgo = function()
         getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
     end
-    Wait.condition(vilgo,vilisthere)
+    Wait.time(function() Wait.condition(vilgo,vilisthere) end,0.5)
 end
 
 function resolveTwist(params) 
@@ -97,20 +104,29 @@ function resolveTwist(params)
     local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
     if vildeck and vildeck.tag == "Deck" then
         local vildeckc = vildeck.getObjects()
-        local hench = {}
-        local vils = {}
+        hench = {}
+        vils = {}
         local vp = 0
         for i = 1,manipulations_stacked do
-            if vildeckc[i].hasTag("Henchmen") then
-                table.insert(hench,vildeckc[i].guid)
-            end
-            if vildeckc[i].hasTag("Villain") and hasTag2(vildeckc[i],"vp") then
-                if hasTag2(vildeckc[i],"vp") == vp then
-                    table.insert(vils,vildeckc[i].guid)
-                elseif hasTag2(vildeckc[i],"vp") > vp then
-                    vils = {vildeckc[i].guid}
-                    vp = hasTag2(vildeckc[i],"vp")
+            local isvillain = false
+            local currentvp = nil
+            for _,t in pairs(vildeckc[i].tags) do
+                if t == "Henchmen" then
+                    table.insert(hench,vildeckc[i].guid)
                 end
+                if t == "Villain" then 
+                    isvillain = true
+                end
+                if t:find("VP") then
+                    local vpn = tonumber(t:match("%d+"))
+                    if vpn >= vp then
+                        currentvp = vpn
+                    end
+                end
+            end
+            if isvillain and currentvp then
+                table.insert(vils,vildeckc[i].guid)
+                vp = currentvp
             end
         end
         if #hench > 1 then
@@ -130,7 +146,7 @@ function resolveTwist(params)
                 flip = true,
                 smooth = true,
                 guid = hench[1],
-                callback_function = 'pushHench'})
+                callback_function = pushHench})
         else
             henchhasgone = true
         end
@@ -153,10 +169,13 @@ function resolveTwist(params)
                     flip = true,
                     smooth = true,
                     guid = vils[1],
-                    callback_function = 'pushVil'})
+                    callback_function = pushVil})
             end
         end
         Wait.condition(villainpush,vildelay)
+    elseif vildeck and vildeck.hasTag("Villain") then
+        getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')
+        pushvil(vildeck)
     end
     return nil
 end

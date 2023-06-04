@@ -5,7 +5,6 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "twistZoneGUID",
-        "sidekickZoneGUID",
         "heroPileGUID"
         }
         
@@ -23,8 +22,7 @@ function onLoad()
     
     local guids3 = {
         "resourceguids",
-        "attackguids",
-        "discardguids"
+        "drawguids"
     }
     
     for _,o in pairs(guids3) do
@@ -49,12 +47,13 @@ function hasTag2(obj,tag,index)
 end
 
 function juggle(obj)
+    obj.flip()
     local content = obj.getObjects()
-    local up = 1
+    local up = 0.1
     local pos = obj.getPosition()
     for i=1,#content-1 do
         pos.y = pos.y + up
-        up = up + 1
+        up = up + 0.1
         obj.takeObject({position = pos})
     end
 end
@@ -63,8 +62,8 @@ function revealScheme()
     local heropile = getObjectFromGUID(heroPileGUID)
     heropile.randomize()
     heropile.takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
-        flip = true,
-        callback_function = 'juggle'})
+        smooth = false,
+        callback_function = juggle})
     local manipulations = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])[1]
     if manipulations then
         manipulations_stacked = math.abs(manipulations.getQuantity())
@@ -72,16 +71,16 @@ function revealScheme()
 end
 
 function buyMessiah(obj,player_clicker_color)
-    local recruit = resourceguids[player_clicker_color].Call('returnVal')
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
     local cost = hasTag2(obj,"Cost:")
     cost = cost + manipulations_stacked
     if recruit < cost then
         broadcastToColor("You don't have enough Recruit to gain this sidekick!",player_clicker_color,player_clicker_color)
         return nil
     else
-        resourceguids[player_clicker_color].Call('addValue',-cost)
+        getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
         currentmessiah = nil
-        local pos = drawguids[player_clicker_color].getPosition()
+        local pos = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
         pos.y = pos.y + 2
         obj.clearButtons()
         obj.locked = false
@@ -99,15 +98,15 @@ function gainMessiah(params)
     cost = cost + manipulations_stacked
     obj.createButton({click_function='buyMessiah',
         function_owner=self,
-        position={0,0,0},
-        rotation={0,180,0},
-        scale = {1,1,0.5},
+        position={0,20,0},
+        rotation={0,0,0},
+        scale = {1,1,1},
         label=cost,
         tooltip="Spend " .. cost .. " Recruit to gain this hero card to the top of your deck before your turn ends.",
         font_size=300,
         font_color={0,0,0},
         color="Yellow",
-        width=250,height=150})
+        width=650,height=650})
     local nextcolor = getObjectFromGUID(pushvillainsguid).Call('getNextColor',Turns.turn_color)
     local turnshift = function()
         if Turns.turn_color == nextcolor then
@@ -123,7 +122,7 @@ function reckonMessiah()
     if currentmessiah then
         currentmessiah.clearButtons()
         currentmessiah.locked = false
-        currentmessiah.setPosition(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
+        currentmessiah.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
     end
 end
 

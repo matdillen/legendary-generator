@@ -316,7 +316,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         if targetZone.guid == escape_zone_guid and schemeParts and schemeParts[1] == "Alien Brood Encounters" and obj.hasTag("Alien Brood") then
             obj.removeTag("Alien Brood")
             obj.flip()
-            local result = resolve_alien_brood_scan(obj,true)
+            local result = resolve_alien_brood_scan({obj = obj,escaping = true})
             if not result then
                 obj = nil
             end
@@ -572,7 +572,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         end
         --special scheme: all cards enter the city face down
         --so no special card behavior
-        if schemeParts[1] == "Alien Brood Encounters" then
+        if schemeParts[1] == "Alien Brood Encounters" and cards[1].is_face_down then
             if cityEntering then
                 cards[1].addTag("Alien Brood")
             end
@@ -840,11 +840,23 @@ function updatePower()
                 elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
                     powerButton({obj= object, label = twistsstacked,zoneguid = o, tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
                 elseif object.hasTag("Brainwashed") then
-                    powerButton({obj= object, label = twistsstacked+3,zoneguid = o})
+                    powerButton({obj= object,
+                        label = twistsstacked+3,
+                        zoneguid = o,
+                        tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
+                        id = "brainwashed"})
                 elseif object.hasTag("Phalanx-Infected") then
-                    powerButton({obj= object, label = math.floor(twistsstacked/2)+hasTag2(object,"Cost:"),zoneguid = o})
+                    powerButton({obj= object,
+                        label = math.floor(twistsstacked/2),
+                        zoneguid = o,
+                        id = "conquests",
+                        tooltip = "This Phalanx-Infected villain gets +1 for each two twists stacked as conquests."})
                 elseif object.getName() == "Smugglers" then
-                    powerButton({obj= object, label = "+" .. strikesresolved,id="striker",zoneguid = o})
+                    powerButton({obj= object, 
+                        label = "+" .. strikesresolved,
+                        id="striker",
+                        tooltip = "This villain gets +1 for each strike resolved.",
+                        zoneguid = o})
                 elseif object.hasTag("Khonshu Guardian") then
                     if i % 2 == 0 then
                         powerButton({obj= object, label = hasTag2(object,"Cost:")*2,zoneguid = o})
@@ -2468,13 +2480,19 @@ function promptDiscard(params)
     local isZone = params.isZone
     local buttonheight = params.buttonheight or 22
     local fsourceguid = params.fsourceguid
-    if #handobjects > 0 then
-        n = math.min(n,#handobjects)
+    
+    local handsize = 0
+    for _,o in pairs(handobjects) do
+        handsize = handsize + 1
+    end
+    
+    if handsize > 0 then
+        n = math.min(n,handsize)
     end
     if n < 1 then
         return nil
     end
-    if #handobjects == n then
+    if handsize == n then
         for i = 1,n do
             if flip then
                 handobjects[i].flip()
@@ -3052,7 +3070,13 @@ function offerChoice(params)
     
     local playzone = getObjectFromGUID(discardguids[color])
     local zshift = -1
+    local xshift = 0
+    local iter = 0
     for i,o in pairs(choices) do
+        iter = iter + 1
+        if iter % 3 == 0 then
+            xshift = xshift + 1
+        end
         _G["resolveChoice" .. i .. color] = function(obj)
             n = n-1
             if n > 0 then
@@ -3078,7 +3102,7 @@ function offerChoice(params)
         end
         playzone.createButton({click_function = "resolveChoice" .. i .. color,
             function_owner = self,
-            position={0,0,zshift},
+            position={xshift,0,zshift},
             rotation={0,180,0},
             scale = {1,1,1},
             label=o,
@@ -3091,7 +3115,11 @@ function offerChoice(params)
     end
 end
 
-function resolve_alien_brood_scan(obj,escaping)
+function resolve_alien_brood_scan(params)
+    local obj = params.obj
+    local escaping = params.escaping
+    local zone = params.zone
+    
     if obj.getName() == "Masterstrike" then
         obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
         Wait.time(click_push_villain_into_city,1)
@@ -3101,9 +3129,11 @@ function resolve_alien_brood_scan(obj,escaping)
         obj.setPosition(getObjectFromGUID(city_zones_guids[1]).getPosition())
         broadcastToAll("A Trap was scanned in the city! Resolve it by end of turn or suffer the consequences.")
         return nil
-    elseif obj.hasTag("Villain") or obj.hasTag("Villainous Weapon") and escaping then
+    elseif (obj.hasTag("Villain") or obj.hasTag("Villainous Weapon")) and escaping then
         nonTwistspecials({obj},{""},{})
         return obj
+    elseif obj.hasTag("Villain") and zone then
+        zone.Call('updatePower')
     elseif obj.hasTag("Location") then
         if escaping then
             koCard(obj)

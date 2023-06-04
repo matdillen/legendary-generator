@@ -58,6 +58,7 @@ function pickNewHero(params)
     local obj = params.obj
     local index = params.index
     local color = params.player_clicker_color
+    
     local cost = hasTag2(obj,"Cost:")
     local heroes = {}
     for i,h in pairs(hqguids) do

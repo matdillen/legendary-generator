@@ -42,19 +42,10 @@ function click_buy_annihilation(obj,player_clicker_color)
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local dest = playerBoard.positionToWorld(pos_vp2)
     dest.y = dest.y + 3
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
-    end
-    local brot = {x=0, y=angle, z=0}
     if hulkdeck.tag == "Card" then
-        hulkdeck.setRotationSmooth(brot)
         hulkdeck.setPositionSmooth(dest)
     else
-        hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+        hulkdeck.takeObject({position=dest,flip=false,smooth=true})
     end
 end
 

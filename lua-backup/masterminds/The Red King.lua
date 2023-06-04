@@ -27,6 +27,7 @@ function updateMMRedKing()
         return nil
     end
     local villainfound = 0
+    local label = "X"
     local tooltip = "You can fight the Red King normally even if there any Villains are in the city."
     if transformed == false then
         tooltip = "You can't fight the Red King while any Villains are in the city."
@@ -60,9 +61,12 @@ function updateMMRedKing()
             f = 'updatePower',
             id = 'card'})
     end
+    if villainfound == 0 then
+        label = "+0"
+    end
     mmZone.Call('mmButtons',{mmname = mmname,
-        checkvalue = villainfound,
-        label = "X",
+        checkvalue = 1,
+        label = label,
         tooltip = tooltip,
         f = 'updateMMRedKing',
         f_owner = self})

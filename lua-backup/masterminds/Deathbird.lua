@@ -25,7 +25,7 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
-function updateMMDeathbird(params)
+function updateMMDeathbird()
     local shiarfound = 0
     for i=2,#city_zones_guids do
         local citycontent = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[i])
@@ -60,7 +60,7 @@ function updateMMDeathbird(params)
         end
     end
     local modifier = 1
-    if params.epicness then
+    if epicness then
         modifier = 2
     end
     getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
@@ -71,7 +71,8 @@ function updateMMDeathbird(params)
         f_owner = self})
 end
 
-function setupMM()
+function setupMM(params)
+    epicness = params.epicness
     updateMMDeathbird()
     
     function onObjectEnterZone(zone,object)
