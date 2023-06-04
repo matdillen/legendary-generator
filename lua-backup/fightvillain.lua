@@ -283,7 +283,6 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
                             obj2.setPositionSmooth(pos)
                             broadcastToColor("You gained a shard!",player_clicker_color,player_clicker_color)
                         else
-                            obj2.setRotationSmooth(brot)
                             if obj2.hasTag("Villainous Weapon") then
                                 local pos = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
                                 pos.y = pos.y + 3

@@ -494,6 +494,19 @@ function addBystanders2(params)
     addBystanders(params.cityspace,params.face,params.posabsolute,params.pos)
 end
 
+function capturesBystander(obj)
+    for _,o in pairs(city_zones_guids) do
+        local content = get_decks_and_cards_from_zone(o)
+        for _,c in pairs(content) do
+            if c.guid == obj.guid then
+                addBystanders(o)
+                return nil
+            end
+        end
+    end
+    broadcastToAll("Villain " .. obj.getName() .. " not found in city so could not capture a bystander.")
+end
+
 function push_all2(newcity)
     push_all(table.clone(newcity))
 end
@@ -3014,6 +3027,59 @@ function shieldClearance(params)
         trigger_function = f,
         fsourceguid = fsourceguid})
         ---how do these trigger functions work and make a fight go through???
+end
+
+function offerChoice(params)
+    local color = params.color
+    local choices = params.choices
+    local choicecolors = params.choicecolors or "none"
+    local n = params.n or 1
+    local resolve_function = params.resolve_function
+    local fsourceguid = params.fsourceguid or self.guid
+    
+    if not color or not choices or not resolve_function then
+        return nil
+    end
+    
+    local playzone = getObjectFromGUID(discardguids[color])
+    local zshift = -1
+    for i,o in pairs(choices) do
+        _G["resolveChoice" .. i .. color] = function(obj)
+            n = n-1
+            if n > 0 then
+                for index,button in pairs(obj.getButtons()) do
+                    if button.click_function == "resolveChoice" .. i .. color then
+                        obj.removeButton(index-1)
+                        break
+                    end
+                end
+            elseif n == 0 then
+                for index,button in pairs(obj.getButtons()) do
+                    if button.click_function:find("resolveChoice") then
+                        obj.removeButton(index-1)
+                    end
+                end
+            end
+            if fsourceguid then
+                getObjectFromGUID(fsourceguid).Call(resolve_function,{id = i,
+                    color = color})
+            else
+                resolve_function()
+            end
+        end
+        playzone.createButton({click_function = "resolveChoice" .. i .. color,
+            function_owner = self,
+            position={0,0,zshift},
+            rotation={0,180,0},
+            scale = {1,1,1},
+            label=o,
+            tooltip="Choose the option to " .. o,
+            font_size=60,
+            font_color="Black",
+            color= choicecolors[i] or {1,0.64,0},
+            width=500,height=250})
+        zshift = zshift - 0.5
+    end
 end
 
 function resolve_alien_brood_scan(obj,escaping)

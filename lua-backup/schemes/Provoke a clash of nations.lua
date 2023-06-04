@@ -1,10 +1,7 @@
 function onLoad()   
-    manipulations_stacked = 0
-    
     local guids1 = {
         "pushvillainsguid",
-        "twistZoneGUID",
-        "sidekickZoneGUID"
+        "officerDeckGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -12,19 +9,17 @@ function onLoad()
     end
     
     local guids2 = {
-        "topBoardGUIDs"
+        "topBoardGUIDs",
+        "pos_discard"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
-    
     local guids3 = {
-        "resourceguids",
-        "attackguids",
-        "discardguids"
-    }
-    
+        "playerBoards"
+        }
+            
     for _,o in pairs(guids3) do
         _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
@@ -42,22 +37,10 @@ function table.clone(org,key)
     end
 end
 
-function revealScheme()
-    local manipulations = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])[1]
-    if manipulations then
-        manipulations_stacked = math.abs(manipulations.getQuantity())
-    end
-end
-
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
     
-    manipulations_stacked = manipulations_stacked + 1
-    cards[1].setPosition(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
-    --top card of hero deck becomes villain
-    --and gets cloned from hq or hero deck
-    --requires identifying individual hero cards
-    broadcastToAll("Twist effect not scripted!")
+    broadcastToAll("twist not scripted")
     return nil
 end

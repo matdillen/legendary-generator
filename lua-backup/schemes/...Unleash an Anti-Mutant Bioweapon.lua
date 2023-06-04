@@ -1,8 +1,8 @@
 function onLoad()   
+    manipulations_stacked = 0
+    
     local guids1 = {
-        "pushvillainsguid",
-        "twistZoneGUID",
-        "sidekickZoneGUID"
+        "pushvillainsguid"
         }
         
     for _,o in pairs(guids1) do
@@ -10,33 +10,12 @@ function onLoad()
     end
     
     local guids2 = {
-        "topBoardGUIDs"
+        "topBoardGUIDs",
+        "hqguids"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
-    local guids3 = {
-        "resourceguids",
-        "attackguids",
-        "discardguids"
-    }
-    
-    for _,o in pairs(guids3) do
-        _G[o] = table.clone(Global.Call('returnVar',o),true)
-    end
-end
-
-function table.clone(org,key)
-    if key then
-        local new = {}
-        for i,o in pairs(org) do
-            new[i] = o
-        end
-        return new
-    else
-        return {table.unpack(org)}
     end
 end
 
@@ -47,13 +26,55 @@ function revealScheme()
     end
 end
 
-function resolveTwist(params)
-    local twistsresolved = params.twistsresolved 
+function bioweapon(params)
+    countdown = countdown - 1
+    if params and params.id then
+        madechoices[params.id] = true
+    end
+    if countdown == 0 then
+        for i,o in pairs(madechoices) do
+            if o == true then
+                for _,h in pairs(hqguids) do
+                    local hero = getObjectFromGUID(h).Call('getHeroUp')
+                    if hero and hero.hasTag(i) then
+                        getObjectFromGUID(pushvillainsguid).Call('koCard',hero)
+                        Wait.time(function() getObjectFromGUID(h).Call('click_draw_hero') end,1)
+                    end
+                end
+            end
+        end
+    end
+end
+
+function resolveTwist(params) 
     local cards = params.cards
     
     manipulations_stacked = manipulations_stacked + 1
     cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
-
-    broadcastToAll("twist not scripted")
+    
+    madechoices = {["Cost:2"] = false,
+                ["Cost:3"] = false,
+                ["Cost:4"] = false,
+                ["Cost:5"] = false,
+                ["Cost:6"] = false}
+    
+    if manipulations_stacked >= 5 then
+        countdown = 1
+        for i,_ in pairs(madechoices) do
+            madechoices[i] = true
+        end
+        bioweapon()
+    else
+        countdown = manipulations_stacked
+        getObjectFromGUID(pushvillainsguid).Call('offerChoice',{color = Turns.turn_color,
+            choices = {["Cost:2"] = "2",
+                ["Cost:3"] = "3",
+                ["Cost:4"] = "4",
+                ["Cost:5"] = "5",
+                ["Cost:6"] = "6"},
+            fsourceguid = self.guid,
+            resolve_function = 'bioweapon',
+            n = manipulations_stacked})
+    end
     return nil
 end

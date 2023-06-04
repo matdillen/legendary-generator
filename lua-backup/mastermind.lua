@@ -591,7 +591,7 @@ function fightButton(zone)
     _G["fightEffect" .. zone] = function(obj,player_clicker_color)
         local strikeloc = nil
         for i,o in pairs(mmLocations) do
-            if o.guid == obj.guid then
+            if o == obj.guid then
                 strikeloc = getStrikeloc(i)
                 break
             end

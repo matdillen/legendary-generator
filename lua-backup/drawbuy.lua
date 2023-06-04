@@ -6,11 +6,7 @@ function onLoad()
         position={0,0,0}, label="Draw hero", color={1,1,1,0}, width=2000, height=3000
     })
 
-    self.createButton({
-         click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="Buy hero", color={1,1,1,1}, width=2000, height=1000,
-         font_size = 250
-     })
+    toggleButton()
     
     local guids3 = {
         "playerBoards",
@@ -52,7 +48,20 @@ function onLoad()
             scriptguid = hqscriptguids[i]
         end
     end
-    
+end
+
+function toggleButton()
+    for i,b in pairs(self.getButtons()) do
+        if b.click_function == "click_buy_hero" then
+            self.removeButton(i - 1)
+            return nil
+        end
+    end
+    self.createButton({
+         click_function="click_buy_hero", function_owner=self,
+         position={0,0.01,4}, label="Buy hero", color={1,1,1,1}, width=2000, height=1000,
+         font_size = 250
+    })
 end
 
 function table.clone(org,key)
