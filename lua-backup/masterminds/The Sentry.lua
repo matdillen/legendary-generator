@@ -46,6 +46,12 @@ function updateMMSentry()
     if transformed == true then
         local wounds = mmZone.Call('woundedFury')
         mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 11,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
+        mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = wounds,
             label = "+" .. wounds,
             tooltip = "The Sentry gets +1 for each Wound in your discard pile.",
@@ -53,6 +59,12 @@ function updateMMSentry()
             id = "woundedfury",
             f_owner = self})
     elseif transformed == false then
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 10,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
         mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
             label = "",

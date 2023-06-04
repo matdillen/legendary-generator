@@ -226,7 +226,7 @@ function click_get_wound(obj, player_clicker_color, alt_click,top)
     if woundsDeck then
         if woundsDeck.tag == "Deck" then
             woundsDeck.takeObject({position=dest,
-                flip = false,
+                flip = true,
                 smooth = true,
                 callback_function = toflip})
             if woundsDeck.remainder then
@@ -826,7 +826,16 @@ function updatePower()
                 end
             end
             if index then
-                if object.hasTag("Corrupted") then
+                if object.getName() == "Frost Giant Invader" then
+                    local resp = revealCardTrait({trait = "4", prefix = "Cost:", what = "Cost", players = {Player[Turns.turn_color]}})[1]
+                    if resp then
+                        powerButton({obj= object,
+                            label = "+4",
+                            zoneguid = o,
+                            tooltip = "You are not worthy so giant is bigger.",
+                            id="notworthy"})
+                    end
+                elseif object.hasTag("Corrupted") then
                     powerButton({obj= object, label = twistsstacked+2,zoneguid = o})
                 elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
                     powerButton({obj= object, label = twistsstacked,zoneguid = o, tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
@@ -1864,7 +1873,7 @@ function revealCardTrait(params)
                             break
                         end
                     elseif what == "Cost" then
-                        if hasTag2(h,prefix) and hasTag2(h,prefix) > value then
+                        if hasTag2(h,prefix) and hasTag2(h,prefix) > tonumber(value) then
                             players[i] = nil
                             break
                         end

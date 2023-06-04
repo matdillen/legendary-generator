@@ -71,7 +71,7 @@ end
 function onObjectEnterZone(zone,object)
     if zone.guid == self.guid and not objectsInside[object.guid] and (object.hasTag("Villain") or object.getName() == "Shard") then
         objectsInside[object.guid] = true
-        Wait.condition(setZonePower,function()
+        Wait.condition(updatePower,function()
             if object.isSmoothMoving() or object.held_by_color then
                 return false
             else
@@ -94,7 +94,7 @@ function onObjectLeaveZone(zone,object)
                 end
             end
         end
-        Wait.time(setZonePower,0.2)
+        Wait.time(updatePower,0.2)
     end
 end
 
@@ -115,7 +115,7 @@ function updateZonePower(params)
     end
     zoneBonuses["local"][id] = {label,tooltip}
     --log(zoneBonuses)
-    setZonePower()
+    updatePower()
 end
 
 function setZonePower()
@@ -196,6 +196,7 @@ function setZonePower()
 end
 
 function updatePower()
+    setZonePower()
     getObjectFromGUID(pushvillainsguid).Call('updatePower')
 end
 

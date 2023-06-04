@@ -62,9 +62,21 @@ function updateMMIlluminatiSS()
         if getObjectFromGUID(pushvillainsguid).Call('outwitPlayer',{color = Turns.turn_color}) then
             boost = 0
         end
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 11,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
     elseif transformed == true then
         local notes = getNotes()
         setNotes(notes .. "\r\n\r\nWhenever a card effect causes a player to draw any number of cards, that player must then also discard a card.")
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 13,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
     end
     mmZone.Call('mmButtons',{mmname = mmname,
         checkvalue = boost,

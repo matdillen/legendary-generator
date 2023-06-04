@@ -29,26 +29,13 @@ function table.clone(org,key)
     end
 end
 
-function nonTwist(params)
-    if params.obj.getName() == "Frost Giant Invader" then
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.obj,
-            label = "6+",
-            tooltip = "This twist is a Frost Giant Invader villain that gets +4 if you are not Worthy."})
-    end
-    return 1
-end
-
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
 
     cards[1].setName("Frost Giant Invader")
-    cards[1].addTag("VP6")
-    cards[1].addTag("Villain")
+    cards[1].setTags({"VP6","Power:6","Villain"})
     cards[1].setDescription("If you are not Worthy (reveal a Hero that costs 5 or more), Frost Giant Invader gets +4.")
-    getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
-        label = "6+",
-        tooltip = "This twist is a Frost Giant Invader villain that gets +4 if you are not Worthy."})
     broadcastToAll("Scheme Twist: The twist cards enters the city as a Frost Giant Invader!")
     if twistsresolved == 8 or twistsresolved == 9 then
         local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
@@ -74,7 +61,7 @@ function resolveTwist(params)
         end
         if giantsfound > 0 then
             Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('playVillains',{n=giantsfound}) end,2.5)
-            broadcastToAll("Scheme Twist: " .. giantsfound .. " Frost Giant Invaders put on top of villain deck from player's victory piles. Please play them all!")
+            broadcastToAll("Scheme Twist: " .. giantsfound .. " Frost Giant Invaders played from player's victory piles!")
         end
     end
     return twistsresolved

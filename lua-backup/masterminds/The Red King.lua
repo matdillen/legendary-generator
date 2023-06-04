@@ -46,6 +46,19 @@ function updateMMRedKing()
                 end
             end
         end
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 7,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
+    elseif transformed == true then
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 10,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
     end
     mmZone.Call('mmButtons',{mmname = mmname,
         checkvalue = villainfound,

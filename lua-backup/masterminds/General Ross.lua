@@ -110,6 +110,12 @@ function updateMMRoss()
             end
         end
         mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 6,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
+        mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
             label = 0,
             tooltip = "Red Hulk no longer gets +1 for each Wound in your discard pile.",
@@ -138,6 +144,12 @@ function updateMMRoss()
                     font_color="Red",
                     width=0})
         end
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 9,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
         mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
             label = "",

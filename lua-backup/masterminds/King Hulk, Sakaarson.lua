@@ -83,6 +83,12 @@ function updateMMHulk()
             end
         end
         mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 9,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
+        mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
             label = 0,
             tooltip = "King Hulk no longer gets +1 for each Wound in your discard pile.",
@@ -96,6 +102,12 @@ function updateMMHulk()
             f = 'updateMMHulk',
             f_owner = self})
     elseif transformed == true then
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 10,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
         mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
             label = 0,

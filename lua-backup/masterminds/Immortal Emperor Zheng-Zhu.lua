@@ -12,7 +12,7 @@ function onLoad()
 end
 
 function updateMMImmortalEmperor()
-    local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait = 6,
+    local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait = "6",
         what = "Cost",
         prefix = "Cost:",
         players = {Player[Turns.turn_color]}})

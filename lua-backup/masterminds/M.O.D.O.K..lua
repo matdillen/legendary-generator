@@ -49,6 +49,12 @@ function updateMMMODOK()
     end
     if transformed == false then
         mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 9,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
+        mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
             label = "*",
             tooltip = "You can fight M.O.D.O.K normally.",
@@ -59,6 +65,12 @@ function updateMMMODOK()
     elseif transformed == true then   
         local notes = getNotes()
         setNotes(notes:gsub("\r\n\r\n%[b%]Outwit%[/b%] requires 4 different costs instead of 3.",""))
+        mmZone.Call('mmButtons',{mmname = mmname,
+            checkvalue = 1,
+            label = 8,
+            tooltip = "Base power as written on the card.",
+            f = 'updatePower',
+            id = 'card'})
         mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 1,
             label = "*",
