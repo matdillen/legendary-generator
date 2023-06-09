@@ -34,9 +34,12 @@ function hasTag2(obj,tag,index)
 end
 
 function unleashFromUndercover(params)
-    local cost = hasTag2(params.obj,"Cost:")
-    local vpile = Global.Call('get_decks_and_cards_from_zone',vpileguids[params.color])
-    local pos = getObjectFromGUID(handguids[params.color]).getPosition()
+    local obj = params.obj
+    local color = params.player_clicker_color
+    
+    local cost = hasTag2(obj,"Cost:")
+    local vpile = Global.Call('get_decks_and_cards_from_zone',vpileguids[color])
+    local pos = getObjectFromGUID(handguids[color]).getPosition()
     
     local candidates = {}
     if vpile[1] and vpile[1].tag == "Deck" then
@@ -49,10 +52,11 @@ function unleashFromUndercover(params)
             end
         end
         if candidates[1] and candidates[2] then
-            getObjectFromGUID(pushvillainsguid).Call('offerCards',{color = params.color,
+            getObjectFromGUID(pushvillainsguid).Call('offerCards',{color = color,
                 pile = vpile[1],
                 guids = candidates,
                 resolve_function = 'unLeashThisHero',
+                args = "self",
                 tooltip = "Unleash this hero from your victory pile to your hand.",
                 label = "Unleash",
                 fsourceguid = self.guid})
@@ -61,7 +65,7 @@ function unleashFromUndercover(params)
                 smooth = true,
                 guid = candidates[1]})
         else
-            broadcastToColor("No hero with lower cost could be found to be unleashed.",params.color,params.color)
+            broadcastToColor("No hero with lower cost could be found to be unleashed.",color,color)
         end
     elseif vpile[1] and hasTag2(vpile[1],"Cost:") and hasTag2(vpile[1],"Cost:") < cost then
         vpile[1].setPositionSmooth(pos)

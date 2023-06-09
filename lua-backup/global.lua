@@ -195,7 +195,7 @@ function loadGUIDs()
     shardGUID = "eff5ba"
     
     --Local positions for each pile of cards
-    pos_vp2 = {-5, 0.178, 0.222}
+    pos_vp2 = {-4.75, 0.178, 0.222}
     pos_discard = {-0.957, 0.178, 0.222}
     pos_draw = {0.957, 0.178, 0.222}
     pos_add2 = {-2.871, 0.178, 0.222}

@@ -12,6 +12,6 @@ function resolveTwist(params)
     local cards = params.cards
     cards[1].setName("Masterstrike")
     broadcastToAll("Scheme Twist: This Scheme Twist is a Master Strike!")
-    getObjectFromGUID("pushvillainsguid").Call('click_push_villain_into_city')
+    getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
     return nil
 end

@@ -36,6 +36,10 @@ function table.clone(org,key)
     end
 end
 
+function hasTag2(obj,tag,index)
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     local mmloc = params.mmloc

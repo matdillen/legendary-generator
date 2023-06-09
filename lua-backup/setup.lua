@@ -242,7 +242,8 @@ function thrones_favor(obj,player_clicker_color,notspend)
         })
         thronesfavor = "none"
         if color:find("Emperor Vulcan of the Shi'ar") then
-            getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+            local zone = getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Emperor Vulcan of the Shi'ar")
+            getObjectFromGUID(zone).Call('updateMMEmperorVulcan')
         end
         return nil
     end
@@ -255,7 +256,8 @@ function thrones_favor(obj,player_clicker_color,notspend)
             color={0.62,0.16,0.16}
         })
         if player_clicker_color:find("Emperor Vulcan of the Shi'ar") then
-            getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+            local zone = getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Emperor Vulcan of the Shi'ar")
+            getObjectFromGUID(zone).Call('updateMMEmperorVulcan')
         end
         thronesfavor = player_clicker_color
     elseif player_clicker_color then
@@ -267,7 +269,8 @@ function thrones_favor(obj,player_clicker_color,notspend)
         })
         thronesfavor = player_clicker_color
         if color and color:find("Emperor Vulcan of the Shi'ar") then
-            getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+            local zone = getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Emperor Vulcan of the Shi'ar")
+            getObjectFromGUID(zone).Call('updateMMEmperorVulcan')
         end
     end
 end

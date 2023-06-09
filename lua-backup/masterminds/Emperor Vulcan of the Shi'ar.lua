@@ -57,6 +57,6 @@ function resolveStrike(params)
         end
     end
     getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar",true})
-    getObjectFromGUID(mmZoneGUID).Call('updateMMEmperorVulcan')
+    updateMMEmperorVulcan()
     return strikesresolved
 end

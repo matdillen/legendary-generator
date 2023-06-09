@@ -30,49 +30,74 @@ function table.clone(org,key)
     end
 end
 
+function stripTactics(obj)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    mmZone.Call('updateMasterminds',obj.getName())
+    mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[4]})
+    local guid = obj.guid
+    mmZone.Call('setupMasterminds',{obj = obj, epicness = false,tactics = 1})
+    Wait.condition(
+        function()
+            obj = getObjectFromGUID(guid)
+            obj.flip()
+            local keep = math.random(4)
+            local tacticspos = getObjectFromGUID(topBoardGUIDs[2]).getPosition()
+            tacticspos.y = tacticspos.y + 2
+            local j = 0
+            for i = 1,4 do
+                if i ~= keep and obj then
+                    obj.takeObject({position = tacticspos,
+                        index = i+j,
+                        flip = true})
+                end
+                j = j -1
+            end
+            if obj then
+                Wait.condition(
+                    function()
+                        local pos = obj.getPosition()
+                        pos.y = pos.y + 3
+                        obj.takeObject({position = pos,
+                            index = obj.getQuantity()-1,
+                            flip = true})
+                        end,
+                    function()
+                        local content = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])
+                        if content[1] and content[1].getQuantity() == 3 then
+                            return true
+                        else
+                            return false
+                        end
+                    end)
+            end 
+        end,
+        function()
+            local newobj = getObjectFromGUID(guid)
+            if newobj.getLuaScript() == "" then
+                return true
+            else 
+                return false 
+            end 
+        end)
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
+    
     if twistsresolved == 1 then
         local mmPile = getObjectFromGUID(mmPileGUID)
         mmPile.randomize()
-        local stripTactics = function(obj)
-            obj.flip()
-            local mmZone = getObjectFromGUID(mmZoneGUID)
-            mmZone.Call('updateMasterminds',obj.getName())
-            mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[4]})
-            mmZone.Call('setupMasterminds',{obj = obj, epicness = false,tactics = 1})
-            local keep = math.random(4)
-            local tacguids = {}
-            for i = 1,4 do
-                table.insert(tacguids,obj.getObjects()[i].guid)
-            end
-            local tacticsPile = getObjectFromGUID(topBoardGUIDs[2])
-            for i = 1,4 do
-                if i ~= keep and obj then
-                    obj.takeObject({position = tacticsPile.getPosition(),
-                        guid = tacguids[i],
-                        flip = true})
-                end
-            end
-            if obj then
-                local flipTactics = function()
-                    local pos = obj.getPosition()
-                    pos.y = pos.y + 3
-                    obj.takeObject({position = pos,
-                        index = obj.getQuantity()-1,
-                        flip=true})
-                end
-                Wait.time(flipTactics,1)
-            end
-        end
-        mmPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[4]).getPosition(),callback_function = stripTactics})
+        mmPile.takeObject({position = getObjectFromGUID(topBoardGUIDs[4]).getPosition(),
+            smooth = false,
+            flip = true,
+            callback_function = stripTactics})
     elseif twistsresolved < 5 then
         local allianceMM = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[4])
         local mmcard = nil
         if allianceMM[1] then
             for _,o in pairs(allianceMM) do
-                if o.hasTag("Tactic:Hydra High Council") or o.hasTag("Tactic:Hydra Super Adaptoid") then
+                if o.hasTag("Tactic:Hydra High Council") or o.hasTag("Tactic:Hydra Super-Adaptoid") then
                     local tacticsPile = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])
                     local tacticShuffle = function(obj)
                         Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[4])[1].randomize()

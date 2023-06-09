@@ -318,6 +318,47 @@ function setupMasterminds(params)
     local objname = obj.getName()
     local strikezone = getObjectFromGUID(getStrikeloc(objname))
     local script = obj.getLuaScript()
+    
+    local objcontent = nil
+    local basepower = 0
+    if obj.tag == "Deck" then
+        objcontent = obj.getObjects()
+    else
+        baselabel = hasTag2(obj,"Power:") or ""
+        if epicness then
+            baselabel = hasTag2(o,"Epic:") or hasTag2(o,"Epicpower:")
+        end
+    end
+    if objcontent then
+        for _,o in pairs(objcontent) do
+            local mmfound = false
+            local tacticfound = false
+            baselabel = 0
+            for _,t in pairs(o.tags) do
+                if t == "Mastermind" then
+                    mmfound = true
+                end
+                if t:find("Tactic:") then
+                    tacticfound = true
+                end
+                if t:find("Power:") and not epicness then
+                    baselabel = tonumber(t:match("%d+")) or ""
+                end
+                if epicness and (t:find("Epicpower:") or t:find("Epic:")) then
+                    baselabel = tonumber(t:match("%d+")) or ""
+                end
+            end
+            if mmfound and not tacticfound then
+                break
+            end
+        end
+    end
+    mmButtons({mmname = objname,
+        checkvalue = 1,
+        label = baselabel,
+        tooltip = "Base power as written on the card.",
+        f = 'updatePower',
+        id = 'card'})
     obj.setLuaScript("")
     obj.reload()
     strikezone.setLuaScript(script)
@@ -333,7 +374,8 @@ function setupMasterminds(params)
             else
                 return false
             end
-        end)
+        end) 
+    
     if not tactics then
         tactics = 4
     end
@@ -347,42 +389,6 @@ function setupMasterminds(params)
     if not lurking then
         fightButton(mmLocations[objname])
     end
-    local mmzone = get_decks_and_cards_from_zone(mmLocations[objname])
-    local baselabel = 0
-    for _,o in pairs(mmzone) do
-        if o.tag == "Deck" then
-            for _,p in pairs(o.getObjects()) do
-                local mmfound = false
-                local tacticfound = false
-                baselabel = 0
-                for _,t in pairs(p.tags) do
-                    if t == "Mastermind" then
-                        mmfound = true
-                    end
-                    if t:find("Tactic:") then
-                        tacticfound = true
-                    end
-                    if t:find("Power:") then
-                        baselabel = tonumber(t:match("%d+")) or ""
-                    end
-                end
-                if mmfound and not tacticfound then
-                    break
-                end
-            end
-        else
-            if o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
-                baselabel = hasTag2(o,"Power:") or ""
-                break
-            end
-        end
-    end
-    mmButtons({mmname = objname,
-        checkvalue = 1,
-        label = baselabel,
-        tooltip = "Base power as written on the card.",
-        f = 'updatePower',
-        id = 'card'})
     if mmGetCards(objname,true) == true then
         setupTransformingMM(objname,getObjectFromGUID(mmLocations[objname]),lurking)
         return nil
@@ -479,27 +485,29 @@ function mmButtons(params)
     end
     local buttonindex = nil
     local toolt_orig = {}
-    for i,o in pairs(mmzone.getButtons()) do
-        if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) or o.click_function == "updatePower" then
-            buttonindex = i-1
-            if o.tooltip:find("\n") then
-                for t in string.gmatch(o.tooltip,"[^\n]+") do
-                    local tip = (t:gsub("%[.*",""))
-                    local box = (t:gsub(".*%[",""))
+    if mmzone.getButtons() then
+        for i,o in pairs(mmzone.getButtons()) do
+            if o.click_function == f or (f == "mm" and o.click_function:find("updateMM")) or o.click_function == "updatePower" then
+                buttonindex = i-1
+                if o.tooltip:find("\n") then
+                    for t in string.gmatch(o.tooltip,"[^\n]+") do
+                        local tip = (t:gsub("%[.*",""))
+                        local box = (t:gsub(".*%[",""))
+                        box = (box:gsub("%]",""))
+                        toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                    end
+                else
+                    local tip = (o.tooltip:gsub("%[.*",""))
+                    local box = (o.tooltip:gsub(".*%[",""))
                     box = (box:gsub("%]",""))
                     toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
                 end
-            else
-                local tip = (o.tooltip:gsub("%[.*",""))
-                local box = (o.tooltip:gsub(".*%[",""))
-                box = (box:gsub("%]",""))
-                toolt_orig[(box:gsub(":.*",""))] = {(box:gsub(".*:","")),tip}
+                if f == "mm" then
+                    f = o.click_function
+                    f_owner = o.function_owner
+                end
+                break
             end
-            if f == "mm" then
-                f = o.click_function
-                f_owner = o.function_owner
-            end
-            break
         end
     end
     if f == "mm" then
@@ -652,6 +660,12 @@ function fightButton(zone)
             return nil
         end
         getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
+        if not scheme then
+            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+        end
+        if scheme.getVar("fightEffect") then
+            scheme.Call('fightEffect',{obj = obj,color = player_clicker_color,mm = true})
+        end
         local name = fightMM(obj.guid,player_clicker_color)
         Wait.time(function() click_update_tactics(obj) end,1)
         --log("name:")

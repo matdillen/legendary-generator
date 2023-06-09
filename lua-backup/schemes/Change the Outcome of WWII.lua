@@ -93,7 +93,12 @@ function resolveTwist(params)
         for i,o in pairs(city_zones_guids) do
             local zone = getObjectFromGUID(o)
             if zone.getButtons() then
-                zone.removeButton(0)
+                for j,b in pairs(zone.getButtons()) do
+                    if b.click_function == "nonCityZone" then
+                        zone.removeButton(j-1)
+                        break
+                    end
+                end
             end
         end
         if not getObjectFromGUID("bd3ef1").getButtons() then

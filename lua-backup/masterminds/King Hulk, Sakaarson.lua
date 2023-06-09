@@ -56,7 +56,7 @@ function updateMMHulk()
         local warbound = 0
         for _,o in pairs(city_zones_guids) do
             if o ~= city_zones_guids[1] then
-                local citycontent = get_decks_and_cards_from_zone(o)
+                local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
                 if citycontent[1] then
                     for _,k in pairs(citycontent) do
                         if k.hasTag("Group:Warbound") then
@@ -67,7 +67,7 @@ function updateMMHulk()
                 end
             end
         end
-        local escapedcards = get_decks_and_cards_from_zone(escape_zone_guid)
+        local escapedcards = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
         if escapedcards[1] and escapedcards[1].tag == "Deck" then
             for _,o in pairs(escapedcards[1].getObjects()) do
                 for _,k in pairs(o.tags) do

@@ -237,9 +237,9 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
     for i,obj in pairs(cards) do
         if obj.hasTag("Villain") then
             local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
-            local power = hasTag2(obj,"Power:") or 0
-            if obj.getButtons() then
-                for _,b in pairs(obj.getButtons()) do
+            local power = 0
+            if self.getButtons() then
+                for _,b in pairs(self.getButtons()) do
                     if b.click_function == "updatePower" then
                         if b.label:match("%d+") and not b.label:find("-") then
                             power = power + tonumber(b.label:match("%d+"))
@@ -297,6 +297,7 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
                         end
                     end
                 end
+                updatePower()
             end
         end
     end

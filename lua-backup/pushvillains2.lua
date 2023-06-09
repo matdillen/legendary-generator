@@ -836,18 +836,22 @@ function updatePower()
                             id="notworthy"})
                     end
                 elseif object.hasTag("Corrupted") then
-                    powerButton({obj= object, label = twistsstacked+2,zoneguid = o})
+                    powerButton({obj= object, 
+                        label = "+" .. twistsstacked,
+                        zoneguid = o,
+                        tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
+                        id="corrupted"})
                 elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
                     powerButton({obj= object, label = twistsstacked,zoneguid = o, tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
                 elseif object.hasTag("Brainwashed") then
                     powerButton({obj= object,
-                        label = twistsstacked+3,
+                        label = "+" .. twistsstacked+3,
                         zoneguid = o,
                         tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
                         id = "brainwashed"})
                 elseif object.hasTag("Phalanx-Infected") then
                     powerButton({obj= object,
-                        label = math.floor(twistsstacked/2),
+                        label = "+" .. math.floor(twistsstacked/2),
                         zoneguid = o,
                         id = "conquests",
                         tooltip = "This Phalanx-Infected villain gets +1 for each two twists stacked as conquests."})
@@ -959,13 +963,14 @@ function powerButton(params)
     local tooltip = params.tooltip or "Unidentified bonus."
     local id = params.id or "base"
     local click_f = params.click_f or 'updatePower'
+    local ignore_f = params.ignore_f
     local otherposition = params.otherposition
     local color = params.color or "Red"
     local zoneguid = params.zoneguid
     if zoneguid and zoneguid == city_zones_guids[1] then
         zoneguid = nil
     end
-    if not obj or not label then
+    if (not obj and not zoneguid) or not label then
         broadcastToAll("Error: Missing argument to card boost.")
         return nil
     end
@@ -976,7 +981,7 @@ function powerButton(params)
     end
     local buttonindex = nil
     local toolt_orig = {}
-    if obj.getButtons() then
+    if obj and obj.getButtons() then
         for i,o in pairs(obj.getButtons()) do
             if o.click_function == click_f then
                 buttonindex = i - 1
@@ -999,7 +1004,7 @@ function powerButton(params)
     elseif zoneguid then
         local butt = getObjectFromGUID(zoneguid).getButtons()
         for i,o in pairs(butt) do
-            if o.click_function ~= "click_fight_villain" and o.click_function ~= "scan_villain" then
+            if o.click_function ~= "click_fight_villain" and o.click_function ~= "scan_villain" and (not ignore_f or o.click_function ~= ignore_f) then
                 buttonindex = i - 1
                 if o.tooltip:find("\n") then
                     for t in string.gmatch(o.tooltip,"[^\n]+") do
@@ -3182,6 +3187,7 @@ function resolveVillainEffect(params)
     if schemeParts[1] == "Corrupt the Next Generation of Heroes" and obj.hasTag("Corrupted") then
         obj.removeTag("Corrupted")
         obj.removeTag("Villain")
+        obj.removeTag("Power:2")
         obj.setDescription(obj.getDescription():gsub("WALL%-CRAWL.*%.",""))
         obj.clearButtons()
         obj.flip()

@@ -44,14 +44,12 @@ function nonTwist(params)
     if obj.hasTag("Sidekick") then
         obj.addTag("Corrupted")
         obj.addTag("Villain")
+        obj.addTag("Power:2")
         if obj.getDescription() == "" then
             obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
         else
             obj.setDescription(obj.getDescription() .. "\nWALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
         end
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = params.twistsstacked+2,
-            tooltip = "This sidekick is corrupted and therefore a villain. If you fight it, gain it to the top of your deck."})
     end
     return 1
 end

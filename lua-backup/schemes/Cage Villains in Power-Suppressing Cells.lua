@@ -55,13 +55,33 @@ function lockUp(params)
     local lockCop = function(obj)
         --obj.locked = true
         obj.setDescription(obj.getDescription() .. "\nARTIFACT: Ensures this card is not removed during clean-up.")
-        _G["unlock" .. color .. obj.guid .. heroguid] = function(obj)
+        _G["giveHero" .. heroguid] = function(params)
+            getObjectFromGUID(heroguid).setPosition(getObjectFromGUID(vpileguids[params.id]).getPosition())
+        end
+        _G["unlock" .. color .. obj.guid .. heroguid] = function(obj,player_clicker_color)
+            local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+            if attack < 3 then
+                broadcastToColor("You don't have enough attack to beat this cop!",player_clicker_color,player_clicker_color)
+                return nil
+            end
+            getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-3)
             obj.setDescription(obj.getDescription():gsub("\nARTIFACT: Ensures this card is not removed during clean%-up.",""))
             local hero = getObjectFromGUID(heroguid)
             hero.setDescription(hero.getDescription():gsub("\nARTIFACT: Ensures this card is not removed during clean%-up.",""))
             --hero.locked = false
-            obj.setPosition(getObjectFromGUID(vpileguids[color]).getPosition())
+            obj.setPosition(getObjectFromGUID(vpileguids[player_clicker_color]).getPosition())
             obj.clearButtons()
+            local choices = {}
+            local choicecolors = {}
+            for _,o in pairs(Player.getPlayers()) do
+                choices[o.color] = o.color
+                table.insert(choicecolors,o.color)
+            end
+            getObjectFromGUID(pushvillainsguid).Call('offerChoice',{color = player_clicker_color,
+                choices = choices,
+                choicecolors = choicecolors,
+                fsourceguid = self.guid,
+                resolve_function = 'giveHero' .. heroguid})
             --obj.locked = false
         end
         obj.createButton({click_function="unlock" .. color .. obj.guid .. heroguid,

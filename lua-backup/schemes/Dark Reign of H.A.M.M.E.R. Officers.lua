@@ -17,7 +17,8 @@ function onLoad()
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "attackguids"
         }
             
     for _,o in pairs(guids3) do
@@ -81,6 +82,12 @@ function click_buy_hammer(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
+    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+    if attack < 3 then
+        broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-3)
     local hand = Player[player_clicker_color].getHandObjects()
     local shield = {}
     for _,h in pairs(hand) do
@@ -101,11 +108,15 @@ function click_buy_hammer(obj,player_clicker_color)
     end
 end
 
-function resolveTwist(params)
-    local twistsresolved = params.twistsresolved 
-    local cards = params.cards
-    getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
-    if twistsresolved == 1 then
+function updatePower()
+    getObjectFromGUID(pushvillainsguid).Call('updatePower')
+end
+
+function updateButtons()
+    local officers = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])[1]
+    if not officers then
+        getObjectFromGUID(topBoardGUIDs[2]).clearButtons()
+    elseif not getObjectFromGUID(topBoardGUIDs[2]).getButtons() then
         getObjectFromGUID(topBoardGUIDs[2]).createButton({
              click_function="click_buy_hammer", 
              function_owner=self,
@@ -119,6 +130,30 @@ function resolveTwist(params)
              height=200,
              font_size = 100
         })
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{label = 3,
+            tooltip = "Fight these officers for 3 to gain them as heroes.",
+            id = "hammer",
+            zoneguid = topBoardGUIDs[2],
+            ignore_f = "click_buy_hammer"})
+    end
+end
+
+function resolveTwist(params)
+    local twistsresolved = params.twistsresolved 
+    local cards = params.cards
+    getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
+    if twistsresolved == 1 then
+        function onObjectEnterZone(zone,object)
+            if zone.guid == topBoardGUIDs[2] then
+                updateButtons()
+            end
+        end
+
+        function onObjectLeaveZone(zone,object)
+            if zone.guid == topBoardGUIDs[2] then
+                updateButtons()
+            end
+        end
     end
     local sostack = getObjectFromGUID(officerDeckGUID)
     for i = 1,twistsresolved do
