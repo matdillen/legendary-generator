@@ -58,7 +58,7 @@ function resolveTwist(params)
         local hq_cards = {}
         for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
-            table.insert(hq_cards,hero)
+            hq_cards[i] = hero
             if not hasTag2(hero,"Cost:") or hasTag2(hero,"Cost:") ~= hackers + 1 then
                 hq_cards[i] = nil
             end

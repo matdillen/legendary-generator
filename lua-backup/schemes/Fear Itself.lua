@@ -8,14 +8,6 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
-    
-    local guids2 = {
-        "hqguids"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
 end
 
 function table.clone(org,key)
@@ -59,6 +51,9 @@ end
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     
+    if not hqguids then
+        hqguids = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar','hqguids'))
+    end
     if twistsresolved < 8 then
         local candidate = {}
         for i,o in ipairs(hqguids) do

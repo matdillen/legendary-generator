@@ -82,7 +82,7 @@ function updateMMFinFang()
     for _,o in pairs(hccolors) do
         boost = boost + o
     end
-    getObjects(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
         checkvalue = boost,
         label = "-" .. boost,
         tooltip = "Fin Fang Foom gets -2 for each different Hero Class among heroes you have.",

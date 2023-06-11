@@ -37,6 +37,10 @@ function table.clone(org,key)
     end
 end
 
+function killInfinityGemButton2(obj)
+    killInfinityGemButton({obj = obj})
+end
+
 function killInfinityGemButton(params)
     local obj = params.obj
     obj.clearButtons()
@@ -61,6 +65,7 @@ function killInfinityGemButton(params)
             end
         end
     end
+    obj = nil
 end
 
 function shardAllGems()
@@ -98,7 +103,7 @@ function resolveTwist(params)
         if playcontent[1] then
             for _,o in pairs(playcontent) do
                 if o.hasTag("Group:Infinity Gems") then
-                    o.createButton({click_function = 'killInfinityGemButton',
+                    o.createButton({click_function = 'killInfinityGemButton2',
                         function_owner=self,
                         position={0,22,0},
                         label="Pick",
@@ -135,7 +140,7 @@ function resolveTwist(params)
             if discarded[1].hasTag("Group:Infinity Gems") then
                 gemfound = true
                 table.insert(discardGemguids,discarded[1].guid)
-                discarded[1].createButton({click_function = 'killInfinityGemButton',
+                discarded[1].createButton({click_function = 'killInfinityGemButton2',
                         function_owner=self,
                         position={0,22,0},
                         label="Pick",

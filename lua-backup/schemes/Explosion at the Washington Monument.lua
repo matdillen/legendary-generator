@@ -16,7 +16,8 @@ function onLoad()
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "vpileguids"
         }
             
     for _,o in pairs(guids3) do
@@ -34,6 +35,63 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function showFloor(params)
+    local content = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[params.index])
+    local pos = getObjectFromGUID(topBoardGUIDs[params.index]).getPosition()
+    pos.y = pos.y + 2
+    local boombust = function(obj)
+        if obj.hasTag("Bystander") then
+            local vpos = getObjectFromGUID(vpileguids[params.player_clicker_color]).getPosition()
+            vpos.y = vpos.y + 1
+            obj.setPosition(vpos)
+            broadcastToColor("You rescued a bystander from the Monument's " .. params.index .. "th floor!",params.player_clicker_color,params.player_clicker_color)
+        end
+    end
+    for _,o in pairs(content) do
+        if o.is_face_down == true then
+            if o.tag == "Deck" then
+                o.takeObject({position = pos,
+                    flip = true,
+                    callback_function = boombust})
+            else
+                o.flip()
+                boombust(o)
+            end
+        end
+    end
+end
+
+function fightEffect(params)
+    local monument = {}
+    for i,o in pairs(topBoardGUIDs) do
+        monument[i] = getObjectFromGUID(o)
+        local facedownfound = false
+        local content = Global.Call('get_decks_and_cards_from_zone',o)
+        if content[1] then
+            for _,p in pairs(content) do
+                if p.is_face_down == true then
+                    facedownfound = true
+                    break
+                end
+            end
+        end
+        if not facedownfound then
+            monument[i] = nil
+        end
+    end
+    broadcastToColor("You fought a villain, so you can reveal a face-down card from any floor of the monument.",params.color,params.color)
+    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{
+        color = params.color,
+        hand = monument,
+        pos = "Stay",
+        label = "Reveal",
+        tooltip = "Reveal a face-down card from this floor.",
+        isZone = true,
+        fsourceguid = self.guid,
+        trigger_function = 'showFloor',
+        args = "self"})
 end
 
 function resolveTwist(params)

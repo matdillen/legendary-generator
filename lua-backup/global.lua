@@ -188,6 +188,8 @@ function loadGUIDs()
     kopile_guid = "79d60b"
     
     shardspaceguid = "21e3f0"
+    madamehydrazoneguid = "bd3ef1"
+    recruitszoneguid = "d30aa1"
     bszoneguid = "2e5f2b"
     woundszoneguid = "12d37a"
     bindingszoneguid = "9509d4"

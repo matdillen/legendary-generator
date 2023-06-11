@@ -13,6 +13,10 @@ function onLoad()
         "allTopBoardGUIDS",
         "city_zones_guids"
         }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
 end
 
 function resolveTwist(params)
@@ -42,7 +46,7 @@ function resolveTwist(params)
         table.remove(ferryzones,1)
         local bspile = getObjectFromGUID(bystandersPileGUID)
         bspile.setPositionSmooth(getObjectFromGUID(ferryzones[1]).getPosition())
-        local citycards = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[#ferryzones])
+        local citycards = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[#ferryzones+2])
         if citycards[1] then
             for _,o in pairs(citycards) do
                 if o.hasTag("Villain") then

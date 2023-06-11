@@ -35,7 +35,7 @@ function purgeHero(params)
     
     for i,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getHeroUp')
-        if hero and hero.getName() == obj.getName() then
+        if hero and hero.getName() == obj.getName() and i ~= index then
             getObjectFromGUID(pushvillainsguid).Call('koCard',hero)
             getObjectFromGUID(hqguids[i]).Call('click_draw_hero')
         end

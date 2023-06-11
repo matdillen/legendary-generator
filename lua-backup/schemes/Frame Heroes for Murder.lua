@@ -56,11 +56,12 @@ function resolveTwist(params)
             table.insert(incriminating,hasTag2(costs[1],"Cost:"))
         end
         local herotooffer = {}
-        for _,o in pairs(hqguids) do
+        for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
             if not hero then
                 return nil
             end
+            herotooffer[i] = hero
             local addthishero = true
             for _,c in pairs(incriminating) do
                 if hasTag2(hero,"Cost:") == c then
@@ -68,8 +69,8 @@ function resolveTwist(params)
                     break
                 end
             end
-            if addthishero then
-                table.insert(herotooffer,hero)
+            if not addthishero then
+                herotooffer[i] = nil
             end
         end
         if #herotooffer > 1 then

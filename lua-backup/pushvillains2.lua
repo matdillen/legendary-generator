@@ -109,6 +109,7 @@ end
 
 function fetchHQ()
     hqguids_ori = table.clone(hqguids)
+    local extrahq = getObjectFromGUID(setupGUID).Call('returnVar','extrahq')
     hqguids = merge(hqguids,table.clone(extrahq))
 end
 
@@ -867,8 +868,16 @@ function updatePower()
                     else
                         powerButton({obj= object, label = hasTag2(object,"Cost:"),zoneguid = o})
                     end
-                elseif noMoreMutants and object.getName() == "Scarlet Witch (R)" then
-                    powerButton({obj= object, label = hasTag2(object,"Cost:") + 4,zoneguid = o})
+                elseif object.hasTag("Scarlet Witch") then
+                    local boost = 3
+                    if nomoremutants then
+                        boost = 4
+                    end
+                    powerButton({obj= object,
+                        label = "+" .. boost,
+                        zoneguid = o,
+                        tooltip = "This Scarlet Witch villain gets +" .. boost .. ".",
+                        id = "witch"})
                 elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
                     if not goblincount then
                         goblincount = 0
@@ -2495,6 +2504,7 @@ function promptDiscard(params)
     local isZone = params.isZone
     local buttonheight = params.buttonheight or 22
     local fsourceguid = params.fsourceguid
+    local endf = params.endf
     
     local handsize = 0
     for _,o in pairs(handobjects) do
@@ -2569,23 +2579,25 @@ function promptDiscard(params)
                         responses[color] = obj
                     end
                 end
-                if fsourceguid then
-                    if triggerf and args and args == "self" then
-                        getObjectFromGUID(fsourceguid).Call(triggerf,{obj = handobjects[i],
-                            index = i,
-                            player_clicker_color = color})
-                    elseif triggerf and args then
-                        getObjectFromGUID(fsourceguid).Call(triggerf,args)
-                    elseif triggerf then
-                        getObjectFromGUID(fsourceguid).Call(triggerf)
-                    end
-                else
-                    if triggerf and args and args == "self" then
-                        triggerf(obj,i,color)
-                    elseif triggerf and args then
-                        triggerf(args)
-                    elseif triggerf then
-                        triggerf()
+                if not endf or n == 0 then
+                    if fsourceguid then
+                        if triggerf and args and args == "self" then
+                            getObjectFromGUID(fsourceguid).Call(triggerf,{obj = handobjects[i],
+                                index = i,
+                                player_clicker_color = color})
+                        elseif triggerf and args then
+                            getObjectFromGUID(fsourceguid).Call(triggerf,args)
+                        elseif triggerf then
+                            getObjectFromGUID(fsourceguid).Call(triggerf)
+                        end
+                    else
+                        if triggerf and args and args == "self" then
+                            triggerf(obj,i,color)
+                        elseif triggerf and args then
+                            triggerf(args)
+                        elseif triggerf then
+                            triggerf()
+                        end
                     end
                 end
             end

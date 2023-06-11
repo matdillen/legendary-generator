@@ -35,7 +35,10 @@ function onLoad()
         "kopile_guid",
         "twistZoneGUID",
         "pushvillainsguid",
-        "setupGUID"
+        "setupGUID",
+        "shardspaceguid",
+        "madamehydrazoneguid",
+        "recruitszoneguid"
     }
     
     for _,o in pairs(guids1) do
@@ -46,6 +49,16 @@ function onLoad()
         if o == self.guid then
             divided_deck_guid = allTopBoardGUIDS[i+6]
             scriptguid = hqscriptguids[i]
+        end
+    end
+    if not scriptguid then
+        local pos = self.getPosition()
+        if pos.z < 5 then
+            scriptguid = shardspaceguid
+        elseif pos.x < -16 then
+            scriptguid = madamehydrazoneguid
+        else
+            scriptguid = recruitszoneguid
         end
     end
 end
