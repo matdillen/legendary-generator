@@ -132,17 +132,28 @@ function resolveTwist(params)
     manipulations_stacked = manipulations_stacked + 1
     cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
     
-    local messiah = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
-    local messiahcontent = messiah.getObjects()
-    local guids = {messiahcontent[1].guid,messiahcontent[2].guid}
-    getObjectFromGUID(pushvillainsguid).Call('offerCards',{color = Turns.turn_color,
-        pile = messiah,
-        guids = guids,
-        label = "Pick",
-        tooltip = "Pick this card to be bought for its cost + " .. manipulations_stacked .. ".",
-        flip = true,
-        resolve_function = 'gainMessiah',
-        args = "self",
-        fsourceguid = self.guid})
+    Wait.condition(
+        function()
+            local messiah = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+            if messiah and messiah.tag == "Deck" then
+                return true
+            else
+                return false
+            end
+        end,
+        function()
+            local messiah = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+            local messiahcontent = messiah.getObjects()
+            local guids = {messiahcontent[1].guid,messiahcontent[2].guid}
+            getObjectFromGUID(pushvillainsguid).Call('offerCards',{color = Turns.turn_color,
+                pile = messiah,
+                guids = guids,
+                label = "Pick",
+                tooltip = "Pick this card to be bought for its cost + " .. manipulations_stacked .. ".",
+                flip = true,
+                resolve_function = 'gainMessiah',
+                args = "self",
+                fsourceguid = self.guid})
+        end)
     return nil
 end

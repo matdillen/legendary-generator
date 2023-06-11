@@ -57,6 +57,7 @@ function resolveTwist(params)
         getObjectFromGUID(pushvillainsguid).Call('updateCity',{newcity = newcity})
         broadcastToAll("Scheme Twist: The tide rushes in and the city is now only three spaces.")
     else
+        self.locked = false
         self.flip()
         self.setPositionSmooth(getObjectFromGUID(schemeZoneGUID).getPosition())
         getObjectFromGUID(pushvillainsguid).Call('updateCity',{newcity = city_zones_guids})

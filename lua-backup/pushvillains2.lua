@@ -1071,6 +1071,9 @@ end
 
 function cityLowTides()
     lowtideguids = {"d30aa1","bd3ef1"}
+    if not current_city then
+        current_city = table.clone(city_zones_guids)
+    end
     for i = 1,2 do
         table.insert(current_city,lowtideguids[i])
         _G["click_fight_lowtide" .. i] = function(obj,color)
@@ -1323,7 +1326,7 @@ function strikeSpecials(cards,city)
     elseif masterminds[2] then
         broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
         local mmpromptzone = getObjectFromGUID(hqscriptguids[3])
-        local zshift = 0
+        local zshift = 4
         local resolvingStrikes = {}
         for i,o in ipairs(masterminds) do
             resolvingStrikes[i] = i-1
@@ -1386,8 +1389,16 @@ function resolveStrike2(params)
 end
 
 function resolveStrike(mmname,epicness,city,cards,mmoverride)
+    local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
     if mmname:find("Ascended Baron") then
-        local vp = tonumber(mmname:match("%(%d+%)"):match("%d+"))
+        local mmcontent = get_decks_and_cards_from_zone(mmLocations[mmname])
+        local vp = 0
+        for _,o in pairs(mmcontent) do
+            if o.getName():find("Ascended Baron") and hasTag2(o,"VP") then
+                vp = hasTag2(o,"VP")
+                break
+            end
+        end
         for _,o in pairs(Player.getPlayers()) do
             local hand = o.getHandObjects()
             local handi = table.clone(hand)
@@ -1418,7 +1429,6 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         mmloc = mmZoneGUID
         strikeloc = strikeZoneGUID 
     else
-        local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
         if not mmLocations[mmname] then
             broadcastToAll("Mastermind " .. mmname .. " not found?")
             return nil

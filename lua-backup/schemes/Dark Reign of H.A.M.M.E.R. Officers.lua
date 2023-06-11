@@ -87,7 +87,6 @@ function click_buy_hammer(obj,player_clicker_color)
         broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
         return nil
     end
-    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-3)
     local hand = Player[player_clicker_color].getHandObjects()
     local shield = {}
     for _,h in pairs(hand) do
@@ -96,6 +95,7 @@ function click_buy_hammer(obj,player_clicker_color)
         end
     end
     if shield[1] then
+        getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-3)
         broadcastToColor("Discard a SHIELD or HYDRA hero to get SHIELD clearance!",player_clicker_color,player_clicker_color)
         getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = player_clicker_color,
             hand = shield,

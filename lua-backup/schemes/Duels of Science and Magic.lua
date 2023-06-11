@@ -24,6 +24,7 @@ function resolveTwist(params)
             getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color, n = #hand - 4})
         end
         if #players >= #Player.getPlayers()/2 then
+            cards[1].setName("Duel Won")
             getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
             return nil
         end
@@ -35,6 +36,7 @@ function resolveTwist(params)
             getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color, n = #hand - 4})
         end
         if #players >= #Player.getPlayers()/2 then
+            cards[1].setName("Duel Won")
             getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
             return nil
         end
@@ -66,6 +68,7 @@ function resolveTwist(params)
             getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color, n = #hand - 4})
         end
         if #players >= #Player.getPlayers()/2 then
+            cards[1].setName("Duel Won")
             getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
             return nil
         end

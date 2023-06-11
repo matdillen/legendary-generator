@@ -130,6 +130,7 @@ function resolveTwist(params)
         if kidnappedmutants[1] then
             Global.Call('bump',{obj = sidekickdeck})
             kidnappedmutants[1].setPositionSmooth(getObjectFromGUID(sidekickZoneGUID).getPosition())
+            cards[1].setName("Drained Power")
             cards[1].setPositionSmooth(getObjectFromGUID(topBoardGUIDs[1]).getPosition())
             return nil
         end

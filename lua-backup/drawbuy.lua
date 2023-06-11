@@ -186,7 +186,9 @@ function click_draw_hero()
         deckToDrawGUID = heroDeckZoneGUID
     end
     hero_deck = get_decks_and_cards_from_zone(deckToDrawGUID)
-    
+    if not hero_deck[1] then
+        return nil
+    end
     local flip = hero_deck[1].is_face_down
     if scheme.getName() == "Inescapable Kyln Space Prison" then
         flip = not flip

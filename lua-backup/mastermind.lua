@@ -314,6 +314,7 @@ function setupMasterminds(params)
     local epicness = params.epicness
     local tactics = params.tactics
     local lurking = params.lurking
+    local notscripted = params.notscripted
     
     local objname = obj.getName()
     local strikezone = getObjectFromGUID(getStrikeloc(objname))
@@ -359,11 +360,12 @@ function setupMasterminds(params)
         tooltip = "Base power as written on the card.",
         f = 'updatePower',
         id = 'card'})
-    obj.setLuaScript("")
-    obj.reload()
-    strikezone.setLuaScript(script)
-    local newstrikezone = strikezone.reload()
-    Wait.condition(function()
+    if not notscripted then
+        obj.setLuaScript("")
+        obj.reload()
+        strikezone.setLuaScript(script)
+        newstrikezone = strikezone.reload()
+        Wait.condition(function()
             if newstrikezone.getVar("setupMM") then
                 newstrikezone.Call('setupMM',{epicness = epicness})
             end
@@ -375,7 +377,7 @@ function setupMasterminds(params)
                 return false
             end
         end) 
-    
+    end
     if not tactics then
         tactics = 4
     end
@@ -649,14 +651,14 @@ function fightButton(zone)
                     elseif b.label:match("%d+") then
                         power = power - tonumber(b.label:match("%d+"))
                     elseif b.label == "X" then
-                        broadcastToColor("You can't fight this villain right now due to some restriction!",player_clicker_color,player_clicker_color)
+                        broadcastToColor("You can't fight this mastermind right now due to some restriction!",player_clicker_color,player_clicker_color)
                         return nil
                     end
                 end
             end
         end
         if attack < power then
-            broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
+            broadcastToColor("You don't have enough attack to fight this mastermind!",player_clicker_color,player_clicker_color)
             return nil
         end
         getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
@@ -699,7 +701,7 @@ function fightButton(zone)
                     for i,o in ipairs(obj.getButtons()) do
                         if o.click_function:find("fightEffect") or o.click_function == "transformMM" then
                             obj.removeButton(i-1)
-                        elseif o.click_function:find("updateMM") then
+                        elseif o.click_function:find("updateMM") or o.click_function == "updatePower" then
                             obj.removeButton(i-1)
                         elseif o.click_function == "click_update_tactics" then
                             obj.removeButton(i-1)
@@ -922,6 +924,10 @@ function fightMM(zoneguid,player_clicker_color)
                 resolveTactics(name,content[1].getName(),player_clicker_color,true)
                 return nil
             else
+                if content[1].getName():find("Ascended Baron") then
+                    local name = content[1].getName():sub(16,-1):match("[^%b()]+")
+                    content[1].setName(name)
+                end
                 content[1].setPositionSmooth(vppos)
                 if content[1].is_face_down then
                     Wait.time(function() content[1].flip() end,0.8)

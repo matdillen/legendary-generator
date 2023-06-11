@@ -1132,6 +1132,23 @@ function import_setup()
         "5a74e7",
         "40b47d"
         }
+        for i,o in pairs(dividedDeckGUIDs) do
+            local zone = getObjectFromGUID(o)
+            local col = i:sub(4,-1)
+            if col == "Silver" then
+                col = "White"
+            end
+            zone.createButton({click_function='updatePower',
+                function_owner=getObjectFromGUID(pushvillainsguid),
+                position={0,0,0},
+                rotation={0,180,0},
+                label=i:sub(4,4),
+                tooltip="This is the hero deck for all " .. i:sub(4,-1) .. " heroes.",
+                font_size=250,
+                font_color=col,
+                color={0,0,0,0.75},
+                width=10,height=10})
+        end
         for i = 3,7 do
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end

@@ -50,28 +50,27 @@ function nonTwist(params)
     return 1
 end
 
-function fillHQ()
+function fillHQ(params)
     Global.Call('bump',{obj = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1],y = 5})
-    for _,o in pairs(hqguids) do
-        local hero = getObjectFromGUID(o).Call('getHeroUp')
-        if not hero then
-            getObjectFromGUID(o).Call('click_draw_hero')
-            break
-        end
-    end
+    getObjectFromGUID(hqguids[params.index]).Call('click_draw_hero')
 end
 
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     broadcastToAll("Choose a Hero in the HQ that doesn't have a printed Power of 2 or more to be put on the bottom of the Hero Deck.")
     local heroes = {}
-    for _,o in pairs(hqguids) do
+    for i,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getHeroUp')
-        if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
-            table.insert(heroes,hero)
+        if not hero then
+            broadcastToAll("Missing hero in the HQ?")
+            return nil
+        end
+        heroes[i] = hero
+        if hasTag2(hero,"Attack:") and hasTag2(hero,"Attack:") > 1 then
+            heroes[i] = nil
         end
     end
-    if heroes[1] then
+    if next(heroes) then
         getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = Turns.turn_color,
             hand = heroes,
             pos = getObjectFromGUID(heroDeckZoneGUID).getPosition(),
@@ -79,6 +78,7 @@ function resolveTwist(params)
             label = "Tuck",
             tooltip = "Put this hero on the bottom of the hero deck.",
             trigger_function = 'fillHQ',
+            args = "self",
             fsourceguid = self.guid})
     end
     getObjectFromGUID(pushvillainsguid).Call('playVillains',{n=2})

@@ -34,6 +34,26 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function annotateNewMM(obj)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    obj.addTag("Ascended")
+    local objname = "Ascended Baron " .. obj.getName() .. " (" .. obj.guid .. ")"
+    obj.setName(objname)
+    mmZone.Call('updateMasterminds',objname)
+    mmZone.Call('updateMastermindsLocation',{objname,mmpos})
+    mmZone.Call('setupMasterminds',{obj = obj,
+        epicness = false,
+        tactics = 0,
+        notscripted = true})
+    mmZone.Call('mmButtons',
+        {mmname = objname,
+        checkvalue = 1,
+        label = "+2",
+        tooltip = "An ascended baron gets +2.",
+        f = "mm",
+        id = "baron"})
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local city = params.city
@@ -41,7 +61,7 @@ function resolveTwist(params)
     local maxpower = 0
     local toAscend = nil
     local ascendCard = nil
-    local mmpos = getObjectFromGUID(mmZoneGUID).Call('getNextMMLoc')
+    mmpos = getObjectFromGUID(mmZoneGUID).Call('getNextMMLoc')
     if twistsresolved < 8 then
         for _,o in pairs(city) do
             local citycards = Global.Call('get_decks_and_cards_from_zone',o)
@@ -87,17 +107,6 @@ function resolveTwist(params)
         end
         if toAscend then
             if escapee == true then
-                local annotateNewMM = function(obj)
-                    local mmZone = getObjectFromGUID(mmZoneGUID)
-                    obj.addTag("Ascended")
-                    getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-                        label = hasTag2(obj,"Power:")+2,
-                        tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
-                    mmZone.Call('fightButton',mmpos)
-                    local vp = hasTag2(obj,"VP") or 0
-                    mmZone.Call('updateMasterminds',"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
-                    mmZone.Call('updateMastermindsLocation',{"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")",mmpos})
-                end
                 escapedcards[1].takeObject({position = getObjectFromGUID(mmpos).getPosition(),
                     guid = toAscend,
                     callback_function = annotateNewMM})
@@ -109,18 +118,10 @@ function resolveTwist(params)
                     if o.getDescription():find("LOCATION") then
                         table.remove(vilgroup,i)
                     elseif hasTag2(o,"Power:") then
-                        o.addTag("Ascended")
                         power = power + hasTag2(o,"Power:")
                     end
                 end
-                local mmZone = getObjectFromGUID(mmZoneGUID)
-                getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = ascendCard,
-                    label = power+2,
-                    tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
-                mmZone.Call('fightButton',mmpos)
-                local vp = hasTag2(ascendCard,"VP") or 0
-                mmZone.Call('updateMasterminds',"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")")
-                mmZone.Call('updateMastermindsLocation',{"Ascended Baron " .. ascendCard.getName() .. "(" .. vp .. ")",mmpos})
+                annotateNewMM(ascendCard)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(vilgroup),
                     targetZone = getObjectFromGUID(mmpos),
                     enterscity = 1,
@@ -154,35 +155,14 @@ function resolveTwist(params)
                             toAscend = o
                         end
                     end
-                    local mmpos = getObjectFromGUID(mmZoneGUID).Call('getNextMMLoc')
                     if toAscend and mmpos then
                         broadcastToAll("Scheme Twist: Villain from " .. i .. "'s victory pile ascends!",i)
                         if vpilecontent[1].tag == "Deck" then
-                            local annotateNewMM = function(obj)
-                                local mmZone = getObjectFromGUID(mmZoneGUID)
-                                obj.addTag("Ascended")
-                                getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-                                    label = hasTag2(obj,"Power:")+2,
-                                    tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
-                                mmZone.Call('fightButton',mmpos)
-                                local vp = hasTag2(obj,"VP") or 0
-                                mmZone.Call('updateMasterminds',"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")")
-                                mmZone.Call('updateMastermindsLocation',{"Ascended Baron " .. obj.getName() .. "(" .. vp .. ")",mmpos})
-                            end
                             vpilecontent[1].takeObject({position = getObjectFromGUID(mmpos).getPosition(),
                                 guid=toAscend,
                                 callback_function = annotateNewMM})
                         else
-                            vpilecontent[1].addTag("Ascended")
-                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = vpilecontent[1],
-                                label = hasTag2(vpilecontent[1],"Power:")+2,
-                                tooltip = "This villain has ascended to become an Ascended Baron Mastermind and gets +2."})
-                            vpilecontent[1].setPositionSmooth(getObjectFromGUID(mmpos).getPosition())
-                            local mmZone = getObjectFromGUID(mmZoneGUID)
-                            mmZone.Call('fightButton',mmpos)
-                            local vp = hasTag2(ascendCard,"VP") or 0
-                            mmZone.Call('updateMasterminds',"Ascended Baron " .. vpilecontent[1].getName() .. "(" .. vp .. ")")
-                            mmZone.Call('updateMastermindsLocation',{"Ascended Baron " .. vpilecontent[1].getName() .. "(" .. vp .. ")",mmpos})
+                            annotateNewMM(vpilecontent[1])
                         end
                     elseif not toAscend then
                         broadcastToAll("Scheme Twist: No villains found in victory piles?")
