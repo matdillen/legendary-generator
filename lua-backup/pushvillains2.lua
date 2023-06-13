@@ -3096,13 +3096,14 @@ function offerChoice(params)
     end
     
     local playzone = getObjectFromGUID(discardguids[color])
-    local zshift = -1
+    local zshift = -2
     local xshift = 0
     local iter = 0
     for i,o in pairs(choices) do
         iter = iter + 1
         if iter % 3 == 0 then
             xshift = xshift + 1
+            zshift = -2
         end
         _G["resolveChoice" .. i .. color] = function(obj)
             n = n-1
@@ -3122,7 +3123,8 @@ function offerChoice(params)
             end
             if fsourceguid then
                 getObjectFromGUID(fsourceguid).Call(resolve_function,{id = i,
-                    color = color})
+                    color = color,
+                    n = n})
             else
                 resolve_function()
             end
