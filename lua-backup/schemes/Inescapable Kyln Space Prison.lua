@@ -40,25 +40,37 @@ end
 function imprisonandmix()
     for _,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getHeroUp')
-        if hero then
+        if hero.is_face_down == false then
             hero.flip()
         end
     end
+    local pos = getObjectFromGUID(hqguids[1]).getPosition()
     for _,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getCards')
-        hero[1].setPosition(getObjectFromGUID(hqguids[1]).getPosition())
+        pos.y = pos.y + 1
+        hero[1].setPositionSmooth(pos)
     end
-    Wait.time(
+    Wait.condition(
         function()
-            local heroes = Global.Call('get_decks_and_cards_from_zone',hqguids[1])[1]
+            local heroes = getObjectFromGUID(hqguids[1]).Call('getCards')[1]
             heroes.randomize()
             for i=1,4 do
-                heroes.takeObject({position = getObjectFromGUID(hqguids[i+1]).getPosition(),
+                local pos = getObjectFromGUID(hqguids[i+1]).getPosition() 
+                pos.y = pos.y + 1
+                heroes.takeObject({position = pos,
                     smooth = true,
-                    flip = false,
-                    callback_function = 'imprison'})
+                    flip = false})
             end
-        end,0.5)
+            imprison()
+        end,
+        function()
+            local heroes = getObjectFromGUID(hqguids[1]).Call('getCards')[1]
+            if heroes and heroes.getQuantity() == 5 then
+                return true
+            else
+                return false
+            end
+        end)
 end
 
 function imprison()
@@ -68,7 +80,8 @@ function imprison()
             click_function = 'liberate',
             function_owner = self,
             label = "Liberate",
-            tooltip = "Liberate for 1 attack."})
+            tooltip = "Liberate for 1 attack.",
+            color = "Red"})
     end
 end
 
@@ -82,8 +95,15 @@ function liberate(obj,player_clicker_color)
             click_function = 'click_buy_hero',
             function_owner = obj,
             label = "Buy hero",
-            tooltip = ""})
-        getObjectFromGUID(attackguids[player_clicker_color]).Call('updateVal',-1)
+            tooltip = "",
+            color = "White"})
+        getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-1)
+        local hero = obj.Call('getCards')
+        if not hero[1] then
+            return nil
+        else
+            hero[1].flip()
+        end
     end
 end
 
@@ -95,7 +115,7 @@ function escapePlan(obj,player_clicker_color)
             return nil
         else
             self.clearButtons()
-            getObjectFromGUID(attackguids[player_clicker_color]).Call('updateVal',-val)
+            getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-val)
         end
     elseif color == "Yellow" then
         local attack = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
@@ -104,7 +124,7 @@ function escapePlan(obj,player_clicker_color)
             return nil
         else
             self.clearButtons()
-            getObjectFromGUID(resourceguids[player_clicker_color]).Call('updateVal',-val)
+            getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-val)
         end
     end
 end
@@ -135,23 +155,20 @@ function resolveTwist(params)
     end
     
     local toolt = "Spend " .. val .. " this turn to acquire " .. component
-    
     self.createButton({click_function='escapePlan',
         function_owner=self,
-        position={0,0,-1},
-        rotation={0,180,0},
+        position={0,1,0.5},
         scale = {1,1,0.5},
         label="Plan",
         tooltip=toolt,
         font_size=300,
         font_color={0,0,0},
         color={1,1,1},
-        width=250,height=150})
+        width=750,height=350})
     self.createButton({click_function='dummy',
         function_owner=self,
-        position={0,0,-1},
-        rotation={0,180,0},
-        scale = {1,1,0.5},
+        position={0,1,-0.5},
+        scale = {1,1,1},
         label=val,
         tooltip="",
         font_size=300,
@@ -164,7 +181,7 @@ function resolveTwist(params)
         if self.getButtons() then
             self.clearButtons()
             getObjectFromGUID(pushvillainsguid).Call('getWound',oldcolor)
-            
+            imprisonandmix()
         end
     end
     local turnchange = function()

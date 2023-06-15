@@ -1522,50 +1522,6 @@ function schemeSpecials ()
         for i = 3,7 do
             mmZone.Call('lockTopZone',topBoardGUIDs[i])
         end
-        function onObjectEnterZone(zone,object)
-            if object.hasTag("Bystander") then
-                for i = 3,7 do
-                    local content = get_decks_and_cards_from_zone(topBoardGUIDs[i])
-                    local zone = getObjectFromGUID(topBoardGUIDs[i])
-                    if content[1] and not zone.getButtons() then
-                        zone.createButton({click_function='returnColor',
-                            function_owner=self,
-                            position={0,0,0},
-                            rotation={0,180,0},
-                            label="2",
-                            tooltip="Fight this hypnotized bystander for 2 to rescue it.",
-                            font_size=350,
-                            font_color={1,0,0},
-                            color={0,0,0,0.75},
-                            width=250,height=250})
-                    elseif not content[1] and zone.getButtons() then
-                        zone.clearButtons()
-                    end
-                end
-            end
-        end
-        function onObjectLeaveZone(zone,object)
-            if object.hasTag("Bystander") then
-                for i = 3,7 do
-                    local content = get_decks_and_cards_from_zone(topBoardGUIDs[i])
-                    local zone = getObjectFromGUID(topBoardGUIDs[i])
-                    if content[1] and not zone.getButtons() then
-                        zone.createButton({click_function='returnColor',
-                            function_owner=self,
-                            position={0,0,0},
-                            rotation={0,180,0},
-                            label="2",
-                            tooltip="Fight this hypnotized bystander for 2 to rescue it.",
-                            font_size=350,
-                            font_color={1,0,0},
-                            color={0,0,0,0.75},
-                            width=250,height=250})
-                    elseif not content[1] and zone.getButtons() then
-                        zone.clearButtons()
-                    end
-                end
-            end
-        end
     end
     if setupParts[1] == "Infiltrate the Lair with Spies" then
         log("21 bystanders next to scheme")

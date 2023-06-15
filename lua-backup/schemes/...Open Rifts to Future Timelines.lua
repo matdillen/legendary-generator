@@ -175,7 +175,7 @@ function resolveTwist(params)
         Wait.condition(villainpush,vildelay)
     elseif vildeck and vildeck.hasTag("Villain") then
         getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')
-        pushvil(vildeck)
+        pushVil(vildeck)
     end
     return nil
 end

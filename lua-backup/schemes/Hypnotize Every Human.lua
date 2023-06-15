@@ -10,7 +10,9 @@ function onLoad()
     end
     
     local guids2 = {
-        "allTopBoardGUIDS"
+        "allTopBoardGUIDS",
+        "topBoardGUIDs",
+        "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
@@ -18,7 +20,8 @@ function onLoad()
     end
     
     local guids3 = {
-        "vpileguids"
+        "vpileguids",
+        "attackguids"
         }
             
     for _,o in pairs(guids3) do
@@ -40,6 +43,73 @@ end
 
 function moveToEscape(params)
     params.obj.setPosition(getObjectFromGUID(escape_zone_guid).getPosition())
+end
+
+function stopHypno(obj,player_clicker_color)
+    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+    if attack < 2 then
+        broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    local content = Global.Call('get_decks_and_cards_from_zone',obj.guid)[1]
+    if not content then
+        return nil
+    end
+    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-2)
+    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
+    dest.y = dest.y + 3
+    if content.tag == "Deck" then
+        content.takeObject({position = dest,
+            flip = true})
+    else
+        content.flip()
+        content.setPosition(dest)
+    end
+end
+
+function hypnobuttons(zone,object)
+    if object.hasTag("Bystander") then
+        for i = 3,7 do
+            local content = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[i])
+            local zone = getObjectFromGUID(topBoardGUIDs[i])
+            if content[1] and not zone.getButtons() then
+                zone.createButton({click_function='updatePower',
+                    function_owner=getObjectFromGUID(pushvillainsguid),
+                    position={0,0,0},
+                    rotation={0,180,0},
+                    label="2",
+                    tooltip="Fight this hypnotized bystander for 2 to rescue it.",
+                    font_size=200,
+                    font_color={1,0,0},
+                    color={0,0,0,0.75},
+                    width=250,height=250})
+                zone.createButton({
+                    click_function="stopHypno", function_owner=self,
+                    position={0,0,-0.4}, rotation = {0,180,0}, label="Fight", 
+                    tooltip = "Rescue the hypnotized bystander by fighting them for 2.", color={1,0,0,0.9}, 
+                    font_color = {0,0,0}, width=600, height=150,
+                    font_size = 75
+                })
+                getObjectFromGUID(city_zones_guids[9-i]).Call('updateZonePower',{label = "X",
+                    tooltip = "A hypnotized bystander prevents you from fighting this villain.",
+                    id = "hypnotized"})
+            elseif not content[1] and zone.getButtons() then
+                zone.clearButtons()
+                getObjectFromGUID(city_zones_guids[9-i]).Call('updateZonePower',{label = "+0",
+                    tooltip = "All hypnotized bystanders are cleared.",
+                    id = "hypnotized"})
+            end
+            getObjectFromGUID(city_zones_guids[9-i]).Call('updatePower')
+        end
+    end
+end
+
+function onObjectEnterZone(zone,object)
+    hypnobuttons(zone,object)
+end
+
+function onObjectLeaveZone(zone,object)
+    hypnobuttons(zone,object)
 end
 
 function resolveTwist(params)

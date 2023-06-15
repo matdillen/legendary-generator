@@ -22,8 +22,9 @@ function hasTag2(obj,tag,index)
 end
 
 function nonTwist(params)
-    if params.obj.getName() == "Scarlet Witch (R)" then
-        obj.addTag("Power:" .. hasTag2(params.obj,"Cost:"))
+    local obj = params.obj
+    if obj.getName() == "Scarlet Witch (R)" then
+        obj.addTag("Power:" .. hasTag2(obj,"Cost:"))
         obj.addTag("Villain")
         obj.addTag("Scarlet Witch")
     end

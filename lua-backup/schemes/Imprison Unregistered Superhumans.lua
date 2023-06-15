@@ -26,20 +26,14 @@ function resolveTwist(params)
     if twistsresolved % 2 == 1 and twistsresolved < 10 then
         local id = math.modf(twistsresolved/2)
         if twistsresolved > 2 then
-            getObjectFromGUID(fortifiedCityZoneGUID).clearButtons()
+            getObjectFromGUID(fortifiedCityZoneGUID).Call('updateZonePower',{label = "+0",
+                tooltip = "No longer fortified.",
+                id = "imprison"})
         end
         fortifiedCityZoneGUID = city_zones_guids[6 - id]
-        local fortifiedCityZone = getObjectFromGUID(fortifiedCityZoneGUID)
-        fortifiedCityZone.createButton({click_function="updatePower",
-            function_owner=getObjectFromGUID(pushvillainsguid),
-            position={0,0,0},
-            rotation={0,180,0},
-            label="+1",
-            tooltip="Click to update villain's power!",
-            font_size=350,
-            font_color={1,0,0},
-            color={0,0,0,0.75},
-            width=250,height=250})
+        getObjectFromGUID(fortifiedCityZoneGUID).Call('updateZonePower',{label = "+1",
+            tooltip = "Fortified by the scheme.",
+            id = "imprison"})
     else
         local citycards = Global.Call('get_decks_and_cards_from_zone',fortifiedCityZoneGUID)
         if citycards[1] then

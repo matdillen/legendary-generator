@@ -203,7 +203,7 @@ function click_draw_hero()
         return nil
     end
     local flip = hero_deck[1].is_face_down
-    if scheme.getName() == "Inescapable Kyln Space Prison" then
+    if scheme.getName() == "Inescapable \"Kyln\" Space Prison" then
         flip = not flip
     end
     if scheme.getName() == "Go Back in Time to Slay Heroes' Ancestors" then
@@ -228,7 +228,7 @@ function click_draw_hero()
                 end
             end
         end
-    elseif scheme.getName() == "Inescapable Kyln Space Prison" then
+    elseif scheme.getName() == "Inescapable \"Kyln\" Space Prison" then
         purge = function()
             scheme.Call('imprison')
         end
@@ -240,12 +240,14 @@ function click_draw_hero()
         if hero_deck[1].tag == "Deck" then
             takeParams = {
                 position = pos,
-                flip = hero_deck[1].is_face_down,
+                flip = flip,
                 callback_function = purge
             }
             hero_deck[1].takeObject(takeParams)
         else
-            hero_deck[1].flip()
+            if flip then
+                hero_deck[1].flip()
+            end
             hero_deck[1].setPositionSmooth(pos)
         end
     else

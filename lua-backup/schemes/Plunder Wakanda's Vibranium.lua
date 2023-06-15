@@ -39,6 +39,7 @@ end
 
 function resolveTwist(params) 
     local cards = params.cards
+    local city = params.city
     
     cards[1].setName("Vibranium")
     cards[1].setTags({"Villainous Weapon","VP3"})
