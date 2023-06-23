@@ -843,7 +843,11 @@ function updatePower()
                         tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
                         id="corrupted"})
                 elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
-                    powerButton({obj= object, label = twistsstacked,zoneguid = o, tooltip = "This bystander is a Killbot and has power equal to the number of twists stacked next to the scheme."})
+                    powerButton({obj= object, 
+                        label = twistsstacked,
+                        zoneguid = o, 
+                        tooltip = "This bystander has power equal to the number of twists stacked next to the scheme.",
+                        id = "twistsstacked"})
                 elseif object.hasTag("Brainwashed") then
                     powerButton({obj= object,
                         label = "+" .. twistsstacked+3,
@@ -883,7 +887,19 @@ function updatePower()
                         goblincount = 0
                     end
                     powerButton({obj= object, label = hasTag2(object,"Cost:") + goblincount,zoneguid = o})
-                elseif object.getName() == "S.H.I.E.L.D. Assault Squad" or object.hasTag("Ambition") or object.hasTag("Super Sentinel") then
+                elseif object.hasTag("Assault Squad") then
+                    powerButton({obj= object, 
+                        label = "+" .. twistsstacked,
+                        id="twistsStacked",
+                        tooltip="Assault squads have War Machine Armor and get +1 for each twist that has been played.",
+                        zoneguid = o})
+                elseif object.hasTag("Super Sentinel") then
+                    powerButton({obj= object, 
+                        label = "+" .. twistsstacked,
+                        id="twistsStacked",
+                        tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
+                        zoneguid = o})
+                elseif object.hasTag("Ambition") then
                     powerButton({obj= object, label = "+" .. twistsstacked,id="twistsStacked",zoneguid = o})
                 elseif object.getName() == "Graveyard" and object.hasTag("Location") then
                     for _,obj in pairs(cityobjects) do

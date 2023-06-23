@@ -31,13 +31,8 @@ end
 
 function nonTwist(params)
     local obj = params.obj
-    
     if obj.getName() == "Sentinel" then
         obj.addTag("Super Sentinel")
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = "+" .. params.twistsstacked,
-            tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
-            id = "twistsStacked"})
     end
     return 1
 end
@@ -82,21 +77,21 @@ function resolveTwist(params)
             end
         end
     end
-    local sentinelsAdded = function()
-        local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
-        if vildeck and vildeck.getQuantity() == vildeckcurrentcount + sentinelsfound then
-            return true
-        else
-            return false
-        end
-    end
-    local sentinelsNext = function()
-        if sentinelsfound > 0 then
-            Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1].randomize()
-        end
-        getObjectFromGUID(pushvillainsguid).Call('playVillains')
-        getObjectFromGUID(pushvillainsguid).Call('updatePower')
-    end
-    Wait.condition(sentinelsNext,sentinelsAdded)
+    Wait.condition(
+        function()
+            if sentinelsfound > 0 then
+                Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1].randomize()
+            end
+            getObjectFromGUID(pushvillainsguid).Call('playVillains')
+            getObjectFromGUID(pushvillainsguid).Call('updatePower')
+        end,
+        function()
+            local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+            if vildeck and vildeck.getQuantity() == vildeckcurrentcount + sentinelsfound then
+                return true
+            else
+                return false
+            end
+        end)
     return nil
 end

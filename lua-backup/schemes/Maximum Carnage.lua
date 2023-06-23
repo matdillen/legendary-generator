@@ -17,6 +17,13 @@ function onLoad()
     end
 end
 
+function possessedPsychotic(obj)
+    obj.addTag("Possessed")
+    obj.addTag("Villain")
+    obj.removeTag("Bystander") -- complicates vp count!!
+    getObjectFromGUID(pushvillainsguid).Call('updatePower')
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
@@ -33,17 +40,8 @@ function resolveTwist(params)
         end
     end
     local bsPile = Global.Call('get_decks_and_cards_from_zone',bszoneguid)[1]
-    local possessedPsychotic = function(obj)
-        obj.addTag("Possessed")
-        obj.addTag("Villain")
-        obj.removeTag("Bystander") -- complicates vp count!!
-         getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = twistsstacked,
-            tooltip = "This bystander has become possessed psychotic and is a villain with power equal to the number of stacked twists."})
-        getObjectFromGUID(pushvillainsguid).Call('updatePower')
-    end
     bsPile.takeObject({position = getObjectFromGUID(city_zones_guids[5]).getPosition(),
         flip=true,
-        callback_function=possessedPsychotic})
+        callback_function = possessedPsychotic})
     return nil
 end

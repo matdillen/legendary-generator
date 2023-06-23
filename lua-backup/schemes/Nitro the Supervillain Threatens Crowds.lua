@@ -26,11 +26,14 @@ function resolveTwist(params)
                     getObjectFromGUID(pushvillainsguid).Call('koCard',object)
                     broadcastToAll("Scheme Twist: Bystander KO'd from city!")
                 elseif object.hasTag("Villain") then
-                    if powerspace == o then
-                        power = power + hasTag2(object,"Power:")
-                    elseif hasTag2(object,"Power:") > power then
-                        powerspace = o
-                        power = hasTag2(object,"Power:")
+                    for i,b in pairs(getObjectFromGUID(o).getButtons()) do
+                        if b.click_function == "updatePower" then
+                            if b.label > power then
+                                power = b.label
+                                powerspace = o
+                                break
+                            end
+                        end
                     end
                 end
             end

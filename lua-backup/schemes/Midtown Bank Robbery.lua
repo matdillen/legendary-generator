@@ -29,6 +29,6 @@ function resolveTwist(params)
             end
         end
     end
-    getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')
+    getObjectFromGUID(pushvillainsguid).Call('playVillains')
     return twistsresolved
 end

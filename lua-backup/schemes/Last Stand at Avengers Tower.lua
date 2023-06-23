@@ -44,22 +44,11 @@ function resolveTwist(params)
     local cards = params.cards
 
     getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
-    if twistsresolved == 1 then
-        --may want to modify scale or dimensions
-        getObjectFromGUID(city_zones_guids[4]).createButton({click_function="updatePower",
-            function_owner=getObjectFromGUID(pushvillainsguid),
-            position={0,0,0},
-            rotation={0,180,0},
-            label="+1",
-            tooltip="Stark defenses extra Attack",
-            font_size=350,
-            font_color="Red",
-            color={0,0,0,0.75},
-            width=250,height=200})
-    else
-        getObjectFromGUID(city_zones_guids[4]).editButton({index=0,
-            label="+" .. twistsresolved})
-    end
+    getObjectFromGUID(city_zones_guids[4]).Call('updateZonePower', {
+        label = twistsresolved,
+        tooltip = "This villain gets +1 for each StarkTech Defense.",
+        id = "starktech"
+    })
     local citycards = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[4])
     if citycards[1] then
         for _,o in pairs(citycards) do
@@ -70,6 +59,9 @@ function resolveTwist(params)
                     local hero = getObjectFromGUID(obj).Call('getHeroUp')
                     if hero then
                         table.insert(heroes,hero)
+                    else
+                        broadcastToAll("Missing hero in the hq")
+                        return nil
                     end
                 end
                 getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = Turns.turn_color,

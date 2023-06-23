@@ -10,7 +10,8 @@ function onLoad()
     
     local guids3 = {
         "playerBoards",
-        "resourceguids"
+        "resourceguids",
+        "vpileguids"
     }
     
     for _,o in pairs(guids3) do
@@ -107,13 +108,11 @@ function click_buy_hero(obj, player_clicker_color)
     else
         getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
         local desc = card.getDescription()
-        local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
-        if not schemeParts then
-            printToAll("No scheme specified!")
-            schemeParts = {"no scheme"}
+        if not scheme then
+            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
         end
         
-        if desc:find("WALL%-CRAWL") or schemeParts[1] == "Splice Humans with Spider DNA" then
+        if desc:find("WALL%-CRAWL") or scheme.getName() == "Splice Humans with Spider DNA" then
             pos = pos_draw
             card.flip()
         elseif desc:find("SOARING FLIGHT") then
@@ -121,10 +120,16 @@ function click_buy_hero(obj, player_clicker_color)
         else 
             pos = pos_discard
         end
+
+        if scheme.getVar("buyEffect") then
+            scheme.Call('buyEffect',{obj = obj,
+                color = player_clicker_color})
+        end
         
         local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
         local dest = playerBoard.positionToWorld(pos)
-        card.setPositionSmooth({x=dest.x,y=dest.y+3,z=dest.z})
+        dest.y = dest.y+3
+        card.setPositionSmooth(dest)
         
         click_draw_hero()
     end
@@ -173,12 +178,10 @@ end
 
 function tuckHero()
     local hero = getHero(false)
-    local schemeParts = getObjectFromGUID("912967").Call('returnSetupParts')
-    if not schemeParts then
-        printToAll("No scheme specified!")
-        schemeParts = {"no scheme"}
+    if not scheme then
+        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
     end
-    if schemeParts[1] == "Divide and Conquer" then
+    if scheme.getName() == "Divide and Conquer" then
         deckToDrawGUID = divided_deck_guid
     else
         deckToDrawGUID = heroDeckZoneGUID

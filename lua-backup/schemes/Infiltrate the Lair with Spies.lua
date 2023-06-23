@@ -16,6 +16,35 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+
+    local guids3 = {
+        "vpileguids"
+        }
+            
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
+    end
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
+end
+
+function buyEffect(params)
+    local bs = params.obj.Call('getBystander')
+    if bs then
+        local vpos = getObjectFromGUID(vpileguids[params.color]).getPosition()
+        vpos.y = vpos.y + 2
+        bs.setPositionSmooth(vpos)
+    end
 end
 
 function resolveTwist(params)

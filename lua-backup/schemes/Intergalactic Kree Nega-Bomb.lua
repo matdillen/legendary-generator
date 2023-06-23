@@ -18,7 +18,8 @@ function onLoad()
     end
     
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "vpileguids"
         }
             
     for _,o in pairs(guids3) do
@@ -71,18 +72,8 @@ function resolveTwist(params)
             end
         else
             broadcastToAll("Scheme Twist: Nega Bomb detonation averted (for now) and bystander rescued.")
-            local pcolor = Turns.turn_color
-            if pcolor == "White" then
-                angle = 90
-            elseif pcolor == "Blue" then
-                angle = -90
-            else
-                angle = 180
-            end
-            local brot = {x=0, y=angle, z=0}
-            local playerBoard = getObjectFromGUID(playerBoards[pcolor])
-            local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
-            dest.y = dest.y + 3
+            local dest = getObjectFromGUID(vpileguids[Turns.turn_color]).getPosition()
+            dest.y = dest.y + 2
             negabomb.takeObject({position=dest,
                 flip=true})
         end
