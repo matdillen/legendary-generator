@@ -1,11 +1,9 @@
 function onLoad()
-    vildeckcount = 0
-    wwiiInvasion = false
-    
     local guids1 = {
         "pushvillainsguid",
         "twistZoneGUID",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "kopile_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -21,6 +19,7 @@ function onLoad()
     end
     
     local guids3 = {
+        "playerBoards",
         "playguids"
         }
         

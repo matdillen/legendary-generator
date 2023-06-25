@@ -11,7 +11,8 @@ function onLoad()
     local guids3 = {
         "playerBoards",
         "resourceguids",
-        "vpileguids"
+        "vpileguids",
+        "attackguids"
     }
     
     for _,o in pairs(guids3) do
@@ -73,9 +74,21 @@ function toggleButton()
     end
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="Buy hero", color={1,1,1,1}, width=2000, height=1000,
-         font_size = 250
+         position={0,0.01,4}, label="Buy hero", color="Yellow", width=2000, height=1000,
+         font_size = 250, tooltip = "Buy this hero."
     })
+end
+
+function updateVar1(params)
+    _G[params.name] = params.value
+end
+
+function updateVar2(params)
+    _G[params.name] = table.clone(params.value)
+end
+
+function updateVar3(params)
+    _G[params.name] = table.clone(params.value,true)
 end
 
 function table.clone(org,key)
@@ -99,18 +112,21 @@ function click_buy_hero(obj, player_clicker_color)
     if not card then
         return nil
     end
-    
+    if not scheme then
+        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+    end
+
     local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
     local cost = hasTag2(card,"Cost:") or 0
+    if scheme.getVar("heroTax") then
+        cost = cost + scheme.Call('heroTax')
+    end
     if recruit < cost then
         broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
         return nil
     else
         getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
         local desc = card.getDescription()
-        if not scheme then
-            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
-        end
         
         if desc:find("WALL%-CRAWL") or scheme.getName() == "Splice Humans with Spider DNA" then
             pos = pos_draw

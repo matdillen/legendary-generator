@@ -27,16 +27,12 @@ function nonTwist(params)
     local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
     
     if obj.getName() == schemeParts[9] then
-        obj.setName("Smugglers")
+        obj.addTag("Smugglers")
         if obj.getDescription() == "" then
             obj.setDescription("STRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
         else
             obj.setDescription(obj.getDescription() .. "\r\nSTRIKER: Get 1 extra Power for each Master Strike in the KO pile or placed face-up in any zone.")
         end
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = "+" .. params.strikesresolved,
-            tooltip = "Smuggler villains have striker and thus get +1 for each master strike resolved.",
-            id = "striker"})
     end
     return 1
 end

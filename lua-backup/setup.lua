@@ -1600,9 +1600,16 @@ function schemeSpecials ()
     if setupParts[1] == "Save Humanity" then
         local saveHumanity = function()
             local bsPile = getObjectFromGUID(bystandersPileGUID)
+            bsPile.randomize()
+            local pos = heroZone.getPosition()
+            pos.y = pos.y + 1
             for i=1,24 do
-                bsPile.takeObject({position = heroZone.getPosition(),
-                    smooth=false})
+                bsPile.takeObject({position = pos,
+                    smooth=false,
+                callback_function = function(obj)
+                        obj.addTag("Cost:2")
+                    end})
+                pos.y = pos.y + 0.1
             end
         end
         broadcastToAll("Save Humanity: Adding bystanders to the hero deck, please wait...")

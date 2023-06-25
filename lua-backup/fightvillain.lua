@@ -56,6 +56,18 @@ function toggleButton()
     end
 end
 
+function updateVar1(params)
+    _G[params.name] = params.value
+end
+
+function updateVar2(params)
+    _G[params.name] = table.clone(params.value)
+end
+
+function updateVar3(params)
+    _G[params.name] = table.clone(params.value,true)
+end
+
 function table.clone(org,key)
     if key then
         local new = {}
@@ -232,6 +244,9 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
         scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
     end
     local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
+    if obj.hasTag("gainAsHero") then
+        dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
+    end
     dest.y = dest.y + 3
     
     for i,obj in pairs(cards) do

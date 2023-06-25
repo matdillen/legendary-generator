@@ -37,10 +37,9 @@ function nonTwist(params)
     local obj = params.obj
     
     if hasTag2(obj,"Cost:") then
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = hasTag2(obj,"Cost:")+2,
-            tooltip = "This hero is a Skrull Shapeshifter and has power equal to its cost +2. Gain it if you fight it."})
         obj.addTag("Villain")
+        obj.addTag("Power:" .. hasTag2(obj,"Cost:")+2)
+        obj.addTag("gainAsHero")
     end
     return 1
 end

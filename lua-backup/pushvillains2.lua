@@ -860,7 +860,7 @@ function updatePower()
                         zoneguid = o,
                         id = "conquests",
                         tooltip = "This Phalanx-Infected villain gets +1 for each two twists stacked as conquests."})
-                elseif object.getName() == "Smugglers" then
+                elseif object.hasTag("Smugglers") then
                     powerButton({obj= object, 
                         label = "+" .. strikesresolved,
                         id="striker",
@@ -3109,6 +3109,12 @@ function offerChoice(params)
     
     if not color or not choices or not resolve_function then
         return nil
+    end
+
+    if not choices[1] and choices == "players" then
+        for _,o in pairs(Player.getPlayers()) do
+            choices[o.color] = o.color
+        end
     end
     
     local playzone = getObjectFromGUID(discardguids[color])
