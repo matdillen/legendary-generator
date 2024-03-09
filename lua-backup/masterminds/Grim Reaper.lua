@@ -36,6 +36,27 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function bonusInCity(params)
+    if params.object.getName() == "Graveyard" and params.object.hasTag("Location") then
+        local cityobjects = Global.Call('get_decks_and_cards_from_zone',params.zoneguid)
+        for _,obj in pairs(cityobjects) do
+            if obj.hasTag("Villain") then
+                getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+                    label = "+" .. 2, 
+                    id = "villainPresent",
+                    tooltip = "Graveyard gets +2 if there's a villain there.",
+                    zoneguid = params.zoneguid})
+                return nil
+            end
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = "",
+            id = "villainPresent",
+            tooltip = "Graveyard does not get +2 if there's no villain there.",
+            zoneguid = params.zoneguid})
+    end
+end
+
 function updateMMReaper()
     local locationcount = 0
     for _,o in pairs(city_zones_guids) do
@@ -109,9 +130,6 @@ function resolveStrike(params)
         cards[1].addTag("VP" .. 5 + reaperbonus)
         cards[1].addTag("Power:" .. 7 + reaperbonus)
         cards[1].addTag("Location")
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
-            label = 7 + reaperbonus,
-            tooltip = "This strike is a Graveyard Location."})
         getObjectFromGUID(pushvillainsguid).Call('push_all',table.clone(city))
     else
         broadcastToAll("No Master Strike found, so Grim Reaper failed to manifest a Graveyard.")

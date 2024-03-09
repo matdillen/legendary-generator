@@ -39,6 +39,24 @@ function table.clone(org,key)
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Group:Mandarin's Rings") then
+        if epicness then
+            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.object,
+                label = "+1",
+                tooltip = "Bonus of the Mandarin",
+                zoneguid = params.zoneguid,
+                id = "mandarin"})
+        else
+            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.object,
+                label = "+2",
+                tooltip = "Bonus of the Mandarin",
+                zoneguid = params.zoneguid,
+                id = "mandarin"})
+        end
+    end
+end
+
 function updateMMMandarin()
     local tacticsfound = 0
     for _,o in pairs(Player.getPlayers()) do

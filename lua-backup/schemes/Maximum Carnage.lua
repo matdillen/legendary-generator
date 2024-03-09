@@ -17,6 +17,16 @@ function onLoad()
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Possessed") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = params.twistsstacked,
+            zoneguid = params.zoneguid,
+            tooltip = "This Possessed bystander has power equal to the number of twists stacked next to the scheme.",
+            id="twistsstacked"})
+    end
+end
+
 function possessedPsychotic(obj)
     obj.addTag("Possessed")
     obj.addTag("Villain")

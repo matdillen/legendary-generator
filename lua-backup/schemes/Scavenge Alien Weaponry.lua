@@ -21,6 +21,16 @@ function table.clone(org,key)
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Smugglers") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = "+" .. params.strikesresolved,
+            id="striker",
+            zoneguid = params.zoneguid,
+            tooltip = "This villain gets +1 for each strike resolved."})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     

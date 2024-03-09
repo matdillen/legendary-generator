@@ -9,16 +9,22 @@ function onLoad()
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Ambition") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object,
+            label = "+" .. params.twistsstacked,
+            id = "twistsstacked",
+            tooltip = "This ambition card is a villain with power equal to its ambition value + the number of twists stacked next to the scheme. Resolve its ambition effect if it escapes.",
+            zoneguid = params.zoneguid})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     
     if obj.hasTag("Ambition") then
         obj.addTag("Villain")
         obj.addTag("VP4")
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = "+" .. params.twistsstacked,
-            tooltip = "This ambition card is a villain with power equal to its ambition value + the number of twists stacked next to the scheme. Resolve its ambition effect if it escapes.",
-            id = "twistsStacked"})
     end
     return 1
 end

@@ -21,6 +21,20 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Scarlet Witch") then
+        local boost = 3
+        if nomoremutants then
+            boost = 4
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object,
+            label = "+" .. boost,
+            zoneguid = params.zoneguid,
+            tooltip = "This Scarlet Witch villain gets +" .. boost .. ".",
+            id = "scarletwitch"})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     if obj.getName() == "Scarlet Witch (R)" then
@@ -60,8 +74,6 @@ function resolveTwist(params)
         if scarletWitchCount > 1 then
             self.flip()
             noMoreMutants = true
-            getObjectFromGUID(pushvillainsguid).Call('updateVar',{varname = "noMoreMutants",
-                value = true})
             broadcastToAll("Scheme Twist: The Scheme transforms! No More Mutants!")
         else
             getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')

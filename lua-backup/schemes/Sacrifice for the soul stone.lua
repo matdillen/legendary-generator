@@ -56,7 +56,7 @@ end
 
 function goodSacrifice(sac)
     for _,o in pairs(herosacrifices) do
-        for i,b in pairs(o.getButtons) do
+        for i,b in pairs(o.getButtons()) do
             if b.click_function:find("discardCard") then
                 o.removeButton(i-1)
                 break
@@ -83,7 +83,7 @@ function sacrificeSoul(params)
     sacrificed = -1
     broadcastToAll("The mastermind sacrificed a hero from the HQ!")
     for _,o in pairs(grey) do
-        for i,b in pairs(o.getButtons) do
+        for i,b in pairs(o.getButtons()) do
             if b.click_function:find("discardCard") then
                 o.removeButton(i-1)
                 break
@@ -91,7 +91,7 @@ function sacrificeSoul(params)
         end
     end
     for _,o in pairs(nongrey) do
-        for i,b in pairs(o.getButtons) do
+        for i,b in pairs(o.getButtons()) do
             if b.click_function:find("discardCard") then
                 o.removeButton(i-1)
                 break

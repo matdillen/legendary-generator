@@ -8,6 +8,16 @@ function onLoad()
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Killbot") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = params.twistsstacked,
+            zoneguid = params.zoneguid,
+            tooltip = "This Killbot bystander has power equal to the number of twists stacked next to the scheme.",
+            id="twistsstacked"})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     

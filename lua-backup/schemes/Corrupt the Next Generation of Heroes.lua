@@ -54,6 +54,16 @@ function nonTwist(params)
     return 1
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Corrupted") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = "+" .. params.twistsstacked,
+            zoneguid = params.zoneguid,
+            tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
+            id="corrupted"})
+    end
+end
+
 function tuckSidekick(obj)
     obj.flip()
     local skpile = getObjectFromGUID(sidekickDeckGUID)

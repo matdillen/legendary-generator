@@ -29,6 +29,23 @@ function table.clone(org,key)
     end
 end
 
+function bonusInCity(params)
+    if params.object.getName() == "Frost Giant Invader" then
+    local resp = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{
+        trait = "4", 
+        prefix = "Cost:", 
+        what = "Cost", 
+        players = {Player[Turns.turn_color]}})[1]
+    if resp then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{
+            obj= params.object,
+            label = "+4",
+            zoneguid = params.zoneguid,
+            tooltip = "You are not worthy so giant is bigger.",
+            id="notworthy"})
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

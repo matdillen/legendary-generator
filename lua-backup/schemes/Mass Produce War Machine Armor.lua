@@ -37,6 +37,16 @@ function table.clone(org,key)
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Assault Squad") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = "+" .. params.twistsstacked,
+            id="twistsStacked",
+            tooltip="Assault squads have War Machine Armor and get +1 for each twist that has been played.",
+            zoneguid = params.zoneguid})
+    end
+end
+
 function nonTwist(params)
     if params.obj.getName() == "S.H.I.E.L.D. Assault Squad" then
         params.obj.addTag("Assault Squad")

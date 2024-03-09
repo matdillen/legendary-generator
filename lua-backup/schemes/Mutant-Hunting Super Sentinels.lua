@@ -29,6 +29,16 @@ function table.clone(org,key)
     end
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Super Sentinel") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = "+" .. params.twistsstacked,
+            id="twistsStacked",
+            tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
+            zoneguid = params.zoneguid})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     if obj.getName() == "Sentinel" then

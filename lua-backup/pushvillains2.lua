@@ -819,7 +819,7 @@ function checkCityContent(player_clicker_color,altcity,customcity)
 end
 
 function updatePower()
-    for i,o in pairs(city_zones_guids) do
+    for _,o in pairs(city_zones_guids) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for _,object in pairs(cityobjects) do
             local index = nil
@@ -839,155 +839,31 @@ function updatePower()
                 end
             end
             if index then
-                if object.getName() == "Frost Giant Invader" then
-                    local resp = revealCardTrait({trait = "4", prefix = "Cost:", what = "Cost", players = {Player[Turns.turn_color]}})[1]
-                    if resp then
-                        powerButton({obj= object,
-                            label = "+4",
+                local scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+                if scheme.getVar("bonusInCity") then
+                    scheme.Call('bonusInCity',{object = object,
+                        zoneguid = o,
+                        twistsstacked = twistsstacked})
+                end
+                local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+                for _,m in pairs(masterminds) do
+                    local strikeloc = getObjectFromGUID(getStrikeloc(m))
+                    if strikeloc.getVar("bonusInCity") then
+                        strikeloc.Call('bonusInCity',{object = object,
                             zoneguid = o,
-                            tooltip = "You are not worthy so giant is bigger.",
-                            id="notworthy"})
+                            strikesstacked = strikesstacked,
+                            strikesresolved = strikesresolved})
                     end
-                elseif object.hasTag("Corrupted") then
-                    powerButton({obj= object, 
-                        label = "+" .. twistsstacked,
-                        zoneguid = o,
-                        tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
-                        id="corrupted"})
-                elseif object.hasTag("Possessed") or object.hasTag("Killbot") then    
-                    powerButton({obj= object, 
-                        label = twistsstacked,
-                        zoneguid = o, 
-                        tooltip = "This bystander has power equal to the number of twists stacked next to the scheme.",
-                        id = "twistsstacked"})
-                elseif object.hasTag("Brainwashed") then
-                    powerButton({obj= object,
-                        label = "+" .. twistsstacked+3,
-                        zoneguid = o,
-                        tooltip = "This villain gets +1 for each twist stacked next to the scheme.",
-                        id = "brainwashed"})
-                elseif object.hasTag("Phalanx-Infected") then
-                    powerButton({obj= object,
-                        label = "+" .. math.floor(twistsstacked/2),
-                        zoneguid = o,
-                        id = "conquests",
-                        tooltip = "This Phalanx-Infected villain gets +1 for each two twists stacked as conquests."})
-                elseif object.hasTag("Smugglers") then
-                    powerButton({obj= object, 
-                        label = "+" .. strikesresolved,
-                        id="striker",
-                        tooltip = "This villain gets +1 for each strike resolved.",
-                        zoneguid = o})
-                elseif object.hasTag("Khonshu Guardian") then
-                    if i % 2 == 0 then
-                        powerButton({obj= object, label = hasTag2(object,"Cost:")*2,zoneguid = o})
-                    else
-                        powerButton({obj= object, label = hasTag2(object,"Cost:"),zoneguid = o})
+                end
+                local horrors = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"horrors"))
+                for _,h in pairs(horrors) do
+                    if h == "Army of Evil" and object.hasTag("Villain") and not object.hasTag("Henchmen") then
+                        powerButton({obj = object,
+                            label = "+1",
+                            zoneguid = o,
+                            tooltip = "All non-henchmen villains get +1.",
+                            id = "ArmyofEvilHorror"})
                     end
-                elseif object.hasTag("Scarlet Witch") then
-                    local boost = 3
-                    if nomoremutants then
-                        boost = 4
-                    end
-                    powerButton({obj= object,
-                        label = "+" .. boost,
-                        zoneguid = o,
-                        tooltip = "This Scarlet Witch villain gets +" .. boost .. ".",
-                        id = "witch"})
-                elseif object.getName() == "Jean Grey (DC)" and object.hasTag("VP4") then
-                    if not goblincount then
-                        goblincount = 0
-                    end
-                    powerButton({obj= object, label = hasTag2(object,"Cost:") + goblincount,zoneguid = o})
-                elseif object.hasTag("Assault Squad") then
-                    powerButton({obj= object, 
-                        label = "+" .. twistsstacked,
-                        id="twistsStacked",
-                        tooltip="Assault squads have War Machine Armor and get +1 for each twist that has been played.",
-                        zoneguid = o})
-                elseif object.hasTag("Super Sentinel") then
-                    powerButton({obj= object, 
-                        label = "+" .. twistsstacked,
-                        id="twistsStacked",
-                        tooltip = "Super Sentinels get +1 for each twist stacked next to the scheme.",
-                        zoneguid = o})
-                elseif object.hasTag("Ambition") then
-                    powerButton({obj= object, label = "+" .. twistsstacked,id="twistsStacked",zoneguid = o})
-                elseif object.getName() == "Graveyard" and object.hasTag("Location") then
-                    for _,obj in pairs(cityobjects) do
-                        if obj.hasTag("Villain") then
-                            powerButton({obj= object, label = "+" .. 2, id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there.",zoneguid = o})
-                            return nil
-                        end
-                    end
-                    powerButton({obj= object, label = "",id = "villainPresent",tooltip = "Graveyard gets +2 if there's a villain there.",zoneguid = o})
-                elseif object.getName() == "Evolved Ultron" then
-                    local ultronpower = 0
-                    local evolutionPile = get_decks_and_cards_from_zone(twistZoneGUID)
-                    local evolutionPileSize = 0
-                    if evolutionPile[1] then
-                        if evolutionPile[1].tag == "Deck" then
-                            evolutionPileSize = #evolutionPile[1].getObjects()
-                        elseif evolutionPile[1] then
-                            evolutionPileSize = 1
-                        end
-                    else
-                        return nil
-                    end
-                    local evolutionColors = {
-                            ["HC:Red"] = false,
-                            ["HC:Green"] = false,
-                            ["HC:Yellow"] = false,
-                            ["HC:Blue"] = false,
-                            ["HC:Silver"] = false
-                    }
-                    if evolutionPileSize > 1 then
-                        for _,o2 in pairs(evolutionPile[1].getObjects()) do
-                            for _,k in pairs(o2.tags) do
-                                if k:find("HC:") then
-                                    evolutionColors[k] = true
-                                end
-                                if k:find("HC1:") or k:find("HC2:") then
-                                    evolutionColors["HC:".. k:sub(5)] = true
-                                end
-                            end
-                        end
-                    else
-                        for _,o2 in pairs(evolutionPile[1].getTags()) do
-                            if o2:find("HC:") then
-                                evolutionColors[o2] = true
-                            end
-                            if o2:find("HC1:") or o2:find("HC2:") then
-                                evolutionColors["HC:".. o2:sub(5)] = true
-                            end
-                        end
-                    end
-                    for i2,o2 in pairs(hqguids) do
-                        local herocard = getObjectFromGUID(o2).Call('getHeroUp')
-                        if herocard then
-                            for _,tag in pairs(herocard.getTags()) do
-                                if tag:find("HC:") then
-                                    if evolutionColors[tag] == true then
-                                        ultronpower = ultronpower + 1
-                                        break
-                                    end
-                                end
-                                if tag:find("HC1:") or tag:find("HC2:") then
-                                    if evolutionColors["HC:".. tag:sub(5)] == true then
-                                        ultronpower = ultronpower + 1
-                                        break
-                                    end
-                                end
-                            end
-                        else
-                            broadcastToAll("Hero in hq space " .. i2 .. " is missing?")
-                        end
-                    end
-                    powerButton({obj= object, 
-                        label = ultronpower,
-                        zoneguid = o,
-                        id = "empowered",
-                        tooltip = "Empowered for colors of heroes in the Evolution pile."})
                 end
             end
         end
@@ -2066,12 +1942,6 @@ function nonTwistspecials(cards,schemeParts,city)
     end
     local horrors = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"horrors"))
     for _,o in pairs(horrors) do
-        if o == "Army of Evil" and cards[1].hasTag("Villain") and not cards[1].hasTag("Henchmen") then
-            powerButton({obj = cards[1],
-                label = "+1",
-                tooltip = "All non-henchmen villains get +1",
-                id = "ArmyofEvilHorror"})
-        end
         if o == "Endless Hatred" and cards[1].getName() == "Scheme Twist" then
             local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
             local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
@@ -2105,33 +1975,6 @@ function nonTwistspecials(cards,schemeParts,city)
         end
         if o == "Plots Upon Plots" and cards[1].getName() == "Scheme Twist" then
             playVillains()
-        end
-    end
-    if cards[1].hasTag("Group:Mandarin's Rings") then
-        local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
-        for _,o in pairs(masterminds) do
-            if o == "Mandarin" then
-                powerButton({obj = cards[1],
-                    label = "+1",
-                    tooltip = "Bonus of the Mandarin",
-                    id = "mandarin"})
-            elseif o == "Mandarin - epic" then
-                powerButton({obj = cards[1],
-                    label = "+2",
-                    tooltip = "Bonus of the Mandarin",
-                    id = "mandarin"})
-            end
-        end
-    end
-    if cards[1].hasTag("Group:Four Horsemen") then
-        local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
-        for _,o in pairs(masterminds) do
-            if o == "Apocalypse" then
-                powerButton({obj = cards[1],
-                    label = "+2",
-                    tooltip = "Bonus of Apocalypse",
-                    id = "apocalypse"})
-            end
         end
     end
     --resolveVillainEffect(cards,"Ambush")

@@ -23,6 +23,16 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Phalanx-Infected") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object,
+        label = "+" .. math.floor(params.twistsstacked/2),
+        zoneguid = params.zoneguid,
+        id = "conquests",
+        tooltip = "This Phalanx-Infected villain gets +1 for each two twists stacked as conquests."})
+    end
+end
+
 function processPhalanxInfected(params) 
     local obj = params.obj
     local index = params.index

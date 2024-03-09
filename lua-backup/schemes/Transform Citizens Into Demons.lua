@@ -14,6 +14,19 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function bonusInCity(params)
+    if params.object.getName() == "Jean Grey (DC)" and params.object.hasTag("VP4") then
+        if not goblincount then
+            goblincount = 0
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = hasTag2(params.object,"Cost:") + goblincount,
+            zoneguid = params.zoneguid,
+            id = "demonjeangrey",
+            tooltip = "Jean Grey heroes are villains with power equal to their cost + the number of goblin villains next to the scheme. They are worth VP, not gained as heroes when fought."})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     
@@ -21,9 +34,6 @@ function nonTwist(params)
         if not goblincount then
             goblincount = 0
         end
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = hasTag2(obj,"Cost:")+goblincount,
-            tooltip = "Jean Grey heroes are villains with power equal to their cost + the number of goblin villains next to the scheme. They are worth VP, not gained as heroes when fought."})
         obj.addTag("Villain")
         obj.addTag("VP4")
     end

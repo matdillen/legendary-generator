@@ -6,10 +6,47 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+
+    local guids3 = {
+        "cityguids"
+        }
+        
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
+    end
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
 end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function bonusInCity(params)
+    if params.object.hasTag("Khonshu Guardian") then
+        local i = 1
+        for name,o in pairs(cityguids) do
+            if o == params.zoneguid and (name == "Sewers" or name == "Rooftops" or name == "Bridge") then
+                i = 2
+            end
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{
+            obj= params.object, 
+            label = hasTag2(params.object,"Cost:")*i,
+            zoneguid = params.zoneguid,
+            tooltip = "This hero is marked by Khonshu and has double power in the Sewers, Rooftop or Bridge.",
+            id = "khonshu"})
+    end
 end
 
 function nonTwist(params)

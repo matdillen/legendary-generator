@@ -42,6 +42,16 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Group:Four Horsemen") then
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = params.object,
+            label = "+2",
+            tooltip = "Bonus of Apocalypse",
+            zoneguid = params.zoneguid,
+            id = "apocalypse"})
+    end
+end
+
 function setupMM()
     for i,o in pairs(city_zones_guids) do
         if i ~= 1 then
@@ -57,8 +67,8 @@ function setupMM()
         end
     end
     
-    function onObjectEnterZone(zone,object)
-        if zone.guid == escape_zone_guid then
+    function onObjectLeaveZone(zone,object)
+        if object.getName() == "Pestilence" or object.getName() == "War" or object.getName() == "Famine" or object.getName() == "Death" then
             local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
             if escaped[1] and escaped[1].tag == "Deck" then
                 local horsemen = {["Pestilence"] = 0,
