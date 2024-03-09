@@ -67,14 +67,14 @@ end
 function click_update_tactics(obj)
     local mmdeck = getObjectFromGUID(setupGUID).Call('get_decks_and_cards_from_zone',obj.guid)
     local butt = obj.getButtons()
-    local index = 0
+    local index = nil
     for i,o in pairs(butt) do
         if o.click_function == "click_update_tactics" then
             index = i-1
             break
         end
     end
-    if mmdeck[1] and mmdeck[2] then
+    if index and mmdeck[1] and mmdeck[2] then
         for _,o in pairs(mmdeck) do
             if o.is_face_down and not o.hasTag("Bystander") and (hasTag2(o,"Tactic:") or o.tag == "Deck") then
                 local c = math.abs(o.getQuantity())
@@ -82,7 +82,7 @@ function click_update_tactics(obj)
                 return nil
             end
         end
-    elseif mmdeck[1] then
+    elseif index and mmdeck[1] then
         if mmGetCards(mmdeck[1].getName()) == 4 or 
             (hasTag2(mmdeck[1],"Tactic:") and mmGetCards(hasTag2(mmdeck[1],"Tactic:")) == 4) or
             mmGetCards(mmdeck[1].getName(),nil,true) or
@@ -91,7 +91,7 @@ function click_update_tactics(obj)
         else
             obj.editButton({index=index,label="(" .. math.abs(mmdeck[1].getQuantity())-1 .. ")"})
         end
-    else
+    elseif index then
         obj.editButton({index=index,label="(" .. 0 .. ")"})
     end
 end
@@ -822,6 +822,8 @@ function fightMM(zoneguid,player_clicker_color)
             break
         end
     end
+    log("name:")
+    log(name)
     local thetacticstays = false
     if name == "King Hyperion" then
         for i,o in pairs(city_zones_guids) do
