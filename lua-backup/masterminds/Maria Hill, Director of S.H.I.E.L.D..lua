@@ -46,12 +46,12 @@ end
 function setupMM()
     updateMMMaria()
     function onObjectEnterZone(zone,object)
-        if object.hasTag("Officer") or obj.hasTag("Group:S.H.I.E.L.D. Elite") then
+        if object.hasTag("Officer") or object.hasTag("Group:S.H.I.E.L.D. Elite") then
             updateMMMaria()
         end
     end
     function onObjectLeaveZone(zone,object)
-        if object.hasTag("Officer") or obj.hasTag("Group:S.H.I.E.L.D. Elite") then
+        if object.hasTag("Officer") or object.hasTag("Group:S.H.I.E.L.D. Elite") then
             updateMMMaria()
         end
     end
@@ -77,4 +77,9 @@ function resolveStrike(params)
     takeOfficer()
     Wait.time(takeOfficer,2)
     return strikesresolved
+end
+
+function fightRestriction(params)
+    local goahead = getObjectFromGUID(pushvillainsguid).Call('shieldClearance',{color = params.color})
+    return goahead
 end

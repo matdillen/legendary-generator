@@ -139,6 +139,8 @@ function setZonePower()
         elseif obj.getName() == "Shard" then
             local val = obj.Call('returnVal')
             zoneBonuses["shard"] = {"+" .. val,"Power bonus from shards here."}
+        elseif obj.getName() == "Baby Hope Token" then
+            zoneBonuses["babyhope"] = {"+4","Power bonus from holding Baby Hope."}
         elseif obj.hasTag("Villain") then
             villainfound = 1
             local val = tostring(hasTag2(obj,"Power:"))

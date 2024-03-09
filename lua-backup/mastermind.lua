@@ -608,8 +608,6 @@ function fightButton(zone)
         end
         if not strikeloc then
             return nil
-        elseif getObjectFromGUID(strikeloc).getVar("fightRestriction") then
-            getObjectFromGUID(strikeloc).Call('fightRestriction',{color = player_clicker_color})
         end
         local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
         local power = 0
@@ -660,6 +658,13 @@ function fightButton(zone)
         if attack < power then
             broadcastToColor("You don't have enough attack to fight this mastermind!",player_clicker_color,player_clicker_color)
             return nil
+        end
+        if getObjectFromGUID(strikeloc).getVar("fightRestriction") then
+            local goahead = getObjectFromGUID(strikeloc).Call('fightRestriction',{color = player_clicker_color})
+            if not goahead then
+                broadcastToColor("Fight restriction of mastermind not met!", player_clicker_color, player_clicker_color)
+                return nil
+            end
         end
         getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
         if not scheme then
@@ -1003,7 +1008,8 @@ function resolveTactics(mmname,tacticname,color,stays)
             if thronesfavor == "mmMaximus the Mad" then
                 val = 3
             end
-            getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
+            getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+                player_clicker_color = "mmMaximus the Mad"})
             for _,o in pairs(Player.getPlayers()) do
                 local hand = o.getHandObjects()
                 log(o.color)
@@ -1038,7 +1044,8 @@ function resolveTactics(mmname,tacticname,color,stays)
             else
                 broadcastToAll("Maximus Fight effect: Maximus deploys the Terrigen Bomb! Weak heroes with attack less than 2 are blown away from the HQ.")
             end
-            getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmMaximus the Mad"})
+            getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+                player_clicker_color = "mmMaximus the Mad"})
             
         elseif tacticname == "Echo-tech chorus sentries" then
             for _,o in pairs(Player.getPlayers()) do

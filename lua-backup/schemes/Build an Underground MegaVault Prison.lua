@@ -33,11 +33,31 @@ function resolveTwist(params)
     if vildeck[1] then
         local pos = getObjectFromGUID(city_zones_guids[6]).getPosition()
         pos.y = pos.y + 3
+        local enterSewers = function(name)
+            getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')
+            Wait.condition(
+                function()
+                    getObjectFromGUID(pushvillainsguid).Call('checkCityContent2',{
+                        color = Turns.turn_color,
+                        customcity = {city_zones_guids[1],city_zones_guids[6]}})
+                end,
+                function()
+                    local drawnvillain = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[1])
+                    if drawnvillain[1] then
+                        for _,o in pairs(drawnvillain) do
+                            if o.getName() == name then
+                                return true
+                            end
+                        end
+                    end
+                    return false
+                end
+            )
+        end
         if vildeck[1].tag == "Deck" then
             for _,o in pairs(vildeck[1].getObjects()[1].tags) do
                 if o == "Villain" then
-                    vildeck[1].takeObject({position = pos,
-                        flip=true})
+                    enterSewers(vildeck[1].getObjects()[1].name)
                     broadcastToAll("The top card of the villain deck enters the sewers!")
                     return twistsresolved
                 end
@@ -52,8 +72,7 @@ function resolveTwist(params)
                 callback_function = showCardCallback})
         else 
             if vildeck[1].hasTag("Villain") then
-                vildeck[1].flip()
-                vildeck[1].setPositionSmooth(getObjectFromGUID(pos))
+                enterSewers(vildeck[1])
             else
                 vildeck[1].flip()
                 broadcastToAll("Top card of villain deck is " .. vildeck[1].getName() .. ", not a villain!")

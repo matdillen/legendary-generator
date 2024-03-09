@@ -35,16 +35,17 @@ function resolveTwist(params)
             for _,object in pairs(cityobjects) do
                 if object.getName() == "Baby Hope Token" then
                     babyfound = true
-                    object.setPositionSmooth(getObjectFromGUID(schemeZoneGUID).getPosition())
+                    object.setPosition(getObjectFromGUID(schemeZoneGUID).getPosition())
                 end
             end
             if babyfound == true then
                 broadcastToAll("Villain with Baby Hope escaped!",{r=1,g=0,b=0})
                 cityobjects = Global.Call('get_decks_and_cards_from_zone',o)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
-                    objects = cityobjects,
+                    objects = table.clone(cityobjects),
                     targetZone = getObjectFromGUID(escape_zone_guid),
-                    enterscity = 0})
+                    enterscity = 0,
+                    schemeParts = {"Capture Baby Hope"}})
                 getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
                 break
             end
@@ -76,6 +77,20 @@ function resolveTwist(params)
                     objects = {babyHope},
                     targetZone = targetZone,
                     enterscity = 1})
+                Wait.condition(
+                    function()
+                        getObjectFromGUID(cityspaces[1]).Call('updatePower')
+                    end,
+                    function()
+                        local hopevillain = Global.Call('get_decks_and_cards_from_zone',cityspaces[1])
+                        for _,o in pairs(hopevillain) do
+                            if o.getName() == "Baby Hope Token" then
+                                return true
+                            end
+                        end
+                        return false
+                    end
+                )
             end
             if not cityspaces[1] then
                 --if the city is empty:

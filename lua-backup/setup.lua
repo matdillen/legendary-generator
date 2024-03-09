@@ -105,7 +105,7 @@ function createButtons()
     thronesfavorpos = {-65,0.1,4}
     
     self.createButton({
-        click_function="thrones_favor", function_owner=self,
+        click_function="click_thrones_favor", function_owner=self,
         position=thronesfavorpos,
         width=750, height=500, label="Throne's Favor", tooltip="Gain the Throne's Favor.", 
         color={0.62,0.16,0.16}
@@ -193,12 +193,17 @@ function invertCity()
     end
 end
 
-function thrones_favor(obj,player_clicker_color,notspend)
-    if obj.locked == nil and obj[1] then
-        player_clicker_color = obj[2]
-        notspend = obj[3]
-        obj = obj[1]
-    end
+function click_thrones_favor(obj,player_clicker_color)
+    thrones_favor({obj = obj,
+        player_clicker_color = player_clicker_color})
+end
+
+function thrones_favor(params)
+    local obj = params.obj
+    local player_clicker_color = params.player_clicker_color
+    local notspend = params.notspend
+    local dospend = params.dospend
+
     if obj == "any" then
         if thronesfavor == "none" then
             obj = self
@@ -233,9 +238,9 @@ function thrones_favor(obj,player_clicker_color,notspend)
             break
         end
     end
-    if color and (player_clicker_color == color or (color:find("mm") and player_clicker_color == color)) then
+    if dospend or (color and (player_clicker_color == color or (color:find("mm") and player_clicker_color == color))) then
         self.createButton({
-            click_function="thrones_favor", function_owner=self,
+            click_function="click_thrones_favor", function_owner=self,
             position=thronesfavorpos,
             width=750, height=500, label="Throne's Favor", tooltip="Gain the Throne's Favor.", 
             color={0.62,0.16,0.16}
@@ -249,7 +254,7 @@ function thrones_favor(obj,player_clicker_color,notspend)
     end
     if player_clicker_color:find("mm") then
         getObjectFromGUID(mmLocations[player_clicker_color:gsub("mm","")]).createButton({
-            click_function="thrones_favor", function_owner=self,
+            click_function="click_thrones_favor", function_owner=self,
             position={0.5,0,1},
             rotation = {0,180,0},
             width=250, height=170, label="TF", tooltip="Gain the Throne's Favor.", 
@@ -262,7 +267,7 @@ function thrones_favor(obj,player_clicker_color,notspend)
         thronesfavor = player_clicker_color
     elseif player_clicker_color then
         getObjectFromGUID(playerBoards[player_clicker_color]).createButton({
-            click_function="thrones_favor", function_owner=self,
+            click_function="click_thrones_favor", function_owner=self,
             position={-2,0.178,2.1},
             width=750, height=500, label="Throne's Favor", tooltip="Gain or spend the Throne's Favor.", 
             color={0.62,0.16,0.16}

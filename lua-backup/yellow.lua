@@ -125,45 +125,45 @@ end
 function createButtons()
     self.createButton({
         click_function="click_refillDeck", function_owner=self,
-        position={0,0.1,-1.12}, height=200, width=620, color={1,1,1,0},
+        position={0,0.5,-1.12}, height=200, width=620, color={1,1,1,0},
         tooltip="Shuffle discard pile back into deck"
     })
 
     self.createButton({
         click_function="click_draw_card", function_owner=self,
-        position={5, 0.178, 2.1}, height=500,
+        position={5,0.5, 2.1}, height=500,
         width=500, label="Draw", tooltip = "Draw a card", color={0,0.5,1,1},
     })
 
     self.createButton({
         click_function="click_end_turn", function_owner=self,
-        position={0 , 0.178, 2.1}, height=500,
+        position={0 , 0.5, 2.1}, height=500,
         width=800, label="New Hand", tooltip="Discard hand and cards in play, then draw 6 cards and play card from villain deck", color={1,1,1,1}
     })
 
     self.createButton({
         click_function="handsizeplus", function_owner=self,
-        position={3 , 0.178, 1.9}, height=250,
+        position={3 , 0.5, 1.9}, height=250,
         width=660, label="Hand Size +1", tooltip="Set hand size to 1 extra card next turn.", 
         color={1,1,1}
     })
     self.createButton({
         click_function="handsizefixed", function_owner=self,
-        position={6.5 , 0.178, -0.5}, height=125,
+        position={6.5 , 0.5, -0.5}, height=125,
         width=125, label="V", tooltip="Set hand size changes fixed!", 
         color={1,0,0}
     })
     
     self.createButton({
         click_function="handsizemin", function_owner=self,
-        position={3 , 0.178, 2.5}, height=250,
+        position={3 , 0.5, 2.5}, height=250,
         width=660, label="Hand Size -1", tooltip="Set hand size to 1 card less next turn.", 
         color={1,1,1}
     })
     
     self.createButton({
         click_function="calculate_vp", function_owner=self,
-        position={6.5 , 0.178, 0.4}, height=500,
+        position={6.5 , 0.5, 0.4}, height=500,
         width=500, label="VP", tooltip="Calculate victory points in victory pile", color={1,1,0,1}
     })
     

@@ -308,6 +308,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         local targetZone_final = targetZone
         local shard = false
         local xshift = 0
+        local yshift = 3
         local zPos = obj.getPosition().z
         local bs = false
         --if an object enters or leaves the city, then it should move vertically accordingly
@@ -407,6 +408,8 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                         end
                     end
                 end
+            elseif obj.getName() == "Baby Hope Token" and schemeParts and schemeParts[1] == "Capture Baby Hope" then
+                yshift = yshift + 1
             end
             if desc:find("LOCATION") then
                 --locations will be nudged a bit upwards to distinguish from villains
@@ -419,7 +422,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
             if not shard and (isEnteringCity == 1 or not desc:find("LOCATION")) then
                 --locations don't move unless they are entering
                 obj.setPositionSmooth({targetZone_final.getPosition().x+xshift,
-                    targetZone_final.getPosition().y + 3,
+                    targetZone_final.getPosition().y + yshift,
                     zPos})
             end
         end
@@ -741,7 +744,11 @@ function click_push_villain_into_city(obj,player_clicker_color)
     checkCityContent(player_clicker_color)
 end
 
-function checkCityContent(player_clicker_color,altcity)
+function checkCityContent2(params)
+    checkCityContent(params.color,params.altcity,params.customcity)
+end
+
+function checkCityContent(player_clicker_color,altcity,customcity)
     if cityPushDelay > 1 then
         Wait.time(checkCityContent,cityPushDelay)
         cityPushDelay = cityPushDelay - 1
@@ -752,7 +759,12 @@ function checkCityContent(player_clicker_color,altcity)
     if not current_city then
         current_city = table.clone(city_zones_guids)
     end
-    local city_topush = table.clone(current_city)
+    local city_topush = nil
+    if customcity then
+        city_topush = customcity
+    else
+        city_topush = table.clone(current_city)
+    end
     local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
     if schemeParts then
         if schemeParts[1] == "Fragmented Realities" then
@@ -3091,12 +3103,24 @@ function shieldClearance(params)
             table.insert(clearance,o)
         end
     end
-    promptDiscard({color = color,
-        n = n,
-        hand = clearance,
-        trigger_function = f,
-        fsourceguid = fsourceguid})
-        ---how do these trigger functions work and make a fight go through???
+    if #clearance < n then
+        broadcastToColor("You don't have enough SHIELD heroes to gain SHIELD Clearance and fight this adversary!",color,color)
+        return nil
+    end
+    if f then
+        promptDiscard({color = color,
+            n = n,
+            hand = clearance,
+            trigger_function = f,
+            fsourceguid = fsourceguid})
+            ---how do these trigger functions work and make a fight go through???
+                --the discard prompt should be enough?
+    else
+        promptDiscard({color = color,
+            n = n,
+            hand = clearance})
+    end
+    return n
 end
 
 function offerChoice(params)

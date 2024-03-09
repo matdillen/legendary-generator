@@ -32,7 +32,9 @@ function payBattlefront(obj,player_clicker_color)
             break
         end
     end
-    getObjectFromGUID(setupGUID).Call('thrones_favor',{"any",player_clicker_color,true})
+    getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+        player_clicker_color = player_clicker_color,
+        notspend = true})
     broadcastToAll("Battlefront tax paid. You may KO one of your heroes!")
 end
 
@@ -90,14 +92,16 @@ function resolveTwist(params)
                 end
             end
             if mm then
-                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mm" .. mm})
+                getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+                    player_clicker_color = "mm" .. mm})
                  broadcastToAll("Victorious General! The mastermind gains the Throne's Favor!")
             else
                 for i,o in pairs(mmLocations) do
                     mm = i
                     break
                 end
-                getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mm" .. mm})
+                getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+                    player_clicker_color = "mm" .. mm})
                 broadcastToAll("Victorious General! Another remaining mastermind gains the Throne's Favor!")
             end
         end

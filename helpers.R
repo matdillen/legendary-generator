@@ -80,13 +80,11 @@ genFun = function(src,
   #save name and scores
   schemtraits = filter(src$schemes,Name==scheme)
   
-  
   #set NA's to 0 (can be important for metrics)
   schemtraits %<>%
     mutate(across(where(is.logical),as.character),
            across(where(is.numeric),~replace_na(.,0)),
            across(where(is.character),~replace_na(.,"0")))
-  
   
   convertVarstats <- function(value,pc) {
     if (grepl(":",

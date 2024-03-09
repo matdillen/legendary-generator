@@ -32,7 +32,8 @@ end
 function setupMM(params)
     epicness = params.epicness
     if epicness then
-        getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar"})
+        getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+            player_clicker_color = "mmEmperor Vulcan of the Shi'ar"})
         updateMMEmperorVulcan()
     end
 end
@@ -56,7 +57,9 @@ function resolveStrike(params)
             end
         end
     end
-    getObjectFromGUID(setupGUID).Call('thrones_favor',{"any","mmEmperor Vulcan of the Shi'ar",true})
+    getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
+        player_clicker_color = "mmEmperor Vulcan of the Shi'ar",
+        notspend = true})
     updateMMEmperorVulcan()
     return strikesresolved
 end
