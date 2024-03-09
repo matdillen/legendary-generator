@@ -274,12 +274,15 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
                 return nil
             else
                 getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
-                if getObjectFromGUID(mmZoneGUID).Call('mmActive',"Baron Heinrich Zemo") then
-                    local strikeloc = getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Baron Heinrich Zemo")
-                    getObjectFromGUID(strikeloc).Call('offerBystander',player_clicker_color)
-                end
                 if scheme.getVar("fightEffect") then
                     scheme.Call('fightEffect',{obj = obj,color = player_clicker_color})
+                end
+                local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+                for _,m in pairs(masterminds) do
+                    local strikeloc = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',m))
+                    if strikeloc.getVar("fightEffect") then
+                        strikeloc.Call('fightEffect',{obj = obj, color = player_clicker_color})
+                    end
                 end
                 local result = getObjectFromGUID(pushvillainsguid).Call('resolveVillainEffect',{obj = obj,color = player_clicker_color})
                 if result then

@@ -11,6 +11,8 @@ function onLoad()
     loadGUIDs()
     
     createButtons()
+
+    offerqueue = {}
     
     setNotes("[FF0000][b]Scheme Twists resolved:[/b][-] 0\r\n\r\n[ffd700][b]Master Strikes resolved:[/b][-] 0")
 end
@@ -2113,6 +2115,21 @@ function dealCard(params)
     local options = params.options
     local color = params.color or Turns.turn_color
     --local targetpos = params.targetpos
+    if offerqueue[color] then
+        Wait.condition(
+            function()
+                dealCard(params)
+            end,
+            function()
+                if not offerqueue[color] then
+                    return true
+                else
+                    return false
+                end
+            end)
+        return nil
+    end
+    offerqueue[color] = params
     if not options then
         options = {}
         for _,p in pairs(Player.getPlayers()) do
@@ -2159,6 +2176,23 @@ function offerCards(params)
     local args = params.args
     local targetpos = params.targetpos
     local fsourceguid = params.fsourceguid
+    log("offerqueue of offerCards = ")
+    log(offerqueue)
+    if offerqueue[color] then
+        Wait.condition(
+            function()
+                offerCards(params)
+            end,
+            function()
+                if not offerqueue[color] then
+                    return true
+                else
+                    return false
+                end
+            end)
+        return nil
+    end
+    offerqueue[color] = params
     if not tooltip then
         tooltip = "Pick this card for the scheme twist, master strike or other effect."
     end
@@ -2218,6 +2252,7 @@ function offerCards(params)
                 end
             end
             cardsoffered[color] = {nil}
+            offerqueue[color] = nil
         end
         obj.locked = false
         obj.clearButtons()
@@ -2977,7 +3012,23 @@ function offerChoice(params)
     if not color or not choices or not resolve_function then
         return nil
     end
-
+    log("offerqueue of offerChoice = ")
+    log(offerqueue)
+    if offerqueue[color] then
+        Wait.condition(
+            function()
+                offerChoice(params)
+            end,
+            function()
+                if not offerqueue[color] then
+                    return true
+                else
+                    return false
+                end
+            end)
+        return nil
+    end
+    offerqueue[color] = params
     if not choices[1] and choices == "players" then
         for _,o in pairs(Player.getPlayers()) do
             choices[o.color] = o.color
@@ -3009,6 +3060,7 @@ function offerChoice(params)
                         obj.removeButton(index-1)
                     end
                 end
+                offerqueue[color] = nil
             end
             if fsourceguid then
                 getObjectFromGUID(fsourceguid).Call(resolve_function,{id = i,

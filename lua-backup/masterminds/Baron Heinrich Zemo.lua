@@ -90,63 +90,27 @@ function buyBystander(obj,player_clicker_color)
     obj.clearButtons()
     obj.setPosition(getObjectFromGUID(vpileguids[player_clicker_color]).getPosition())
 end
-    
-function dontBuyBystander(obj)
-    obj.locked = false
-    obj.clearButtons()
-    obj.flip()
-    local bsPile = getObjectFromGUID(bystandersPileGUID)
-    local bspos = bsPile.getPosition()
-    bspos.y = bspos.y + 2
-    obj.setPosition(bspos)
+
+function buyBystander(params)
+    if params.id == "yes" then
+        local recruit = getObjectFromGUID(resourceguids[params.color]).Call('returnVal')
+        if recruit < 2 then
+            broadcastToColor("You don't have enough recruit to rescue this bystander!",params.color,params.color)
+            fightEffect({color = params.color})
+            return nil
+        end
+        getObjectFromGUID(resourceguids[params.color]).Call('addValue',-2)
+        getObjectFromGUID(pushvillainsguid).Call('getBystander',params.color)
+    end
 end
 
-function offerBystander(color)
-    local bsPile = getObjectFromGUID(bystandersPileGUID)
-    if not bsPile then
-        bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
-        bsPile = getObjectFromGUID(bystandersPileGUID)
-    end
-    local pos = getObjectFromGUID(playerBoards[color]).getPosition()
-    pos.y = pos.y + 8
-    local angle = 180
-    if color == "White" then
-        pos.z = pos.z - 6
-        angle = 90
-    elseif color == "Blue" then
-        pos.z = pos.z + 6
-        angle = -90
-    else
-        pos.x = pos.x - 6
-    end
-	local brot = {x=0, y=angle, z=0}
-
-    local lockAndButton = function(obj)
-        obj.locked = true
-        obj.createButton({click_function='buyBystander',
-            function_owner=self,
-            position={0,20,1},
-            label="Rescue 2*",
-            tooltip="Rescue this bystander for 2*.",
-            font_size=300,
-            font_color="Yellow",
-            color={0,0,0},
-            width=650,height=650})
-        obj.createButton({click_function='dontBuyBystander',
-            function_owner=self,
-            position={0,20,-1},
-            label="Don't",
-            tooltip="Don't rescue this bystander for 2*.",
-            font_size=300,
-            font_color="Red",
-            color={0,0,0},
-            width=650,height=650})    
-    end
-    
-    bsPile.takeObject({position = pos,
-        flip = true,
-        smooth = true,
-        callback_function = lockAndButton})
+function fightEffect(params)
+    getObjectFromGUID(pushvillainsguid).Call('offerChoice',{color = params.color,
+        choices = {["yes"] = "Rescue for 2*",
+            ["no"] = "Don't rescue"},
+        resolve_function = "buyBystander",
+        fsourceguid = self.guid})
+    broadcastToColor("You fought a villain so Baron Heinrich Zemo lets you rescue a bystander for 2 Recruit.",params.color,params.color)
 end
 
 function resolveStrike(params)
