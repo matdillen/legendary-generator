@@ -1,11 +1,12 @@
 library(tidyverse)
 library(jsonlite)
+library(conflicted)
 setwd("D:/Mathias/legendary/legendary-generator/lua-backup")
 
 file = list.files("currentmod",
                   pattern="*.json",
                   full.names = T)
-
+conflict_prefer("validate","jsonlite")
 js = fromJSON(file[1],
               simplifyVector = F)
 

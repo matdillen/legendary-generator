@@ -821,6 +821,14 @@ function checkCityContent(player_clicker_color,altcity,customcity)
 end
 
 function updatePower()
+    local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+    for _,m in pairs(masterminds) do
+        local strikeloc = getObjectFromGUID(getStrikeloc(m))
+        if strikeloc.getVar("bonusInGeneral") then
+            strikeloc.Call('bonusInGeneral',{strikesstacked = strikesstacked,
+                strikesresolved = strikesresolved})
+        end
+    end
     for _,o in pairs(city_zones_guids) do
         local cityobjects = get_decks_and_cards_from_zone(o)
         for _,object in pairs(cityobjects) do
@@ -847,7 +855,6 @@ function updatePower()
                         zoneguid = o,
                         twistsstacked = twistsstacked})
                 end
-                local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
                 for _,m in pairs(masterminds) do
                     local strikeloc = getObjectFromGUID(getStrikeloc(m))
                     if strikeloc.getVar("bonusInCity") then

@@ -18,7 +18,7 @@ function onLoad()
         for _,o in pairs(guids1) do
             _G[o] = Global.Call('returnVar',o)
         end
-        function bonusInCity(params)
+        function bonusInGeneral(params)
             local kopilecontent = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
             local strikes = 0
             for _,o in pairs(kopilecontent.getObjects()) do
@@ -26,10 +26,9 @@ function onLoad()
                     strikes = strikes + 1
                 end
             end
-            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = getObjectFromGUID(sentinelzoneguid),
-                label = "+" .. strikes,
+            getObjectFromGUID(pushvillainsguid).Call('powerButton',{label = "+" .. strikes,
                 tooltip = "Sentinels get +1 for each Master Strike in the KO pile.",
-                zoneguid = params.zoneguid,
+                zoneguid = sentinelzoneguid,
                 id = "bastionsentinel"})
         end
     ]]
@@ -60,21 +59,23 @@ function resolveStrike(params)
         mmname = "Bastion, Fused Sentinel - epic"
     end
     if zoneguid then
+        local newsentinelname = "Prime Sentinel " .. strikesresolved
         getObjectFromGUID(bystandersPileGUID).takeObject({position = getObjectFromGUID(zoneguid).getPosition(),
             flip = true,
             smooth = true,
             callback_function = function(obj) 
                 obj.addTag("Power:" .. power) 
                 obj.addTag("Mastermind")
-                obj.setName("Prime Sentinel " .. strikesresolved)
+                obj.setName(newsentinelname)
                 mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 0})
             end})
-        mmZone.Call('updateMasterminds',"Prime Sentinel " .. strikesresolved)
-        mmZone.Call('updateMastermindsLocation',{"Prime Sentinel " .. strikesresolved,zoneguid})
-        local strikeloc = mmZone.Call('getStrikeloc',"Prime Sentinel " .. strikesresolved)
-        prime_sentinel_lua = "sentinelzoneguid = \"" .. zoneguid .. "\"\r\n" .. prime_sentinel_lua
-        getObjectFromGUID(strikeloc).setLuaScript(prime_sentinel_lua)
-        getObjectFromGUID(strikeloc).reload()
+        mmZone.Call('updateMasterminds',newsentinelname)
+        mmZone.Call('updateMastermindsLocation',{newsentinelname,zoneguid})
+        local strikeloc = mmZone.Call('getStrikeloc',newsentinelname)
+        local strikezone = getObjectFromGUID(strikeloc)
+        prime_sentinel_lua_new = "sentinelzoneguid = \"" .. zoneguid .. "\"\r\n" .. prime_sentinel_lua
+        strikezone.setLuaScript(prime_sentinel_lua_new)
+        strikezone.reload()
     else
         broadcastToAll("No additional locations for masterminds found. Sort the extra Prime Sentinel out yourself.")
         return nil

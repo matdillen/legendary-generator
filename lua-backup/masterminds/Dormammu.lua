@@ -42,7 +42,7 @@ function hasTag2(obj,tag,index)
 end
 
 function dormammuDiscard(params)
-    local hand = Player[params.color].getHandobjects()
+    local hand = Player[params.color].getHandObjects()
     getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = params.color,
         n = #hand - 4 + delay})
 end

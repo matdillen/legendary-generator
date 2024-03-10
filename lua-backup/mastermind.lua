@@ -806,7 +806,7 @@ function koCard(obj,smooth)
 end
 
 function fightMM(zoneguid,player_clicker_color)
-    local content = get_decks_and_cards_from_zone(zoneguid,true,false)
+    local content = get_decks_and_cards_from_zone(zoneguid,true)
     for i,o in pairs(content) do
         if o.getName() == "Shard" then
             bump(o)
@@ -822,8 +822,6 @@ function fightMM(zoneguid,player_clicker_color)
             break
         end
     end
-    log("name:")
-    log(name)
     local thetacticstays = false
     if name == "King Hyperion" then
         for i,o in pairs(city_zones_guids) do
