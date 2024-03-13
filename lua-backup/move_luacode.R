@@ -7,6 +7,7 @@ file = list.files("currentmod",
                   pattern="*.json",
                   full.names = T)
 conflict_prefer("validate","jsonlite")
+conflict_prefer("filter","dplyr")
 js = fromJSON(file[1],
               simplifyVector = F)
 

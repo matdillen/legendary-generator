@@ -1,43 +1,6 @@
-pkgLoad <- function() {
-    
-    packages <- c("DT",
-                  "plyr",
-                  "tidyverse",
-                  "magrittr",
-                  "shiny",
-                  "shinyjs",
-                  "shinythemes",
-                  "shinyBS",
-                  "conflicted")
-    packagecheck <- match( packages, utils::installed.packages()[,1])
-    packagestoinstall <- packages[is.na(packagecheck)]
-    
-    if(length( packagestoinstall) > 0 ) {
-        utils::install.packages(packagestoinstall)
-    } else {
-        print("All requested packages already installed")
-    }
-    
-    for(package in packages) {
-        suppressPackageStartupMessages(
-            library(package,
-                    character.only = T,
-                    quietly = T))
-    }
-}
-
+source("packages.R")
 pkgLoad()
 
-library(tidyverse)
-library(magrittr)
-library(shiny)
-library(shinyjs)
-library(DT)
-library(shinythemes)
-library(shinyBS)
-library(conflicted)
-
-source("helpers.R")
 conflict_prefer_all("dplyr","plyr")
 conflicts_prefer(
   shiny::validate(),
@@ -52,6 +15,8 @@ conflicts_prefer(
   magrittr::set_names(),
   shinyjs::show()
 )
+
+source("helpers.R")
 
 options(dplyr.summarise.inform=F) #block obscure dplyr warning
 

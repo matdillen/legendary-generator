@@ -2,7 +2,8 @@ function onLoad()
     twistsstacked = 0
     
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "heroDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -31,68 +32,43 @@ function table.clone(org,key)
 end
 
 function explode_heroes(zone,n)
-    local currenthero = nil
-    local explode_hero = function()
-        local hero = getObjectFromGUID(zone).Call('getHeroUp')
-        if hero then
-            currenthero = hero
-            local hq_cards = getObjectFromGUID(zone).Call('getHeroDown')
-            hero.flip()
-            if not hq_cards or hq_cards.getQuantity() < 5 then
-                getObjectFromGUID(zone).Call('click_draw_hero')
-            end
-        else
-            printToAll("Error: hero not found in HQ.",{1,0,0})
-        end
+    local hero = getObjectFromGUID(zone).Call('getHeroUp')
+    if hero then
+        hero.flip()
+    else
+        printToAll("Error: hero not found in HQ.",{1,0,0})
+        return nil
     end
-    local hero_drawn = function()
-        if not currenthero then
-            return true
+    if n > 1 then
+        local herodeck = Global.Call('get_decks_and_cards_from_zone',"heroDeckZoneGUID")[1]
+        for i = 1,n-1 do
+            herodeck.takeObject({position = getObjectFromGUID(zone).getPosition(),
+                flip = false,
+                smooth = false})
         end
-        local hero = getObjectFromGUID(zone).Call('getHeroUp')
-        if hero then
-            if hero.guid == currenthero.guid then
-                return false
-            else
-                return true
-            end
-        else
-            return false
-        end
-    end
-    for i=1,n do
-        Wait.condition(explode_hero,hero_drawn)
     end
 end
 
 function resolveTwist(params)
-    local twistsresolved = params.twistsresolved 
     local cards = params.cards
     twistsstacked = getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
-    local heroboom = 0
     broadcastToAll("Scheme Twist: " .. twistsstacked .. " heroes will be KO'd from the HQ!")
-    while heroboom < twistsstacked do
-        local boomstack = nil
-        local hq_cards = getObjectFromGUID(hqguids[1]).Call('getHeroDown')
-        if hq_cards then
-            boomstack_count = math.abs(hq_cards.getQuantity())
-        else
-            boomstack_count = 0
-        end
-        if boomstack_count > 5 then
-            table.remove(hqguids,1)
-        else
-            local todestroy = math.min(6-boomstack_count,twistsresolved-heroboom)
-            explode_heroes(hqguids[1],todestroy)
-            heroboom = heroboom + todestroy
-            if heroboom < twistsresolved then
-                table.remove(hqguids,1)
-            end
-        end
-        if not hqguids[1] then
-            broadcastToAll("Helicarrier destroyed!!!",{1,0,0})
-            return nil
-        end
+
+    local hq_cards = getObjectFromGUID(hqguids[1]).Call('getHeroDown')
+    if hq_cards then
+        boomstack_count = math.abs(hq_cards.getQuantity())
+    else
+        boomstack_count = 0
+    end
+    if boomstack_count < 6 - twistsstacked then
+        explode_heroes(hqguids[1],twistsstacked)
+    elseif boomstack_count == 6 - twistsstacked then
+        explode_heroes(hqguids[1],twistsstacked)
+        table.remove(hqguids,1)
+    else
+        explode_heroes(hqguids[1],6 - boomstack_count)
+        table.remove(hqguids,1)
+        explode_heroes(hqguids[2],twistsstacked - 6 + boomstack_count)
     end
     return nil
 end

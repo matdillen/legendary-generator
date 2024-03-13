@@ -78,24 +78,11 @@ function setupMM()
     end
 end
 
-function buyBystander(obj,player_clicker_color)
-    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
-    if recruit < 2 then
-        broadcastToColor("You don't have enough recruit to rescue this bystander!",player_clicker_color,player_clicker_color)
-        return nil
-    end
-    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-2)
-    obj.locked = false
-    --obj.flip()
-    obj.clearButtons()
-    obj.setPosition(getObjectFromGUID(vpileguids[player_clicker_color]).getPosition())
-end
-
 function buyBystander(params)
     if params.id == "yes" then
         local recruit = getObjectFromGUID(resourceguids[params.color]).Call('returnVal')
         if recruit < 2 then
-            broadcastToColor("You don't have enough recruit to rescue this bystander!",params.color,params.color)
+            broadcastToColor("You don't have enough recruit to rescue a bystander!",params.color,params.color)
             fightEffect({color = params.color})
             return nil
         end

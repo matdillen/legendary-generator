@@ -1,7 +1,15 @@
 .Rhistory
+.RData
 run.r.Rout
 www/img/**
 run.bat
 lua-backup/villains
 lua-backup/archive/*.json
 lua-backup/output
+.Rproj.user
+app/bin
+app/*.iss
+app/*.exe
+app/utils
+app/www/img/**
+app/LICENSE

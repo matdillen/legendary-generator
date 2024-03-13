@@ -344,9 +344,13 @@ end
 function tuckSidekicks(cardtable)
     local newcardtable = {}
     local sidekickdeck = get_decks_and_cards_from_zone(sidekickZoneGUID)[1]
-    Global.Call('bump',{obj = sidekickdeck,y = 4})
+    local bumped = false
     for _,o in pairs(cardtable) do
         if o.hasTag("Sidekick") then
+            if not bumped then
+                Global.Call('bump',{obj = sidekickdeck,y = 4})
+                bumped = true
+            end
             o.flip()
             sidekickdeck.putObject(o)
         else
