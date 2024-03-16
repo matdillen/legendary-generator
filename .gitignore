@@ -13,3 +13,4 @@ app/*.exe
 app/utils
 app/www/img/**
 app/LICENSE
+app/RInno_installer

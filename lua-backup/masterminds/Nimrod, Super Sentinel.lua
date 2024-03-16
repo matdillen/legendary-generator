@@ -1,4 +1,6 @@
 function onLoad()
+    mmname = "Nimrod, Super Sentinel"
+    
     local guids1 = {
         "pushvillainsguid"
         }
@@ -16,7 +18,8 @@ function onLoad()
     end
     
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "resourceguids"
         }
         
     for _,o in pairs(guids3) do
@@ -38,6 +41,29 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMNimrod()
+    local checkvalue = 0
+    if getObjectFromGUID(resourceguids[Turns.turn_color]).Call('returnPeakVal') < 6 then
+        checkvalue = 1
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+            checkvalue = checkvalue,
+            label = "X",
+            tooltip = "You can't fight Nimrod unless you made six Recruit this turn.",
+            f = 'updateMMNimrod',
+            f_owner = self})
+end
+
+function setupMM()
+    updateMMNimrod()
+    function onObjectEnterZone(zone,object)
+        updateMMNimrod()
+    end
+    function onObjectLeaveZone(zone,object)
+        updateMMNimrod()
+    end
 end
 
 function resolveStrike(params)

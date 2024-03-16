@@ -40,7 +40,8 @@ create_bat(app_name = name,
 #create a config file for the app
 create_config(app_name = name,
               pkgs = packages,
-              pkgs_path = "bin")
+              pkgs_path = "bin",
+              user_browser = "firefox")
 
 #create an ISS file that declares how the installer should be built
 start_iss(app_name = name) %>%

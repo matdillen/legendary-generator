@@ -1,6 +1,7 @@
 MIN_VALUE = 0
 MAX_VALUE = 999
 val = 0
+peakval = 0
 
 function onload()
     if self.getName() == "" then
@@ -60,6 +61,9 @@ function add_subtract(_obj, _color, alt_click,addval)
         val = new_value
         updateVal()
     end
+    if val > peakval then
+        peakval = val
+    end
 end
 
 function addValue(value)
@@ -84,9 +88,14 @@ end
 
 function reset_val()
     val = 0
+    peakval = 0
     updateVal()
 end
 
 function returnVal()
     return val
+end
+
+function returnPeakVal()
+    return peakval
 end

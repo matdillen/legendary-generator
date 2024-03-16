@@ -275,7 +275,9 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
             else
                 getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
                 if scheme.getVar("fightEffect") then
-                    scheme.Call('fightEffect',{obj = obj,color = player_clicker_color})
+                    scheme.Call('fightEffect',{obj = obj,
+                        color = player_clicker_color,
+                        zoneguid = guid})
                 end
                 local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
                 for _,m in pairs(masterminds) do

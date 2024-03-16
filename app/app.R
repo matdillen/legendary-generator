@@ -388,7 +388,14 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-    #make preset forms visible or not
+  if (!interactive()) {
+    session$onSessionEnded(function() {
+      stopApp()
+      q("no")
+    })
+  }  
+  
+  #make preset forms visible or not
     observeEvent(input$presets, {
         toggle("fixedSCH")
         toggle("fixedMM")
