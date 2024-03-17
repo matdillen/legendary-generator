@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "officerDeckGUID"
+        "officerDeckGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -36,6 +37,10 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupSpecial(params)
+    getObjectFromGUID(mmZoneGUID).Call('lockTopZone',topBoardGUIDs[2])
 end
 
 function gainShieldChoice(params)

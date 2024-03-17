@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "escape_zone_guid",
-        "twistZoneGUID"
+        "twistZoneGUID",
+        "bystandersPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -35,6 +36,16 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function setupSpecial(params)
+    log("21 bystanders next to scheme")
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    local twistPile = getObjectFromGUID(twistZoneGUID)
+    for i=1,21 do
+        bsPile.takeObject({position=twistPile.getPosition(),
+            flip=false,smooth=false})
     end
 end
 

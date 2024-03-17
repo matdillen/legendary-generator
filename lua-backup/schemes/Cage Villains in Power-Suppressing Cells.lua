@@ -1,6 +1,8 @@
 function onLoad()
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "setupGUID",
+        "hmPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -40,6 +42,25 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function ditchCops(obj)
+    local copstoditch = 10-#Player.getPlayers()*2
+    local henchpos = getObjectFromGUID(hmPileGUID).getPosition()
+    henchpos.y = henchpos.y + 5
+    for i = 1,copstoditch do
+        obj.takeObject({position=henchpos,smooth=false})
+    end
+end
+
+function setupSpecial(params)
+    log("Add extra cops henchmen.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Cops",
+        pileGUID = hmPileGUID,
+        destGUID = topBoardGUIDs[4],
+        callbackf = "ditchCops",
+        fsourceguid = self.guid})
+    log("Cops moved next to scheme.")
 end
 
 function lockUp(params)

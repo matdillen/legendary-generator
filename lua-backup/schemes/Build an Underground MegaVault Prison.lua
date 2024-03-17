@@ -1,7 +1,8 @@
 function onLoad()
     local guids1 = {
         "pushvillainsguid",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +16,8 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+
+    getObjectFromGUID(setupGUID).Call('invertCity')
 end
 
 function resolveTwist(params)

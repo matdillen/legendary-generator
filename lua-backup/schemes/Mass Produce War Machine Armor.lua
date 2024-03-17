@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "twistZoneGUID"
+        "twistZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -23,6 +24,8 @@ function onLoad()
     for _,o in pairs(guids3) do
         _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
+    
+    getObjectFromGUID(setupGUID).Call('invertCity')
 end
 
 function table.clone(org,key)

@@ -1,7 +1,9 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "heroDeckZoneGUID",
+        "bystandersPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -35,6 +37,25 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupSpecial(params)
+    local saveHumanity = function()
+        local bsPile = getObjectFromGUID(bystandersPileGUID)
+        local pos = getObjectFromGUID(heroDeckZoneGUID).getPosition()
+        pos.y = pos.y + 1
+        for i=1,24 do
+            bsPile.takeObject({position = pos,
+                smooth=false,
+                callback_function = function(obj)
+                    obj.addTag("Cost:2")
+                    end
+                })
+            pos.y = pos.y + 0.1
+        end
+    end
+    broadcastToAll("Save Humanity: Adding bystanders to the hero deck, please wait...")
+    Wait.time(saveHumanity,2.5)
 end
 
 function resolveTwist(params)

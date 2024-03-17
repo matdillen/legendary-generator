@@ -1,7 +1,9 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "twistZoneGUID"
+        "twistZoneGUID",
+        "setupGUID",
+        "heroPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -35,6 +37,25 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function hulkshuffle(obj)
+    obj.randomize()
+    local pos = obj.getPosition()
+    pos.y = pos.y + 0.1
+    for i=1,obj.getQuantity() do
+        obj.takeObject({position = pos, flip = true})
+        pos.y = pos.y + 0.1*i
+    end
+end
+
+function setupSpecial(params)
+    log("Extra Hulk hero in mutation pile.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = params.setupParts[9],
+        pileGUID = heroPileGUID,
+        destGUID = twistZoneGUID,
+        callbackf = "hulkshuffle",
+        fsourceguid = self.guid})
 end
 
 function resolveTwist(params)

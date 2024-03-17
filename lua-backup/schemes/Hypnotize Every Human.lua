@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "bszoneguid",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +39,13 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function setupSpecial(params)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 3,7 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
     end
 end
 

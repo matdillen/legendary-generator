@@ -1,7 +1,9 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "twistZoneGUID"
+        "twistZoneGUID",
+        "villainPileGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -39,6 +41,21 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function monsterPitRandomize(obj)
+    obj.flip()
+    obj.randomize()
+end
+
+function setupSpecial(params)
+    log("Add extra Monsters Unleashed villains.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Monsters Unleashed",
+        pileGUID = villainPileGUID,
+        destGUID = twistZoneGUID,
+        callbackf = "monsterPitRandomize",
+        fsourceguid = self.guid})
+    log("Monsters Unleashed moved to twists pile.")
 end
 
 function click_push_villain_into_city()

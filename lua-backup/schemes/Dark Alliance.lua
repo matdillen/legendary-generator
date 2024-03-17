@@ -30,6 +30,13 @@ function table.clone(org,key)
     end
 end
 
+function setupSpecial(params)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 2,4 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
+    end
+end
+
 function stripTactics(obj)
     local mmZone = getObjectFromGUID(mmZoneGUID)
     mmZone.Call('updateMasterminds',obj.getName())

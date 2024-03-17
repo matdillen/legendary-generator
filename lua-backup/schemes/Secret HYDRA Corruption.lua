@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "twistZoneGUID",
-        "officerDeckGUID"
+        "officerDeckGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -30,6 +31,11 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupSpecial(params)
+    log("Only 30 shield officers.")
+    getObjectFromGUID(setupGUID).Call('reduceStack2',{n=30,stackGUID = officerDeckGUID})
 end
 
 function gainOfficer(params)

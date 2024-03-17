@@ -1,11 +1,51 @@
 function onLoad()   
+    local guids1 = {
+        "mmZoneGUID"
+        }
+        
+    for _,o in pairs(guids1) do
+        _G[o] = Global.Call('returnVar',o)
+    end
+    
     local guids2 = {
-        "allTopBoardGUIDS"
+        "allTopBoardGUIDS",
+        "topBoardGUIDs"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+end
+
+function setupSpecial(params)
+    local dividedDeckGUIDs = {
+        ["HC:Red"]="4c1868",
+        ["HC:Green"]="8656c3",
+        ["HC:Yellow"]="533311",
+        ["HC:Blue"]="3d3ba7",
+        ["HC:Silver"]="725c5d"
+    }
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 3,7 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
+    end
+    for i,o in pairs(dividedDeckGUIDs) do
+        getObjectFromGUID(o).createButton({
+            click_function="obedienceDisk",
+            function_owner=self,
+            tooltip="Put the Obedience Disks (Scheme Twists) here.",
+            position={0,-0.4,0},
+            height=550,
+            width=500,
+            color={0,1,0,0.6}})
+    end
+end
+
+function obedienceDisk(obj,player_clicker_color)
+    broadcastToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",
+        player_clicker_color,
+        player_clicker_color)
+    return nil
 end
 
 function updateHQTags()

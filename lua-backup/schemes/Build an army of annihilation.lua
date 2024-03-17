@@ -1,6 +1,8 @@
 function onLoad()
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "hmPileGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -32,6 +34,26 @@ function table.clone(val)
         new[i] = o
     end
     return new
+end
+
+function renameHenchmen(obj)
+    for i=1,10 do
+        local cardTaken = obj.takeObject({position=getObjectFromGUID(topBoardGUIDs[2]).getPosition()})
+        cardTaken.setName("Annihilation Wave Henchmen")
+    end
+end
+
+function setupSpecial(params)
+    log("Add extra annihilation group." .. params.setupParts[9])
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = params.setupParts[9],
+        pileGUID = hmPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "renameHenchmen",
+        fsourceguid = self.guid})
+    for i = 1,2 do
+        getObjectFromGUID(mmZoneGUID).Call('lockTopZone',topBoardGUIDs[i])
+    end
+    log("Annihilation group " .. params.setupParts[9] .. " moved next to the scheme.")
 end
 
 function click_buy_annihilation(obj,player_clicker_color)

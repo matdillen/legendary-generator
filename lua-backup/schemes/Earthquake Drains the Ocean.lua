@@ -16,6 +16,8 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+
+    getObjectFromGUID(pushvillainsguid).Call('cityLowTides')
 end
 
 function table.clone(org,key)

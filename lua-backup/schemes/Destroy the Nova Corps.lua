@@ -2,12 +2,97 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "officerDeckGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "setupGUID",
+        "heroPileGUID",
+        "heroDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+
+    local guids2 = {
+        "topBoardGUIDs"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+
+    local guids3 = {
+        "playerBoards"
+        }
+        
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o))
+    end
+end
+
+function table.clone(val)
+    local new = {}
+    for i,o in pairs(val) do
+        new[i] = o
+    end
+    return new
+end
+
+function novaDist(obj)
+    log("Moving additional cards to starter decks.")
+    local novaguids = {}
+    for _,o in pairs(obj.getObjects()) do
+        for _,p in pairs(o.tags) do
+            if p == "Cost:2" then
+                table.insert(novaguids,o.guid)
+            end
+        end
+    end
+    local wndPile = getObjectFromGUID(woundsDeckGUID)
+    local soPile = getObjectFromGUID(officerDeckGUID)
+    for i,o in pairs(Player.getPlayers()) do
+        local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
+        wndPile.takeObject({position=playerdeck.getPosition(),
+            flip=false,
+            smooth=false})
+        wndPile.takeObject({position=playerdeck.getPosition(),
+            flip=false,
+            smooth=false})    
+        soPile.takeObject({position=playerdeck.getPosition(),
+            flip=false,
+            smooth=false})
+        obj.takeObject({position=playerdeck.getPosition(),
+            flip=true,
+            smooth=false,
+            guid=novaguids[i]})
+    end
+end
+
+function setupSpecial(params)
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = params.setupParts[9],
+        pileGUID = heroPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "novaDist",
+        fsourceguid = self.guid})
+    local novaMoved = function()
+        local novaloc = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])
+        local q = 14 - #Player.getPlayers()
+        if novaloc[1] and novaloc[1].getQuantity() == q then
+            return true
+        else
+            return false
+        end
+    end
+    local novaShuffle = function()
+        log("Moving remaining Nova cards to hero deck.")
+        local novaloc = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])
+        local q = 14 - #Player.getPlayers()
+        local heroZone = getObjectFromGUID(heroDeckZoneGUID)
+        for i=1,q do
+            novaloc[1].takeObject({position=heroZone.getPosition(),
+                flip=true,smooth=false})
+        end
+    end
+    Wait.condition(novaShuffle,novaMoved)
 end
 
 function resolveTwist(params)

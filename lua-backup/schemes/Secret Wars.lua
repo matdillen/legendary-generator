@@ -8,6 +8,21 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+
+    local guids2 = {
+        "topBoardGUIDs"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function setupSpecial(params)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 3,8 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
+    end
 end
 
 function resolveTwist(params)

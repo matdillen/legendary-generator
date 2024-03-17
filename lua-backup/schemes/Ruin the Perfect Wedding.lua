@@ -1,7 +1,10 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID",
+        "setupGUID",
+        "heroPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +41,49 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function orderAdam(obj)
+    for _,o in pairs(obj.getObjects()) do
+        local pos = obj.getPosition()
+        for _,k in pairs(o.tags) do
+            if k:find("Cost:") then
+                pos.y = pos.y + 12 - k:match("%d+")
+                break
+            end
+        end
+        if obj.getQuantity() > 1 then
+            obj.takeObject({position=pos,
+                guid = o.guid})
+            if obj.remainder then
+                obj = obj.remainder
+            end
+        else
+            obj.setPositionSmooth(pos)
+        end
+    end
+end
+
+function setupSpecial(params)
+    local tobewed = {}
+    for s in string.gmatch(params.setupParts[9],"[^|]+") do
+        table.insert(tobewed, string.lower(s))
+    end
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 1,8 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
+    end
+    log("Extra heroes to be wed in separate piles.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = tobewed[1],
+        pileGUID = heroPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "orderAdam",
+        fsourceguid = self.guid})
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = tobewed[2],
+        pileGUID = heroPileGUID,
+        destGUID = topBoardGUIDs[8],
+        callbackf = "orderAdam",
+        fsourceguid = self.guid})
 end
 
 function resolveTheRuinedWedding(params)

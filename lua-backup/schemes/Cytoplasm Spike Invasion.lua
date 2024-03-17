@@ -1,7 +1,10 @@
 function onLoad()
     local guids1 = {
         "pushvillainsguid",
-        "twistZoneGUID"
+        "twistZoneGUID",
+        "hmPileGUID",
+        "setupGUID",
+        "bystandersPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +18,34 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+end
+
+function setupSpecial(params)
+    log("Make a cytoplasm and bystander infected deck.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Cytoplasm Spikes",
+        pileGUID = hmPileGUID,
+        destGUID = twistZoneGUID})
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    local pos = getObjectFromGUID(twistZoneGUID).getPosition()
+    for i=1,20 do
+        bsPile.takeObject({position = pos,
+            flip=true,smooth=false})
+    end
+    local infectedDeckReady = function()
+        local infectedDeck = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if infectedDeck and infectedDeck.getQuantity() == 30 then
+            return true
+        else
+            return false
+        end
+    end
+    local infectedDeckShuffle = function()
+        local infectedDeck = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        infectedDeck.flip()
+        infectedDeck.randomize()
+    end
+    Wait.condition(infectedDeckShuffle,infectedDeckReady)
+    log("Infected deck moved to twists pile.")
 end
 
 function click_push_villain_into_city()

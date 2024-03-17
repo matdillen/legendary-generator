@@ -3,7 +3,9 @@ function onLoad()
         "pushvillainsguid",
         "escape_zone_guid",
         "twistZoneGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "setupGUID",
+        "villainPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -11,7 +13,8 @@ function onLoad()
     end
     
     local guids2 = {
-        "city_zones_guids"
+        "city_zones_guids",
+        "topBoardGUIDs"
         }
         
     for _,o in pairs(guids2) do
@@ -25,6 +28,8 @@ function onLoad()
     for _,o in pairs(guids3) do
         _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
+    
+    getObjectFromGUID(setupGUID).Call('invertCity')
 end
 
 function table.clone(org,key)
@@ -37,6 +42,29 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function onlyThor(obj)
+    for _,o in pairs(obj.getObjects()) do
+        if o.name == "Thor" then
+            obj.takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
+                flip=false,
+                smooth=false,
+                guid=o.guid})
+            obj.destruct()
+            break
+        end
+    end
+    log("Thor moved to twists zone.")
+end
+
+function setupSpecial(params)
+    log("Add extra Avengers villain group, but keep only Thor.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Avengers",
+        pileGUID = villainPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "onlyThor",
+        fsourceguid = self.guid})
 end
 
 function thorsEntourage(message)

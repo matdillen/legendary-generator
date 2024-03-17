@@ -765,7 +765,10 @@ function fightButton(zone)
                         end
                     end
                     if table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))[1] == "World War Hulk" then
-                        getObjectFromGUID(pushvillainsguid).Call('addNewLurkingMM') 
+                        if not scheme then
+                            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+                        end
+                        scheme.Call('addNewLurkingMM') 
                     end
                 elseif transformed[name] ~= nil then
                     transformMM(getObjectFromGUID(mmLocations[name]))

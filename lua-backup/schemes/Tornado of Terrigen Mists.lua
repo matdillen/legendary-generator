@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "schemeZoneGUID"
+        "schemeZoneGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -9,7 +10,9 @@ function onLoad()
     end
     
     local guids2 = {
-        "allTopBoardGUIDS"
+        "allTopBoardGUIDS",
+        "topBoardGUIDs",
+        "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
@@ -26,6 +29,46 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function setupSpecial(params)
+    log("Add player tokens.")
+    local sewers = getObjectFromGUID(city_zones_guids[2])
+    playcolors = {}
+    local annotateTokens = function(obj)
+        --log(playcolors)
+        local color = table.remove(playcolors,1)
+        obj.setColorTint(color)
+        obj.setName(color .. " Player")
+        obj.mass = 0
+        obj.drag = 10000
+        obj.angular_drag = 10000
+    end
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 3,7 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
+    end
+    for i=1,#Player.getPlayers() do
+        if i < 4 then
+            newtoken = spawnObject({type="PlayerPawn",
+                position = {x=sewers.getPosition().x,y=sewers.getPosition().y,z=sewers.getPosition().z+i*0.5},
+                callback_function = annotateTokens
+            })
+            table.insert(playcolors,Player.getPlayers()[i].color)
+        elseif i == 4 then
+            newtoken = spawnObject({type="PlayerPawn",
+                position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z},
+                callback_function = annotateTokens
+            })
+            table.insert(playcolors,Player.getPlayers()[i].color)
+        else
+            newtoken = spawnObject({type="PlayerPawn",
+                position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z+1},
+                callback_function = annotateTokens
+            })
+            table.insert(playcolors,Player.getPlayers()[i].color)
+        end
     end
 end
 

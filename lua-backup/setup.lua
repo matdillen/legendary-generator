@@ -182,6 +182,11 @@ function toggle_finalblow()
     end
 end
 
+function disable_finalblow()
+    finalblow = false
+    finalblowfixed = true
+end
+
 function invertCity()
     local step = 0
     for i,o in pairs(cityguids) do
@@ -395,8 +400,18 @@ function reduceStack(count,stackGUID)
     end
 end
 
-function findInPile(deckName,pileGUID,destGUID,callbackf)
-    callbackf_tocall = callbackf or nil
+function reduceStack2(params)
+    reduceStack(params.n,params.stackGUID)
+end
+
+function findInPile(deckName,pileGUID,destGUID,callbackf,fsourceguid)
+    local callbackf_tocall = function(obj)
+        if fsourceguid and callbackf then
+            getObjectFromGUID(fsourceguid).Call(callbackf,obj)
+        elseif callbackf then
+            callbackf(obj)
+        end
+    end
     local pile = getObjectFromGUID(pileGUID)
     local targetDeckZone = nil
     if destGUID then
@@ -417,6 +432,10 @@ function findInPile(deckName,pileGUID,destGUID,callbackf)
         end
     end
     return nil
+end
+
+function findInPile2(params)
+    return findInPile(params.deckName,params.pileGUID,params.destGUID,params.callbackf,params.fsourceguid)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)
@@ -701,6 +720,9 @@ function import_setup()
         end
         log(twistcount .. " scheme twists added to villain deck.")
         schemeSpecials()
+        if scheme.getVar("setupSpecial") then
+            scheme.Call('setupSpecial',{setupParts = table.clone(setupParts)})
+        end
     end
     
     if setupParts[1] == "The Demon Bear Saga" then
@@ -1278,16 +1300,11 @@ function schemeSpecials ()
     bsPile.randomize()
     local sopile = getObjectFromGUID(officerDeckGUID)
     sopile.randomize()
-    local vilDeckZone = getObjectFromGUID(villainDeckZoneGUID)
-    local schemZone = getObjectFromGUID(schemeZoneGUID)
     local skPile = getObjectFromGUID(sidekickDeckGUID)
     skPile.randomize()
-    local twistpile = getObjectFromGUID(twistZoneGUID)
     local wndPile = getObjectFromGUID(woundsDeckGUID)
     wndPile.randomize()
     local mmZone = getObjectFromGUID(mmZoneGUID)
-    local stPile = getObjectFromGUID(twistPileGUID)
-    local heroZone = getObjectFromGUID(heroDeckZoneGUID)
 
     if setupParts[1] == "Alien Brood Encounters" then
         for i,guid in pairs(cityguids) do
@@ -1297,198 +1314,9 @@ function schemeSpecials ()
                 tooltip = "Scan the face down card in this city space for 1 attack."})
         end 
     end
-    if setupParts[1] == "Build an Army of Annihilation" then
-        log("Add extra annihilation group.")
-        local renameHenchmen = function(obj)
-            for i=1,10 do
-                local cardTaken = obj.takeObject({position=getObjectFromGUID(topBoardGUIDs[2]).getPosition()})
-                cardTaken.setName("Annihilation Wave Henchmen")
-            end
-        end
-        findInPile(setupParts[9],hmPileGUID,topBoardGUIDs[1],renameHenchmen)
-        for i = 1,2 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        print("Annihilation group " .. setupParts[9] .. " moved next to the scheme.")
-    end
-    if setupParts[1] == "Build an Underground MegaVault Prison" or setupParts[1] == "Crown Thor King of Asgard" or setupParts[1] == "Mass Produce War Machine Armor" then
-        invertCity()
-    end
-    if setupParts[1] == "Cage Villains in Power-Suppressing Cells" then
-        log("Add extra cops henchmen.")
-        local ditchCops = function(obj)
-            local copstoditch = 10-playercount*2
-            local henchpos = getObjectFromGUID(hmPileGUID).getPosition()
-            henchpos.y = henchpos.y + 5
-            for i = 1,copstoditch do
-                obj.takeObject({position=henchpos,smooth=false})
-            end
-        end
-        findInPile("Cops",hmPileGUID,topBoardGUIDs[4],ditchCops)
-        print("Cops moved next to scheme.")
-    end
-    if setupParts[1] == "Capture Baby Hope" then
-        log("Baby hope token moved to scheme.")
-        local babyHope = getObjectFromGUID("e27f77")
-        babyHope.locked = false
-        babyHope.setTags({"VP6"})
-        babyHope.setPosition(schemZone.getPosition())
-    end
-    if setupParts[1] == "Clash of the Monsters Unleashed" then
-        log("Add extra Monsters Unleashed villains.")
-        local monsterPitRandomize = function(obj)
-            obj.flip()
-            obj.randomize()
-        end
-        findInPile("Monsters Unleashed",villainPileGUID,twistZoneGUID,monsterPitRandomize)
-        print("Monsters Unleashed moved to twists pile.")
-    end
-    if setupParts[1] == "Crown Thor King of Asgard" then
-        log("Add extra Avengers villain group.")
-        local onlyThor = function(obj)
-            for _,o in pairs(obj.getObjects()) do
-                if o.name == "Thor" then
-                    obj.takeObject({position=twistpile.getPosition(),
-                        flip=false,
-                        smooth=false,
-                        guid=o.guid})
-                    obj.destruct()
-                    break
-                end
-            end
-            print("Thor moved to twists pile.")
-        end
-        findInPile("Avengers",villainPileGUID,topBoardGUIDs[1],onlyThor)
-    end
-    if setupParts[1] == "Cytoplasm Spike Invasion" then
-        log("Make a cytoplasm and bystander infected deck.")
-        findInPile("Cytoplasm Spikes",hmPileGUID,twistZoneGUID)
-        for i=1,20 do
-            bsPile.takeObject({position=twistpile.getPosition(),
-                flip=true,smooth=false})
-        end
-        local infectedDeckReady = function()
-            local infectedDeck = get_decks_and_cards_from_zone(twistZoneGUID)[1]
-            if infectedDeck and infectedDeck.getQuantity() == 30 then
-                return true
-            else
-                return false
-            end
-        end
-        local infectedDeckShuffle = function()
-            local infectedDeck = get_decks_and_cards_from_zone(twistZoneGUID)[1]
-            infectedDeck.flip()
-            infectedDeck.randomize()
-        end
-        Wait.condition(infectedDeckShuffle,infectedDeckReady)
-        print("Infected deck moved to twists pile.")
-    end
-    if setupParts[1] == "Dark Alliance" then
-        for i = 2,4 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-    end
-    if setupParts[1] == "Dark Reign of H.A.M.M.E.R. Officers" then
-        mmZone.Call('lockTopZone',topBoardGUIDs[2])
-    end
-    if setupParts[1] == "Destroy the Nova Corps" then
-        sopile.randomize()
-        wndPile.randomize()
-        local novaDist = function(obj)
-            log("Moving additional cards to starter decks.")
-            local novaguids = {}
-            for _,o in pairs(obj.getObjects()) do
-                for _,p in pairs(o.tags) do
-                    if p == "Cost:2" then
-                        table.insert(novaguids,o.guid)
-                    end
-                end
-            end
-            for i,o in pairs(Player.getPlayers()) do
-                local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
-                wndPile.takeObject({position=playerdeck.getPosition(),
-                    flip=false,
-                    smooth=false})
-                wndPile.takeObject({position=playerdeck.getPosition(),
-                    flip=false,
-                    smooth=false})    
-                sopile.takeObject({position=playerdeck.getPosition(),
-                    flip=false,
-                    smooth=false})
-                obj.takeObject({position=playerdeck.getPosition(),
-                    flip=true,
-                    smooth=false,
-                    guid=novaguids[i]})
-            end
-        end
-        findInPile(setupParts[9],heroPileGUID,topBoardGUIDs[1],novaDist)
-        local novaMoved = function()
-            local novaloc = get_decks_and_cards_from_zone(topBoardGUIDs[1])
-            local q = 14 - playercount
-            if novaloc[1] and novaloc[1].getQuantity() == q then
-                return true
-            else
-                return false
-            end
-        end
-        local novaShuffle = function()
-            log("Moving remaining Nova cards to hero deck.")
-            local novaloc = get_decks_and_cards_from_zone(topBoardGUIDs[1])
-            local q = 14 - playercount
-            for i=1,q do
-                novaloc[1].takeObject({position=heroZone.getPosition(),
-                    flip=true,smooth=false})
-            end
-        end
-        Wait.condition(novaShuffle,novaMoved)
-    end
     if setupParts[1] == "Drain Mutants' Powers to..." or setupParts[1] == "Hack Cerebro Servers to..." or setupParts[1] == "Hire Singularity Investigations to..." or setupParts[1] == "Raid Gene Banks to..." then
         mmZone.Call('lockTopZone',topBoardGUIDs[1])
         mmZone.Call('lockTopZone',topBoardGUIDs[2])
-    end
-    if setupParts[1] == "Earthquake Drains the Ocean" then
-        getObjectFromGUID(pushvillainsguid).Call('cityLowTides')
-    end
-    if setupParts[1] == "Explosion at the Washington Monument" then
-        log("Set up the Washington Monument stacks...")
-        local topzone = getObjectFromGUID(topBoardGUIDs[1])
-        log("Gathering wounds and bystanders...")
-        for i=1,18 do
-            bsPile.takeObject({position=topzone.getPosition(),
-                flip=false,smooth=false})
-        end
-        for i=1,14 do
-            wndPile.takeObject({position=topzone.getPosition(),
-                flip=false,smooth=false})
-        end
-        for i = 1,8 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        log("Shuffle..")
-        local stack_created = function() 
-            local test = get_decks_and_cards_from_zone(topBoardGUIDs[1])[1]
-            if test and test.getQuantity() == 32 then
-                return true
-            else
-                return false
-            end
-        end
-        local stack_floors = function()
-            local floorstack = get_decks_and_cards_from_zone(topBoardGUIDs[1])[1]
-            floorstack.randomize()
-            for i = 2,8 do
-                log("Creating floor " .. i)
-                local floorZone = getObjectFromGUID(topBoardGUIDs[i]).getPosition()
-                floorZone.y = floorZone.y + 2
-                for j=1,4 do
-                    floorstack.takeObject({
-                        position = floorZone,
-                        flip=false})
-                end
-            end
-        end
-        Wait.condition(stack_floors,stack_created)
-        print("Washington monument stacks created!")
     end
     if setupParts[1] == "Fear Itself" then
         extrahq = {}
@@ -1509,429 +1337,10 @@ function schemeSpecials ()
         getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
         print("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
     end
-    if setupParts[1] == "Ferry Disaster" then
-        getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID(topBoardGUIDs[7]).getPosition())
-        print("Bystander stack moved above the Sewers.")
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-    end
-    if setupParts[1] == "Graduation at Xavier's X-Academy" then
-        log("8 bystanders next to scheme")
-        for i=1,8 do
-            bsPile.takeObject({position=twistpile.getPosition(),
-                flip=false,smooth=false})
-        end
-    end
-    if setupParts[1] == "Hypnotize Every Human" then
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-    end
-    if setupParts[1] == "Infiltrate the Lair with Spies" then
-        log("21 bystanders next to scheme")
-        for i=1,21 do
-            bsPile.takeObject({position=twistpile.getPosition(),
-                flip=false,smooth=false})
-        end
-    end
-    if setupParts[1] == "Intergalactic Kree Nega-Bomb" then
-        log("6 bystanders next to scheme")
-        for i=1,6 do
-            bsPile.takeObject({position=twistpile.getPosition(),
-                flip=false,smooth=false})
-        end
-    end
-    if setupParts[1] == "Mutating Gamma Rays" then
-        log("Extra Hulk hero in mutation pile.")
-        local hulkshuffle = function(obj)
-            --obj.flip()
-            --obj.randomize()
-            local pos = obj.getPosition()
-            pos.y = pos.y + 0.1
-            for i=1,obj.getQuantity() do
-                obj.takeObject({position = pos})
-                pos.y = pos.y + 0.1*i
-            end
-        end
-        findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
-    end
-    if setupParts[1] == "Put Humanity on Trial" then
-        log("11 bystanders next to scheme")
-        for i=1,11 do
-            bsPile.takeObject({position=twistpile.getPosition(),
-                flip=false,smooth=false})
-        end
-    end
-    if setupParts[1] == "Ruin the Perfect Wedding" then
-        local tobewed = {}
-        for s in string.gmatch(setupParts[9],"[^|]+") do
-            table.insert(tobewed, string.lower(s))
-        end
-        for i = 1,8 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        log("Extra heroes to be wed in separate piles.")
-        local orderAdam = function(obj)
-            for _,o in pairs(obj.getObjects()) do
-                local pos = obj.getPosition()
-                for _,k in pairs(o.tags) do
-                    if k:find("Cost:") then
-                        pos.y = pos.y + 12 - k:match("%d+")
-                        break
-                    end
-                end
-                if obj.getQuantity() > 1 then
-                    obj.takeObject({position=pos,
-                        guid = o.guid})
-                    if obj.remainder then
-                        obj = obj.remainder
-                    end
-                else
-                    obj.setPositionSmooth(pos)
-                end
-            end
-        end
-        findInPile(tobewed[1],heroPileGUID,topBoardGUIDs[1],orderAdam)
-        findInPile(tobewed[2],heroPileGUID,topBoardGUIDs[8],orderAdam)
-    end
-    if setupParts[1] == "Replace Earth's Leaders with Killbots" then
-        log("Set up 3 twists next to scheme already.")
-        for i=1,3 do
-            stPile.takeObject({position=twistpile.getPosition(),
-                flip=false,smooth=false})
-        end
-    end
-    if setupParts[1] == "Save Humanity" then
-        local saveHumanity = function()
-            local bsPile = getObjectFromGUID(bystandersPileGUID)
-            bsPile.randomize()
-            local pos = heroZone.getPosition()
-            pos.y = pos.y + 1
-            for i=1,24 do
-                bsPile.takeObject({position = pos,
-                    smooth=false,
-                callback_function = function(obj)
-                        obj.addTag("Cost:2")
-                    end})
-                pos.y = pos.y + 0.1
-            end
-        end
-        broadcastToAll("Save Humanity: Adding bystanders to the hero deck, please wait...")
-        Wait.time(saveHumanity,2.5)
-    end
-    if setupParts[1] == "Scavenge Alien Weaponry" or setupParts[1] == "Devolve with Xerogen Crystals" then
-        log("Identify the smugglers/experiments group.")
-        --annotation done in the push villain zone
-        printToAll(setupParts[9] .. " is the Smugglers/experiments group.")
-    end
-    if setupParts[1] == "Secret Empire of Betrayal" then
-        log("Extra hero in dark betrayal pile.")
-        local betrayalDeck = function(obj)
-            obj.randomize()
-            obj.flip()
-            local keepguids= {}
-            local objcontent = obj.getObjects()
-            for _,o in pairs(objcontent) do
-                for _,k in pairs(o.tags) do
-                    if k:find("Cost:") and tonumber(k:match("%d+")) < 6 then
-                        table.insert(keepguids,o.guid)
-                        break
-                    end
-                end
-                if #keepguids == 5 then
-                    break
-                end
-            end
-            local falsepos = getObjectFromGUID(heroPileGUID).getPosition()
-            falsepos.x = falsepos.x + 15
-            for i=1,14 do
-                local tonext = false
-                for j=1,5 do
-                    if keepguids[j] and objcontent[i].guid == keepguids[j] then
-                       tonext = true 
-                       --duplicate guids can occur, so remove found ones from table
-                       table.remove(keepguids,j)
-                       break
-                    end
-                end
-                if tonext == false then
-                    obj.takeObject({position=falsepos,
-                        guid = objcontent[i].guid,
-                        smooth=false})
-                end
-            end
-        end
-        mmZone.Call('lockTopZone',topBoardGUIDs[5])
-        findInPile(setupParts[9],heroPileGUID,topBoardGUIDs[5],betrayalDeck)
-    end
-    if setupParts[1] == "Secret HYDRA Corruption" then
-        log("Only 30 shield officers.")
-        reduceStack(30,officerDeckGUID)
-    end
-    if setupParts[1] == "Secret Wars" then
-        for i = 3,8 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-    end
-    if setupParts[1] == "Shoot Hulk into Space" then
-        log("Extra Hulk hero in mutation pile.")
-        local hulkshuffle = function(obj)
-            obj.randomize()
-            local pos = obj.getPosition()
-            pos.y = pos.y + 0.1
-            for i=1,obj.getQuantity() do
-                obj.takeObject({position = pos, flip = true})
-                pos.y = pos.y + 0.1*i
-            end
-        end
-        findInPile(setupParts[9],heroPileGUID,twistZoneGUID,hulkshuffle)
-    end
-    if setupParts[1] == "Sneak Attack the Heroes' Homes" then
-        broadcastToAll("Add one hero of your choice to the hero deck! Take three different non-rare cards from that hero and add them to your starting deck.")
-        wndPile.randomize()
-        log("Moving wounds to starter decks.")
-        for _,o in pairs(Player.getPlayers()) do
-            local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
-            for j = 1,3 do
-                wndPile.takeObject({position=playerdeck.getPosition(),
-                    flip=false,
-                    smooth=false})
-            end
-        end
-    end
-    if setupParts[1] == "Steal All Oxygen on Earth" then
-        setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Oxygen Level:[/b][-] 8")
-    end
-    if setupParts[1] == "Subjugate with Obedience Disks" then
-        local dividedDeckGUIDs = {
-            ["HC:Red"]="4c1868",
-            ["HC:Green"]="8656c3",
-            ["HC:Yellow"]="533311",
-            ["HC:Blue"]="3d3ba7",
-            ["HC:Silver"]="725c5d"
-        }
-        obedienceDisk = function(obj,player_clicker_color)
-            printToColor("Heroes in the HQ zone below this one cost 1 more for each Obedience Disk (twist) here.",player_clicker_color)
-            return nil
-        end
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        for i,o in pairs(dividedDeckGUIDs) do
-            getObjectFromGUID(o).createButton({
-                click_function="obedienceDisk",
-                function_owner=self,
-                tooltip="Put the Obedience Disks (Scheme Twists) here.",
-                position={0,-0.4,0},
-                height=550,
-                width=500,
-                color={0,1,0,0.6}})
-        end
-    end
-    if setupParts[1] == "Superhuman Baseball Game" then
-        print("Not scripted yet!")
-    end
-    if setupParts[1] == "Symbiotic Absorption" then
-        log("Add extra drained mastermind.")
-        local mmshuffle = function(obj)
-            local mm = obj
-            local mmcardnumber = getObjectFromGUID(mmZoneGUID).Call('mmGetCards',mm.getName())
-            if mmcardnumber == 4 then
-                mm.randomize()
-                log("Mastermind tactics shuffled")
-            end
-            local mmSepShuffle = function(obj)
-                mm.flip()
-                mm.randomize()
-                log("Mastermind tactics shuffled")
-            end
-            if mmcardnumber == 5 then
-                mm.takeObject({
-                    position={x=mm.getPosition().x,
-                        y=mm.getPosition().y+2,
-                        z=mm.getPosition().z},
-                        flip = false,
-                        callback_function = mmSepShuffle
-                    })
-            end
-        end
-        mmZone.Call('lockTopZone',topBoardGUIDs[1])
-        findInPile(setupParts[9],mmPileGUID,topBoardGUIDs[1],mmshuffle)
-    end
-    if setupParts[1] == "The Contest of Champions" then
-        local heroParts = {}
-        for s in string.gmatch(setupParts[8],"[^|]+") do
-            table.insert(heroParts, string.lower(s))
-        end
-        local heroDeckComplete = function()
-            local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
-            if herodeck and herodeck.getQuantity() == #heroParts*14 then
-                return true
-            else
-                return false
-            end
-        end
-        local makeChampions = function()
-            local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
-            herodeck.randomize()
-            if not herodeck.is_face_down then
-                herodeck.flip()
-            end
-            for i = 1,8 do
-                mmZone.Call('lockTopZone',topBoardGUIDs[i])
-            end
-            mmZone.Call('lockTopZone',"f394e1")
-            mmZone.Call('lockTopZone',"0559f8")
-            mmZone.Call('lockTopZone',"39e3d7")
-            local posi = getObjectFromGUID(topBoardGUIDs[1])
-            print("Putting 11 contestants above the board!")
-            contestants = {}
-            logContestant = function(obj)
-                table.insert(contestants,obj.guid)
-            end
-            returnContestants = function()
-                return contestants
-            end
-            for i=1,11 do
-                Wait.time(function() herodeck.takeObject({
-                    position = {x=posi.getPosition().x+4*i,y=posi.getPosition().y,z=posi.getPosition().z},
-                    flip = true,
-                    callback_function = logContestant
-                }) end,i/3)
-            end
-        end
-        Wait.condition(makeChampions,heroDeckComplete)
-    end
-    if setupParts[1] == "The Kree-Skrull War" then
-        mmZone.Call('lockTopZone',topBoardGUIDs[2])
-        mmZone.Call('lockTopZone',topBoardGUIDs[4])
-    end
-    if setupParts[1] == "Tornado of Terrigen Mists" then
-        log("Add player tokens.")
-        local sewers = getObjectFromGUID(city_zones_guids[2])
-        playcolors = {}
-        local annotateTokens = function(obj)
-            --log(playcolors)
-            local color = table.remove(playcolors,1)
-            obj.setColorTint(color)
-            obj.setName(color .. " Player")
-            obj.mass = 0
-            obj.drag = 10000
-            obj.angular_drag = 10000
-        end
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        for i=1,playercount do
-            if i < 4 then
-                newtoken = spawnObject({type="PlayerPawn",
-                    position = {x=sewers.getPosition().x,y=sewers.getPosition().y,z=sewers.getPosition().z+i*0.5},
-                    callback_function = annotateTokens
-                })
-                table.insert(playcolors,Player.getPlayers()[i].color)
-            elseif i == 4 then
-                newtoken = spawnObject({type="PlayerPawn",
-                    position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z},
-                    callback_function = annotateTokens
-                })
-                table.insert(playcolors,Player.getPlayers()[i].color)
-            else
-                newtoken = spawnObject({type="PlayerPawn",
-                    position = {x=sewers.getPosition().x+i*0.5,y=sewers.getPosition().y,z=sewers.getPosition().z+1},
-                    callback_function = annotateTokens
-                })
-                table.insert(playcolors,Player.getPlayers()[i].color)
-            end
-        end
-    end
-    if setupParts[1] == "Turn the Soul of Adam Warlock" then
-        log("Set up Adam Warlock pile.")
-        local orderAdam = function(obj)
-            for _,o in pairs(obj.getObjects()) do
-                local pos = obj.getPosition()
-                for _,k in pairs(o.tags) do
-                    if k:find("Cost:") then
-                        pos.y = pos.y + 12 - k:match("%d+")
-                        break
-                    end
-                end
-                if obj.getQuantity() > 1 then
-                    obj.takeObject({position=pos,
-                        guid = o.guid})
-                    if obj.remainder then
-                        obj = obj.remainder
-                    end
-                else
-                    obj.setPositionSmooth(pos)
-                end
-            end
-        end
-        findInPile("Adam Warlock (ITC)",heroPileGUID,topBoardGUIDs[1],orderAdam)
-        mmZone.Call('lockTopZone',topBoardGUIDs[1])
-    end
     if setupParts[1] == "Unite the Shards" then
         setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Shards in use:[/b][-] 0")
         shards = {}
         shardlimit = 30
-    end
-    if setupParts[1] == "United States Split by Civil War" then
-        for i = 1,2 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-    end
-    if setupParts[1] == "World War Hulk" then
-        finalblow = false
-        finalblowfixed = true
-        log("Moving extra masterminds outside game.")
-        lurkingMasterminds = {}
-        function returnLurking()
-            return lurkingMasterminds
-        end
-        for s in string.gmatch(setupParts[9],"[^|]+") do
-            table.insert(lurkingMasterminds, s)
-        end
-        log("lurkers = ")
-        log(lurkingMasterminds)
-        for i = 1,6 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        local tacticsKill = function(obj)
-            for i=1,3 do
-                if lurkingMasterminds[i] == obj.getName() then
-                    local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
-                    mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[i*2]})
-                    mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 2,lurking = true})
-                    for j,o in pairs(zonetokill.getObjects()) do
-                        if o.name == "Deck" then
-                            decktokill = zonetokill.getObjects()[j]
-                            decktokill.flip()
-                        end
-                    end
-                end
-            end
-            decktokill.randomize()
-            decktokill.takeObject({index=0}).destruct()
-            decktokill.takeObject({index=0}).destruct()
-        end
-        local tyrantShuffleHulk = function(obj)
-            if obj.getQuantity() == 4 then
-                obj.randomize()
-                obj.takeObject.destruct()
-                obj.takeObject.destruct()
-            end
-            if obj.getQuantity() == 5 then
-                local posabove = obj.getPosition()
-                posabove.y = posabove.y +2
-                obj.takeObject({position=posabove,
-                    smooth=true,
-                    index=4,
-                    callback_function = tacticsKill})
-            end
-        end
-        for i=1,3 do
-            findInPile(lurkingMasterminds[i],mmPileGUID,topBoardGUIDs[i*2],tyrantShuffleHulk)
-        end
     end
     return nil
 end

@@ -1,10 +1,22 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "twistPileGUID",
+        "twistZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+end
+
+function setupSpecial(params)
+    log("Set up 3 twists next to scheme already.")
+    local stPile = getObjectFromGUID(twistPileGUID)
+    local pos = getObjectFromGUID(twistZoneGUID).getPosition()
+    for i=1,3 do
+        stPile.takeObject({position = pos,
+            flip=false,smooth=false})
     end
 end
 

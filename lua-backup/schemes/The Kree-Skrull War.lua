@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -19,6 +20,12 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupSpecial(params)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    mmZone.Call('lockTopZone',topBoardGUIDs[2])
+    mmZone.Call('lockTopZone',topBoardGUIDs[4])
 end
 
 function resolveTwist(params)

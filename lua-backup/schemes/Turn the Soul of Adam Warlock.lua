@@ -1,6 +1,9 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "setupGUID",
+        "heroPileGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -13,6 +16,37 @@ function onLoad()
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function setupSpecial(params)
+    log("Set up Adam Warlock pile.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Adam Warlock (ITC)",
+        pileGUID = heroPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "orderAdam",
+        fsourceguid = self.guid})
+    getObjectFromGUID(mmZoneGUID).Call('lockTopZone',topBoardGUIDs[1])
+end
+
+function orderAdam(obj)
+    for _,o in pairs(obj.getObjects()) do
+        local pos = obj.getPosition()
+        for _,k in pairs(o.tags) do
+            if k:find("Cost:") then
+                pos.y = pos.y + 12 - k:match("%d+")
+                break
+            end
+        end
+        if obj.getQuantity() > 1 then
+            obj.takeObject({position=pos,
+                guid = o.guid})
+            if obj.remainder then
+                obj = obj.remainder
+            end
+        else
+            obj.setPositionSmooth(pos)
+        end
     end
 end
 

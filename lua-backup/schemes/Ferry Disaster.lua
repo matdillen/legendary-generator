@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "bystandersPileGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -11,11 +12,21 @@ function onLoad()
     
     local guids2 = {
         "allTopBoardGUIDS",
+        "topBoardGUIDs",
         "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function setupSpecial(params)
+    getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID(topBoardGUIDs[7]).getPosition())
+    log("Bystander stack moved above the Sewers.")
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 3,7 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
     end
 end
 

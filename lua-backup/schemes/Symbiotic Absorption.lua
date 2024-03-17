@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -26,6 +27,40 @@ function table.clone(params)
         return new
     else
         return {table.unpack(params.org)}
+    end
+end
+
+function setupSpecial(params)
+    log("Add extra drained mastermind.")
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    mmZone.Call('lockTopZone',topBoardGUIDs[1])
+    getObjectFromGUID(setupGUID).Call('findInPile',{deckName = params.setupParts[9],
+        pileGUID = mmPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "mmshuffle",
+        fsourceguid = self.guid})
+end
+
+function mmshuffle(obj)
+    local mm = obj
+    local mmcardnumber = getObjectFromGUID(mmZoneGUID).Call('mmGetCards',mm.getName())
+    if mmcardnumber == 4 then
+        mm.randomize()
+        log("Mastermind tactics shuffled")
+    end
+    local mmSepShuffle = function(obj)
+        mm.flip()
+        mm.randomize()
+        log("Mastermind tactics shuffled")
+    end
+    if mmcardnumber == 5 then
+        mm.takeObject({
+            position={x=mm.getPosition().x,
+                y=mm.getPosition().y+2,
+                z=mm.getPosition().z},
+                flip = false,
+                callback_function = mmSepShuffle
+            })
     end
 end
 

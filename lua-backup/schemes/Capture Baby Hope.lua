@@ -24,6 +24,14 @@ function table.clone(org,key)
     end
 end
 
+function setupSpecial(params)
+    log("Baby hope token moved to scheme.")
+    local babyHope = getObjectFromGUID("e27f77")
+    babyHope.locked = false
+    babyHope.setTags({"VP6"})
+    babyHope.setPosition(getObjectFromGUID(schemeZoneGUID).getPosition())
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards

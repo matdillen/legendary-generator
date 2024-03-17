@@ -1,6 +1,8 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "bystandersPileGUID",
+        "twistZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +40,16 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupSpecial(params)
+    log("11 bystanders next to scheme")
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    local pos = getObjectFromGUID(twistZoneGUID).getPosition()
+    for i=1,11 do
+        bsPile.takeObject({position = pos,
+            flip=false,smooth=false})
+    end
 end
 
 function resolveTwist(params)

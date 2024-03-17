@@ -2818,6 +2818,10 @@ function getStrikeloc(mmname,alttable)
     return strikeloc
 end
 
+function getStrikeLoc2(params)
+    return getStrikeLoc(params.mmname,params.alttable)
+end
+
 function getVillainsCityZone(obj)
     for _,o in pairs(current_city) do
         local citycontent = get_decks_and_cards_from_zone(o)

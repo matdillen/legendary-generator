@@ -1,6 +1,7 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -8,11 +9,19 @@ function onLoad()
     end
     
     local guids2 = {
-        "allTopBoardGUIDS"
+        "allTopBoardGUIDS",
+        "topBoardGUIDs"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function setupSpecial(params)
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 1,2 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
     end
 end
 

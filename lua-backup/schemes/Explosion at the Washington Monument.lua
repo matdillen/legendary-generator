@@ -1,7 +1,10 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "kopile_guid"
+        "kopile_guid",
+        "bystandersPileGUID",
+        "woundsDeckGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -35,6 +38,51 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupSpecial(params)
+    log("Set up the Washington Monument stacks...")
+    local topzone = getObjectFromGUID(topBoardGUIDs[1])
+    log("Gathering wounds and bystanders...")
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    for i=1,18 do
+        bsPile.takeObject({position=topzone.getPosition(),
+            flip=false,smooth=false})
+    end
+    local wndPile = getObjectFromGUID(woundsDeckGUID)
+    for i=1,14 do
+        wndPile.takeObject({position=topzone.getPosition(),
+            flip=false,smooth=false})
+    end
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    for i = 1,8 do
+        mmZone.Call('lockTopZone',topBoardGUIDs[i])
+    end
+    log("Shuffle..")
+    local stack_created = function() 
+        local test = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])[1]
+        if test and test.getQuantity() == 32 then
+            return true
+        else
+            return false
+        end
+    end
+    local stack_floors = function()
+        local floorstack = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[1])[1]
+        floorstack.randomize()
+        for i = 2,8 do
+            log("Creating floor " .. i)
+            local floorZone = getObjectFromGUID(topBoardGUIDs[i]).getPosition()
+            floorZone.y = floorZone.y + 2
+            for j=1,4 do
+                floorstack.takeObject({
+                    position = floorZone,
+                    flip=false})
+            end
+        end
+    end
+    Wait.condition(stack_floors,stack_created)
+    log("Washington monument stacks created!")
 end
 
 function showFloor(params)
