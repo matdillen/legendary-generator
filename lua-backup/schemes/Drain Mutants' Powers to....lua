@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "twistZoneGUID",
-        "sidekickZoneGUID"
+        "sidekickZoneGUID",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +39,12 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupSpecial()
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    mmZone.Call('lockTopZone',topBoardGUIDs[1])
+    mmZone.Call('lockTopZone',topBoardGUIDs[2])
 end
 
 function recruitSave(obj,player_clicker_color)

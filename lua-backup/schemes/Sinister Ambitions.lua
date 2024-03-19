@@ -1,12 +1,36 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "ambPileGUID",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+end
+
+function setupSpecial(params)
+    log("Add ambitions to villain deck.")
+    local ambPile = getObjectFromGUID(ambPileGUID)
+    ambPile.randomize()
+    local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+    pos.y = pos.y + 2
+    local annotateAmbition = function(obj)
+        obj.setName("Ambition")
+        obj.addTag("Ambition")
+        obj.addTag("VP4")
+        obj.setDescription("When this Ambition villain escapes, do its Ambition effect.")
+    end
+    for i=1,10 do
+        pos.y = pos.y + i/7
+        ambPile.takeObject({position=pos,
+            flip=false,
+            smooth=false,
+            callback_function=annotateAmbition})
+    end
+    return {["villdeckc"] = 10}
 end
 
 function bonusInCity(params)

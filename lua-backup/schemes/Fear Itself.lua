@@ -2,11 +2,22 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "kopile_guid",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "heroDeckZoneGUID",
+        "sidekickDeckGUID",
+        "officerDeckGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+
+    local guids2 = {
+        "hqguids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
 end
 
@@ -20,6 +31,30 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function returnVar(var)
+    return _G[var]
+end
+
+function setupSpecial(params)
+    extrahq = {}
+    local zone = getObjectFromGUID(hqguids[1])
+    local pos = getObjectFromGUID(sidekickDeckGUID).getPosition()
+    pos.z = pos.z + 8
+    local zone1 = zone.clone({position = pos})
+    table.insert(extrahq,zone1.guid)
+    local pos2 = getObjectFromGUID(officerDeckGUID).getPosition()
+    pos2.z = pos2.z + 8
+    local zone2 = zone.clone({position = pos2})
+    table.insert(extrahq,zone2.guid)
+    local pos3 = getObjectFromGUID(heroDeckZoneGUID).getPosition()
+    pos3.x = pos3.x + 4.4
+    local zone3 = zone.clone({position = pos3})
+    table.insert(extrahq,zone3.guid)
+    getObjectFromGUID(pushvillainsguid).Call('fetchHQ',self)
+    getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
+    log("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
 end
 
 function purgeHero(params) 

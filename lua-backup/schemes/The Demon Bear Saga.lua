@@ -3,7 +3,10 @@ function onLoad()
         "pushvillainsguid",
         "escape_zone_guid",
         "twistZoneGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "villainPileGUID",
+        "setupGUID",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -11,7 +14,8 @@ function onLoad()
     end
     
     local guids2 = {
-        "city_zones_guids"
+        "city_zones_guids",
+        "topBoardGUIDs"
         }
         
     for _,o in pairs(guids2) do
@@ -37,6 +41,31 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function extractBear(obj)
+    for _,o in pairs(obj.getObjects()) do
+        if o.name == "Demon Bear" then
+            obj.takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
+                flip=false,smooth=false,guid=o.guid})
+            obj.setPositionSmooth(getObjectFromGUID(villainDeckZoneGUID).getPosition())
+            break
+        end
+    end
+    log("Demon Bear moved to twists pile. Other demons to villain deck.")
+end
+
+function setupSpecial(params)
+    log("Taking the demon bear out.")
+    local newSetupParts = table.clone(params.setupParts)
+    newSetupParts[6] = params.setupParts[6]:gsub("Demons of Limbo|","")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Demons of Limbo",
+        pileGUID = villainPileGUID,
+        destGUID = topBoardGUIDs[1],
+        callbackf = "extractBear",
+        fsourceguid = self.guid})
+    return {["setupParts"] = newSetupParts,
+            ["villdeckc"] = 7}
 end
 
 function click_push_villain_into_city()

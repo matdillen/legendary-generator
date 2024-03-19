@@ -1,6 +1,7 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -26,6 +27,24 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function setupSpecial(params)
+    return {["heroDeckFlip_custom"] = {
+                ["guid"] = self.guid,
+                ["f"] = "skrullShuffle"}
+            }
+end
+
+function skrullShuffle(obj)
+    log("Shuffle 12 hero cards in villain deck.")
+    log("12 random hero cards shuffled into villain deck.")
+    obj.randomize()
+    local pos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+    for i=1,12 do
+        obj.takeObject({position=pos,
+            flip=true,smooth=false})
     end
 end
 

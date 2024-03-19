@@ -1,6 +1,7 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +16,12 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
+end
+
+function setupSpecial()
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    mmZone.Call('lockTopZone',topBoardGUIDs[1])
+    mmZone.Call('lockTopZone',topBoardGUIDs[2])
 end
 
 function resolveTwist(params)

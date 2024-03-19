@@ -35,6 +35,10 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
+function setupSpecial(params)
+    return {["villdeckc"] = 4}
+end
+
 function moveToVilDeck(params)
     params.obj.flip()
     params.obj.setPosition(getObjectFromGUID(villainDeckZoneGUID).getPosition())

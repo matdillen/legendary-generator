@@ -1,12 +1,27 @@
 function onLoad()
     local guids1 = {
         "pushvillainsguid",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "officerDeckGUID",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+end
+
+function setupSpecial(params)
+    log("12 officers in villain deck.")
+    local sopile = getObjectFromGUID(officerDeckGUID)
+    local vilDeckZone = getObjectFromGUID(villainDeckZoneGUID)
+    sopile.randomize()
+    for i=1,12 do
+        sopile.takeObject({position=vilDeckZone.getPosition(),
+            flip=true,
+            smooth=false})
+    end
+    return {["villdeckc"] = 12}
 end
 
 function bonusInCity(params)

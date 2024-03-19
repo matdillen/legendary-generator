@@ -1,12 +1,65 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "setupGUID",
+        "mmPileGUID",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+
+    local guids2 = {
+        "topBoardGUIDs"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function setupSpecial(params)
+    log("Moving extra masterminds outside the board.")
+    local tyrants = {}
+    for s in string.gmatch(params.setupParts[9],"[^|]+") do
+        table.insert(tyrants, string.lower(s))
+    end
+    for i=1,3 do
+        getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = tyrants[i],
+            pileGUID = mmPileGUID,
+            destGUID = topBoardGUIDs[i+5],
+            callbackf = "shuffleTyrantTactics",
+            fsourceguid = self.guid})
+    end
+    log("Extra mastermind tactics shuffled into villain deck! Their front cards can still be seen above the board.")
+    -- still remove remaining mm cards then
+    -- can stay there to show what is in the deck
+    return {["villdeckc"] = 12}
+end
+
+function shuffleTyrantTactics(obj)
+    local annotateTyrant = function(obj)
+      obj.setDescription("No abilities!")
+      obj.addTag("Tyrant")
+    end
+    local vilDeckZone = getObjectFromGUID(villainDeckZoneGUID)
+    for i=1,4 do
+      log("Mastermind Tactics Into Villain Deck")
+      obj.takeObject({position=vilDeckZone.getPosition(),
+          smooth=false,
+          flip=false,
+          index=0,
+          callback_function = annotateTyrant})
+    end
+    local clearMMFronts = function()
+      for i=1,3 do
+          local card = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[i+5])
+          card[1].destruct()
+      end
+    end
+    Wait.time(clearMMFronts,2)
 end
 
 function nonTwist(params)

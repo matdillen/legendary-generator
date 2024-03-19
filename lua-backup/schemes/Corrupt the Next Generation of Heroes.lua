@@ -3,7 +3,8 @@ function onLoad()
         "pushvillainsguid",
         "sidekickDeckGUID",
         "sidekickZoneGUID",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -36,6 +37,19 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function setupSpecial(params)
+    log("10 sidekicks in villain deck.")
+    local skpile = getObjectFromGUID(sidekickDeckGUID)
+    local vilDeckZone = getObjectFromGUID(villainDeckZoneGUID)
+    skpile.randomize()
+    for i=1,10 do
+        skpile.takeObject({position=vilDeckZone.getPosition(),
+            flip=true,
+            smooth=false})
+    end
+    return {["villdeckc"] = 10}
 end
 
 function nonTwist(params)

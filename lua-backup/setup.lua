@@ -5,6 +5,7 @@ function onLoad()
     loadGUIDs()
     
     autoplay = true
+    autoplayfixed = false
     finalblow = true
     finalblowfixed = false
     
@@ -142,6 +143,9 @@ function hasTag2(obj,tag,index)
 end
 
 function toggle_autoplay()
+    if autoplayfixed then
+        return nil
+    end
     local butt = self.getButtons()
     for _,o in pairs(butt) do
         if o.click_function == "toggle_autoplay" then
@@ -157,6 +161,11 @@ function toggle_autoplay()
         self.editButton({index=buttonindex,color = {1,0,0}})
         broadcastToAll("Cards will NOT be played from villain deck at each player's turn end.")
     end
+end
+
+function disable_autoplay()
+    autoplay = false
+    autoplayfixed = true
 end
 
 function toggle_finalblow()
@@ -480,7 +489,6 @@ end
 function import_setup()
     log("Generating imported setup...")
     playercount = #Player.getPlayers()
-    local vildeck_done = {}
     setupParts = {}
     for s in string.gmatch(setupText,"[^\r\n]+") do
         table.insert(setupParts, s)
@@ -557,12 +565,30 @@ function import_setup()
         label = "Update",tooltip="Change the state variables. Only in case of emergency or testing!"
     })
 
+    setup_scheme()
+end
+
+function setup_scheme()
     -- SCHEME
     log("Scheme: " .. setupParts[1])
     print("Scheme: " .. setupParts[1])
     print("\n")
     local schemePile = getObjectFromGUID(schemePileGUID)
     local schemeZone = getObjectFromGUID(schemeZoneGUID)
+    local scheme_finished = function(obj)
+        lockCard(obj)
+        Wait.condition(
+            function()
+                setup_mm()
+            end,
+            function()
+                if obj.spawning then
+                    return false
+                else
+                    return true
+                end
+            end)
+    end
     for _,o in pairs(schemePile.getObjects()) do
         if string.lower(o.name) == string.lower(setupParts[1]) then
             log ("Found scheme: " .. o.name)
@@ -570,10 +596,13 @@ function import_setup()
                 guid=o.guid,
                 smooth=false,
                 flip=true,
-                callback_function = lockCard})
+                callback_function = scheme_finished})
         end
     end
-    
+end    
+
+function setup_mm()
+    shuffle_setup()
     -- WOUNDS
     
     if setupParts[4] ~= "0" then
@@ -601,6 +630,22 @@ function import_setup()
     local mmcardnumber = mmZone.Call('mmGetCards',mmname) 
     local mmShuffle = function(obj)
         local mm = obj
+
+        Wait.condition(
+            function()
+                setup_rest(mm)
+            end,
+            function()
+                if obj.remainder then
+                    obj = obj.remainder
+                end
+                if obj.spawning then
+                    return false
+                else
+                    return true
+                end
+            end)
+
         if mmcardnumber == 4 then
             mm.randomize()
             log("Mastermind tactics shuffled")
@@ -619,7 +664,10 @@ function import_setup()
                 mm.takeObject({position=vilDeckZone.getPosition(),
                     smooth=false,
                     flip=false,
-                    index=0})
+                    index=0,
+                    callback_function = function() 
+                        getObjectFromGUID(mmZoneGUID).Call('click_update_tactics',getObjectFromGUID(mmZoneGUID))
+                    end})
             end
             mmZone.Call('setupMasterminds',{obj = obj,epicness = epicness})
             if epicness then
@@ -663,7 +711,11 @@ function import_setup()
                 callback_function = mmShuffle})
         end
     end
-    
+
+end
+   
+function setup_rest(mm)
+    local vildeck_done = {}
     -- Master Strike
     
     log("Master strikes: 5")
@@ -676,6 +728,39 @@ function import_setup()
             smooth = false})
     end
     log("5 Master strikes added to villain deck.")
+
+    -- Special game setup modifications
+
+    local herodeckextracards = 0
+    if scheme.getVar("setupSpecial") then
+        local setupModifications = scheme.Call('setupSpecial',{setupParts = table.clone(setupParts)})
+        if setupModifications then
+            for i,o in pairs(setupModifications) do
+                if i == "villdeckc" then
+                    table.insert(vildeck_done,o)
+                elseif i == "setupParts" then
+                    setupParts = table.clone(o)
+                elseif i == "herodeckextracards" then
+                    herodeckextracards = o
+                elseif i == "heroDeckFlip_custom" then
+                    heroDeckFlip_custom = o
+                end
+            end
+        end
+    end
+
+    if mm.getVar("setupSpecial") then
+        local mmModifications = mm.Call('setupSpecial',{setupParts = table.clone(setupParts)})
+        if mmModifications then
+            for i,o in pairs(mmModifications) do
+                if i == "villdeckc" then
+                    table.insert(vildeck_done,o)
+                elseif i == "setupParts" then
+                    setupParts = table.clone(o)
+                end
+            end
+        end
+    end
     
     -- Bystanders
     
@@ -684,64 +769,25 @@ function import_setup()
     local bsCount = tonumber(setupParts[3])
     log("Bystanders: " .. bsCount)
     table.insert(vildeck_done,bsCount)
-    if mmname ~= "Mojo" then
-        for i=1,bsCount do
-            bsPile.takeObject({position = vilDeckZone.getPosition(),
-                flip = true,
-                smooth = false})
-            log(bsCount .. " bystanders added to villain deck.")
-        end
-    else
-        mojoVPUpdate(bsCount,epicness)
-    end
-    
-    if mmname == "The Sentry" then
-        local woundstack = getObjectFromGUID(woundsDeckGUID)
-        for _,o in pairs(Player.getPlayers()) do
-            local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
-            woundstack.takeObject({position = playerdeck.getPosition()})
-            woundstack.takeObject({position = playerdeck.getPosition()})
-        end
-        log("Wounds added to player starter decks. Still shuffle!")
-        broadcastToAll("2 wounds in starter deck because of The Sentry. Bastard.")
+    for i=1,bsCount do
+        bsPile.takeObject({position = vilDeckZone.getPosition(),
+            flip = true,
+            smooth = false})
+        log(bsCount .. " bystanders added to villain deck.")
     end
 
     -- Scheme twists
-    
-    if setupParts[1] ~= "Fragmented Realities" then        
-        local twistcount = tonumber(setupParts[2])
-        log("Scheme twists: " .. twistcount)
-        table.insert(vildeck_done,twistcount)
-        local twistPile = getObjectFromGUID(twistPileGUID)
-        for i=1,twistcount do
-            twistPile.takeObject({position=vilDeckZone.getPosition(),
-                flip=false,
-                smooth=false})    
-        end
-        log(twistcount .. " scheme twists added to villain deck.")
-        schemeSpecials()
-        if scheme.getVar("setupSpecial") then
-            scheme.Call('setupSpecial',{setupParts = table.clone(setupParts)})
-        end
+          
+    local twistcount = tonumber(setupParts[2])
+    log("Scheme twists: " .. twistcount)
+    table.insert(vildeck_done,twistcount)
+    local twistPile = getObjectFromGUID(twistPileGUID)
+    for i=1,twistcount do
+        twistPile.takeObject({position=vilDeckZone.getPosition(),
+            flip=false,
+            smooth=false})    
     end
-    
-    if setupParts[1] == "The Demon Bear Saga" then
-        log("Taking the demon bear out.")
-        setupParts[6] = setupParts[6]:gsub("Demons of Limbo|","")
-        local extractBear = function(obj)
-            for _,o in pairs(obj.getObjects()) do
-                if o.name == "Demon Bear" then
-                    obj.takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
-                        flip=false,smooth=false,guid=o.guid})
-                    obj.setPositionSmooth(vilDeckZone.getPosition())
-                    break
-                end
-            end
-            log("Demon Bear moved to twists pile. Other demons to villain deck.")
-        end
-        findInPile("Demons of Limbo",villainPileGUID,topBoardGUIDs[1],extractBear)
-        table.insert(vildeck_done,7)
-    end
+    log(twistcount .. " scheme twists added to villain deck.")
     
     -- Villain groups
     
@@ -791,113 +837,8 @@ function import_setup()
             end
         end
     end
-    
-    if setupParts[1] == "Brainwash the Military" then
-        log("12 officers in villain deck.")
-        local sopile = getObjectFromGUID(officerDeckGUID)
-        sopile.randomize()
-        for i=1,12 do
-            sopile.takeObject({position=vilDeckZone.getPosition(),
-                flip=true,
-                smooth=false})
-        end
-        table.insert(vildeck_done,12)
-    end
-    
-    if setupParts[1] == "Corrupt the Next Generation of Heroes" then
-        log("Add 10 sidekicks to villain deck.")
-        local skPile = getObjectFromGUID(sidekickDeckGUID)
-        skPile.randomize()
-        for i=1,10 do
-            skPile.takeObject({position=vilDeckZone.getPosition(),
-                flip=true,
-                smooth=false})
-        end
-        table.insert(vildeck_done,10)
-    end
-    
-    if setupParts[1] == "Hidden Heart of Darkness" then  
-        table.insert(vildeck_done,4)
-    end
-    
-    if setupParts[1] == "House of M" then
-        log("Scarlet Witch in villain deck.")
-        findInPile("Scarlet Witch (R)",heroPileGUID,villainDeckZoneGUID)
-        table.insert(vildeck_done,14)
-    end
-    
-    if setupParts[1] == "Master of Tyrants" then
-        log("Moving extra masterminds outside the board.")
-        local tyrants = {}
-        for s in string.gmatch(setupParts[9],"[^|]+") do
-            table.insert(tyrants, string.lower(s))
-        end
-        local shuffleTyrantTactics = function(obj)
-              local annotateTyrant = function(obj)
-                obj.setDescription("No abilities!")
-                obj.addTag("Tyrant")
-              end
-              for i=1,4 do
-                log("Mastermind Tactics Into Villain Deck")
-                obj.takeObject({position=vilDeckZone.getPosition(),
-                    smooth=false,
-                    flip=false,
-                    index=0,
-                    callback_function = annotateTyrant})
-              end
-              local clearMMFronts = function()
-                for i=1,3 do
-                    local card = get_decks_and_cards_from_zone(topBoardGUIDs[i+5])
-                    card[1].destruct()
-                end
-              end
-              Wait.time(clearMMFronts,2)
-        end
-        for i=1,3 do
-            findInPile(tyrants[i],
-                mmPileGUID,
-                topBoardGUIDs[i+5],
-                shuffleTyrantTactics)
-        end
-        table.insert(vildeck_done,12)
-        print("Extra mastermind tactics shuffled into villain deck! Their front cards can still be seen above the board.")
-        -- still remove remaining mm cards then
-        -- can stay there to show what is in the deck
-    end
-    
-    if setupParts[1] == "Sinister Ambitions" then
-        log("Add ambitions to villain deck.")
-        local ambPile = getObjectFromGUID(ambPileGUID)
-        ambPile.randomize()
-        local pos = vilDeckZone.getPosition()
-        pos.y = pos.y + 2
-        local annotateAmbition = function(obj)
-            obj.setName("Ambition")
-            obj.addTag("Ambition")
-            obj.addTag("VP4")
-            obj.setDescription("When this Ambition villain escapes, do its Ambition effect.")
-        end
-        for i=1,10 do
-            pos.y = pos.y + i/7
-            ambPile.takeObject({position=pos,
-                flip=false,
-                smooth=false,
-                callback_function=annotateAmbition})
-        end
-        table.insert(vildeck_done,10)
-    end
-    
-    if setupParts[1] == "The Dark Phoenix Saga" or setupParts[1] == "Transform Citizens Into Demons" then
-        log("Jean Grey in villain deck.")
-        findInPile("Jean Grey (DC)",heroPileGUID,villainDeckZoneGUID)
-        table.insert(vildeck_done,14)
-    end
-    
-    if setupParts[1] == "The Mark of Khonshu" or setupParts[1] == "Trap Heroes in the Microverse" or setupParts[1] == "X-Cutioner's Song" then
-        log("Extra hero " .. setupParts[9] .." in villain deck.")
-        findInPile(setupParts[9],heroPileGUID,villainDeckZoneGUID)
-        table.insert(vildeck_done,14)
-    end
+
+    -- flip villain deck once it's complete, apply any post-finish setup modifications
     
     local vildeckc = 0
     for _,o in pairs(vildeck_done) do
@@ -916,214 +857,14 @@ function import_setup()
     local vilDeckFlip = function()
         local vildeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
         vildeck.flip()
-        if setupParts[1] == "Smash Two Dimensions Together" then
-            for i = 7,9 do
-                mmZone.Call('lockTopZone',allTopBoardGUIDS[i])
-            end
-            vildeck.randomize()
-            vildeck.setPositionSmooth(getObjectFromGUID(city_zones_guids[3]).getPosition())
-            getObjectFromGUID(pushvillainsguid).Call('smashTwoDimensions')
-        end
     end
     
-    if setupParts[1] == "Five Families of Crime" then 
-        local vilDeckSplit = function() 
-            log("Splitting villain deck in five")
-            local vilDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
-            vilDeck.randomize()
-            local subcount = vilDeck.getQuantity()
-            subcount = subcount / 5
-            local topCityZones = table.clone(allTopBoardGUIDS)
-            for i = 1,6 do
-                table.remove(topCityZones)
-                table.remove(topCityZones,1)
-            end
-            for i=1,4 do
-                local hqZone = getObjectFromGUID(topCityZones[i])
-                for j=1,subcount do
-                    vilDeck.takeObject({
-                        position = {x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z},
-                        flip=true})
-                end
-            end
-            local hqZone = getObjectFromGUID(topCityZones[5])
-            vilDeck.flip()
-            vilDeck.setPosition(hqZone.getPosition())
-            for i,o in pairs(topCityZones) do
-                getObjectFromGUID(o).createButton({click_function='click_draw_villain_call',
-                    function_owner=self,
-                    position={0,0,-0.5},
-                    rotation={0,180,0},
-                    label="Draw",
-                    tooltip="Draw a card from this villain deck dimension.",
-                    font_size=100,
-                    font_color="Black",
-                    color="White",
-                    width=375})
-            end
-            print("Villain deck split in piles above the board!")
-        end
-        click_draw_villain_call = function(obj)
-            fiveFamiliesTargetZone = nil
-            for i,o in pairs(allTopBoardGUIDS) do
-                if o == obj.guid then
-                    fiveFamiliesTargetZone = city_zones_guids[-i+13]
-                    break
-                end
-            end
-            if not fiveFamiliesTargetZone then
-                log("city zone not found.")
-                return nil
-            end
-            getObjectFromGUID(pushvillainsguid).Call('playVillains',{vildeckguid = obj.guid})
-        end
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        Wait.condition(vilDeckSplit,vilDeckComplete)
-        autoplay = false
-    elseif setupParts[1] == "Fragmented Realities" then
-        local topCityZones = table.clone(topBoardGUIDs)
-        table.remove(topCityZones)
-        table.remove(topCityZones,1)
-        table.remove(topCityZones,1)
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        local vildeckc2 = vildeckc + playercount*2
-        log(vildeckc2)
-        log("Adding scheme twists to the separate villain decks")
-        for i = 6 - playercount,5 do
-            local stPile = getObjectFromGUID(twistPileGUID)
-            local deckZone = getObjectFromGUID(topCityZones[i])
-            stPile.takeObject({position=deckZone.getPosition(),
-                flip=true,smooth=false})
-            stPile.takeObject({position=deckZone.getPosition(),
-                flip=true,smooth=false})
-        end 
-        nonCityZone = function(obj,player_clicker_color)
-            broadcastToColor("This city zone does not currently exist!",player_clicker_color)
-        end
-        local vilDeckSplit = function() 
-            log("Splitting villain deck in deck for each player")
-            local vilDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
-            vilDeck.randomize()
-            local subcount = vilDeck.getQuantity()
-            subcount = subcount / playercount
-            for i = 6 - playercount,4 do
-                for j = 1,subcount do
-                    local hqZone = getObjectFromGUID(topCityZones[i])
-                    vilDeck.takeObject({
-                        position = {x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z},
-                        flip=true})
-                end
-            end
-            local hqZone = getObjectFromGUID(topCityZones[5])
-            vilDeck.flip()
-            vilDeck.setPosition(hqZone.getPosition())
-            print("Villain deck split in piles above the board!")
-        end
-        local decksShuffle = function()
-            for i=1,5 do
-                if i > 5 - playercount then
-                    local deck = get_decks_and_cards_from_zone(topCityZones[i])[1]
-                    local zone = getObjectFromGUID(topCityZones[i])
-                    deck.randomize()
-                    local color = Player.getPlayers()[6-i].color
-                    deck.addTag(color)
-                    zone.addTag(color)
-                    zone.createButton({click_function='returnColor',
-                        function_owner=self,
-                        position={0,0,0},
-                        rotation={0,180,0},
-                        label="Deck",
-                        tooltip=color .. " player's deck",
-                        font_size=250,
-                        font_color=color,
-                        color=color,
-                        width=0})
-                else
-                    getObjectFromGUID(city_zones_guids[i+3]).createButton({
-                        click_function="nonCityZone",
-                        function_owner=self,
-                        position={0,-0.5,0},
-                        height=470,
-                        width=700,
-                        color={1,0,0,0.9}})
-                end
-            end
-            
-        end
-        local decksMade = function()
-            local test2 = 0
-            for i=6-playercount,5 do
-                local deck = get_decks_and_cards_from_zone(topCityZones[i])[1]
-                if deck then
-                    test2 = test2 + deck.getQuantity()
-                end
-            end
-            if test2 == vildeckc2 then
-                return true
-            else
-                return false
-            end
-        end
-        Wait.condition(vilDeckSplit,vilDeckComplete)
-        Wait.condition(decksShuffle,decksMade)
-    elseif setupParts[1] == "Breach Parallel Dimensions" then
-        local topCityZones = table.clone(allTopBoardGUIDS)
-        for i = 1,4 do
-            table.remove(topCityZones)
-        end
-        local vilDeckSplit = function() 
-            local vilDeck = get_decks_and_cards_from_zone(villainDeckZoneGUID)[1]
-            vilDeck.randomize()
-            local subcount = 1
-            while subcount > 0 do
-                local hqZoneGUID = table.remove(topCityZones)
-                mmZone.Call('lockTopZone',hqZoneGUID)
-                local hqZone = getObjectFromGUID(hqZoneGUID)
-                for j = 1,subcount do
-                    if vilDeck.remainder then
-                        vilDeck = vilDeck.remainder
-                        vilDeck.flip()
-                        vilDeck.setPosition({x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z})
-                        subcount = 0
-                        break
-                    end
-                    vilDeck.takeObject({
-                        position = {x=hqZone.getPosition().x,y=hqZone.getPosition().y+2,z=hqZone.getPosition().z},
-                        flip=true})
-                end
-                if subcount > 0 then
-                    subcount = subcount + 1
-                end
-            end
-            print("Villain deck split in piles above the board!")
-        end
-        local decksShuffle = function()
-            for i=1,#allTopBoardGUIDS do
-                local deck = get_decks_and_cards_from_zone(allTopBoardGUIDS[i])[1]
-                if deck then
-                    deck.randomize()
-                    getObjectFromGUID(allTopBoardGUIDS[i]).createButton({click_function='click_draw_villain_call',
-                        function_owner=self,
-                        position={0,0,-0.5},
-                        rotation={0,180,0},
-                        label="Draw",
-                        tooltip="Draw a card from this villain deck dimension.",
-                        font_size=100,
-                        font_color="Black",
-                        color="White",
-                        width=375})
-                end
-            end
-        end
-        click_draw_villain_call = function(obj)
-            getObjectFromGUID(pushvillainsguid).Call('playVillains',{vildeckguid = obj.guid})
-        end
-        Wait.condition(vilDeckSplit,vilDeckComplete)
-        Wait.time(decksShuffle,2)
+    if scheme.getVar("villainDeckSpecial") then
+        Wait.condition(
+            function()
+                scheme.Call('villainDeckSpecial',{vildeckc = vildeckc})
+            end,
+            vilDeckComplete)
     else
         log("villain deck size = " .. vildeckc)
         Wait.condition(vilDeckFlip,vilDeckComplete)
@@ -1140,243 +881,44 @@ function import_setup()
     for s in string.gmatch(setupParts[8],"[^|]+") do
         table.insert(heroParts, string.lower(s))
     end
-    local herodeckextracards = 0
     
-    if setupParts[1] == "Divide and Conquer" then
-        local dividedDeckGUIDs = {
-            ["HC:Red"]="4c1868",
-            ["HC:Green"]="8656c3",
-            ["HC:Yellow"]="533311",
-            ["HC:Blue"]="3d3ba7",
-            ["HC:Silver"]="725c5d"
-        }
-        local tempDeckGUIDs ={
-        "1fa829",
-        "bf7e87",
-        "82ccd7",
-        "5bc848",
-        "07423f",
-        "5a74e7",
-        "40b47d"
-        }
-        for i,o in pairs(dividedDeckGUIDs) do
-            local zone = getObjectFromGUID(o)
-            local col = i:sub(4,-1)
-            if col == "Silver" then
-                col = "White"
+    for _,o in pairs(heroParts) do
+        for _,object in pairs(heroPile.getObjects()) do
+            if o == string.lower(object.name) then
+                log ("Found hero: " .. object.name)
+                local heroGUID = object.guid
+                heroPile.takeObject({guid=heroGUID,
+                    position=heroZone.getPosition(),
+                    smooth=false,flip=true})
             end
-            zone.createButton({click_function='updatePower',
-                function_owner=getObjectFromGUID(pushvillainsguid),
-                position={0,0,0},
-                rotation={0,180,0},
-                label=i:sub(4,4),
-                tooltip="This is the hero deck for all " .. i:sub(4,-1) .. " heroes.",
-                font_size=250,
-                font_color=col,
-                color={0,0,0,0.75},
-                width=10,height=10})
-        end
-        for i = 3,7 do
-            mmZone.Call('lockTopZone',topBoardGUIDs[i])
-        end
-        local divideSort = function(obj)
-            --log(obj)
-            local remo = 0
-            for i,o in ipairs(obj.getObjects()) do
-                local colors = {}
-                for _,tag in pairs(o.tags) do
-                    if tag:find("HC1:") or tag:find("HC2") then
-                        table.insert(colors,"HC:" .. tag:sub(5,-1))
-                    end
-                    if tag:find("HC:") then
-                        table.insert(colors,tag)
-                    end
-                end
-                if #colors > 1 then
-                    table.remove(colors,math.random(2))
-                end
-                local dividedDeckZone = getObjectFromGUID(dividedDeckGUIDs[colors[1]])
-                if not obj.remainder then
-                    obj.takeObject({index = i-1-remo,
-                        position=dividedDeckZone.getPosition(),
-                        smooth=false,
-                        flip=true})
-                    remo = remo + 1
-                else
-                    local temp = obj.remainder
-                    temp.flip()
-                    colors = {}
-                    for _,tag in pairs(temp.getTags()) do
-                        if tag:find("HC1:") or tag:find("HC2") then
-                            table.insert(colors,"HC:" .. tag:sub(5,-1))
-                        end
-                        if tag:find("HC:") then
-                            table.insert(colors,tag)
-                        end
-                    end
-                    if #colors > 1 then
-                        table.remove(colors,math.random(2))
-                    end
-                    dividedDeckZone = getObjectFromGUID(dividedDeckGUIDs[colors[1]])
-                    temp.setPosition(dividedDeckZone.getPosition())
-                end
-            end
-        end
-        for i,o in pairs(heroParts) do
-            for _,object in pairs(heroPile.getObjects()) do
-                if o == string.lower(object.name) then
-                    log ("Found hero: " .. object.name)
-                    local heroGUID = object.guid
-                    local tempZone = getObjectFromGUID(tempDeckGUIDs[i])
-                    heroPile.takeObject({guid=heroGUID,
-                        position=tempZone.getPosition(),
-                        smooth=false,flip=true,
-                        callback_function=divideSort})
-                end
-            end
-        end
-    else
-        for _,o in pairs(heroParts) do
-            for _,object in pairs(heroPile.getObjects()) do
-                if o == string.lower(object.name) then
-                    log ("Found hero: " .. object.name)
-                    local heroGUID = object.guid
-                    heroPile.takeObject({guid=heroGUID,
-                        position=heroZone.getPosition(),
-                        smooth=false,flip=true})
-                end
-            end
-        end
-        if setupParts[1] == "Invade the Daily Bugle News HQ" then
-            log("6 extra henchmen in hero deck.")
-            local bugleInvader = function(obj)
-                for i=1,6 do
-                    obj.takeObject({position=heroZone.getPosition(),
-                        flip=false,smooth=false})
-                end
-                local hmPile = getObjectFromGUID(hmPileGUID)
-                for i=1,4 do
-                    obj.takeObject({position=hmPile.getPosition(),
-                        flip=false,smooth=false})
-                end
-            end
-            herodeckextracards = 6
-            findInPile(setupParts[9],hmPileGUID,twistZoneGUID,bugleInvader)
-        end
-        local heroDeckComplete = function()
-            local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
-            if herodeck and herodeck.getQuantity() == #heroParts*14 + herodeckextracards then
-                return true
-            else
-                return false
-            end
-        end
-        local heroDeckFlip = function()
-            local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
-            herodeck.flip()
-        end
-        if setupParts[1] == "Secret Invasion of the Skrull Shapeshifters" then
-            local skrullShuffle = function() 
-                log("Shuffle 12 hero cards in villain deck.")
-                print("12 random hero cards shuffled into villain deck.")
-                local heroDeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
-                heroDeck.randomize()
-                heroDeck.flip()
-                for i=1,12 do
-                    heroDeck.takeObject({position=vilDeckZone.getPosition(),
-                        flip=true,smooth=false})
-                end
-            end
-            Wait.condition(skrullShuffle,heroDeckComplete)
-        else
-            Wait.condition(heroDeckFlip,heroDeckComplete)
         end
     end
+    local heroDeckComplete = function()
+        local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
+        if herodeck and herodeck.getQuantity() == #heroParts*14 + herodeckextracards then
+            return true
+        else
+            return false
+        end
+    end
+    local heroDeckFlip = function()
+        local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)[1]
+        herodeck.flip()
+        if heroDeckFlip_custom then
+            getObjectFromGUID(heroDeckFlip_custom.guid).Call(heroDeckFlip_custom.f,herodeck)
+        end
+    end
+    Wait.condition(heroDeckFlip,heroDeckComplete)
     return nil
 end
 
-function schemeSpecials ()
-    local bsPile = getObjectFromGUID(bystandersPileGUID)
-    bsPile.randomize()
+function shuffle_setup ()
     local sopile = getObjectFromGUID(officerDeckGUID)
     sopile.randomize()
     local skPile = getObjectFromGUID(sidekickDeckGUID)
     skPile.randomize()
     local wndPile = getObjectFromGUID(woundsDeckGUID)
     wndPile.randomize()
-    local mmZone = getObjectFromGUID(mmZoneGUID)
-
-    if setupParts[1] == "Alien Brood Encounters" then
-        for i,guid in pairs(cityguids) do
-            getObjectFromGUID(guid).editButton({index = 0,
-                label = "Scan",
-                click_function = 'scan_villain',
-                tooltip = "Scan the face down card in this city space for 1 attack."})
-        end 
-    end
-    if setupParts[1] == "Drain Mutants' Powers to..." or setupParts[1] == "Hack Cerebro Servers to..." or setupParts[1] == "Hire Singularity Investigations to..." or setupParts[1] == "Raid Gene Banks to..." then
-        mmZone.Call('lockTopZone',topBoardGUIDs[1])
-        mmZone.Call('lockTopZone',topBoardGUIDs[2])
-    end
-    if setupParts[1] == "Fear Itself" then
-        extrahq = {}
-        local zone = getObjectFromGUID(hqguids[1])
-        local pos = skPile.getPosition()
-        pos.z = pos.z + 8
-        local zone1 = zone.clone({position = pos})
-        table.insert(extrahq,zone1.guid)
-        local pos2 = sopile.getPosition()
-        pos2.z = pos2.z + 8
-        local zone2 = zone.clone({position = pos2})
-        table.insert(extrahq,zone2.guid)
-        local pos3 = getObjectFromGUID(heroDeckZoneGUID).getPosition()
-        pos3.x = pos3.x + 4.4
-        local zone3 = zone.clone({position = pos3})
-        table.insert(extrahq,zone3.guid)
-        getObjectFromGUID(pushvillainsguid).Call('fetchHQ')
-        getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
-        print("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
-    end
-    if setupParts[1] == "Unite the Shards" then
-        setNotes(getNotes() .. "\r\n\r\n[9D02F9][b]Shards in use:[/b][-] 0")
-        shards = {}
-        shardlimit = 30
-    end
-    return nil
-end
-
-function updateShards(guid)
-    if setupParts and setupParts[1] == "Unite the Shards" then
-        if guid then
-            local newshard = true
-            for i,o in pairs(shards) do
-                if o == guid then
-                    newshard = false
-                    break
-                end
-            end
-            if newshard == true then
-                table.insert(shards,guid)
-            end
-        end
-        local shardcount = 0
-        for _,o in pairs(shards) do
-            local shard = getObjectFromGUID(o)
-            if shard then
-                shardcount = shardcount + shard.Call('returnVal')
-            end
-        end
-        setNotes(getNotes():gsub("Shards in use:%[/b%]%[%-%] %d+","Shards in use:[/b][-] " .. shardcount))
-        return shardcount
-    end
-end
-
-function returnShardLimit()
-    if shardlimit then
-        return shardlimit - updateShards()
-    else
-        return nil
-    end
 end
 
 function playHorror()
@@ -1725,63 +1267,4 @@ function resolveHorror(obj)
         end
         return nil
     end
-end
-
-function mojoVPUpdate(bsCount,epicness)
-    if not bsCount then
-        bsCount = 0
-    end
-    local mojo = 3
-    local mojovp = 3
-    if epicness == true then
-        mojo = 6
-        mojovp = 4
-    end
-    local mojotagf = function(obj)
-        obj.setTags({"Bystander","VP" .. mojovp})
-    end
-    local bsPile = getObjectFromGUID(bystandersPileGUID)
-    local bspilecount = bsPile.getQuantity()
-    local mojopos = bsPile.getPosition()
-    local bsflip = true
-    for i=1,bspilecount do
-        if i <= bsCount then
-            mojopos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
-            bsflip = true
-        elseif i <= mojo + bsCount then
-            mojopos = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Mojo")).getPosition()
-            bsflip = false
-        else 
-            mojopos = bsPile.getPosition()
-            mojopos.y = mojopos.y +2
-            bsflip = false
-        end
-        bsPile.takeObject({position = mojopos,
-            smooth = false,
-            flip = bsflip,
-            callback_function = mojotagf})
-        if bsPile.remainder then
-            mojotagf(bsPile.remainder)
-            break
-        end
-    end
-    local bsTagged = function()
-        local bsdeck = get_decks_and_cards_from_zone(bszoneguid)
-        if bsdeck[1] and bsdeck[1].getQuantity() == bspilecount - bsCount - mojo then
-            return true
-        else
-            return false
-        end
-    end
-    local setNewBSGUID = function()
-        local bsDeck = get_decks_and_cards_from_zone(bszoneguid)
-        bystandersPileGUID = bsDeck[1].guid
-        log("bs pile guid = ")
-        log(bystandersPileGUID)
-    end
-    local timerSetNewGUID = function()
-        Wait.condition(setNewBSGUID,bsTagged)
-    end
-    Wait.time(timerSetNewGUID,2)
-    broadcastToAll("Mojo! Bystanders net " .. mojovp .. " victory points each!")
 end

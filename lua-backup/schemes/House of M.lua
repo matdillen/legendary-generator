@@ -1,7 +1,10 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "schemeZoneGUID"
+        "schemeZoneGUID",
+        "heroPileGUID",
+        "villainDeckZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -19,6 +22,14 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupSpecial(params)
+    log("Scarlet Witch in villain deck.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = "Scarlet Witch (R)",
+        pileGUID = heroPileGUID,
+        destGUID = villainDeckZoneGUID})
+    return {["villdeckc"] = 14}
 end
 
 function bonusInCity(params)

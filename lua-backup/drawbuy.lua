@@ -63,6 +63,8 @@ function onLoad()
             scriptguid = recruitszoneguid
         end
     end
+
+    zonebonus = {}
 end
 
 function toggleButton()
@@ -271,6 +273,72 @@ function click_draw_hero()
         end
     else
         printToAll("No hero deck found")
+    end
+    Wait.time(updateCost,0.5)
+end
+
+function updateCost()
+    local hero = getHeroUp()
+    if hero then
+        local cost = hasTag2(hero,"Cost:")
+        if not cost then
+            cost = ""
+        end
+        local tooltip = "[base]: " .. cost
+        if cost ~= "" then
+            for i,o in pairs(zonebonus) do
+                cost = cost + o
+                tooltip = tooltip .. "\r\n[" .. i .. "]: " .. o
+            end
+        end
+        local scriptZone = getObjectFromGUID(scriptguid)
+        local butt = scriptZone.getButtons()
+        local buttonindex = nil
+        if butt then
+            for i,b in pairs(butt) do
+                if b.click_function == "updateCost" then
+                    buttonindex = i -1
+                    break
+                end
+            end
+        end
+        if buttonindex and cost == "" then
+            scriptZone.removeButton(buttonindex)
+        elseif buttonindex then
+            scriptZone.editButton({index = buttonindex, label = cost, tooltip = tooltip})
+        else
+            scriptZone.createButton({click_function='updateCost',
+                function_owner=self,
+                position={0,0,0},
+                rotation={0,180,0},
+                scale = {1,1,0.5},
+                label=cost,
+                tooltip=tooltip,
+                font_size=300,
+                font_color={1,1,0},
+                color={0,0,0,0.75},
+                width=250,height=150})
+        end
+    end
+end
+
+function onObjectEnterZone(zone,object)
+    if zone.guid == self.guid then
+        Wait.condition(updateCost,function()
+            if object.isSmoothMoving() or object.held_by_color then
+                return false
+            else
+                return true
+            end
+        end)
+    end
+end
+
+function onObjectLeaveZone(zone,object)
+    if zone.guid == self.guid then
+        if object.hasTag("Hero") then
+            Wait.time(updateCost,0.2)
+        end
     end
 end
 

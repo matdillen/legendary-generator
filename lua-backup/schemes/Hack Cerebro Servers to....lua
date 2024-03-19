@@ -4,7 +4,8 @@ function onLoad()
         "twistZoneGUID",
         "bystandersPileGUID",
         "bszoneguid",
-        "kopile_guid"
+        "kopile_guid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -35,6 +36,12 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupSpecial()
+    local mmZone = getObjectFromGUID(mmZoneGUID)
+    mmZone.Call('lockTopZone',topBoardGUIDs[1])
+    mmZone.Call('lockTopZone',topBoardGUIDs[2])
 end
 
 function refreshHQ(params)

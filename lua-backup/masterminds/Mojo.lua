@@ -4,7 +4,10 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "mmZoneGUID",
-        "setupGUID"
+        "setupGUID",
+        "bystandersPileGUID",
+        "villainDeckZoneGUID",
+        "bszoneguid"
         }
         
     for _,o in pairs(guids1) do
@@ -40,6 +43,14 @@ function table.clone(org,key)
     end
 end
 
+function setupSpecial(params)
+    setupParts = table.clone(params.setupParts)
+    local bscount = setupParts[3]
+    setupParts[3] = 0
+    return {["setupParts"] = setupParts,
+            ["vildeckc"] = bscount}
+end
+
 function updateMMMojo()
     local checkvalue = 1
     if not Global.Call('get_decks_and_cards_from_zone',self.guid)[1] then
@@ -68,10 +79,12 @@ end
 
 function setupMM(params)
     epicness = params.epicness
-    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
-    if schemeParts[5] ~= "Mojo" and schemeParts[5] ~= "Mojo - epic" then
-        getObjectFromGUID(setupGUID).Call('mojoVPUpdate',0)
+
+    local bsCount = 0
+    if setupParts then
+        bsCount = setupParts[3]
     end
+    mojoVPUpdate(bsCount,epicness)
     mojobasepower = 6
     if epicness then
         getObjectFromGUID(setupGUID).Call('playHorror')
@@ -85,6 +98,67 @@ function setupMM(params)
     function onObjectLeaveZone(zone,object)
         updateMMMojo()
     end
+end
+
+function mojoVPUpdate(bsCount,epicness)
+    if not bsCount then
+        bsCount = 0
+    end
+    local mojo = 3
+    local mojovp = 3
+    if epicness == true then
+        mojo = 6
+        mojovp = 4
+    end
+    local mojotagf = function(obj)
+        obj.removeTag("VP1")
+        obj.addTag("VP3")
+    end
+    local bsPile = getObjectFromGUID(bystandersPileGUID)
+    local bspilecount = bsPile.getQuantity()
+    local mojopos = bsPile.getPosition()
+    local bsflip = true
+    for i=1,bspilecount do
+        if i <= bsCount then
+            mojopos = getObjectFromGUID(villainDeckZoneGUID).getPosition()
+            bsflip = true
+        elseif i <= mojo + bsCount then
+            mojopos = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',"Mojo")).getPosition()
+            bsflip = false
+        else 
+            mojopos = bsPile.getPosition()
+            mojopos.y = mojopos.y +2
+            bsflip = false
+        end
+        bsPile.takeObject({position = mojopos,
+            smooth = false,
+            flip = bsflip,
+            callback_function = mojotagf})
+        if bsPile.remainder then
+            mojotagf(bsPile.remainder)
+            break
+        end
+    end
+    local bsTagged = function()
+        local bsdeck = Global.Call('get_decks_and_cards_from_zone',bszoneguid)
+        if bsdeck[1] and bsdeck[1].getQuantity() == bspilecount - bsCount - mojo then
+            return true
+        else
+            return false
+        end
+    end
+    local setNewBSGUID = function()
+        local bsDeck = Global.Call('get_decks_and_cards_from_zone',bszoneguid)
+        getObjectFromGUID(pushvillainsguid).Call('updateVar',{varname = "bystandersPileGUID",
+            varvalue = bsDeck[1].guid})
+        log("bs pile guid = ")
+        log(bsDeck[1].guid)
+    end
+    local timerSetNewGUID = function()
+        Wait.condition(setNewBSGUID,bsTagged)
+    end
+    Wait.time(timerSetNewGUID,2)
+    broadcastToAll("Mojo! Bystanders net " .. mojovp .. " victory points each!")
 end
 
 function resolveStrike(params)

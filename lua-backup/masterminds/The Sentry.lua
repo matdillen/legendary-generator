@@ -4,7 +4,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "mmZoneGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "woundsDeckGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -36,6 +37,17 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupSpecial(params)
+    local woundstack = getObjectFromGUID(woundsDeckGUID)
+    for _,o in pairs(Player.getPlayers()) do
+        local playerdeck = getObjectFromGUID(playerBoards[o.color]).Call('returnDeck')[1]
+        woundstack.takeObject({position = playerdeck.getPosition()})
+        woundstack.takeObject({position = playerdeck.getPosition()})
+    end
+    log("Wounds added to player starter decks. Still shuffle!")
+    broadcastToAll("2 wounds in starter deck because of The Sentry. Bastard.")
 end
 
 function updateMMSentry()

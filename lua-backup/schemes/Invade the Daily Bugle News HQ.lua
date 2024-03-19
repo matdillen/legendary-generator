@@ -1,6 +1,10 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "setupGUID",
+        "hmPileGUID",
+        "twistZoneGUID",
+        "heroDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +42,29 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function bugleInvader(obj)
+    local heroZone = getObjectFromGUID(heroDeckZoneGUID)
+    for i=1,6 do
+        obj.takeObject({position=heroZone.getPosition(),
+            flip=false,smooth=false})
+    end
+    local hmPile = getObjectFromGUID(hmPileGUID)
+    for i=1,4 do
+        obj.takeObject({position=hmPile.getPosition(),
+            flip=false,smooth=false})
+    end
+end
+
+function setupSpecial(params)
+    log("6 extra henchmen in hero deck.")
+    getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = params.setupParts[9],
+        pileGUID = hmPileGUID,
+        destGUID = twistZoneGUID,
+        callbackf = "bugleInvader",
+        fsourceguid = self.guid})
+    return {["herodeckextracards"] = 6}
 end
 
 function resolveTwist(params)

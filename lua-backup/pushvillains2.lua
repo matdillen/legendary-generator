@@ -109,9 +109,9 @@ function createButtons()
     })
 end
 
-function fetchHQ()
+function fetchHQ(scheme)
     hqguids_ori = table.clone(hqguids)
-    local extrahq = getObjectFromGUID(setupGUID).Call('returnVar','extrahq')
+    local extrahq = scheme.Call('returnVar','extrahq')
     hqguids = merge(hqguids,table.clone(extrahq))
 end
 
@@ -164,12 +164,6 @@ end
 function click_rescue_bystander(obj, player_clicker_color) 
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local bspile = getObjectFromGUID(bystandersPileGUID)
-    --following is a fix if mojo changes the bspile guid
-    if not bspile then
-        bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
-        log(bystandersPileGUID)
-        bspile = getObjectFromGUID(bystandersPileGUID)
-    end
     local dest = playerBoard.positionToWorld(pos_vp2)
     dest.y = dest.y + 3
     if bspile then
@@ -742,8 +736,12 @@ end
 
 function click_push_villain_into_city(obj,player_clicker_color)
 -- when moving the villain deck buttons, change the first guid to a new scripting zone
-    cityPushDelay = cityPushDelay + 1
+    delayCityPush()
     checkCityContent(player_clicker_color)
+end
+
+function delayCityPush()
+    cityPushDelay = cityPushDelay + 1
 end
 
 function checkCityContent2(params)
@@ -1009,43 +1007,6 @@ function cityLowTides()
             font_size = 75
         })
     end
-end
-
-function smashTwoDimensions()
-    table.remove(current_city,2)
-    table.remove(current_city,2)
-    current_city2 = {city_zones_guids[1]}
-    for i = 1,3 do
-        table.insert(current_city2,allTopBoardGUIDS[10-i])
-    end
-    villainDeckZoneGUID = city_zones_guids[3]
-    local butt = self.getButtons()
-    for i,o in pairs(butt) do
-        if o.click_function == "click_push_villain_into_city" then
-            self.removeButton(i-1)
-            break
-        end
-    end
-    pushTopDimension = function()
-        cityPushDelay = cityPushDelay + 1
-        checkCityContent(nil,"Top")
-    end
-    pushBottomDimension = function()
-        cityPushDelay = cityPushDelay + 1
-        checkCityContent(nil,"Bottom")
-    end
-    self.createButton({
-        click_function="pushTopDimension", function_owner=self,
-        position={0,1,-1.2}, label="Top City", color={0.8,1,0.8,1}, width=2000, height=1000,
-        tooltip = "Push villains into the top city dimension or charge once",
-        font_size = 250
-    })
-    self.createButton({
-        click_function="pushBottomDimension", function_owner=self,
-        position={0,1,1.2}, label="Bottom City", color={1,0.8,1,1}, width=2000, height=1000,
-        tooltip = "Push villains into the bottom city dimension or charge once",
-        font_size = 250
-    })
 end
 
 function playVillains(options)
