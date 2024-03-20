@@ -191,7 +191,7 @@ function resolveTwist(params)
         local mmLocations = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"mmLocations"),true)
         for i,o in pairs(mmLocations) do
             if o == mmZoneGUID and getObjectFromGUID(mmZoneGUID).Call('mmActive',i) then
-                getObjectFromGUID(pushvillainsguid).Call('addNewLurkingMM',i)
+                addNewLurkingMM(i)
                 break
             end
         end

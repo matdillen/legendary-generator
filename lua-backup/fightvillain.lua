@@ -308,11 +308,11 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
                             obj2.setPositionSmooth(pos)
                             broadcastToColor("You gained a shard!",player_clicker_color,player_clicker_color)
                         else
-                            if obj2.hasTag("Villainous Weapon") then
+                            if obj2.hasTag("Villainous Weapon") or obj2.hasTag("gainAsHero") then
                                 local pos = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
                                 pos.y = pos.y + 3
                                 obj2.setPositionSmooth(pos)
-                                broadcastToColor("You gained the Villainous Weapon " .. obj2.getName() .. " to your discard pile!",player_clicker_color,player_clicker_color)
+                                broadcastToColor("You gained the Villainous Weapon or captured hero " .. obj2.getName() .. " to your discard pile!",player_clicker_color,player_clicker_color)
                             else
                                 obj2.setPositionSmooth(dest)
                             end

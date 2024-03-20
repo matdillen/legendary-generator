@@ -23,7 +23,7 @@ function add_subtract(_obj, _color, alt_click)
     local mod = alt_click and -1 or 1
     local limit = nil
     scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
-    if scheme and scheme.getName() == "Unite the Shards" then
+    if scheme and scheme.getName() == "Unite The Shards" then
         limit = scheme.Call('returnShardLimit')
     end
     if not limit or limit > 0 or mod == -1 then
@@ -32,7 +32,7 @@ function add_subtract(_obj, _color, alt_click)
             log("Shards for object " .. self.guid .. " changed from " .. val .. " to " .. new_value)
             val = new_value
             updateVal()
-            if scheme and scheme.getName() == "Unite the Shards"  then
+            if scheme and scheme.getName() == "Unite The Shards"  then
                 scheme.Call('updateShards',self.guid)
             end
         end

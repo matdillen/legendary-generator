@@ -320,46 +320,14 @@ function setupMasterminds(params)
     local strikezone = getObjectFromGUID(getStrikeloc(objname))
     local script = obj.getLuaScript()
     
-    local objcontent = nil
-    local basepower = 0
-    if obj.tag == "Deck" then
-        objcontent = obj.getObjects()
-    else
-        baselabel = hasTag2(obj,"Power:") or ""
-        if epicness then
-            baselabel = hasTag2(o,"Epic:") or hasTag2(o,"Epicpower:")
-        end
-    end
-    if objcontent then
-        for _,o in pairs(objcontent) do
-            local mmfound = false
-            local tacticfound = false
-            baselabel = 0
-            for _,t in pairs(o.tags) do
-                if t == "Mastermind" then
-                    mmfound = true
-                end
-                if t:find("Tactic:") then
-                    tacticfound = true
-                end
-                if t:find("Power:") and not epicness then
-                    baselabel = tonumber(t:match("%d+")) or ""
-                end
-                if epicness and (t:find("Epicpower:") or t:find("Epic:")) then
-                    baselabel = tonumber(t:match("%d+")) or ""
-                end
-            end
-            if mmfound and not tacticfound then
-                break
-            end
-        end
-    end
+    local baselabel = setMMBasePower({obj = obj})
     mmButtons({mmname = objname,
         checkvalue = 1,
         label = baselabel,
         tooltip = "Base power as written on the card.",
         f = 'updatePower',
         id = 'card'})
+
     if not notscripted then
         obj.setLuaScript("")
         obj.reload()
@@ -472,6 +440,60 @@ function updatePower()
     getObjectFromGUID(pushvillainsguid).Call('updatePower')
 end
 
+function setMMBasePower(params)
+    local obj = params.obj
+    local zoneguid = params.zoneguid
+
+    if zoneguid then
+        local zonecontent = Global.Call('get_decks_and_cards_from_zone',zoneguid)
+        for _,o in pairs(zonecontent) do
+            if o.hasTag("Mastermind") then
+                obj = o
+                break
+            end
+        end
+    end
+    if not obj then
+        broadcastToAll("Mastermind not found?")
+        return nil
+    end
+    local objcontent = nil
+    local baselabel = ""
+    if obj.tag == "Deck" then
+        objcontent = obj.getObjects()
+    else
+        baselabel = hasTag2(obj,"Power:") or ""
+        if epicness then
+            baselabel = hasTag2(o,"Epic:") or hasTag2(o,"Epicpower:")
+        end
+    end
+    if objcontent then
+        for _,o in pairs(objcontent) do
+            local mmfound = false
+            local tacticfound = false
+            baselabel = 0
+            for _,t in pairs(o.tags) do
+                if t == "Mastermind" then
+                    mmfound = true
+                end
+                if t:find("Tactic:") then
+                    tacticfound = true
+                end
+                if t:find("Power:") and not epicness then
+                    baselabel = tonumber(t:match("%d+")) or ""
+                end
+                if epicness and (t:find("Epicpower:") or t:find("Epic:")) then
+                    baselabel = tonumber(t:match("%d+")) or ""
+                end
+            end
+            if mmfound and not tacticfound then
+                break
+            end
+        end
+    end
+    return tostring(baselabel)
+end
+
 function mmButtons(params)
     local mmname = params.mmname
     local checkvalue = params.checkvalue
@@ -512,15 +534,32 @@ function mmButtons(params)
             end
         end
     end
+    if not toolt_orig["card"] then
+        local baselabel = setMMBasePower({zoneguid = mmLocations[mmname]})
+        toolt_orig["card"] = {baselabel,"Base power as written on the card."}
+    end
+    local cards = Global.Call('get_decks_and_cards_from_zone',mmzone.guid)
+    local shardfound = false
+    for _,obj in pairs(cards) do
+        if obj.getName() == "Shard" then
+            local val = obj.Call('returnVal')
+            toolt_orig["shard"] = {"+" .. val,"Power bonus from shards here."}
+            shardfound = true
+        end
+    end
+    if shardfound == false and toolt_orig["shard"] then
+        toolt_orig["shard"] = nil
+    end
     if f == "mm" then
         f = 'updatePower'
     end
     if checkvalue == 0 then
         label = ""
     end
-    if not toolt_orig then
+    if label and tooltip and not toolt_orig then
+        log("error")
         toolt_orig = {[id] = {label,tooltip}}
-    else
+    elseif label and tooltip then
         toolt_orig[id] = {label,tooltip}
     end
     local lab,tool = updateLabel(toolt_orig)

@@ -65,6 +65,7 @@ function onLoad()
     end
 
     zonebonus = {}
+    heroinside = {}
 end
 
 function toggleButton()
@@ -323,7 +324,8 @@ function updateCost()
 end
 
 function onObjectEnterZone(zone,object)
-    if zone.guid == self.guid then
+    if zone.guid == self.guid and not heroinside[object.guid] and object.hasTag("Hero") then
+        heroinside[object.guid] = true
         Wait.condition(updateCost,function()
             if object.isSmoothMoving() or object.held_by_color then
                 return false
@@ -335,10 +337,9 @@ function onObjectEnterZone(zone,object)
 end
 
 function onObjectLeaveZone(zone,object)
-    if zone.guid == self.guid then
-        if object.hasTag("Hero") then
-            Wait.time(updateCost,0.2)
-        end
+    if zone.guid == self.guid and heroinside[object.guid] then
+        heroinside[object.guid] = nil
+        Wait.time(updateCost,0.2)
     end
 end
 

@@ -23,6 +23,23 @@ function setupSpecial(params)
     return {["villdeckc"] = 14}
 end
 
+function bonusInCity(params)
+    if params.object.hasTag("Villain") then
+        local cards = Global.Call('get_decks_and_cards_from_zone',params.zoneguid)
+        local bonus = 0
+        for _,o in pairs(cards) do
+            if o.hasTag("Hero") then
+                bonus = bonus + 2
+            end
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+                label = bonus,
+                zoneguid = params.zoneguid,
+                tooltip = "This villain gets +2 for each hero it captured.",
+                id="xcutioner"})
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     
@@ -32,6 +49,7 @@ function nonTwist(params)
         else
             obj.setDescription(obj.getDescription() .. "\r\nVILLAINOUS WEAPON: Of sorts. These are captured by the enemy (including mastermind) closest to the Villain deck. The Villain gets +2 for each captured hero. When fighting an enemy with captured heroes, gain those heroes.")
         end
+        obj.addTag("gainAsHero")
     end
     return 1
 end

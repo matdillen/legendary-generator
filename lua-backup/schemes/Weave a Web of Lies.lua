@@ -110,5 +110,6 @@ function resolveTwist(params)
     local cards = params.cards
 
     getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
+    updateMMLiesRestriction()
     return nil
 end

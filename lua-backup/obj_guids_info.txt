@@ -14,7 +14,7 @@ c7e1d5,mmPileGUID,
 653663,woundsDeckGUID,
 e27f77,babyhope,
 c82082,twistPileGUID,
-eff5ba,shardGUID,
+eff5ba,shardGUID,shard.lua
 e84ef1,shard,shard.lua
 9e9018,shard,shard.lua
 f02b31,shard,shard.lua
