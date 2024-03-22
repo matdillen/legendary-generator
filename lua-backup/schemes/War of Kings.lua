@@ -11,6 +11,14 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+
+    local guids3 = {
+        "resourceguids"
+        }
+            
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
+    end
 end
 
 function table.clone(org,key)
@@ -26,6 +34,12 @@ function table.clone(org,key)
 end
 
 function payBattlefront(obj,player_clicker_color)
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+    if recruit < twistsstacked then
+        broadcastToColor("You don't have enough recruit to supply the war!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-twistsstacked)
     for i,o in pairs(obj.getButtons()) do
         if o.click_function == "payBattlefront" then
             obj.removeButton(i-1)

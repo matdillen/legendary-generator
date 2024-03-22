@@ -818,6 +818,10 @@ function checkCityContent(player_clicker_color,altcity,customcity)
     end
 end
 
+function onPlayerTurn(player,previous_player)
+    updatePower()
+end
+
 function updatePower()
     local mmZone = getObjectFromGUID(mmZoneGUID)
     local masterminds = table.clone(mmZone.Call('returnVar',"masterminds"))
@@ -3119,27 +3123,12 @@ function resolveVillainEffect(params)
     local color = params.color or Turns.turn_color
     local schemeParts = params.schemeParts or getObjectFromGUID(setupGUID).Call('returnSetupParts') or {""}
     
-    if schemeParts[1] == "Annihilation: Conquest" and obj.hasTag("Phalanx-Infected") then
-        obj.removeTag("Phalanx-Infected")
-        obj.removeTag("Villain")
-        dealCard({obj = obj})
-        return nil
-    end
-    if schemeParts[1] == "Corrupt the Next Generation of Heroes" and obj.hasTag("Corrupted") then
-        obj.removeTag("Corrupted")
-        obj.removeTag("Villain")
-        obj.removeTag("Power:2")
-        obj.setDescription(obj.getDescription():gsub("WALL%-CRAWL.*%.",""))
-        obj.clearButtons()
-        obj.flip()
-        local pos = getObjectFromGUID(drawguids[color]).getPosition()
-        pos.y = pos.y + 3
-        obj.setPositionSmooth(pos)
-        return nil
-    end
     if move == "Fight" then
         if obj.getVar("resolveFight") then
             obj.Call('resolveFight',{color = color})
+        end
+        if obj.hasTag("Bystander") then
+            return nil
         end
     elseif move == "Ambush" then
         if obj.getVar("resolveAmbush") then

@@ -121,9 +121,6 @@ function click_buy_hero(obj, player_clicker_color)
 
     local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
     local cost = hasTag2(card,"Cost:") or 0
-    if scheme.getVar("heroTax") then
-        cost = cost + scheme.Call('heroTax')
-    end
     if recruit < cost then
         broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
         return nil
@@ -275,51 +272,54 @@ function click_draw_hero()
     else
         printToAll("No hero deck found")
     end
-    Wait.time(updateCost,0.5)
+    Wait.time(updateCost,1)
+end
+
+function editZoneBonus(params)
+    zonebonus[params.id] = {params.value,params.tooltip}
+    updateCost()
 end
 
 function updateCost()
     local hero = getHeroUp()
+    local cost = ""
     if hero then
-        local cost = hasTag2(hero,"Cost:")
-        if not cost then
-            cost = ""
+        cost = hasTag2(hero,"Cost:") or ""
+    end
+    local tooltip = "[base]: " .. cost
+    if cost ~= "" then
+        for i,o in pairs(zonebonus) do
+            cost = cost + o[1]
+            tooltip = tooltip .. "\n" .. o[2] .. "[" .. i .. ":" .. o[1] .. "]"
         end
-        local tooltip = "[base]: " .. cost
-        if cost ~= "" then
-            for i,o in pairs(zonebonus) do
-                cost = cost + o
-                tooltip = tooltip .. "\r\n[" .. i .. "]: " .. o
+    end
+    local scriptZone = getObjectFromGUID(scriptguid)
+    local butt = scriptZone.getButtons()
+    local buttonindex = nil
+    if butt then
+        for i,b in pairs(butt) do
+            if b.click_function == "updateCost" then
+                buttonindex = i -1
+                break
             end
         end
-        local scriptZone = getObjectFromGUID(scriptguid)
-        local butt = scriptZone.getButtons()
-        local buttonindex = nil
-        if butt then
-            for i,b in pairs(butt) do
-                if b.click_function == "updateCost" then
-                    buttonindex = i -1
-                    break
-                end
-            end
-        end
-        if buttonindex and cost == "" then
-            scriptZone.removeButton(buttonindex)
-        elseif buttonindex then
-            scriptZone.editButton({index = buttonindex, label = cost, tooltip = tooltip})
-        else
-            scriptZone.createButton({click_function='updateCost',
-                function_owner=self,
-                position={0,0,0},
-                rotation={0,180,0},
-                scale = {1,1,0.5},
-                label=cost,
-                tooltip=tooltip,
-                font_size=300,
-                font_color={1,1,0},
-                color={0,0,0,0.75},
-                width=250,height=150})
-        end
+    end
+    if buttonindex and cost == "" then
+        scriptZone.removeButton(buttonindex)
+    elseif buttonindex then
+        scriptZone.editButton({index = buttonindex, label = cost, tooltip = tooltip})
+    else
+        scriptZone.createButton({click_function='updateCost',
+            function_owner=self,
+            position={0,0,0},
+            rotation={0,180,0},
+            scale = {1,1,0.5},
+            label=cost,
+            tooltip=tooltip,
+            font_size=300,
+            font_color={1,1,0},
+            color={0,0,0,0.75},
+            width=250,height=150})
     end
 end
 
@@ -339,7 +339,14 @@ end
 function onObjectLeaveZone(zone,object)
     if zone.guid == self.guid and heroinside[object.guid] then
         heroinside[object.guid] = nil
-        Wait.time(updateCost,0.2)
+        Wait.condition(updateCost,function()
+            local hero = getHeroUp()
+            if hero and hero.guid == object.guid then
+                return false
+            else
+                return true
+            end
+        end)
     end
 end
 

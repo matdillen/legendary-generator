@@ -18,6 +18,18 @@ function onLoad()
     end
 end
 
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
+end
+
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
@@ -34,12 +46,16 @@ function resolveTwist(params)
     local city = params.city
 
     if twistsresolved < 8 then
+        local escapees = {}
+        local escapeesc = 0
         for _,o in pairs(city) do
             local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
             if citycontent[1] then
                 for _,obj in pairs(citycontent) do
                     if hasTag2(obj,"Group:",7) and (hasTag2(obj,"Group:",7) == "Kree Starforce" or hasTag2(obj,"Group:",7) == "Skrulls") then
-                        getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = citycontent,
+                        escapees[obj.guid] = true
+                        escapeesc = escapeesc + 1
+                        getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(citycontent),
                             targetZone = getObjectFromGUID(escape_zone_guid),
                             enterscity = 0,
                             schemeParts = {self.getName()}})
@@ -81,7 +97,27 @@ function resolveTwist(params)
                 koCard(cards[1])
             end
         end
-        Wait.time(kreeskrull,2)
+        local kreeskrullEscaped = function()
+            local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+            local newescapees = 0
+            if escaped[1] and escaped[1].tag == "Deck" then
+                for _,o in pairs(escaped[1].getObjects()) do
+                    if escapees[o.guid] then
+                        newescapees = newescapees + 1
+                    end
+                end
+            elseif escaped[1] and hasTag2(escaped[1],"Group:",7) then
+                if escapees[escaped[1].guid] then
+                    newescapees = newescapees + 1
+                end
+            end
+            if newescapees == escapeesc then
+                return true
+            else
+                return false
+            end
+        end
+        Wait.condition(kreeskrull,kreeskrullEscaped)
     elseif twistsresolved == 8 then
         local skree = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])
         local skrull = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[4])

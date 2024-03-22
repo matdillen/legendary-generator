@@ -28,7 +28,16 @@ function bonusInCity(params)
         local cards = Global.Call('get_decks_and_cards_from_zone',params.zoneguid)
         local bonus = 0
         for _,o in pairs(cards) do
-            if o.hasTag("Hero") then
+            if o.tag == "Deck" then
+                for _,c in pairs(o.getObjects()) do
+                    for _,t in pairs(c.tags) do
+                        if t == "Hero" or t:find("Team:") then
+                            bonus = bonus + 2
+                            break
+                        end
+                    end
+                end
+            elseif o.hasTag("Hero") or hasTag2(o,"Team:") then
                 bonus = bonus + 2
             end
         end

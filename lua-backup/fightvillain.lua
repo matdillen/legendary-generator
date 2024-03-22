@@ -2,6 +2,8 @@
 function onLoad()
     local guids3 = {
         "discardguids",
+        "drawguids",
+        "addguids",
         "cityguids",
         "vpileguids",
         "shardguids",
@@ -232,10 +234,10 @@ function updateCityZone()
 end
 
 function click_fight_villain_call(params)
-    click_fight_villain(params.obj,params.color,params.otherguid)
+    click_fight_villain(params.obj,params.color,nil,params.otherguid)
 end
 
-function click_fight_villain(obj, player_clicker_color,otherguid)
+function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
     local guid = otherguid or self.guid
     local cards = get_decks_and_cards_from_zone(guid)
     if not cards[1] then
@@ -247,7 +249,15 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
     end
     local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
     if obj.hasTag("gainAsHero") then
-        dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
+        local desc = obj.getDescription()
+        if desc:find("WALL%-CRAWL") then
+            dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
+            obj.flip()
+        elseif desc:find("SOARING FLIGHT") then
+            dest = getObjectFromGUID(addguids[player_clicker_color]).getPosition()
+        else 
+            dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
+        end
     end
     dest.y = dest.y + 3
     
@@ -290,8 +300,8 @@ function click_fight_villain(obj, player_clicker_color,otherguid)
                 if result then
                     obj.setPositionSmooth(dest)
                     broadcastToColor("You defeated the Villain " .. obj.getName() .. " and it was put into your victory pile.",player_clicker_color,player_clicker_color)
+                    cards[i] = nil
                 end
-                cards[i] = nil
                 for _,obj2 in pairs(cards) do
                     if obj2 and not obj2.hasTag("Location") then
                         if obj2.hasTag("Bystander") and obj2.getName() ~= "" then

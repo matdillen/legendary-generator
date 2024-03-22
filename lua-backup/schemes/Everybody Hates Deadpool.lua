@@ -8,7 +8,8 @@ function onLoad()
     end
     
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "vpileguids"
         }
             
     for _,o in pairs(guids3) do
@@ -30,6 +31,33 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function bonusInCity(params)
+    if params.object.hasTag("Villain") then
+        local vpilecontent = Global.Call('get_decks_and_cards_from_zone',vpileguids[Turns.turn_color])[1]
+        local bonus = 0
+        if vpilecontent and vpilecontent.tag == "Deck" then
+            for _,o in pairs(vpilecontent.getObjects()) do
+                for _,t in pairs(o.tags) do
+                    if t == hasTag2(params.object,"Group:") then
+                        bonus = bonus + 1
+                        break
+                    end
+                end
+            end
+        elseif vpilecontent then
+            if hasTag2(vpilecontent,"Group:") and hasTag2(vpilecontent,"Group:") == hasTag2(params.object,"Group:") then
+                bonus = bonus + 1
+            end
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{
+            obj= params.object, 
+            label = "+" .. bonus,
+            zoneguid = params.zoneguid,
+            tooltip = "This villain gets +1 Power for each card of their villain group in the attacking player's Victory Pile.",
+            id = "dprevenge"})
+    end
 end
 
 function nonTwist(params)

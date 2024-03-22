@@ -39,11 +39,11 @@ end
 
 function moveToxin(obj,player_clicker_color)
     local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
-        if recruit < 2 then
-            broadcastToColor("You don't have enough recruit to deal with this toxin!",player_clicker_color,player_clicker_color)
-            return nil
-        end
-        getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-2)
+    if recruit < 2 then
+        broadcastToColor("You don't have enough recruit to deal with this toxin!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-2)
     obj.flip()
     obj.setPositionSmooth(getObjectFromGUID(villainDeckZoneGUID).getPosition())
     local shuffleToxin = function()
@@ -57,7 +57,7 @@ function resolveTwist(params)
     local cards = params.cards
 
     broadcastToAll("Scheme Twist: Trap! By End of Turn: You may pay 2*. If you do, shuffle this Twist back into the Villain Deck, then play a card from the Villain Deck.") 
-    powerButton({obj = cards[1],
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
         label = "2*",
         color = "Yellow",
         tooltip = "Pay two Recruit by end of turn to shuffle this toxin back.",

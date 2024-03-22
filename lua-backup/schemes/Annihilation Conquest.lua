@@ -33,6 +33,15 @@ function bonusInCity(params)
     end
 end
 
+function fightEffect(params)
+    if params.obj.hasTag("Phalanx-Infected") then
+        params.obj.removeTag("Phalanx-Infected")
+        params.obj.removeTag("Villain")
+        params.obj.removeTag("Power:" .. hasTag2(params.obj,"Cost:"))
+        getObjectFromGUID(pushvillainsguid).Call('dealCard',{obj = params.obj})
+    end
+end
+
 function processPhalanxInfected(params) 
     local obj = params.obj
     local index = params.index

@@ -185,7 +185,11 @@ function onslaughtpain(defeated)
     broadcastToColor("Your handsize was permanently reduced by 1!",boardcolor,boardcolor)
 end
 
-function calculate_vp()
+function calculate_vp_call(params)
+    return calculate_vp(params.obj,params.player_clicker_color,params.alt_click,params.warn)
+end
+
+function calculate_vp(obj, player_clicker_color, alt_click,warn)
     local vpcontent = get_decks_and_cards_from_zone(vpileguid)
     if vpcontent[2] then
         printToColor("Victory pile is not a single deck!",boardcolor,boardcolor)
@@ -226,20 +230,24 @@ function calculate_vp()
                 totalother = totalother + 1
             end
         end
-        printToAll("##Victory Points##",boardcolor)
-        printToAll(boardcolor .. " player's current victory points: " .. totalvp,boardcolor)
-        if totalbs > 0 then
+        if warn == nil then
+            printToAll("##Victory Points##",boardcolor)
+            printToAll(boardcolor .. " player's current victory points: " .. totalvp,boardcolor)
+            if totalbs > 0 then
+                printToAll("##",boardcolor)
+                printToAll(boardcolor .. " player's current bystander count: " .. totalbs,boardcolor)
+            end
+            if totalother > 0 then
+                printToAll("##",boardcolor)
+                printToAll(boardcolor .. " player's other cards in VP: " .. totalother,boardcolor)
+            end
             printToAll("##",boardcolor)
-            printToAll(boardcolor .. " player's current bystander count: " .. totalbs,boardcolor)
         end
-        if totalother > 0 then
-            printToAll("##",boardcolor)
-            printToAll(boardcolor .. " player's other cards in VP: " .. totalother,boardcolor)
-        end
-        printToAll("##",boardcolor)
         return totalvp,totalbs,totalother
     else
-        printToAll(boardcolor .. " player's victory pile is empty!",boardcolor)
+        if warn == nil then
+            printToAll(boardcolor .. " player's victory pile is empty!",boardcolor)
+        end
         return nil
     end
 end

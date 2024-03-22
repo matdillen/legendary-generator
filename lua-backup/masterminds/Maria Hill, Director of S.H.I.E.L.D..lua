@@ -80,6 +80,8 @@ function resolveStrike(params)
 end
 
 function fightRestriction(params)
-    local goahead = getObjectFromGUID(pushvillainsguid).Call('shieldClearance',{color = params.color})
+    local goahead = getObjectFromGUID(pushvillainsguid).Call('shieldClearance',
+        {color = params.color,
+        n = 2})
     return goahead
 end

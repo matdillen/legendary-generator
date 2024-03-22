@@ -2,7 +2,8 @@ function onLoad()
     tax = 0
 
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -19,8 +20,16 @@ function onLoad()
     end
 end
 
-function heroTax()
-    return tax
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
+    end
 end
 
 function killButtons()
@@ -36,13 +45,21 @@ function killButtons()
                 end
             end
             for _,o in pairs(hqguids) do
-                local zone = getObjectFromGUID(o)
-                for i,b in pairs(zone.getButtons()) do
-                    if b.click_function == "heroTax" then
-                        zone.removeButton(i-1)
-                        break
-                    end
-                end
+                getObjectFromGUID(o).Call('editZoneBonus',{
+                    id = "pulsewave",
+                    value = 0,
+                    tooltip = "This hero no longer gets anything from a pulse."
+                })
+            end
+            local mmZone = getObjectFromGUID(mmZoneGUID)
+            local masterminds = table.clone(mmZone.Call('returnVar',"masterminds"))
+            for _,o in pairs(masterminds) do
+                mmZone.Call('mmButtons',{mmname = o,
+                    checkvalue = 1,
+                    label = tostring(tax),
+                    tooltip = "This mastermind no longer gets anything from a pulse.",
+                    f = "mm",
+                    id = "pulsewave"})
             end
         end,
         function()
@@ -59,74 +76,58 @@ function resolveTwist(params)
 
     if twistsresolved < 9 and twistsresolved % 2 == 1 then
         broadcastToColor("Scheme Twist: NEGATIVE PULSE This turn heroes in the HQ cost 1 less and villains/masterminds get -1!",Turns.turn_color,Turns.turn_color)
+        tax = -1
         for i,o in pairs(city_zones_guids) do
             if i ~= 1 then
-                getObjectFromGUID(o).Call('updateZonePower',{label = "-1",
+                getObjectFromGUID(o).Call('updateZonePower',{label = tostring(tax),
                     tooltip = "This villain gets -1 from a negative pulse.",
                     id = "pulsewave"})
             end
         end
-        tax = -1
         for _,o in pairs(hqguids) do
-            local buttonfound = false
-            for i,b in pairs(getObjectFromGUID(o).getButtons()) do
-                if b.click_function == "heroTax" then
-                    getObjectFromGUID(o).editButton({index = i-1,
-                        label = "-1",
-                        tooltip = "This Hero costs 1 less due to a negative pulse."})
-                    buttonfound = true
-                    break
-                end
-            end
-            if not buttonfound then
-                getObjectFromGUID(o).createButton({click_function='heroTax',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    scale = {1,1,0.5},
-                    label="-1",
-                    tooltip="This Hero costs 1 less due to a negative pulse.",
-                    font_size=300,
-                    font_color="Yellow",
-                    color={0,0,0,0.75},
-                    width=250,height=150})
-            end
+            getObjectFromGUID(o).Call('editZoneBonus',{
+                id = "pulsewave",
+                value = tax,
+                tooltip = "This Hero costs 1 less due to a negative pulse."
+            })
+        end
+        local mmZone = getObjectFromGUID(mmZoneGUID)
+        local masterminds = table.clone(mmZone.Call('returnVar',"masterminds"))
+        for _,o in pairs(masterminds) do
+            mmZone.Call('mmButtons',{mmname = o,
+                checkvalue = 1,
+                label = tostring(tax),
+                tooltip = "This mastermind gets -1 from a negative pulse.",
+                f = "mm",
+                id = "pulsewave"})
         end
         killButtons()
     elseif twistsresolved < 9 and twistsresolved % 2 == 0 then
         broadcastToColor("Scheme Twist: POSITIVE PULSE This turn heroes in the HQ cost 1 more and villains/masterminds get +1!",Turns.turn_color,Turns.turn_color) 
+        tax = 1
         for i,o in pairs(city_zones_guids) do
             if i ~= 1 then
-                getObjectFromGUID(o).Call('updateZonePower',{label = "+1",
+                getObjectFromGUID(o).Call('updateZonePower',{label = "+" .. tax,
                     tooltip = "This villain gets +1 from a positive pulse.",
                     id = "pulsewave"})
             end
         end
-        tax = 1
         for _,o in pairs(hqguids) do
-            local buttonfound = false
-            for i,b in pairs(getObjectFromGUID(o).getButtons()) do
-                if b.click_function == "heroTax" then
-                    getObjectFromGUID(o).editButton({index = i-1,
-                        label = "+1",
-                        tooltip = "This Hero costs 1 more due to a positive pulse."})
-                    buttonfound = true
-                    break
-                end
-            end
-            if not buttonfound then
-                getObjectFromGUID(o).createButton({click_function='heroTax',
-                    function_owner=self,
-                    position={0,0,0},
-                    rotation={0,180,0},
-                    scale = {1,1,0.5},
-                    label="+1",
-                    tooltip="This Hero costs 1 more due to a positive pulse.",
-                    font_size=300,
-                    font_color="Yellow",
-                    color={0,0,0,0.75},
-                    width=250,height=150})
-            end
+            getObjectFromGUID(o).Call('editZoneBonus',{
+                id = "pulsewave",
+                value = "+" .. tax,
+                tooltip = "This Hero costs 1 more due to a positive pulse."
+            })
+        end
+        local mmZone = getObjectFromGUID(mmZoneGUID)
+        local masterminds = table.clone(mmZone.Call('returnVar',"masterminds"))
+        for _,o in pairs(masterminds) do
+            mmZone.Call('mmButtons',{mmname = o,
+                checkvalue = 1,
+                label = "+" .. tax,
+                tooltip = "This mastermind gets +1 from a positive pulse.",
+                f = "mm",
+                id = "pulsewave"})
         end
         killButtons()
     elseif twistsresolved == 9 then

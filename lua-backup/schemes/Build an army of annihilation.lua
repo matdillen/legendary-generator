@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "hmPileGUID",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -20,12 +21,17 @@ function onLoad()
     
     local guids3 = {
         "playerBoards",
-        "vpileguids"
+        "vpileguids",
+        "attackguids"
         }
         
     for _,o in pairs(guids3) do
         _G[o] = table.clone(Global.Call('returnVar',o))
     end
+end
+
+function hasTag2(obj,tag,index)
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
 function table.clone(val)
@@ -40,6 +46,9 @@ function renameHenchmen(obj)
     for i=1,10 do
         local cardTaken = obj.takeObject({position=getObjectFromGUID(topBoardGUIDs[2]).getPosition()})
         cardTaken.setName("Annihilation Wave Henchmen")
+        if not henchpower then
+            henchpower = hasTag2(cardTaken,"Power:")
+        end
     end
 end
 
@@ -61,6 +70,12 @@ function click_buy_annihilation(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
+    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+    if attack < henchpower then
+        broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-henchpower)
     local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local dest = playerBoard.positionToWorld(pos_vp2)
     dest.y = dest.y + 3

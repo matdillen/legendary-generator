@@ -19,8 +19,7 @@ end
 
 function bonusInCity(params)
     if params.object.hasTag("Possessed") then
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
-            label = params.twistsstacked,
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{label = params.twistsstacked,
             zoneguid = params.zoneguid,
             tooltip = "This Possessed bystander has power equal to the number of twists stacked next to the scheme.",
             id="twistsstacked"})
@@ -30,8 +29,14 @@ end
 function possessedPsychotic(obj)
     obj.addTag("Possessed")
     obj.addTag("Villain")
-    obj.removeTag("Bystander") -- complicates vp count!!
+    obj.removeTag("Bystander")
     getObjectFromGUID(pushvillainsguid).Call('updatePower')
+end
+
+function fightEffect(params)
+    params.obj.addTag("Bystander")
+    params.obj.removeTag("Villain")
+    params.obj.removeTag("Possessed")
 end
 
 function resolveTwist(params)

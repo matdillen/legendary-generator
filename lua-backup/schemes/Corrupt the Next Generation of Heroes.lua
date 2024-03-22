@@ -52,6 +52,16 @@ function setupSpecial(params)
     return {["villdeckc"] = 10}
 end
 
+function fightEffect(params)
+    if params.obj.hasTag("Corrupted") then
+        params.obj.removeTag("Corrupted")
+        params.obj.removeTag("Villain")
+        params.obj.removeTag("Power:2")
+        params.obj.removeTag("gainAsHero")
+        params.obj.setDescription(params.obj.getDescription():gsub("WALL%-CRAWL.*%.",""))
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     
@@ -59,6 +69,7 @@ function nonTwist(params)
         obj.addTag("Corrupted")
         obj.addTag("Villain")
         obj.addTag("Power:2")
+        obj.addTag("gainAsHero")
         if obj.getDescription() == "" then
             obj.setDescription("WALL-CRAWL: When fighting this card, gain it to top of your deck as a hero instead of your victory pile.")
         else

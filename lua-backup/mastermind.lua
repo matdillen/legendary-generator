@@ -167,7 +167,7 @@ function mmActive(mmname)
 end
 
 function mmGetCards(mmname,transf,movingmm)
-    if movingmm and (mmname == "Authoritarian Iron Man" or mmname == "King Hyperion") then
+    if movingmm and mmname == "King Hyperion" then
         return true
     elseif movingmm then
         return false
@@ -721,9 +721,6 @@ function fightButton(zone)
                 local content = get_decks_and_cards_from_zone(obj.guid,false,false)
                 local finalblow = getObjectFromGUID(setupGUID).Call('returnVar',"finalblow")
                 if not content[1] or (not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2]) then
-                    if name == "Authoritarian Iron Man" and finalblow and getObjectFromGUID("92abf0") then
-                        return nil
-                    end
                     broadcastToAll(name .. " was defeated!")
                     if content[1] then
                         if content[1].is_face_down then

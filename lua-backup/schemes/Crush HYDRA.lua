@@ -31,6 +31,10 @@ function table.clone(org,key)
     end
 end
 
+function hasTag2(obj,tag,index)
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
 function fightEffect(params)
     if not params.mm then
         local pos = getObjectFromGUID(vpileguids[params.color]).getPosition()
@@ -64,17 +68,17 @@ end
 function bonusInCity(params)
     local zoneobjects = Global.Call('get_decks_and_cards_from_zone',params.zoneguid)
     local heroes = 0
-    for i,o in pairs(zoneobjects) do
+    for _,o in pairs(zoneobjects) do
         if o.tag == "Deck" then
             for _,c in pairs(o.getObjects()) do
                 for _,tag in pairs(c.tags) do
-                    if tag == "Hero" then
+                    if tag == "Hero" or tag:find("Team:") then
                         heroes = heroes + 1
                         break
                     end
                 end
             end
-        elseif o.hasTag("Hero") then
+        elseif o.hasTag("Hero") or hasTag2(o,"Team:") then
             heroes = heroes + 1
         end
     end
@@ -100,14 +104,14 @@ function resolveTwist(params)
                         pos.z = pos.z - 2
                         local skpile = Global.Call('get_decks_and_cards_from_zone',sidekickZoneGUID)
                         if skpile[1] and skpile[1].tag == "Deck" then
-                            skpile.takeObject({position=pos,flip=true})
+                            skpile[1].takeObject({position=pos,flip=true})
                         elseif skpile[1] then
                             skpile[1].flip()
                             skpile[1].setPosition(pos)
                         else
                             local sopile = Global.Call('get_decks_and_cards_from_zone',officerZoneGUID)
                             if sopile[1] and sopile[1].tag == "Deck" then
-                                sopile.takeObject({position=pos,flip=true})
+                                sopile[1].takeObject({position=pos,flip=true})
                             elseif sopile[1] then
                                 sopile[1].flip()
                                 sopile[1].setPosition(pos)
@@ -119,6 +123,9 @@ function resolveTwist(params)
                         break
                     end
                 end
+                Wait.time(function()
+                    getObjectFromGUID(pushvillainsguid).Call('updatePower')
+                end,0.5)
             end
         end
     elseif twistsresolved == 8 then

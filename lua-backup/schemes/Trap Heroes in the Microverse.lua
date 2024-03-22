@@ -23,20 +23,56 @@ function setupSpecial(params)
     return {["villdeckc"] = 14}
 end
 
+function fightEffect(params)
+    if params.obj.hasTag("Micro-Sized") then
+        params.obj.removeTag("gainAsHero")
+        params.obj.removeTag("Micro-Sized")
+        params.obj.removeTag("Villain")
+        params.obj.addTag("Hero")
+        params.obj.removeTag("Power:" .. hasTag2(params.obj,"Cost:"))
+    end
+end
+
 function nonTwist(params)
     local obj = params.obj
     
     if hasTag2(obj,"Team:",6) then
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = obj,
-            label = hasTag2(obj,"Cost:") .. "*",
-            tooltip = "This hero is a villain with power equal to its cost and Size-Changing for its colors. Gain it if you fight it."})
         if obj.getDescription() == "" then
             obj.setDescription("SIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
         else
             obj.setDescription(obj.getDescription() .. "\r\nSIZE-CHANGING: This card costs 2 less to Recruit or Fight if you have a Hero with the listed Hero Class. Different colors can stack.")
         end
+        obj.addTag("gainAsHero")
+        obj.addTag("Micro-Sized")
+        obj.addTag("Villain")
+        obj.removeTag("Hero")
+        obj.addTag("Power:" .. hasTag2(obj,"Cost:"))
     end
     return 1
+end
+
+function bonusInCity(params)
+    if params.object.hasTag("Micro-Sized") then
+        local colors = hasTag2(object,"HC:")
+        local sc = nil
+        if colors and colors[2] then
+            sc = colors[1] .. "|" .. colors[2]
+        elseif colors then
+            sc = colors
+        else
+            return nil
+        end
+        local resp = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{
+            trait = sc, 
+            players = {Player[Turns.turn_color]}})[1]
+        if resp then
+            getObjectFromGUID(pushvillainsguid).Call('powerButton',{
+                label = "-2",
+                zoneguid = params.zoneguid,
+                tooltip = "Size-changing so villain is weaker.",
+                id="sizechanging"})
+        end
+    end
 end
 
 function resolveTwist(params)

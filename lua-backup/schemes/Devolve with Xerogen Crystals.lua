@@ -10,7 +10,8 @@ function onLoad()
     end
     
     local guids2 = {
-        "hqguids"
+        "hqguids",
+        "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
@@ -48,6 +49,33 @@ function nonTwist(params)
         end
     end
     return 1
+end
+
+function bonusInCity(params)
+    if params.object.getName() == "Xerogen Experiments" then
+        local hqguid = nil
+        for i,o in pairs(city_zones_guids) do
+            if o == params.zoneguid then
+                hqguid = hqguids[7-i]
+                break
+            end
+        end
+        local bonus = 0
+        if hqguid then
+            local hero = getObjectFromGUID(hqguid).Call('getHeroUp')
+            if hero and hasTag2(hero,"Attack:") then
+                bonus = hasTag2(hero,"Attack:") 
+            end
+        else
+            broadcastToAll("ERROR: HQ zone for city space " .. params.zoneguid .. "  not found??")
+            return nil
+        end
+        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object, 
+            label = "+" .. bonus,
+            zoneguid = params.zoneguid,
+            tooltip = "This villain gets +1 extra printed Power from hero below it in the HQ.",
+            id="xerogencrystal"})
+    end
 end
 
 function fillHQ(params)

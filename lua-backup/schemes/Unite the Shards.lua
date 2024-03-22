@@ -54,7 +54,7 @@ function resolveTwist(params)
     twistsstacked = getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
     getObjectFromGUID(pushvillainsguid).Call('gainShard2',{zoneGUID = mmZoneGUID,
         n = twistsstacked})
-    getObjectFromGUID(pushvillainsguid).Call('updatePower')
+    Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('updatePower') end,0.2)
     broadcastToAll("Scheme Twist: The Mastermind gains " .. twistsstacked .. " shards.")
     return nil
 end
