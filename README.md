@@ -6,6 +6,10 @@
 
 (optional) [Buy Tabletop Simulator](https://www.tabletopsimulator.com/).
 
+## Installer
+
+An installer built using [Rinno](https://github.com/ficonsulting/RInno/) is available [here](https://drive.google.com/file/d/1gAOYJs9P5X4M0fDJMtfh2ToRlzO0JT9K/view?usp=drive_link). Note that for some reason the installed app fails to include the file `app/data/sizeinfo.txt`. The app will only work after this installer if you copy this file (`sizeinfo.txt`) to the `data` folder of the directory where you installed it.
+
 ## Introduction
 This is a Shiny R app in development to generate setups for the Marvel Legendary deck-building game by [Upper Deck](https://upperdeckstore.com/games-collectibles/legendary.html). The `app.R` file can be run from an R IDE such as [RStudio](https://rstudio.com/). You can also modify `run.bat` with notepad to point to your R installation and `run.R` to point to the directory where this repository was downloaded to. Then executing `run.bat` will load the app in the default browser, provided the required R packages are installed (which should happen automatically if not).
 
