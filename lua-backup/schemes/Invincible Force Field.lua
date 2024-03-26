@@ -33,7 +33,7 @@ function table.clone(org,key)
 end
 
 function fightEffect(params)
-    if params.obj.guid = mmZoneGUID and params.mm == true then
+    if params.obj.guid == mmZoneGUID and params.mm == true then
         shiftButtons()
     end
 end

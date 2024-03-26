@@ -1218,31 +1218,40 @@ function strikeSpecials(cards,city)
         broadcastToAll("Multiple masterminds. Resolve effects manually in the order of your choice.")
         local mmpromptzone = getObjectFromGUID(hqscriptguids[3])
         local zshift = 4
-        local resolvingStrikes = {}
         for i,o in ipairs(masterminds) do
-            resolvingStrikes[i] = i-1
-            _G["resolveStrike" .. i] = function()
-                mmpromptzone.removeButton(resolvingStrikes[i])
-                for i2,o2 in pairs(resolvingStrikes) do
-                    if i2 > i then
-                        resolvingStrikes[i2] = o2-1
+            local fname = "resolveStrike" .. i
+            _G[fname] = function()
+                local butt = mmpromptzone.getButtons()
+                local buttonindex = nil
+                for j,b in pairs(butt) do
+                    if b.click_function == fname then
+                        buttonindex = j - 1
+                        break
                     end
                 end
+                mmpromptzone.removeButton(buttonindex)
                 local epicness = false
                 local mmname = o
                 if mmname:find(" %- epic") then
                     mmname = mmname:gsub(" %- epic","")
                     epicness = true
                 end
-                local proceed = resolveStrike(mmname,epicness,city,cards)
-                local butt = mmpromptzone.getButtons()
-                if not proceed then
+                local strike_ignored = resolveStrike(mmname,epicness,city,cards)
+                local butt2 = mmpromptzone.getButtons()
+                local buttonfound = false
+                for j,b in pairs(butt2) do
+                    if b.click_function:find("resolveStrike") and b.click_function ~= fname then
+                        buttonfound = true
+                        break
+                    end
+                end
+                if not strike_ignored then
                     cards[1] = nil
-                elseif cards[1] and (not butt or (not butt[2] and butt[1].label == o)) then
+                elseif cards[1] and not buttonfound then
                     koCard(cards[1])
                 end
             end
-            mmpromptzone.createButton({click_function="resolveStrike" .. i,
+            mmpromptzone.createButton({click_function=fname,
                 function_owner=self,
                 position={0,0,zshift},
                 rotation={0,180,0},

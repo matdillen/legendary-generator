@@ -54,6 +54,15 @@ function setupMM()
     end
 end
 
+function mmDefeated()
+    local current_city = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city"))
+    for _,o in pairs(current_city) do
+        getObjectFromGUID(o).Call('updateZonePower',{label = "",
+            tooltip = "No longer fortified by Authoritarian Iron Man.",
+            id = "authoritarianfortified"})
+    end
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
 

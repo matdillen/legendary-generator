@@ -46,6 +46,7 @@ function updateMMKang()
         label = "+" .. villaincount*(2+boost),
         tooltip = "Kang gets +" .. 2+boost .. " for each Villain in the city zones under a time incursion.",
         f = 'updateMMKang',
+        id = "incursionconqueror",
         f_owner = self})
 end
 
@@ -60,12 +61,23 @@ function setupMM(params)
     end
 end
 
+function mmDefeated()
+    local current_city = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city"))
+    for _,o in pairs(current_city) do
+        getObjectFromGUID(o).Call('updateZonePower',{
+            label = "",
+            tooltip = "Villains under Kang's Time Incursions get nothing cause Kang is megadead.",
+            id = "timeincursion"})
+    end
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     
-    local kanglabel = "⌛+2"
+    local kanglabel = "⌛"
+    local kangboost = 2
     if epicness == true then
-        kanglabel = "⌛+3"
+        kangboost = 3
     end
     local current_city = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city"))
     if strikesresolved == 1 then
@@ -80,6 +92,10 @@ function resolveStrike(params)
                     font_color="Blue",
                     color={0,0,0,0.75},
                     width=250,height=250})
+        getObjectFromGUID(timeIncursions[1]).Call('updateZonePower',{
+            label = "+" .. kangboost,
+            tooltip = "Villains under Kang's Time Incursions get +" .. kangboost .. ".",
+            id = "timeincursion"})
     else
         for i=2,#current_city do
             local guidfound = false
@@ -101,6 +117,10 @@ function resolveStrike(params)
                     font_color="Blue",
                     color={0,0,0,0.75},
                     width=250,height=250})
+                getObjectFromGUID(current_city[i]).Call('updateZonePower',{
+                    label = "+" .. kangboost,
+                    tooltip = "Villains under Kang's Time Incursions get +" .. kangboost .. ".",
+                    id = "timeincursion"})
                 break
             end
             if i == #current_city then

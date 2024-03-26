@@ -42,6 +42,7 @@ function updateMMArnimZola()
         label = "+" .. power,
         tooltip = "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
         f = 'updateMMArnimZola',
+        id = "ultimateabomination",
         f_owner = self})
 end
 

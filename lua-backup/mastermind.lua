@@ -454,7 +454,7 @@ function setMMBasePower(params)
         end
     end
     if not obj then
-        broadcastToAll("Mastermind not found?")
+        --broadcastToAll("Mastermind not found?")
         return nil
     end
     local objcontent = nil
@@ -722,6 +722,9 @@ function fightButton(zone)
                 local finalblow = getObjectFromGUID(setupGUID).Call('returnVar',"finalblow")
                 if not content[1] or (not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2]) then
                     broadcastToAll(name .. " was defeated!")
+                    if strikeloc.getVar("mmDefeated") then
+                        strikeloc.Call('mmDefeated')
+                    end
                     if content[1] then
                         if content[1].is_face_down then
                             content[1].flip()
@@ -766,40 +769,6 @@ function fightButton(zone)
                     strikeZone.setLuaScript("")
                     strikeZone.reload()
                     --obj.clearButtons()
-                    if name == "Onslaught" then
-                        for _,o in pairs(Player.getPlayers()) do
-                            getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
-                        end
-                        broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
-                    elseif name == "Mandarin" then
-                        for i,o in pairs(city_zones_guids) do
-                            if i ~= 1 then
-                                local content = get_decks_and_cards_from_zone(o)
-                                if content[1] then
-                                    for _,c in pairs(content) do
-                                        if c.hasTag("Group:Mandarin's Rings") then
-                                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = c, label = "", id = "mandarin"})
-                                            break
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    elseif name == "Apocalypse" then
-                        for i,o in pairs(city_zones_guids) do
-                            if i ~= 1 then
-                                local content = get_decks_and_cards_from_zone(o)
-                                if content[1] then
-                                    for _,c in pairs(content) do
-                                        if c.hasTag("Group:Four Horsemen") then
-                                            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = c, label = "", id = "apocalypse"})
-                                            break
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    end
                     if table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))[1] == "World War Hulk" then
                         if not scheme then
                             scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")

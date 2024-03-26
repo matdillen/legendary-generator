@@ -64,6 +64,13 @@ function setupMM()
     end
 end
 
+function mmDefeated()
+    for _,o in pairs(Player.getPlayers()) do
+        getObjectFromGUID(playerBoards[o.color]).Call('onslaughtpain',true)
+    end
+    broadcastToAll("Onslaught defeated! Hand size decrease was relieved!")
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     local epicness = params.epicness

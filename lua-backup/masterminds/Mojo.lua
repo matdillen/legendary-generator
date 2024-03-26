@@ -74,6 +74,7 @@ function updateMMMojo()
             label = "X",
             tooltip = "You can't fight Mojo while he has any Human Shields.",
             f = 'updateMMMojo',
+            id = "mojohasshield",
             f_owner = self})
 end
 

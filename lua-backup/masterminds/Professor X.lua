@@ -11,8 +11,7 @@ function onLoad()
     end
     
     local guids2 = {
-        "hqguids",
-        "pos_discard"
+        "hqguids"
         }
         
     for _,o in pairs(guids2) do
@@ -20,7 +19,8 @@ function onLoad()
     end
     
     local guids3 = {
-        "playerBoards"
+        "resourceguids",
+        "discardguids"
         }
         
     for _,o in pairs(guids3) do
@@ -55,6 +55,7 @@ function updateMMProfessorX()
         label = "+" .. boost,
         tooltip = "Professor X gets +1 for each of his telepathic pawns.",
         f = 'updateMMProfessorX',
+        id = "telepathicpawns",
         f_owner = self})
 end
 
@@ -63,22 +64,30 @@ function click_buy_pawn(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_discard)
-    dest.y = dest.y + 3
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
+    local cost = 0
+    if hulkdeck.tag == "Deck" then
+        local hulkdeckobj = hulkdeck.getObjects()
+        for _,t in pairs(hulkdeckobj[#hulkdeckobj].tags) do
+            if t:find("Cost:") then
+                cost = t:sub(6)
+                break
+            end
+        end
     else
-        angle = 180
+        cost = hasTag2(huldeck,"Cost:") or 0
     end
-    local brot = {x=0, y=angle, z=0}
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+    if recruit < cost then
+        broadcastToColor("You don't have enough recruit to liberate this pawn!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
+    local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
+    dest.y = dest.y + 3
     if hulkdeck.tag == "Card" then
-        hulkdeck.setRotationSmooth(brot)
         hulkdeck.setPositionSmooth(dest)
     else
-        hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+        hulkdeck.takeObject({position=dest,flip=false,smooth=true})
     end
 end
 
@@ -90,10 +99,10 @@ function setupMM()
          rotation={0,180,0},
          label="Buy Pawn",
          tooltip="Buy the top card of Professor X's telepathic pawns.",
-         color={1,1,1,1},
-         width=800,
-         height=200,
-         font_size = 100
+         color="Yellow",
+         width=550,
+         height=250,
+         font_size = 70
     })
     
     function onObjectEnterZone(zone,object)

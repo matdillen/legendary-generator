@@ -95,6 +95,22 @@ function setupMM()
     end
 end
 
+function mmDefeated()
+    for i,o in pairs(city_zones_guids) do
+        if i ~= 1 then
+            local content = Global.Call('get_decks_and_cards_from_zone',o)
+            if content[1] then
+                for _,c in pairs(content) do
+                    if c.hasTag("Group:Four Horsemen") then
+                        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = c, label = "", id = "apocalypse"})
+                        break
+                    end
+                end
+            end
+        end
+    end
+end
+
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
 
