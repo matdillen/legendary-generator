@@ -1,5 +1,6 @@
 function onLoad()
     mmname = "J. Jonah Jameson"
+    angrymob = 4
     
     local guids1 = {
         "pushvillainsguid",
@@ -11,16 +12,9 @@ function onLoad()
         _G[o] = Global.Call('returnVar',o)
     end
     
-    local guids2 = {
-        "pos_discard"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
     local guids3 = {
-        "playerBoards"
+        "playerBoards",
+        "attackguids"
         }
         
     for _,o in pairs(guids3) do
@@ -48,10 +42,6 @@ function updateMMJonah()
     if self.tag == "Deck" then
         return nil
     end
-    local angrymob = 4
-    if epicness then
-        angrymob = 5
-    end
     local checkvalue = 1
     if not Global.Call('get_decks_and_cards_from_zone',self.guid)[1] then
         self.clearButtons()
@@ -73,7 +63,7 @@ function updateMMJonah()
                  rotation={0,180,0},
                  label="Pacify",
                  tooltip="Pacify this Angry Mob by fighting it and gain a random hero from it.",
-                 color={0,0,0,1},
+                 color="Red",
                  font_color = {1,0,0},
                  width=500,
                  height=200,
@@ -85,6 +75,7 @@ function updateMMJonah()
         label = "X",
         tooltip = "You can't fight J. Jonah while he has any Angry Mobs.",
         f = 'updateMMJonah',
+        id = "angrymobs",
         f_owner = self})
 end
 
@@ -94,8 +85,10 @@ function setupMM(params)
     local soPile = getObjectFromGUID(officerDeckGUID)
     soPile.randomize()
     local jonah = 2
+    angrymob = 4
     if epicness then
         jonah = 3
+        angrymob = 5
     end
     for i=1,jonah*#Player.getPlayers() do
         soPile.takeObject({position = self.getPosition(),
@@ -108,7 +101,7 @@ function setupMM(params)
              rotation={0,180,0},
              label="Pacify",
              tooltip="Pacify this Angry Mob by fighting it and gain a random hero from it.",
-             color={0,0,0,1},
+             color="Red",
              font_color = {1,0,0},
              width=500,
              height=200,
@@ -131,20 +124,16 @@ function click_pacify_angry_mob(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_discard)
-    dest.y = dest.y + 3
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
+    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+    if attack < angrymob then
+        broadcastToColor("You don't have enough recruit to liberate this pawn!",player_clicker_color,player_clicker_color)
+        return nil
     end
-    local brot = {x=0, y=angle, z=0}
+    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-angrymob)
+    local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
+    dest.y = dest.y + 3
     if hulkdeck.tag == "Card" then
         hulkdeck.flip()
-        hulkdeck.setRotationSmooth(brot)
         hulkdeck.setPositionSmooth(dest)
     else
         hulkdeck.takeObject({position = dest,

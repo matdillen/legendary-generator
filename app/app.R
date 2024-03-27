@@ -1,7 +1,9 @@
 source("packages.R")
 pkgLoad()
 
-conflict_prefer_all("dplyr","plyr")
+conflict_prefer_all("dplyr",
+                    "plyr",
+                    quiet = T)
 conflicts_prefer(
   shiny::validate(),
   dplyr::filter(),
@@ -13,7 +15,8 @@ conflicts_prefer(
   DT::renderDataTable(),
   shinyjs::runExample(),
   magrittr::set_names(),
-  shinyjs::show()
+  shinyjs::show(),
+  .quiet = T
 )
 
 source("helpers.R")
@@ -308,8 +311,11 @@ ui <- fluidPage(
                                       "Sets excluded",
                                       choices=setaslist,
                                       multiple=T),
-                       width=8),
-                column(checkboxInput("epic",
+                       width=6),
+                column(checkboxInput("scripted",
+                                     "scripted",
+                                     value = T),
+                       checkboxInput("epic",
                                      "Epic?"),
                        checkboxInput("solo",
                                      "Solo?",
@@ -528,7 +534,8 @@ server <- function(input, output, session) {
                             dropset=input$dropset,
                             onlyset=input$onlyset,
                             solo=input$solo,
-                            xtra=NULL)
+                            xtra=NULL,
+                            scripted = input$scripted)
             incProgress(1/input$gamecount,detail = paste("Setup",i))
         }
         games = setGames(games,

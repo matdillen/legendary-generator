@@ -52,6 +52,7 @@ function updateMMThanos()
         label = "-" .. gemfound*2,
         tooltip = "Thanos gets -2 for each Infinity Gem Artifact card controlled by any player.",
         f = 'updateMMThanos',
+        id = "infinitygems",
         f_owner = self})
 end
 

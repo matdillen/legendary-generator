@@ -26,6 +26,7 @@ function updateMMEmperorVulcan()
         label = "+" .. power,
         tooltip = "Emperor Vulcan gets +" .. power .. " if he has the Throne's Favor.",
         f = 'updateMMEmperorVulcan',
+        id = "vulcanthronesfavor",
         f_owner = self})
 end
 

@@ -56,6 +56,7 @@ function updateMMCharles()
         label = "+" .. bsfound,
         tooltip = "Charles Xavier gets +1 for each Bystander in the city and HQ.",
         f = 'updateMMCharles',
+        id = "bsbonus",
         f_owner = self})
 end
 

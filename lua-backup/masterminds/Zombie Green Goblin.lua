@@ -42,6 +42,7 @@ function updateMMZombieGoblin()
         label = "+" .. nongrey,
         tooltip = "Zombie Green Goblin gets +1 for each hero that costs 7 or more in the KO pile.",
         f = 'updateMMZombieGoblin',
+        id = "goblintragedy",
         f_owner = self})
 end
 

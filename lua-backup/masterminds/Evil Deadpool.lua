@@ -58,6 +58,7 @@ function updateMMDeadpool()
         label = "+" .. tacticsfound,
         tooltip = "Evil Deadpool gets +1 for each Mastermind Tactic in your victory pile.",
         f = 'updateMMDeadpool',
+        id = "evildeadpoolrevenge",
         f_owner = self})
 end
 

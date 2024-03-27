@@ -65,6 +65,7 @@ function updateMMHela()
         label = "+" .. villaincount*(5+boost),
         tooltip = "Hela gets +" .. 5+boost .. " for each Villain in the city zones she wants to conquer.",
         f = 'updateMMHela',
+        id = "helaconqueror",
         f_owner = self})
 end
 

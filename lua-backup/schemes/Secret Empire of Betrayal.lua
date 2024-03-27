@@ -20,7 +20,7 @@ function onLoad()
     end
     
     local guids3 = {
-        "playerBoards"
+        "discardguids"
         }
             
     for _,o in pairs(guids3) do
@@ -107,28 +107,18 @@ function resolveTwist(params)
         if darkCard.name == "Scheme Twist" then
             darkloyalty[1].takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
                 flip=true})
-            for i,_ in pairs(playerBoards) do
-                if Player[i].seated == true and i ~= Turns.turn_color then
-                    getObjectFromGUID(pushvillainsguid).Call('getWound',i)
+            for _,o in pairs(Player.getPlayers()) do
+                if o.color ~= Turns.turn_color then
+                    getObjectFromGUID(pushvillainsguid).Call('getWound',o.color)
                     broadcastToAll("Scheme Twist: Vicious Betrayal!")
                 end
             end
         else
-            local pcolor = Turns.turn_color
-            if pcolor == "White" then
-                angle = 90
-            elseif pcolor == "Blue" then
-                angle = -90
-            else
-                angle = 180
-            end
-            local brot = {x=0, y=angle, z=0}
-            local playerBoard = getObjectFromGUID(playerBoards[pcolor])
-            local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
+            local dest = getObjectFromGUID(discardguids[Turns.turn_color]).getPosition()
             dest.y = dest.y + 3
             darkloyalty[1].takeObject({position = dest,
                 flip=true})
-            broadcastToAll("Scheme Twist: " .. pcolor .. " player gained a random hero!")
+            broadcastToAll("Scheme Twist: " .. Turns.turn_color .. " player gained a random hero!")
         end
     end
     Wait.condition(twistPlay,twistAdded)

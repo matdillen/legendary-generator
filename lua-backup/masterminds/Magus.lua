@@ -43,6 +43,7 @@ function updateMMMagus()
         checkvalue = shardsfound,
         label = "+" .. boost*shardsfound,
         tooltip = "Magus gets + " .. boost .. " for each Villain in the city that has any Shards.",
+        id = "shardcityboost",
         f = 'updateMMMagus',
         f_owner = self})
 end

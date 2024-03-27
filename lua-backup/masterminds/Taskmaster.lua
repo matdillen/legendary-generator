@@ -28,6 +28,7 @@ function updateMMTaskmaster()
         label = "+" .. boost,
         tooltip = mmname .. " gets +" .. boostlab .. " for each Master Strike stacked next to him.",
         f = 'updateMMTaskmaster',
+        id = "taskmastrstriker",
         f_owner = self})
 end
 

@@ -52,6 +52,7 @@ function updateMMNimrod()
             checkvalue = checkvalue,
             label = "X",
             tooltip = "You can't fight Nimrod unless you made six Recruit this turn.",
+            id = "nimrodispoorneedsmoney",
             f = 'updateMMNimrod',
             f_owner = self})
 end

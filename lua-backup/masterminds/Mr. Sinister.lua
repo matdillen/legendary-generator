@@ -22,6 +22,7 @@ function updateMMMrSinister()
         label = "+" .. boost,
         tooltip = "Mr. Sinister gets +1 for each Bystander he has.",
         f = 'updateMMMrSinister',
+        id = "sinistersbs",
         f_owner = self})
 end
 

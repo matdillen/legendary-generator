@@ -58,6 +58,7 @@ function updateMMBaronHein()
         label = "+9",
         tooltip = "The Baron gets +9 as long as you're not a Savior of at least 3 bystanders.",
         f = 'updateMMBaronHein',
+        id = "notsavior",
         f_owner = self})
 end
 

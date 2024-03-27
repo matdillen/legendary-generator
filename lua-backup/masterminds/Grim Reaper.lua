@@ -81,6 +81,7 @@ function updateMMReaper()
         label = "+" .. locationcount2,
         tooltip = "Grim Reaper gets +" .. locationcount2/locationcount .. " for each Location card in the city.",
         f = 'updateMMReaper',
+        id = "reaperlocations",
         f_owner = self})
 end
 

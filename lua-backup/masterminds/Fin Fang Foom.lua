@@ -87,6 +87,7 @@ function updateMMFinFang()
         label = "-" .. boost,
         tooltip = "Fin Fang Foom gets -2 for each different Hero Class among heroes you have.",
         f = 'updateMMFinFang',
+        id = "sizechanging",
         f_owner = self})
 end
 

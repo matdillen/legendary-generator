@@ -11,16 +11,8 @@ function onLoad()
         _G[o] = Global.Call('returnVar',o)
     end
     
-    local guids2 = {
-        "pos_discard"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
     local guids3 = {
-        "playerBoards"
+        "discardguids"
         }
         
     for _,o in pairs(guids3) do
@@ -45,6 +37,7 @@ function setupMM()
         checkvalue = 1,
         label = "*",
         tooltip="Chivalrous Duel: Attack Morgan only with the power of a single hero.",
+        id = "chivalrousduel",
         f = 'updatePower'})
 end
 
@@ -61,16 +54,7 @@ function gainCrapCard(params)
 end
 
 function morganWounds(color)
-    local playerBoard = getObjectFromGUID(playerBoards[color])
-    dest[color] = playerBoard.positionToWorld(pos_discard)
-    if color == "White" then
-        angle = 90
-    elseif color == "Blue" then
-        angle = -90
-    else
-        angle = 180
-    end
-    local brot = {x=0, y=angle, z=0} --not used?
+    dest[color] = getObjectFromGUID(discardguids[color]).getPosition()
     dest[color].y = dest[color].y + 3
     local kopilecontent = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
     local kodguids = {}

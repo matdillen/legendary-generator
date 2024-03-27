@@ -57,4 +57,3 @@ function resolveStrike(params)
     broadcastToAll("Master Strike: " .. mmname .. " wasn't scripted yet.")
     return nil
 end
-

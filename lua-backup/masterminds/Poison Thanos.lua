@@ -57,6 +57,7 @@ function updateMMPoisonThanos()
         label = "+" .. poisoncount*boost,
         tooltip = "Poison Thanos gets + " .. boost .. " for each different cost among cards in his Poisoned Souls pile.",
         f = 'updateMMPoisonThanos',
+        id = "poisonedsouls",
         f_owner = self})
 end
 

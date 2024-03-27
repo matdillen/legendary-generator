@@ -37,7 +37,6 @@ function loadGUIDs()
        "city_zones_guids",
        "topBoardGUIDs",
        "allTopBoardGUIDS",
-       "pos_vp2",
        "pos_discard",
        "pos_draw",
        "hqguids",
@@ -162,9 +161,8 @@ function updateVar(params)
 end
 
 function click_rescue_bystander(obj, player_clicker_color) 
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local bspile = getObjectFromGUID(bystandersPileGUID)
-    local dest = playerBoard.positionToWorld(pos_vp2)
+    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
     if bspile then
         if bspile.tag == "Deck" then

@@ -92,6 +92,7 @@ function updateMMArcade()
             label = "X",
             tooltip = "You can't fight Arcade while he has any Human Shields.",
             f = 'updateMMArcade',
+            id = "humanshields",
             f_owner = self})
 end
 

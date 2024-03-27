@@ -9,16 +9,8 @@ function onLoad()
         _G[o] = Global.Call('returnVar',o)
     end
     
-    local guids2 = {
-        "pos_vp2"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
     local guids3 = {
-        "playerBoards"
+        "vpileguids"
         }
             
     for _,o in pairs(guids3) do
@@ -43,20 +35,10 @@ function click_save_silent_witness(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_vp2)
+    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
-    end
-    local brot = {x=0, y=angle, z=0}
     if hulkdeck.tag == "Card" then
         hulkdeck.flip()
-        hulkdeck.setRotationSmooth(brot)
         hulkdeck.setPositionSmooth(dest)
     else
         hulkdeck.takeObject({position = dest,

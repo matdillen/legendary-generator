@@ -90,6 +90,7 @@ function updateMMHood()
         label = "+" .. darkmemories,
         tooltip = "Dark Memories: The Hood gets +1 for each Hero Class among cards in your discard pile.",
         f = 'updateMMHood',
+        id = "hoodsdarkmemories",
         f_owner = self})
 end
 

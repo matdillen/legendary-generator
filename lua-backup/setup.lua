@@ -630,6 +630,7 @@ function setup_mm()
     local mmcardnumber = mmZone.Call('mmGetCards',mmname) 
     local mmShuffle = function(obj)
         local mm = obj
+        local guid = obj.guid
 
         Wait.condition(
             function()
@@ -638,6 +639,9 @@ function setup_mm()
             function()
                 if obj.remainder then
                     obj = obj.remainder
+                end
+                if obj == nil then
+                    obj = getObjectFromGUID(guid)
                 end
                 if obj.spawning then
                     return false
@@ -931,6 +935,10 @@ function playHorror()
             smooth=false,
             callback_function = resolveHorror})
     --broadcastToAll("Random horror added to the game, above the board.")
+end
+
+function returnVar(var)
+    return _G[var]
 end
 
 function resolveHorror(obj)

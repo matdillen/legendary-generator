@@ -10,7 +10,8 @@ genFun = function(src,
                   dropset="",
                   onlyset=NULL,
                   solo=T,
-                  xtra=NULL) {
+                  xtra=NULL,
+                  scripted = T) {
   
   
   #setup numbers depending on number of players
@@ -73,8 +74,16 @@ genFun = function(src,
   
   #Random scheme if not given or not found
   if (fixedSCH=="") {
-    schnumber = sample(1:nrow(src$schemes),1)
-    scheme = src$schemes$Name[schnumber]
+    if (scripted) {
+      supported_schemes = readLines("data/schemes_done.txt",
+                                    warn = F)
+      schemes = src$schemes %>%
+        filter(Name%in%supported_schemes)
+    } else {
+      schemes = src$schemes
+    }
+    schnumber = sample(1:nrow(schemes),1)
+    scheme = schemes$Name[schnumber]
   }
   
   #save name and scores
@@ -226,6 +235,12 @@ genFun = function(src,
   
   #Random mm
   if (fixedMM=="") {
+    if (scripted) {
+      supported_mm = readLines("data/mm_done.txt",
+                                    warn = F)
+      mmlist %<>%
+        filter(Name%in%supported_mm)
+    }
     mmnumber = sample(1:nrow(mmlist),1)
     mm = mmlist$Name[mmnumber]
   }

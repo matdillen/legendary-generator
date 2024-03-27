@@ -98,6 +98,7 @@ function updateMMUltron()
         label = "+" .. empowerment,
         tooltip = "Ultron is " .. epicboost .. "Empowered by each color in his Threat Analysis pile.",
         f = 'updateMMUltron',
+        id = "ultronempowered",
         f_owner = self})
 end
 

@@ -12,18 +12,9 @@ function onLoad()
         _G[o] = Global.Call('returnVar',o)
     end
     
-    local guids2 = {
-        "pos_vp2"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
-    
     local guids3 = {
         "vpileguids",
-        "playerBoards"
+        "resourceguids"
         }
         
     for _,o in pairs(guids3) do
@@ -48,20 +39,16 @@ function click_save_goblin_hw(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_vp2)
-    dest.y = dest.y + 3
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+    if recruit < 2 then
+        broadcastToColor("You don't have enough recruit to liberate this pawn!",player_clicker_color,player_clicker_color)
+        return nil
     end
-    local brot = {x=0, y=angle, z=0}
+    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-2)
+    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
+    dest.y = dest.y + 3
     if hulkdeck.tag == "Card" then
         hulkdeck.flip()
-        hulkdeck.setRotationSmooth(brot)
         hulkdeck.setPositionSmooth(dest)
     else
         hulkdeck.takeObject({position = dest,
@@ -105,6 +92,7 @@ function updateMMTheGoblin()
             label = "X",
             tooltip = "You can't fight The Goblin while he has any Hidden Witnesses.",
             f = 'updateMMTheGoblin',
+            id = "goblinisacoward",
             f_owner = self})
 end
 

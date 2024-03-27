@@ -47,6 +47,7 @@ function updateMMOnslaught()
         label = "+" .. boost,
         tooltip = "Onslaught gets +1 for each hero he dominates.",
         f = 'updateMMOnslaught',
+        id = "dominatedhero",
         f_owner = self})
 end
 

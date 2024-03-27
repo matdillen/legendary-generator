@@ -80,6 +80,7 @@ function updateMMHydraHigh()
             label = "-" .. savior,
             tooltip = "The Baron gets -1 for each villain in your victory pile.",
             f = 'updateMMHydraHigh',
+            id = "hydracouncil",
             f_owner = self})
     elseif name == "Viper" then
         local shiarfound = 0
@@ -99,6 +100,7 @@ function updateMMHydraHigh()
             label = "+" .. shiarfound,
             tooltip = "Viper gets +1 for each HYDRA Villain in the city.",
             f = 'updateMMHydraHigh',
+            id = "hydracouncil",
             f_owner = self})
     elseif name == "Red Skull" then
         local shiarfound = 0
@@ -130,6 +132,7 @@ function updateMMHydraHigh()
             label = "+" .. shiarfound,
             tooltip = "Red Skull gets +1 for each two HYDRA levels.",
             f = 'updateMMHydraHigh',
+            id = "hydracouncil",
             f_owner = self})
     elseif name == "Arnim Zola" then
         local power = 0
@@ -148,6 +151,7 @@ function updateMMHydraHigh()
             label = "+" .. power,
             tooltip = "Arnim Zola gets extra Attack equal to the total printed Attack of all heroes in the HQ.",
             f = 'updateMMHydraHigh',
+            id = "hydracouncil",
             f_owner = self})
     end
 end

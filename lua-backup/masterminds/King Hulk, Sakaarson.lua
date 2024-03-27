@@ -100,6 +100,7 @@ function updateMMHulk()
             label = "+" .. warbound,
             tooltip = "King Hulk gets +1 for each Warbound Villain in the city and in the Escape Pile.",
             f = 'updateMMHulk',
+            id = "revengewarbound",
             f_owner = self})
     elseif transformed == true then
         mmZone.Call('mmButtons',{mmname = mmname,
@@ -110,9 +111,10 @@ function updateMMHulk()
             id = 'card'})
         mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
-            label = 0,
+            label = "",
             tooltip = "King Hulk no longer gets +1 for each Warbound Villain in the city and in the Escape Pile.",
             f = 'updateMMHulk',
+            id = "revengewarbound",
             f_owner = self})
         local wounds = mmZone.Call('woundedFury')
         mmZone.Call('mmButtons',{mmname = mmname,

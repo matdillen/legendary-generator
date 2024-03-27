@@ -17,7 +17,6 @@ function onLoad()
        "city_zones_guids",
        "hqguids",
        "hqscriptguids",
-       "pos_vp2",
        "pos_discard"
     }
     
@@ -385,7 +384,7 @@ function setupMasterminds(params)
             if hulkdeck.tag == "Card" then
                 hulkdeck.setPositionSmooth(dest)
             else
-                hulkdeck.takeObject({position=dest,rotation=brot,flip=false,smooth=true})
+                hulkdeck.takeObject({position=dest,flip=false,smooth=true})
             end
         end
         getObjectFromGUID(strikeloc).createButton({
@@ -639,8 +638,10 @@ function fightButton(zone)
     end
     _G["fightEffect" .. zone] = function(obj,player_clicker_color)
         local strikeloc = nil
+        local mmname
         for i,o in pairs(mmLocations) do
             if o == obj.guid then
+                mmname = i
                 strikeloc = getStrikeloc(i)
                 break
             end
@@ -649,6 +650,9 @@ function fightButton(zone)
             return nil
         end
         local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+        if mmname == "M.O.D.O.K." and returnTransformed(mmname) == true then
+            attack = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+        end
         local power = 0
         for _,o in pairs(get_decks_and_cards_from_zone(obj.guid)) do
             if o.tag == "Deck" then
@@ -705,7 +709,11 @@ function fightButton(zone)
                 return nil
             end
         end
-        getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
+        if mmname == "M.O.D.O.K." and returnTransformed(mmname) == true then
+            getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-power)
+        else
+            getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
+        end
         if not scheme then
             scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
         end
@@ -821,7 +829,7 @@ function fightMM(zoneguid,player_clicker_color)
             table.remove(content,i)
         end
     end
-    local vppos = getObjectFromGUID(playerBoards[player_clicker_color]).positionToWorld(pos_vp2)
+    local vppos = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
     vppos.y = vppos.y + 2
     local name = nil
     for i,o in pairs(mmLocations) do

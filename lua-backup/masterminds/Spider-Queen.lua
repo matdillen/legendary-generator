@@ -53,6 +53,7 @@ function updateMMSpiderQueen()
         label = "+" .. bscount,
         tooltip = "Spider-Queen gets +1 for each Bystander in the Escape pile.",
         f = 'updateMMSpiderQueen',
+        id = "bsescaped",
         f_owner = self})
 end
 

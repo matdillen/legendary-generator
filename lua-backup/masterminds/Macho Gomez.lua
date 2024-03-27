@@ -55,6 +55,7 @@ function updateMMMacho()
         checkvalue = savior,
         label = "+" .. savior,
         tooltip = "Macho Gomez gets +1 in revenge for each Deadpool's \"Friends\" villain in your victory pile.",
+        id = "revenge",
         f = 'updateMMMacho',
         f_owner = self})
 end

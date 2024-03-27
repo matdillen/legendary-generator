@@ -66,6 +66,7 @@ function updateMMMaximus()
         label = "+" .. power,
         tooltip = "Maximus gets extra Attack equal to" .. boost .. "the highest printed Attack of all heroes in the HQ.",
         f = 'updateMMMaximus',
+        id = "highestabomination",
         f_owner = self})
 end
 

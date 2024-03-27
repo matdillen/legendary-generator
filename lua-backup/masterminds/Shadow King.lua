@@ -47,6 +47,7 @@ function updateMMShadowKing()
         label = "+" .. boost,
         tooltip = "Shadow King gets +1 for each hero he dominates.",
         f = 'updateMMShadowKing',
+        id = "dominatedhero",
         f_owner = self})
 end
 

@@ -53,6 +53,7 @@ function updateMMWastelandHulk()
         label = "+" .. tacticsfound*3,
         tooltip = "Wasteland Hulk gets +3 for each of his Mastermind Tactics among all players' Victory Piles.",
         f = 'updateMMWastelandHulk',
+        id = "wastelandhulkrevenge",
         f_owner = self})
 end
 

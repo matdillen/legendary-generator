@@ -57,6 +57,7 @@ function updateMMBaronHelm()
         label = "-" .. savior,
         tooltip = "The Baron gets -1 for each villain in your victory pile.",
         f = 'updateMMBaronHelm',
+        id = "villainsdefeated",
         f_owner = self})
 end
 

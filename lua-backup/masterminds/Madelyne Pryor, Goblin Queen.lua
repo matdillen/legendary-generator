@@ -10,16 +10,9 @@ function onLoad()
         _G[o] = Global.Call('returnVar',o)
     end
     
-    local guids2 = {
-        "pos_vp2"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
     local guids3 = {
-        "playerBoards"
+        "vpileguids",
+        "attackguids"
         }
         
     for _,o in pairs(guids3) do
@@ -32,25 +25,21 @@ function click_buy_goblin(obj,player_clicker_color)
     if not hulkdeck then
         return nil
     end
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_vp2)
-    dest.y = dest.y + 3
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
+    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
+    if attack < 2 then
+        broadcastToColor("You don't have enough recruit to liberate this pawn!",player_clicker_color,player_clicker_color)
+        return nil
     end
-    local brot = {x=0, y=angle, z=0}
+    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-2)
+    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
+    dest.y = dest.y + 3
     if hulkdeck.tag == "Card" then
-        hulkdeck.setRotationSmooth(brot)
         hulkdeck.setPositionSmooth(dest)
     else
         broadcastToColor("Choose a Bystander to rescue.",player_clicker_color,player_clicker_color)
         getObjectFromGUID(pushvillainsguid).Call('offerCards',{color = player_clicker_color,
             pile = hulkdeck,
-            targetpos = pos_vp2,
+            targetpos = dest,
             label = "Rescue",
             tooltip = "Rescue this bystander."})
     end
@@ -82,7 +71,7 @@ function updateMMMadelyne()
                 rotation={0,180,0},
                 label="Fight",
                 tooltip="Fight one of the goblins to rescue it as a bystander.",
-                color={0,0,0,1},
+                color="Red",
                 font_color = {1,0,0},
                 width=500,
                 height=200,
@@ -94,6 +83,7 @@ function updateMMMadelyne()
         checkvalue = checkvalue,
         label = "X",
         tooltip = "You can't fight Madelyne Pryor while she has any Demon Goblins.",
+        id = "goblinprotection",
         f = 'updateMMMadelyne',
         f_owner = self})
 end

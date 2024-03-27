@@ -39,6 +39,7 @@ function updateMMMaria()
         checkvalue = shieldfound,
         label = "X",
         tooltip = "You can't fight Maria Hill while there are any S.H.I.E.L.D. Elite Villains or Officers in the city.",
+        id = "protectedbytheman",
         f = 'updateMMMaria',
         f_owner = self})
 end

@@ -68,6 +68,7 @@ function updateMMDeathbird()
         label = "+" .. shiarfound*modifier,
         tooltip = "Deathbird gets +" .. modifier .. " for each Shi'ar Villain in the city and Escape Pile.",
         f = 'updateMMDeathbird',
+        id = "shiarbonus",
         f_owner = self})
 end
 
@@ -125,9 +126,6 @@ function resolveStrike(params)
             attack = 7
         end
         cards[1].addTag("Power:" .. attack)
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
-            label = attack,
-            tooltip = "This strike is a Shi'ar Battlecruiser villain."})
         getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
     end
     return nil

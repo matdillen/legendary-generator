@@ -77,6 +77,7 @@ function updateMMRagnarok()
         label = "+" .. boost,
         tooltip = "Ragnarok gets +2 for each Hero Class among Heroes in the HQ.",
         f = 'updateMMRagnarok',
+        id = "ragnarokHC",
         f_owner = self})
 end
 

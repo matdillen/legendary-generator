@@ -19,7 +19,7 @@ function onLoad()
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
     local guids3 = {
-        "playerBoards",
+        "discardguids",
         "vpileguids"
         }
             
@@ -150,16 +150,7 @@ function resolveTwist(params)
     local floorcontent = Global.Call('get_decks_and_cards_from_zone',floorboom)
     if floorcontent[1] then
         local pcolor = Turns.turn_color
-        if pcolor == "White" then
-            angle = 90
-        elseif pcolor == "Blue" then
-            angle = -90
-        else
-            angle = 180
-        end
-        local brot = {x=0, y=angle, z=0}
-        local playerBoard = getObjectFromGUID(playerBoards[pcolor])
-        local dest = playerBoard.positionToWorld({-0.957, 0.178, 0.222})
+        local dest = getObjectFromGUID(discardguids[pcolor]).getPosition()
         dest.y = dest.y + 3
         local floorcount = 0
         for _,o in pairs(floorcontent) do
@@ -202,7 +193,6 @@ function resolveTwist(params)
                     end
                     if bs == false then
                         floorcontent[1].takeObject({position = dest,
-                            rotation = brot,
                             guid = o.guid,
                             callback_function = explodeFloor})
                         broadcastToAll("Player " .. pcolor .. " got a wound from the destroyed Monument floor.",pcolor)
@@ -217,7 +207,6 @@ function resolveTwist(params)
                     explodeFloor()
                 else
                     floorcontent[1].flip()
-                    floorcontent[1].setRotationSmooth(brot)
                     floorcontent[1].setPositionSmooth(dest)
                     broadcastToAll("Player " .. pcolor .. " got a wound from the destroyed Monument floor.",pcolor)
                 end

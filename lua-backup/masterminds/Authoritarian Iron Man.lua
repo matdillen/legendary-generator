@@ -38,6 +38,7 @@ function updateMMAuthoritarianIronMan()
         label = bonus,
         tooltip = "You can't fight Authoritarian Iron Man while there is a villain in the city space he fortifies.",
         f = 'updateMMAuthoritarianIronMan',
+        id = "fortifiedbyvillain",
         f_owner = self})
 end
 

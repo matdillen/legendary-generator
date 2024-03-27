@@ -28,6 +28,7 @@ function updateMMVulture()
         label = "+" .. strikes,
         tooltip = "Vulture is a striker and gets +1 for each Master Strike that has been played.",
         f = 'updateMMVulture',
+        id = "striker",
         f_owner = self})
 end
 

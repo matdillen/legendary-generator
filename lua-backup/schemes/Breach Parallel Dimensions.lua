@@ -93,11 +93,11 @@ function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     broadcastToAll("Scheme Twist: Choose a villain deck to draw two cards from.")
     local decks = {}
-    for i,o in pairs(allTopBoardGUIDS) do
+    for _,o in pairs(allTopBoardGUIDS) do
         local deck = Global.Call('get_decks_and_cards_from_zone',o)
         if deck[1] then
             for _,b in pairs(getObjectFromGUID(o).getButtons()) do
-                if b.click_function == "click_draw_villain_call" then
+                if b.click_function == "click_draw_villain" then
                     table.insert(decks,getObjectFromGUID(o))
                     break
                 end

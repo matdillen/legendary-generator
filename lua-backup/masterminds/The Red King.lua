@@ -69,6 +69,7 @@ function updateMMRedKing()
         label = label,
         tooltip = tooltip,
         f = 'updateMMRedKing',
+        id = "redkingcoward",
         f_owner = self})
 end
 

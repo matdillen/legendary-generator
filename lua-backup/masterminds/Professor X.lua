@@ -69,7 +69,7 @@ function click_buy_pawn(obj,player_clicker_color)
         local hulkdeckobj = hulkdeck.getObjects()
         for _,t in pairs(hulkdeckobj[#hulkdeckobj].tags) do
             if t:find("Cost:") then
-                cost = t:sub(6)
+                cost = tonumber(t:sub(6))
                 break
             end
         end

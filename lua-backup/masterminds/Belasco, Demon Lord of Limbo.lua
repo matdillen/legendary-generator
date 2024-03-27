@@ -63,6 +63,7 @@ function updateMMBelasco()
         label = "+" .. nongrey,
         tooltip = "Belasco gets +1 equal to the number of non-grey Heroes in the KO pile, divided by the number of players (round down).",
         f = 'updateMMBelasco',
+        id = "nongreybonus",
         f_owner = self})
 end
 

@@ -25,6 +25,7 @@ function updateMMImmortalEmperor()
         label = "+" .. boost,
         tooltip = "Immortal Emperor Zheng-Zhu is in the 7th Circle of Kung Fu and gets +7 unless you have a hero with at least that cost.",
         f = 'updateMMImmortalEmperor',
+        id = "seventhcircleofkungfu",
         f_owner = self})
 end
 

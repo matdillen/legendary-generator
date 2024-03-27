@@ -51,6 +51,7 @@ function updateMMStryfe()
         label = "+" .. boost,
         tooltip = "Stryfe gets +1 for each Master Strike stacked next to him.",
         f = 'updateMMStryfe',
+        id = "stryfestriker",
         f_owner = self})
 end
 

@@ -11,8 +11,7 @@ function onLoad()
     end
     
     local guids2 = {
-        "topBoardGUIDs",
-        "pos_vp2"
+        "topBoardGUIDs"
         }
         
     for _,o in pairs(guids2) do
@@ -76,8 +75,7 @@ function click_buy_annihilation(obj,player_clicker_color)
         return nil
     end
     getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-henchpower)
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_vp2)
+    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
     if hulkdeck.tag == "Card" then
         hulkdeck.setPositionSmooth(dest)

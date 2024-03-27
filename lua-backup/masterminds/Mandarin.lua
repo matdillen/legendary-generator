@@ -82,6 +82,7 @@ function updateMMMandarin()
         checkvalue = tacticsfound,
         label = "-" .. tacticsfound*modifier,
         tooltip = "Mandarin gets -" .. modifier .. " for each Mandarin's Rings among all players' Victory Piles.",
+        id = "lostrings",
         f = 'updateMMMandarin',
         f_owner = self})
 end

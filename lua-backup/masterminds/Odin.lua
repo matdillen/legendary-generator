@@ -70,6 +70,7 @@ function updateMMOdin()
         checkvalue = shiarfound,
         label = "+" .. shiarfound,
         tooltip = "Odin gets +1 for each Asgardian Warrior in the city and Escape Pile.",
+        id = "odinsbonus",
         f = 'updateMMOdin',
         f_owner = self})
 end

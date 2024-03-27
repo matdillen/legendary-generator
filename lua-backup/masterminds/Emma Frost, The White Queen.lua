@@ -63,6 +63,7 @@ function updateMMEmma()
         label = "+" .. power,
         tooltip = "Emma Frost gets +" .. boost .. " for each grey hero you have.",
         f = 'updateMMEmma',
+        id = "greyherobonus",
         f_owner = self})
 end
 

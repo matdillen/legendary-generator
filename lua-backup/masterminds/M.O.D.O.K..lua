@@ -56,9 +56,10 @@ function updateMMMODOK()
             id = 'card'})
         mmZone.Call('mmButtons',{mmname = mmname,
             checkvalue = 0,
-            label = "*",
+            label = "",
             tooltip = "You can fight M.O.D.O.K normally.",
             f = 'updateMMMODOK',
+            id = "modokisweird",
             f_owner = self})
         local notes = getNotes()
         setNotes(notes .. "\r\n\r\n[b]Outwit[/b] requires 4 different costs instead of 3.")
@@ -75,6 +76,7 @@ function updateMMMODOK()
             checkvalue = 1,
             label = "*",
             tooltip = "You can only fight M.O.D.O.K with Recruit, not Attack.",
+            id = "modokisweird",
             f = 'updateMMMODOK',
             f_owner = self})
     end

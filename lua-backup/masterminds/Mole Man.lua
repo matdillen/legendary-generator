@@ -35,6 +35,7 @@ function updateMMMoleMan()
         checkvalue = bscount,
         label = "+" .. bscount,
         tooltip = "Mole Man gets +1 for each Subterranea Villain that has escaped.",
+        id = "hellofromtheunderground",
         f = 'updateMMMoleMan',
         f_owner = self})
 end

@@ -83,6 +83,7 @@ function updateMMIlluminatiSS()
         label = "+" .. boost,
         tooltip = tooltip,
         f = 'updateMMIlluminatiSS',
+        id = "outwit",
         f_owner = self})
 end
 
