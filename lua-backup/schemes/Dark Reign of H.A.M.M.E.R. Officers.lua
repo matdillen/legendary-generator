@@ -125,9 +125,8 @@ function updateButtons()
         })
         getObjectFromGUID(pushvillainsguid).Call('powerButton',{label = 3,
             tooltip = "Fight these officers for 3 to gain them as heroes.",
-            id = "hammer",
-            zoneguid = topBoardGUIDs[2],
-            ignore_f = "click_buy_hammer"})
+            id = "hammerofficers",
+            zoneguid = topBoardGUIDs[2]})
     end
 end
 

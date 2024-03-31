@@ -6,21 +6,13 @@ function onLoad()
      })
      
     local guids3 = {
-        "playerBoards",
-        "resourceguids"
+        "resourceguids",
+        "discardguids",
+        "drawguids"
     }
     
     for _,o in pairs(guids3) do
         _G[o] = table.clone(Global.Call('returnVar',o),true)
-    end
-    
-    local guids2 = {
-       "pos_discard",
-       "pos_draw"
-    }
-    
-    for _,o in pairs(guids2) do
-        _G[o] = table.clone(Global.Call('returnVar',o))
     end
     
     local guids1 = {
@@ -72,25 +64,22 @@ function click_buy_hero(obj, player_clicker_color, alt_click,free)
             break
         end
     end
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
 	local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
     if not schemeParts then
         printToAll("No scheme specified!")
         schemeParts = {"no scheme"}
     end
 	local toflip = deck.is_face_down
+    local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
 	if schemeParts[1] == "Splice Humans with Spider DNA" then
-		pos = pos_draw
+		dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
 		if card then
 			card.flip()
 		end
 		if deck then
 			toflip = false
 		end
-	else 
-		pos = pos_discard
 	end
-    local dest = playerBoard.positionToWorld(pos)
     dest.y = dest.y + 3
     if card then
         card.setPositionSmooth(dest)

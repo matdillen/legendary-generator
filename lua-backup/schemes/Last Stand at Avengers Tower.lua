@@ -45,7 +45,7 @@ function resolveTwist(params)
 
     getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
     getObjectFromGUID(city_zones_guids[4]).Call('updateZonePower', {
-        label = twistsresolved,
+        label = "+" .. twistsresolved,
         tooltip = "This villain gets +1 for each StarkTech Defense.",
         id = "starktech"
     })

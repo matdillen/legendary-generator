@@ -892,7 +892,6 @@ function powerButton(params)
     local tooltip = params.tooltip or "Unidentified bonus."
     local id = params.id or "base"
     local click_f = params.click_f or 'updatePower'
-    local ignore_f = params.ignore_f
     local otherposition = params.otherposition
     local color = params.color or "Red"
     local zoneguid = params.zoneguid
@@ -933,7 +932,7 @@ function powerButton(params)
     elseif zoneguid then
         local butt = getObjectFromGUID(zoneguid).getButtons()
         for i,o in pairs(butt) do
-            if o.click_function ~= "click_fight_villain" and o.click_function ~= "scan_villain" and (not ignore_f or o.click_function ~= ignore_f) then
+            if o.click_function == "updatePower" then
                 buttonindex = i - 1
                 if o.tooltip:find("\n") then
                     for t in string.gmatch(o.tooltip,"[^\n]+") do
@@ -970,7 +969,7 @@ function powerButton(params)
             getObjectFromGUID(zoneguid).editButton({index = buttonindex, label = lab, tooltip = tool})
         else
             getObjectFromGUID(zoneguid).createButton({click_function='updatePower',
-                function_owner=getObjectFromGUID(zoneguid),
+                function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
                 scale = {1,1,0.5},
@@ -1686,7 +1685,7 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
             local hand = o.getHandObjects()
             if hand[1] and #hand == 6 then
                 broadcastToAll("Master Strike: Player " .. o.color .. " puts two cards from their hand on top of their deck.")
-                local pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_draw)
+                local pos = getObjectFromGUID(drawguids[o.color]).getPosition()
                 pos.y = pos.y + 2
                 promptDiscard({color = o.color,
                     n = 2,

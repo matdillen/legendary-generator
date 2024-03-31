@@ -9,7 +9,6 @@ function onLoad()
     end
     
     local guids2 = {
-        "pos_draw",
         "city_zones_guids"
         }
         
@@ -18,7 +17,7 @@ function onLoad()
     end
     
     local guids3 = {
-        "playerBoards"
+        "drawguids"
         }
         
     for _,o in pairs(guids3) do
@@ -114,12 +113,11 @@ end
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
 
-    local playercolors = Player.getPlayers()
     broadcastToAll("Master Strike: Each player puts all cards costing more than 0 on top of their deck.")
     for _,o in pairs(Player.getPlayers()) do
         local hand = o.getHandObjects()
         local toTop = {}
-        local dest = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_draw)
+        local dest = getObjectFromGUID(drawguids[o.color]).getPosition()
         dest.y = dest.y + 2
         for _,obj in pairs(hand) do
             if hasTag2(obj,"Cost:") and hasTag2(obj,"Cost:") > 0 then

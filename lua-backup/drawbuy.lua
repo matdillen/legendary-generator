@@ -9,10 +9,12 @@ function onLoad()
     toggleButton()
     
     local guids3 = {
-        "playerBoards",
         "resourceguids",
         "vpileguids",
-        "attackguids"
+        "attackguids",
+        "drawguids",
+        "discardguids",
+        "addguids"
     }
     
     for _,o in pairs(guids3) do
@@ -20,9 +22,6 @@ function onLoad()
     end
     
     local guids2 = {
-       "pos_add2",
-       "pos_discard",
-       "pos_draw",
        "hqguids",
        "hqscriptguids",
        "allTopBoardGUIDS"
@@ -127,23 +126,18 @@ function click_buy_hero(obj, player_clicker_color)
     else
         getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
         local desc = card.getDescription()
-        
+        local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
         if desc:find("WALL%-CRAWL") or scheme.getName() == "Splice Humans with Spider DNA" then
-            pos = pos_draw
+            dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
             card.flip()
         elseif desc:find("SOARING FLIGHT") then
-            pos = pos_add2
-        else 
-            pos = pos_discard
+            dest = getObjectFromGUID(addguids[player_clicker_color]).getPosition()
         end
 
         if scheme.getVar("buyEffect") then
             scheme.Call('buyEffect',{obj = obj,
                 color = player_clicker_color})
         end
-        
-        local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-        local dest = playerBoard.positionToWorld(pos)
         dest.y = dest.y+3
         card.setPositionSmooth(dest)
         
@@ -281,7 +275,7 @@ function editZoneBonus(params)
 end
 
 function updateCost()
-    local hero = getHeroUp()
+    local hero = getHero(false)
     local cost = ""
     if hero then
         cost = hasTag2(hero,"Cost:") or ""
@@ -340,7 +334,7 @@ function onObjectLeaveZone(zone,object)
     if zone.guid == self.guid and heroinside[object.guid] then
         heroinside[object.guid] = nil
         Wait.condition(updateCost,function()
-            local hero = getHeroUp()
+            local hero = getHero(false)
             if hero and hero.guid == object.guid then
                 return false
             else

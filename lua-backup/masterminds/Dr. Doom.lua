@@ -7,16 +7,8 @@ function onLoad()
         _G[o] = Global.Call('returnVar',o)
     end
     
-    local guids2 = {
-        "pos_draw"
-        }
-        
-    for _,o in pairs(guids2) do
-        _G[o] = {table.unpack(Global.Call('returnVar',o))}
-    end
-    
     local guids3 = {
-        "playerBoards"
+        "drawguids"
         }
         
     for _,o in pairs(guids3) do
@@ -44,7 +36,7 @@ function resolveStrike(params)
         local hand = o.getHandObjects()
         if hand[1] and #hand == 6 then
             broadcastToAll("Master Strike: Player " .. o.color .. " puts two cards from their hand on top of their deck.")
-            local pos = getObjectFromGUID(playerBoards[o.color]).positionToWorld(pos_draw)
+            local pos = getObjectFromGUID(drawguids[o.color]).getPosition()
             pos.y = pos.y + 2
             getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
                 n = 2,

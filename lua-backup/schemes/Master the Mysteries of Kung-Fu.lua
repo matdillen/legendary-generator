@@ -22,7 +22,7 @@ function table.clone(org,key)
 end
 
 function bonusInCity(params)
-    local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait = params.twistsstacked,
+    local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait = tostring(params.twistsstacked),
             what = "Cost",
             prefix = "Cost:",
             players = {Player[Turns.turn_color]}})

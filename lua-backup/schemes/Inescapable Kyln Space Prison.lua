@@ -95,8 +95,8 @@ function liberate(obj,player_clicker_color)
             click_function = 'click_buy_hero',
             function_owner = obj,
             label = "Buy hero",
-            tooltip = "",
-            color = "White"})
+            tooltip = "Buy this hero.",
+            color = "Yellow"})
         getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-1)
         local hero = obj.Call('getCards')
         if not hero[1] then
@@ -154,7 +154,8 @@ function resolveTwist(params)
         return nil
     end
     
-    local toolt = "Spend " .. val .. " this turn to acquire " .. component
+    local toolt = "Spend " .. val .. " this turn to acquire " .. component .. "."
+    broadcastToColor(toolt, Turns.turn_color, Turns.turn_color)
     self.createButton({click_function='escapePlan',
         function_owner=self,
         position={0,1,0.5},
