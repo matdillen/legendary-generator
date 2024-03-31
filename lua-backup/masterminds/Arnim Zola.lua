@@ -13,11 +13,24 @@ function onLoad()
     
     local guids2 = {
         "hqguids",
-        "hqscriptguids"
+        "hqscriptguids",
+        "herocosts"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function table.clone(org,key)
+    if key then
+        local new = {}
+        for i,o in pairs(org) do
+            new[i] = o
+        end
+        return new
+    else
+        return {table.unpack(org)}
     end
 end
 
@@ -72,9 +85,9 @@ function resolveStrike(params)
 
     local herodeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1]
     if herodeck then
-        Global.Call('bump',herodeck)
+        Global.Call('bump',{obj = herodeck})
     end
-    local costs = table.clone("herocosts",3)
+    local costs = table.clone(herocosts,3)
     for _,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getHeroUp')
         if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then

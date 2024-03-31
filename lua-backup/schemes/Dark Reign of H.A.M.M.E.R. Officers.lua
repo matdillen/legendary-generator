@@ -10,16 +10,15 @@ function onLoad()
     end
     
     local guids2 = {
-        "topBoardGUIDs",
-        "pos_discard"
+        "topBoardGUIDs"
         }
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
     local guids3 = {
-        "playerBoards",
-        "attackguids"
+        "attackguids",
+        "discardguids"
         }
             
     for _,o in pairs(guids3) do
@@ -47,20 +46,9 @@ function gainShieldChoice(params)
     local obj = params.obj
     local player_clicker_color = params.player_clicker_color
     
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
-    local dest = playerBoard.positionToWorld(pos_discard)
+    local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
-    local angle = 0
-    if player_clicker_color == "White" then
-        angle = 90
-    elseif player_clicker_color == "Blue" then
-        angle = -90
-    else
-        angle = 180
-    end
-    local brot = {x=0, y=angle, z=0}
     obj.setPositionSmooth(dest)
-    obj.setRotationSmooth(brot)
 end
 
 function gainShield(params)

@@ -431,9 +431,6 @@ end
 function click_draw_villain(obj,vildeckguid)
     local pos = getObjectFromGUID(city_zones_guids[1]).getPosition()
     pos.y = pos.y + 5
-    if not vildeckguid then
-        vildeckguid = villainDeckZoneGUID
-    end
     local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
     local flip_villains = true
     if schemeParts then
@@ -449,6 +446,12 @@ function click_draw_villain(obj,vildeckguid)
                 end
             end
         end
+        if schemeParts[1] == "Breach Parallel Dimensions" and not vildeckguid then
+            return nil
+        end
+    end
+    if not vildeckguid then
+        vildeckguid = villainDeckZoneGUID
     end
     local villain_deck = get_decks_and_cards_from_zone(vildeckguid)[1]
     if villain_deck then
@@ -1015,6 +1018,10 @@ function cityLowTides()
     end
 end
 
+function updatePowerPV()
+    updatePower()
+end
+
 function playVillains(options)
     --plays n cards from the villain deck (default n=1)
     --the first only if condition_f is met (optional)
@@ -1032,7 +1039,7 @@ function playVillains(options)
     end
     if villainstoplay == 0 then
         villainstoplay = villainstoplay + n
-        getObjectFromGUID(vildeckguid).createButton({click_function="updatePower",
+        getObjectFromGUID(vildeckguid).createButton({click_function="updatePowerPV",
                 function_owner=self,
                 position={0,0,0},
                 rotation={0,180,0},
@@ -1082,10 +1089,19 @@ function playVillains(options)
             villainstoplay = villainstoplay - 1
             local vildeckzone = getObjectFromGUID(vildeckguid)
             local butt = vildeckzone.getButtons()
-            if butt and villainstoplay > 0 then
-                vildeckzone.editButton({index=#butt-1,label="(" .. villainstoplay .. ")"})
-            elseif butt and villainstoplay == 0 then
-                vildeckzone.removeButton(#butt-1)
+            local buttonindex = nil
+            if butt then
+                for i,o in pairs(butt) do
+                    if o.click_function == "updatePowerPV" then
+                        buttonindex = i-1
+                        break
+                    end
+                end
+                if buttonindex and villainstoplay > 0 then
+                    vildeckzone.editButton({index=buttonindex,label="(" .. villainstoplay .. ")"})
+                elseif buttonindex and villainstoplay == 0 then
+                    vildeckzone.removeButton(buttonindex)
+                end
             end
             if villainstoplay > 0 then
                 --do it all over again until n iterations
@@ -1136,7 +1152,16 @@ function playVillains(options)
         local vildeckzone = getObjectFromGUID(vildeckguid)
         local butt = vildeckzone.getButtons()
         if butt then
-            vildeckzone.editButton({index=#butt-1,label="(" .. villainstoplay .. ")"})
+            local buttonindex = nil
+            for i,o in pairs(butt) do
+                if o.click_function == "updatePowerPV" then
+                    buttonindex = i-1
+                    break
+                end
+            end
+            if buttonindex then
+                vildeckzone.editButton({index=buttonindex,label="(" .. villainstoplay .. ")"})
+            end
         end
     end
 end
@@ -2995,6 +3020,7 @@ function offerChoice(params)
     local n = params.n or 1
     local resolve_function = params.resolve_function
     local fsourceguid = params.fsourceguid or self.guid
+    local otherzoneguid = params.otherzoneguid
     
     if not color or not choices or not resolve_function then
         return nil
@@ -3024,13 +3050,17 @@ function offerChoice(params)
     
     local playzone = getObjectFromGUID(discardguids[color])
     local zshift = -2
+    if otherzoneguid then
+        playzone = getObjectFromGUID(otherzoneguid)
+        zshift = 0
+    end
     local xshift = 0
     local iter = 0
     for i,o in pairs(choices) do
         iter = iter + 1
         if iter % 3 == 0 then
             xshift = xshift + 1
-            zshift = -2
+            zshift = zshift + 1
         end
         _G["resolveChoice" .. i .. color] = function(obj)
             n = n-1

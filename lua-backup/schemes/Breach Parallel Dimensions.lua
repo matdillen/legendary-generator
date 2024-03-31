@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "villainDeckZoneGUID",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "setupGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +16,14 @@ function onLoad()
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+
+    local guids3 = {
+        "resourceguids"
+        }
+        
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
 end
 
@@ -64,29 +73,131 @@ function villainDeckSpecial(params)
             local deck = Global.Call('get_decks_and_cards_from_zone',allTopBoardGUIDS[i])[1]
             if deck then
                 deck.randomize()
-                getObjectFromGUID(allTopBoardGUIDS[i]).createButton({click_function='click_draw_villain',
-                    function_owner=self,
-                    position={0,0,-0.5},
-                    rotation={0,180,0},
-                    label="Draw",
-                    tooltip="Draw a card from this villain deck dimension.",
-                    font_size=100,
-                    font_color="Black",
-                    color="White",
-                    width=375})
+                toggleButtons(allTopBoardGUIDS[i])
             end
         end
     end
     Wait.time(decksShuffle,2)
+    getObjectFromGUID(setupGUID).Call('disable_autoplay')
 end
 
-function click_draw_villain(obj)
+function toggleButtons(zoneguid)
+    local zone = getObjectFromGUID(zoneguid)
+    local butt = zone.getButtons()
+    local buttonfound = false
+    if butt then
+        for i,o in pairs(butt) do
+            if o.click_function == "click_draw_villainBPD" or o.click_function == "click_focus" then
+                zone.removeButton(i-1)
+                buttonfound = true
+            end
+        end
+    end
+    if buttonfound == false then
+        zone.createButton({click_function='click_draw_villainBPD',
+            function_owner=self,
+            position={0,0,0.3},
+            rotation={0,180,0},
+            label="Draw",
+            tooltip="Draw a card from this villain deck dimension.",
+            font_size=100,
+            font_color="Black",
+            color="White",
+            width=375})
+        zone.createButton({click_function='click_focus',
+            function_owner=self,
+            position={0,0,0.7},
+            rotation={0,180,0},
+            label="Focus",
+            tooltip="Look at the top card of this villain deck and put it back on top or bottom.",
+            font_size=100,
+            font_color="Black",
+            color="Yellow",
+            width=375})   
+    end
+end
+
+function lockFocusedCard(object)
+    focusedcard = object
+    object.locked = true
+end
+
+function resolveFocus(params)
+    focusedcard.locked = false
+    focusedcard.flip()
+    local villaindeck = Global.Call('get_decks_and_cards_from_zone',focusedzone.guid)[1]
+    if villaindeck and params.id == "top" then
+        focusedcard.putObject(villaindeck)
+    elseif villaindeck then
+        Global.Call('bump',{obj = villaindeck})
+        local card = focusedcard
+        local pos = focusedzone.getPosition()
+        Wait.time(
+            function()
+                card.setPosition(pos)
+            end,
+            0.5)
+    end
+    toggleButtons(focusedzone.guid)
+    focusedcard = nil
+    focusedzone = nil
+end
+
+function click_focus(object,player_clicker_color)
+    if focusedcard or focusedzone then
+        broadcastToColor("Focus already in progress. Resolve it first!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
+    if recruit < 1 then
+        broadcastToColor("You don't have enough recruit to focus on this villain deck!",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-1)
+    local villaindeck = Global.Call('get_decks_and_cards_from_zone',object.guid)[1]
+    local pos = object.getPosition()
+    pos.y = pos.y + 3
+    if not villaindeck then
+        broadcastToColor("No villain deck found here.",player_clicker_color,player_clicker_color)
+        return nil
+    end
+    focusedzone = object
+    toggleButtons(object.guid)
+    getObjectFromGUID(pushvillainsguid).Call('offerChoice',{color = player_clicker_color,
+        choices = {["top"] = "Top",
+            ["bottom"] = "Bottom"},
+        fsourceguid = self.guid,
+        resolve_function = "resolveFocus",
+        otherzoneguid = object.guid})
+    if villaindeck.tag == "Deck" then
+        villaindeck.takeObject({position = pos,
+            flip = true,
+            callback_function = lockFocusedCard})
+    else
+        villaindeck.flip()
+        villaindeck.setPositionSmooth(pos)
+        lockFocusedCard(villaindeck)  
+    end
+end
+
+function click_draw_villainBPD(obj,player_clicker_color)
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',obj.guid)[1]
+    if not vildeck then
+        broadcastToColor("No villain deck found here.",player_clicker_color,player_clicker_color)
+        return nil
+    end
     getObjectFromGUID(pushvillainsguid).Call('playVillains',{vildeckguid = obj.guid})
 end
 
 function playTwoFamily(params)
     local obj = params.obj
     getObjectFromGUID(pushvillainsguid).Call('playVillains',{n=2,vildeckguid = obj.guid})
+    for _,o in pairs(allTopBoardGUIDS) do
+        local deck = Global.Call('get_decks_and_cards_from_zone',o)
+        if deck[1] then
+            toggleButtons(o)
+        end
+    end
 end
 
 function resolveTwist(params)
@@ -97,8 +208,9 @@ function resolveTwist(params)
         local deck = Global.Call('get_decks_and_cards_from_zone',o)
         if deck[1] then
             for _,b in pairs(getObjectFromGUID(o).getButtons()) do
-                if b.click_function == "click_draw_villain" then
+                if b.click_function == "click_draw_villainBPD" then
                     table.insert(decks,getObjectFromGUID(o))
+                    toggleButtons(o)
                     break
                 end
             end

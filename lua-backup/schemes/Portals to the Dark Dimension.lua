@@ -41,7 +41,7 @@ function resolveTwist(params)
             label = "+1",
             tooltip = "A dark portal gives the mastermind + 1.",
             f = "mm",
-            id = "darkportal" .. twistsresolved})
+            id = "darkportal"})
         broadcastToAll("Scheme Twist: A dark portal reinforces the mastermind!")
     elseif twistsresolved < 7 then
         if city[7-twistsresolved] then

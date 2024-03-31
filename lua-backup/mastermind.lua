@@ -709,13 +709,20 @@ function fightButton(zone)
                 return nil
             end
         end
+        if not scheme then
+            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+        end
+        if scheme.getVar("fightRestriction") then
+            local goahead = scheme.Call('fightRestriction',{color = player_clicker_color})
+            if not goahead then
+                broadcastToColor("Fight restriction of mastermind due to scheme not met!", player_clicker_color, player_clicker_color)
+                return nil
+            end
+        end
         if mmname == "M.O.D.O.K." and returnTransformed(mmname) == true then
             getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-power)
         else
             getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
-        end
-        if not scheme then
-            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
         end
         if scheme.getVar("fightEffect") then
             scheme.Call('fightEffect',{obj = obj,color = player_clicker_color,mm = true})

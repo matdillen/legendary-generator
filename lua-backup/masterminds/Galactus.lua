@@ -28,7 +28,7 @@ function resolveStrike(params)
 
     local newcity = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city"))
     local destroyed = table.remove(newcity)
-    getObjectFromGUID(pushvillainsguid).Call('updateCity',{newcity = destroyed})
+    getObjectFromGUID(pushvillainsguid).Call('updateCity',{newcity = newcity})
     local escapees = Global.Call('get_decks_and_cards_from_zone',destroyed)
     if escapees[1] then
         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = escapees,

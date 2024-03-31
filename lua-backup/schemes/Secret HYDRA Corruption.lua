@@ -85,7 +85,7 @@ function resolveTwist(params)
     local twistpile = getObjectFromGUID(twistZoneGUID)
     if twistsresolved == 1 then
         officerdeck = getObjectFromGUID(officerDeckGUID)
-        twistpile.createButton({click_function=buyOfficer,
+        twistpile.createButton({click_function="buyOfficer",
             function_owner=self,
             position={0,0,0},
             rotation={0,180,0},
@@ -100,12 +100,12 @@ function resolveTwist(params)
         self.flip()
         twistpile.editButton({tooltip = "Fight for 3 to return any of these officers to the Officer deck and KO one of your heroes.",
             font_color = "Red",
-            click_function = fightOfficer})
+            click_function = "fightOfficer"})
     else
         self.flip()
         twistpile.editButton({tooltip = "Pay 3 Recruit to have any player gain one of these Officers.",
             font_color = "Yellow",
-            click_function = buyOfficer})
+            click_function = "buyOfficer"})
     end
     local pos = twistpile.getPosition()
     pos.y = pos.y + 1
