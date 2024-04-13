@@ -161,3 +161,10 @@ ddadbc,hqscriptguids--5,
 21e3f0,shardspaceguid,
 be6070,strikeZoneGUID,
 375566,villainPileGUID,
+0b8a4a,madamehydrazone2,
+00b962,newrecruitszone2,
+c0baa9,city_topzones_guids--6,topcity.lua
+8d6da2,city_topzones_guids--5,topcity.lua
+8822db,city_topzones_guids--4,topcity.lua
+a05f6c,city_topzones_guids--3,topcity.lua
+6d25f6,city_topzones_guids--2,topcity.lua

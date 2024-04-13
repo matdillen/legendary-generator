@@ -1,14 +1,37 @@
 function onLoad()
     twistsstacked = 0
+
+    tokenguid = "51bdc5"
     
     local guids1 = {
         "pushvillainsguid",
         "schemeZoneGUID",
-        "escape_zone_guid"
+        "escape_zone_guid",
+        "mmZoneGUID",
+        "twistPileGUID",
+        "twistZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+
+    local guids2 = {
+        "topBoardGUIDs",
+        "city_topzones_guids",
+        "city_zones_guids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+
+    local guids3 = {
+        "vpileguids"
+        }
+        
+    for _,o in pairs(guids3) do
+        _G[o] = table.clone(Global.Call('returnVar',o))
     end
 end
 
@@ -25,11 +48,71 @@ function table.clone(org,key)
 end
 
 function setupSpecial(params)
-    log("Baby hope token moved to scheme.")
-    local babyHope = getObjectFromGUID("e27f77")
+    log("Baby hope token moved above the scheme.")
+    getObjectFromGUID(mmZoneGUID).Call('lockTopZone',topBoardGUIDs[2])
+    local babyHope = getObjectFromGUID(tokenguid)
     babyHope.locked = false
     babyHope.setTags({"VP6"})
-    babyHope.setPosition(getObjectFromGUID(schemeZoneGUID).getPosition())
+    babyHope.setName("Baby Hope Token")
+    babyHope.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+end
+
+function cityShift(params)
+    if params.obj.guid == tokenguid and params.targetZone.guid == escape_zone_guid then
+        broadcastToAll("Baby Hope was taken away by a villain!", {r=1,g=0,b=0})
+        getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition()})
+        obj.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+        return nil
+    end
+    return params.obj
+end
+
+function captureBaby(obj)
+    local cityspaces = table.clone(city_zones_guids)
+    local cardfound = false
+    while cardfound == false do
+        local cityobjects = Global.Call('get_decks_and_cards_from_zone',cityspaces[1])
+        --locations don't count as villains, so they get skipped
+        --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
+        local locationfound = false
+        if cityobjects[1] and not cityobjects[2] then
+            if cityobjects[1].getDescription():find("LOCATION") then
+                locationfound = true
+            end
+        end
+        --if no cards or only a location, check next city space
+        if not cityobjects[1] or locationfound == true then
+            table.remove(cityspaces,1)
+        else
+            --villain found, so put bystander here
+            --this will break if something other than a villain or location is on its own in the city
+            cardfound = true
+            local targetZone = getObjectFromGUID(cityspaces[1])
+            getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
+                objects = {obj},
+                targetZone = targetZone,
+                enterscity = 1})
+            Wait.condition(
+                function()
+                    getObjectFromGUID(cityspaces[1]).Call('updatePower')
+                end,
+                function()
+                    local hopevillain = Global.Call('get_decks_and_cards_from_zone',cityspaces[1])
+                    for _,o in pairs(hopevillain) do
+                        if o.guid == tokenguid then
+                            return true
+                        end
+                    end
+                    return false
+                end
+            )
+        end
+        if not cityspaces[1] then
+            --if the city is empty:
+            cardfound = true
+            obj.setPositionSmooth(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+        end
+    end
 end
 
 function resolveTwist(params)
@@ -37,20 +120,22 @@ function resolveTwist(params)
     local cards = params.cards
     local city = params.city
     local babyfound = false
-    for _,o in pairs(city) do
-        local cityobjects = getObjectFromGUID(o).getObjects()
+    for _,o in pairs(city_topzones_guids) do
+        local cityobjects = Global.Call('get_decks_and_cards_from_zone',o)
         if cityobjects[1] then
             for _,object in pairs(cityobjects) do
-                if object.getName() == "Baby Hope Token" then
+                if object.guid == tokenguid then
                     babyfound = true
-                    object.setPosition(getObjectFromGUID(schemeZoneGUID).getPosition())
+                    object.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
                 end
             end
             if babyfound == true then
                 broadcastToAll("Villain with Baby Hope escaped!",{r=1,g=0,b=0})
-                cityobjects = Global.Call('get_decks_and_cards_from_zone',o)
+                local cityzone = getObjectFromGUID(pushvillainsguid).Call('getCityZone',{guid = o,
+                    top = false})
+                local cityobjects2 = Global.Call('get_decks_and_cards_from_zone',cityzone)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
-                    objects = table.clone(cityobjects),
+                    objects = table.clone(cityobjects2),
                     targetZone = getObjectFromGUID(escape_zone_guid),
                     enterscity = 0,
                     schemeParts = {"Capture Baby Hope"}})
@@ -60,50 +145,30 @@ function resolveTwist(params)
         end
     end
     if babyfound == false then
-        local babyHope = getObjectFromGUID("e27f77")
-        local cityspaces = table.clone(city)
-        local cardfound = false
-        while cardfound == false do
-            local cityobjects = Global.Call('get_decks_and_cards_from_zone',cityspaces[1])
-            --locations don't count as villains, so they get skipped
-            --locations may rarely capture bystanders. place these OUTSIDE the city or this will break
-            local locationfound = false
-            if cityobjects[1] and not cityobjects[2] then
-                if cityobjects[1].getDescription():find("LOCATION") then
-                    locationfound = true
-                end
-            end
-            --if no cards or only a location, check next city space
-            if not cityobjects[1] or locationfound == true then
-                table.remove(cityspaces,1)
-            else
-                --villain found, so put bystander here
-                --this will break if something other than a villain or location is on its own in the city
-                cardfound = true
-                local targetZone = getObjectFromGUID(cityspaces[1])
-                getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
-                    objects = {babyHope},
-                    targetZone = targetZone,
-                    enterscity = 1})
-                Wait.condition(
-                    function()
-                        getObjectFromGUID(cityspaces[1]).Call('updatePower')
-                    end,
-                    function()
-                        local hopevillain = Global.Call('get_decks_and_cards_from_zone',cityspaces[1])
-                        for _,o in pairs(hopevillain) do
-                            if o.getName() == "Baby Hope Token" then
-                                return true
-                            end
+        local babyHope = getObjectFromGUID(tokenguid)
+        if babyHope then
+            captureBaby(babyHope)
+        else
+            for i,o in pairs(vpileguids) do
+                local vpile = Global.Call('get_decks_and_cards_from_zone',o)[1]
+                if vpile and vpile.tag == "Card" and vpile.guid == tokenguid then
+                    captureBaby(vpile)
+                    break
+                elseif vpile then
+                    local vpilecontent = vpile.getObjects()
+                    local pos = vpile.getPosition()
+                    pos.y = pos.y + 2
+                    for _,c in pairs(vpilecontent) do
+                        if c.guid == tokenguid then
+                            vpile.takeObject({position = pos,
+                                guid = tokenguid,
+                                flip = false,
+                                smooth = false,
+                                callback_function = captureBaby})
+                            break
                         end
-                        return false
                     end
-                )
-            end
-            if not cityspaces[1] then
-                --if the city is empty:
-                cardfound = true
-                babyHope.setPositionSmooth(getObjectFromGUID(schemeZoneGUID).getPosition())
+                end
             end
         end
         getObjectFromGUID(pushvillainsguid).Call('koCard',cards[1])

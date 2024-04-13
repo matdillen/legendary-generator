@@ -27,7 +27,7 @@ end
 function bonusInCity(params)
     if params.object.hasTag("Brainwashed") then
         getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object,
-            label = "+" .. params.twistsstacked+3,
+            label = "+" .. params.twistsstacked,
             zoneguid = params.zoneguid,
             tooltip = "This brainwashed SHIELD Officer gets +1 for each twist stacked next to the scheme.",
             id = "brainwashed"})

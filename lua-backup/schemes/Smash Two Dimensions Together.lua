@@ -31,6 +31,18 @@ function table.clone(org,key)
     end
 end
 
+function customCity(params)
+    local altcity = params.altcity
+
+    if altcity and altcity == "Top" then
+        return current_city2
+    elseif altcity and altcity == "Bottom" then
+        return current_city
+    else
+        return city_zones_guids
+    end
+end
+
 function villainDeckSpecial(params)
     local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
     vildeck.flip()
@@ -40,10 +52,10 @@ function villainDeckSpecial(params)
     end
     vildeck.randomize()
     vildeck.setPositionSmooth(getObjectFromGUID(city_zones_guids[3]).getPosition())
-    local current_city = table.clone(city_zones_guids)
+    current_city = table.clone(city_zones_guids)
     table.remove(current_city,2)
     table.remove(current_city,2)
-    local current_city2 = {city_zones_guids[1]}
+    current_city2 = {city_zones_guids[1]}
     for i = 1,3 do
         table.insert(current_city2,allTopBoardGUIDS[10-i])
     end

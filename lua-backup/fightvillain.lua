@@ -70,6 +70,10 @@ function updateVar3(params)
     _G[params.name] = table.clone(params.value,true)
 end
 
+function returnZoneName()
+    return zoneName
+end
+
 function table.clone(org,key)
     if key then
         local new = {}
@@ -331,27 +335,6 @@ function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
                 end
                 updatePower()
             end
-        end
-    end
-end
-
-function scan_villain(obj,player_clicker_color)
-    local cards = get_decks_and_cards_from_zone(self.guid)
-    if not cards[1] then
-        return nil
-    end
-    local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
-    if attack < 1 then
-        broadcastToColor("You don't have enough attack to scan this city space!",player_clicker_color,player_clicker_color)
-        return nil
-    end
-    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-1)
-    for _,o in pairs(cards) do
-        if o.hasTag("Alien Brood") then
-            o.removeTag("Alien Brood")
-            o.flip()
-            getObjectFromGUID(pushvillainsguid).Call('resolve_alien_brood_scan',{obj = o,zone = self})
-            self.editButton({index = 0,label = zoneName, tooltip = "Fight the villain in this city space!", click_function = 'click_fight_villain'})
         end
     end
 end

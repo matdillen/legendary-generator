@@ -12,7 +12,8 @@ function onLoad()
     
     local guids2 = {
         "allTopBoardGUIDS",
-        "topBoardGUIDs"
+        "topBoardGUIDs",
+        "city_zones_guids"
         }
         
     for _,o in pairs(guids2) do
@@ -34,6 +35,17 @@ end
 
 function nonCityZone(obj,player_clicker_color)
     broadcastToColor("This city zone does not currently exist!",player_clicker_color)
+end
+
+function customCity(params)
+    for i,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
+        local zone = getObjectFromGUID(o)
+        if zone.hasTag(params.player_clicker_color) then
+            villain_deck_zone = i
+            break
+        end
+    end
+    return {city_zones_guids[1],city_zones_guids[6-villain_deck_zone+1]}
 end
 
 function villainDeckSpecial(params)

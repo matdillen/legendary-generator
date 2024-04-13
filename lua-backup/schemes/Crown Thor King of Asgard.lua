@@ -5,7 +5,8 @@ function onLoad()
         "twistZoneGUID",
         "kopile_guid",
         "setupGUID",
-        "villainPileGUID"
+        "villainPileGUID",
+        "twistPileGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -42,6 +43,17 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function cityShift(params)
+    if params.obj.getName() == "Thor" and params.targetZone.guid == escape_zone_guid then
+        getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition(),
+            smooth=false})
+            --this should be from the KO pile, but that is still a mess to sort out
+            --take them from the scheme twist pile for now
+        broadcastToAll("Thor escaped! Triumph of Asgard!")
+    end
+    return params.obj
 end
 
 function onlyThor(obj)

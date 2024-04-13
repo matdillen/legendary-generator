@@ -33,6 +33,14 @@ function table.clone(org,key)
     end
 end
 
+function customCity()
+    if not fiveFamiliesTargetZone then
+        return nil
+    else
+        return {city_zones_guids[1],fiveFamiliesTargetZone}
+    end
+end
+
 function villainDeckSpecial(params) 
     log("Splitting villain deck in five")
     local vilDeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
@@ -73,6 +81,7 @@ function villainDeckSpecial(params)
         mmZone.Call('lockTopZone',topBoardGUIDs[i])
     end
     getObjectFromGUID(setupGUID).Call('disable_autoplay')
+    fiveFamiliesTargetZone = nil
 end
 
 function click_draw_villain(obj)

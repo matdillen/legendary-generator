@@ -195,6 +195,18 @@ function loadGUIDs()
     bindingszoneguid = "9509d4"
     
     shardGUID = "eff5ba"
+
+    -- new with big playmat
+    madamehydrazone2guid = "0b8a4a"
+    newrecruitszone2guid = "00b962"
+
+    city_topzones_guids = {
+        "6d25f6",
+        "a05f6c",
+        "8822db",
+        "8d6da2",
+        "c0baa9"
+    }
     
     --Local positions for each pile of cards
     pos_vp2 = {-4.75, 0.178, 0.222}
@@ -202,6 +214,7 @@ function loadGUIDs()
     pos_draw = {0.957, 0.178, 0.222}
     pos_add2 = {-2.871, 0.178, 0.222}
     
+    --Remove any leftover mastermind lua code from a previous game
     getObjectFromGUID(strikeZoneGUID).setLuaScript("")
     getObjectFromGUID(strikeZoneGUID).reload()
 end

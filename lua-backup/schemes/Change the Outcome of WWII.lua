@@ -4,7 +4,9 @@ function onLoad()
     
     local guids1 = {
         "pushvillainsguid",
-        "villainDeckZoneGUID"
+        "villainDeckZoneGUID",
+        "twistPileGUID",
+        "twistZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -32,6 +34,19 @@ function table.clone(org,key)
     end
 end
 
+function cityShift(params)
+    if not wwiiInvasion or wwiiInvasion == false then
+        wwiiInvasion = true
+        getObjectFromGUID(twistPileGUID).takeObject({position=getObjectFromGUID(twistZoneGUID).getPosition(),
+            smooth=false,
+            callback_function = function(obj)
+                obj.setName("Conquered Capital")
+            end})
+        broadcastToAll("The Axis successfully conquered this country!")
+    end
+    return params.obj
+end
+
 function nonCityZoneShade(guid)
     getObjectFromGUID(guid).createButton({
         click_function="nonCityZone",
@@ -53,14 +68,6 @@ function vildeckLanded()
     else 
         return false
     end
-end
-
-function getInvasion()
-    return wwiiInvasion
-end
-
-function setInvasion(invasion)
-    wwiiInvasion = invasion
 end
 
 function resolveTwist(params)
