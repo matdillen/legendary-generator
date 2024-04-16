@@ -71,8 +71,7 @@ function resolveTwist(params)
                 if cityobjects[1] then
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
                         targetZone = getObjectFromGUID(escape_zone_guid),
-                        enterscity = 0,
-                        schemeParts = {self.getName()}})
+                        enterscity = 0})
                 end
                 if villains[2] then
                     offerCards({color = Turns.turn_color,
@@ -92,8 +91,7 @@ function resolveTwist(params)
             if cityobjects[1] then
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
                     targetZone = getObjectFromGUID(escape_zone_guid),
-                    enterscity = 0,
-                    schemeParts = {self.getName()}})
+                    enterscity = 0})
             end
             vpile.setPositionSmooth(pos)
         end

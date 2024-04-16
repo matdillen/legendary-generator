@@ -23,7 +23,7 @@ function onLoad()
         }
         
     for _,o in pairs(guids3) do
-        _G[o] = table.clone(Global.Call('returnVar',o))
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
 end
 
@@ -110,11 +110,9 @@ end
 function setupSpecial(params)
     for i,guid in pairs(city_zones_guids) do
         if i ~= 1 then
-            getObjectFromGUID(guid).editButton({index = 0,
-                label = "Scan",
-                click_function = 'scan_villain',
-                function_owner = self,
-                tooltip = "Scan the face down card in this city space for 1 attack."})
+            local obj = getObjectFromGUID(guid)
+            obj.Call('toggleButton')
+            addScanButton(obj)
         end
     end 
 end
@@ -135,11 +133,26 @@ function scan_villain(obj,player_clicker_color)
             o.removeTag("Alien Brood")
             o.flip()
             resolve_alien_brood_scan({obj = o,zone = obj})
-            obj.editButton({index = 0,
-                label = obj.Call('returnZoneName'), 
-                tooltip = "Fight the villain in this city space!", 
-                click_function = 'click_fight_villain',
-                function_owner = obj})
+            removeScanButton(obj)
+            obj.Call('addFightButton')
         end
     end
+end
+
+function addScanButton(obj)
+    obj.createButton({label = "Scan",
+        position={0,-0.4,-0.4}, 
+        rotation = {0,180,0},
+        click_function = 'scan_villain',
+        function_owner = self,
+        tooltip = "Scan the face down card in this city space for 1 attack.",
+        color={1,0.65,0,0.9}, 
+        font_color = {0,0,0}, 
+        width=750, 
+        height=150,
+        font_size = 75})
+end
+
+function removeScanButton(obj)
+    Global.Call('removeButton',{obj = obj,click_f = "scan_villain"})
 end

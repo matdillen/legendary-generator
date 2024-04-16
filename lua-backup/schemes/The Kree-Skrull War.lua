@@ -57,8 +57,7 @@ function resolveTwist(params)
                         escapeesc = escapeesc + 1
                         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(citycontent),
                             targetZone = getObjectFromGUID(escape_zone_guid),
-                            enterscity = 0,
-                            schemeParts = {self.getName()}})
+                            enterscity = 0})
                         break
                     end
                 end

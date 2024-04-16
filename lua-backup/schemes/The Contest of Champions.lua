@@ -111,7 +111,7 @@ end
 
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
-    local schemeParts = table.clone(params.schemeParts)
+    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
 
     local contestant = getObjectFromGUID(table.remove(contestants,1))
     local color = hasTag2(contestant,"HC:",4)

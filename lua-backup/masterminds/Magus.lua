@@ -94,9 +94,6 @@ function resolveStrike(params)
         cards[1].addTag("VP" .. boost)
         cards[1].addTag("Power:" .. boost)
         cards[1].addTag("Villain")
-        getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
-            label = boost,
-            tooltip = "This strike is a Cosmic Wraith villain."})
         getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
         local addshard = function()
             for _,o in pairs(city) do

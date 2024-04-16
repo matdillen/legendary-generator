@@ -124,8 +124,7 @@ function resolveTwist(params)
                 annotateNewMM(ascendCard)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(vilgroup),
                     targetZone = getObjectFromGUID(mmpos),
-                    enterscity = 1,
-                    schemeParts = {self.getName()}})
+                    enterscity = 1})
                 broadcastToAll("Scheme Twist: Villain in city ascended to become a mastermind!")
             end
         else

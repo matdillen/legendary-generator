@@ -88,7 +88,6 @@ function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards
     local city = params.city
-    local schemeParts = table.clone(params.schemeParts)
 
     getObjectFromGUID(pushvillainsguid).Call('koCard',cards[1])
     --check if Bear is in the city
@@ -99,8 +98,7 @@ function resolveTwist(params)
                 if object.getName() == "Demon Bear" then
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
                         targetZone = getObjectFromGUID(escape_zone_guid),
-                        enterscity = 0,
-                        schemeParts = schemeParts})
+                        enterscity = 0})
                     broadcastToAll("Scheme Twist! Demon Bear escapes!",{1,0,0})
                     return nil
                 end

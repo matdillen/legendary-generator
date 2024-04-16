@@ -64,14 +64,10 @@ function click_buy_hero(obj, player_clicker_color, alt_click,free)
             break
         end
     end
-	local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
-    if not schemeParts then
-        printToAll("No scheme specified!")
-        schemeParts = {"no scheme"}
-    end
+	local scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
 	local toflip = deck.is_face_down
     local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
-	if schemeParts[1] == "Splice Humans with Spider DNA" then
+	if scheme and scheme.getName() == "Splice Humans with Spider DNA" then
 		dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
 		if card then
 			card.flip()

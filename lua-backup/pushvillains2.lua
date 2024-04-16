@@ -311,7 +311,7 @@ function getCityZone(params)
     return params.guid
 end
 
-function shift_to_next(objects,targetZone,enterscity,schemeParts)
+function shift_to_next(objects,targetZone,enterscity)
     --all found cards, decks and shards (objects) in a city space will be moved to the next space (targetzone)
     --enterscity is equal to 1 if this shift is a single card moving into the city
     local isEnteringCity = enterscity or 0
@@ -326,7 +326,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
         if targetZone.guid == escape_zone_guid or isEnteringCity == 1 then
             zPos = targetZone.getPosition().z
         end
-        local scheme = getObjectFromGUID("setupGUID").Call('returnVar',"scheme")
+        local scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
         if scheme and scheme.getVar("cityShift") then
             obj = scheme.Call('cityShift',{
                 targetZone = targetZone,
@@ -397,7 +397,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                     end
                 end
             end
-            if desc:find("LOCATION") then
+            if desc:find("LOCATION") and obj.is_face_down == false then
                 --locations will be nudged a bit upwards to distinguish from villains
                 zPos = targetZone_final.getPosition().z + 1.5
             end
@@ -419,7 +419,7 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
                         guid = topguid,
                         top = true
                     }))
-                    shift_to_next(topcards,targetZone_final,0,schemeParts)
+                    shift_to_next(topcards,targetZone_final,0)
                 end
             end
             if bs == true and targetZone.guid == mmZoneGUID then
@@ -438,19 +438,19 @@ function shift_to_next(objects,targetZone,enterscity,schemeParts)
 end
 
 function shift_to_next2(params)
-    shift_to_next(params.objects,params.targetZone,params.enterscity,params.schemeParts)
+    shift_to_next(table.clone(params.objects),params.targetZone,params.enterscity)
 end
 
 function click_draw_villain(obj,vildeckguid)
     local pos = getObjectFromGUID(city_zones_guids[1]).getPosition()
     pos.y = pos.y + 5
-    local schemeParts = getObjectFromGUID(setupGUID).Call('returnSetupParts')
+    local scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
     local flip_villains = true
-    if schemeParts then
-        if schemeParts[1] == "Alien Brood Encounters" then
+    if scheme then
+        if scheme.getName() == "Alien Brood Encounters" then
             flip_villains = false
         end
-        if schemeParts[1] == "Fragmented Realities" then
+        if scheme.getName() == "Fragmented Realities" then
             for _,o in pairs({table.unpack(allTopBoardGUIDS,7,11)}) do
                 local zone = getObjectFromGUID(o)
                 if zone.hasTag(Turns.turn_color) then
@@ -459,7 +459,7 @@ function click_draw_villain(obj,vildeckguid)
                 end
             end
         end
-        if schemeParts[1] == "Breach Parallel Dimensions" and not vildeckguid then
+        if scheme.getName() == "Breach Parallel Dimensions" and not vildeckguid then
             return nil
         end
     end
@@ -583,26 +583,32 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
         end
         --special scheme: all cards enter the city face down
         --so no special card behavior
-        if scheme.getName() == "Alien Brood Encounters" and cards[1].is_face_down then
-            if cityEntering then
-                cards[1].addTag("Alien Brood")
-            end
-            if city then
-                push_all(city)
-            end
+        if scheme.getName() == "Alien Brood Encounters" then
+            local alienbroodfound = nil
             for _,o in pairs(cards) do
                 if o.hasTag("Alien Brood") and targetZone.guid ~= escape_zone_guid then
-                    targetZone.editButton({index = 0,
-                        label = "Scan",
-                        click_function = 'scan_villain',
-                        tooltip = "Scan the face down card in this city space for 1 attack."})
+                    Global.Call('removeButton',{obj = targetZone,click_f = "click_fight_villain"})
+                    scheme.Call('addScanButton',targetZone)
+                    alienbroodfound = o
                 end
             end
-            return shift_to_next(cards,targetZone,cityEntering,schemeParts)
+            if not alienbroodfound and cards[1].is_face_down and cityEntering == 1  then
+                cards[1].addTag("Alien Brood")
+                alienbroodfound = true
+            end
+            if alienbroodfound then
+                if city then
+                    push_all(city)
+                end
+                return shift_to_next(cards,targetZone,cityEntering)
+            else
+                scheme.Call('removeScanButton',targetZone)
+                targetZone.Call('addFightButton')
+            end
         end
         if cityEntering == 1 then
             --special events in certain schemes not related to twists
-            local proceed = nonTwistspecials(cards,schemeParts,city)
+            local proceed = nonTwistspecials(cards,city)
             if not proceed then
                 return nil
             end
@@ -612,7 +618,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
                 local notes = getNotes()
                 notes = notes:gsub("%[%-%] %d+","[-] " .. twistsresolved,1)
                 setNotes(notes)
-                local proceed = twistSpecials(cards,city,schemeParts)
+                local proceed = twistSpecials(cards,city)
                 --this function should return nil if it covers all scheme twist behavior
                 --and hence the city should be no further affected
                 if not proceed then
@@ -737,7 +743,7 @@ function moveCityZoneContent(cards,targetZone,city,cityEntering)
             return nil
         else
             --otherwise, shift all and rerun this function for the next city space
-            shift_to_next(cards,targetZone,cityEntering,schemeParts)
+            shift_to_next(cards,targetZone,cityEntering)
             if city then
                 push_all(city)
             end
@@ -1209,11 +1215,10 @@ function stackTwist(obj)
     return twistsstacked
 end
 
-function twistSpecials(cards,city,schemeParts)
+function twistSpecials(cards,city)
     local resp = getObjectFromGUID(setupGUID).Call('returnVar',"scheme").Call('resolveTwist',{twistsresolved = twistsresolved,
         cards = table.clone(cards),
-        city = table.clone(city),
-        schemeParts = table.clone(schemeParts)})
+        city = table.clone(city)})
     return resp
 end
 
@@ -3096,7 +3101,6 @@ function resolveVillainEffect(params)
     local obj = params.obj
     local move = params.move or "Fight"
     local color = params.color or Turns.turn_color
-    local schemeParts = params.schemeParts or getObjectFromGUID(setupGUID).Call('returnSetupParts') or {""}
     
     if move == "Fight" then
         if obj.getVar("resolveFight") then

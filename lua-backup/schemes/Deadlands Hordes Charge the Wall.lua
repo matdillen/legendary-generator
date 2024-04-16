@@ -19,8 +19,7 @@ function deadlandsCharge(city)
         if citycontent[1] then
             getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = {table.unpack(citycontent)},
                 targetZone = getObjectFromGUID(targetGUID),
-                enterscity = 0,
-                schemeParts = {self.getName()}})
+                enterscity = 0})
         end
     end
 end

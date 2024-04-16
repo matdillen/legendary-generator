@@ -154,8 +154,7 @@ function resolveTwist(params)
                     if object.hasTag("Sidekick") == true then
                         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(cardsincity),
                                 targetZone = getObjectFromGUID(escape_zone_guid),
-                                enterscity = 0,
-                                schemeParts = {"Corrupt the Next Generation of Heroes"}})
+                                enterscity = 0})
                     end
                 end
             end

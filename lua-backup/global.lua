@@ -326,6 +326,18 @@ function merge(params)
    return params.t1
 end
 
+function removeButton(params)
+    local butt = params.obj.getButtons()
+    if butt then
+        for i,o in pairs(butt) do
+            if o.click_function == params.click_f then
+                params.obj.removeButton(i-1)
+                break
+            end
+        end
+    end
+end
+
 function waitForMove(params)
     local waiting = function()
         local content = get_decks_and_cards_from_zone(params.zone)

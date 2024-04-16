@@ -68,7 +68,8 @@ function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards
     local city = params.city
-    local schemeParts = table.clone(params.schemeParts)
+    
+    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnSetupParts'))
 
     local mmZone=getObjectFromGUID(mmZoneGUID)
     if twistsresolved < 5 then

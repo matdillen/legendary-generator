@@ -48,14 +48,18 @@ function toggleButton()
     if self.getButtons() then
         self.clearButtons()
     else
-        self.createButton({
-            click_function="click_fight_villain", function_owner=self,
-            position={0,-0.4,-0.4}, rotation = {0,180,0}, label=zoneName, 
-            tooltip = "Fight the villain in this city space!", color={1,0,0,0.9}, 
-            font_color = {0,0,0}, width=750, height=150,
-            font_size = 75
-        })
+        addFightButton()
     end
+end
+
+function addFightButton()
+    self.createButton({
+        click_function="click_fight_villain", function_owner=self,
+        position={0,-0.4,-0.4}, rotation = {0,180,0}, label=zoneName, 
+        tooltip = "Fight the villain in this city space!", color={1,0,0,0.9}, 
+        font_color = {0,0,0}, width=750, height=150,
+        font_size = 75
+    })
 end
 
 function updateVar1(params)
@@ -68,10 +72,6 @@ end
 
 function updateVar3(params)
     _G[params.name] = table.clone(params.value,true)
-end
-
-function returnZoneName()
-    return zoneName
 end
 
 function table.clone(org,key)

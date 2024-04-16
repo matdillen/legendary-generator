@@ -31,7 +31,7 @@ function onLoad()
         }
         
     for _,o in pairs(guids3) do
-        _G[o] = table.clone(Global.Call('returnVar',o))
+        _G[o] = table.clone(Global.Call('returnVar',o),true)
     end
 end
 
@@ -135,10 +135,9 @@ function resolveTwist(params)
                     top = false})
                 local cityobjects2 = Global.Call('get_decks_and_cards_from_zone',cityzone)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
-                    objects = table.clone(cityobjects2),
+                    objects = cityobjects2,
                     targetZone = getObjectFromGUID(escape_zone_guid),
-                    enterscity = 0,
-                    schemeParts = {"Capture Baby Hope"}})
+                    enterscity = 0})
                 getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])
                 break
             end

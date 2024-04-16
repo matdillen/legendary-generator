@@ -90,8 +90,7 @@ function resolveTwist(params)
                     if object.hasTag("Tyrant") then
                         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = citycards,
                             targetZone = getObjectFromGUID(escape_zone_guid),
-                            enterscity = 0,
-                            schemeParts = {self.getName()}})
+                            enterscity = 0})
                         broadcastToAll("Scheme Twist: A tyrant escaped!")
                         break
                     end

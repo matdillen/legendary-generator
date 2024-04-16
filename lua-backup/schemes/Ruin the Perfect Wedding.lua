@@ -131,7 +131,7 @@ end
 
 function resolveTwist(params)
     twistsresolved = params.twistsresolved 
-    local schemeParts = params.schemeParts
+    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
 
     dest = getObjectFromGUID(discardguids[Turns.turn_color]).getPosition()
     dest.y = dest.y + 3

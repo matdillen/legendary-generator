@@ -47,8 +47,7 @@ function resolveTwist(params)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
                     objects = table.clone(content),
                     targetZone = getObjectFromGUID(escape_zone_guid),
-                    enterscity = 0,
-                    schemeParts = {self.getName()}})
+                    enterscity = 0})
             end
             if i > 2 then
                 getObjectFromGUID(guid).Call('toggleButton')
