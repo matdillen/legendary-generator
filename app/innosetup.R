@@ -48,7 +48,7 @@ start_iss(app_name = name) %>%
   
   # C-like directives
   directives_section(include_R = T,
-                     app_version = "0.5",
+                     app_version = "0.6",
                      publisher = "Mathias Dillen", 
                      main_url = "https://github.com/matdillen/legendary-generator") %>%
   
@@ -94,11 +94,24 @@ start_iss(app_name = name) %>%
   # Write the Inno Setup script
   writeLines(paste0(name,".iss"))
 
+#read it back to fix a few issues
 issfile = readLines("LegendaryGenerator.iss")
+
+#exclude any card images from the installer (otherwise it grows into >1GB)
 issfile = issfile[-grep("www/img",issfile)]
+
+#add the sizeinfo.txt file which gets cut due to some loose regex in
+#the files_section()
+ln = grep("[Icons]",issfile,fixed=T)-2
+issfile1 = issfile[1:ln]
+issfile2 = issfile[(ln+1):length(issfile)]
+issfile1 = c(issfile1,
+             "Source: \"data/sizeinfo.txt\"; DestDir: \"{app}\\data\"; Flags: ignoreversion;",
+             "")
+issfile = c(issfile1,
+            issfile2)
 writeLines(issfile,"LegendaryGenerator.iss")
 
-#sizeinfo.txt missing somehow after install?
 #bizarre error when run from .bat
 
 #compile the installer based on the ISS file

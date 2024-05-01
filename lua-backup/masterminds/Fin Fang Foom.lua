@@ -136,7 +136,7 @@ function resolveStrike(params)
             foomcount = foomcount + 1
         end
     end
-    getObjects(pushvillainsguid).Call('demolish',{n = foomcount+1,ko = epicness})
+    getObjectFromGUID(pushvillainsguid).Call('demolish',{n = foomcount+1,ko = epicness})
     broadcastToAll("Master Strike: Each player is demolished " .. foomcount+1 .. " times!")
     if epicness then
         broadcastToAll("KO all heroes demolished this way!")

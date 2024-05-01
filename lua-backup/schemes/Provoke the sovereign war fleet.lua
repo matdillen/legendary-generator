@@ -7,6 +7,14 @@ function onLoad()
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
     end
+
+    local guids2 = {
+        "city_zones_guids"
+        }
+        
+    for _,o in pairs(guids2) do
+        _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
     
     local guids3 = {
         "vpileguids",
@@ -99,7 +107,20 @@ function resolveTwist(params)
                 if deck.tag == "Deck" then
                     deck.randomize()
                 end
-                Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('playVillains') end,0.1)
+                Wait.condition(
+                    function() 
+                        getObjectFromGUID(pushvillainsguid).Call('playVillains') 
+                    end,
+                    function()
+                        local pushcard = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[1])[1]
+                        if pushcard and pushcard.guid == cards[1].guid then
+                            return false
+                        elseif pushcard then
+                            return true
+                        else
+                            return false
+                        end
+                    end)
             end,
             function()
                 local deck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
@@ -109,6 +130,8 @@ function resolveTwist(params)
                     return false
                 end
             end)
+    else
+        getObjectFromGUID(pushvillainsguid).Call('playVillains')
     end
     return nil
 end

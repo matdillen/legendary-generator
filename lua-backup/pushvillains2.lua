@@ -342,6 +342,7 @@ function shift_to_next(objects,targetZone,enterscity)
                 targetZone_final = getObjectFromGUID(getCityZone({
                     guid = targetZone_final.guid,
                     top = true}))
+                    zPos = targetZone_final.getPosition().z
             end
             if obj.tag == "Deck" and bs == false then
                 for _,o in pairs(obj.getObjects()) do
@@ -355,6 +356,7 @@ function shift_to_next(objects,targetZone,enterscity)
                         targetZone_final = getObjectFromGUID(getCityZone({
                             guid = targetZone_final.guid,
                             top = true}))
+                        zPos = targetZone_final.getPosition().z
                         break
                     end
                 end
