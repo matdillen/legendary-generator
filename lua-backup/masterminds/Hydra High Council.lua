@@ -187,7 +187,7 @@ function setupMM()
 end
 
 function fightEffect(params)
-    if params.mm then
+    if params.mm and params.obj.guid == self.guid then
         Wait.time(updateMMHydraHigh,1)
     end
 end

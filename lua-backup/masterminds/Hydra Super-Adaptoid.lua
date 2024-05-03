@@ -61,7 +61,7 @@ function updateMMHydraSA()
 end
 
 function fightEffect(params)
-    if params.mm then
+    if params.mm and params.obj.guid == self.guid then
         Wait.time(updateMMHydraSA,1)
     end
 end

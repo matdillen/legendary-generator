@@ -877,12 +877,7 @@ function fightMM(zoneguid,player_clicker_color)
     end
     if content[1] and content[2] then
         for i,o in pairs(content) do
-            if o.tag == "Deck" then
-                if i == 1 then
-                    bump(content[2])
-                else
-                    bump(content[1])
-                end
+            if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag="Tactic:"}) then
                 if thetacticstays == true then
                     resolveTactics(name,o.getObjects()[1].name,player_clicker_color,true)
                     o.randomize()
@@ -904,6 +899,11 @@ function fightMM(zoneguid,player_clicker_color)
                     end
                     return name
                 end
+            elseif o.tag == "Card" and o.hasTag("Mastermind") and not hastag2("o","Tactic:") then
+                bump(o)
+            elseif o.hasTag("Bystander") or o.tag == "Deck" and Global.Call('hasTagD',{deck=o,tag="Bystander"}) then
+                o.setPositionSmooth(vppos)
+                broadcastToColor("You saved " .. math.abs(o.getQuantity()) .. " bystander(s) captured by the mastermind!", player_clicker_color, player_clicker_color)
             end
         end
     elseif content[1] then
