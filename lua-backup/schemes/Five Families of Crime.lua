@@ -100,8 +100,8 @@ function click_draw_villain(obj)
 end
 
 function playTwoFamily(params)
-    getObjectFromGUID(setupGUID).Call('click_draw_villain_call',params.obj)
-    getObjectFromGUID(setupGUID).Call('click_draw_villain_call',params.obj)
+    click_draw_villain(params.obj)
+    click_draw_villain(params.obj)
 end
 
 function resolveTwist(params)

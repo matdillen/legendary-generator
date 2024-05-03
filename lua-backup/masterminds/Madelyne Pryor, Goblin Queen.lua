@@ -107,8 +107,7 @@ function resolveStrike(params)
         getObjectFromGUID(pushvillainsguid).Call('dealWounds')
     end
     for i =1,4 do
-        getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{cityspace = strikeloc,
-            posabsolute = true})
+        getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{pos = getObjectFromGUID(strikeloc).getPosition()})
     end
     return strikesresolved
 end

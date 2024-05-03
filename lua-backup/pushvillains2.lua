@@ -9,6 +9,8 @@ function onLoad()
     cityPushDelay = 0
     
     loadGUIDs()
+
+    current_city = table.clone(city_zones_guids)
     
     createButtons()
 
@@ -194,33 +196,31 @@ function click_get_wound2(params)
 end
 
 function click_get_wound(obj, player_clicker_color, alt_click,top)
-    local playerBoard = getObjectFromGUID(playerBoards[player_clicker_color])
     local woundsDeck=getObjectFromGUID(woundsDeckGUID)
-    local dest = playerBoard.positionToWorld(pos_discard)
+    local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
     local toflip = nil
-    if top then
-        dest = playerBoard.positionToWorld({0.957, 3.178, 0.222})
-        toflip = function(obj)
-            obj.flip()
-        end
-    else
+    if not top then
         local masterminds = table.clone(getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
         if masterminds[1] then
             for _,o in pairs(masterminds) do
                 if o == "Mephisto" then
-                    dest = playerBoard.positionToWorld({0.957, 3.178, 0.222})
-                    toflip = function(obj)
-                        obj.flip()
-                    end
+                    top = true
                     break
                 end
             end
         end
     end
+    if top then
+        dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
+        dest.y = dest.y + 3
+        toflip = function(obj)
+            obj.flip()
+        end
+    end
     if woundsDeck then
         if woundsDeck.tag == "Deck" then
-            woundsDeck.takeObject({position=dest,
+            woundsDeck.takeObject({position = dest,
                 flip = true,
                 smooth = true,
                 callback_function = toflip})
@@ -244,10 +244,8 @@ function getWound(color)
 end
 
 function dealWounds(top)
-    for i,_ in pairs(playerBoards) do
-        if Player[i].seated == true then
-            click_get_wound(getObjectFromGUID(woundsDeckGUID),i,nil,top)
-        end
+    for _,o in pairs(Player.getPlayers()) do
+        click_get_wound(nil,o,nil,top)
     end
 end
 
@@ -485,33 +483,30 @@ function click_draw_villain(obj,vildeckguid)
     end
 end
 
-function addBystanders(cityspace,face,posabsolute,pos)
+function addBystanders(cityspace,face,pos)
     if face == nil then
         face = true
     end
-    local targetZone = getObjectFromGUID(cityspace).getPosition()
-    if posabsolute == nil then
-        targetZone.z = targetZone.z - 2
-    end
-    if pos then
-        targetZone = pos
+    local targetpos = pos
+    if not targetpos then
+        targetpos = getObjectFromGUID(getCityZone({top=true,guid = cityspace})).getPosition()
     end
     local bspile = getObjectFromGUID(bystandersPileGUID)
     if not bspile then
         bystandersPileGUID = getObjectFromGUID(setupGUID).Call('returnVar',"bystandersPileGUID")
         bspile = getObjectFromGUID(bystandersPileGUID)
     end
-    bspile.takeObject({position=targetZone,
+    bspile.takeObject({position=targetpos,
         smooth=false,
         flip=face})
 end
 
 function addBystanders2(params)
-    addBystanders(params.cityspace,params.face,params.posabsolute,params.pos)
+    addBystanders(params.cityspace,params.face,params.pos)
 end
 
 function capturesBystander(obj)
-    for _,o in pairs(city_zones_guids) do
+    for _,o in pairs(current_city) do
         local content = get_decks_and_cards_from_zone(o)
         for _,c in pairs(content) do
             if c.guid == obj.guid then

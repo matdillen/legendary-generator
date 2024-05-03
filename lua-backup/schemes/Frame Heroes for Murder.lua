@@ -56,6 +56,7 @@ function resolveTwist(params)
             table.insert(incriminating,hasTag2(costs[1],"Cost:"))
         end
         local herotooffer = {}
+        local heroesoffered = 0
         for i,o in pairs(hqguids) do
             local hero = getObjectFromGUID(o).Call('getHeroUp')
             if not hero then
@@ -71,9 +72,11 @@ function resolveTwist(params)
             end
             if not addthishero then
                 herotooffer[i] = nil
+            else
+                heroesoffered = heroesoffered + 1
             end
         end
-        if #herotooffer > 1 then
+        if heroesoffered > 1 then
             getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = Turns.turn_color,
                 hand = herotooffer,
                 pos = getObjectFromGUID(twistZoneGUID).getPosition(),
@@ -82,8 +85,13 @@ function resolveTwist(params)
                 trigger_function = 'refreshHQ',
                 args = "self",
                 fsourceguid = self.guid})
-        elseif #herotooffer > 0 then
-            herotooffer[1].setPosition(getObjectFromGUID(twistZoneGUID).getPosition())
+        elseif heroesoffered > 0 then
+            for i,_ in pairs(herotooffer) do
+                herotooffer[i].setPosition(getObjectFromGUID(twistZoneGUID).getPosition())
+                refreshHQ({index = i})
+            end
+        else
+            broadcastToAll("Scheme Twist: No hero could be framed for murder!")
         end
     elseif twistsresolved == 7 then
         local herotooffer = {}

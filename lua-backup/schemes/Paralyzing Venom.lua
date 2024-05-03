@@ -29,12 +29,14 @@ function table.clone(org,key)
 end
 
 function killBSButton(params)
-    for _,b in pairs(bsguids[params.color]) do
-        local obj = getObjectFromGUID(b)
-        if obj then
-            obj.clearButtons()
-            obj.locked = false
-            obj.setPosition(getObjectFromGUID(vpileguids[params.color]).getPosition())
+    if bsguids[params.color] then
+        for _,b in pairs(bsguids[params.color]) do
+            local obj = getObjectFromGUID(b)
+            if obj then
+                obj.clearButtons()
+                obj.locked = false
+                obj.setPosition(getObjectFromGUID(vpileguids[params.color]).getPosition())
+            end
         end
     end
 end

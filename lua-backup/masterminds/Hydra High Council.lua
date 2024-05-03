@@ -49,14 +49,29 @@ end
 function updateMMHydraHigh()
     local mm = Global.Call('get_decks_and_cards_from_zone',mmloc.guid)
     local name = nil
+    local power = 0
     if mm[1] and mm[1].tag == "Deck" then
-        name = mm[1].getObjects()[mm[1].getQuantity()].name
+        local mmdata = mm[1].getObjects()[mm[1].getQuantity()]
+        name = mmdata.name
+        for _,t in pairs(mmdata.tags) do
+            if t:find("Power:") then
+                power = tonumber(t:match("%d+"))
+                break
+            end
+        end
     elseif mm[1] then
         name = mm[1].getName()
+        power = hasTag2(mm[1],"Power:")
     end
     if not name then
         return nil
     end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = name,
+        checkvalue = 1,
+        label = power,
+        tooltip = "Base power as written on the card.",
+        f = 'updatePower',
+        id = 'card'})
     if name == "Baron Helmut Zemo" then
         local color = Turns.turn_color
         local vpilecontent = Global.Call('get_decks_and_cards_from_zone',vpileguids[color])
@@ -168,6 +183,12 @@ function setupMM()
     end
     function onPlayerTurn(player,previous_player)
         updateMMHydraHigh()
+    end
+end
+
+function fightEffect(params)
+    if params.mm then
+        Wait.time(updateMMHydraHigh,1)
     end
 end
 

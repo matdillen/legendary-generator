@@ -1,6 +1,9 @@
 function onLoad()
+    mmname = "Hydra Super-Adaptoid"
+    
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -27,6 +30,44 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function updateMMHydraSA()
+    local mm = Global.Call('get_decks_and_cards_from_zone',mmloc.guid)
+    local name = nil
+    local power = 0
+    if mm[1] and mm[1].tag == "Deck" then
+        local mmdata = mm[1].getObjects()[mm[1].getQuantity()]
+        name = mmdata.name
+        for _,t in pairs(mmdata.tags) do
+            if t:find("Power:") then
+                power = tonumber(t:match("%d+"))
+                break
+            end
+        end
+    elseif mm[1] then
+        name = mm[1].getName()
+        power = hasTag2(mm[1],"Power:")
+    end
+    if not name then
+        return nil
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = name,
+        checkvalue = 1,
+        label = power,
+        tooltip = "Base power as written on the card.",
+        f = 'updatePower',
+        id = 'card'})
+end
+
+function fightEffect(params)
+    if params.mm then
+        Wait.time(updateMMHydraSA,1)
+    end
+end
+
+function setupMM()
+    mmloc = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('returnMMLocation',mmname))
 end
 
 function resolveStrike(params)
@@ -104,5 +145,6 @@ function resolveStrike(params)
         end
     end
     mmcontent[1].randomize()
+    Wait.time(updateMMHydraSA,1)
     return strikesresolved      
 end

@@ -76,7 +76,7 @@ function toggleButton()
     end
     self.createButton({
          click_function="click_buy_hero", function_owner=self,
-         position={0,0.01,4}, label="Buy hero", color="Yellow", width=2000, height=1000,
+         position={0,0.4,2.5}, label="Buy hero", color={1,1,0,0.9}, width=2000, height=1000,
          font_size = 250, tooltip = "Buy this hero."
     })
 end

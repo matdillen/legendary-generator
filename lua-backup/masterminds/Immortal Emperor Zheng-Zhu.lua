@@ -45,7 +45,7 @@ end
 function resolveStrike(params)
     local strikesresolved = params.strikesresolved
 
-    local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait=6,
+    local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',{trait="6",
         prefix="Cost:",
         what="Cost"})
     for _,o in pairs(players) do

@@ -4,7 +4,8 @@ function onLoad()
         "vpileguids",
         "playguids",
         "resourceguids",
-        "attackguids"
+        "attackguids",
+        "shardguids"
     }
     
     for _,o in pairs(guids3) do
@@ -75,7 +76,7 @@ function click_update_tactics(obj)
     end
     if index and mmdeck[1] and mmdeck[2] then
         for _,o in pairs(mmdeck) do
-            if o.is_face_down and not o.hasTag("Bystander") and (hasTag2(o,"Tactic:") or o.tag == "Deck") then
+            if not o.hasTag("Bystander") and (hasTag2(o,"Tactic:") or (o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag = "Tactic:"}))) then
                 local c = math.abs(o.getQuantity())
                 obj.editButton({index=index,label="(" .. c .. ")"})
                 return nil
@@ -727,6 +728,9 @@ function fightButton(zone)
         if scheme.getVar("fightEffect") then
             scheme.Call('fightEffect',{obj = obj,color = player_clicker_color,mm = true})
         end
+        if getObjectFromGUID(strikeloc).getVar("fightEffect") then
+            getObjectFromGUID(strikeloc).Call('fightEffect',{obj = obj,color = player_clicker_color,mm = true})
+        end
         local name = fightMM(obj.guid,player_clicker_color)
         Wait.time(function() click_update_tactics(obj) end,1)
         --log("name:")
@@ -832,7 +836,8 @@ function fightMM(zoneguid,player_clicker_color)
     local content = get_decks_and_cards_from_zone(zoneguid,true)
     for i,o in pairs(content) do
         if o.getName() == "Shard" then
-            bump(o)
+            o.destruct()
+            getObjectFromGUID(shardguids[player_clicker_color]).Call('add_subtract')
             table.remove(content,i)
         end
     end

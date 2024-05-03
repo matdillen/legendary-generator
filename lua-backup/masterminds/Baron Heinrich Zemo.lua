@@ -93,12 +93,14 @@ function buyBystander(params)
 end
 
 function fightEffect(params)
-    getObjectFromGUID(pushvillainsguid).Call('offerChoice',{color = params.color,
-        choices = {["yes"] = "Rescue for 2*",
-            ["no"] = "Don't rescue"},
-        resolve_function = "buyBystander",
-        fsourceguid = self.guid})
-    broadcastToColor("You fought a villain so Baron Heinrich Zemo lets you rescue a bystander for 2 Recruit.",params.color,params.color)
+    if not params.mm then
+        getObjectFromGUID(pushvillainsguid).Call('offerChoice',{color = params.color,
+            choices = {["yes"] = "Rescue for 2*",
+                ["no"] = "Don't rescue"},
+            resolve_function = "buyBystander",
+            fsourceguid = self.guid})
+        broadcastToColor("You fought a villain so Baron Heinrich Zemo lets you rescue a bystander for 2 Recruit.",params.color,params.color)
+    end
 end
 
 function resolveStrike(params)

@@ -82,9 +82,8 @@ function resolveTwist(params)
         o.setPositionSmooth(getObjectFromGUID(escape_zone_guid).getPosition())
     end
     for i = 1,3 do
-        getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{cityspace = twistZoneGUID,
-            face = false,
-            posabsolute = true})
+        getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{pos = getObjectFromGUID(twistZoneGUID).getPosition(),
+            face = false})
     end
     return twistsresolved
 end

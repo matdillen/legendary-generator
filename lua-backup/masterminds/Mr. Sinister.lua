@@ -44,8 +44,8 @@ function resolveStrike(params)
     local strikeloc = params.strikeloc
 
     local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',"Red")
-    getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{cityspace = strikeloc,
-        posabsolute = false})
+    local pos = getObjectFromGUID(strikeloc).getPosition()
+    getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{pos = pos})
     --sadly, zombie mr sinister has no strikeloc...
     local bs = Global.Call('get_decks_and_cards_from_zone',strikeloc)
     local sinisterbs = 1

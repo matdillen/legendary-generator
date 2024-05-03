@@ -356,3 +356,26 @@ function waitForMove(params)
     end
     Wait.condition(resolving,waiting)
 end
+
+function hasTagD(params)
+    local guids = {}
+    local missingguids = 1
+    for _,c in pairs(params.deck.getObjects()) do
+        for _,tag in pairs(c.tags) do
+            if tag == params.tag then
+                if c.guid ~= "" then
+                    table.insert(guids,c.guid)
+                else
+                    table.insert(guids,"noguid" .. missingguids)
+                    missingguids = missingguids + 1
+                end
+                break
+            end
+        end
+    end
+    if guids[1] then
+        return guids
+    else
+        return nil
+    end
+end

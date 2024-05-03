@@ -46,9 +46,8 @@ function resolveTwist(params)
             width=250,height=250})
     end
     for i=1,twistsstacked do
-        getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{cityspace = topBoardGUIDs[1],
-            face = false,
-            posabsolute = true})
+        getObjectFromGUID(pushvillainsguid).Call('addBystanders2',{pos = getObjectFromGUID(topBoardGUIDs[1]).getPosition(),
+            face = false})
     end
     return nil
 end
