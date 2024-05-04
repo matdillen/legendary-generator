@@ -145,8 +145,6 @@ function setZonePower()
         elseif obj.getName() == "Shard" then
             local val = obj.Call('returnVal')
             zoneBonuses["shard"] = {"+" .. val,"Power bonus from shards here."}
-        elseif obj.getName() == "Baby Hope Token" then
-            zoneBonuses["babyhope"] = {"+4","Power bonus from holding Baby Hope."}
         elseif obj.hasTag("Villain") then
             villainfound = 1
             local val = tostring(hasTag2(obj,"Power:"))
@@ -168,6 +166,34 @@ function setZonePower()
             else
                 zoneBonuses["base"] = nil
             end
+        end
+    end
+    local topzone = getObjectFromGUID(pushvillainsguid).Call('getCityZone',{top=true,guid=self.guid})
+    if topzone ~= self.guid then
+        local topzonecontent = Global.Call('get_decks_and_cards_from_zone',topzone)
+        if topzonecontent[1] then
+            local weaponbonus = 0
+            for _,o in pairs(topzonecontent) do
+                if o.tag == "Deck" then
+                    for _,c in pairs(o.getObjects()) do
+                        local isWeapon = false
+                        local potentialweaponbonus = 0
+                        for _,t in pairs(c.tags) do
+                            if t == "Villainous Weapon" then
+                                isWeapon = true
+                            elseif t:find("Power:") then
+                                potentialweaponbonus = potentialweaponbonus + tonumber(t:match("%d+"))
+                            end
+                        end
+                        if isWeapon == true then
+                            weaponbonus = weaponbonus + potentialweaponbonus
+                        end
+                    end
+                elseif o.hasTag("Villainous Weapon") and hasTag2(o,"Power:") then
+                    weaponbonus = weaponbonus + hasTag2(o,"Power:")
+                end
+            end
+            zoneBonuses["villainousweapon"] = {"+" .. weaponbonus,"Power bonus from villainous weapons."}
         end
     end
     if villainfound == 0 then

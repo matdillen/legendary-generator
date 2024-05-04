@@ -52,9 +52,33 @@ function setupSpecial(params)
     getObjectFromGUID(mmZoneGUID).Call('lockTopZone',topBoardGUIDs[2])
     local babyHope = getObjectFromGUID(tokenguid)
     babyHope.locked = false
-    babyHope.setTags({"VP6"})
+    babyHope.setTags({"VP6","Baby Hope"})
     babyHope.setName("Baby Hope Token")
     babyHope.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+end
+
+function bonusInCity(params)
+    local topzone = getObjectFromGUID(pushvillainsguid).Call('getCityZone',{top=true,guid=zoneguid})
+    local content = Global.Call('get_decks_and_cards_from_zone',topzone)
+    
+    if content[1] then
+        local babyfound = false
+        for _,o in pairs(content) do
+            if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag = "Baby Hope"}) then
+                babyfound = true
+                break
+            elseif o.tag == "Card" and o.getName() == "Baby Hope Token" then
+                babyfound = true
+                break
+            end
+        end
+        if babyfound == true then
+            getObjectFromGUID(pushvillainsguid).Call('powerButton',{label = "+4",
+                zoneguid = params.zoneguid,
+                tooltip = "Power bonus from holding Baby Hope.",
+                id="babyhope"})
+        end
+    end
 end
 
 function cityShift(params)

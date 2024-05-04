@@ -1,4 +1,6 @@
 function onLoad()
+    mmname = "Malekith the Accursed"
+    
     local guids1 = {
         "pushvillainsguid",
         "mmZoneGUID"
@@ -27,6 +29,52 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function hasTag2(obj,tag,index)
+    return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function updateMMMalekith()
+    local weapons = Global.Call('get_decks_and_cards_from_zone',self.guid)
+    local weaponbonus = 0
+    if weapons[1] and weapons[1].tag == "Deck" then
+        for _,o in pairs(weapons[1].getObjects()) do
+            local isWeapon = false
+            local potentialweaponbonus = 0
+            for _,k in pairs(o.tags) do
+                if k == "Villainous Weapon" then
+                    isWeapon = true 
+                elseif k:find("Power:") then
+                    potentialweaponbonus = potentialweaponbonus + tonumber(k:match("%d+"))
+                    break
+                end
+            end
+            if isWeapon == true then
+                weaponbonus = weaponbonus + potentialweaponbonus
+            end
+        end
+    elseif weapons[1] and weapons[1].hasTag("Villainous Weapon") and hasTag2(weapons[1],"Power:") then
+        weaponbonus = weaponbonus + hasTag2(weapons[1],"Power:")
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = 1,
+        label = "+" .. weaponbonus,
+        tooltip = "Bonus from Malekith's villainous weapons.",
+        f = 'updateMMMalekith',
+        id = "villainousweapon",
+        f_owner = self})
+end
+
+function setupMM(params)
+    epicness = params.epicness
+    
+    function onObjectEnterZone(zone,object)
+        Wait.time(updateMMMalekith,0.1)
+    end
+    function onObjectLeaveZone(zone,object)
+        Wait.time(updateMMMalekith,0.1)
     end
 end
 
@@ -193,8 +241,13 @@ function resolveStrike(params)
         trigger_function = 'killBSButton',
         fsourceguid = self.guid})
     if cards[1] then
+        local boost = 2
+        if epicness then
+            boost = 3
+        end
         cards[1].setName("Darkspear")
         cards[1].addTag("Villainous Weapon")
+        cards[1].addTag("Power:+" .. boost)
         cards[1].setDescription("VILLAINOUS WEAPON: These are not Villains. Instead, they are captured by the Villain closest " .. 
         "to the Villain deck or KO'd if the city is empty. The Villain gets the extra Power from the Weapon. When a Villain escapes " .. 
         "with a Weapon, the Mastermind captures that Weapon. When fighting a card with a Weapon, gain the Weapon as an artifact.\n" ..
@@ -203,15 +256,6 @@ function resolveStrike(params)
             if epicness and #epicweapons == 0 then
                 darkspearcango = true
             end
-        end
-        if epicness then
-            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
-                label = "+3",
-                tooltip = "This strike is a Darkspear Villainous Weapon."})
-        else
-            getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj = cards[1],
-                label = "+2",
-                tooltip = "This strike is a Darkspear Villainous Weapon."})
         end
         local findingWeaponResolved = function()
             if darkspearcango == true then
