@@ -37,6 +37,10 @@ function table.clone(org,key)
     end
 end
 
+function drawHeroSpecial(params)
+    return {["callbackf"] = 'imprison',["flip"] = not params.flip}
+end
+
 function imprisonandmix()
     for _,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getHeroUp')

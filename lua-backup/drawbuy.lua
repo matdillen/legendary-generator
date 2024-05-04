@@ -23,8 +23,7 @@ function onLoad()
     
     local guids2 = {
        "hqguids",
-       "hqscriptguids",
-       "allTopBoardGUIDS"
+       "hqscriptguids"
     }
     
     for _,o in pairs(guids2) do
@@ -48,7 +47,6 @@ function onLoad()
     
     for i,o in pairs(hqguids) do
         if o == self.guid then
-            divided_deck_guid = allTopBoardGUIDS[i+6]
             scriptguid = hqscriptguids[i]
         end
     end
@@ -188,75 +186,45 @@ end
 
 function tuckHero()
     local hero = getHero(false)
-    if not scheme then
-        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
-    end
-    if scheme.getName() == "Divide and Conquer" then
-        deckToDrawGUID = divided_deck_guid
-    else
-        deckToDrawGUID = heroDeckZoneGUID
-    end
     if hero then
-        hero.setPosition(getObjectFromGUID(deckToDrawGUID).getPosition())
+        hero.setPosition(getObjectFromGUID(heroDeckZoneGUID).getPosition())
         click_draw_hero()
     end
 end
 
 function click_draw_hero()
-    if not scheme then
-        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
-    end
-    if scheme and scheme.getName() == "Divide and Conquer" then
-        deckToDrawGUID = divided_deck_guid
-    else
-        deckToDrawGUID = heroDeckZoneGUID
-    end
-    hero_deck = get_decks_and_cards_from_zone(deckToDrawGUID)
+    local hero_deck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
     if not hero_deck[1] then
         return nil
     end
+    if not scheme then
+        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+    end
     local flip = hero_deck[1].is_face_down
-    if scheme.getName() == "Inescapable \"Kyln\" Space Prison" then
-        flip = not flip
-    end
-    if scheme.getName() == "Go Back in Time to Slay Heroes' Ancestors" then
-        purge = function(obj)
-            local purgedheroes = get_decks_and_cards_from_zone(twistZoneGUID)
-            if purgedheroes[1] then
-                if purgedheroes[1].tag == "Deck" then
-                    for _,o in pairs(purgedheroes[1].getObjects()) do
-                        if o.name == obj.getName() then
-                            broadcastToAll("Purged hero " .. obj.getName() .. " KO'd from HQ")
-                            obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
-                            click_draw_hero()
-                            break
-                        end
-                    end
-                else
-                    if purgedheroes[1].getName() == obj.getName() then
-                        broadcastToAll("Purged hero " .. obj.getName() .. " KO'd from HQ")
-                        obj.setPositionSmooth(getObjectFromGUID(kopile_guid).getPosition())
-                        click_draw_hero()
-                    end
-                end
-            end
+    local callbackf = nil
+    if scheme and scheme.getVar("drawHeroSpecial") then
+        local resp = scheme.Call('drawHeroSpecial',{hero_deck = hero_deck,flip = flip})
+        if resp.callbackf then
+            callbackf = resp.callbackf
         end
-    elseif scheme.getName() == "Inescapable \"Kyln\" Space Prison" then
-        purge = function()
-            scheme.Call('imprison')
+        if resp.flip then
+            flip = resp.flip
         end
-    else
-        purge = nil
     end
-    local pos = {self.getPosition().x,self.getPosition().y+5,self.getPosition().z}
+    local callbackf_wrapper = function(obj)
+        if scheme and callbackf then
+            scheme.Call(callbackf,obj)
+        end
+    end
+    local pos = self.getPosition()
+    pos.y = pos.y + 5
     if hero_deck[1] then
         if hero_deck[1].tag == "Deck" then
-            takeParams = {
+            hero_deck[1].takeObject({
                 position = pos,
                 flip = flip,
-                callback_function = purge
-            }
-            hero_deck[1].takeObject(takeParams)
+                callback_function = callbackf_wrapper
+            })
         else
             if flip then
                 hero_deck[1].flip()

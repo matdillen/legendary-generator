@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "twistZoneGUID"
+        "twistZoneGUID",
+        "kopile_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -27,6 +28,46 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function purge(obj)
+    local purgedheroes = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)
+    local hqguid = nil
+    for _,o in pairs(hqguids) do
+        local hero = getObjectFromGUID(o).Call('getHeroUp')
+        if hero and hero.guid == obj.guid then
+            hqguid = o
+            break
+        end
+    end
+    if purgedheroes[1] then
+        local pos = getObjectFromGUID(kopile_guid).getPosition()
+        pos.y = pos.y + 2
+        if purgedheroes[1].tag == "Deck" then
+            for _,o in pairs(purgedheroes[1].getObjects()) do
+                if o.name == obj.getName() then
+                    broadcastToAll("Purged hero " .. obj.getName() .. " KO'd from HQ")
+                    obj.setPositionSmooth(pos)
+                    if hqguid then
+                        getObjectFromGUID(hqguid).Call('click_draw_hero')
+                    end
+                    break
+                end
+            end
+        else
+            if purgedheroes[1].getName() == obj.getName() then
+                broadcastToAll("Purged hero " .. obj.getName() .. " KO'd from HQ")
+                obj.setPositionSmooth(pos)
+                if hqguid then
+                    getObjectFromGUID(hqguid).Call('click_draw_hero')
+                end
+            end
+        end
+    end
+end
+
+function drawHeroSpecial(params)
+    return {["callbackf"] = 'purge'}
 end
 
 function purgeHero(params)

@@ -54,12 +54,15 @@ function setupSpecial(params)
     "5a74e7",
     "40b47d"
     }
+    local hqhop = 1
     for i,o in pairs(dividedDeckGUIDs) do
         local zone = getObjectFromGUID(o)
         local col = i:sub(4,-1)
         if col == "Silver" then
             col = "White"
         end
+        getObjectFromGUID(hqguids[hqhop]).Call('updateVar1',{name = "heroDeckZoneGUID",value = o})
+        hqhop = hqhop + 1
         zone.createButton({click_function='updatePower',
             function_owner=getObjectFromGUID(pushvillainsguid),
             position={0,0,0},
