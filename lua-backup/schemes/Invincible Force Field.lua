@@ -69,7 +69,7 @@ function shiftButtons(turnend)
 end
 
 function ffbuttons()
-    mmzone.createButton({click_function=payRecruit,
+    mmzone.createButton({click_function='payRecruit',
         function_owner=self,
         position={0.5,0,0},
         rotation={0,180,0},
@@ -79,7 +79,7 @@ function ffbuttons()
         font_color="Yellow",
         color={0,0,0,0.75},
         width=250,height=250})
-    mmzone.createButton({click_function=payAttack,
+    mmzone.createButton({click_function='payAttack',
         function_owner=self,
         position={-0.5,0,0},
         rotation={0,180,0},

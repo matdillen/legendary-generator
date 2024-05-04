@@ -58,7 +58,7 @@ function setupSpecial(params)
 end
 
 function bonusInCity(params)
-    local topzone = getObjectFromGUID(pushvillainsguid).Call('getCityZone',{top=true,guid=zoneguid})
+    local topzone = getObjectFromGUID(pushvillainsguid).Call('getCityZone',{top=true,guid=params.zoneguid})
     local content = Global.Call('get_decks_and_cards_from_zone',topzone)
     
     if content[1] then

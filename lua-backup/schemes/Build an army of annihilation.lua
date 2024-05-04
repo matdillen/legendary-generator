@@ -102,6 +102,17 @@ function resolveTwist(params)
              height=200,
              font_size = 100
         })
+        getObjectFromGUID(topBoardGUIDs[1]).createButton({
+            click_function="updatePower", 
+            function_owner=getObjectFromGUID(pushvillainsguid),
+            position={0,0,0},
+            rotation={0,180,0},
+            label=henchpower,
+            tooltip="You can fight this Annihilation Wave henchmen for " .. henchpower .. ".",
+            font_color="Red",
+            width=0,
+            font_size = 250
+       })
     end
     local annihilationZone = getObjectFromGUID(topBoardGUIDs[2])
     local annihilationdeck = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])

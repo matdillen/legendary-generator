@@ -64,7 +64,7 @@ function updateMMJonah()
                  label="Pacify",
                  tooltip="Pacify this Angry Mob by fighting it and gain a random hero from it.",
                  color="Red",
-                 font_color = {1,0,0},
+                 font_color = {0,0,0},
                  width=500,
                  height=200,
                  font_size = 100})
@@ -126,7 +126,7 @@ function click_pacify_angry_mob(obj,player_clicker_color)
     end
     local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
     if attack < angrymob then
-        broadcastToColor("You don't have enough recruit to liberate this pawn!",player_clicker_color,player_clicker_color)
+        broadcastToColor("You don't have enough attack to fight this angry mob!",player_clicker_color,player_clicker_color)
         return nil
     end
     getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-angrymob)
