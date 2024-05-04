@@ -206,7 +206,7 @@ function click_draw_hero()
     if not scheme then
         scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
     end
-    if scheme.getName() == "Divide and Conquer" then
+    if scheme and scheme.getName() == "Divide and Conquer" then
         deckToDrawGUID = divided_deck_guid
     else
         deckToDrawGUID = heroDeckZoneGUID

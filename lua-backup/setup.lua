@@ -916,7 +916,7 @@ function setup_rest(mm)
     return nil
 end
 
-function shuffle_setup ()
+function shuffle_setup()
     local sopile = getObjectFromGUID(officerDeckGUID)
     sopile.randomize()
     local skPile = getObjectFromGUID(sidekickDeckGUID)
@@ -935,10 +935,6 @@ function playHorror()
             smooth=false,
             callback_function = resolveHorror})
     --broadcastToAll("Random horror added to the game, above the board.")
-end
-
-function returnVar(var)
-    return _G[var]
 end
 
 function resolveHorror(obj)

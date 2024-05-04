@@ -196,7 +196,7 @@ function click_get_wound2(params)
 end
 
 function click_get_wound(obj, player_clicker_color, alt_click,top)
-    local woundsDeck=getObjectFromGUID(woundsDeckGUID)
+    local woundsDeck = getObjectFromGUID(woundsDeckGUID)
     local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
     dest.y = dest.y + 3
     local toflip = nil
@@ -245,7 +245,7 @@ end
 
 function dealWounds(top)
     for _,o in pairs(Player.getPlayers()) do
-        click_get_wound(nil,o,nil,top)
+        click_get_wound(nil,o.color,nil,top)
     end
 end
 
@@ -1790,9 +1790,23 @@ function revealCardTrait(params)
             for _,h in pairs(hand) do
                 for _,value in pairs(trait) do
                     if what == "Prefix" then
-                        if hasTag2(h,prefix) and hasTag2(h,prefix) == value then
+                        local check = hasTag2(h,prefix)
+                        if check and check == value then
                             players[i] = nil
                             break
+                        end
+                        if check and check[1] then
+                            local breaker = false
+                            for _,p in pairs(check) do
+                                if p == value then
+                                    players[i] = nil
+                                    breaker = true
+                                    break
+                                end
+                            end
+                            if breaker then
+                                break
+                            end
                         end
                     elseif what == "Tag" then
                         if h.hasTag(value) then
@@ -2921,14 +2935,11 @@ end
 function feast(params)
     local color = params.color
     local triggerf = params.triggerf
-    local fsourceguid = params.fsourceguid
+    local fsourceguid = params.fsourceguid or self.guid
     
     local feastResult = function(obj)
-        if fsourceguid then
+        if triggerf then
             getObjectFromGUID(fsourceguid).Call(triggerf,{obj = obj,
-                color = color})
-        elseif triggerf then
-            triggerf({obj = obj,
                 color = color})
         end
     end
@@ -2972,7 +2983,7 @@ function shieldClearance(params)
     local color = params.color
     local n = params.n or 1
     local f = params.f
-    local fsourceguid = params.fsourceguid
+    local fsourceguid = params.fsourceguid or self.guid
     
     local hand = Player[color].getHandObjects()
     if #hand < n then
@@ -3071,13 +3082,9 @@ function offerChoice(params)
                 end
                 offerqueue[color] = nil
             end
-            if fsourceguid then
-                getObjectFromGUID(fsourceguid).Call(resolve_function,{id = i,
-                    color = color,
-                    n = n})
-            else
-                resolve_function()
-            end
+            getObjectFromGUID(fsourceguid).Call(resolve_function,{id = i,
+                color = color,
+                n = n})
         end
         playzone.createButton({click_function = "resolveChoice" .. i .. color,
             function_owner = self,

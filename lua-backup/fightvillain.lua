@@ -323,7 +323,7 @@ function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
                 for _,m in pairs(masterminds) do
                     local strikeloc = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',m))
                     if strikeloc.getVar("fightEffect") then
-                        strikeloc.Call('fightEffect',{obj = obj, color = player_clicker_color})
+                        strikeloc.Call('fightEffect',{obj = obj, color = player_clicker_color,zoneguid = guid})
                     end
                 end
                 local result = getObjectFromGUID(pushvillainsguid).Call('resolveVillainEffect',{obj = obj,color = player_clicker_color})
@@ -334,20 +334,27 @@ function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
                 end
                 for _,obj2 in pairs(cards) do
                     if obj2 and not obj2.hasTag("Location") then
-                        if obj2.hasTag("Bystander") and obj2.getName() ~= "" then
-                            broadcastToColor("You saved " .. obj2.getName() .. ", a special bystander!",player_clicker_color,player_clicker_color)
-                        elseif obj2.hasTag("Bystander") and obj2.tag == "Deck" then
-                            broadcastToColor("You saved " .. obj2.getQuantity() .. " bystanders!",player_clicker_color,player_clicker_color)
-                        elseif obj2.hasTag("Bystander") then
-                            broadcastToColor("You saved a regular bystander!",player_clicker_color,player_clicker_color)
-                        end
                         if obj2.getName() == "Shard" then
                             getObjectFromGUID(shardguids[player_clicker_color]).Call('add_subtract')
                             local pos = getObjectFromGUID(heroDeckZoneGUID).getPosition()
                             pos.x = pos.x + 7
                             obj2.setPositionSmooth(pos)
                             broadcastToColor("You gained a shard!",player_clicker_color,player_clicker_color)
-                        else
+                        end
+                    end
+                end
+                local topzone = getObjectFromGUID(pushvillainsguid).Call('getCityZone',{top=true,guid=self.guid})
+                local topzonecontent = Global.Call('get_decks_and_cards_from_zone',topzone)
+                if topzonecontent[1] then
+                    for _,obj2 in pairs(topzonecontent) do
+                        if obj2 and not obj2.hasTag("Location") then
+                            if obj2.hasTag("Bystander") and obj2.getName() ~= "" then
+                                broadcastToColor("You saved " .. obj2.getName() .. ", a special bystander!",player_clicker_color,player_clicker_color)
+                            elseif obj2.hasTag("Bystander") and obj2.tag == "Deck" then
+                                broadcastToColor("You saved " .. obj2.getQuantity() .. " bystanders!",player_clicker_color,player_clicker_color)
+                            elseif obj2.hasTag("Bystander") then
+                                broadcastToColor("You saved a regular bystander!",player_clicker_color,player_clicker_color)
+                            end
                             if obj2.hasTag("Villainous Weapon") or obj2.hasTag("gainAsHero") then
                                 local pos = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
                                 pos.y = pos.y + 3
