@@ -53,12 +53,21 @@ function cityShift(params)
             return nil
         end
     elseif obj.hasTag("Alien Brood") and enterscity == 0 then
-        local test = targetZone.Call('removeFightButton')
-        if not test then
-            addScanButton(targetzone)
-        end
-        removeScanButton(currentZone)
-        currentZone.Call('addFightButton')
+        targetZone.Call('removeFightButton')
+        addScanButton(targetZone)
+        Wait.time(
+            function()
+                local content = Global.Call('get_decks_and_cards_from_zone',currentZone.guid)
+                if content[1] then
+                    for _,o in pairs(content) do
+                        if o.hasTag("Alien Brood") then
+                            return nil
+                        end
+                    end
+                end
+                removeScanButton(currentZone)
+                currentZone.Call('addFightButton')
+            end,1)
     end
     return obj
 end
@@ -66,7 +75,7 @@ end
 function nonTwist(params)
     local obj = params.obj
     local city = params.city
-    local targetZone = params.targetzone
+    local targetZone = params.targetZone
 
     if obj.is_face_down then
         obj.addTag("Alien Brood")
@@ -108,7 +117,17 @@ function resolve_alien_brood_scan(params)
         getObjectFromGUID(pushvillainsguid).Call('nonTwistspecials2',{cards = {obj},city = {}})
         return obj
     elseif obj.hasTag("Villain") and zone then
-        zone.Call('updatePower')
+        Wait.condition(
+            function() 
+                zone.Call('updatePower') 
+            end,
+            function()
+                if not obj.is_face_down then
+                    return true
+                else
+                    return false
+                end
+            end)
     elseif obj.hasTag("Location") then
         if escaping then
             getObjectFromGUID(pushvillainsguid).Call('koCard',obj)
@@ -121,12 +140,18 @@ function resolve_alien_brood_scan(params)
             return nil
         end
     elseif obj.getName() == "Scheme Twist" then
-        local color = getObjectFromGUID(pushvillainsguid).Call('getNextColor',Turns.turn_color)
-        obj.setName("Brood Infection")
-        obj.setPositionSmooth(getObjectFromGUID(discardguids[color]).getPosition())
-        broadcastToAll("Player " .. color .. " got a Brood Infection!")
-        return nil
+        return resolveTwist({cards = {obj}})
     end
+end
+
+function resolveTwist(params)
+    local obj = params.cards[1]
+
+    local color = getObjectFromGUID(pushvillainsguid).Call('getNextColor',Turns.turn_color)
+    obj.setName("Brood Infection")
+    obj.setPositionSmooth(getObjectFromGUID(discardguids[color]).getPosition())
+    broadcastToAll("Player " .. color .. " got a Brood Infection!")
+    return nil
 end
 
 function onObjectEnterZone(zone,object)
@@ -141,16 +166,6 @@ function onObjectEnterZone(zone,object)
             end
         end
     end
-end
-
-function setupSpecial(params)
-    for i,guid in pairs(city_zones_guids) do
-        if i ~= 1 then
-            local obj = getObjectFromGUID(guid)
-            obj.Call('toggleButton')
-            addScanButton(obj)
-        end
-    end 
 end
 
 function scan_villain(obj,player_clicker_color)

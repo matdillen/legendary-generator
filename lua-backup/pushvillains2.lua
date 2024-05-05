@@ -439,7 +439,7 @@ function shift_to_next(objects,currentZone,targetZone,enterscity)
 end
 
 function shift_to_next2(params)
-    shift_to_next(table.clone(params.objects),params.currentzone,params.targetZone,params.enterscity)
+    shift_to_next(table.clone(params.objects),params.currentZone,params.targetZone,params.enterscity)
 end
 
 function click_draw_villain(obj,vildeckguid)
