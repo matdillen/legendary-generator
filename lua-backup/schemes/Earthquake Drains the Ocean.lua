@@ -46,6 +46,7 @@ function resolveTwist(params)
             if content[1] then
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
                     objects = table.clone(content),
+                    currentZone = getObjectFromGUID(guid),
                     targetZone = getObjectFromGUID(escape_zone_guid),
                     enterscity = 0})
             end

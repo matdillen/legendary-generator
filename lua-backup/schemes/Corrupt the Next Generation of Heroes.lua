@@ -153,6 +153,7 @@ function resolveTwist(params)
                 for _,object in pairs(cardsincity) do
                     if object.hasTag("Sidekick") == true then
                         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(cardsincity),
+                                currentZone = getObjectFromGUID(o),
                                 targetZone = getObjectFromGUID(escape_zone_guid),
                                 enterscity = 0})
                     end

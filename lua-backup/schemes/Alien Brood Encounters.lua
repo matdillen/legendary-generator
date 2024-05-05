@@ -41,15 +41,51 @@ end
 
 function cityShift(params)
     local obj = params.obj
-    if params.targetZone.guid == escape_zone_guid and obj.hasTag("Alien Brood") then
+    local currentZone = params.currentZone
+    local targetZone = params.targetZone
+    local enterscity = params.enterscity
+
+    if targetZone.guid == escape_zone_guid and obj.hasTag("Alien Brood") then
         obj.removeTag("Alien Brood")
         obj.flip()
         local result = resolve_alien_brood_scan({obj = obj,escaping = true})
         if not result then
             return nil
         end
+    elseif obj.hasTag("Alien Brood") and enterscity == 0 then
+        local test = targetZone.Call('removeFightButton')
+        if not test then
+            addScanButton(targetzone)
+        end
+        removeScanButton(currentZone)
+        currentZone.Call('addFightButton')
     end
     return obj
+end
+
+function nonTwist(params)
+    local obj = params.obj
+    local city = params.city
+    local targetZone = params.targetzone
+
+    if obj.is_face_down then
+        obj.addTag("Alien Brood")
+        if city then
+            getObjectFromGUID(pushvillainsguid).Call('push_all2',city)
+        end
+        getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
+            objects = {obj},
+            currentZone = getObjectFromGUID(city_zones_guids[1]),
+            targetZone = targetZone,
+            enterscity = 1})
+        targetZone.Call('removeFightButton')
+        addScanButton(targetZone)
+        return nil
+    else
+        removeScanButton(targetZone)
+        targetZone.Call('addFightButton')
+        return 1
+    end
 end
 
 function resolve_alien_brood_scan(params)
@@ -140,6 +176,14 @@ function scan_villain(obj,player_clicker_color)
 end
 
 function addScanButton(obj)
+    local butt = obj.getButtons()
+    if butt then
+        for _,b in pairs(butt) do
+            if b.click_function == "scan_villain" then
+                return nil
+            end
+        end
+    end
     obj.createButton({label = "Scan",
         position={0,-0.4,-0.4}, 
         rotation = {0,180,0},

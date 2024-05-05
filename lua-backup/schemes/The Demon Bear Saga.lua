@@ -97,6 +97,7 @@ function resolveTwist(params)
             for _,object in pairs(cityobjects) do
                 if object.getName() == "Demon Bear" then
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
+                        currentZone = getObjectFromGUID(o),
                         targetZone = getObjectFromGUID(escape_zone_guid),
                         enterscity = 0})
                     broadcastToAll("Scheme Twist! Demon Bear escapes!",{1,0,0})

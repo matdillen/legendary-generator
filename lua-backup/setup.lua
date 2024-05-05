@@ -413,7 +413,7 @@ function reduceStack2(params)
     reduceStack(params.n,params.stackGUID)
 end
 
-function findInPile(deckName,pileGUID,destGUID,callbackf,fsourceguid)
+function findInPile(deckName,pileGUID,destGUID,callbackf,fsourceguid,n)
     local callbackf_tocall = function(obj)
         if fsourceguid and callbackf then
             getObjectFromGUID(fsourceguid).Call(callbackf,obj)
@@ -428,7 +428,8 @@ function findInPile(deckName,pileGUID,destGUID,callbackf,fsourceguid)
     else
         targetDeckZone= getObjectFromGUID(villainDeckZoneGUID)
     end
-    for index,object in pairs(pile.getObjects()) do
+    local count = 0
+    for _,object in pairs(pile.getObjects()) do
         if string.lower(object.name) == string.lower(deckName) then
             log ("found " .. deckName .. "!")
             local deckGUID= object.guid
@@ -437,14 +438,17 @@ function findInPile(deckName,pileGUID,destGUID,callbackf,fsourceguid)
                 smooth=false,
                 flip=true,
                 callback_function = callbackf_tocall})
-            return deck
+            if not n then
+                return deck
+            end
+            count = count + 1
         end
     end
-    return nil
+    return count
 end
 
 function findInPile2(params)
-    return findInPile(params.deckName,params.pileGUID,params.destGUID,params.callbackf,params.fsourceguid)
+    return findInPile(params.deckName,params.pileGUID,params.destGUID,params.callbackf,params.fsourceguid,params.n)
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)

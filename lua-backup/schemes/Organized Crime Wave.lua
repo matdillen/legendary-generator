@@ -47,6 +47,7 @@ function resolveTwist(params)
             for _,object in pairs(citycards) do
                 if object.getName() == "Maggia Goons" then
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = citycards,
+                        currentZone = getObjectFromGUID(o),
                         targetZone = getObjectFromGUID(escape_zone_guid),
                         enterscity = 0})
                     break

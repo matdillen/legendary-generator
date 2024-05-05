@@ -3,6 +3,8 @@ library(jsonlite)
 library(conflicted)
 setwd("D:/Mathias/legendary/legendary-generator/lua-backup")
 
+autodeploy = T
+
 file = list.files("currentmod",
                   pattern="*.json",
                   full.names = T)

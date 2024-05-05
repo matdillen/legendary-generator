@@ -62,6 +62,7 @@ function resolveStrike(params)
                 if hasTag2(p,"Group:",7) and hasTag2(p,"Group:",7) == "Subterranea" then
                     subescaped = true
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = citycontent,
+                        currentZone = getObjectFromGUID(o),
                         targetZone = getObjectFromGUID(escape_zone_guid),
                         enterscity = 0})
                     break

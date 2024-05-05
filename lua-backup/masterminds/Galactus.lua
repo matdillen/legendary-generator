@@ -32,6 +32,7 @@ function resolveStrike(params)
     local escapees = Global.Call('get_decks_and_cards_from_zone',destroyed)
     if escapees[1] then
         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = escapees,
+            currentZone = getObjectFromGUID(destroyed),
             targetZone = getObjectFromGUID(escape_zone_guid),
             enterscity = 0})
         for _,o in pairs(escapees) do

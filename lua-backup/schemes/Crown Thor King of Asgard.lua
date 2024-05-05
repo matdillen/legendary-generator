@@ -101,6 +101,7 @@ function resolveTwist(params)
             for _,object in pairs(cityobjects) do
                 if object.getName() == "Thor" then
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(cityobjects),
+                        currentZone = getObjectFromGUID(o),
                         targetZone = getObjectFromGUID(escape_zone_guid),
                         enterscity = 0})
                     broadcastToAll("Scheme Twist! Thor escapes!",{1,0,0})

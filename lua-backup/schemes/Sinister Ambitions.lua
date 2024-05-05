@@ -70,6 +70,7 @@ function resolveTwist(params)
                 for _,o in pairs(citycards) do
                     if o.hasTag("Ambition") then
                         getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = citycards,
+                            currentZone = getObjectFromGUID(o),
                             targetZone = getObjectFromGUID(escape_zone_guid),
                             enterscity = 0})
                         broadcastToAll("Scheme Twist: Ambition villain escapes!")

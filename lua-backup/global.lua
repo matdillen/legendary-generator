@@ -379,3 +379,32 @@ function hasTagD(params)
         return nil
     end
 end
+
+function findInPiles(params)
+    local guid = params.guid
+    local name = params.name
+    local targetGUID = params.targetGUID
+    
+    local content = get_decks_and_cards_from_zone(guid)
+    if not content[1] then
+        return nil
+    end
+    local pos = getObjectFromGUID(targetGUID).getPosition()
+    pos.y = pos.y + 2
+    local count = 0
+    if content[1] then
+        for _,o in pairs(content) do
+            if o.tag == "Deck" then
+                count = count + getObjectFromGUID(setupGUID).Call('findInPile2',{
+                    deckname = name,
+                    pileGUID = o.guid,
+                    destGUID = targetGUID,
+                    n = true
+                })
+            elseif o.getName() == params.name then
+                o.setPositionSmooth(pos)
+                count = count + 1
+            end
+        end
+    end
+end

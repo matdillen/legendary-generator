@@ -114,6 +114,7 @@ function captureBaby(obj)
             local targetZone = getObjectFromGUID(cityspaces[1])
             getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
                 objects = {obj},
+                currentZone = getObjectFromGUID(cityspaces[1]),
                 targetZone = targetZone,
                 enterscity = 1})
             Wait.condition(
@@ -160,6 +161,7 @@ function resolveTwist(params)
                 local cityobjects2 = Global.Call('get_decks_and_cards_from_zone',cityzone)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{
                     objects = cityobjects2,
+                    currentZone = getObjectFromGUID(o),
                     targetZone = getObjectFromGUID(escape_zone_guid),
                     enterscity = 0})
                 getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])

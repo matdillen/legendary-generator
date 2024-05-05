@@ -61,6 +61,7 @@ function resolveTwist(params)
     local maxpower = 0
     local toAscend = nil
     local ascendCard = nil
+    local ascendfromzone = nil
     mmpos = getObjectFromGUID(mmZoneGUID).Call('getNextMMLoc')
     if twistsresolved < 8 then
         for _,o in pairs(city) do
@@ -74,6 +75,7 @@ function resolveTwist(params)
                             toAscend = o
                             ascendCard = i
                             maxpower = spacepower
+                            ascendfromzone = o
                             break
                         end
                     end
@@ -92,6 +94,7 @@ function resolveTwist(params)
                                 toAscend = i.guid
                                 maxpower = power
                                 escapee = true
+                                ascendfromzone = nil
                                 break
                             end
                         end
@@ -102,6 +105,7 @@ function resolveTwist(params)
                     toAscend = escape_zone_guid
                     ascendCard = escapedcards[1]
                     maxpower = hasTag2(escapedcards[1],"Power:")
+                    ascendfromzone = nil
                 end
             end
         end
@@ -123,6 +127,7 @@ function resolveTwist(params)
                 end
                 annotateNewMM(ascendCard)
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = table.clone(vilgroup),
+                    currentZone = getObjectFromGUID(ascendfromzone),
                     targetZone = getObjectFromGUID(mmpos),
                     enterscity = 1})
                 broadcastToAll("Scheme Twist: Villain in city ascended to become a mastermind!")

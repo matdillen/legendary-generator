@@ -3,7 +3,8 @@ function onLoad()
         "pushvillainsguid",
         "hmPileGUID",
         "mmZoneGUID",
-        "setupGUID"
+        "setupGUID",
+        "kopile_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -150,6 +151,11 @@ function resolveTwist(params)
             end
         end
     end
+    henchcaught = henchcaught + Global.Call('findInPiles',{
+        guid = kopile_guid,
+        name = "Annihilation Wave Henchmen",
+        targetGUID = topBoardGUIDs[2]
+    })
     local annihilationMMzone = getObjectFromGUID(topBoardGUIDs[1])
     local refeedMM = function()
         local deck = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])

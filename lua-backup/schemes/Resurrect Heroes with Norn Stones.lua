@@ -70,6 +70,7 @@ function resolveTwist(params)
                 local cityobjects = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[6])
                 if cityobjects[1] then
                     getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
+                        currentZone = getObjectFromGUID(city_zones_guids[6]),
                         targetZone = getObjectFromGUID(escape_zone_guid),
                         enterscity = 0})
                 end
@@ -90,6 +91,7 @@ function resolveTwist(params)
             local cityobjects = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[6])
             if cityobjects[1] then
                 getObjectFromGUID(pushvillainsguid).Call('shift_to_next2',{objects = cityobjects,
+                    currentZone = getObjectFromGUID(city_zones_guids[6]),
                     targetZone = getObjectFromGUID(escape_zone_guid),
                     enterscity = 0})
             end

@@ -45,14 +45,21 @@ function onLoad()
 end
 
 function toggleButton()
-    if self.getButtons() then
-        self.clearButtons()
-    else
+    local test = removeFightButton()
+    if not test then
         addFightButton()
     end
 end
 
 function addFightButton()
+    local butt = self.getButtons()
+    if butt then
+        for i,b in pairs(butt) do
+            if b.click_function == "click_fight_villain" then
+                return nil
+            end
+        end
+    end
     self.createButton({
         click_function="click_fight_villain", function_owner=self,
         position={0,-0.4,-0.4}, rotation = {0,180,0}, label=zoneName, 
@@ -60,6 +67,19 @@ function addFightButton()
         font_color = {0,0,0}, width=750, height=150,
         font_size = 75
     })
+end
+
+function removeFightButton()
+    local butt = self.getButtons()
+    if butt then
+        for i,b in pairs(butt) do
+            if b.click_function == "click_fight_villain" then
+                self.removeButton(i-1)
+                return 1
+            end
+        end
+    end
+    return nil
 end
 
 function updateVar1(params)
@@ -140,7 +160,7 @@ function setZonePower()
     local cards = get_decks_and_cards_from_zone(self.guid)
     local villainfound = 0
     for _,obj in pairs(cards) do
-        if obj.hasTag("Alien Brood") then
+        if obj.is_face_down and (obj.hasTag("Villain") or obj.hasTag("Location")) then
             return nil
         elseif obj.getName() == "Shard" then
             local val = obj.Call('returnVal')
