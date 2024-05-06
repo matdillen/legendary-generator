@@ -49,27 +49,47 @@ function cityShift(params)
         obj.removeTag("Alien Brood")
         obj.flip()
         local result = resolve_alien_brood_scan({obj = obj,escaping = true})
+        replaceScanButton(obj,currentZone)
         if not result then
             return nil
         end
     elseif obj.hasTag("Alien Brood") and enterscity == 0 then
         targetZone.Call('removeFightButton')
         addScanButton(targetZone)
-        Wait.time(
-            function()
-                local content = Global.Call('get_decks_and_cards_from_zone',currentZone.guid)
-                if content[1] then
-                    for _,o in pairs(content) do
-                        if o.hasTag("Alien Brood") then
-                            return nil
-                        end
-                    end
-                end
-                removeScanButton(currentZone)
-                currentZone.Call('addFightButton')
-            end,1)
+        replaceScanButton(obj,currentZone)
     end
     return obj
+end
+
+function replaceScanButton(obj,currentZone)
+    Wait.condition(
+        function()
+            local content = Global.Call('get_decks_and_cards_from_zone',currentZone.guid)
+            if content[1] then
+                for _,o in pairs(content) do
+                    if o.hasTag("Alien Brood") then
+                        return nil
+                    end
+                end
+            end
+            removeScanButton(currentZone)
+            currentZone.Call('addFightButton')
+        end,
+        function()
+            local content = Global.Call('get_decks_and_cards_from_zone',currentZone.guid)
+            if content[1] then
+                for _,o in pairs(content) do
+                    if o.guid == obj.guid then
+                        return false
+                    end
+                end
+            end
+            if obj.isSmoothMoving() or obj.getPosition().y > 2.5 then
+                return false
+            else
+                return true
+            end
+        end)
 end
 
 function nonTwist(params)
