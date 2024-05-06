@@ -25,6 +25,7 @@ function resolveStrike(params)
         end
         local tacticspile = nil
         local tacticspilecount = 0
+        local mmcard = nil
         for _,o in pairs(mm) do
             if o.is_face_down == true and o.tag == "Deck" then
                 if Global.Call('hasTagD',{deck = o,tag="Tactic:Mysterio"}) then
@@ -38,9 +39,16 @@ function resolveStrike(params)
                     tacticspilecount = 1
                     break
                 end
+            elseif o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
+                mmcard = o
             end
         end
         if tacticspile then
+            if mmcard then
+                local pos = mmcard.getPosition()
+                pos.y = pos.y + 2
+                mmcard.setPosition(pos)
+            end
             tacticspile.putObject(cards[1])
         else
             for _,o in pairs(mm) do

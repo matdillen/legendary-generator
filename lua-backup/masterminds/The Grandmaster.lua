@@ -14,7 +14,7 @@ function hasTag2(obj,tag,index)
 end
 
 function grandmasterContest(params)
-    for i,o in pairs(params.obj) do
+    for i,o in pairs(params) do
         if i == "Evil" and o == true then
             local shardn = 1
             if epicness then

@@ -103,11 +103,28 @@ toexport = toJSON(js,
                   pretty=T,
                   flatten=T,
                   auto_unbox=T)
+
+filename = paste0(gsub("currentmod",
+                       "output",
+                       file[1]),
+                  "_",
+                  gsub("[[:punct:]]","",
+                       Sys.time()),
+                  ".json")
+
 write(toexport,
-      paste0(gsub("currentmod",
-                  "output",
-                  file[1]),
-             "_",
-             gsub("[[:punct:]]","",
-                  Sys.time()),
-             ".json"))
+      filename)
+
+if (autodeploy) {
+  tspath = paste0("C:/Users/mdill/Documents/My Games/",
+                  "Tabletop Simulator/Saves/atom2/workingnewexp/")
+  
+  newname = paste0(tspath,
+                   gsub("output/","",filename))
+  
+  file.copy(filename,
+            newname)
+  file.remove(paste0(tspath,gsub("currentmod/","",file)))
+  file.rename(newname,
+              gsub("json_.*","json",newname))
+}

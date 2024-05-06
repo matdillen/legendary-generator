@@ -12,7 +12,8 @@ function onLoad()
     end
 
     local guids2 = {
-        "topBoardGUIDs"
+        "topBoardGUIDs",
+        "allTopBoardGUIDS"
         }
         
     for _,o in pairs(guids2) do
@@ -98,6 +99,21 @@ function tyrantShuffleHulk(obj)
     end
 end
 
+function getStrikeloc(mmname)
+    local strikeloc = nil
+    if lurkingLocations[mmname] == mmZoneGUID then
+        strikeloc = strikeZoneGUID
+    else
+        for i,o in pairs(allTopBoardGUIDS) do
+            if o == lurkingLocations[mmname] then
+                strikeloc = allTopBoardGUIDS[i-1]
+                break
+            end
+        end
+    end
+    return strikeloc
+end
+
 function addNewLurkingMM(currentmm)
     if lurkingMasterminds[1] then
         local newmm = table.remove(lurkingMasterminds,math.random(#lurkingMasterminds))
@@ -109,7 +125,7 @@ function addNewLurkingMM(currentmm)
             lurkingLocations[currentmm] = lurkingLocations[newmm]
             mmZone.Call('removeMastermindsLocation',currentmm)
             local lurkingpos = getObjectFromGUID(lurkingLocations[currentmm]).getPosition()
-            local strikelurkingpos = getObjectFromGUID(getStrikeloc(currentmm,lurkingLocations)).getPosition()
+            local strikelurkingpos = getObjectFromGUID(getStrikeloc(currentmm)).getPosition()
             for i,o in pairs(table.clone(mmZone.Call('returnVar',"masterminds"))) do
                 if o == currentmm then
                     mmZone.Call('removeMasterminds',i)

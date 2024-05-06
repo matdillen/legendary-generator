@@ -31,7 +31,7 @@ function possessedPsychotic(obj)
     obj.addTag("Villain")
     obj.addTag("Power:0")
     obj.removeTag("Bystander")
-    getObjectFromGUID(pushvillainsguid).Call('updatePower')
+    Wait.time(function() getObjectFromGUID(pushvillainsguid).Call('updatePower') end,0.5)
 end
 
 function fightEffect(params)

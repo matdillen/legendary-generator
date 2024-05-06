@@ -2624,7 +2624,14 @@ function contestOfChampions(params)
         end
     else
         highscore = hasTag2(herodeck[1],"Cost:") or 0
-        if hasTag2(herodeck[1],"HC:") and (hasTag2(herodeck[1],"HC:") == color[1] or (color[2] and hasTag2(herodeck[1],"HC:") == color[2])) then
+        local cardcolors = hasTag2(herodeck[1],"HC:")
+        if cardcolors and cardcolors[1] then
+            for _,c in pairs(cardcolors) do
+                if c == color[1] or (color[2] and c == color[2]) then
+                    highscore = highscore*2
+                end
+            end
+        elseif cardcolors and (cardcolors == color[1] or (color[2] and cardcolors == color[2])) then
             highscore = highscore*2
         end
     end
@@ -2683,7 +2690,14 @@ function contestOfChampions(params)
             else
                 if hasTag2(deck[1],"Cost:") then
                     responses[obj.getName()] = hasTag2(deck[1],"Cost:")
-                    if hasTag2(deck[1],"HC:") and (hasTag2(deck[1],"HC:") == color[1] or (color[2] and hasTag2(deck[1],"HC:") == color[2])) then
+                    local cardcolors = hasTag2(deck[1],"HC:")
+                    if cardcolors and cardcolors[1] then
+                        for _,c in pairs(cardcolors) do
+                            if c == color[1] or (color[2] and c == color[2]) then
+                                responses[obj.getName()] = responses[obj.getName()]*2
+                            end
+                        end
+                    elseif cardcolors and (cardcolors == color[1] or (color[2] and cardcolors == color[2])) then
                         responses[obj.getName()] = responses[obj.getName()]*2
                     end
                 else
@@ -2728,7 +2742,14 @@ function contestOfChampions(params)
         for i,o in pairs(responses) do
             if not tonumber(o) then
                 local score = hasTag2(o,"Cost:") or 0
-                if hasTag2(o,"HC:") and (hasTag2(o,"HC:") == color[1] or (color[2] and hasTag2(o,"HC:") == color[2])) then
+                local cardcolors = hasTag2(o,"HC:")
+                if cardcolors and cardcolors[1] then
+                    for _,c in pairs(cardcolors) do
+                        if c == color[1] or (color[2] and c == color[2]) then
+                            score = score*2
+                        end
+                    end
+                elseif cardcolors and (cardcolors == color[1] or (color[2] and cardcolors == color[2])) then
                     score = score*2
                 end
                 responses[i] = score
@@ -2767,6 +2788,9 @@ function contestOfChampions(params)
             local logCard = function(obj)
                 local cost = hasTag2(obj,"Cost:") or 0
                 local col = hasTag2(obj,"HC:",4) or "Grey"
+                if col[1] then
+                    col = col[1] .. "|" .. col[2]
+                end
                 printToAll(obj.getName() .. " with cost of " .. cost .. " and color " .. col .. " was revealed from the hero deck.")
             end
             for i=1,n do

@@ -38,7 +38,7 @@ function table.clone(org,key)
 end
 
 function drawHeroSpecial(params)
-    return {["callbackf"] = 'imprison',["flip"] = not params.flip}
+    return {["callbackf"] = 'imprison',["flip"] = false}
 end
 
 function imprisonandmix()
