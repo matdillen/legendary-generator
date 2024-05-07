@@ -496,6 +496,7 @@ end
 
 function mmButtons(params)
     local mmname = params.mmname
+    local mmzone = params.mmzone
     local checkvalue = params.checkvalue
     local label = tostring(params.label)
     local tooltip = params.tooltip
@@ -503,7 +504,9 @@ function mmButtons(params)
     local id = params.id or "base"
     local f_owner = params.f_owner or self
     
-    local mmzone = getObjectFromGUID(mmLocations[mmname])
+    if not mmzone then
+        mmzone = getObjectFromGUID(mmLocations[mmname])
+    end
     if not mmzone then
         return nil
     end

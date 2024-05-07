@@ -408,3 +408,31 @@ function findInPiles(params)
         end
     end
 end
+
+function smoothMoveCheck(params)
+    local obj = params.obj
+    local f = params.f
+    local fsourceguid = params.fsourceguid
+    local targetguid = params.targetguid
+    Wait.condition(
+        function()
+            getObjectFromGUID(fsourceguid).Call(f,{obj = obj,targetguid = targetguid})
+        end,
+        function()
+            local content = get_decks_and_cards_from_zone(targetguid)
+            if content[1] then
+                for _,o in pairs(content) do
+                    if o.guid == obj.guid then
+                        return true
+                    elseif o.tag == "Deck" then
+                        for _,c in pairs(o.getObjects()) do
+                            if c.guid == obj.guid then
+                                return true
+                            end
+                        end
+                    end
+                end
+            end
+            return false
+        end)
+end

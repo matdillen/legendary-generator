@@ -47,15 +47,15 @@ function setupSpecial(params)
     log("lurkers = ")
     log(lurkingMasterminds)
     lurkingLocations = {}
-    for i = 1,3 do
-        lurkingLocations[lurkingMasterminds[i]] = topBoardGUIDs[2*i]
+    for i = 2,4 do
+        lurkingLocations[lurkingMasterminds[i-1]] = topBoardGUIDs[2*i]
     end
     local mmZone = getObjectFromGUID(mmZoneGUID)
-    for i = 1,6 do
+    for i = 3,8 do
         mmZone.Call('lockTopZone',topBoardGUIDs[i])
     end
-    for i=1,3 do
-        getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = lurkingMasterminds[i],
+    for i=2,4 do
+        getObjectFromGUID(setupGUID).Call('findInPile2',{deckName = lurkingMasterminds[i-1],
             pileGUID = mmPileGUID,
             destGUID = topBoardGUIDs[i*2],
             callbackf = "tyrantShuffleHulk",
@@ -65,8 +65,8 @@ end
 
 function tacticsKill(obj)
     local mmZone = getObjectFromGUID(mmZoneGUID)
-    for i=1,3 do
-        if lurkingMasterminds[i] == obj.getName() then
+    for i=2,4 do
+        if lurkingMasterminds[i-1] == obj.getName() then
             local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
             mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[i*2]})
             mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 2,lurking = true})
@@ -114,6 +114,17 @@ function getStrikeloc(mmname)
     return strikeloc
 end
 
+function updateMMZonePower(params)
+    local baselabel = getObjectFromGUID(mmZoneGUID).Call('setMMBasePower',{zoneguid = params.targetguid})
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmzone = getObjectFromGUID(params.targetguid),
+        checkvalue = 1,
+        label = baselabel,
+        tooltip = "Base power as written on the card.",
+        f = 'updatePower',
+        id = 'card'})
+    getObjectFromGUID(pushvillainsguid).Call('updatePower')
+end
+
 function addNewLurkingMM(currentmm)
     if lurkingMasterminds[1] then
         local newmm = table.remove(lurkingMasterminds,math.random(#lurkingMasterminds))
@@ -140,6 +151,10 @@ function addNewLurkingMM(currentmm)
                     lurkingpos.y = getObjectFromGUID(lurkingLocations[currentmm]).getPosition().y
                 end
                 o.setPositionSmooth(lurkingpos)
+                Global.Call('smoothMoveCheck',{obj = o,
+                    targetguid = lurkingLocations[currentmm],
+                    f = 'updateMMZonePower',
+                    fsourceguid = self.guid})
             end
             local strikecontent = Global.Call('get_decks_and_cards_from_zone',strikeZoneGUID)
             if strikecontent[1] then
@@ -169,10 +184,13 @@ function addNewLurkingMM(currentmm)
                 newmmposition.y = getObjectFromGUID(mmZoneGUID).getPosition().y
             end
             o.setPositionSmooth(newmmposition)
+            Global.Call('smoothMoveCheck',{obj = o,
+                targetguid = mmZoneGUID,
+                f = 'updateMMZonePower',
+                fsourceguid = self.guid})
         end
         local newstrikeposition = getObjectFromGUID(strikeZoneGUID).getPosition()
-        local newstrikeloc = getObjectFromGUID(pushvillainsguid).Call('getStrikeloc2',{mmname = newmm,
-            alttable = lurkingLocations})
+        local newstrikeloc = getStrikeloc(newmm)
         local newstrikecontent = Global.Call('get_decks_and_cards_from_zone',newstrikeloc)
         if newstrikecontent[1] then
             for _,o in pairs(newstrikecontent) do
