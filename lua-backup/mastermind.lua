@@ -76,7 +76,7 @@ function click_update_tactics(obj)
     end
     if index and mmdeck[1] and mmdeck[2] then
         for _,o in pairs(mmdeck) do
-            if not o.hasTag("Bystander") and (hasTag2(o,"Tactic:") or (o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag = "Tactic:"}))) then
+            if not o.hasTag("Bystander") and (hasTag2(o,"Tactic:") or (o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag = "Tactic:", find = true}))) then
                 local c = math.abs(o.getQuantity())
                 obj.editButton({index=index,label="(" .. c .. ")"})
                 return nil
@@ -743,9 +743,10 @@ function fightButton(zone)
                 local content = get_decks_and_cards_from_zone(obj.guid,false,false)
                 local finalblow = getObjectFromGUID(setupGUID).Call('returnVar',"finalblow")
                 if not content[1] or (not finalblow and content[1].tag == "Card" and content[1].getName() == name and not content[2]) then
+                    local keepbuttons = false
                     broadcastToAll(name .. " was defeated!")
-                    if strikeloc.getVar("mmDefeated") then
-                        strikeloc.Call('mmDefeated')
+                    if getObjectFromGUID(strikeloc).getVar("mmDefeated") then
+                        getObjectFromGUID(strikeloc).Call('mmDefeated')
                     end
                     if content[1] then
                         if content[1].is_face_down then
@@ -764,13 +765,22 @@ function fightButton(zone)
                     if transformed[name] then
                         transformed[name] = nil
                     end
-                    for i,o in ipairs(obj.getButtons()) do
-                        if o.click_function:find("fightEffect") or o.click_function == "transformMM" then
-                            obj.removeButton(i-1)
-                        elseif o.click_function:find("updateMM") or o.click_function == "updatePower" then
-                            obj.removeButton(i-1)
-                        elseif o.click_function == "click_update_tactics" then
-                            obj.removeButton(i-1)
+                    if not scheme then
+                        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+                    end
+                    if scheme and scheme.getName() == "World War Hulk" then
+                        scheme.Call('addNewLurkingMM')
+                        keepbuttons = true
+                    end
+                    if not keepbuttons then
+                        for i,o in ipairs(obj.getButtons()) do
+                            if o.click_function:find("fightEffect") or o.click_function == "transformMM" then
+                                obj.removeButton(i-1)
+                            elseif o.click_function:find("updateMM") or o.click_function == "updatePower" then
+                                obj.removeButton(i-1)
+                            elseif o.click_function == "click_update_tactics" then
+                                obj.removeButton(i-1)
+                            end
                         end
                     end
                     local strikecontent = get_decks_and_cards_from_zone(strikeloc)
@@ -791,12 +801,6 @@ function fightButton(zone)
                     strikeZone.setLuaScript("")
                     strikeZone.reload()
                     --obj.clearButtons()
-                    if table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))[1] == "World War Hulk" then
-                        if not scheme then
-                            scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
-                        end
-                        scheme.Call('addNewLurkingMM') 
-                    end
                 elseif transformed[name] ~= nil then
                     transformMM(getObjectFromGUID(mmLocations[name]))
                 elseif mmGetCards(name) == 4 then
@@ -880,7 +884,7 @@ function fightMM(zoneguid,player_clicker_color)
     end
     if content[1] and content[2] then
         for i,o in pairs(content) do
-            if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag="Tactic:"}) then
+            if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag="Tactic:",find=true}) then
                 if thetacticstays == true then
                     resolveTactics(name,o.getObjects()[1].name,player_clicker_color,true)
                     o.randomize()

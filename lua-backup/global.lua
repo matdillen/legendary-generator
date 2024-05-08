@@ -362,7 +362,7 @@ function hasTagD(params)
     local missingguids = 1
     for _,c in pairs(params.deck.getObjects()) do
         for _,tag in pairs(c.tags) do
-            if tag == params.tag then
+            if tag == params.tag or (params.find and tag:find(params.tag)) then
                 if c.guid ~= "" then
                     table.insert(guids,c.guid)
                 else

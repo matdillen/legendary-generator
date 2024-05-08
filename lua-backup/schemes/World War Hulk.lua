@@ -65,9 +65,11 @@ end
 
 function tacticsKill(obj)
     local mmZone = getObjectFromGUID(mmZoneGUID)
+    local decktokill = nil
+    local zonetokill = nil
     for i=2,4 do
         if lurkingMasterminds[i-1] == obj.getName() then
-            local zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
+            zonetokill = getObjectFromGUID(topBoardGUIDs[i*2])
             mmZone.Call('updateMastermindsLocation',{obj.getName(),topBoardGUIDs[i*2]})
             mmZone.Call('setupMasterminds',{obj = obj,epicness = false,tactics = 2,lurking = true})
             for j,o in pairs(zonetokill.getObjects()) do
@@ -81,6 +83,9 @@ function tacticsKill(obj)
     decktokill.randomize()
     decktokill.takeObject({index=0}).destruct()
     decktokill.takeObject({index=0}).destruct()
+    Wait.time(function()
+        mmZone.Call('click_update_tactics',zonetokill)
+    end,1)
 end
 
 function tyrantShuffleHulk(obj)
@@ -88,6 +93,9 @@ function tyrantShuffleHulk(obj)
         obj.randomize()
         obj.takeObject.destruct()
         obj.takeObject.destruct()
+        Wait.time(function()
+            getObjectFromGUID(mmZoneGUID).Call('click_update_tactics',getObjectFromGUID(mmLocations[obj.getName()]))
+        end,1)
     end
     if obj.getQuantity() == 5 then
         local posabove = obj.getPosition()
@@ -174,6 +182,18 @@ function addNewLurkingMM(currentmm)
                     end
                 end
             end
+        else
+            local nomorelurkingzone = getObjectFromGUID(lurkingLocations[newmm])
+            for i,o in ipairs(nomorelurkingzone.getButtons()) do
+                if o.click_function == "transformMM" then
+                    nomorelurkingzone.removeButton(i-1)
+                elseif o.click_function:find("updateMM") or o.click_function == "updatePower" then
+                    nomorelurkingzone.removeButton(i-1)
+                elseif o.click_function == "click_update_tactics" then
+                    nomorelurkingzone.removeButton(i-1)
+                end
+            end
+            lurkingLocations[newmm] = nil
         end
         local newmmposition = getObjectFromGUID(mmZoneGUID).getPosition()
         local newmmcontent = Global.Call('get_decks_and_cards_from_zone',lurkingLocations[newmm])
