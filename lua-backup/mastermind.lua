@@ -902,7 +902,7 @@ function fightMM(zoneguid,player_clicker_color)
                     end
                     return name
                 end
-            elseif o.tag == "Card" and o.hasTag("Mastermind") and not hastag2("o","Tactic:") then
+            elseif o.tag == "Card" and o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
                 bump(o)
             elseif o.hasTag("Bystander") or o.tag == "Deck" and Global.Call('hasTagD',{deck=o,tag="Bystander"}) then
                 o.setPositionSmooth(vppos)
