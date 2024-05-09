@@ -857,55 +857,19 @@ function fightMM(zoneguid,player_clicker_color)
             break
         end
     end
-    local thetacticstays = false
-    if name == "King Hyperion" then
-        for i,o in pairs(city_zones_guids) do
-            if i > 1 then
-                local citycontent = get_decks_and_cards_from_zone(o)
-                if citycontent[1] then
-                    for _,obj in pairs(citycontent) do
-                        if obj.getName() == "King Hyperion" then
-                            obj.setPositionSmooth(getObjectFromGUID(zoneguid).getPosition())
-                            thetacticstays = true
-                            for _,obj2 in pairs(citycontent) do
-                                if obj2.getName() ~= "King Hyperion" and not obj2.getDescription():find("LOCATION") then
-                                    koCard(obj2)
-                                end
-                            end
-                            break
-                        end
-                    end
-                    if thetacticstays == true then
-                        break
-                    end
-                end
-            end
-        end
-    end
     if content[1] and content[2] then
         for i,o in pairs(content) do
             if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag="Tactic:",find=true}) then
-                if thetacticstays == true then
-                    resolveTactics(name,o.getObjects()[1].name,player_clicker_color,true)
-                    o.randomize()
-                    return nil
-                else
-                    o.takeObject({position = vppos,
-                        flip = o.is_face_down,
-                        smooth = true})
-                    return name
-                end
+                o.takeObject({position = vppos,
+                    flip = o.is_face_down,
+                    smooth = true})
+                return name
             elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
-                if thetacticstays == true then
-                    resolveTactics(name,o.getName(),player_clicker_color,true)
-                    return nil
-                else
-                    o.setPositionSmooth(vppos)
-                    if o.is_face_down then
-                        Wait.time(function() o.flip() end,0.8)
-                    end
-                    return name
+                o.setPositionSmooth(vppos)
+                if o.is_face_down then
+                    Wait.time(function() o.flip() end,0.8)
                 end
+                return name
             elseif o.tag == "Card" and o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
                 bump(o)
             elseif o.hasTag("Bystander") or o.tag == "Deck" and Global.Call('hasTagD',{deck=o,tag="Bystander"}) then
@@ -924,56 +888,30 @@ function fightMM(zoneguid,player_clicker_color)
                     end
                 end
                 if tacticFound == false then
-                    if thetacticstays == true then
-                        resolveTactics(name,content[1].getObjects()[i+1].name,player_clicker_color,true)
-                        local pos = content[1].getPosition()
-                        pos.y = pos.y + 2
-                        local shufflethetactics = function()
-                            if content[1] then
-                                content[1].randomize()
-                            end
-                        end
-                        content[1].takeObject({position = pos,
-                            smooth = true,
-                            callback_function = shufflethetactics})
-                        return nil
-                    else
-                        content[1].takeObject({position = vppos,
-                            index = i,
-                            flip = content[1].is_face_down,
-                            smooth = true})
-                        if content[1].remainder then
-                            content[1] = content[1].remainder
-                        end
-                        return name
+                    content[1].takeObject({position = vppos,
+                        index = i,
+                        flip = content[1].is_face_down,
+                        smooth = true})
+                    if content[1].remainder then
+                        content[1] = content[1].remainder
                     end
+                    return name
                 end
             end
-            if thetacticstays == true then
-                resolveTactics(name,content[1].getObjects()[1].name,player_clicker_color,true)
-                content[1].randomize()
-                return nil
-            else
-                content[1].takeObject({position = vppos,
-                    flip = content[1].is_face_down,
-                    smooth = true})
-                return name
-            end
+            content[1].takeObject({position = vppos,
+                flip = content[1].is_face_down,
+                smooth = true})
+            return name
         else
-            if thetacticstays == true then
-                resolveTactics(name,content[1].getName(),player_clicker_color,true)
-                return nil
-            else
-                if content[1].getName():find("Ascended Baron") then
-                    local name = content[1].getName():sub(16,-1):match("[^%b()]+")
-                    content[1].setName(name)
-                end
-                content[1].setPositionSmooth(vppos)
-                if content[1].is_face_down then
-                    Wait.time(function() content[1].flip() end,0.8)
-                end
-                return name
+            if content[1].getName():find("Ascended Baron") then
+                local name = content[1].getName():sub(16,-1):match("[^%b()]+")
+                content[1].setName(name)
             end
+            content[1].setPositionSmooth(vppos)
+            if content[1].is_face_down then
+                Wait.time(function() content[1].flip() end,0.8)
+            end
+            return name
         end
     end
     return nil
@@ -1008,152 +946,4 @@ function getNextMMLoc()
     end
     broadcastToAll("No location found for an extra mastermind.")
     return nil
-end
-
-function resolveTactics(mmname,tacticname,color,stays)
-    if mmname[1] then
-        tacticname = mmname[2]
-        color = mmname[3]
-        stays = mmname[4]
-        mmname = mmname[1]
-    end
-    if mmname == "King Hyperion" and stays then
-        if tacticname == "Monarch of Utopolis" then
-            for i = 1,3 do
-                getObjectFromGUID(playerBoards[color]).Call('handsizeplus')
-            end
-            broadcastToColor("No tactic earned, as the King was in the city, but you'll draw three extra cards next turn.",color,color)
-        elseif tacticname == "Rule with an iron fist" then
-            broadcastToColor("No tactic earned, as the King was in the city, but you may defeat a villain the city for free (unscripted).",color,color)
-        elseif tacticname == "Worshipped by millions" then
-            for i = 1,6 do
-                getObjectFromGUID(pushvillainsguid).Call('getBystander',color)
-            end
-            broadcastToColor("No tactic earned, as the King was in the city, but you rescue six bystanders.",color,color)
-        elseif tacticname == "Royal treasury" then
-            getObjectFromGUID(resourceguids[color]).Call('addValue',5)
-            broadcastToColor("No tactic earned, as the King was in the city, but you gained 5 Recruit.",color,color)
-        end
-        return nil
-    end
-    if mmname == "Maximus the Mad" then
-        if tacticname == "Seize the inhuman throne" then
-            local thronesfavor = getObjectFromGUID(setupGUID).Call('returnVar',"thronesfavor")
-            local val = 4
-            if thronesfavor == "mmMaximus the Mad" then
-                val = 3
-            end
-            getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
-                player_clicker_color = "mmMaximus the Mad"})
-            for _,o in pairs(Player.getPlayers()) do
-                local hand = o.getHandObjects()
-                log(o.color)
-                getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,n = #hand-val})
-            end
-            broadcastToAll("Maximus Fight effect: Maximus seizes the inhuman throne! Each player discards down to " .. val .. " cards.")
-        elseif tacticname == "Terrigen bomb" then
-            bump(get_decks_and_cards_from_zone(heroDeckZoneGUID)[1])
-            for _,o in pairs(hqguids) do
-                local hero = getObjectFromGUID(o).Call('getHeroUp')
-                if hero and (not hasTag2(hero,"Attack:") or hasTag2(hero,"Attack:") < 2) then
-                    getObjectFromGUID(o).Call('tuckHero')
-                end
-            end
-            local thronesfavor = getObjectFromGUID(setupGUID).Call('returnVar',"thronesfavor")
-            if thronesfavor == "mmMaximus the Mad" then
-                for _,o in pairs(Player.getPlayers()) do
-                    local hand = o.getHandObjects()
-                    local toKO = {}
-                    for _,obj in pairs(hand) do
-                        if hasTag2(obj,"Attack:") and hasTag2(obj,"HC:") then
-                            table.insert(toKO,obj)
-                        end
-                    end
-                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
-                        hand = toKO,
-                        pos = getObjectFromGUID(kopile_guid).getPosition(),
-                        label = "KO",
-                        tooltip = "KO this card."})
-                end
-                broadcastToAll("Maximus Fight effect: Maximus deploys the Terrigen Bomb! Weak heroes with attack less than 2 are blown away from the HQ. As he had the Throne's Favor, each player KO's a non-grey hero with an attack symbol.")
-            else
-                broadcastToAll("Maximus Fight effect: Maximus deploys the Terrigen Bomb! Weak heroes with attack less than 2 are blown away from the HQ.")
-            end
-            getObjectFromGUID(setupGUID).Call('thrones_favor',{obj = "any",
-                player_clicker_color = "mmMaximus the Mad"})
-            
-        elseif tacticname == "Echo-tech chorus sentries" then
-            for _,o in pairs(Player.getPlayers()) do
-                local hand = o.getHandObjects()
-                local toKO = {}
-                for _,obj in pairs(hand) do
-                    if (hasTag2(obj,"HC:") and hasTag2(obj,"HC:") == "Silver") or (hasTag2(obj,"Team:") and hasTag2(obj,"Team:") == "Inhumans") then
-                        table.insert(toKO,obj)
-                    end
-                end
-                local play = get_decks_and_cards_from_zone(playguids[o.color])
-                if play[1] then
-                    for _,obj in pairs(play) do
-                        if (hasTag2(obj,"HC:") and hasTag2(obj,"HC:") == "Silver") or (hasTag2(obj,"Team:") and hasTag2(obj,"Team:") == "Inhumans") then
-                            table.insert(toKO,obj)
-                        end
-                    end
-                end
-                if #toKO == 0 then
-                    getObjectFromGUID(pushvillainsguid).Call('getWound',o.color)
-                else
-                    getObjectFromGUID(pushvillainsguid).Call('promptDiscard',{color = o.color,
-                        hand = toKO,
-                        pos = getObjectFromGUID(kopile_guid).getPosition(),
-                        label = "KO",
-                        tooltip = "KO this card"})
-                end
-            end
-            broadcastToAll("Maximus Fight effect: Maximus deploys the Echo-Tech Chorus Sentries. Each player KOs a silver or Inhumans hero or gains a wound.")
-        elseif tacticname == "Sieve of secrets" then
-            for _,o in pairs(Player.getPlayers()) do
-                local playerBoard = getObjectFromGUID(playerBoards[o.color])
-                local posdiscard = playerBoard.positionToWorld(pos_discard)
-                local deck = playerBoard.Call('returnDeck')[1]
-                local hoodDiscards = function()
-                    if not deck then
-                        deck = playerBoard.Call('returnDeck')[1]
-                    end
-                    local deckcards = deck.getObjects()
-                    local todiscard = {}
-                    for i=1,6 do
-                        for _,k in pairs(deckcards[i].tags) do
-                            if k:find("HC:") or k == "Split" then
-                                table.insert(todiscard,deckcards[i].guid)
-                                break
-                            end
-                        end
-                    end
-                    if todiscard[1] then
-                        for i=1,#todiscard do
-                            deck.takeObject({position = posdiscard,
-                                flip = true,
-                                smooth = true,
-                                guid = todiscard[i]})
-                            if deck.remainder and i < #todiscard then
-                                deck.remainder.flip()
-                                deck.remainder.setPositionSmooth(posdiscard)
-                            end
-                        end
-                    end
-                end
-                if deck and deck.getQuantity() > 5 then
-                    hoodDiscards()
-                else
-                    playerBoard.Call('click_refillDeck')
-                    deck = nil
-                    Wait.time(hoodDiscards,2)
-                end
-           end
-           broadcastToAll("Maximus Fight effect: Maximus deploys the Sieve of Secrets. Each player discards all non-grey heroes from the top 6 cards of their deck.")
-        else
-            printToAll("Unknown tactic found? (" .. tacticname[1] .. ").")
-        end
-        return nil
-    end
 end

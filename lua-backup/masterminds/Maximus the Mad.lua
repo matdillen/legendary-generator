@@ -19,7 +19,6 @@ function onLoad()
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
     end
-    
 end
 
 function table.clone(org,key)
@@ -88,21 +87,28 @@ function resolveStrike(params)
     local mmloc = params.mmloc
 
     local content = Global.Call('get_decks_and_cards_from_zone2',{zoneGUID = mmloc,bsinc = false})
-    local tacticname = {}
+    local tacticguids = {}
+    local deck = nil
     if content[1] and content[2] then
-        for i,o in pairs(content) do
+        for _,o in pairs(content) do
             if o.tag == "Deck" then
                 local deck = o.getObjects()
                 local card = table.remove(deck,math.random(#deck))
-                table.insert(tacticname,card.name)
+                table.insert(tacticguids,card.guid)
+                broadcastToAll("Master Strike: Random tactic \"" .. card.name .. "\" was revealed")
                 if epicness then
                     local card2 = table.remove(deck,math.random(#deck))
-                    table.insert(tacticname,card2.name)
+                    table.insert(tacticguids,card2.guid)
+                    broadcastToAll("Master Strike: Random tactic \"" .. card2.name .. "\" was also revealed")
                 end
+                deck = o
                 break
-            elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
-                table.insert(tacticname,o.getName())
-                break
+            elseif o.tag == "Card" and hasTag2(o,"Tactic:") then
+                broadcastToAll("Master Strike: Only remaining tactic \"" .. o.getName() .. "\" was revealed")
+                if o.getVar("tacticEffect") then
+                    o.Call('tacticEffect')
+                end
+                return strikesresolved
             end
         end
     elseif content[1] then
@@ -122,22 +128,57 @@ function resolveStrike(params)
                 end
             end
             local card = table.remove(deck,math.random(#deck))
-            table.insert(tacticname,card.name)
+            table.insert(tacticguids,card.guid)
+            broadcastToAll("Master Strike: Random tactic \"" .. card.name .. "\" was revealed")
             if epicness then
                 local card2 = table.remove(deck,math.random(#deck))
-                table.insert(tacticname,card2.name)
+                table.insert(tacticguids,card2.guid)
+                broadcastToAll("Master Strike: Random tactic \"" .. card2.name .. "\" was also revealed")
             end
+            deck = content[1]
         end
     end
-    if tacticname[1] then
-        printToAll("Master Strike: Random tactic \"" .. tacticname[1] .. "\" was revealed")
-        getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[1]})
-        if epicness and tacticname[2] then
-            printToAll("Master Strike: Random tactic \"" .. tacticname[2] .. "\" was also revealed")
+    if tacticguids[1] and deck then
+        local pos = mmloc.getPosition()
+        pos.y = pos.y + 4
+        local resolveTacticEffect = function(obj)
+            obj.locked = true
+            if deck.remainder then
+                deck = deck.remainder
+            end
+            Wait.condition(
+                function()
+                    obj.flip()
+                    if obj.getVar("tacticEffect") then
+                        obj.Call("tacticEffect")
+                    end
+                    obj.locked = false
+                    deck.putObject(obj)
+                    Wait.time(function() deck.randomize() end,1)
+                end,
+                function()
+                    if obj.spawning then
+                        return false
+                    else
+                        return true
+                    end
+                end
+            )
+        end
+        deck.takeObject({position = pos,
+            flip = true,
+            smooth = false,
+            guid = tacticguids[1],
+            callback_function = resolveTacticEffect})
+        if epicness and tacticguids[2] then
             epicMaxTactic = function(obj)
                 obj.clearButtons()
-                 getObjectFromGUID(pushvillainsguid).Call('koCard',obj)
-                getObjectFromGUID(mmZoneGUID).Call('resolveTactics',{"Maximus the Mad",tacticname[2]})
+                getObjectFromGUID(pushvillainsguid).Call('koCard',obj)
+                deck.takeObject({position = pos,
+                    flip = true,
+                    smooth = false,
+                    guid = tacticguids[2],
+                    callback_function = resolveTacticEffect})
             end
             if not cards[1] then
                 cards[1] = getObjectFromGUID(strikePileGUID).takeObject({position = self.getPosition(),

@@ -60,7 +60,7 @@ function villainDeckSpecial(params)
         table.insert(current_city2,allTopBoardGUIDS[10-i])
     end
     local pushvillain = getObjectFromGUID(pushvillainsguid)
-    pushvillain.Call('updateCity',{newcity = curent_city})
+    pushvillain.Call('updateCity',{newcity = current_city})
     pushvillain.Call('updateCity',{name = "current_city2",
         newcity = current_city2})
     pushvillain.Call('updateVar',{varname = "villainDeckZoneGUID",

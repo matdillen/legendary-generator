@@ -22,12 +22,28 @@ function onLoad()
 end
 
 function setupSpecial(params)
-    getObjectFromGUID(bystandersPileGUID).setPositionSmooth(getObjectFromGUID(topBoardGUIDs[7]).getPosition())
-    log("Bystander stack moved above the Sewers.")
+    local sewers = getObjectFromGUID(topBoardGUIDs[7])
+    getObjectFromGUID(bystandersPileGUID).setPositionSmooth(sewers.getPosition())
+    log("[scheme : Ferry Disaster] Bystander stack moved above the Sewers.")
+    removeRescueButton(getObjectFromGUID(pushvillainsguid))
+    addRescueButton(sewers)
     local mmZone = getObjectFromGUID(mmZoneGUID)
     for i = 3,7 do
         mmZone.Call('lockTopZone',topBoardGUIDs[i])
     end
+end
+
+function addRescueButton(zone)
+    zone.createButton({
+        click_function="click_rescue_bystander", function_owner=getObjectFromGUID(pushvillainsguid),
+        position={0,0,0}, label="Rescue Bystander", color={0.6,0.4,0.8,1}, width=2000, height=1000,
+        tooltip = "Rescue a bystander",
+        font_size = 250
+    })
+end
+
+function removeRescueButton(zone)
+    Global.Call('removeButton',{obj = zone,click_f = "click_rescue_bystander"})
 end
 
 function resolveTwist(params)
@@ -37,9 +53,12 @@ function resolveTwist(params)
         ferryzones = {table.unpack(allTopBoardGUIDS,7,11)}
     end
     if twistsresolved < 5 then
-        table.remove(ferryzones)
+        local previous = getObjectFromGUID(table.remove(ferryzones))
+        local next = getObjectFromGUID(ferryzones[#ferryzones])
         local bspile = getObjectFromGUID(bystandersPileGUID)
-        bspile.setPositionSmooth(getObjectFromGUID(ferryzones[#ferryzones]).getPosition())
+        bspile.setPositionSmooth(next.getPosition())
+        removeRescueButton(previous)
+        addRescueButton(next)
         local citycards = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[twistsresolved+1])
         if citycards[1] then
             for _,o in pairs(citycards) do
@@ -54,9 +73,12 @@ function resolveTwist(params)
             end
         end
     elseif twistsresolved < 9 then
-        table.remove(ferryzones,1)
+        local previous = getObjectFromGUID(table.remove(ferryzones,1))
+        local next = getObjectFromGUID(ferryzones[1])
         local bspile = getObjectFromGUID(bystandersPileGUID)
-        bspile.setPositionSmooth(getObjectFromGUID(ferryzones[1]).getPosition())
+        bspile.setPositionSmooth(next.getPosition())
+        removeRescueButton(previous)
+        addRescueButton(next)
         local citycards = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[#ferryzones+2])
         if citycards[1] then
             for _,o in pairs(citycards) do

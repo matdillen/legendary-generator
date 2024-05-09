@@ -76,6 +76,27 @@ luam = list.files("masterminds",
 lual = list()
 mm_id = grep("mmPileGUID",info$name)
 
+tacticfiles = list.files("masterminds/tactics")
+tactics = list()
+
+for (i in 1:length(tacticfiles)) {
+  tactics[[i]] = list()
+  tacticscripts = list.files(paste0("masterminds/tactics/",
+                                    tacticfiles[i]),
+                             pattern = "*.lua",
+                             full.names = T)
+  for (j in 1:length(tacticscripts)) {
+    tactics[[i]][[j]] = readLines(tacticscripts[j],warn = F)
+  }
+  names(tactics[[i]]) = tacticscripts %>%
+    gsub(".*/","",.) %>%
+    gsub("\\.lua","",.) %>%
+    tolower()
+}
+names(tactics) = tacticfiles %>%
+  tolower() %>%
+  gsub("[^a-z]","",.)
+
 for (i in 1:length(luam)) {
   lual[[i]] = readLines(paste0("masterminds/",luam[i]))
 }
@@ -95,6 +116,17 @@ for (i in 1:length(js$ObjectStates[[mm_id]]$ContainedObjects)) {
     js$ObjectStates[[mm_id]]$ContainedObjects[[i]]$LuaScript = 
       paste(lual[[name]],
             collapse="\r\n")
+    if (!is.null(tactics[[name]])) {
+      for (j in 1:length(js$ObjectStates[[mm_id]]$ContainedObjects[[i]]$ContainedObjects)) {
+        tname = tolower(js$ObjectStates[[mm_id]]$ContainedObjects[[i]]$ContainedObjects[[j]]$Nickname)
+        if (!is.null(tactics[[name]][tname])) {
+          js$ObjectStates[[mm_id]]$ContainedObjects[[i]]$ContainedObjects[[j]]$LuaScript =
+            tactics[[name]][[tname]] %>%
+            paste(.,collapse="\r\n")
+        }
+      }
+      print(i)
+    }
   }
 }
 

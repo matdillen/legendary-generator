@@ -825,7 +825,8 @@ function updatePower()
                 if scheme.getVar("bonusInCity") then
                     scheme.Call('bonusInCity',{object = object,
                         zoneguid = o,
-                        twistsstacked = twistsstacked})
+                        twistsstacked = twistsstacked,
+                        strikesresolved = strikesresolved})
                 end
                 for _,m in pairs(masterminds) do
                     local strikeloc = getObjectFromGUID(getStrikeloc(m))

@@ -273,6 +273,7 @@ function hasTag2(params)
     local obj = params.obj
     local tag = params.tag
     local index = params.index
+    local val = params.val
     if not obj or not tag then
         return nil
     end
@@ -289,14 +290,16 @@ function hasTag2(params)
     local res = {}
     for _,o in pairs(tags) do
         if o:find(tag) then
-            if index then
-                table.insert(res,o:sub(index,-1))
-            else 
-                local num = tonumber(o:match("%d+"))
-                if num then
-                    table.insert(res,num)
-                else
-                    table.insert(res,o:sub(#tag+1,-1))
+            if not val or (val and o == tag .. val) then
+                if index then
+                    table.insert(res,o:sub(index,-1))
+                else 
+                    local num = tonumber(o:match("%d+"))
+                    if num then
+                        table.insert(res,num)
+                    else
+                        table.insert(res,o:sub(#tag+1,-1))
+                    end
                 end
             end
         end
@@ -435,4 +438,13 @@ function smoothMoveCheck(params)
             end
             return false
         end)
+end
+
+function logg(params)
+    local name = params.name
+    local event = params.event
+    local guid = params.guid
+    local txt = params.txt
+
+    log("[" .. name .. "]: " .. event .. " - for guid " .. guid .. " -> " .. txt .. ".")
 end

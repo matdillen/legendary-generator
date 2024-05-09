@@ -65,6 +65,13 @@ function onLoad()
     heroinside = {}
 end
 
+function logg(name,event,guid,txt)
+    Global.Call('logg',{name = name,
+        event = event,
+        guid = guid,
+        txt = txt})
+end
+
 function toggleButton()
     for i,b in pairs(self.getButtons()) do
         if b.click_function == "click_buy_hero" then
@@ -108,8 +115,10 @@ function hasTag2(obj,tag,index)
 end
 
 function click_buy_hero(obj, player_clicker_color)
+    local fn = "click_buy_hero"
     local card = getHero(false,nil,true)
     if not card then
+        logg(fn,"getHero",self.guid,"Hero not found.")
         return nil
     end
     if not scheme then
@@ -123,6 +132,7 @@ function click_buy_hero(obj, player_clicker_color)
         return nil
     else
         getObjectFromGUID(resourceguids[player_clicker_color]).Call('addValue',-cost)
+        logg(fn,"addValue",resourceguids[player_clicker_color],"Recruit reduced by " .. cost .. " to buy hero " .. card.guid .. " (" .. card.getName() .. ").")
         local desc = card.getDescription()
         local dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
         if desc:find("WALL%-CRAWL") or scheme.getName() == "Splice Humans with Spider DNA" then
