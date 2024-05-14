@@ -26,7 +26,7 @@ end
 function tacticEffect(params)
     local herodeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1]
     if herodeck then
-        Global.Call('bump',herodeck)
+        Global.Call('bump',{obj = herodeck})
     end
     for _,o in pairs(hqguids) do
         local hero = getObjectFromGUID(o).Call('getHeroUp')
@@ -34,7 +34,7 @@ function tacticEffect(params)
             return nil 
         end
         local heroattack = hasTag2(hero,"Attack:")
-        if heroattack and heroattack[1] then
+        if heroattack and type(heroattack) ~= "number" and heroattack[1] then
             local isstrong = false
             for _,p in pairs(heroattack) do
                 if p >= 2 then

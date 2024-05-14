@@ -947,3 +947,33 @@ function getNextMMLoc()
     broadcastToAll("No location found for an extra mastermind.")
     return nil
 end
+
+function bumpmmcard(zoneguid)
+    local content = Global.Call('get_decks_and_cards_from_zone2',{zoneGUID = zoneguid,bsinc = false})
+    if content[1] then
+        for _,o in pairs(content) do
+            if o.tag == "Card" and o.hasTag("Mastermind") and not hasTag2(o,"Tactic:") then
+                return Global.Call('bump',{obj = o})
+            elseif o.tag == "Deck" then
+                for _,c in pairs(o.getObjects()) do
+                    local ismm = false
+                    local istactic = false
+                    for _,t in pairs(c.tags) do
+                        if t == "Mastermind" then
+                            ismm = true
+                        end
+                        if t:find("Tactic:") then
+                            istactic = true
+                        end
+                    end
+                    if ismm and not istactic then
+                        local pos = o.getPosition()
+                        pos.y = pos.y + 2
+                        return o.takeObject({position = pos,
+                            smooth = true,})
+                    end
+                end
+            end
+        end
+    end
+end

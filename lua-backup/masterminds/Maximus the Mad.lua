@@ -33,6 +33,13 @@ function table.clone(org,key)
     end
 end
 
+function logg(name,event,guid,txt)
+    Global.Call('logg',{name = name,
+        event = event,
+        guid = guid,
+        txt = txt})
+end
+
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
@@ -92,12 +99,12 @@ function resolveStrike(params)
     if content[1] and content[2] then
         for _,o in pairs(content) do
             if o.tag == "Deck" then
-                local deck = o.getObjects()
-                local card = table.remove(deck,math.random(#deck))
+                local tacticdeck = o.getObjects()
+                local card = table.remove(tacticdeck,math.random(#tacticdeck))
                 table.insert(tacticguids,card.guid)
                 broadcastToAll("Master Strike: Random tactic \"" .. card.name .. "\" was revealed")
                 if epicness then
-                    local card2 = table.remove(deck,math.random(#deck))
+                    local card2 = table.remove(tacticdeck,math.random(#tacticdeck))
                     table.insert(tacticguids,card2.guid)
                     broadcastToAll("Master Strike: Random tactic \"" .. card2.name .. "\" was also revealed")
                 end
@@ -113,8 +120,8 @@ function resolveStrike(params)
         end
     elseif content[1] then
         if content[1].tag == "Deck" then
-            local deck = content[1].getObjects()
-            for i,o in pairs(deck) do
+            local tacticdeck = content[1].getObjects()
+            for i,o in pairs(tacticdeck) do
                 local tacticFound = false
                 for _,k in pairs(o.tags) do
                     if k:find("Tactic:") then
@@ -123,15 +130,15 @@ function resolveStrike(params)
                     end
                 end
                 if tacticFound == false then
-                    table.remove(deck,i)
+                    table.remove(tacticdeck,i)
                     break
                 end
             end
-            local card = table.remove(deck,math.random(#deck))
+            local card = table.remove(tacticdeck,math.random(#tacticdeck))
             table.insert(tacticguids,card.guid)
             broadcastToAll("Master Strike: Random tactic \"" .. card.name .. "\" was revealed")
             if epicness then
-                local card2 = table.remove(deck,math.random(#deck))
+                local card2 = table.remove(tacticdeck,math.random(#tacticdeck))
                 table.insert(tacticguids,card2.guid)
                 broadcastToAll("Master Strike: Random tactic \"" .. card2.name .. "\" was also revealed")
             end
@@ -139,7 +146,8 @@ function resolveStrike(params)
         end
     end
     if tacticguids[1] and deck then
-        local pos = mmloc.getPosition()
+        getObjectFromGUID(mmZoneGUID).Call('bumpmmcard',mmloc)
+        local pos = getObjectFromGUID(mmloc).getPosition()
         pos.y = pos.y + 4
         local resolveTacticEffect = function(obj)
             obj.locked = true
@@ -157,6 +165,7 @@ function resolveStrike(params)
                     Wait.time(function() deck.randomize() end,1)
                 end,
                 function()
+                    --logg("condition spawning","obj is spawning",obj.guid,obj.spawning) all needs to be string!
                     if obj.spawning then
                         return false
                     else

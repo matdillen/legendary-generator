@@ -125,7 +125,7 @@ for (i in 1:length(js$ObjectStates[[mm_id]]$ContainedObjects)) {
             paste(.,collapse="\r\n")
         }
       }
-      print(i)
+      #print(i)
     }
   }
 }
