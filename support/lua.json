@@ -1,0 +1,82 @@
+
+	// Place your snippets for lua here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	{
+		"getObjectFromGUID": {
+		  "prefix": "getObjectFromGUID",
+		  "body": [
+			"getObjectFromGUID(${1:guid})"
+		  ],
+		  "description": "Get object from GUID"
+		},
+		"logg": {
+			"prefix": "logg",
+			"body": [
+				"Global.Call('logg',{name = ${1:name},event = ${2:event},guid = ${3:guid},text = ${4:text}})"
+			],
+			"description": "Log event as [name]: event - for guid -> txt ."
+		},
+		"get_decks_and_cards_from_zone": {
+			"prefix": "get_decks_and_cards_from_zone",
+			"body": [
+				"Global.Call('get_decks_and_cards_from_zone',${1:guid})"
+			],
+			"description": "Get cards or decks from a zone with specified guid. Always returns a table, possibly empty."
+		},
+		"click_push_villain_into_city": {
+			"prefix": "click_push_villain_into_city",
+			"body": [
+				"getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')"
+			],
+			"description": "Push a villain from the push spot into the city."
+		},
+		"hasTagD": {
+			"prefix": "hasTagD",
+			"body": [
+				"Global.Call('hasTagD',{deck = ${1:o},tag = ${2:tag},find = ${3:true}})"
+			],
+			"description": "Returns a table with guids of cards in a deck that have this tag or have it as part of a tag if find = true."
+		},
+		"hasTag2": {
+			"prefix": "hasTag2",
+			"body": [
+				"Global.Call('hasTag2',{obj = ${1:o},tag = ${2:tag},val = ${3:true}})"
+			],
+			"description": "Checks if the obj has the specified prefix tag in one of its tags, taking split hero values into account. val can optionally be set to also check whether the prefix tag has the specified value. Returns a table if multiple hits, a value if one and nil if no matches. Index parameter can be used if really needed. Numberic matches are automatically converted into numbers."
+		},
+		"bump": {
+			"prefix": "bump",
+			"body": [
+				"Global.Call('bump',{obj = ${1:guid}})"
+			],
+			"description": "Bump the obj up by 2, or an alternative value of parameter y."
+		},
+		"broadcastToAll": {
+			"prefix": "broadcastToAll",
+			"body": [
+			  "getObjectFromGUID(${1:message})"
+			],
+			"description": "Print message to everyone"
+		},
+		"broadcastToColor": {
+			"prefix": "broadcastToColor",
+			"body": [
+			  "getObjectFromGUID(${1:message},${2:player_clicker_color},${3:player_clicker_color})"
+			],
+			"description": "Print message to player with certain color."
+		}
+	  }
+
+
+  
