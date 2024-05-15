@@ -98,6 +98,8 @@ function loadGUIDs()
         "5bc848",
         "82ccd7"
     }
+
+    current_city = table_clone(city_zones_guids)
     
     local citynames = {"Sewers","Bank","Rooftops","Streets","Bridge"}
     cityguids = {}
@@ -112,6 +114,8 @@ function loadGUIDs()
         "b8a776",
         "75241e"
     }
+
+    current_hq = table_clone(hqguids)
     
     hqscriptguids = {
         "3e049c",
@@ -223,18 +227,19 @@ function returnVar(var)
     return _G[var]
 end
 
+function updateVar(params)
+    _G[params.name] = table_clone(params.value)
+end
+
 -- tables always refer to the same object in memory
 -- this function allows to replicate them
-function table.clone(params)
-    if params.key then
-        local new = {}
-        for i,o in pairs(params.org) do
-            new[i] = o
-        end
-        return new
-    else
-        return {table.unpack(params.org)}
+function table_clone(org)
+    if type(org) ~= 'table' then return org end
+    local new = {}
+    for key, value in pairs(org) do
+        new[key] = table_clone(value)  -- Recursive call to handle subtables
     end
+    return new
 end
 
 function get_decks_and_cards_from_zone(zoneGUID,shardinc,bsinc)

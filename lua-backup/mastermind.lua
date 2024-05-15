@@ -100,8 +100,8 @@ function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
 end
 
-function updateHQ(guid)
-    hqguids = table.clone(getObjectFromGUID(guid).Call('returnVar',"hqguids"))
+function updateHQ()
+    hqguids = table.clone(Global.Call('returnVar',"current_hq"))
 end
 
 function table.clone(org,key)
@@ -858,14 +858,19 @@ function fightMM(zoneguid,player_clicker_color)
         end
     end
     if content[1] and content[2] then
-        for i,o in pairs(content) do
+        for _,o in pairs(content) do
             if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag="Tactic:",find=true}) then
                 o.takeObject({position = vppos,
                     flip = o.is_face_down,
-                    smooth = true})
+                    smooth = true,
+                    callback_function = resolveTacticEffect})
+                Wait.time(function() if o then o.randomize() end end,0.5)
                 return name
-            elseif o.tag == "Card" and hasTag2(o,"Tactic:",8) then
+            elseif o.tag == "Card" and hasTag2(o,"Tactic:") then
                 o.setPositionSmooth(vppos)
+                if o.getVar("tacticEffect") then
+                    o.Call('tacticEffect',{zoneGUID = zoneguid})
+                end
                 if o.is_face_down then
                     Wait.time(function() o.flip() end,0.8)
                 end
@@ -887,14 +892,13 @@ function fightMM(zoneguid,player_clicker_color)
                         break
                     end
                 end
-                if tacticFound == false then
+                if tacticFound == true then
                     content[1].takeObject({position = vppos,
                         index = i,
                         flip = content[1].is_face_down,
-                        smooth = true})
-                    if content[1].remainder then
-                        content[1] = content[1].remainder
-                    end
+                        smooth = true,
+                        callback_function = resolveTacticEffect})
+                    Wait.time(function() if content[1] then content[1].randomize() end end,0.5)
                     return name
                 end
             end
@@ -915,6 +919,23 @@ function fightMM(zoneguid,player_clicker_color)
         end
     end
     return nil
+end
+
+function resolveTacticEffect(obj)
+    Wait.condition(
+        function()
+            if obj.getVar("tacticEffect") then
+                obj.Call("tacticEffect")
+            end
+        end,
+        function()
+            if obj.spawning then
+                return false
+            else
+                return true
+            end
+        end
+    )
 end
 
 function getStrikeloc(mmname)

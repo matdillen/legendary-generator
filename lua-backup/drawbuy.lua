@@ -126,7 +126,7 @@ function click_buy_hero(obj, player_clicker_color)
     end
 
     local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
-    local cost = hasTag2(card,"Cost:") or 0
+    local cost = updateCost()
     if recruit < cost then
         broadcastToColor("You don't have enough recruit to buy this hero!",player_clicker_color,player_clicker_color)
         return nil
@@ -293,6 +293,7 @@ function updateCost()
             color={0,0,0,0.75},
             width=250,height=150})
     end
+    return cost
 end
 
 function onObjectEnterZone(zone,object)

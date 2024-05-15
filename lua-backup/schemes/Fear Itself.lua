@@ -38,22 +38,23 @@ function returnVar(var)
 end
 
 function setupSpecial(params)
-    extrahq = {}
+    local current_hq = Global.table.clone(Global.Call('returnVar',"current_hq"))
     local zone = getObjectFromGUID(hqguids[1])
     local pos = getObjectFromGUID(sidekickDeckGUID).getPosition()
     pos.z = pos.z + 8
     local zone1 = zone.clone({position = pos})
-    table.insert(extrahq,zone1.guid)
+    table.insert(current_hq,zone1.guid)
     local pos2 = getObjectFromGUID(officerDeckGUID).getPosition()
     pos2.z = pos2.z + 8
     local zone2 = zone.clone({position = pos2})
-    table.insert(extrahq,zone2.guid)
+    table.insert(current_hq,zone2.guid)
     local pos3 = getObjectFromGUID(heroDeckZoneGUID).getPosition()
     pos3.x = pos3.x + 4.4
     local zone3 = zone.clone({position = pos3})
-    table.insert(extrahq,zone3.guid)
+    table.insert(current_hq,zone3.guid)
     getObjectFromGUID(pushvillainsguid).Call('fetchHQ',self)
     getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
+    Global.Call('updateVar',{name = "current_hq",value = current_hq})
     log("Fear itself! Three extra HQ zones, two above the sidekick/officer decks, one next to the hero deck.")
 end
 

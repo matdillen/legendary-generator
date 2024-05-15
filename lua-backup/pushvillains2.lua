@@ -111,9 +111,7 @@ function createButtons()
 end
 
 function fetchHQ(scheme)
-    hqguids_ori = table.clone(hqguids)
-    local extrahq = scheme.Call('returnVar','extrahq')
-    hqguids = merge(hqguids,table.clone(extrahq))
+    hqguids = table.clone(Global.Call('returnVar',"current_hq"))
 end
 
 -- tables always refer to the same object in memory

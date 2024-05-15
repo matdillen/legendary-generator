@@ -1,6 +1,5 @@
 --Creates invisible button onload, hidden under the "REFILL" on the deck pad
 function onLoad()
-    setupGUID = "912967"
     global_deal = 0
     global_discarded = 0
     drawqueue = 0
@@ -9,6 +8,7 @@ function onLoad()
     handsize = handsize_init
     handsizef = false
     
+    extraturn = false
     
     boardcolor = self.getName()
     
@@ -46,6 +46,10 @@ function onLoad()
 end
 
 function colorDummy()
+end
+
+function updateVar(params)
+    _G[params.name] = table_clone(params.value)
 end
 
 function onObjectEnterZone(zone,object)
@@ -436,7 +440,11 @@ function click_end_turn()
         if autoplay == true then
             getObjectFromGUID(pushvillainsguid).Call('click_draw_villain')
             broadcastToAll("Next Turn! Villain card played from villain deck.",{1,0,0})
-            Turns.turn_color = Turns.getNextTurnColor()
+            if not extraturn then
+                Turns.turn_color = Turns.getNextTurnColor()
+            else
+                extraturn = false
+            end
         end
     getObjectFromGUID(resourceguid).Call('reset_val')
     getObjectFromGUID(attackguid).Call('reset_val')
