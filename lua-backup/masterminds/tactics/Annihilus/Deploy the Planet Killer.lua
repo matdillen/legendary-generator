@@ -50,14 +50,20 @@ function tacticEffect(params)
     local zoneGUID = params.zoneGUID
 
     local mmcontent = Global.Call('get_decks_and_cards_from_zone',zoneGUID)
+    local tacticfound = false
     if mmcontent[1] then
         for _,o in pairs(mmcontent) do
             if Global.Call('hasTag2',{obj = o,tag = "Tactic:"}) then
-                return nil
+                tacticfound = true
+                break
             elseif o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag = "Tactic:",find = true}) then
-                return nil
+                tacticfound = true
+                break
             end
         end
+    end
+    if not tacticfound then
+        return nil
     end
     local city = table.clone(getObjectFromGUID(pushvillainsguid).Call('returnVar',"current_city"))
     for _,o in pairs(city) do

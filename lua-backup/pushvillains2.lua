@@ -2537,7 +2537,7 @@ function gainShard(color,zoneGUID,n)
         for i=1,n do
             getObjectFromGUID(shardguids[color]).Call('add_subtract')
             log("Player " .. color .. " gained a shard.")
-            printToColor("You gained a shard!",color,color)
+            broadcastToColor("You gained a shard!",color,color)
         end
     else
         local shard = getObjectFromGUID(shardGUID)
@@ -2585,7 +2585,7 @@ function contestOfChampions(params)
         broadcastToAll("Contest of Champions for " .. color .. "!")
         color = {color}
     else
-        printToAll("No color found for the contest.")
+        broadcastToAll("No color found for the contest.")
         return nil
     end
     local herodeck = get_decks_and_cards_from_zone(heroDeckZoneGUID)
@@ -2769,7 +2769,7 @@ function contestOfChampions(params)
             else
                 printcolor = i
             end
-            printToAll(i .. " revealed a hero with Contest Score " .. responses[i] .. "!",printcolor)
+            broadcastToAll(i .. " revealed a hero with Contest Score " .. responses[i] .. "!",printcolor)
         end
         for _,o in pairs(Player.getPlayers()) do
             local playerBoard = getObjectFromGUID(playerBoards[o.color])
@@ -2790,7 +2790,7 @@ function contestOfChampions(params)
                 if col[1] then
                     col = col[1] .. "|" .. col[2]
                 end
-                printToAll(obj.getName() .. " with cost of " .. cost .. " and color " .. col .. " was revealed from the hero deck.")
+                broadcastToAll(obj.getName() .. " with cost of " .. cost .. " and color " .. col .. " was revealed from the hero deck.")
             end
             for i=1,n do
                 herodeck[1].takeObject({position = pos,
@@ -2827,8 +2827,8 @@ function getStrikeloc(mmname,alttable)
     return strikeloc
 end
 
-function getStrikeLoc2(params)
-    return getStrikeLoc(params.mmname,params.alttable)
+function getStrikeloc2(params)
+    return getStrikeloc(params.mmname,params.alttable)
 end
 
 function getVillainsCityZone(obj)

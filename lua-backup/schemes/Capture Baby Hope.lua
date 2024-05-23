@@ -85,7 +85,7 @@ function cityShift(params)
     if params.obj.guid == tokenguid and params.targetZone.guid == escape_zone_guid then
         broadcastToAll("Baby Hope was taken away by a villain!", {r=1,g=0,b=0})
         getObjectFromGUID(twistPileGUID).takeObject({position = getObjectFromGUID(twistZoneGUID).getPosition()})
-        obj.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
+        params.obj.setPosition(getObjectFromGUID(topBoardGUIDs[2]).getPosition())
         return nil
     end
     return params.obj

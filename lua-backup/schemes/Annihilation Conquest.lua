@@ -82,7 +82,7 @@ function resolveTwist(params)
                 candidate[i] = hero
             end
         else
-            printToAll("Missing hero in HQ!!")
+            broadcastToAll("Missing hero in HQ!!")
             return nil
         end
     end

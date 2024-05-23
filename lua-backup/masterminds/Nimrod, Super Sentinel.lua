@@ -2,7 +2,8 @@ function onLoad()
     mmname = "Nimrod, Super Sentinel"
     
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "mmZoneGUID"
         }
         
     for _,o in pairs(guids1) do

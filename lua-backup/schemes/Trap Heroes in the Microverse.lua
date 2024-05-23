@@ -53,7 +53,7 @@ end
 
 function bonusInCity(params)
     if params.object.hasTag("Micro-Sized") then
-        local colors = hasTag2(object,"HC:")
+        local colors = hasTag2(params.object,"HC:")
         local sc = nil
         if colors and colors[2] then
             sc = colors[1] .. "|" .. colors[2]

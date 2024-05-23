@@ -12,6 +12,15 @@ function onLoad()
     
     boardcolor = self.getName()
     
+    vpileguid = nil
+    playguid = nil
+    addguid = nil
+    drawguid = nil
+    discardguid = nil
+    handguid = nil
+    resourceguid = nil
+    attackguid = nil
+
     local guids3 = {
         "vpileguids",
         "playguids",
@@ -196,7 +205,7 @@ end
 function calculate_vp(obj, player_clicker_color, alt_click,warn)
     local vpcontent = get_decks_and_cards_from_zone(vpileguid)
     if vpcontent[2] then
-        printToColor("Victory pile is not a single deck!",boardcolor,boardcolor)
+        broadcastToColor("Victory pile is not a single deck!",boardcolor,boardcolor)
         return nil
     end
     if vpcontent[1] then
@@ -235,22 +244,22 @@ function calculate_vp(obj, player_clicker_color, alt_click,warn)
             end
         end
         if warn == nil then
-            printToAll("##Victory Points##",boardcolor)
-            printToAll(boardcolor .. " player's current victory points: " .. totalvp,boardcolor)
+            broadcastToAll("##Victory Points##",boardcolor)
+            broadcastToAll(boardcolor .. " player's current victory points: " .. totalvp,boardcolor)
             if totalbs > 0 then
-                printToAll("##",boardcolor)
-                printToAll(boardcolor .. " player's current bystander count: " .. totalbs,boardcolor)
+                broadcastToAll("##",boardcolor)
+                broadcastToAll(boardcolor .. " player's current bystander count: " .. totalbs,boardcolor)
             end
             if totalother > 0 then
-                printToAll("##",boardcolor)
-                printToAll(boardcolor .. " player's other cards in VP: " .. totalother,boardcolor)
+                broadcastToAll("##",boardcolor)
+                broadcastToAll(boardcolor .. " player's other cards in VP: " .. totalother,boardcolor)
             end
-            printToAll("##",boardcolor)
+            broadcastToAll("##",boardcolor)
         end
         return totalvp,totalbs,totalother
     else
         if warn == nil then
-            printToAll(boardcolor .. " player's victory pile is empty!",boardcolor)
+            broadcastToAll(boardcolor .. " player's victory pile is empty!",boardcolor)
         end
         return nil
     end
@@ -258,12 +267,12 @@ end
 
 function handsizeplus()
     handsize = handsize + 1
-    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)",boardcolor)
+    broadcastToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (+1)",boardcolor)
 end
 
 function handsizemin()
     handsize = handsize - 1
-    printToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)",boardcolor)
+    broadcastToAll("Player " .. boardcolor .. "'s Hand size set to " .. handsize .. " (-1)",boardcolor)
 end
 
 function handsizefixed(obj,player_clicker_color)
@@ -276,11 +285,11 @@ function handsizefixed(obj,player_clicker_color)
     if handsizef == false then
         handsizef = true
         self.editButton({index=buttonindex,color = {0,1,0}})
-        printToAll(player_clicker_color .. "'s hand size change set to fixed (" .. handsize .. ")!",boardcolor)
+        broadcastToAll(player_clicker_color .. "'s hand size change set to fixed (" .. handsize .. ")!",boardcolor)
     else
         handsizef = false
         self.editButton({index=buttonindex,color = {1,0,0}})
-        printToAll(player_clicker_color .. "'s hand size change no longer set to fixed (" .. handsize .. ")!",boardcolor)
+        broadcastToAll(player_clicker_color .. "'s hand size change no longer set to fixed (" .. handsize .. ")!",boardcolor)
     end
 end
 
@@ -337,7 +346,7 @@ end
 function timer_shuffle(hardstop)
     local deck = get_decks_and_cards_from_zone(drawguid)
     if not deck[1] then
-        printToAll("deck not found")
+        broadcastToAll("deck not found")
         return nil
     end
     if deck[2] and not hardstop then
@@ -415,7 +424,7 @@ function click_deal_cards()
     end
     if handsizef == false then
         if handsize ~= handsize_init then
-            printToAll(boardcolor .. "'s hand size set back to " .. handsize_init .. " after extra draws!")
+            broadcastToAll(boardcolor .. "'s hand size set back to " .. handsize_init .. " after extra draws!")
             handsize = handsize_init
         end
     end

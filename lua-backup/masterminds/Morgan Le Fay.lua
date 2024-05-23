@@ -42,7 +42,7 @@ function setupMM()
 end
 
 function gainCrapCard(params)
-    obj.setPositionSmooth(dest[params.player_clicker_color])
+    params.obj.setPositionSmooth(dest[params.player_clicker_color])
     if mplayers[1] then
         local player = table.remove(mplayers,1)
         Wait.time(

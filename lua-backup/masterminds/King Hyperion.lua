@@ -36,6 +36,7 @@ function resolveStrike(params)
     local strikesresolved = params.strikesresolved
     local city = params.city
     local mmloc = params.mmlocc
+    local cards = params.cards
 
     local mm = Global.Call('get_decks_and_cards_from_zone',mmloc)
     local kinghyperion = nil

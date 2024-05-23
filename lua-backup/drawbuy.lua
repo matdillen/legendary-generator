@@ -242,7 +242,7 @@ function click_draw_hero()
             hero_deck[1].setPositionSmooth(pos)
         end
     else
-        printToAll("No hero deck found")
+        broadcastToAll("No hero deck found")
     end
     Wait.time(updateCost,1)
 end

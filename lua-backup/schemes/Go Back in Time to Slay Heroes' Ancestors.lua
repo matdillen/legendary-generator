@@ -94,7 +94,7 @@ function resolveTwist(params)
         if hero then
             table.insert(candidate,hero)
         else
-            printToAll("Missing hero in HQ!!")
+            broadcastToAll("Missing hero in HQ!!")
             return nil
         end
     end

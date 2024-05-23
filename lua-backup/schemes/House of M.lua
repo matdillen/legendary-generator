@@ -35,7 +35,7 @@ end
 function bonusInCity(params)
     if params.object.hasTag("Scarlet Witch") then
         local boost = 3
-        if nomoremutants then
+        if noMoreMutants then
             boost = 4
         end
         getObjectFromGUID(pushvillainsguid).Call('powerButton',{obj= params.object,

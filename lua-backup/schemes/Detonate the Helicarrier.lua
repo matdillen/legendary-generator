@@ -36,7 +36,7 @@ function explode_heroes(zone,n)
     if hero then
         hero.flip()
     else
-        printToAll("Error: hero not found in HQ.",{1,0,0})
+        broadcastToAll("Error: hero not found in HQ.",{1,0,0})
         return nil
     end
     if n > 1 then

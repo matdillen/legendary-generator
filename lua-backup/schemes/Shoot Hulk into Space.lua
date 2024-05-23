@@ -71,7 +71,7 @@ function click_buy_hulk(obj,player_clicker_color)
             end
         end
     else
-        cost = hasTag2(huldeck,"Cost:") or 0
+        cost = hasTag2(hulkdeck,"Cost:") or 0
     end
     local recruit = getObjectFromGUID(resourceguids[player_clicker_color]).Call('returnVal')
     if recruit < cost then

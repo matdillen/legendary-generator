@@ -373,9 +373,7 @@ function click_shuffle()
             end
         end
     elseif setupParts and setupParts[1] == "Fear Itself" then
-        for _,o in pairs(extrahq) do
-            getObjectFromGUID(o).Call('click_draw_hero')
-        end
+        hqguids = table.clone(Global.Call('returnVar',"hqguids"))
     end
     
     for _,o in pairs(hqguids) do

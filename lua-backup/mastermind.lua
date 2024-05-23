@@ -464,7 +464,7 @@ function setMMBasePower(params)
     else
         baselabel = hasTag2(obj,"Power:") or ""
         if epicness then
-            baselabel = hasTag2(o,"Epic:") or hasTag2(o,"Epicpower:")
+            baselabel = hasTag2(obj,"Epic:") or hasTag2(obj,"Epicpower:")
         end
     end
     if objcontent then

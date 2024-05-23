@@ -1,0 +1,36 @@
+{
+  "completion": {
+    "autoRequire": true,
+    "callSnippet": true,
+    "postfix": "@"
+  },
+  "diagnostics": {
+    "disable": [],
+    "globals": [
+        "getObjectFromGUID",
+        "Global",
+        "Turns",
+        "self",
+        "broadcastToAll",
+        "broadcastToColor",
+        "Player",
+        "Wait",
+        "getNotes",
+        "setNotes",
+        "log",
+        "spawnObject"
+    ]
+  },
+  "hint": {},
+  "runtime": {
+    "version": "Lua5.4"
+  },
+  "workspace": {
+    "ignoreDir": [
+      "test"
+    ],
+    "library": [],
+    "workspaceRoots": [],
+    "preloadFileSize": 2048000
+  }
+}

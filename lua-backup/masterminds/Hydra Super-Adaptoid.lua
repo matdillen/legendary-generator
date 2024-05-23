@@ -133,7 +133,7 @@ function resolveStrike(params)
         broadcastToAll("Master Strike: Each player reveals a Blue Hero or gains a Wound")
         local players = getObjectFromGUID(pushvillainsguid).Call('revealCardTrait',"Blue")
         for _,o in pairs(players) do
-            getObjectFromGUID(pushvillainsguid).Call('getWound',i)
+            getObjectFromGUID(pushvillainsguid).Call('getWound',o.color)
         end
     elseif name == "Iron Man's Armor" then
         broadcastToAll("Master Strike: Each player reveals a Silver Hero or discards down to 3 cards")
