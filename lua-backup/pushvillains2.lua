@@ -1465,43 +1465,6 @@ function resolveStrike(mmname,epicness,city,cards,mmoverride)
         end
         return strikesresolved
     end
-    if mmname:find("Prime Sentinel") then
-        for _,p in pairs(Player.getPlayers()) do
-            local playerBoard = getObjectFromGUID(playerBoards[p.color])
-            local posdiscard = playerBoard.positionToWorld(pos_discard)
-            if table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))[5] == "Bastion, Fused Sentinel - epic" then
-                posdiscard = getObjectFromGUID(kopile_guid).getPosition()
-            end
-            local deck = playerBoard.Call('returnDeck')[1]
-            local primeSentinelDiscard = function()
-                if not deck then
-                    deck = playerBoard.Call('returnDeck')[1]
-                end
-                if deck and deck.tag == "Deck" then
-                    for _,tag in pairs(deck.getObjects()[1].tags) do
-                        if tag:find("Cost:") and tonumber(tag:match("%d+")) > 0 then
-                            deck.takeObject({position = posdiscard,
-                                flip = true,
-                                smooth = true})
-                            break
-                        end
-                    end
-                elseif deck then
-                    if hasTag2(deck,"Cost:") and hasTag2(deck,"Cost:") > 0 then
-                        deck.setPosition(posdiscard)
-                    end
-                end
-            end
-            if deck then
-                primeSentinelDiscard()
-            else
-                playerBoard.Call('click_refillDeck')
-                deck = nil
-                Wait.time(primeSentinelDiscard,1)
-            end
-        end
-        return strikesresolved
-    end
     if mmname == "Nimrod, Future Sentinel" then
         msno(mmname)
         return nil

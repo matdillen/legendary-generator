@@ -309,7 +309,7 @@ end
 
 function click_shuffle()
     log("Shuffle: heroes, villains, bystanders, wounds, sidekicks, shield officers, player decks")
-    print("Shuffling decks! Only before startup!")
+    broadcastToAll("Shuffling decks! Only before startup!")
     local woundsDeck = getObjectFromGUID(woundsDeckGUID)
     if woundsDeck  then woundsDeck.randomize() end
     log("Shuffling wounds stack!")

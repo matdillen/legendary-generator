@@ -18,7 +18,18 @@
         "getNotes",
         "setNotes",
         "log",
-        "spawnObject"
+        "spawnObject",
+        "table",
+        "pairs",
+        "ipairs",
+        "math",
+        "_G",
+        "tonumber",
+        "tostring",
+        "string",
+        "print",
+        "type",
+        "next"
     ]
   },
   "hint": {},
@@ -27,7 +38,8 @@
   },
   "workspace": {
     "ignoreDir": [
-      "test"
+      "test",
+      "archive"
     ],
     "library": [],
     "workspaceRoots": [],
