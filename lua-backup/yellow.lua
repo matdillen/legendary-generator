@@ -48,6 +48,8 @@ function onLoad()
     
     objectsentering_recruit = {}
     objectsentering_attack = {}
+
+    highestcost = 0
     
     playpos = {1.4 , 2, 7.3}
     
@@ -61,9 +63,18 @@ function updateVar(params)
     _G[params.name] = table_clone(params.value)
 end
 
+function onPlayerTurn()
+    highestcost = 0
+end
+
+function returnVar(var)
+    return _G[var]
+end
+
 function onObjectEnterZone(zone,object)
     --log(object.held_by_color)
     if zone.guid == playguid and not object.isSmoothMoving() and (not object.held_by_color or object.held_by_color == boardcolor) then
+        highestcost = math.max(highestcost,hasTag2(object,"Cost:") or 0)
         if not object.hasTag("Split") and hasTag2(object,"Recruit:") then
             local addRecruit = function()
                 local content = get_decks_and_cards_from_zone(playguid)

@@ -18,6 +18,9 @@ body(code_section)[[4]][[3]][[3]][[2]] <- substitute(
 body(get_R)[[4]][[3]][[2]][[2]][[3]] <- substitute(
   stringr::str_extract("[1-4]\\.[0-9]+\\.[0-9]+")
 )
+body(get_R)[[6]][[2]] <- substitute(
+  latest_R_version[1] == R_version
+)
 body(get_R)[[5]][[3]][[2]][[3]] <- substitute(
   stringr::str_extract("[1-4]\\.[0-9]+\\.[0-9]+")
 )

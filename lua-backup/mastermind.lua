@@ -869,7 +869,8 @@ function fightMM(zoneguid,player_clicker_color)
             elseif o.tag == "Card" and hasTag2(o,"Tactic:") then
                 o.setPositionSmooth(vppos)
                 if o.getVar("tacticEffect") then
-                    o.Call('tacticEffect',{zoneGUID = zoneguid})
+                    o.Call('tacticEffect',{zoneGUID = zoneguid,
+                        player_clicker_color = player_clicker_color})
                 end
                 if o.is_face_down then
                     Wait.time(function() o.flip() end,0.8)

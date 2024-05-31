@@ -4,11 +4,12 @@ function onLoad()
     
     local guids1 = {
         "pushvillainsguid",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "playerBoards"
         }
         
     for _,o in pairs(guids1) do
-        _G[o] = Global.Call('returnVar',o)
+        _G[o] = Global.Call('table_clone',Global.Call('returnVar',o))
     end
 end
 
@@ -23,12 +24,20 @@ function updateMMTaskmaster()
         boost = boost*2
         boostlab = 2
     end
+    local highcost = getObjectFromGUID(playerBoards[Turns.turn_color]).Call('returnVar',"highestcost")
     getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
         checkvalue = boost,
         label = "+" .. boost,
         tooltip = mmname .. " gets +" .. boostlab .. " for each Master Strike stacked next to him.",
         f = 'updateMMTaskmaster',
         id = "taskmastrstriker",
+        f_owner = self})
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = highcost,
+        label = "+" .. highcost,
+        tooltip = mmname .. " gets +" .. highcost .. " for the most expensive hero played this turn.",
+        f = 'updateMMTaskmaster',
+        id = "taskmastercost",
         f_owner = self})
 end
 

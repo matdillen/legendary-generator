@@ -284,35 +284,38 @@ function updateCityZone()
 end
 
 function click_fight_villain_call(params)
-    click_fight_villain(params.obj,params.color,nil,params.otherguid)
+    click_fight_villain(params.obj,params.color,nil,params.otherguid,params.forfree)
 end
 
-function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
+function defeatForFree(params)
+    click_fight_villain(nil,params.player_clicker_color,nil,nil,true)
+end
+
+function click_fight_villain(obj, player_clicker_color,alt_click,otherguid,forfree)
     local guid = otherguid or self.guid
     local cards = get_decks_and_cards_from_zone(guid)
     if not cards[1] then
         return nil
     end
     
-    if not scheme then
-        scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
-    end
-    local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
-    if obj.hasTag("gainAsHero") then
-        local desc = obj.getDescription()
-        if desc:find("WALL%-CRAWL") then
-            dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
-            obj.flip()
-        elseif desc:find("SOARING FLIGHT") then
-            dest = getObjectFromGUID(addguids[player_clicker_color]).getPosition()
-        else 
-            dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
-        end
-    end
-    dest.y = dest.y + 3
-    
-    for i,obj in pairs(cards) do
-        if obj.hasTag("Villain") then
+    for i,o in pairs(cards) do
+        if o.hasTag("Villain") then
+            if not scheme then
+                scheme = getObjectFromGUID(setupGUID).Call('returnVar',"scheme")
+            end
+            local dest = getObjectFromGUID(vpileguids[player_clicker_color]).getPosition()
+            if o.hasTag("gainAsHero") then
+                local desc = o.getDescription()
+                if desc:find("WALL%-CRAWL") then
+                    dest = getObjectFromGUID(drawguids[player_clicker_color]).getPosition()
+                    o.flip()
+                elseif desc:find("SOARING FLIGHT") then
+                    dest = getObjectFromGUID(addguids[player_clicker_color]).getPosition()
+                else 
+                    dest = getObjectFromGUID(discardguids[player_clicker_color]).getPosition()
+                end
+            end
+            dest.y = dest.y + 3
             local attack = getObjectFromGUID(attackguids[player_clicker_color]).Call('returnVal')
             local power = 0
             if self.getButtons() then
@@ -322,20 +325,22 @@ function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
                             power = power + tonumber(b.label:match("%d+"))
                         elseif b.label:match("%d+") then
                             power = power - tonumber(b.label:match("%d+"))
-                        elseif b.label == "X" then
+                        elseif b.label == "X" and not forfree then
                             broadcastToColor("You can't fight this villain right now due to some restriction!",player_clicker_color,player_clicker_color)
                             return nil
                         end
                     end
                 end
             end
-            if attack < power then
+            if attack < power and not forfree then
                 broadcastToColor("You don't have enough attack to fight this villain!",player_clicker_color,player_clicker_color)
                 return nil
             else
-                getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
+                if not forfree then
+                    getObjectFromGUID(attackguids[player_clicker_color]).Call('addValue',-power)
+                end
                 if scheme.getVar("fightEffect") then
-                    scheme.Call('fightEffect',{obj = obj,
+                    scheme.Call('fightEffect',{obj = o,
                         color = player_clicker_color,
                         zoneguid = guid})
                 end
@@ -343,13 +348,13 @@ function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
                 for _,m in pairs(masterminds) do
                     local strikeloc = getObjectFromGUID(getObjectFromGUID(mmZoneGUID).Call('getStrikeloc',m))
                     if strikeloc.getVar("fightEffect") then
-                        strikeloc.Call('fightEffect',{obj = obj, color = player_clicker_color,zoneguid = guid})
+                        strikeloc.Call('fightEffect',{obj = o, color = player_clicker_color,zoneguid = guid})
                     end
                 end
-                local result = getObjectFromGUID(pushvillainsguid).Call('resolveVillainEffect',{obj = obj,color = player_clicker_color})
+                local result = getObjectFromGUID(pushvillainsguid).Call('resolveVillainEffect',{obj = o,color = player_clicker_color})
                 if result then
-                    obj.setPositionSmooth(dest)
-                    broadcastToColor("You defeated the Villain " .. obj.getName() .. " and it was put into your victory pile.",player_clicker_color,player_clicker_color)
+                    o.setPositionSmooth(dest)
+                    broadcastToColor("You defeated the Villain " .. o.getName() .. " and it was put into your victory pile.",player_clicker_color,player_clicker_color)
                     cards[i] = nil
                 end
                 for _,obj2 in pairs(cards) do
@@ -388,6 +393,7 @@ function click_fight_villain(obj, player_clicker_color,alt_click,otherguid)
                 end
                 updatePower()
             end
+            break
         end
     end
 end

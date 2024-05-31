@@ -2390,6 +2390,9 @@ function promptDiscard(params)
                     responses[color] = handobjects[i]
                 end
             end
+            if fsourceguid and fsourceguid == "zone" then
+                fsourceguid = handobjects[i].guid
+            end
             if fsourceguid then
                 if triggerf and args and args == "self" then
                     getObjectFromGUID(fsourceguid).Call(triggerf,{obj = handobjects[i],
@@ -2441,6 +2444,9 @@ function promptDiscard(params)
                     end
                 end
                 if not endf or n == 0 then
+                    if fsourceguid and fsourceguid == "zone" then
+                        fsourceguid = obj.guid
+                    end
                     if fsourceguid then
                         if triggerf and args and args == "self" then
                             getObjectFromGUID(fsourceguid).Call(triggerf,{obj = handobjects[i],
@@ -3091,4 +3097,19 @@ function resolveVillainEffect(params)
         return nil
     end
     return obj
+end
+
+function fatefulRessurection(params)
+    local villaindeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if villaindeck then
+        local card = villaindeck.getObjects()[1]
+        if card.name == "Scheme Twist" or card.name == "Masterstrike" then
+            broadcastToAll("Fateful Resurrection! A " .. card.name .. " was revealed from the villain deck.")
+            return true
+        else
+            return false
+        end
+    else
+        return false
+    end
 end
