@@ -860,6 +860,23 @@ function fightMM(zoneguid,player_clicker_color)
     if content[1] and content[2] then
         for _,o in pairs(content) do
             if o.tag == "Deck" and Global.Call('hasTagD',{deck = o,tag="Tactic:",find=true}) then
+                local resolveTacticEffect = function(obj)
+                    Wait.condition(
+                        function()
+                            if obj.getVar("tacticEffect") then
+                                obj.Call("tacticEffect",{zoneGUID = zoneguid,
+                                    player_clicker_color = player_clicker_color})
+                            end
+                        end,
+                        function()
+                            if obj.spawning then
+                                return false
+                            else
+                                return true
+                            end
+                        end
+                    )
+                end
                 o.takeObject({position = vppos,
                     flip = o.is_face_down,
                     smooth = true,
@@ -894,6 +911,23 @@ function fightMM(zoneguid,player_clicker_color)
                     end
                 end
                 if tacticFound == true then
+                    local resolveTacticEffect = function(obj)
+                        Wait.condition(
+                            function()
+                                if obj.getVar("tacticEffect") then
+                                    obj.Call("tacticEffect",{zoneGUID = zoneguid,
+                                        player_clicker_color = player_clicker_color})
+                                end
+                            end,
+                            function()
+                                if obj.spawning then
+                                    return false
+                                else
+                                    return true
+                                end
+                            end
+                        )
+                    end
                     content[1].takeObject({position = vppos,
                         index = i,
                         flip = content[1].is_face_down,
@@ -920,23 +954,6 @@ function fightMM(zoneguid,player_clicker_color)
         end
     end
     return nil
-end
-
-function resolveTacticEffect(obj)
-    Wait.condition(
-        function()
-            if obj.getVar("tacticEffect") then
-                obj.Call("tacticEffect")
-            end
-        end,
-        function()
-            if obj.spawning then
-                return false
-            else
-                return true
-            end
-        end
-    )
 end
 
 function getStrikeloc(mmname)

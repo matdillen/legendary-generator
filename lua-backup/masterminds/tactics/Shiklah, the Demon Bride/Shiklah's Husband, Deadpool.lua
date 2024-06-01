@@ -11,6 +11,6 @@ end
 function tacticEffect(params)
     local pos = getObjectFromGUID(discardguids[params.player_clicker_color]).getPosition()
     pos.y = pos.y + 2
-    self.setTags("Hero","Attack:5+","HC:Red","Cost:0")
+    self.setTags({"Hero","Attack:5+","HC:Red","Cost:0"})
     self.setPosition(pos)
 end

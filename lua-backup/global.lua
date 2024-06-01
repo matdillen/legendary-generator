@@ -368,6 +368,9 @@ end
 function hasTagD(params)
     local guids = {}
     local missingguids = 1
+    if not params.deck.tag == "Deck" then
+        return nil
+    end
     for _,c in pairs(params.deck.getObjects()) do
         for _,tag in pairs(c.tags) do
             if tag == params.tag or (params.find and tag:find(params.tag)) or (params.val and tag == params.tag .. params.val) then
