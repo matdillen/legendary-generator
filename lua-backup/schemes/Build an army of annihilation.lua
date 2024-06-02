@@ -85,6 +85,20 @@ function click_buy_annihilation(obj,player_clicker_color)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = topBoardGUIDs[2],
+                ["tooltip"] = "Annihilation henchmen: __/10."}
+    else
+        local moralfailings = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])[1]
+        if moralfailings then
+            return math.abs(moralfailings.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards

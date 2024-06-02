@@ -68,6 +68,7 @@ end
 function setupCounter(init)
     if init then
         return {["tag"] = "Phalanx-Infected",
+                ["zoneguid2"] = villainDeckZoneGUID,
                 ["tooltip"] = "Phalanx-Infected in city and/or escape: __/6.",
                 ["tooltip2"] = "Villain deck count: __."}
     else

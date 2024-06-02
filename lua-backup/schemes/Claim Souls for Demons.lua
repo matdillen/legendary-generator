@@ -39,6 +39,21 @@ function tormentedSoulBargainOfficer(params)
     end
 end
 
+function setupCounter(init)
+    if init then
+        local playercounter = 4*#Player.getPlayers()
+        return {["zoneguid"] = twistZoneGUID,
+                ["tooltip"] = "Tormented souls: __/" .. playercounter .. "."}
+    else
+        local moralfailings = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if moralfailings then
+            return math.abs(moralfailings.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     

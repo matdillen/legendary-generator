@@ -46,9 +46,11 @@ function villainDeckSpecial(params)
     end
     local vilDeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
     vilDeck.randomize()
+    parallel_dimensions = {}
     local subcount = 1
     while subcount > 0 do
         local hqZoneGUID = table.remove(topCityZones)
+        table.insert(parallel_dimensions,hqZoneGUID)
         getObjectFromGUID(mmZoneGUID).Call('lockTopZone',hqZoneGUID)
         local hqZone = getObjectFromGUID(hqZoneGUID)
         for j = 1,subcount do
@@ -197,6 +199,21 @@ function playTwoFamily(params)
         if deck[1] then
             toggleButtons(o)
         end
+    end
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Remaining dimensions: __/" .. #parallel_dimensions .. "."}
+    else
+        local counter = 0
+        for _,o in pairs(parallel_dimensions) do
+            local content = Global.Call('get_decks_and_cards_from_zone',o)[1]
+            if content then
+                counter = counter + 1
+            end
+        end
+        return counter
     end
 end
 

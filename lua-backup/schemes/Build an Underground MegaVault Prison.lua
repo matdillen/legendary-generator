@@ -20,6 +20,20 @@ function onLoad()
     getObjectFromGUID(setupGUID).Call('invertCity')
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = woundszoneguid,
+                ["tooltip"] = "Wound stack count: __."}
+    else
+        local woundsdeck = Global.Call('get_decks_and_cards_from_zone',woundszoneguid)[1]
+        if woundsdeck then
+            return math.abs(woundsdeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local sewersCards = Global.Call('get_decks_and_cards_from_zone',city_zones_guids[6])

@@ -3,7 +3,8 @@ function onLoad()
         "pushvillainsguid",
         "twistZoneGUID",
         "villainPileGUID",
-        "setupGUID"
+        "setupGUID",
+        "woundszoneguid"
         }
         
     for _,o in pairs(guids1) do
@@ -60,6 +61,31 @@ end
 
 function click_push_villain_into_city()
     getObjectFromGUID(pushvillainsguid).Call('click_push_villain_into_city')
+end
+
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = woundszoneguid,
+                ["zoneguid2"] = twistZoneGUID,
+                ["tooltip"] = "Wound stack count: __.",
+                ["tooltip2"] = "Villain deck count: __."}
+    else
+        local woundsdeck = Global.Call('get_decks_and_cards_from_zone',woundszoneguid)[1]
+        if woundsdeck then
+            return math.abs(woundsdeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
+    end
 end
 
 function resolveTwist(params)

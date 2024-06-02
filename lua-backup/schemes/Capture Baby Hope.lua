@@ -140,6 +140,20 @@ function captureBaby(obj)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = twistZoneGUID,
+                ["tooltip"] = "Baby captured: __/3."}
+    else
+        local moralfailings = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if moralfailings then
+            return math.abs(moralfailings.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards

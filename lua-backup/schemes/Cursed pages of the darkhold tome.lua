@@ -46,6 +46,31 @@ function fightEffect(params)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = twistZoneGUID,
+                ["zoneguid2"] = villainDeckZoneGUID,
+                ["tooltip"] = "Cursed pages: __/7.",
+                ["tooltip2"] = "Villain deck count: __."}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
+    end
+end
+
 function resolveTwist(params)
     local cards = params.cards
     

@@ -63,6 +63,20 @@ function setupSpecial(params)
     log("Cops moved next to scheme.")
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = topBoardGUIDs[4],
+                ["tooltip"] = "Cops left: __."}
+    else
+        local woundsdeck = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[4])[1]
+        if woundsdeck then
+            return math.abs(woundsdeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function lockUp(params)
     local obj = params.obj
     local color = params.player_clicker_color

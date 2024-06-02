@@ -29,6 +29,7 @@ end
 function setupCounter(init)
     if init then
         return {["zoneguid"] = woundszoneguid,
+                ["zoneguid2"] = villainDeckZoneGUID,
                 ["tooltip"] = "Wound stack count: __.",
                 ["tooltip2"] = "Villain deck count: __."}
     else

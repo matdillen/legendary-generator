@@ -647,7 +647,7 @@ function setupGenericCounter(obj)
         local eventDelay2 = false
         function onObjectEnterZone(zone,object)
             if not resp.name or object.getName() == resp.name then
-                if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
+                if not resp.zoneguid2 or zone == getObjectFromGUID(resp.zoneguid2) then
                     if not eventDelay2 then
                         eventDelay2 = true
                         Wait.time(
@@ -660,8 +660,8 @@ function setupGenericCounter(obj)
             end
         end
         function onObjectLeaveZone(zone, object)
-            if not resp.name or object.getName() == resp.name then
-                if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
+            if not resp.name2 or object.getName() == resp.name2 then
+                if not resp.zoneguid2 or zone == getObjectFromGUID(resp.zoneguid2) then
                     if not eventDelay2 then
                         eventDelay2 = true
                         Wait.time(

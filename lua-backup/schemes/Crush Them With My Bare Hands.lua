@@ -8,6 +8,14 @@ function onLoad()
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Strikes resolved: __/8."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"strikesresolved")
+    end
+end
+
 function resolveTwist(params)
     local cards = params.cards
     cards[1].setName("Masterstrike")
