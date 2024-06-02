@@ -88,6 +88,14 @@ function stripTactics(obj)
         end)
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Twists resolved: __/8."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"twistsresolved")
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

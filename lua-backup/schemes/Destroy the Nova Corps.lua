@@ -95,6 +95,42 @@ function setupSpecial(params)
     Wait.condition(novaShuffle,novaMoved)
 end
 
+function setupCounter(init)
+    if init then
+        local playercounter = 5*#Player.getPlayers()
+        return {["zoneguid"] = kopile_guid,
+                ["tooltip"] = "KO'd Nova Centurions: __/" .. playercounter .. "."}
+    else 
+        local escaped = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
+        if escaped[1] then
+            local counter = 0
+            for _,o in pairs(escaped) do
+                if o.tag == "Deck" then
+                    local escapees = Global.Call('hasTagD',{deck = o,tag = "Officer"})
+                    if escapees then
+                        counter = counter + #escapees
+                    end
+                    for _,o2 in pairs(o.getObjects()) do
+                        if o2.name:find("Nova") then
+                            for _,t in pairs(o2.tags) do
+                                if t == "Hero" or t:find("HC:") then
+                                    counter = counter + 1
+                                    break
+                                end
+                            end
+                        end
+                    end
+                elseif o.hasTag("Officer") or (o.hasTag("Hero") and o.getName():find("Nova")) then
+                    counter = counter + 1
+                end
+            end
+            return counter
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

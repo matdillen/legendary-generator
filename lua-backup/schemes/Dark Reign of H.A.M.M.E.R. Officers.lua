@@ -130,6 +130,20 @@ function updateButtons()
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = topBoardGUIDs[2],
+                ["tooltip"] = "HAMMER officers: __/7."}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[2])[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

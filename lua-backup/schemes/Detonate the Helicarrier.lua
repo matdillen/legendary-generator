@@ -49,6 +49,36 @@ function explode_heroes(zone,n)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid2"] = heroDeckZoneGUID,
+                ["tooltip"] = "Explosions: __/30.",
+                ["tooltip2"] = "Hero deck count: __."}
+    else
+        local counter = 0
+        for _,o in pairs(hqguids) do
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.is_face_down then
+                        counter = counter + math.abs(obj.getQuantity())
+                    end
+                end
+            end
+        end
+        return counter
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
+    end
+end
+
 function resolveTwist(params)
     local cards = params.cards
     twistsstacked = getObjectFromGUID(pushvillainsguid).Call('stackTwist',cards[1])

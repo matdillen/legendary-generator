@@ -1,10 +1,25 @@
 function onLoad()   
     local guids1 = {
-        "kopile_guid"
+        "kopile_guid",
+        "heroDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+end
+
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = heroDeckZoneGUID,
+                ["tooltip"] = "Hero deck count: __."}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
     end
 end
 
