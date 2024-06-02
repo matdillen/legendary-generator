@@ -573,38 +573,107 @@ end
 function setupGenericCounter(obj)
     local resp = Global.Call('table_clone',obj.Call('setupCounter',true))
     local tooltip = resp.tooltip
+    local tooltip2 = resp.tooltip2
     if not tooltip then
         return nil
     end
 
     local notesi = getNotes()
     generic_setupcounter_str = tooltip
-    tooltip = tooltip:gsub("__","[FF0000]0[-]")
-    notesi = tooltip .. "\r\n\r\n" .. notesi
+    local split = "\r\n\r\n"
+    if tooltip2 then
+        generic_setupcounter_str2 = tooltip2
+        tooltip2 = tooltip2:gsub("__","[00FFFF]0[-]")
+        notesi = tooltip2 .. split .. notesi
+        split = "\r\n"
+    end
+    tooltip = tooltip:gsub("__","[00FFFF]0[-]")
+    notesi = tooltip .. split .. notesi
     setNotes(notesi)
 
     function updateCounterNotes()
         local value = tostring(obj.Call('setupCounter'))
-        value = generic_setupcounter_str:gsub("__","[FF0000]".. value .. "[-]")
+        value = generic_setupcounter_str:gsub("__","[00FFFF]".. value .. "[-]")
         local notes = getNotes()
         notes = notes:sub(notes:find("\r\n")+2)
         notes = value .. "\r\n" .. notes
         setNotes(notes)
     end
-
+    local eventDelay = false
     function onObjectEnterZone(zone,object)
         if not resp.name or object.getName() == resp.name then
             if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
-                updateCounterNotes()
+                if not eventDelay then
+                    eventDelay = true
+                    Wait.time(
+                        function()
+                            eventDelay = false
+                            updateCounterNotes()
+                        end,0.5)
+                end
             end
         end
     end
     function onObjectLeaveZone(zone, object)
         if not resp.name or object.getName() == resp.name then
             if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
-                updateCounterNotes()
+                if not eventDelay then
+                    eventDelay = true
+                    Wait.time(
+                        function()
+                            eventDelay = false
+                            updateCounterNotes()
+                        end,0.5)
+                end
             end
         end
+    end
+    if tooltip2 then
+        function updateCounterNotes2()
+            local value = tostring(obj.Call('setupCounter2'))
+            value = generic_setupcounter_str2:gsub("__","[00FFFF]".. value .. "[-]")
+            local notes = getNotes()
+            local notesplit = {}
+            for s in string.gmatch(notes,"[^\r\n]+") do
+                table.insert(notesplit, s)
+            end
+            notesplit[2] = value
+            local newnotes = ""
+            for _,o in pairs(notesplit) do
+                newnotes = newnotes .. "\r\n" .. o
+            end
+            setNotes(newnotes:sub(3))
+        end
+        local eventDelay2 = false
+        function onObjectEnterZone(zone,object)
+            if not resp.name or object.getName() == resp.name then
+                if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
+                    if not eventDelay2 then
+                        eventDelay2 = true
+                        Wait.time(
+                            function()
+                                eventDelay2 = false
+                                updateCounterNotes2()
+                            end,0.5)
+                    end
+                end
+            end
+        end
+        function onObjectLeaveZone(zone, object)
+            if not resp.name or object.getName() == resp.name then
+                if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
+                    if not eventDelay2 then
+                        eventDelay2 = true
+                        Wait.time(
+                            function()
+                                eventDelay2 = false
+                                updateCounterNotes2()
+                            end,0.5)
+                    end
+                end
+            end
+        end
+
     end
 end
 

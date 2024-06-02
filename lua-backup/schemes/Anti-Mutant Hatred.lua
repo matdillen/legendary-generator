@@ -1,6 +1,8 @@
 function onLoad()
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "villainDeckZoneGUID",
+        "woundszoneguid"
         }
         
     for _,o in pairs(guids1) do
@@ -22,6 +24,30 @@ function table.clone(val)
         new[i] = o
     end
     return new
+end
+
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = woundszoneguid,
+                ["tooltip"] = "Wound stack count: __.",
+                ["tooltip2"] = "Villain deck count: __."}
+    else
+        local woundsdeck = Global.Call('get_decks_and_cards_from_zone',woundszoneguid)[1]
+        if woundsdeck then
+            return math.abs(woundsdeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
+    end
 end
 
 function resolveTwist(params)

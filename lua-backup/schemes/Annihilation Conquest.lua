@@ -2,7 +2,8 @@ function onLoad()
     twistsstacked = 0
     
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -67,7 +68,8 @@ end
 function setupCounter(init)
     if init then
         return {["tag"] = "Phalanx-Infected",
-                ["tooltip"] = "Phalanx-Infected in city and/or escape: __/6."}
+                ["tooltip"] = "Phalanx-Infected in city and/or escape: __/6.",
+                ["tooltip2"] = "Villain deck count: __."}
     else
         local counter = 0
         local city = Global.Call('table_clone',Global.Call('returnVar',"current_city"))
@@ -88,10 +90,19 @@ function setupCounter(init)
             if escapees then
                 counter = counter + #escapees
             end
-        elseif escaped[1] and escaped[1].hasTag("Villain") then
+        elseif escaped[1] and escaped[1].hasTag("Phalanx-Infected") then
             counter = counter + 1
         end
         return counter
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
     end
 end
 

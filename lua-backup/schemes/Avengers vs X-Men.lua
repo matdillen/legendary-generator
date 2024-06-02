@@ -29,6 +29,14 @@ function table.clone(val)
     return new
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Twists resolved: __/8."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"twistsreolved")
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards

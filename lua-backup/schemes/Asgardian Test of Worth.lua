@@ -1,6 +1,7 @@
 function onLoad()
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "twistZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -26,6 +27,20 @@ end
 
 function hasTag2(obj,tag,index)
     return Global.Call('hasTag2',{obj = obj,tag = tag,index = index})
+end
+
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = twistZoneGUID,
+                ["tooltip"] = "Moral failings: __/5."}
+    else
+        local moralfailings = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if moralfailings then
+            return math.abs(moralfailings.getQuantity())
+        else
+            return 0
+        end
+    end
 end
 
 function resolveTwist(params)
