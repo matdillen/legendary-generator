@@ -570,6 +570,44 @@ function import_setup()
     setup_scheme()
 end
 
+function setupGenericCounter(obj)
+    local resp = Global.Call('table_clone',obj.Call('setupCounter',true))
+    local tooltip = resp.tooltip
+    if not tooltip then
+        return nil
+    end
+
+    local notesi = getNotes()
+    generic_setupcounter_str = tooltip
+    tooltip = tooltip:gsub("__","[FF0000]0[-]")
+    notesi = tooltip .. "\r\n\r\n" .. notesi
+    setNotes(notesi)
+
+    function updateCounterNotes()
+        local value = tostring(obj.Call('setupCounter'))
+        value = generic_setupcounter_str:gsub("__","[FF0000]".. value .. "[-]")
+        local notes = getNotes()
+        notes = notes:sub(notes:find("\r\n")+2)
+        notes = value .. "\r\n" .. notes
+        setNotes(notes)
+    end
+
+    function onObjectEnterZone(zone,object)
+        if not resp.name or object.getName() == resp.name then
+            if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
+                updateCounterNotes()
+            end
+        end
+    end
+    function onObjectLeaveZone(zone, object)
+        if not resp.name or object.getName() == resp.name then
+            if not resp.zoneguid or zone == getObjectFromGUID(resp.zoneguid) then
+                updateCounterNotes()
+            end
+        end
+    end
+end
+
 function setup_scheme()
     -- SCHEME
     log("Scheme: " .. setupParts[1])
@@ -581,6 +619,9 @@ function setup_scheme()
         lockCard(obj)
         Wait.condition(
             function()
+                if obj.getVar("setupCounter") then
+                    setupGenericCounter(obj)
+                end
                 setup_mm()
             end,
             function()

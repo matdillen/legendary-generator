@@ -64,6 +64,37 @@ function processPhalanxInfected(params)
         end)
 end
 
+function setupCounter(init)
+    if init then
+        return {["tag"] = "Phalanx-Infected",
+                ["tooltip"] = "Phalanx-Infected in city and/or escape: __/6."}
+    else
+        local counter = 0
+        local city = Global.Call('table_clone',Global.Call('returnVar',"current_city"))
+        for _,o in pairs(city) do
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Phalanx-Infected") then
+                        counter = counter + 1
+                        break
+                    end
+                end
+            end
+        end
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Phalanx-Infected"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped[1] and escaped[1].hasTag("Villain") then
+            counter = counter + 1
+        end
+        return counter
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     local cards = params.cards

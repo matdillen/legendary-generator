@@ -320,7 +320,7 @@ function setupMasterminds(params)
     local strikezone = getObjectFromGUID(getStrikeloc(objname))
     local script = obj.getLuaScript()
     
-    local baselabel = setMMBasePower({obj = obj})
+    local baselabel = setMMBasePower({zoneguid = mmLocations[objname],epicness = epicness})
     mmButtons({mmname = objname,
         checkvalue = 1,
         label = baselabel,
@@ -443,11 +443,12 @@ end
 function setMMBasePower(params)
     local obj = params.obj
     local zoneguid = params.zoneguid
+    local epicness = params.epicness
 
     if zoneguid then
         local zonecontent = Global.Call('get_decks_and_cards_from_zone',zoneguid)
         for _,o in pairs(zonecontent) do
-            if o.hasTag("Mastermind") then
+            if o.hasTag("Mastermind") and not Global.Call('hasTagD',{deck = o,tag = "Tactic:",find = true}) then
                 obj = o
                 break
             end

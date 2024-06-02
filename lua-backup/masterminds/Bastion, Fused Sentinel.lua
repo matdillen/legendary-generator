@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "bystandersPileGUID",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "kopile_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -89,6 +90,22 @@ function table.clone(org,key)
     else
         return {table.unpack(org)}
     end
+end
+
+function bonusInGeneral(params)
+    local kopilecontent = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
+    local strikes = 0
+    for _,o in pairs(kopilecontent.getObjects()) do
+        if o.name == "Masterstrike" then
+            strikes = strikes + 1
+        end
+    end
+    getObjectFromGUID(mmZoneGUID).Call('mmButtons',{mmname = mmname,
+        checkvalue = 1,
+        label = "+" .. strikes,
+        tooltip = "Bastion get +1 for each Master Strike in the KO pile.",
+        f = "mm",
+        id = "bastionstriker"})
 end
 
 function resolveStrike(params)

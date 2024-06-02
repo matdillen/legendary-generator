@@ -38,7 +38,7 @@ function returnVar(var)
 end
 
 function setupSpecial(params)
-    local current_hq = Global.table.clone(Global.Call('returnVar',"current_hq"))
+    local current_hq = Global.Call('table_clone',Global.Call('returnVar',"current_hq"))
     local zone = getObjectFromGUID(hqguids[1])
     local pos = getObjectFromGUID(sidekickDeckGUID).getPosition()
     pos.z = pos.z + 8
