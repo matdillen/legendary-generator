@@ -2,7 +2,9 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "heroDeckZoneGUID",
-        "setupGUID"
+        "setupGUID",
+        "villainDeckZoneGUID",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -81,6 +83,37 @@ end
 function fillHQ(params)
     Global.Call('bump',{obj = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1],y = 5})
     getObjectFromGUID(hqguids[params.index]).Call('click_draw_hero')
+end
+
+function setupCounter(init)
+    if init then
+        local playercounter = 3*#Player.getPlayers()
+        return {["tooltip"] = "Villains escaped: __/" .. playercounter .. ".",
+                ["zoneguid"] = escape_zone_guid,
+                ["tooltip2"] = "Villain deck count: __.",
+                ["zoneguid2"] = villainDeckZoneGUID}
+    else
+        local counter = 0
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Villain"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped[1] and escaped[1].hasTag("Villain") then
+            counter = counter + 1
+        end
+        return counter
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
+    end
 end
 
 function resolveTwist(params)

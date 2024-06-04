@@ -82,6 +82,16 @@ function purgeHero(params)
     end
     getObjectFromGUID(pushvillainsguid).Call('updateCity',{newcity = hqguids,name = "hqguids"})
     getObjectFromGUID(mmZoneGUID).Call('updateHQ',pushvillainsguid)
+    Global.Call('updateVar',{name = "current_hq",value = hqguids})
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "HQ zones left: __/8."}
+    else
+        local current_hq = Global.Call('table_clone',Global.Call('returnVar',"current_hq"))
+        return #current_hq
+    end
 end
 
 function resolveTwist(params)

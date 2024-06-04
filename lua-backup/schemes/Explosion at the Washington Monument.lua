@@ -4,7 +4,8 @@ function onLoad()
         "kopile_guid",
         "bystandersPileGUID",
         "woundsDeckGUID",
-        "mmZoneGUID"
+        "mmZoneGUID",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -140,6 +141,57 @@ function fightEffect(params)
         fsourceguid = self.guid,
         trigger_function = 'showFloor',
         args = "self"})
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Bystanders KO'd or escaped: __/10.",
+                ["tooltip2"] = "Floors left: __/8"}
+    else
+        local counter = 0
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Bystander"})
+            if escapees then
+                counter = counter + #escapees
+            end
+            local spikes = Global.Call('hasTagD',{deck = escaped[1],tag = "Group:Cytoplasm Spikes"})
+            if spikes then
+                counter = counter + #spikes
+            end
+        elseif escaped[1] and (escaped[1].hasTag("Bystander") or escaped[1].hasTag("Group:Cytoplasm Spikes")) then
+            counter = counter + 1
+        end
+        local kopilecontent = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
+        if kopilecontent[1] then
+            for _,o in pairs(kopilecontent) do
+                if o.tag == "Deck" then
+                    local escapees = Global.Call('hasTagD',{deck = o,tag = "Bystander"})
+                    if escapees then
+                        counter = counter + #escapees
+                    end
+                    local spikes = Global.Call('hasTagD',{deck = o,tag = "Group:Cytoplasm Spikes"})
+                    if spikes then
+                        counter = counter + #spikes
+                    end
+                elseif o.hasTag("Bystander") or o.hasTag("Group:Cytoplasm Spikes") then
+                    counter = counter + 1
+                end
+            end
+        end
+        return counter
+    end
+end
+
+function setupCounter2()
+    local counter = 0
+    for i=1,8 do
+        local content = Global.Call('get_decks_and_cards_from_zone',topBoardGUIDs[i])[1]
+        if content then
+            counter = counter + 1
+        end
+    end
+    return counter
 end
 
 function resolveTwist(params)

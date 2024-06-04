@@ -38,7 +38,7 @@ function setupSpecial(params)
     for s in string.gmatch(params.setupParts[8],"[^|]+") do
         table.insert(heroParts, string.lower(s))
     end
-    local dividedDeckGUIDs = {
+    dividedDeckGUIDs = {
         ["HC:Red"]="4c1868",
         ["HC:Green"]="8656c3",
         ["HC:Yellow"]="533311",
@@ -144,6 +144,21 @@ function koThisHeroDeck(params)
     local content = Global.Call('get_decks_and_cards_from_zone',params.obj.guid)[1]
     content.flip()
     getObjectFromGUID(pushvillainsguid).Call('koCard',content)
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Remaining hero decks: __/5."}
+    else
+        local counter = 0
+        for _,o in pairs(dividedDeckGUIDs) do
+            local content = Global.Call('get_decks_and_cards_from_zone',o)[1]
+            if content then
+                counter = counter + 1
+            end
+        end
+        return counter
+    end
 end
 
 function resolveTwist(params)

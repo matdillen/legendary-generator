@@ -1,6 +1,7 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -83,6 +84,56 @@ function shardAllGems()
             end
         end
     end
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Infinity Gems in city and/or escape: __/6.",
+                ["tooltip2"] = "Max Infinity Gems controlled: __/4"}
+    else
+        local counter = 0
+        local city = Global.Call('table_clone',Global.Call('returnVar',"current_city"))
+        for _,o in pairs(city) do
+            local citycontent = Global.Call('get_decks_and_cards_from_zone',o)
+            if citycontent[1] then
+                for _,obj in pairs(citycontent) do
+                    if obj.hasTag("Group:Infinity Gems") then
+                        counter = counter + 1
+                        break
+                    end
+                end
+            end
+        end
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Group:Infinity Gems"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped[1] and escaped[1].hasTag("Group:Infinity Gems") then
+            counter = counter + 1
+        end
+        return counter
+    end
+end
+
+function setupCounter2()
+    local maxcounter = 0
+    for i,o in pairs(playguids) do
+        local playcontent = Global.Call('get_decks_and_cards_from_zone',o)
+        if playcontent[1] then
+            local counter = 0
+            for _,obj in pairs(playcontent) do
+                if obj.hasTag("Group:Infinity Gems") then
+                    counter = counter + 1
+                end
+            end
+            if maxcounter < counter then
+                maxcounter = counter
+            end
+        end
+    end
+    return maxcounter --could also return color if counter script in setup is adjusted to work with that
 end
 
 function resolveTwist(params)

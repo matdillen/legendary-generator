@@ -37,6 +37,20 @@ function refreshHQ(params)
     getObjectFromGUID(hqguids[params.index]).Call('click_draw_hero')
 end
 
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = twistZoneGUID,
+                ["tooltip"] = "Incriminating Evidence: __/5."}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     

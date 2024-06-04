@@ -54,6 +54,19 @@ function annotateNewMM(obj)
         id = "baron"})
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Masterminds: __/6."}
+    else
+        local counter = 0
+        local masterminds = Global.Call('table_clone',getObjectFromGUID(mmZoneGUID).Call('returnVar',"masterminds"))
+        if masterminds then
+            counter = #masterminds
+        end
+        return counter
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local city = params.city
