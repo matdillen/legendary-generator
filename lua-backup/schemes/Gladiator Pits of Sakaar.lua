@@ -1,6 +1,8 @@
 function onLoad()   
     local guids1 = {
-        "pushvillainsguid"
+        "pushvillainsguid",
+        "escape_zone_guid",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -26,6 +28,37 @@ function table.clone(org,key)
         return new
     else
         return {table.unpack(org)}
+    end
+end
+
+function setupCounter(init)
+    if init then
+        local playercounter = 2*#Player.getPlayers()
+        return {["tooltip"] = "Villains escaped: __/" .. playercounter .. ".",
+                ["zoneguid"] = escape_zone_guid,
+                ["tooltip2"] = "Villain deck count: __.",
+                ["zoneguid2"] = villainDeckZoneGUID}
+    else
+        local counter = 0
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Villain"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped[1] and escaped[1].hasTag("Villain") then
+            counter = counter + 1
+        end
+        return counter
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
     end
 end
 

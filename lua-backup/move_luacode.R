@@ -1,7 +1,7 @@
 library(tidyverse)
 library(jsonlite)
 library(conflicted)
-setwd("D:/Mathias/legendary/legendary-generator/lua-backup")
+setwd("lua-backup")
 
 autodeploy = T
 

@@ -1,10 +1,19 @@
 function onLoad()   
     local guids1 = {
-        "setupGUID"
+        "setupGUID",
+        "pushvillainsguid"
         }
         
     for _,o in pairs(guids1) do
         _G[o] = Global.Call('returnVar',o)
+    end
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Twists resolved: __/6."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"twistsresolved")
     end
 end
 

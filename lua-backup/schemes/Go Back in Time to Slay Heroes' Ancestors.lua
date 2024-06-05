@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "twistZoneGUID",
-        "kopile_guid"
+        "kopile_guid",
+        "heroDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -82,6 +83,20 @@ function purgeHero(params)
         end
     end
     getObjectFromGUID(hqguids[index]).Call('click_draw_hero')
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Hero deck count: __.",
+                ["zoneguid"] = heroDeckZoneGUID}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
+    end
 end
 
 function resolveTwist(params)

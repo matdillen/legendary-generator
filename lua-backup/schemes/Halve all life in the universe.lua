@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "kopile_guid",
-        "heroDeckZoneGUID"
+        "heroDeckZoneGUID",
+        "villainDeckZoneGUID"
         }
         
     for _,o in pairs(guids1) do
@@ -38,6 +39,31 @@ function refreshHero(params)
         end
     end
     getObjectFromGUID(hqguids[params.index]).Call('click_draw_hero')
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Hero deck count: __.",
+                ["zoneguid"] = heroDeckZoneGUID,
+                ["tooltip2"] = "Villain deck count: __.",
+                ["zoneguid2"] = villainDeckZoneGUID}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',heroDeckZoneGUID)[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
+function setupCounter2()
+    local vildeck = Global.Call('get_decks_and_cards_from_zone',villainDeckZoneGUID)[1]
+    if vildeck then
+        return math.abs(vildeck.getQuantity())
+    else
+        return 0
+    end
 end
 
 function resolveTwist(params)
