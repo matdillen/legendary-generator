@@ -21,6 +21,15 @@ function table.clone(org,key)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "City spaces left: __/5."}
+    else
+        local city = Global.Call('table_clone',Global.Call('returnVar',"current_city"))
+        return #city
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local cards = params.cards

@@ -113,6 +113,14 @@ function payAttack(obj,player_clicker_color)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Twists resolved: __/7."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"twistsresolved")
+    end
+end
+
 function resolveTwist(params)
     twistsresolved = params.twistsresolved 
     local cards = params.cards

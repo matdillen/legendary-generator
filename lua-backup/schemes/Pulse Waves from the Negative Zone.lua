@@ -71,6 +71,14 @@ function killButtons()
         end)
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Twists resolved: __/9."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"twistsresolved")
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
 

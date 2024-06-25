@@ -39,6 +39,14 @@ function table.clone(org,key)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Twists resolved: __/7."}
+    else
+        return getObjectFromGUID(pushvillainsguid).Call('returnVar',"twistsresolved")
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local city = params.city

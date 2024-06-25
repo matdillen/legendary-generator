@@ -2,7 +2,8 @@ function onLoad()
     local guids1 = {
         "pushvillainsguid",
         "kopile_guid",
-        "bszoneguid"
+        "bszoneguid",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -15,6 +16,37 @@ function onLoad()
         
     for _,o in pairs(guids2) do
         _G[o] = {table.unpack(Global.Call('returnVar',o))}
+    end
+end
+
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Bystanders KO'd or escaped: __/3."}
+    else
+        local counter = 0
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Bystander"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped[1] and escaped[1].hasTag("Bystander") then
+            counter = counter + 1
+        end
+        local kopilecontent = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
+        if kopilecontent[1] then
+            for _,o in pairs(kopilecontent) do
+                if o.tag == "Deck" then
+                    local escapees = Global.Call('hasTagD',{deck = o,tag = "Bystander"})
+                    if escapees then
+                        counter = counter + #escapees
+                    end
+                elseif o.hasTag("Bystander") then
+                    counter = counter + 1
+                end
+            end
+        end
+        return counter
     end
 end
 

@@ -37,6 +37,26 @@ function nonTwist(params)
     return 1
 end
 
+function setupCounter(init)
+    if init then
+        return {["name"] = "Maggia Goons",
+                ["tooltip"] = "Maggia Goons escaped: __/5."}
+    else
+        local counter = 0
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            for _,o in pairs(escaped[1].getObjects()) do
+                if o.name == "Maggia Goons" then
+                    counter = counter + 1
+                end
+            end
+        elseif escaped[1] and escaped[1].getName() == "Maggia Goons" then
+            counter = counter + 1
+        end
+        return counter
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
     local city = params.city

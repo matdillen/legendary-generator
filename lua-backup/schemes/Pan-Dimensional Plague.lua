@@ -1,7 +1,8 @@
 function onLoad()   
     local guids1 = {
         "pushvillainsguid",
-        "woundsDeckGUID"
+        "woundsDeckGUID",
+        "woundszoneguid"
         }
         
     for _,o in pairs(guids1) do
@@ -65,6 +66,20 @@ function buyPlague(params)
         local pos = getObjectFromGUID(discardguids[params.color]).getPosition()
         pos.y = pos.y + 2
         wound.setPositionSmooth(pos)
+    end
+end
+
+function setupCounter(init)
+    if init then
+        return {["zoneguid"] = woundszoneguid,
+                ["tooltip"] = "Wounds stack count: __."}
+    else
+        local vildeck = Global.Call('get_decks_and_cards_from_zone',woundszoneguid)[1]
+        if vildeck then
+            return math.abs(vildeck.getQuantity())
+        else
+            return 0
+        end
     end
 end
 

@@ -69,6 +69,14 @@ function onObjectLeaveZone(zone,object)
     Wait.time(checkUnmasked,1)
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Unmasked heroes: __/5"}
+    else
+        return #unmasked
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved 
 
