@@ -13,7 +13,6 @@ function onLoad()
     
     local guids2 = {
         "topBoardGUIDs",
-        "pos_discard",
         "city_zones_guids",
         "allTopBoardGUIDS"
         }
@@ -44,6 +43,12 @@ function table.clone(org,key)
 end
 
 function orderAdam(obj)
+    local zoneguid = topBoardGUIDs[1]
+    local marrytype = "aislehero"
+    if Global.Call('get_decks_and_cards_from_zone',zoneguid)[1].guid ~= obj.guid then
+        zoneguid = topBoardGUIDs[8]
+        marrytype = "altarhero"
+    end
     for _,o in pairs(obj.getObjects()) do
         local pos = obj.getPosition()
         for _,k in pairs(o.tags) do
@@ -62,6 +67,27 @@ function orderAdam(obj)
             obj.setPositionSmooth(pos)
         end
     end
+    Wait.condition(
+        function()
+            _G[marrytype] = Global.Call('get_decks_and_cards_from_zone',zoneguid)
+        end,
+        Wait.condition(
+            function()
+                if Global.Call('get_decks_and_cards_from_zone',zoneguid)[1].getQuantity() == 14 then
+                    return true
+                else
+                    return false
+                end
+            end,
+            function()
+                if Global.Call('get_decks_and_cards_from_zone',zoneguid)[1].getQuantity() == 14 then
+                    return false
+                else
+                    return true
+                end
+            end
+        )
+    )
 end
 
 function setupSpecial(params)
@@ -129,9 +155,35 @@ function resolveTheRuinedWedding(params)
     end
 end
 
+function setupCounter(init)
+    if not schemeParts then
+        schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
+    end
+    if init then
+        return {["tooltip"] = "Hero " .. schemeParts[9]:gsub(".*%|","") .. " cards remaining: __.",
+                ["tooltip2"] = "Hero " .. schemeParts[9]:gsub("%|.*","") .. " cards remaining: __."}
+    else
+        if not altarhero then
+            return 0
+        else
+            return math.abs(altarhero.getQuantity())
+        end
+    end
+end
+
+function setupCounter2()
+    if not aislehero then
+        return 0
+    else
+        return math.abs(aislehero.getQuantity())
+    end
+end
+
 function resolveTwist(params)
     twistsresolved = params.twistsresolved 
-    local schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
+    if not schemeParts then
+        schemeParts = table.clone(getObjectFromGUID(setupGUID).Call('returnVar',"setupParts"))
+    end
 
     dest = getObjectFromGUID(discardguids[Turns.turn_color]).getPosition()
     dest.y = dest.y + 3

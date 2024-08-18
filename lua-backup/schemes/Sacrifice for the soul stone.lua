@@ -100,6 +100,19 @@ function sacrificeSoul(params)
     end
 end
 
+function setupCounter(init)
+    if init then
+        return {["tooltip"] = "Sacrifices heroes: __/5."}
+    else
+        local moralfailings = Global.Call('get_decks_and_cards_from_zone',twistZoneGUID)[1]
+        if moralfailings then
+            return math.abs(moralfailings.getQuantity())
+        else
+            return 0
+        end
+    end
+end
+
 function resolveTwist(params)
     local twistsresolved = params.twistsresolved
     thetwist = params.cards

@@ -3,7 +3,8 @@ function onLoad()
         "pushvillainsguid",
         "kopile_guid",
         "heroDeckZoneGUID",
-        "bystandersPileGUID"
+        "bystandersPileGUID",
+        "escape_zone_guid"
         }
         
     for _,o in pairs(guids1) do
@@ -56,6 +57,34 @@ function setupSpecial(params)
     end
     broadcastToAll("Save Humanity: Adding bystanders to the hero deck, please wait...")
     Wait.time(saveHumanity,2.5)
+end
+
+function setupCounter(init)
+    if init then
+        local playercounter = 4*#Player.getPlayers()
+        return {["tooltip"] = "Bystanders KO'd and/or escaped: __/" .. playercounter .. "."}
+    else
+        local counter = 0
+        local escaped = Global.Call('get_decks_and_cards_from_zone',escape_zone_guid)
+        if escaped[1] and escaped[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped[1],tag = "Bystander"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped[1] and escaped[1].hasTag("Bystander") then
+            counter = counter + 1
+        end
+        local escaped2 = Global.Call('get_decks_and_cards_from_zone',kopile_guid)
+        if escaped2[1] and escaped2[1].tag == "Deck" then
+            local escapees = Global.Call('hasTagD',{deck = escaped2[1],tag = "Bystander"})
+            if escapees then
+                counter = counter + #escapees
+            end
+        elseif escaped2[1] and escaped2[1].hasTag("Bystander") then
+            counter = counter + 1
+        end
+        return counter
+    end
 end
 
 function resolveTwist(params)
